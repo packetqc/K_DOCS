@@ -1,0 +1,82 @@
+{
+  "topic": "session-748b2710-7831-4049-9462-d4ce4493e47e",
+  "session_id": "748b2710-7831-4049-9462-d4ce4493e47e",
+  "message_range": [
+    1,
+    4
+  ],
+  "near_memory_range": [
+    1,
+    2
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "hi",
+      "timestamp": "2026-03-13T21:50:25Z"
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Loaded mind-context, displayed mindmap, recent context (last session: far_memory schema extensions, stdin mode, staging paths), and memory stats. Session 748b2710 active. Greeted user.",
+      "timestamp": "2026-03-13T21:50:25Z"
+    },
+    {
+      "id": 3,
+      "role": "user",
+      "content": "why none of this is there on next starting session ? i did push to remote main...",
+      "timestamp": "2026-03-13T21:53:58Z"
+    },
+    {
+      "id": 4,
+      "role": "assistant",
+      "content": "The files are on disk but the new session's Claude instance still stored a summary in far_memory msg 2 instead of full verbatim. Root cause: CLAUDE.md (the authoritative instruction file) didn't mention the full verbatim rule — it just said '--content2 \"assistant response\"' which is too vague.\n\nFixed CLAUDE.md:\n1. Added **CRITICAL: far_memory stores FULL VERBATIM content, NEVER summaries** in Every Turn section\n2. Documented --stdin mode with heredoc example for large outputs\n3. Documented --tools flag for tool call metadata\n4. Listed all 7 scripts (was only 4)\n5. Added staging paths rule (conventions = self-contained, content = linked to memory)\n\nThe next session will read these instructions in CLAUDE.md and follow them.",
+      "timestamp": "2026-03-13T21:53:58Z",
+      "tools": [
+        {
+          "tool": "Read",
+          "file": "CLAUDE.md",
+          "action": "read current instructions"
+        },
+        {
+          "tool": "Edit",
+          "file": "CLAUDE.md",
+          "action": "added CRITICAL verbatim rule, stdin mode, tools flag, staging paths to Every Turn"
+        },
+        {
+          "tool": "Edit",
+          "file": "CLAUDE.md",
+          "action": "added memory_stats.py, set_depth.py, mindmap_filter.py to scripts list"
+        }
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "id": 1,
+      "summary": "Session start: loaded mind-context, displayed mindmap and stats, greeted user",
+      "far_memory_refs": [
+        1,
+        2
+      ],
+      "mind_memory_refs": [
+        "session::near memory"
+      ],
+      "timestamp": "2026-03-13T21:50:25Z"
+    },
+    {
+      "id": 2,
+      "summary": "fixed CLAUDE.md: added full verbatim rule, stdin mode docs, tools flag, all 7 scripts, staging paths — ensures next session follows conventions",
+      "far_memory_refs": [
+        3,
+        4
+      ],
+      "mind_memory_refs": [
+        "architecture::real_time_updates",
+        "conventions::rules::system"
+      ],
+      "timestamp": "2026-03-13T21:53:58Z"
+    }
+  ]
+}

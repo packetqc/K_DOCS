@@ -1,350 +1,46 @@
 {
-  "session_id": "748b2710-7831-4049-9462-d4ce4493e47e",
+  "session_id": "da6cbb5e-ad22-4c77-8f66-e7d7d71f59bc",
   "summaries": [
     {
       "id": 1,
-      "summary": "Session start: loaded mind-context, displayed mindmap and stats, greeted user",
+      "summary": "fixed SKILL.md: MANDATORY OUTPUT RULE now says COPY verbatim, not just output — prevents new sessions from reformatting sections 2 and 3",
       "far_memory_refs": [
         1,
         2
       ],
       "mind_memory_refs": [
-        "session::near memory"
+        "conventions::mermaid::mind map::display_layout"
       ],
-      "timestamp": "2026-03-13T21:50:25Z"
-    },
-    {
-      "id": 2,
-      "summary": "fixed CLAUDE.md: added full verbatim rule, stdin mode docs, tools flag, all 7 scripts, staging paths — ensures next session follows conventions",
-      "far_memory_refs": [
-        3,
-        4
-      ],
-      "mind_memory_refs": [
-        "architecture::real_time_updates",
-        "conventions::rules::system"
-      ],
-      "timestamp": "2026-03-13T21:53:58Z"
+      "timestamp": "2026-03-13T22:01:49Z"
     }
   ],
   "last_session": {
-    "session_id": "7f0727cf-f038-4102-a3c7-3b6095f3b8ce",
+    "session_id": "748b2710-7831-4049-9462-d4ce4493e47e",
     "summaries": [
       {
         "id": 1,
-        "summary": "Session start greeting, mindmap rendered",
+        "summary": "Session start: loaded mind-context, displayed mindmap and stats, greeted user",
         "far_memory_refs": [
           1,
           2
         ],
         "mind_memory_refs": [
-          "session::near_memory::conversation"
+          "session::near memory"
         ],
-        "timestamp": "2026-03-13T20:15:36Z"
+        "timestamp": "2026-03-13T21:50:25Z"
       },
       {
         "id": 2,
-        "summary": "fix: updated mind_memory session nodes, added useMaxWidth, fixed SKILL.md table instruction, recreated ghost file",
+        "summary": "fixed CLAUDE.md: added full verbatim rule, stdin mode docs, tools flag, all 7 scripts, staging paths — ensures next session follows conventions",
         "far_memory_refs": [
           3,
           4
         ],
         "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout",
-          "conventions::mermaid::mind_map::theme_default"
-        ],
-        "timestamp": "2026-03-13T20:21:27Z"
-      },
-      {
-        "id": 3,
-        "summary": "convention: added always show all categories even when empty to display_layout",
-        "far_memory_refs": [
-          5,
-          6
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T20:21:32Z"
-      },
-      {
-        "id": 4,
-        "summary": "verified all fixes saved to disk, will take effect on next session start",
-        "far_memory_refs": [
-          7,
-          8
-        ],
-        "mind_memory_refs": [
-          "session"
-        ],
-        "timestamp": "2026-03-13T20:21:37Z"
-      },
-      {
-        "id": 5,
-        "summary": "rendered full 3-section output with all conventions applied",
-        "far_memory_refs": [
-          9,
-          10
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout",
-          "conventions::mermaid::mind_map::theme_default"
-        ],
-        "timestamp": "2026-03-13T20:21:44Z"
-      },
-      {
-        "id": 6,
-        "summary": "backfilled all missed turns into far_memory and near_memory",
-        "far_memory_refs": [
-          11,
-          12
-        ],
-        "mind_memory_refs": [
-          "session"
-        ],
-        "timestamp": "2026-03-13T20:21:48Z"
-      },
-      {
-        "id": 7,
-        "summary": "convention: session/near memory depth 4 saved, conventions branches confirmed at depth 3",
-        "far_memory_refs": [
-          13,
-          14
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T20:25:53Z"
-      },
-      {
-        "id": 8,
-        "summary": "feature: depth config file plus set_depth and mindmap_filter scripts, skill now uses programmatic filtering",
-        "far_memory_refs": [
-          15,
-          16
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout",
-          "conventions::rules::system::programs_over_improvisation"
-        ],
-        "timestamp": "2026-03-13T20:30:51Z"
-      },
-      {
-        "id": 9,
-        "summary": "feature: created /mind-stats skill for standalone memory stats table",
-        "far_memory_refs": [
-          17,
-          18
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout",
-          "conventions::rules::system::programs_over_improvisation"
-        ],
-        "timestamp": "2026-03-13T20:32:43Z"
-      },
-      {
-        "id": 10,
-        "summary": "confirmed: depth config changes are real-time and persistent via depth_config.json",
-        "far_memory_refs": [
-          19,
-          20
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T20:35:01Z"
-      },
-      {
-        "id": 11,
-        "summary": "verified: both /mind-stats and /mind-context skills work live in current session",
-        "far_memory_refs": [
-          21,
-          22
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout",
-          "session"
-        ],
-        "timestamp": "2026-03-13T20:37:07Z"
-      },
-      {
-        "id": 12,
-        "summary": "feature: set_depth --list now outputs depth config as a wide markdown table",
-        "far_memory_refs": [
-          23,
-          24
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout",
-          "conventions::rules::system::programs_over_improvisation"
-        ],
-        "timestamp": "2026-03-13T20:40:43Z"
-      },
-      {
-        "id": 13,
-        "summary": "feature: created /mind-depth skill for standalone depth config table with set option",
-        "far_memory_refs": [
-          25,
-          26
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout",
-          "conventions::rules::system::programs_over_improvisation"
-        ],
-        "timestamp": "2026-03-13T20:42:11Z"
-      },
-      {
-        "id": 14,
-        "summary": "feature: memory stats table now shows Subtotal/Context window/Available rows via shared memory_stats.py script",
-        "far_memory_refs": [
-          27,
-          28
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout",
-          "conventions::rules::system::programs_over_improvisation"
-        ],
-        "timestamp": "2026-03-13T20:49:47Z"
-      },
-      {
-        "id": 15,
-        "summary": "updated memory_stats.py: Available calculation now includes conversation token estimate from far_memory size",
-        "far_memory_refs": [
-          29,
-          30
-        ],
-        "mind_memory_refs": [
+          "architecture::real_time_updates",
           "conventions::rules::system"
         ],
-        "timestamp": "2026-03-13T20:54:04Z"
-      },
-      {
-        "id": 16,
-        "summary": "feedback: far_memory must store full verbatim content, not summaries — fixes stats accuracy",
-        "far_memory_refs": [
-          31,
-          32
-        ],
-        "mind_memory_refs": [
-          "conventions::rules::system"
-        ],
-        "timestamp": "2026-03-13T21:08:31Z"
-      },
-      {
-        "id": 17,
-        "summary": "defined session topic as display-conventions-and-stats-system with categorized activities for archival",
-        "far_memory_refs": [
-          33,
-          34
-        ],
-        "mind_memory_refs": [
-          "session::near memory",
-          "session::far memory"
-        ],
-        "timestamp": "2026-03-13T21:13:32Z"
-      },
-      {
-        "id": 18,
-        "summary": "persisted session topic display-conventions-and-stats-system to mindmap work node and work.json with full references",
-        "far_memory_refs": [
-          35,
-          36
-        ],
-        "mind_memory_refs": [
-          "work",
-          "session::near memory"
-        ],
-        "timestamp": "2026-03-13T21:16:09Z"
-      },
-      {
-        "id": 19,
-        "summary": "user confirmed memory system is working — understanding and remembering across turns",
-        "far_memory_refs": [
-          37,
-          38
-        ],
-        "mind_memory_refs": [
-          "session::near memory::conversation"
-        ],
-        "timestamp": "2026-03-13T21:16:24Z"
-      },
-      {
-        "id": 20,
-        "summary": "updated stats with autocompact buffer and system overhead; discussed persisting tool outputs and MCP tool tracking per topic",
-        "far_memory_refs": [
-          39,
-          40
-        ],
-        "mind_memory_refs": [
-          "conventions::rules::system",
-          "work::display-conventions-and-stats-system"
-        ],
-        "timestamp": "2026-03-13T21:31:46Z"
-      },
-      {
-        "id": 21,
-        "summary": "extended far_memory schema: added --tools flag to memory_append.py, assistant messages now capture tool calls metadata",
-        "far_memory_refs": [
-          41,
-          42
-        ],
-        "mind_memory_refs": [
-          "architecture::three_file_system",
-          "conventions::rules::system"
-        ],
-        "timestamp": "2026-03-13T21:40:34Z"
-      },
-      {
-        "id": 22,
-        "summary": "clarified: tool results live in files, far_memory has conversation text, work.json has structured refs — no duplication",
-        "far_memory_refs": [
-          43,
-          44
-        ],
-        "mind_memory_refs": [
-          "architecture::three_file_system",
-          "architecture::folder_per_group"
-        ],
-        "timestamp": "2026-03-13T21:40:45Z"
-      },
-      {
-        "id": 23,
-        "summary": "added --stdin mode to memory_append.py for large content; far_memory captures full verbatim output including tables and code",
-        "far_memory_refs": [
-          45,
-          46
-        ],
-        "mind_memory_refs": [
-          "architecture::three_file_system",
-          "architecture::programs_over_improvisation"
-        ],
-        "timestamp": "2026-03-13T21:43:35Z"
-      },
-      {
-        "id": 24,
-        "summary": "defined two staging paths: conventions (self-contained templates, no memory refs) vs content (linked to far_memory for recall)",
-        "far_memory_refs": [
-          47,
-          48
-        ],
-        "mind_memory_refs": [
-          "architecture::staging_paths",
-          "conventions::rules::system"
-        ],
-        "timestamp": "2026-03-13T21:45:15Z"
-      },
-      {
-        "id": 25,
-        "summary": "confirmed staging_paths is persisted: architecture node, convention conv-005, far memory, near memory — not just conversation",
-        "far_memory_refs": [
-          49,
-          50
-        ],
-        "mind_memory_refs": [
-          "architecture::staging_paths",
-          "conventions::rules::system"
-        ],
-        "timestamp": "2026-03-13T21:45:45Z"
+        "timestamp": "2026-03-13T21:53:58Z"
       }
     ]
   }

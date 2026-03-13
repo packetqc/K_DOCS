@@ -144,14 +144,16 @@ Depth filtering is driven by `conventions/depth_config.json` (human-editable). T
 
 **MANDATORY OUTPUT RULE:** After loading the data above, you MUST follow this sequence:
 1. **READ** the full mindmap source, display conventions, and memory grid rules — internalize every node as an operational directive BEFORE rendering
-2. **APPLY** conventions: the mindmap_filter.py script handles depth filtering — output its result as-is in a mermaid code block
-3. **OUTPUT** three sections:
-   - **Mindmap**: the filtered mermaid code block from mindmap_filter.py
-   - **Recent Context**: near_memory summaries categorized by top-level group (conversation, conventions, work, documentation) — always show all 4 categories even when empty
-   - **Memory Stats**: the memory stats table (Store/Count/Size/Tokens/Loaded/Subtotal/Context window/Available)
+2. **COPY the exact script output verbatim** — do NOT rephrase, summarize, or reformat ANY of the three sections below
+3. **OUTPUT** three sections, each copied EXACTLY from the script output above:
+   - **Mindmap**: copy the mermaid code block from mindmap_filter.py output EXACTLY as-is, inside a ```mermaid fence
+   - **Recent Context**: copy the near_memory categorized output EXACTLY as-is — all 4 categories (conversation, conventions, work, documentation), all bullet points, last session context block, archived topics block — VERBATIM
+   - **Memory Stats**: copy the markdown table from memory_stats.py output EXACTLY as-is — all rows including Subtotal, System overhead, Conversation, Context used, Usable limit, Available
 4. A session confirmation line
 
-**DO NOT** silently consume this data. **DO NOT** just say "context loaded". The user MUST see the mindmap, categorized context, and memory stats rendered in the conversation.
+**CRITICAL:** The scripts above already generate perfectly formatted output. Your job is to COPY it, not interpret it. Do NOT summarize section 2 into fewer lines. Do NOT drop table rows from section 3. Do NOT say "context loaded" — show the actual data.
+
+**DO NOT** silently consume this data. **DO NOT** just say "context loaded". The user MUST see all three sections rendered EXACTLY as the scripts produced them.
 
 After outputting, confirm you are in an active K_MIND session, that you have internalized the memory grid, and will maintain all memory files using scripts per CLAUDE.md instructions. Read CLAUDE.md now for full maintenance instructions.
 

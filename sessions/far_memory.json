@@ -1,44 +1,27 @@
 {
-  "session_id": "748b2710-7831-4049-9462-d4ce4493e47e",
+  "session_id": "da6cbb5e-ad22-4c77-8f66-e7d7d71f59bc",
   "messages": [
     {
       "id": 1,
       "role": "user",
-      "content": "hi",
-      "timestamp": "2026-03-13T21:50:25Z"
+      "content": "results from another new session start: i should see exactly what i see when i do the /mind-context here, but this is not the case again, same thing as last attempt.\n* mind - map is ok\n* section 2 is not the same\n* section 3 is not the same",
+      "timestamp": "2026-03-13T22:01:49Z"
     },
     {
       "id": 2,
       "role": "assistant",
-      "content": "Loaded mind-context, displayed mindmap, recent context (last session: far_memory schema extensions, stdin mode, staging paths), and memory stats. Session 748b2710 active. Greeted user.",
-      "timestamp": "2026-03-13T21:50:25Z"
-    },
-    {
-      "id": 3,
-      "role": "user",
-      "content": "why none of this is there on next starting session ? i did push to remote main...",
-      "timestamp": "2026-03-13T21:53:58Z"
-    },
-    {
-      "id": 4,
-      "role": "assistant",
-      "content": "The files are on disk but the new session's Claude instance still stored a summary in far_memory msg 2 instead of full verbatim. Root cause: CLAUDE.md (the authoritative instruction file) didn't mention the full verbatim rule — it just said '--content2 \"assistant response\"' which is too vague.\n\nFixed CLAUDE.md:\n1. Added **CRITICAL: far_memory stores FULL VERBATIM content, NEVER summaries** in Every Turn section\n2. Documented --stdin mode with heredoc example for large outputs\n3. Documented --tools flag for tool call metadata\n4. Listed all 7 scripts (was only 4)\n5. Added staging paths rule (conventions = self-contained, content = linked to memory)\n\nThe next session will read these instructions in CLAUDE.md and follow them.",
-      "timestamp": "2026-03-13T21:53:58Z",
+      "content": "Root cause: MANDATORY OUTPUT RULE in SKILL.md said 'output three sections' but didn't say 'COPY verbatim'. New Claude instances interpret 'output' as 'generate/summarize' and reformat the script output.\n\nFixed SKILL.md MANDATORY OUTPUT RULE:\n- Step 2: 'COPY the exact script output verbatim — do NOT rephrase, summarize, or reformat'\n- Each section: 'copy EXACTLY as-is'\n- Added CRITICAL: 'Your job is to COPY it, not interpret it. Do NOT summarize section 2 into fewer lines. Do NOT drop table rows from section 3.'\n\nThe scripts generate perfect output. Claude just needs to pass it through.",
+      "timestamp": "2026-03-13T22:01:49Z",
       "tools": [
         {
           "tool": "Read",
-          "file": "CLAUDE.md",
-          "action": "read current instructions"
+          "file": ".claude/skills/mind-context/SKILL.md",
+          "action": "read mandatory output rule"
         },
         {
           "tool": "Edit",
-          "file": "CLAUDE.md",
-          "action": "added CRITICAL verbatim rule, stdin mode, tools flag, staging paths to Every Turn"
-        },
-        {
-          "tool": "Edit",
-          "file": "CLAUDE.md",
-          "action": "added memory_stats.py, set_depth.py, mindmap_filter.py to scripts list"
+          "file": ".claude/skills/mind-context/SKILL.md",
+          "action": "rewrote MANDATORY OUTPUT RULE to say COPY verbatim, added CRITICAL anti-summarization instruction"
         }
       ]
     }
@@ -138,6 +121,18 @@
       "near_memory_range": [
         1,
         25
+      ]
+    },
+    {
+      "file": "archives/far_memory_session_748b2710_7831_4049_9462_d4ce4493e47e_20260313T215818.json",
+      "topic": "session-748b2710-7831-4049-9462-d4ce4493e47e",
+      "message_range": [
+        1,
+        4
+      ],
+      "near_memory_range": [
+        1,
+        2
       ]
     }
   ]
