@@ -48,6 +48,18 @@
       "role": "assistant",
       "content": "Removed redundant inline refs line from mindmap_node_text convention. Brackets breaking mermaid is already known from existing conventions.",
       "timestamp": "2026-03-13T09:36:25Z"
+    },
+    {
+      "id": 9,
+      "role": "user",
+      "content": "show me",
+      "timestamp": "2026-03-13T09:37:09Z"
+    },
+    {
+      "id": 10,
+      "role": "assistant",
+      "content": "Displayed reduced mindmap with session/work/documentation nodes and last 4 near_memory summaries.",
+      "timestamp": "2026-03-13T09:37:09Z"
     }
   ],
   "archives": [
