@@ -264,6 +264,18 @@
       "role": "assistant",
       "content": "Output normal mode mindmap — reduced to dynamic nodes only (session, work, documentation) with blue theme. Plus last 2 near_memory summaries.",
       "timestamp": "2026-03-13T00:22:30Z"
+    },
+    {
+      "id": 45,
+      "role": "user",
+      "content": "i am expecting to see session top level detailed with our conversation generalization (source are files near and far memory). parent nodes should be summarized discussion and leafs should be far memory data. let's try it before implementation.",
+      "timestamp": "2026-03-13T00:23:00Z"
+    },
+    {
+      "id": 46,
+      "role": "assistant",
+      "content": "Built a detailed session tree from near_memory (parent summary nodes) and far_memory (leaf message refs). Output as mermaid mindmap with 11 topic branches under session, each with leaf refs like [far:N]. Asked user for feedback on structure.",
+      "timestamp": "2026-03-13T00:23:30Z"
     }
   ]
 }

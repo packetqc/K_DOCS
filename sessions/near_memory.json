@@ -98,6 +98,13 @@
       "far_memory_refs": [43, 44],
       "mind_memory_refs": ["knowledge::session", "knowledge::work", "knowledge::documentation"],
       "timestamp": "2026-03-13T00:22:30Z"
+    },
+    {
+      "id": 15,
+      "summary": "User expects session node to be detailed with conversation generalization — parent nodes from near_memory summaries, leaf nodes from far_memory messages. Prototyped the structure as mermaid output before implementation.",
+      "far_memory_refs": [45, 46],
+      "mind_memory_refs": ["knowledge::session"],
+      "timestamp": "2026-03-13T00:23:30Z"
     }
   ]
 }
