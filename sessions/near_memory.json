@@ -38,6 +38,19 @@
         "conventions::mindmap_theme_light"
       ],
       "timestamp": "2026-03-13T09:03:36Z"
+    },
+    {
+      "id": 4,
+      "summary": "Design discussion: mindmap as memory grid — every node is a directive Claude must apply, not just display",
+      "far_memory_refs": [
+        7,
+        8
+      ],
+      "mind_memory_refs": [
+        "architecture::mind_first_strategy",
+        "conventions::programs_over_improvisation"
+      ],
+      "timestamp": "2026-03-13T09:04:55Z"
     }
   ]
 }
