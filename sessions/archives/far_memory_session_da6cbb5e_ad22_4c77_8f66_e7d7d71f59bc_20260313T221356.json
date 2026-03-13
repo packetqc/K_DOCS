@@ -1,0 +1,52 @@
+{
+  "topic": "session-da6cbb5e-ad22-4c77-8f66-e7d7d71f59bc",
+  "session_id": "da6cbb5e-ad22-4c77-8f66-e7d7d71f59bc",
+  "message_range": [
+    1,
+    2
+  ],
+  "near_memory_range": [
+    1,
+    1
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "results from another new session start: i should see exactly what i see when i do the /mind-context here, but this is not the case again, same thing as last attempt.\n* mind - map is ok\n* section 2 is not the same\n* section 3 is not the same",
+      "timestamp": "2026-03-13T22:01:49Z"
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Root cause: MANDATORY OUTPUT RULE in SKILL.md said 'output three sections' but didn't say 'COPY verbatim'. New Claude instances interpret 'output' as 'generate/summarize' and reformat the script output.\n\nFixed SKILL.md MANDATORY OUTPUT RULE:\n- Step 2: 'COPY the exact script output verbatim — do NOT rephrase, summarize, or reformat'\n- Each section: 'copy EXACTLY as-is'\n- Added CRITICAL: 'Your job is to COPY it, not interpret it. Do NOT summarize section 2 into fewer lines. Do NOT drop table rows from section 3.'\n\nThe scripts generate perfect output. Claude just needs to pass it through.",
+      "timestamp": "2026-03-13T22:01:49Z",
+      "tools": [
+        {
+          "tool": "Read",
+          "file": ".claude/skills/mind-context/SKILL.md",
+          "action": "read mandatory output rule"
+        },
+        {
+          "tool": "Edit",
+          "file": ".claude/skills/mind-context/SKILL.md",
+          "action": "rewrote MANDATORY OUTPUT RULE to say COPY verbatim, added CRITICAL anti-summarization instruction"
+        }
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "id": 1,
+      "summary": "fixed SKILL.md: MANDATORY OUTPUT RULE now says COPY verbatim, not just output — prevents new sessions from reformatting sections 2 and 3",
+      "far_memory_refs": [
+        1,
+        2
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind map::display_layout"
+      ],
+      "timestamp": "2026-03-13T22:01:49Z"
+    }
+  ]
+}

@@ -70,9 +70,11 @@ elif not data['summaries']:
             for s in summaries[-5:]:
                 print(f\"  {s['summary']}\")
             print()
-# Categorize current session summaries by mind_memory_refs group
+# Categorize summaries by mind_memory_refs group
+# Use current session summaries, or fall back to last session's summaries for fresh starts
+source_summaries = data['summaries'] if data['summaries'] else (last['summaries'] if has_last else [])
 categories = {'conversation': [], 'conventions': [], 'work': [], 'documentation': []}
-for s in data['summaries'][-10:]:
+for s in source_summaries[-10:]:
     refs = s.get('mind_memory_refs', [])
     placed = False
     for ref in refs:
@@ -95,14 +97,6 @@ for cat in ['conversation', 'conventions', 'work', 'documentation']:
     else:
         print(f\"  - (none)\")
     print()
-# Show archive index if far_memory has been split
-fm_path = 'sessions/far_memory.json'
-with open(fm_path) as f:
-    fm = json.load(f)
-if 'archives' in fm and fm['archives']:
-    print('--- Archived Topics (recall by subject) ---')
-    for a in fm['archives']:
-        print(f\"  [{a['topic']}] messages {a['message_range']} -> {a['file']}\")
 "`
 
 ### Memory Stats
@@ -147,7 +141,7 @@ Depth filtering is driven by `conventions/depth_config.json` (human-editable). T
 2. **COPY the exact script output verbatim** — do NOT rephrase, summarize, or reformat ANY of the three sections below
 3. **OUTPUT** three sections, each copied EXACTLY from the script output above:
    - **Mindmap**: copy the mermaid code block from mindmap_filter.py output EXACTLY as-is, inside a ```mermaid fence
-   - **Recent Context**: copy the near_memory categorized output EXACTLY as-is — all 4 categories (conversation, conventions, work, documentation), all bullet points, last session context block, archived topics block — VERBATIM
+   - **Recent Context**: copy the near_memory categorized output EXACTLY as-is — all 4 categories (conversation, conventions, work, documentation), all bullet points, last session context block — VERBATIM
    - **Memory Stats**: copy the markdown table from memory_stats.py output EXACTLY as-is — all rows including Subtotal, System overhead, Conversation, Context used, Usable limit, Available
 4. A session confirmation line
 
