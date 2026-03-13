@@ -33,10 +33,13 @@ Claude-as-engine is ONLY the bootstrap (new session, resume, compaction recovery
 
 ## Scripts (deterministic programs)
 
-- `scripts/memory_append.py` — Append messages to far_memory + summary to near_memory. Called every turn.
+- `scripts/memory_append.py` — Append messages to far_memory + summary to near_memory. Called every turn. Supports `--stdin` for large content.
 - `scripts/far_memory_split.py` — Archive completed topics from far_memory by subject.
 - `scripts/memory_recall.py` — Search and load archived memory by subject keyword.
 - `scripts/session_init.py` — Initialize fresh session files (preserves archives).
+- `scripts/memory_stats.py` — Output memory stats table with context availability.
+- `scripts/set_depth.py` — Manage mindmap depth config (depth_config.json).
+- `scripts/mindmap_filter.py` — Render filtered mindmap from depth config.
 
 ## Lifecycle Events
 
@@ -73,16 +76,32 @@ Run `/mind-context full` when you need the complete mindmap including architectu
 ## Every Turn — Real-Time Maintenance
 
 1. **Run the append script** (handles far_memory + near_memory atomically):
+
+   **CRITICAL: far_memory stores FULL VERBATIM content, NEVER summaries.**
+   - `--content` = the user's exact message, word for word
+   - `--content2` = your COMPLETE visible output (all text, tables, code blocks, mermaid diagrams — everything the user sees)
+   - `--summary` = one-line summary (this goes to near_memory only)
+   - `--tools` = JSON array of tool calls made: `[{"tool":"Edit","file":"path","action":"desc"},...]`
+
+   For short turns (args mode):
    ```bash
    python3 scripts/memory_append.py \
-       --role user --content "user message" \
-       --role2 assistant --content2 "assistant response" \
+       --role user --content "exact user message" \
+       --role2 assistant --content2 "full assistant output text" \
        --summary "one-line summary" \
        --mind-refs "knowledge::node1,knowledge::node2"
    ```
+
+   For long turns with tables/code (stdin mode — no size limit):
+   ```bash
+   python3 scripts/memory_append.py --stdin << 'ENDJSON'
+   {"role":"user","content":"exact user message","role2":"assistant","content2":"full output with tables, code blocks, etc","summary":"one-line summary","mind_refs":"node1,node2","tools":[{"tool":"Edit","file":"path","action":"desc"}]}
+   ENDJSON
+   ```
+
 2. Update `mind/mind_memory.md` mindmap nodes as needed
 3. Update domain JSON files when relevant knowledge is produced
-4. `session` and `work` child nodes in the mindmap use inline refs: `[far:N,near:N]`
+4. Stage completed work: conventions → self-contained templates (no memory refs); content → work.json linked to far_memory ranges
 
 ## Far Memory Topic Splitting
 
