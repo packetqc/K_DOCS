@@ -180,6 +180,18 @@
       "role": "assistant",
       "content": "The %%init%% theme directive does not work with mermaid mindmap type - only applies to flowcharts etc. The blue theme convention was never rendering. Black boxes are default mindmap styling. Asked user whether to accept defaults or switch diagram type.",
       "timestamp": "2026-03-13T09:53:34Z"
+    },
+    {
+      "id": 31,
+      "role": "user",
+      "content": "no hope for custom blue, keep default theme, put it in convention",
+      "timestamp": "2026-03-13T09:58:08Z"
+    },
+    {
+      "id": 32,
+      "role": "assistant",
+      "content": "Switched to mermaid default theme. Updated mind_memory.md init directive and convention. theme_default: always include init directive with default theme for auto-colored nodes.",
+      "timestamp": "2026-03-13T09:58:08Z"
     }
   ],
   "archives": [

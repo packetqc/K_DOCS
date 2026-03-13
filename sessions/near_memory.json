@@ -190,6 +190,18 @@
         "constraints"
       ],
       "timestamp": "2026-03-13T09:53:34Z"
+    },
+    {
+      "id": 16,
+      "summary": "fix: switched to mermaid default theme, updated convention and mindmap file",
+      "far_memory_refs": [
+        31,
+        32
+      ],
+      "mind_memory_refs": [
+        "conventions::theme_default"
+      ],
+      "timestamp": "2026-03-13T09:58:08Z"
     }
   ],
   "last_session": {
