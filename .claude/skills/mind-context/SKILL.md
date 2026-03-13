@@ -27,7 +27,17 @@ for ref in data['references']:
 import json, os
 with open('sessions/near_memory.json') as f:
     data = json.load(f)
-# Show last 5 summaries as active conversation context
+# Show last session context if this is a fresh start
+last = data.get('last_session')
+if last and last.get('summaries'):
+    print('--- Last Session Context (continue where you left off) ---')
+    print(f\"  session: {last.get('session_id', 'unknown')}\")
+    for s in last['summaries'][-5:]:
+        print(f\"  [prev:{s['id']}] {s['summary']}\")
+        if s.get('mind_memory_refs'):
+            print(f\"    mind_refs: {s['mind_memory_refs']}\")
+    print()
+# Show current session summaries
 for s in data['summaries'][-5:]:
     print(f\"[near:{s['id']}] {s['summary']}\")
     print(f\"  far_refs: {s['far_memory_refs']}\")
