@@ -156,6 +156,18 @@
       "role": "assistant",
       "content": "Understood. Always render the diagram immediately after any change. Never make the user ask to see it. This is a core convention.",
       "timestamp": "2026-03-13T09:51:49Z"
+    },
+    {
+      "id": 27,
+      "role": "user",
+      "content": "you broke the color convention - the init theme directive is required for colors not optional metadata",
+      "timestamp": "2026-03-13T09:52:25Z"
+    },
+    {
+      "id": 28,
+      "role": "assistant",
+      "content": "Fixed: the %%init%% theme directive must always be included in rendered output - it controls the blue color scheme per mindmap_theme_light convention. Only near:N refs and raw IDs are internal metadata.",
+      "timestamp": "2026-03-13T09:52:25Z"
     }
   ],
   "archives": [

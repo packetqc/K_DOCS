@@ -164,6 +164,19 @@
         "constraints"
       ],
       "timestamp": "2026-03-13T09:51:49Z"
+    },
+    {
+      "id": 14,
+      "summary": "fix: init theme directive is required for colors, must always be in rendered output",
+      "far_memory_refs": [
+        27,
+        28
+      ],
+      "mind_memory_refs": [
+        "conventions::mindmap_theme_light",
+        "conventions::node_text_rules"
+      ],
+      "timestamp": "2026-03-13T09:52:25Z"
     }
   ],
   "last_session": {
