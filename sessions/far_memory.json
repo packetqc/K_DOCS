@@ -1,29 +1,17 @@
 {
-  "session_id": "7387a67e-dcae-4e2d-b3e7-44a4c41fb5f5",
+  "session_id": "c7919903-e8e5-47dc-bb66-338268ac1023",
   "messages": [
     {
       "id": 1,
       "role": "user",
       "content": "hi",
-      "timestamp": "2026-03-13T09:21:40Z"
+      "timestamp": "2026-03-13T09:31:47Z"
     },
     {
       "id": 2,
       "role": "assistant",
-      "content": "Loaded mind-context, displayed reduced mindmap (session/work/documentation nodes). Fresh session with no active summaries. Greeted user and confirmed K_MIND session active.",
-      "timestamp": "2026-03-13T09:21:40Z"
-    },
-    {
-      "id": 3,
-      "role": "user",
-      "content": "User wants to see last session hive in mindmap on start. Two scenarios: continue on same branch or new session from main. Fix session_init to carry forward last session summaries.",
-      "timestamp": "2026-03-13T09:29:53Z"
-    },
-    {
-      "id": 4,
-      "role": "assistant",
-      "content": "Implemented session continuity: session_init.py now saves last session summaries in near_memory.last_session on fresh init. mind-context skill displays them as Last Session Context. CLAUDE.md updated.",
-      "timestamp": "2026-03-13T09:29:53Z"
+      "content": "Loaded mind-context, displayed reduced mindmap and last session summaries. Greeted user and confirmed K_MIND session active.",
+      "timestamp": "2026-03-13T09:31:47Z"
     }
   ],
   "archives": [
@@ -49,6 +37,18 @@
       "near_memory_range": [
         1,
         1
+      ]
+    },
+    {
+      "file": "archives/far_memory_session_7387a67e_dcae_4e2d_b3e7_44a4c41fb5f5_20260313T093127.json",
+      "topic": "session-7387a67e-dcae-4e2d-b3e7-44a4c41fb5f5",
+      "message_range": [
+        1,
+        4
+      ],
+      "near_memory_range": [
+        1,
+        2
       ]
     }
   ]
