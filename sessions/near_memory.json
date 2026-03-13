@@ -70,6 +70,13 @@
       "far_memory_refs": [33, 34],
       "mind_memory_refs": ["knowledge::conventions::mindmap_display_layout", "knowledge::conventions::mindmap_theme_light", "knowledge::constraints"],
       "timestamp": "2026-03-13T00:17:30Z"
+    },
+    {
+      "id": 11,
+      "summary": "User requested /mind-context call. Skill not registered in current session runtime. Executed manually — presented normal mode: dynamic nodes (session, work, documentation) + last 3 near_memory summaries. Need to investigate skill discovery.",
+      "far_memory_refs": [35, 36],
+      "mind_memory_refs": ["knowledge::session", "knowledge::constraints"],
+      "timestamp": "2026-03-13T00:18:30Z"
     }
   ]
 }
