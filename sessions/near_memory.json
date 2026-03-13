@@ -12,6 +12,19 @@
         "session"
       ],
       "timestamp": "2026-03-13T08:59:54Z"
+    },
+    {
+      "id": 2,
+      "summary": "Correction: must read mindmap file and apply conventions (theme, layout) before displaying — not just echo skill output",
+      "far_memory_refs": [
+        3,
+        4
+      ],
+      "mind_memory_refs": [
+        "conventions::mindmap_display_layout",
+        "conventions::mindmap_theme_light"
+      ],
+      "timestamp": "2026-03-13T09:01:53Z"
     }
   ]
 }
