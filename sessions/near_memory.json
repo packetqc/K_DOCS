@@ -28,6 +28,13 @@
       "far_memory_refs": [13, 14],
       "mind_memory_refs": ["knowledge::architecture::real_time_updates"],
       "timestamp": "2026-03-13T00:07:30Z"
+    },
+    {
+      "id": 5,
+      "summary": "User asked about the meaning of 'constraints' in the mindmap. It represents known limitations/boundaries of the system — the mind knowing its own limits.",
+      "far_memory_refs": [15, 16],
+      "mind_memory_refs": ["knowledge::constraints"],
+      "timestamp": "2026-03-13T00:08:30Z"
     }
   ]
 }

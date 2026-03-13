@@ -84,6 +84,18 @@
       "role": "assistant",
       "content": "Yes, exactly. Every turn from now on, I'll update all 3 files: far_memory.json (append messages verbatim), near_memory.json (add summary with pointers), mind_memory.md (grow mindmap with new knowledge nodes). This includes conversation and any work results — code written, files created, errors encountered, decisions made.",
       "timestamp": "2026-03-13T00:07:30Z"
+    },
+    {
+      "id": 15,
+      "role": "user",
+      "content": "what does constraints means in the mind ?",
+      "timestamp": "2026-03-13T00:08:00Z"
+    },
+    {
+      "id": 16,
+      "role": "assistant",
+      "content": "The constraints node captures limitations and boundaries — things the system cannot do. Currently has one child: no_cross_session_access (Claude Code can't read Claude Desktop sessions). Think of it as the mind knowing its own limits. New constraints discovered during work would be added there.",
+      "timestamp": "2026-03-13T00:08:30Z"
     }
   ]
 }
