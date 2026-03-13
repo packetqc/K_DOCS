@@ -4,16 +4,16 @@
     {
       "id": "conv-001",
       "name": "mindmap_display_layout",
-      "description": "Both modes use left-right half/half layout. Left side: session, work, documentation (dynamic). Right side: architecture, constraints, conventions (system). Normal mode omits right side. Full mode shows all.",
+      "description": "Mermaid mindmap uses radial auto-layout. Normal mode: session node expanded with children, plus all other top-level groups (work, documentation, architecture, constraints, conventions) as collapsed leaf nodes. Full mode: all nodes expanded with children. No left-right control available in mermaid mindmap type.",
       "far_memory_refs": [29, 30],
       "mind_memory_refs": ["knowledge::conventions::mindmap_display_layout"]
     },
     {
       "id": "conv-002",
-      "name": "mindmap_theme_light",
-      "description": "Light theme colors. Top-level groups: solid blue boxes, white bold uppercase fonts. Child nodes: progressively lighter blue boxes at each depth, dark blue bold uppercase fonts. Inline references: lowercase, not bold, font color matches box color of their depth level.",
+      "name": "theme_default",
+      "description": "Use mermaid default theme for mindmap rendering. Always include %%{init: {'theme': 'default'}}%% directive in output. This provides automatic multi-color nodes per branch depth. Custom blue theme is not supported by mermaid mindmap type.",
       "far_memory_refs": [31, 32],
-      "mind_memory_refs": ["knowledge::conventions::mindmap_theme_light"]
+      "mind_memory_refs": ["knowledge::conventions::theme_default"]
     }
     ,
     {
@@ -29,6 +29,13 @@
       "description": "Claude-as-engine is bootstrap only (new session, resume, compaction recovery). All mechanical operations use Python scripts in scripts/. Claude provides intelligence (summaries, topic names) as arguments to deterministic programs. When architecture evolves, scripts must be updated to match — programs ARE the implementation of the architecture.",
       "far_memory_refs": [51, 52, 55, 56],
       "mind_memory_refs": ["knowledge::architecture::programs_over_improvisation", "knowledge::conventions::programs_over_improvisation"]
+    },
+    {
+      "id": "conv-005",
+      "name": "node_text_rules",
+      "description": "Mindmap node text must be human-readable descriptions only. No raw IDs, internal pointers, or inline refs in node labels. Avoid mermaid reserved words (e.g. 'mindmap', 'graph', 'flowchart') in node text as they cause syntax errors.",
+      "far_memory_refs": [],
+      "mind_memory_refs": ["knowledge::conventions::node_text_rules"]
     }
   ],
   "external_files": []
