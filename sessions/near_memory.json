@@ -238,6 +238,84 @@
         "session::near memory::conversation"
       ],
       "timestamp": "2026-03-13T21:16:24Z"
+    },
+    {
+      "id": 20,
+      "summary": "updated stats with autocompact buffer and system overhead; discussed persisting tool outputs and MCP tool tracking per topic",
+      "far_memory_refs": [
+        39,
+        40
+      ],
+      "mind_memory_refs": [
+        "conventions::rules::system",
+        "work::display-conventions-and-stats-system"
+      ],
+      "timestamp": "2026-03-13T21:31:46Z"
+    },
+    {
+      "id": 21,
+      "summary": "extended far_memory schema: added --tools flag to memory_append.py, assistant messages now capture tool calls metadata",
+      "far_memory_refs": [
+        41,
+        42
+      ],
+      "mind_memory_refs": [
+        "architecture::three_file_system",
+        "conventions::rules::system"
+      ],
+      "timestamp": "2026-03-13T21:40:34Z"
+    },
+    {
+      "id": 22,
+      "summary": "clarified: tool results live in files, far_memory has conversation text, work.json has structured refs — no duplication",
+      "far_memory_refs": [
+        43,
+        44
+      ],
+      "mind_memory_refs": [
+        "architecture::three_file_system",
+        "architecture::folder_per_group"
+      ],
+      "timestamp": "2026-03-13T21:40:45Z"
+    },
+    {
+      "id": 23,
+      "summary": "added --stdin mode to memory_append.py for large content; far_memory captures full verbatim output including tables and code",
+      "far_memory_refs": [
+        45,
+        46
+      ],
+      "mind_memory_refs": [
+        "architecture::three_file_system",
+        "architecture::programs_over_improvisation"
+      ],
+      "timestamp": "2026-03-13T21:43:35Z"
+    },
+    {
+      "id": 24,
+      "summary": "defined two staging paths: conventions (self-contained templates, no memory refs) vs content (linked to far_memory for recall)",
+      "far_memory_refs": [
+        47,
+        48
+      ],
+      "mind_memory_refs": [
+        "architecture::staging_paths",
+        "conventions::rules::system"
+      ],
+      "timestamp": "2026-03-13T21:45:15Z"
+    },
+    {
+      "id": 25,
+      "summary": "confirmed staging_paths is persisted: architecture node, convention conv-005, far memory, near memory — not just conversation",
+      "far_memory_refs": [
+        49,
+        50
+      ],
+      "mind_memory_refs": [
+        "architecture::staging_paths",
+        "conventions::rules::system"
+      ],
+      "timestamp": "2026-03-13T21:45:45Z"
     }
   ],
   "last_session": {

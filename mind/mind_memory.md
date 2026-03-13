@@ -32,7 +32,13 @@ mindmap
         minimize claude context usage
       real_time_updates
         every turn all 3 files updated
+        far_memory captures full verbatim with stdin mode
         captures conversation and work results
+      staging_paths
+        convention staging self contained templates
+        conventions never reference far memory
+        content staging linked to memory for recall
+        work.json points to far memory ranges
       folder_per_group
         each top level group has own folder
         domain specific JSON for persisted refs

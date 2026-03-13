@@ -10,6 +10,8 @@ import glob
 
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
 MODEL_CONTEXT_LIMIT = 200_000  # Opus context window
+AUTOCOMPACT_BUFFER = 33_000   # Reserved by Claude for compaction
+SYSTEM_OVERHEAD = 34_000      # System prompt + tools + MCP tools (relatively constant)
 
 def main():
     os.chdir(BASE_DIR)
@@ -59,8 +61,9 @@ def main():
     # Estimate conversation tokens: far_memory tracks the full conversation,
     # so its size approximates the conversation history occupying the context window.
     conversation_tokens = tk_raw(fm_size)
-    total_context_used = loaded_tokens + conversation_tokens
-    available = MODEL_CONTEXT_LIMIT - total_context_used
+    total_context_used = SYSTEM_OVERHEAD + loaded_tokens + conversation_tokens
+    usable_limit = MODEL_CONTEXT_LIMIT - AUTOCOMPACT_BUFFER
+    available = usable_limit - total_context_used
 
     print('| Store | Count | Size | ~Tokens | Loaded |')
     print('|:------|:------|:-----|:--------|:-------|')
@@ -71,9 +74,10 @@ def main():
     print(f'| domain JSONs | {domain_count} refs | {kb(domain_size)} | {tk(domain_size)} | {tk(conv_size)} |')
     print(f'| CLAUDE.md | 1 file | {kb(claude_md)} | {tk(claude_md)} | {tk(claude_md)} |')
     print(f'| **Subtotal (K_MIND)** | | **{kb(disk_total)}** | **{tk(disk_total)}** | **~{loaded_tokens:,}** |')
+    print(f'| **System overhead** | tools+MCP | | | **~{SYSTEM_OVERHEAD:,}** |')
     print(f'| **Conversation** | {fm_msgs} msgs | {kb(fm_size)} | | **~{conversation_tokens:,}** |')
     print(f'| **Context used** | | | | **~{total_context_used:,}** |')
-    print(f'| **Context window** | | | **~{MODEL_CONTEXT_LIMIT:,}** | |')
+    print(f'| **Usable limit** | 200k - 33k buffer | | | **~{usable_limit:,}** |')
     print(f'| **Available** | | | | **~{available:,}** |')
 
 if __name__ == '__main__':

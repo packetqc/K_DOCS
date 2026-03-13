@@ -32,6 +32,12 @@
     },
     {
       "id": "conv-005",
+      "name": "staging_paths",
+      "description": "Two staging paths from work. Convention staging: when a pattern proves reusable, extract it to conventions.json as a self-contained template — conventions never reference far_memory, they must be reproducible standalone by any future session. Content staging: documents, code, artifacts stay linked to memory — work.json points to far_memory ranges so the full creation context can be recalled for continuation or revision.",
+      "mind_memory_refs": ["knowledge::architecture::staging_paths"]
+    },
+    {
+      "id": "conv-006",
       "name": "node_text_rules",
       "description": "Mindmap node text must be human-readable descriptions only. No raw IDs, internal pointers, or inline refs in node labels. Avoid mermaid reserved words (e.g. 'mindmap', 'graph', 'flowchart') in node text as they cause syntax errors.",
       "far_memory_refs": [],

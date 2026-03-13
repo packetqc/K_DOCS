@@ -228,6 +228,134 @@
       "role": "assistant",
       "content": "Acknowledged — the system is working as designed. Mindmap as operating memory with full traceability: nodes for quick view, work.json for structured refs, near_memory for categorized summaries, far_memory for full conversation recall. Every turn feeds memory, every topic named and categorized, future sessions pick up by subject.",
       "timestamp": "2026-03-13T21:16:24Z"
+    },
+    {
+      "id": 39,
+      "role": "user",
+      "content": "since we now capture far memory calculation should be different on next new session. autocompact buffer must be substracted from available indeed. and I was to ask if mcp loaded should be persisted strategically to be refered/reloaded upon working again on a subject ? i understand that the full verbatim that we capture in the far memory, i would have expected to have output results, much of what we can persist from your outputs. can we look at it ?",
+      "timestamp": "2026-03-13T21:31:46Z"
+    },
+    {
+      "id": 40,
+      "role": "assistant",
+      "content": "Updated memory_stats.py: added AUTOCOMPACT_BUFFER (33k) and SYSTEM_OVERHEAD (34k) constants. Available now = (200k - 33k buffer) - (system overhead + K_MIND loaded + conversation). Result ~124k vs /context showing 101k — much closer. Showed the gap: msg 36 stored 362 chars but real context turn included Edit/Read/Bash tool calls and results, easily 5-10x more. Discussed what to persist: full text response + tool call metadata + selective key results.",
+      "timestamp": "2026-03-13T21:31:46Z"
+    },
+    {
+      "id": 41,
+      "role": "user",
+      "content": "far have it all \\!",
+      "timestamp": "2026-03-13T21:40:34Z"
+    },
+    {
+      "id": 42,
+      "role": "assistant",
+      "content": "Extended memory_append.py with --tools flag. Assistant messages in far_memory now support a 'tools' array recording each tool call: tool name, file path, action taken. This closes the gap between what far_memory captures and what actually happened in the turn. Combined with full verbatim content, far_memory becomes the complete record of every turn — text, actions, and results.",
+      "timestamp": "2026-03-13T21:40:34Z",
+      "tools": [
+        {
+          "tool": "Read",
+          "file": "scripts/memory_append.py",
+          "action": "read current script"
+        },
+        {
+          "tool": "Write",
+          "file": "scripts/memory_append.py",
+          "action": "added --tools flag support, tools array in assistant messages"
+        },
+        {
+          "tool": "Edit",
+          "file": "scripts/memory_stats.py",
+          "action": "added AUTOCOMPACT_BUFFER and SYSTEM_OVERHEAD constants"
+        },
+        {
+          "tool": "Bash",
+          "cmd": "python3 scripts/memory_stats.py",
+          "action": "verified updated stats output"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "role": "user",
+      "content": "it goes to files and we refer to structured files not to fill all memories.",
+      "timestamp": "2026-03-13T21:40:45Z"
+    },
+    {
+      "id": 44,
+      "role": "assistant",
+      "content": "Correct — far_memory stores full conversation text, work.json stores structured file references (created/modified/tools), near_memory stores summaries with pointers. Tool results live in the actual files. No duplication — each store has its role.",
+      "timestamp": "2026-03-13T21:40:45Z"
+    },
+    {
+      "id": 45,
+      "role": "user",
+      "content": "so we even have all your tables output results ... everyting that you output in far files ? it must !",
+      "timestamp": "2026-03-13T21:43:35Z"
+    },
+    {
+      "id": 46,
+      "role": "assistant",
+      "content": "Yes — every table, code block, mermaid diagram I output goes into --content2 as full verbatim text. Updated memory_append.py with --stdin mode to handle large outputs:\n\n```\necho '{\"role\":\"user\",\"content\":\"...\",\"role2\":\"assistant\",\"content2\":\"full output\",\"summary\":\"...\"}' | python3 scripts/memory_append.py --stdin\n```\n\nThis bypasses shell argument length limits. The JSON payload via stdin can carry any size content — tables, code blocks, full mermaid diagrams.\n\nEach store keeps its role:\n- **far_memory** = full verbatim conversation (everything user sees + everything assistant outputs)\n- **work.json** = structured file references (what was created/modified)\n- **near_memory** = summaries with pointers to both\n\nNo duplication — far_memory is the complete record, work.json indexes the artifacts, near_memory navigates both.",
+      "timestamp": "2026-03-13T21:43:35Z",
+      "tools": [
+        {
+          "tool": "Read",
+          "file": "scripts/memory_append.py",
+          "action": "read current script"
+        },
+        {
+          "tool": "Write",
+          "file": "scripts/memory_append.py",
+          "action": "added --stdin mode for large content via JSON pipe"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "role": "user",
+      "content": "and then, we time to stage work to convention or to productivity content: convention will not refer to far memory, it will have its template to reproduce. and as for content productivity, like creating a document, it will fetch memory files.",
+      "timestamp": "2026-03-13T21:45:15Z"
+    },
+    {
+      "id": 48,
+      "role": "assistant",
+      "content": "Clear distinction — two staging paths:\n\n**Conventions** = distilled, self-contained rules. Once a pattern proves itself in work, it gets extracted into conventions.json as a standalone template. No far_memory reference needed — reproducible on its own by any future session.\n\n**Content/productivity** = documents, code, artifacts. These stay linked to memory files — work.json points to far_memory ranges for full creation context recall.\n\nFlow:\n```\nconversation (far_memory)\n  → work done (work.json + files)\n    → if reusable pattern → stage to conventions (self-contained template)\n    → if content artifact → stays in work (linked to memory for recall)\n```\n\nPersisted as:\n- Architecture node `staging_paths` in mind_memory.md with 4 children\n- Convention conv-005 `staging_paths` in conventions.json (self-contained template)\n- Convention conv-005 explicitly states: conventions never reference far_memory",
+      "timestamp": "2026-03-13T21:45:15Z",
+      "tools": [
+        {
+          "tool": "Read",
+          "file": "mind/mind_memory.md",
+          "action": "read current mindmap"
+        },
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "added staging_paths node under architecture with 4 children"
+        },
+        {
+          "tool": "Read",
+          "file": "conventions/conventions.json",
+          "action": "read current conventions"
+        },
+        {
+          "tool": "Edit",
+          "file": "conventions/conventions.json",
+          "action": "added conv-005 staging_paths as self-contained convention"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "role": "user",
+      "content": "is this just a conversation or it is now implemented and persisted as conventions ?",
+      "timestamp": "2026-03-13T21:45:45Z"
+    },
+    {
+      "id": 50,
+      "role": "assistant",
+      "content": "It's implemented and persisted on disk in 4 places:\n\n1. **Architecture node** (mind/mind_memory.md lines 37-41): staging_paths with 4 children\n2. **Convention** (conventions/conventions.json conv-005): self-contained staging_paths template\n3. **Far memory** (messages 47-48): full conversation with tool calls\n4. **Near memory** (summary 24): categorized pointer\n\nAny future session loading /mind-context will see the staging_paths architecture node and conv-005 rule, and follow it without needing this conversation.",
+      "timestamp": "2026-03-13T21:45:45Z"
     }
   ],
   "archives": [
