@@ -138,6 +138,19 @@
         "constraints"
       ],
       "timestamp": "2026-03-13T09:49:15Z"
+    },
+    {
+      "id": 12,
+      "summary": "fix: corrected display layout convention to radial, updated all references",
+      "far_memory_refs": [
+        23,
+        24
+      ],
+      "mind_memory_refs": [
+        "conventions::display_layout",
+        "session"
+      ],
+      "timestamp": "2026-03-13T09:51:13Z"
     }
   ],
   "last_session": {

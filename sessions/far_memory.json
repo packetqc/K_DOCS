@@ -132,6 +132,18 @@
       "role": "assistant",
       "content": "Acknowledged: mermaid mindmap type uses radial layout, cannot control left-right positioning. The left-right half/half convention was incorrectly written. Need to either accept radial layout or switch diagram type. Asked user for direction.",
       "timestamp": "2026-03-13T09:49:15Z"
+    },
+    {
+      "id": 23,
+      "role": "user",
+      "content": "confirmed radial layout works, fix conventions",
+      "timestamp": "2026-03-13T09:51:13Z"
+    },
+    {
+      "id": 24,
+      "role": "assistant",
+      "content": "Updated display_layout convention: radial auto-layout, normal mode session expanded plus groups collapsed, full mode all expanded. Fixed mindmap nodes and conventions.json.",
+      "timestamp": "2026-03-13T09:51:13Z"
     }
   ],
   "archives": [
