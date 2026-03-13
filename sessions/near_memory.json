@@ -12,6 +12,19 @@
         "session"
       ],
       "timestamp": "2026-03-13T09:21:40Z"
+    },
+    {
+      "id": 2,
+      "summary": "feat: session continuity — carry forward last session summaries on fresh start for both continue-branch and new-from-main scenarios",
+      "far_memory_refs": [
+        3,
+        4
+      ],
+      "mind_memory_refs": [
+        "architecture::three_file_system",
+        "conventions::programs_over_improvisation"
+      ],
+      "timestamp": "2026-03-13T09:29:53Z"
     }
   ]
 }

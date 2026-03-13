@@ -12,6 +12,18 @@
       "role": "assistant",
       "content": "Loaded mind-context, displayed reduced mindmap (session/work/documentation nodes). Fresh session with no active summaries. Greeted user and confirmed K_MIND session active.",
       "timestamp": "2026-03-13T09:21:40Z"
+    },
+    {
+      "id": 3,
+      "role": "user",
+      "content": "User wants to see last session hive in mindmap on start. Two scenarios: continue on same branch or new session from main. Fix session_init to carry forward last session summaries.",
+      "timestamp": "2026-03-13T09:29:53Z"
+    },
+    {
+      "id": 4,
+      "role": "assistant",
+      "content": "Implemented session continuity: session_init.py now saves last session summaries in near_memory.last_session on fresh init. mind-context skill displays them as Last Session Context. CLAUDE.md updated.",
+      "timestamp": "2026-03-13T09:29:53Z"
     }
   ],
   "archives": [
