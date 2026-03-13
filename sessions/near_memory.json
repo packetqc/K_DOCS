@@ -1,9 +1,9 @@
 {
-  "session_id": "fc92bd2f-24f9-40f0-af1b-4b25bcb4c0dd",
+  "session_id": "63b67637-a3d9-42b2-b2bd-a83636e8a99d",
   "summaries": [
     {
       "id": 1,
-      "summary": "session start greeting, mindmap rendered",
+      "summary": "Session start greeting, mindmap rendered",
       "far_memory_refs": [
         1,
         2
@@ -11,11 +11,73 @@
       "mind_memory_refs": [
         "session::near_memory::conversation"
       ],
-      "timestamp": "2026-03-13T20:07:02Z"
+      "timestamp": "2026-03-13T20:15:36Z"
+    },
+    {
+      "id": 2,
+      "summary": "fix: updated mind_memory session nodes, added useMaxWidth, fixed SKILL.md table instruction, recreated ghost file",
+      "far_memory_refs": [
+        3,
+        4
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind_map::display_layout",
+        "conventions::mermaid::mind_map::theme_default"
+      ],
+      "timestamp": "2026-03-13T20:21:27Z"
+    },
+    {
+      "id": 3,
+      "summary": "convention: added always show all categories even when empty to display_layout",
+      "far_memory_refs": [
+        5,
+        6
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind_map::display_layout"
+      ],
+      "timestamp": "2026-03-13T20:21:32Z"
+    },
+    {
+      "id": 4,
+      "summary": "verified all fixes saved to disk, will take effect on next session start",
+      "far_memory_refs": [
+        7,
+        8
+      ],
+      "mind_memory_refs": [
+        "session"
+      ],
+      "timestamp": "2026-03-13T20:21:37Z"
+    },
+    {
+      "id": 5,
+      "summary": "rendered full 3-section output with all conventions applied",
+      "far_memory_refs": [
+        9,
+        10
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind_map::display_layout",
+        "conventions::mermaid::mind_map::theme_default"
+      ],
+      "timestamp": "2026-03-13T20:21:44Z"
+    },
+    {
+      "id": 6,
+      "summary": "backfilled all missed turns into far_memory and near_memory",
+      "far_memory_refs": [
+        11,
+        12
+      ],
+      "mind_memory_refs": [
+        "session"
+      ],
+      "timestamp": "2026-03-13T20:21:48Z"
     }
   ],
   "last_session": {
-    "session_id": "7f0727cf-f038-4102-a3c7-3b6095f3b8ce",
+    "session_id": "fc92bd2f-24f9-40f0-af1b-4b25bcb4c0dd",
     "summaries": [
       {
         "id": 1,
@@ -25,9 +87,9 @@
           2
         ],
         "mind_memory_refs": [
-          "session"
+          "session::near_memory::conversation"
         ],
-        "timestamp": "2026-03-13T19:33:00Z"
+        "timestamp": "2026-03-13T20:07:02Z"
       }
     ]
   }

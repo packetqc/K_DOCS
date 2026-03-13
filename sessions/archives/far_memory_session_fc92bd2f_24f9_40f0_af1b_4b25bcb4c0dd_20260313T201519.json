@@ -1,0 +1,40 @@
+{
+  "topic": "session-fc92bd2f-24f9-40f0-af1b-4b25bcb4c0dd",
+  "session_id": "fc92bd2f-24f9-40f0-af1b-4b25bcb4c0dd",
+  "message_range": [
+    1,
+    2
+  ],
+  "near_memory_range": [
+    1,
+    1
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "hi",
+      "timestamp": "2026-03-13T20:07:02Z"
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Session start greeting. Rendered mindmap in normal mode, displayed recent context and memory stats. Fresh session with no active work.",
+      "timestamp": "2026-03-13T20:07:02Z"
+    }
+  ],
+  "summaries": [
+    {
+      "id": 1,
+      "summary": "session start greeting, mindmap rendered",
+      "far_memory_refs": [
+        1,
+        2
+      ],
+      "mind_memory_refs": [
+        "session::near_memory::conversation"
+      ],
+      "timestamp": "2026-03-13T20:07:02Z"
+    }
+  ]
+}
