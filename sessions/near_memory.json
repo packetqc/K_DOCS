@@ -84,6 +84,13 @@
       "far_memory_refs": [37, 38, 39, 40],
       "mind_memory_refs": ["knowledge::conventions::mindmap_theme_light", "knowledge::constraints"],
       "timestamp": "2026-03-13T00:20:30Z"
+    },
+    {
+      "id": 13,
+      "summary": "User asked to see the mindmap. Output full mermaid source with blue theme for rendering.",
+      "far_memory_refs": [41, 42],
+      "mind_memory_refs": ["knowledge::conventions::mindmap_theme_light"],
+      "timestamp": "2026-03-13T00:21:30Z"
     }
   ]
 }
