@@ -1,17 +1,17 @@
 {
-  "session_id": "7f0727cf-f038-4102-a3c7-3b6095f3b8ce",
+  "session_id": "fc92bd2f-24f9-40f0-af1b-4b25bcb4c0dd",
   "messages": [
     {
       "id": 1,
       "role": "user",
       "content": "hi",
-      "timestamp": "2026-03-13T19:33:00Z"
+      "timestamp": "2026-03-13T20:07:02Z"
     },
     {
       "id": 2,
       "role": "assistant",
-      "content": "Rendered mindmap and context. Greeted user and asked what we're working on.",
-      "timestamp": "2026-03-13T19:33:00Z"
+      "content": "Session start greeting. Rendered mindmap in normal mode, displayed recent context and memory stats. Fresh session with no active work.",
+      "timestamp": "2026-03-13T20:07:02Z"
     }
   ],
   "archives": [
@@ -73,6 +73,18 @@
       "near_memory_range": [
         1,
         23
+      ]
+    },
+    {
+      "file": "archives/far_memory_session_7f0727cf_f038_4102_a3c7_3b6095f3b8ce_20260313T200647.json",
+      "topic": "session-7f0727cf-f038-4102-a3c7-3b6095f3b8ce",
+      "message_range": [
+        1,
+        2
+      ],
+      "near_memory_range": [
+        1,
+        1
       ]
     }
   ]

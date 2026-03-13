@@ -69,6 +69,7 @@ mindmap
             near memory children are top level group names
             each group child shows recent activities for that category
             conversation child for general session chat
+            always show all categories even when empty
             memory stats table as section 3
           theme_default
             mermaid default theme with auto colors

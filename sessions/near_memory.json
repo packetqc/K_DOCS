@@ -1,5 +1,5 @@
 {
-  "session_id": "7f0727cf-f038-4102-a3c7-3b6095f3b8ce",
+  "session_id": "fc92bd2f-24f9-40f0-af1b-4b25bcb4c0dd",
   "summaries": [
     {
       "id": 1,
@@ -9,9 +9,9 @@
         2
       ],
       "mind_memory_refs": [
-        "session"
+        "session::near_memory::conversation"
       ],
-      "timestamp": "2026-03-13T19:33:00Z"
+      "timestamp": "2026-03-13T20:07:02Z"
     }
   ],
   "last_session": {
@@ -19,284 +19,15 @@
     "summaries": [
       {
         "id": 1,
-        "summary": "fix: added archive fallback to mind-context skill for last session context when near_memory is empty",
+        "summary": "session start greeting, mindmap rendered",
         "far_memory_refs": [
           1,
           2
         ],
         "mind_memory_refs": [
-          "session",
-          "conventions::display_layout"
+          "session"
         ],
-        "timestamp": "2026-03-13T18:15:32Z"
-      },
-      {
-        "id": 2,
-        "summary": "convention: normal mode shows session+conventions expanded, omits architecture+constraints",
-        "far_memory_refs": [
-          3,
-          4
-        ],
-        "mind_memory_refs": [
-          "conventions::display_layout"
-        ],
-        "timestamp": "2026-03-13T18:18:18Z"
-      },
-      {
-        "id": 3,
-        "summary": "convention: normal mode only session expanded, deep subtrees shrink radial layout",
-        "far_memory_refs": [
-          5,
-          6
-        ],
-        "mind_memory_refs": [
-          "conventions::display_layout"
-        ],
-        "timestamp": "2026-03-13T18:22:00Z"
-      },
-      {
-        "id": 4,
-        "summary": "rendered normal mode mindmap with updated layout convention",
-        "far_memory_refs": [
-          7,
-          8
-        ],
-        "mind_memory_refs": [
-          "session",
-          "conventions::display_layout"
-        ],
-        "timestamp": "2026-03-13T18:23:52Z"
-      },
-      {
-        "id": 5,
-        "summary": "rendered mindmap with conventions first-level children visible",
-        "far_memory_refs": [
-          9,
-          10
-        ],
-        "mind_memory_refs": [
-          "conventions::display_layout"
-        ],
-        "timestamp": "2026-03-13T18:26:30Z"
-      },
-      {
-        "id": 6,
-        "summary": "rendered wide normal mode mindmap per convention",
-        "far_memory_refs": [
-          11,
-          12
-        ],
-        "mind_memory_refs": [
-          "conventions::display_layout"
-        ],
-        "timestamp": "2026-03-13T18:27:12Z"
-      },
-      {
-        "id": 7,
-        "summary": "convention: normal mode depth 1 for all groups, user can request specific depth per branch",
-        "far_memory_refs": [
-          13,
-          14
-        ],
-        "mind_memory_refs": [
-          "conventions::display_layout"
-        ],
-        "timestamp": "2026-03-13T18:33:29Z"
-      },
-      {
-        "id": 8,
-        "summary": "restructured conventions into rules and mermaid subcategories",
-        "far_memory_refs": [
-          15,
-          16
-        ],
-        "mind_memory_refs": [
-          "conventions"
-        ],
-        "timestamp": "2026-03-13T18:36:25Z"
-      },
-      {
-        "id": 9,
-        "summary": "restructured rules under system node and conventions depth 2 in normal mode",
-        "far_memory_refs": [
-          17,
-          18
-        ],
-        "mind_memory_refs": [
-          "conventions::rules::system",
-          "conventions::mermaid::display_layout"
-        ],
-        "timestamp": "2026-03-13T18:43:17Z"
-      },
-      {
-        "id": 10,
-        "summary": "added mind map node under mermaid to group all mermaid mindmap conventions",
-        "far_memory_refs": [
-          19,
-          20
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map"
-        ],
-        "timestamp": "2026-03-13T18:44:54Z"
-      },
-      {
-        "id": 11,
-        "summary": "saved useMaxWidth true to theme_default convention for full width rendering",
-        "far_memory_refs": [
-          21,
-          22
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::theme_default"
-        ],
-        "timestamp": "2026-03-13T18:46:25Z"
-      },
-      {
-        "id": 12,
-        "summary": "convention saved: depth 3 default, near memory categorized by top level groups",
-        "far_memory_refs": [
-          23,
-          24
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T18:52:45Z"
-      },
-      {
-        "id": 13,
-        "summary": "updated mind-context skill with 3 output sections and categorized near memory",
-        "far_memory_refs": [
-          25,
-          26
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T18:59:21Z"
-      },
-      {
-        "id": 14,
-        "summary": "confirmed compaction recovery works same as start and resume via persisted files",
-        "far_memory_refs": [
-          27,
-          28
-        ],
-        "mind_memory_refs": [
-          "conventions::rules::system"
-        ],
-        "timestamp": "2026-03-13T18:59:41Z"
-      },
-      {
-        "id": 15,
-        "summary": "added memory stats one-liner as section 3 in skill and convention",
-        "far_memory_refs": [
-          29,
-          30
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T19:09:22Z"
-      },
-      {
-        "id": 16,
-        "summary": "added loaded vs disk token counts to memory stats one-liner",
-        "far_memory_refs": [
-          31,
-          32
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T19:10:14Z"
-      },
-      {
-        "id": 17,
-        "summary": "updated memory stats to full table with Loaded column for context occupancy",
-        "far_memory_refs": [
-          33,
-          34
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T19:12:38Z"
-      },
-      {
-        "id": 18,
-        "summary": "saved memory stats table convention to all three files",
-        "far_memory_refs": [
-          35,
-          36
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T19:13:33Z"
-      },
-      {
-        "id": 19,
-        "summary": "rendered full session start preview with all 3 output sections",
-        "far_memory_refs": [
-          37,
-          38
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T19:14:12Z"
-      },
-      {
-        "id": 20,
-        "summary": "fixed skill backtick escaping and verified all 3 sections render on start",
-        "far_memory_refs": [
-          39,
-          40
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout",
-          "conventions::mermaid::mind_map::theme_default"
-        ],
-        "timestamp": "2026-03-13T19:16:47Z"
-      },
-      {
-        "id": 21,
-        "summary": "fixed section 2 to always show all 4 categories even when empty",
-        "far_memory_refs": [
-          41,
-          42
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T19:18:27Z"
-      },
-      {
-        "id": 22,
-        "summary": "feedback: must read mindmap convention nodes before every render, not from cached memory",
-        "far_memory_refs": [
-          43,
-          44
-        ],
-        "mind_memory_refs": [
-          "conventions::mermaid::mind_map::theme_default",
-          "conventions::mermaid::mind_map::display_layout"
-        ],
-        "timestamp": "2026-03-13T19:21:22Z"
-      },
-      {
-        "id": 23,
-        "summary": "created repo-portable auto-memory with install script hooked to session start",
-        "far_memory_refs": [
-          45,
-          46
-        ],
-        "mind_memory_refs": [
-          "conventions::rules::system"
-        ],
-        "timestamp": "2026-03-13T19:30:08Z"
+        "timestamp": "2026-03-13T19:33:00Z"
       }
     ]
   }

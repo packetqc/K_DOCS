@@ -1,0 +1,40 @@
+{
+  "topic": "session-7f0727cf-f038-4102-a3c7-3b6095f3b8ce",
+  "session_id": "7f0727cf-f038-4102-a3c7-3b6095f3b8ce",
+  "message_range": [
+    1,
+    2
+  ],
+  "near_memory_range": [
+    1,
+    1
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "hi",
+      "timestamp": "2026-03-13T19:33:00Z"
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Rendered mindmap and context. Greeted user and asked what we're working on.",
+      "timestamp": "2026-03-13T19:33:00Z"
+    }
+  ],
+  "summaries": [
+    {
+      "id": 1,
+      "summary": "session start greeting, mindmap rendered",
+      "far_memory_refs": [
+        1,
+        2
+      ],
+      "mind_memory_refs": [
+        "session"
+      ],
+      "timestamp": "2026-03-13T19:33:00Z"
+    }
+  ]
+}
