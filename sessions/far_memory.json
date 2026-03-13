@@ -1,5 +1,18 @@
 {
-  "session_id": "KHXzN",
-  "messages": [],
+  "session_id": "7e7cae5d-01fa-4e0a-bdb2-7cfaaab7be33",
+  "messages": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "hi",
+      "timestamp": "2026-03-13T08:59:54Z"
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Greeted user, loaded mind-context, displayed reduced mindmap (session/work/documentation nodes). Fresh session with no prior summaries.",
+      "timestamp": "2026-03-13T08:59:54Z"
+    }
+  ],
   "archives": []
 }

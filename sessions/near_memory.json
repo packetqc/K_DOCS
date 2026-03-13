@@ -1,4 +1,17 @@
 {
-  "session_id": "KHXzN",
-  "summaries": []
+  "session_id": "7e7cae5d-01fa-4e0a-bdb2-7cfaaab7be33",
+  "summaries": [
+    {
+      "id": 1,
+      "summary": "Session start: greeting and mindmap display",
+      "far_memory_refs": [
+        1,
+        2
+      ],
+      "mind_memory_refs": [
+        "session"
+      ],
+      "timestamp": "2026-03-13T08:59:54Z"
+    }
+  ]
 }
