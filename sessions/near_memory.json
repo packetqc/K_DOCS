@@ -77,6 +77,13 @@
       "far_memory_refs": [35, 36],
       "mind_memory_refs": ["knowledge::session", "knowledge::constraints"],
       "timestamp": "2026-03-13T00:18:30Z"
+    },
+    {
+      "id": 12,
+      "summary": "Clarified platform differences: Claude Code (CLI, text-only) vs Claude Desktop (renders mermaid visually). User targets Claude Desktop via Project Knowledge approach. Confirmed light blue theme + left-right layout as the convention for Claude Desktop diagram output. Theme embedded in mind_memory.md via mermaid init directive.",
+      "far_memory_refs": [37, 38, 39, 40],
+      "mind_memory_refs": ["knowledge::conventions::mindmap_theme_light", "knowledge::constraints"],
+      "timestamp": "2026-03-13T00:20:30Z"
     }
   ]
 }

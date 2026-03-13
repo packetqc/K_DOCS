@@ -28,6 +28,8 @@ mindmap
         called at start resume compaction
     constraints
       no_cross_session_access
+      claude_desktop_no_skills
+        project_knowledge approach instead
     conventions
       mindmap_display_layout
         left-right half/half both modes
