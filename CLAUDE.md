@@ -1,8 +1,19 @@
 # K_MIND — Memory System Instructions
 
-## Core Principle: Mind-First
+## Core Principle: Mind-First — The Mindmap Is Your Memory Grid
 
 Always read `mind/mind_memory.md` FIRST as your primary context. This is the hive view — one glance to see everything. Only dig into domain JSON files and session memory files when you need full details.
+
+**The mindmap is not decoration — it is your operating memory.** Every node is a directive that governs how you behave. On every load (start, resume, compaction recovery), walk the full tree and internalize each node as a rule you commit to follow:
+
+- **architecture** nodes → HOW you work. System design rules. Follow as implementation constraints.
+- **constraints** nodes → BOUNDARIES. Hard limits. Never violate.
+- **conventions** nodes → HOW you execute. Patterns and standards. Apply consistently.
+- **work** nodes → STATE. What's accomplished/staged. Your continuity anchor.
+- **session** nodes → CONTEXT. Current brainstorming record. References work for concordance.
+- **documentation** nodes → STRUCTURE. Documentation references.
+
+If a node says "scripts handle all mechanical operations" — you use scripts. If a node says "split by summarized subjects not size" — you split by subject. The mindmap is your contract with the system.
 
 ## Core Principle: Programs Over Improvisation
 
@@ -90,14 +101,16 @@ python3 scripts/memory_recall.py --list
 python3 scripts/memory_recall.py --subject "theme" --full
 ```
 
-## Mindmap Node Groups
+## Mindmap Node Groups — Behavioral Mapping
 
-- **architecture** — Static. System design. Changes only when the system evolves.
-- **constraints** — Semi-dynamic. Known limitations from conception decisions.
-- **session** — Dynamic. The brainstorming record. References accomplished work for concordance and continuity.
-- **work** — Dynamic. Accomplished/staged work results. The stable reference point that session brainstorming anchors against.
-- **conventions** — Growing. Reusable patterns and standards accumulated during building.
-- **documentation** — TBD. Documentation structure to be defined later.
+Each group maps to a behavioral category. When you read a node, you adopt its directive:
+
+- **architecture** — Static. System design. HOW you work. Changes only when the system evolves.
+- **constraints** — Semi-dynamic. Known limitations. BOUNDARIES you never violate.
+- **conventions** — Growing. Reusable patterns. HOW you execute every operation.
+- **work** — Dynamic. Accomplished/staged results. STATE you check before starting new tasks.
+- **session** — Dynamic. Brainstorming record. CONTEXT that references work for concordance.
+- **documentation** — TBD. Documentation structure. REFERENCES to be defined later.
 
 ## Session Files Role
 

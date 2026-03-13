@@ -45,6 +45,23 @@ if 'archives' in fm and fm['archives']:
 
 ---
 
+## The Mindmap Is Your Memory Grid
+
+**The mindmap is not decoration — it is your operating memory.** Every node is a directive that governs how you behave in this session. After loading, you MUST internalize all nodes before proceeding with any task.
+
+**Node groups and what they mean for your behavior:**
+
+- **architecture** nodes → Define HOW you work. These are system design rules. Follow them as implementation constraints. Example: `programs_over_improvisation` means use scripts for all mechanical operations, never improvise.
+- **constraints** nodes → Define BOUNDARIES. These are hard limits. Never violate them. Example: `no_cross_session_access` means never reach into another session's data.
+- **conventions** nodes → Define HOW you execute. These are patterns and standards. Apply them consistently. Example: `mindmap_theme_light` defines exact styling rules for display.
+- **work** nodes → Define STATE. What has been accomplished and what is staged. Use these as your continuity anchor — check work state before starting new tasks.
+- **session** nodes → Define CONTEXT. The current brainstorming record. References work for concordance.
+- **documentation** nodes → Define STRUCTURE. Documentation references (TBD).
+
+**On every load (start, resume, compaction recovery):** Walk the full tree mentally. Each node you read is a rule you commit to follow for the duration of the session. If a node says "scripts handle all mechanical operations" — that means you use scripts. If a node says "split by summarized subjects not size" — that means you split by subject. The mindmap is your contract.
+
+---
+
 **Display conventions:**
 
 **Normal mode** (no arguments): Left-right half/half layout.
@@ -57,7 +74,7 @@ if 'archives' in fm and fm['archives']:
 - RIGHT side (last in source): architecture, constraints, conventions
 
 **MANDATORY OUTPUT RULE:** After loading the data above, you MUST follow this sequence:
-1. **READ** the mindmap source and the display conventions loaded above — internalize theme, layout, and styling rules BEFORE rendering
+1. **READ** the full mindmap source, the display conventions, and the memory grid rules above — internalize every node as an operational directive BEFORE rendering
 2. **APPLY** conventions when outputting: preserve the `%%{init:...}%%` theme header, apply normal/full mode filtering per layout convention, respect styling rules
 3. **OUTPUT** the mermaid code block with the mindmap (reduced or full per mode) — inside a ```mermaid fence so it renders visually
 4. The last 5 near_memory summaries as a formatted list
@@ -65,7 +82,7 @@ if 'archives' in fm and fm['archives']:
 
 **DO NOT** silently consume this data. **DO NOT** just say "context loaded". The user MUST see the mindmap and summaries rendered in the conversation every single time this skill is invoked — at session start, resume, compaction recovery, or on demand.
 
-After outputting, confirm you are in an active K_MIND session and will maintain all memory files using scripts per CLAUDE.md instructions. Read CLAUDE.md now for full maintenance instructions.
+After outputting, confirm you are in an active K_MIND session, that you have internalized the memory grid, and will maintain all memory files using scripts per CLAUDE.md instructions. Read CLAUDE.md now for full maintenance instructions.
 
 **Available scripts** (run these, don't improvise):
 - Every turn: `python3 scripts/memory_append.py --role user --content "..." --role2 assistant --content2 "..." --summary "..." --mind-refs "..."`

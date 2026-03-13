@@ -51,6 +51,19 @@
         "conventions::programs_over_improvisation"
       ],
       "timestamp": "2026-03-13T09:04:55Z"
+    },
+    {
+      "id": 5,
+      "summary": "Implemented: mindmap as memory grid in SKILL.md and CLAUDE.md — every node is a behavioral directive",
+      "far_memory_refs": [
+        9,
+        10
+      ],
+      "mind_memory_refs": [
+        "architecture::mind_first_strategy",
+        "conventions::programs_over_improvisation"
+      ],
+      "timestamp": "2026-03-13T09:08:49Z"
     }
   ]
 }

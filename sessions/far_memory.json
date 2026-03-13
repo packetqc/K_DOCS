@@ -48,6 +48,18 @@
       "role": "assistant",
       "content": "Confirmed: the mindmap IS the memory grid — every node is a behavior directive. Identified gap: skill instructions focus on displaying, not on applying nodes as operational rules. Proposed strengthening the skill with explicit 'memory grid' framing where each node group (architecture, conventions, constraints, work, session) maps to a behavioral category.",
       "timestamp": "2026-03-13T09:04:55Z"
+    },
+    {
+      "id": 9,
+      "role": "user",
+      "content": "Yes please implement the memory grid framing in the skill and project instructions.",
+      "timestamp": "2026-03-13T09:08:49Z"
+    },
+    {
+      "id": 10,
+      "role": "assistant",
+      "content": "Implemented memory grid framing in both SKILL.md and CLAUDE.md. SKILL.md: added 'The Mindmap Is Your Memory Grid' section with node-to-behavior mapping and walk-the-tree directive. CLAUDE.md: updated Mind-First core principle to include memory grid contract, renamed Node Groups to Behavioral Mapping with directive categories.",
+      "timestamp": "2026-03-13T09:08:49Z"
     }
   ],
   "archives": []
