@@ -91,6 +91,13 @@
       "far_memory_refs": [41, 42],
       "mind_memory_refs": ["knowledge::conventions::mindmap_theme_light"],
       "timestamp": "2026-03-13T00:21:30Z"
+    },
+    {
+      "id": 14,
+      "summary": "User requested normal mode view. Output reduced mindmap with only session, work, documentation nodes plus recent context summaries.",
+      "far_memory_refs": [43, 44],
+      "mind_memory_refs": ["knowledge::session", "knowledge::work", "knowledge::documentation"],
+      "timestamp": "2026-03-13T00:22:30Z"
     }
   ]
 }
