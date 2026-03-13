@@ -1,4 +1,5 @@
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1565C0', 'primaryTextColor': '#FFFFFF', 'primaryBorderColor': '#0D47A1', 'secondaryColor': '#42A5F5', 'secondaryTextColor': '#0D47A1', 'tertiaryColor': '#90CAF9', 'tertiaryTextColor': '#0D47A1', 'noteBkgColor': '#BBDEFB', 'noteTextColor': '#0D47A1' }}}%%
 mindmap
   root((knowledge))
     session
@@ -29,8 +30,7 @@ mindmap
       no_cross_session_access
     conventions
       mindmap_display_layout
-        full top-down half/half
-        normal left-right half/half
+        left-right half/half both modes
       mindmap_theme_light
         top level solid blue white bold uppercase
         children lighter blue per depth dark blue bold uppercase

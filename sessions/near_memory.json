@@ -63,6 +63,13 @@
       "far_memory_refs": [29, 30, 31, 32],
       "mind_memory_refs": ["knowledge::conventions::mindmap_display_layout", "knowledge::conventions::mindmap_theme_light"],
       "timestamp": "2026-03-13T00:16:30Z"
+    },
+    {
+      "id": 10,
+      "summary": "User shared GitHub rendered mindmap screenshot. Discovered mermaid mindmaps only support left-right layout (no top-down). Updated convention to left-right for both modes. Added mermaid theme init directive with light blue color scheme (primary #1565C0, secondary #42A5F5, tertiary #90CAF9).",
+      "far_memory_refs": [33, 34],
+      "mind_memory_refs": ["knowledge::conventions::mindmap_display_layout", "knowledge::conventions::mindmap_theme_light", "knowledge::constraints"],
+      "timestamp": "2026-03-13T00:17:30Z"
     }
   ]
 }

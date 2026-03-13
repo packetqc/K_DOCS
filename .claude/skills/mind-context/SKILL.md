@@ -28,13 +28,12 @@ for s in data['summaries'][-3:]:
 **Display conventions:**
 
 **Normal mode** (no arguments): Left-right half/half layout.
-- Present **session** on the LEFT side
-- Present **work** and **documentation** on the RIGHT side
-- Omit architecture, constraints, and conventions subtrees
+- Present only the LEFT side nodes: **session**, **work**, **documentation**
+- Omit the RIGHT side: architecture, constraints, and conventions subtrees
 
-**Full mode** (argument = "full"): Top-down half/half layout.
+**Full mode** (argument = "full"): Left-right half/half layout.
 - Present the complete mindmap as-is from the file
-- Top half (first in source): session, work, documentation
-- Bottom half (last in source): architecture, constraints, conventions
+- LEFT side (first in source): session, work, documentation
+- RIGHT side (last in source): architecture, constraints, conventions
 
 **After presenting the context**, confirm you are in an active K_MIND session and will maintain all memory files in real-time per CLAUDE.md instructions. Read CLAUDE.md now for full maintenance instructions.
