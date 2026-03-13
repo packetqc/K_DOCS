@@ -3,7 +3,11 @@
 mindmap
   root((knowledge))
     session
-      node readability fix
+      session init and context load
+      empty session node fix
+      human readable node text convention
+      removed redundant inline refs rule
+      reserved word syntax error fix
     work
     documentation
     architecture
