@@ -53,7 +53,6 @@ mindmap
       mindmap_node_text
         human readable descriptions only
         no raw IDs or internal pointers
-        inline refs go in separate metadata not node labels
       programs_over_improvisation
         claude-as-engine is bootstrap only
         scripts are the architecture implementation
