@@ -1,5 +1,5 @@
 ```mermaid
-%%{init: {"themeVariables": {"boxBorderColor": "#f00","boxBackgroundColor": "#0f0"}}}%%
+%%{init: {'theme': 'default'}}%%
 mindmap
   root((knowledge))
     session
