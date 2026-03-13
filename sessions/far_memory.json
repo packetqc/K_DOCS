@@ -1,30 +1,18 @@
 {
   "session_id": "f37f24fb-b238-472a-8e3a-65f4d5a21c8c",
-  "messages": [
+  "messages": [],
+  "archives": [
     {
-      "id": 1,
-      "role": "user",
-      "content": "hi",
-      "timestamp": "2026-03-13T09:11:11Z"
-    },
-    {
-      "id": 2,
-      "role": "assistant",
-      "content": "Loaded mind-context, displayed reduced mindmap (session/work/documentation). Fresh session, no summaries yet. Greeted user.",
-      "timestamp": "2026-03-13T09:11:11Z"
-    },
-    {
-      "id": 3,
-      "role": "user",
-      "content": "what is the call to recall last conversation? yes, list them",
-      "timestamp": "2026-03-13T09:13:03Z"
-    },
-    {
-      "id": 4,
-      "role": "assistant",
-      "content": "Explained memory_recall.py usage (--list, --subject, --full). Ran --list: no archived topics yet. Explained that archives require explicit far_memory_split before session end. Noted mindmap and domain JSONs persist across sessions.",
-      "timestamp": "2026-03-13T09:13:03Z"
+      "file": "archives/far_memory_session_f37f24fb_b238_472a_8e3a_65f4d5a21c8c_20260313T091732.json",
+      "topic": "session-f37f24fb-b238-472a-8e3a-65f4d5a21c8c",
+      "message_range": [
+        1,
+        4
+      ],
+      "near_memory_range": [
+        1,
+        2
+      ]
     }
-  ],
-  "archives": []
+  ]
 }

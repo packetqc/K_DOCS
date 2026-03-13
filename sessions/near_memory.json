@@ -1,30 +1,4 @@
 {
   "session_id": "f37f24fb-b238-472a-8e3a-65f4d5a21c8c",
-  "summaries": [
-    {
-      "id": 1,
-      "summary": "Session start: loaded mind-context, displayed mindmap, greeted user",
-      "far_memory_refs": [
-        1,
-        2
-      ],
-      "mind_memory_refs": [
-        "session"
-      ],
-      "timestamp": "2026-03-13T09:11:11Z"
-    },
-    {
-      "id": 2,
-      "summary": "User asked about memory recall — no archives exist yet, explained archiving workflow",
-      "far_memory_refs": [
-        3,
-        4
-      ],
-      "mind_memory_refs": [
-        "conventions::far_memory_topic_splitting",
-        "architecture::programs_over_improvisation"
-      ],
-      "timestamp": "2026-03-13T09:13:03Z"
-    }
-  ]
+  "summaries": []
 }

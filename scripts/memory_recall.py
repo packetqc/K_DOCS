@@ -52,11 +52,24 @@ def search_archives(far_data, near_data, subject, full=False):
             print(f"\n=== ARCHIVED TOPIC: {archive['topic']} ===")
             print(f"    messages: {archive['message_range']}, near: {archive['near_memory_range']}")
 
-            # Show relevant near_memory summaries
-            start_near, end_near = archive['near_memory_range']
-            for s in near_data.get('summaries', []):
-                if start_near <= s['id'] <= end_near:
+            # Show relevant near_memory summaries (check embedded in archive first, then active near_memory)
+            archive_path = os.path.join(SESSIONS_DIR, archive['file'])
+            embedded_summaries = []
+            if os.path.exists(archive_path):
+                try:
+                    archive_file = load_json(archive_path)
+                    embedded_summaries = archive_file.get('summaries', [])
+                except (json.JSONDecodeError, KeyError):
+                    pass
+
+            if embedded_summaries:
+                for s in embedded_summaries:
                     print(f"  [near:{s['id']}] {s['summary']}")
+            else:
+                start_near, end_near = archive['near_memory_range']
+                for s in near_data.get('summaries', []):
+                    if start_near <= s['id'] <= end_near:
+                        print(f"  [near:{s['id']}] {s['summary']}")
 
             # Show full messages if requested
             if full:
