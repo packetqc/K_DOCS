@@ -128,6 +128,10 @@ def main():
     old_far, archived_count = auto_archive_previous_session(old_far, old_near)
     existing_archives = old_far.get('archives', [])
 
+    # Capture last session summaries for continuity
+    last_session_summaries = old_near.get('summaries', [])
+    last_session_id = old_near.get('session_id', None)
+
     # New session: fresh files with archive index preserved
     far_data = {
         'session_id': args.session_id,
@@ -140,6 +144,12 @@ def main():
         'session_id': args.session_id,
         'summaries': []
     }
+    # Carry forward last session context for continuity on start
+    if last_session_summaries:
+        near_data['last_session'] = {
+            'session_id': last_session_id,
+            'summaries': last_session_summaries
+        }
     save_json(NEAR_MEMORY, near_data)
 
     print(f"OK: initialized session {args.session_id}")
@@ -148,6 +158,8 @@ def main():
         print(f"    auto-archived previous session: {archived_count} messages")
     print(f"    far_memory: empty (fresh)")
     print(f"    near_memory: empty (fresh)")
+    if last_session_summaries:
+        print(f"    last_session: {len(last_session_summaries)} summaries carried forward from {last_session_id}")
 
 
 if __name__ == '__main__':
