@@ -25,6 +25,16 @@ for s in data['summaries'][-3:]:
 
 ---
 
-**Mode**: If arguments contain "full", present the complete mindmap above as-is. Otherwise, present only the dynamic node subtrees: **session**, **work**, **conventions**, **documentation** — omit the architecture and constraints subtrees from your output.
+**Display conventions:**
+
+**Normal mode** (no arguments): Left-right half/half layout.
+- Present **session** on the LEFT side
+- Present **work** and **documentation** on the RIGHT side
+- Omit architecture, constraints, and conventions subtrees
+
+**Full mode** (argument = "full"): Top-down half/half layout.
+- Present the complete mindmap as-is from the file
+- Top half (first in source): session, work, documentation
+- Bottom half (last in source): architecture, constraints, conventions
 
 **After presenting the context**, confirm you are in an active K_MIND session and will maintain all memory files in real-time per CLAUDE.md instructions. Read CLAUDE.md now for full maintenance instructions.

@@ -168,6 +168,30 @@
       "role": "assistant",
       "content": "Added full mode: /mind-context shows reduced mindmap (dynamic nodes only), /mind-context full shows complete mindmap with all 6 groups. Built the skill, updated CLAUDE.md lifecycle events to use /mind-context.",
       "timestamp": "2026-03-13T00:14:30Z"
+    },
+    {
+      "id": 29,
+      "role": "user",
+      "content": "first convention to define for the mindmap: on full display and markdown github file: half/half top down disposition — displayed half down diagram: architectural, constraints, conventions, all top level groups that are system related — displayed half top diagram: session, work, documentation. on normal mindmap output: half/half left right disposition — on the left: the session group — on the right: the work and the documentation groups.",
+      "timestamp": "2026-03-13T00:15:00Z"
+    },
+    {
+      "id": 30,
+      "role": "assistant",
+      "content": "Defined first convention: mindmap display layout. Full display uses top-down half/half (session,work,doc top; architecture,constraints,conventions bottom). Normal display uses left-right half/half (session left; work,documentation right). Reordered mindmap source nodes accordingly.",
+      "timestamp": "2026-03-13T00:15:30Z"
+    },
+    {
+      "id": 31,
+      "role": "user",
+      "content": "add on the mindmap convention, theme colors, first one to define is light: top level group: more solid blue colors, fonts are white bold uppercase. child tree nodes of top level group: tend to lighter blue at each depth level, boxes are light blue from depth level, fonts are dark blue bold uppercase. inline references lowercase, not bold, with respective box color font.",
+      "timestamp": "2026-03-13T00:16:00Z"
+    },
+    {
+      "id": 32,
+      "role": "assistant",
+      "content": "Defined light theme convention: top-level nodes solid blue with white bold uppercase fonts. Child nodes progressively lighter blue per depth with dark blue bold uppercase fonts. Inline refs lowercase, not bold, font color matches box color. Added to conventions.json and mindmap. Updated SKILL.md with display layout instructions for both modes.",
+      "timestamp": "2026-03-13T00:16:30Z"
     }
   ]
 }

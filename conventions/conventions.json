@@ -1,5 +1,20 @@
 {
   "domain": "conventions",
-  "references": [],
+  "references": [
+    {
+      "id": "conv-001",
+      "name": "mindmap_display_layout",
+      "description": "Full display: top-down half/half — top: session, work, documentation; bottom: architecture, constraints, conventions. Normal display: left-right half/half — left: session; right: work, documentation.",
+      "far_memory_refs": [29, 30],
+      "mind_memory_refs": ["knowledge::conventions::mindmap_display_layout"]
+    },
+    {
+      "id": "conv-002",
+      "name": "mindmap_theme_light",
+      "description": "Light theme colors. Top-level groups: solid blue boxes, white bold uppercase fonts. Child nodes: progressively lighter blue boxes at each depth, dark blue bold uppercase fonts. Inline references: lowercase, not bold, font color matches box color of their depth level.",
+      "far_memory_refs": [31, 32],
+      "mind_memory_refs": ["knowledge::conventions::mindmap_theme_light"]
+    }
+  ],
   "external_files": []
 }

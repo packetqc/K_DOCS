@@ -56,6 +56,13 @@
       "far_memory_refs": [25, 26, 27, 28],
       "mind_memory_refs": ["knowledge::architecture::mind_context_skill"],
       "timestamp": "2026-03-13T00:14:30Z"
+    },
+    {
+      "id": 9,
+      "summary": "Defined two conventions: (1) mindmap_display_layout — full mode top-down half/half (session,work,doc top; arch,constraints,conventions bottom), normal mode left-right half/half (session left; work,doc right). (2) mindmap_theme_light — solid blue top-level nodes with white bold uppercase, lighter blue children per depth with dark blue bold uppercase, inline refs lowercase not bold with box color font. Reordered mindmap source. Updated SKILL.md with layout instructions.",
+      "far_memory_refs": [29, 30, 31, 32],
+      "mind_memory_refs": ["knowledge::conventions::mindmap_display_layout", "knowledge::conventions::mindmap_theme_light"],
+      "timestamp": "2026-03-13T00:16:30Z"
     }
   ]
 }

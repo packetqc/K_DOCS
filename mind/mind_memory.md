@@ -1,6 +1,9 @@
 ```mermaid
 mindmap
   root((knowledge))
+    session
+    work
+    documentation
     architecture
       persistence_format
         JSON for performance
@@ -24,8 +27,12 @@ mindmap
         called at start resume compaction
     constraints
       no_cross_session_access
-    session
-    work
     conventions
-    documentation
+      mindmap_display_layout
+        full top-down half/half
+        normal left-right half/half
+      mindmap_theme_light
+        top level solid blue white bold uppercase
+        children lighter blue per depth dark blue bold uppercase
+        inline refs lowercase not bold box color font
 ```
