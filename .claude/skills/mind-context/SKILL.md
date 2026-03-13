@@ -171,7 +171,7 @@ print('Run /context for Claude session token stats')
 3. **OUTPUT** three sections:
    - **Mindmap**: mermaid code block rendered per convention (normal or full mode)
    - **Recent Context**: near_memory summaries categorized by top-level group (conversation, conventions, work, documentation) — shown under the mindmap
-   - **Memory Stats**: the compact one-liner from the Memory Stats section above (far/near/archived/nodes/tokens)
+   - **Memory Stats**: the memory stats table from the Memory Stats section above (Store/Count/Size/Tokens/Loaded)
 4. A session confirmation line
 
 **DO NOT** silently consume this data. **DO NOT** just say "context loaded". The user MUST see the mindmap, categorized context, and memory stats rendered in the conversation.

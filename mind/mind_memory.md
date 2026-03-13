@@ -1,11 +1,14 @@
 ```mermaid
-%%{init: {'theme': 'default'}}%%
+%%{init: {'theme': 'default', 'mindmap': {'useMaxWidth': true}}}%%
 mindmap
   root((knowledge))
     session
-      archive fallback for last session context
-      ghost file fix in skill directory
-      normal mode layout convention refined
+      near memory
+        conversation
+        conventions
+        work
+        documentation
+      far memory
     work
     documentation
     architecture
