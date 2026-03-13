@@ -151,6 +151,19 @@
         "session"
       ],
       "timestamp": "2026-03-13T09:51:13Z"
+    },
+    {
+      "id": 13,
+      "summary": "convention: always render diagram after changes, never make user ask twice",
+      "far_memory_refs": [
+        25,
+        26
+      ],
+      "mind_memory_refs": [
+        "conventions",
+        "constraints"
+      ],
+      "timestamp": "2026-03-13T09:51:49Z"
     }
   ],
   "last_session": {

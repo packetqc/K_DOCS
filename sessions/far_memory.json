@@ -144,6 +144,18 @@
       "role": "assistant",
       "content": "Updated display_layout convention: radial auto-layout, normal mode session expanded plus groups collapsed, full mode all expanded. Fixed mindmap nodes and conventions.json.",
       "timestamp": "2026-03-13T09:51:13Z"
+    },
+    {
+      "id": 25,
+      "role": "user",
+      "content": "do not make me wait and repeat - always show the diagram after changes without being asked",
+      "timestamp": "2026-03-13T09:51:49Z"
+    },
+    {
+      "id": 26,
+      "role": "assistant",
+      "content": "Understood. Always render the diagram immediately after any change. Never make the user ask to see it. This is a core convention.",
+      "timestamp": "2026-03-13T09:51:49Z"
     }
   ],
   "archives": [
