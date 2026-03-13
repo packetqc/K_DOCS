@@ -3,6 +3,7 @@
 mindmap
   root((knowledge))
     session
+      c7919903 session start [far:1,near:1]
     work
     documentation
     architecture
