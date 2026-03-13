@@ -10,8 +10,8 @@
     },
     {
       "id": "conv-002",
-      "name": "mindmap_theme_light",
-      "description": "Light theme colors. Top-level groups: solid blue boxes, white bold uppercase fonts. Child nodes: progressively lighter blue boxes at each depth, dark blue bold uppercase fonts. Inline references: lowercase, not bold, font color matches box color of their depth level.",
+      "name": "theme_default",
+      "description": "Use mermaid default theme for mindmap rendering. Always include %%{init: {'theme': 'default'}}%% directive in output. This provides automatic multi-color nodes per branch depth. Custom blue theme is not supported by mermaid mindmap type.",
       "far_memory_refs": [31, 32],
       "mind_memory_refs": ["knowledge::conventions::mindmap_theme_light"]
     }

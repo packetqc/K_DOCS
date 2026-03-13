@@ -1,5 +1,5 @@
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1565C0', 'primaryTextColor': '#FFFFFF', 'primaryBorderColor': '#0D47A1', 'secondaryColor': '#42A5F5', 'secondaryTextColor': '#0D47A1', 'tertiaryColor': '#90CAF9', 'tertiaryTextColor': '#0D47A1', 'noteBkgColor': '#BBDEFB', 'noteTextColor': '#0D47A1' }}}%%
+%%{init: {'theme': 'default'}}%%
 mindmap
   root((knowledge))
     session
@@ -48,10 +48,9 @@ mindmap
         radial mermaid auto layout
         normal mode session expanded plus groups collapsed
         full mode all nodes expanded
-      mindmap_theme_light
-        top level solid blue white bold uppercase
-        children lighter blue per depth dark blue bold uppercase
-        inline refs lowercase not bold box color font
+      theme_default
+        mermaid default theme with auto colors
+        init directive always included in output
       far_memory_topic_splitting
         split by summarized subjects not size
         archives folder topic slug named files
