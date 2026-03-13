@@ -35,11 +35,51 @@ def main():
     config = load_config()
 
     if args.list:
-        print(f"Default depth: {config['default_depth']}")
-        print(f"Omitted branches: {', '.join(config.get('omit', []))}")
-        print("Overrides:")
-        for path, depth in config.get('overrides', {}).items():
-            print(f"  {path}: {depth}")
+        # Read mindmap to find top-level branches and their max depths
+        mind_path = os.path.join(os.path.dirname(__file__), '..', 'mind', 'mind_memory.md')
+        branches = {}
+        stack = []
+        with open(mind_path) as f:
+            lines = f.readlines()
+        bt = chr(96) * 3
+        in_mermaid = False
+        root_indent = None
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith(bt):
+                in_mermaid = not in_mermaid
+                continue
+            if not in_mermaid or not stripped:
+                continue
+            if stripped.startswith('%%{') or stripped == 'mindmap' or 'root(' in stripped:
+                continue
+            indent = len(line.rstrip('\n')) - len(line.rstrip('\n').lstrip())
+            level = indent // 2
+            if root_indent is None:
+                root_indent = level
+            depth_from_top = level - root_indent + 1
+            # Track ancestors
+            while stack and stack[-1][0] >= level:
+                stack.pop()
+            stack.append((level, stripped))
+            top = stack[0][1] if stack else stripped
+            if depth_from_top == 1:
+                branches[stripped] = 1
+            if top in branches:
+                branches[top] = max(branches[top], depth_from_top)
+
+        default = config['default_depth']
+        omit = config.get('omit', [])
+        overrides = config.get('overrides', {})
+
+        print('| Branch | Max Depth | Effective | Source |')
+        print('|:-------|:---------:|:---------:|:-------|')
+        for branch, max_d in branches.items():
+            effective = 0 if branch in omit else default
+            source = 'omit list' if branch in omit else f'default ({default})'
+            print(f'| {branch} | {max_d} | {effective} | {source} |')
+        for opath, odepth in overrides.items():
+            print(f'| {opath} | - | {odepth} | **override** |')
         return
 
     if args.default is not None:

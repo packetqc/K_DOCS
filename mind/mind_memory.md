@@ -10,6 +10,14 @@ mindmap
         documentation
       far memory
     work
+      display-conventions-and-stats-system
+        depth_config.json human editable depth settings
+        set_depth.py manage depth config
+        mindmap_filter.py config driven depth filtering
+        mind-stats skill standalone memory stats
+        mind-depth skill standalone depth config
+        memory_stats.py shared stats with context availability
+        convention fixes applied and verified
     documentation
     architecture
       persistence_format

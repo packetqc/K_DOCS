@@ -1,5 +1,26 @@
 {
   "domain": "work",
-  "references": [],
+  "references": [
+    {
+      "name": "display-conventions-and-stats-system",
+      "description": "Session topic covering display convention fixes and stats system build-out. Conventions: fixed stale session nodes, added useMaxWidth, fixed stats format, added empty-category rule, near memory depth 4, far_memory verbatim rule. Work: created depth_config.json, set_depth.py, mindmap_filter.py, memory_stats.py, /mind-stats skill, /mind-depth skill. All verified with no regressions.",
+      "status": "completed",
+      "session": "7f0727cf-f038-4102-a3c7-3b6095f3b8ce",
+      "far_memory_refs": [1, 34],
+      "files_created": [
+        "conventions/depth_config.json",
+        "scripts/set_depth.py",
+        "scripts/mindmap_filter.py",
+        "scripts/memory_stats.py",
+        ".claude/skills/mind-stats/SKILL.md",
+        ".claude/skills/mind-depth/SKILL.md"
+      ],
+      "files_modified": [
+        "mind/mind_memory.md",
+        "conventions/conventions.json",
+        ".claude/skills/mind-context/SKILL.md"
+      ]
+    }
+  ],
   "external_files": []
 }
