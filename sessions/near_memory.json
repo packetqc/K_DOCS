@@ -88,6 +88,19 @@
         "conventions::mindmap_theme_light"
       ],
       "timestamp": "2026-03-13T09:38:36Z"
+    },
+    {
+      "id": 8,
+      "summary": "fix: mermaid reserved word 'mindmap' in node text caused syntax error, added node_text_rules convention",
+      "far_memory_refs": [
+        15,
+        16
+      ],
+      "mind_memory_refs": [
+        "conventions::node_text_rules",
+        "constraints"
+      ],
+      "timestamp": "2026-03-13T09:41:09Z"
     }
   ],
   "last_session": {

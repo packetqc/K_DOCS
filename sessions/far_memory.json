@@ -84,6 +84,18 @@
       "role": "assistant",
       "content": "Understood. Removed init directive from rendered mermaid output and near:N prefixes from recent context display. These are internal metadata only.",
       "timestamp": "2026-03-13T09:38:36Z"
+    },
+    {
+      "id": 15,
+      "role": "user",
+      "content": "mermaid syntax error - mindmap is a reserved keyword causing render failure",
+      "timestamp": "2026-03-13T09:41:09Z"
+    },
+    {
+      "id": 16,
+      "role": "assistant",
+      "content": "Fixed: removed 'mindmap' reserved word from all node text in mind_memory.md. Added node_text_rules convention (conv-005) to conventions.json covering human-readable text, no IDs, and avoiding mermaid reserved words.",
+      "timestamp": "2026-03-13T09:41:09Z"
     }
   ],
   "archives": [
