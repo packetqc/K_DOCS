@@ -1,17 +1,17 @@
 {
-  "session_id": "f37f24fb-b238-472a-8e3a-65f4d5a21c8c",
+  "session_id": "7387a67e-dcae-4e2d-b3e7-44a4c41fb5f5",
   "messages": [
     {
       "id": 1,
       "role": "user",
-      "content": "User reported fresh session init loses conversations. Asked to fix it. Also asked why create fresh files and noted it should not be in mindmap.",
-      "timestamp": "2026-03-13T09:18:15Z"
+      "content": "hi",
+      "timestamp": "2026-03-13T09:21:40Z"
     },
     {
       "id": 2,
       "role": "assistant",
-      "content": "Fixed session_init.py to auto-archive previous session (messages + summaries) before wiping. Updated memory_recall.py to read embedded summaries from auto-archives. Tested end-to-end. Agreed no mindmap node needed — script-level behavior under programs_over_improvisation.",
-      "timestamp": "2026-03-13T09:18:15Z"
+      "content": "Loaded mind-context, displayed reduced mindmap (session/work/documentation nodes). Fresh session with no active summaries. Greeted user and confirmed K_MIND session active.",
+      "timestamp": "2026-03-13T09:21:40Z"
     }
   ],
   "archives": [
@@ -25,6 +25,18 @@
       "near_memory_range": [
         1,
         2
+      ]
+    },
+    {
+      "file": "archives/far_memory_session_f37f24fb_b238_472a_8e3a_65f4d5a21c8c_20260313T092125.json",
+      "topic": "session-f37f24fb-b238-472a-8e3a-65f4d5a21c8c",
+      "message_range": [
+        1,
+        2
+      ],
+      "near_memory_range": [
+        1,
+        1
       ]
     }
   ]
