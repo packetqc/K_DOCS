@@ -202,6 +202,19 @@
         "conventions::theme_default"
       ],
       "timestamp": "2026-03-13T09:58:08Z"
+    },
+    {
+      "id": 17,
+      "summary": "fix: cleaned up incorrect convention claims, user frustrated with repeated breakages",
+      "far_memory_refs": [
+        33,
+        34
+      ],
+      "mind_memory_refs": [
+        "conventions::node_text_rules",
+        "conventions::theme_default"
+      ],
+      "timestamp": "2026-03-13T09:59:02Z"
     }
   ],
   "last_session": {

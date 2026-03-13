@@ -192,6 +192,18 @@
       "role": "assistant",
       "content": "Switched to mermaid default theme. Updated mind_memory.md init directive and convention. theme_default: always include init directive with default theme for auto-colored nodes.",
       "timestamp": "2026-03-13T09:58:08Z"
+    },
+    {
+      "id": 33,
+      "role": "user",
+      "content": "just fix what was defined, dont add nodes. also stop breaking things when updating",
+      "timestamp": "2026-03-13T09:59:02Z"
+    },
+    {
+      "id": 34,
+      "role": "assistant",
+      "content": "Fixed node_text_rules convention removing incorrect init directive claim. Fixed stale mind_memory_ref in conv-002. Need to be more careful with changes - verify before committing.",
+      "timestamp": "2026-03-13T09:59:02Z"
     }
   ],
   "archives": [
