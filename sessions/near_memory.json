@@ -38,6 +38,19 @@
         "session"
       ],
       "timestamp": "2026-03-13T09:35:23Z"
+    },
+    {
+      "id": 4,
+      "summary": "fix: removed redundant inline refs convention line, brackets break mermaid syntax is already known",
+      "far_memory_refs": [
+        7,
+        8
+      ],
+      "mind_memory_refs": [
+        "conventions::mindmap_node_text",
+        "conventions::mindmap_theme_light"
+      ],
+      "timestamp": "2026-03-13T09:36:25Z"
     }
   ],
   "last_session": {

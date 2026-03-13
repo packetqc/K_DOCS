@@ -36,6 +36,18 @@
       "role": "assistant",
       "content": "Fixed session node to use human-readable description. Added mindmap_node_text convention: human readable descriptions only, no raw IDs or internal pointers.",
       "timestamp": "2026-03-13T09:35:23Z"
+    },
+    {
+      "id": 7,
+      "role": "user",
+      "content": "inline refs with brackets cause mermaid syntax errors, should know that by convention",
+      "timestamp": "2026-03-13T09:36:25Z"
+    },
+    {
+      "id": 8,
+      "role": "assistant",
+      "content": "Removed redundant inline refs line from mindmap_node_text convention. Brackets breaking mermaid is already known from existing conventions.",
+      "timestamp": "2026-03-13T09:36:25Z"
     }
   ],
   "archives": [
