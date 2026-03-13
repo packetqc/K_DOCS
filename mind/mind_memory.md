@@ -18,6 +18,10 @@ mindmap
       folder_per_group
         each top level group has own folder
         domain specific JSON for persisted refs
+      mind_context_skill
+        /mind-context reduced dynamic nodes
+        /mind-context full complete mindmap
+        called at start resume compaction
     constraints
       no_cross_session_access
     session

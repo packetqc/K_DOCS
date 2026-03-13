@@ -18,20 +18,21 @@ Always read `mind/mind_memory.md` FIRST as your primary context. This is the hiv
 ## Lifecycle Events
 
 ### On Session Start
-1. Read `mind/mind_memory.md` first
+1. Run `/mind-context` to load the reduced mindmap and recent context
 2. Begin real-time maintenance of all memory files
-3. Only read session/domain files when needing details
 
 ### On Resume
-1. Re-read `mind/mind_memory.md` to restore context
+1. Run `/mind-context` to restore context from the mindmap and recent summaries
 2. Dig into memory files as needed for continuity
 3. Continue real-time maintenance
 
 ### On Compaction Recovery
-1. Re-read `mind/mind_memory.md` — this is your primary recovery source
-2. Read `sessions/near_memory.json` for recent summary context
-3. Dig into `sessions/far_memory.json` only if needed for specific details
-4. Continue real-time maintenance
+1. Run `/mind-context` to recover context from the mindmap and recent summaries
+2. Dig into `sessions/far_memory.json` only if needed for specific details
+3. Continue real-time maintenance
+
+### Full Context
+Run `/mind-context full` when you need the complete mindmap including architecture and constraints trees.
 
 ## Every Turn — Real-Time Maintenance
 

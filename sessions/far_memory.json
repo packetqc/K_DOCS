@@ -144,6 +144,30 @@
       "role": "assistant",
       "content": "Confirmed: session files (far_memory, near_memory) are the dynamic brainstorming record. They reference accomplished work in work/ for concordance and continuity of building activities. Work is the stable anchor point. Plan approved and implementation started.",
       "timestamp": "2026-03-13T00:12:30Z"
+    },
+    {
+      "id": 25,
+      "role": "user",
+      "content": "can you build a skill that will be called by user and by claude to output the reduced mind_memory map without architecture and constraints trees ? output after the mindmap the results of the context call. this skill is to be called at start, resume or return from compaction of the user session.",
+      "timestamp": "2026-03-13T00:13:00Z"
+    },
+    {
+      "id": 26,
+      "role": "assistant",
+      "content": "Researched Claude Code custom skills system. Designed /mind-context skill at .claude/skills/mind-context/SKILL.md. User requested full mode option added.",
+      "timestamp": "2026-03-13T00:13:30Z"
+    },
+    {
+      "id": 27,
+      "role": "user",
+      "content": "add also a full option for full mind map presentation",
+      "timestamp": "2026-03-13T00:14:00Z"
+    },
+    {
+      "id": 28,
+      "role": "assistant",
+      "content": "Added full mode: /mind-context shows reduced mindmap (dynamic nodes only), /mind-context full shows complete mindmap with all 6 groups. Built the skill, updated CLAUDE.md lifecycle events to use /mind-context.",
+      "timestamp": "2026-03-13T00:14:30Z"
     }
   ]
 }

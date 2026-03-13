@@ -49,6 +49,13 @@
       "far_memory_refs": [21, 22, 23, 24],
       "mind_memory_refs": ["knowledge::architecture::folder_per_group", "knowledge::session", "knowledge::work"],
       "timestamp": "2026-03-13T00:12:30Z"
+    },
+    {
+      "id": 8,
+      "summary": "Created /mind-context skill (.claude/skills/mind-context/SKILL.md). Default mode shows reduced mindmap (session, work, conventions, documentation only). /mind-context full shows complete mindmap. Outputs recent near_memory summaries after the mindmap. Updated CLAUDE.md lifecycle events to use /mind-context on start, resume, and compaction recovery.",
+      "far_memory_refs": [25, 26, 27, 28],
+      "mind_memory_refs": ["knowledge::architecture::mind_context_skill"],
+      "timestamp": "2026-03-13T00:14:30Z"
     }
   ]
 }
