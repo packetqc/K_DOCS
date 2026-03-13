@@ -72,6 +72,66 @@
       "role": "assistant",
       "content": "Running memory_append for all missed turns to populate far_memory and near_memory with session activity",
       "timestamp": "2026-03-13T20:21:48Z"
+    },
+    {
+      "id": 13,
+      "role": "user",
+      "content": "set depth level of session/near memory to 4 and save to convention. Set conventions/mermaid/mind map depth 3 and conventions/rules/system depth 3.",
+      "timestamp": "2026-03-13T20:25:53Z"
+    },
+    {
+      "id": 14,
+      "role": "assistant",
+      "content": "Added near memory depth 4 node to display_layout, updated conventions.json and SKILL.md. Conventions branches at default depth 3.",
+      "timestamp": "2026-03-13T20:25:53Z"
+    },
+    {
+      "id": 15,
+      "role": "user",
+      "content": "make depth levels manageable in a file for humans to customize, as a skill command with path and level",
+      "timestamp": "2026-03-13T20:30:51Z"
+    },
+    {
+      "id": 16,
+      "role": "assistant",
+      "content": "Created depth_config.json, set_depth.py, mindmap_filter.py. Updated SKILL.md to use filter script. Supports /mind-context, /mind-context full, /mind-context path depth. All prior fixes verified intact.",
+      "timestamp": "2026-03-13T20:30:51Z"
+    },
+    {
+      "id": 17,
+      "role": "user",
+      "content": "create a separate skill command for the memory stats table from section 3",
+      "timestamp": "2026-03-13T20:32:43Z"
+    },
+    {
+      "id": 18,
+      "role": "assistant",
+      "content": "Created /mind-stats skill that outputs only the memory stats table (Store/Count/Size/Tokens/Loaded)",
+      "timestamp": "2026-03-13T20:32:43Z"
+    },
+    {
+      "id": 19,
+      "role": "user",
+      "content": "do the new skill options update data in real time? conventions must be modified in the json file",
+      "timestamp": "2026-03-13T20:35:01Z"
+    },
+    {
+      "id": 20,
+      "role": "assistant",
+      "content": "Yes, fully real-time. set_depth.py writes to depth_config.json, mindmap_filter.py reads it fresh on every render. Proved with live demo: depth 2 hides children, depth 4 restores them.",
+      "timestamp": "2026-03-13T20:35:01Z"
+    },
+    {
+      "id": 21,
+      "role": "user",
+      "content": "are these skills usable now? /mind-context full",
+      "timestamp": "2026-03-13T20:37:07Z"
+    },
+    {
+      "id": 22,
+      "role": "assistant",
+      "content": "Yes, both /mind-stats and /mind-context full work live in current session. Rendered full mindmap with all nodes, categorized context, and memory stats table.",
+      "timestamp": "2026-03-13T20:37:07Z"
     }
   ],
   "archives": [

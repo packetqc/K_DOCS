@@ -4,7 +4,7 @@
     {
       "id": "conv-001",
       "name": "mindmap_display_layout",
-      "description": "Mermaid mindmap uses radial auto-layout. Default depth 3 for all top-level groups. Architecture and constraints omitted in normal mode. Session has near_memory and far_memory at level 1; near_memory children are top-level group names (conversation, conventions, work, documentation) with recent activities under each category; always show all 4 categories even when empty (display '(none)'). Deep subtrees shrink the radial layout — keep balanced by controlling depth. Full mode: all nodes expanded at max depth. User can request specific branches at specific depths. Section 3: memory stats table (Store/Count/Size/Tokens/Loaded) showing disk vs context occupancy per store, with /context hint.",
+      "description": "Mermaid mindmap uses radial auto-layout. Default depth 3 for all top-level groups. Architecture and constraints omitted in normal mode. Session has near_memory and far_memory at level 1; near_memory at depth 4 (shows category children); near_memory children are top-level group names (conversation, conventions, work, documentation) with recent activities under each category; always show all 4 categories even when empty (display '(none)'). Deep subtrees shrink the radial layout — keep balanced by controlling depth. Full mode: all nodes expanded at max depth. User can request specific branches at specific depths. Section 3: memory stats table (Store/Count/Size/Tokens/Loaded) showing disk vs context occupancy per store, with /context hint.",
       "far_memory_refs": [29, 30],
       "mind_memory_refs": ["knowledge::conventions::mindmap_display_layout"]
     },

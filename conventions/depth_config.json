@@ -1,0 +1,10 @@
+{
+  "default_depth": 3,
+  "omit": [
+    "architecture",
+    "constraints"
+  ],
+  "overrides": {
+    "session/near memory": 4
+  }
+}

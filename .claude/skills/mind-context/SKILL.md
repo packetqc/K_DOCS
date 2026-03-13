@@ -1,6 +1,6 @@
 ---
 name: mind-context
-description: Load K_MIND context — mindmap, recent context categorized by group, and memory stats. Use /mind-context for normal mode, /mind-context full for complete mindmap. Call at session start, resume, or compaction recovery.
+description: "Load K_MIND context. Usage: /mind-context (normal), /mind-context full (all nodes), /mind-context <path> <depth> (set branch depth and render)."
 allowed-tools: Read, Grep, Glob, Bash
 ---
 
@@ -9,7 +9,28 @@ allowed-tools: Read, Grep, Glob, Bash
 Arguments: $ARGUMENTS
 
 ### Mind Map
-!`cat mind/mind_memory.md`
+!`python3 -c "
+import subprocess, sys
+args = '''$ARGUMENTS'''.strip()
+if args == 'full':
+    subprocess.run(['python3', 'scripts/mindmap_filter.py', '--full'])
+elif args and args != 'full':
+    parts = args.rsplit(' ', 1)
+    if len(parts) == 2 and parts[1].lstrip('-').isdigit():
+        path, depth = parts[0], parts[1]
+        # Persist the depth override
+        subprocess.run(['python3', 'scripts/set_depth.py', '--path', path, '--depth', depth])
+        # Render with updated config
+        subprocess.run(['python3', 'scripts/mindmap_filter.py'])
+    else:
+        # Just a path, show it at depth 99 (temp, no save)
+        subprocess.run(['python3', 'scripts/mindmap_filter.py', '--path', args, '--depth', '99'])
+else:
+    subprocess.run(['python3', 'scripts/mindmap_filter.py'])
+"`
+
+### Depth Config
+!`python3 scripts/set_depth.py --list`
 
 ### Display Conventions (from conventions.json)
 !`python3 -c "
@@ -122,7 +143,7 @@ disk_total = fm_size + nm_size + mm_size + arc_size + domain_size + claude_md
 loaded_total = mm_size + nm_size + claude_md + conv_size
 
 print('| Store | Count | Size | ~Tokens | Loaded |')
-print('|-------|-------|------|---------|--------|')
+print('|:------|:------|:-----|:--------|:-------|')
 print(f'| far_memory | {fm_msgs} msgs | {kb(fm_size)} | {tk(fm_size)} | 0 |')
 print(f'| near_memory | {nm_summaries} summaries | {kb(nm_size)} | {tk(nm_size)} | {tk(nm_size)} |')
 print(f'| archives | {archive_count} topics | {kb(arc_size)} | {tk(arc_size)} | 0 |')
@@ -155,23 +176,26 @@ print('Run /context for Claude session token stats')
 
 **Display conventions:**
 
-**Normal mode** (no arguments): Radial auto-layout with `useMaxWidth: true`.
-- Default depth 3 for all top-level groups
-- Architecture and constraints omitted
-- Session has near_memory and far_memory at level 1
-- Near_memory children are top-level group names (conversation, conventions, work, documentation) with recent activities under each
-- Deep subtrees shrink the radial layout — control depth to keep balanced
+Depth filtering is driven by `conventions/depth_config.json` (human-editable). The config specifies:
+- `default_depth`: depth limit for all top-level groups (default: 3)
+- `omit`: branches hidden in normal mode (default: architecture, constraints)
+- `overrides`: per-branch depth overrides (e.g. session/near memory: 4)
 
-**Full mode** (argument = "full"): Radial auto-layout.
-- All nodes expanded at max depth
+**Normal mode** (`/mind-context`): Runs `mindmap_filter.py` with depth config. Uses `%%{init: {'theme': 'default', 'mindmap': {'useMaxWidth': true}}}%%`.
+
+**Full mode** (`/mind-context full`): All nodes at max depth.
+
+**Branch override** (`/mind-context <path> <depth>`): Sets depth for a branch, persists to config, and renders.
+
+**Branch peek** (`/mind-context <path>`): Temporarily shows a branch at full depth without saving.
 
 **MANDATORY OUTPUT RULE:** After loading the data above, you MUST follow this sequence:
 1. **READ** the full mindmap source, display conventions, and memory grid rules — internalize every node as an operational directive BEFORE rendering
-2. **APPLY** conventions: use `%%{init: {'theme': 'default', 'mindmap': {'useMaxWidth': true}}}%%` header, apply normal/full mode depth filtering, respect styling rules
+2. **APPLY** conventions: the mindmap_filter.py script handles depth filtering — output its result as-is in a mermaid code block
 3. **OUTPUT** three sections:
-   - **Mindmap**: mermaid code block rendered per convention (normal or full mode)
-   - **Recent Context**: near_memory summaries categorized by top-level group (conversation, conventions, work, documentation) — shown under the mindmap
-   - **Memory Stats**: the memory stats table from the Memory Stats section above (Store/Count/Size/Tokens/Loaded)
+   - **Mindmap**: the filtered mermaid code block from mindmap_filter.py
+   - **Recent Context**: near_memory summaries categorized by top-level group (conversation, conventions, work, documentation) — always show all 4 categories even when empty
+   - **Memory Stats**: the memory stats table (Store/Count/Size/Tokens/Loaded)
 4. A session confirmation line
 
 **DO NOT** silently consume this data. **DO NOT** just say "context loaded". The user MUST see the mindmap, categorized context, and memory stats rendered in the conversation.
@@ -183,3 +207,5 @@ After outputting, confirm you are in an active K_MIND session, that you have int
 - Split topics: `python3 scripts/far_memory_split.py --topic "..." --start-msg N --end-msg N --start-near N --end-near N`
 - Recall memory: `python3 scripts/memory_recall.py --subject "..." [--full] [--list]`
 - New session: `python3 scripts/session_init.py --session-id "..." [--preserve-active]`
+- Set depth: `python3 scripts/set_depth.py --path "..." --depth N`
+- Filter mindmap: `python3 scripts/mindmap_filter.py [--full] [--path "..." --depth N]`

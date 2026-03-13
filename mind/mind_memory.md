@@ -64,8 +64,10 @@ mindmap
             normal mode omits architecture and constraints
             deep subtrees shrink radial layout control depth
             full mode all nodes at max depth
+            depth config file for human customization
             user can request branch at specific depth
             session has near memory and far memory at level 1
+            near memory depth 4 shows category children
             near memory children are top level group names
             each group child shows recent activities for that category
             conversation child for general session chat

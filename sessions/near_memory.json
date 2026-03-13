@@ -74,6 +74,69 @@
         "session"
       ],
       "timestamp": "2026-03-13T20:21:48Z"
+    },
+    {
+      "id": 7,
+      "summary": "convention: session/near memory depth 4 saved, conventions branches confirmed at depth 3",
+      "far_memory_refs": [
+        13,
+        14
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind_map::display_layout"
+      ],
+      "timestamp": "2026-03-13T20:25:53Z"
+    },
+    {
+      "id": 8,
+      "summary": "feature: depth config file plus set_depth and mindmap_filter scripts, skill now uses programmatic filtering",
+      "far_memory_refs": [
+        15,
+        16
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind_map::display_layout",
+        "conventions::rules::system::programs_over_improvisation"
+      ],
+      "timestamp": "2026-03-13T20:30:51Z"
+    },
+    {
+      "id": 9,
+      "summary": "feature: created /mind-stats skill for standalone memory stats table",
+      "far_memory_refs": [
+        17,
+        18
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind_map::display_layout",
+        "conventions::rules::system::programs_over_improvisation"
+      ],
+      "timestamp": "2026-03-13T20:32:43Z"
+    },
+    {
+      "id": 10,
+      "summary": "confirmed: depth config changes are real-time and persistent via depth_config.json",
+      "far_memory_refs": [
+        19,
+        20
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind_map::display_layout"
+      ],
+      "timestamp": "2026-03-13T20:35:01Z"
+    },
+    {
+      "id": 11,
+      "summary": "verified: both /mind-stats and /mind-context skills work live in current session",
+      "far_memory_refs": [
+        21,
+        22
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind_map::display_layout",
+        "session"
+      ],
+      "timestamp": "2026-03-13T20:37:07Z"
     }
   ],
   "last_session": {
