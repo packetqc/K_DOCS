@@ -1,7 +1,7 @@
 ---
 name: mind-context
 description: Load K_MIND context — reduced mindmap (session, work, conventions, documentation) plus recent session context. Use /mind-context for dynamic nodes only, /mind-context full for complete mindmap. Call at session start, resume, or compaction recovery.
-allowed-tools: Read, Grep, Glob
+allowed-tools: Read, Grep, Glob, Bash
 ---
 
 ## K_MIND — Active Context
@@ -45,4 +45,10 @@ if 'archives' in fm and fm['archives']:
 - LEFT side (first in source): session, work, documentation
 - RIGHT side (last in source): architecture, constraints, conventions
 
-**After presenting the context**, confirm you are in an active K_MIND session and will maintain all memory files in real-time per CLAUDE.md instructions. Read CLAUDE.md now for full maintenance instructions.
+**After presenting the context**, confirm you are in an active K_MIND session and will maintain all memory files using scripts per CLAUDE.md instructions. Read CLAUDE.md now for full maintenance instructions.
+
+**Available scripts** (run these, don't improvise):
+- Every turn: `python3 scripts/memory_append.py --role user --content "..." --role2 assistant --content2 "..." --summary "..." --mind-refs "..."`
+- Split topics: `python3 scripts/far_memory_split.py --topic "..." --start-msg N --end-msg N --start-near N --end-near N`
+- Recall memory: `python3 scripts/memory_recall.py --subject "..." [--full] [--list]`
+- New session: `python3 scripts/session_init.py --session-id "..." [--preserve-active]`

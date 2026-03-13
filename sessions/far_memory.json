@@ -300,6 +300,54 @@
       "role": "assistant",
       "content": "Yes — once topics are archived, Claude reads the archive index from far_memory.json, finds the matching topic, and reads that archive file to recall the full conversation. Near_memory summaries serve as the search/index layer pointing to the right archive by subject.",
       "timestamp": "2026-03-13T00:25:30Z"
+    },
+    {
+      "id": 51,
+      "role": "user",
+      "content": "you mean on new session, this is all there, comes empty session and can recall with mind-context or a subject? from my recent experience, I may have understood that claude behavior is more likely to not to improvise by having much programs and skill runs than claude-as-engine.",
+      "timestamp": "2026-03-13T08:40:15Z"
+    },
+    {
+      "id": 52,
+      "role": "assistant",
+      "content": "User insight confirmed: Claude is more reliable executing programs than improvising from instructions. Built 4 scripts: memory_append.py (every turn), far_memory_split.py (topic archiving), memory_recall.py (subject search), session_init.py (new/resume sessions). Updated CLAUDE.md with programs-over-improvisation principle. Claude-as-engine is now bootstrap only — all mechanical operations use scripts.",
+      "timestamp": "2026-03-13T08:40:15Z"
+    },
+    {
+      "id": 53,
+      "role": "user",
+      "content": "claude must make sure knowledge is persisted in real time.",
+      "timestamp": "2026-03-13T08:40:23Z"
+    },
+    {
+      "id": 54,
+      "role": "assistant",
+      "content": "Acknowledged. All scripts are now in place to ensure real-time persistence. Every turn runs memory_append.py. Knowledge persisted immediately, not deferred.",
+      "timestamp": "2026-03-13T08:40:23Z"
+    },
+    {
+      "id": 55,
+      "role": "user",
+      "content": "so the logic and the programs will always be updated to run the architecture changes.",
+      "timestamp": "2026-03-13T08:40:31Z"
+    },
+    {
+      "id": 56,
+      "role": "assistant",
+      "content": "Yes — when architecture evolves, the scripts evolve with it. Programs are the implementation of the architecture, not separate from it. Architecture changes = script updates. This is now a convention.",
+      "timestamp": "2026-03-13T08:40:31Z"
+    },
+    {
+      "id": 57,
+      "role": "user",
+      "content": "claude should take care of that ..",
+      "timestamp": "2026-03-13T08:40:54Z"
+    },
+    {
+      "id": 58,
+      "role": "assistant",
+      "content": "Yes — Claude automatically maintains the coupling: when architecture evolves, Claude updates the scripts to match. This is convention conv-004 programs_over_improvisation. Added to conventions.json and mindmap.",
+      "timestamp": "2026-03-13T08:40:54Z"
     }
   ]
 }

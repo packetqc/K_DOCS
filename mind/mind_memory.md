@@ -26,6 +26,13 @@ mindmap
         /mind-context reduced dynamic nodes
         /mind-context full complete mindmap
         called at start resume compaction
+      programs_over_improvisation
+        claude-as-engine is bootstrap only
+        scripts handle all mechanical operations
+        memory_append every turn far plus near
+        far_memory_split archive by subject
+        memory_recall search archives by keyword
+        session_init fresh or resume sessions
     constraints
       no_cross_session_access
       claude_desktop_no_skills
@@ -42,4 +49,9 @@ mindmap
         archives folder topic slug named files
         main file keeps active conversation plus index
         recall any memory by subject anytime
+      programs_over_improvisation
+        claude-as-engine is bootstrap only
+        scripts are the architecture implementation
+        architecture changes equal script updates
+        claude maintains this coupling automatically
 ```
