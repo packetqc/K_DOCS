@@ -13,7 +13,7 @@
       "name": "theme_default",
       "description": "Use mermaid default theme for mindmap rendering. Always include %%{init: {'theme': 'default'}}%% directive in output. This provides automatic multi-color nodes per branch depth. Custom blue theme is not supported by mermaid mindmap type.",
       "far_memory_refs": [31, 32],
-      "mind_memory_refs": ["knowledge::conventions::mindmap_theme_light"]
+      "mind_memory_refs": ["knowledge::conventions::theme_default"]
     }
     ,
     {
@@ -33,7 +33,7 @@
     {
       "id": "conv-005",
       "name": "node_text_rules",
-      "description": "Mindmap node text must be human-readable descriptions only. No raw IDs, internal pointers, or inline refs in node labels. Avoid mermaid reserved words (e.g. 'mindmap', 'graph', 'flowchart') in node text as they cause syntax errors. Init directives and near_memory refs are internal metadata, not shown in rendered output.",
+      "description": "Mindmap node text must be human-readable descriptions only. No raw IDs, internal pointers, or inline refs in node labels. Avoid mermaid reserved words (e.g. 'mindmap', 'graph', 'flowchart') in node text as they cause syntax errors.",
       "far_memory_refs": [],
       "mind_memory_refs": ["knowledge::conventions::node_text_rules"]
     }
