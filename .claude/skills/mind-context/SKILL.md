@@ -11,6 +11,17 @@ Arguments: $ARGUMENTS
 ### Mind Map
 !`cat mind/mind_memory.md`
 
+### Display Conventions (from conventions.json)
+!`python3 -c "
+import json
+with open('conventions/conventions.json') as f:
+    data = json.load(f)
+for ref in data['references']:
+    if ref['name'].startswith('mindmap_'):
+        print(f\"**{ref['name']}**: {ref['description']}\")
+        print()
+"`
+
 ### Active Conversation (Near Memory — Last 5 Summaries)
 !`python3 -c "
 import json, os
@@ -45,10 +56,12 @@ if 'archives' in fm and fm['archives']:
 - LEFT side (first in source): session, work, documentation
 - RIGHT side (last in source): architecture, constraints, conventions
 
-**MANDATORY OUTPUT RULE:** After loading the data above, you MUST output ALL of the following as visible text in the conversation — this is the entire point of the skill:
-1. The mermaid code block with the mindmap (reduced or full per mode) — inside a ```mermaid fence so it renders visually
-2. The last 5 near_memory summaries as a formatted list
-3. A session confirmation line
+**MANDATORY OUTPUT RULE:** After loading the data above, you MUST follow this sequence:
+1. **READ** the mindmap source and the display conventions loaded above — internalize theme, layout, and styling rules BEFORE rendering
+2. **APPLY** conventions when outputting: preserve the `%%{init:...}%%` theme header, apply normal/full mode filtering per layout convention, respect styling rules
+3. **OUTPUT** the mermaid code block with the mindmap (reduced or full per mode) — inside a ```mermaid fence so it renders visually
+4. The last 5 near_memory summaries as a formatted list
+5. A session confirmation line
 
 **DO NOT** silently consume this data. **DO NOT** just say "context loaded". The user MUST see the mindmap and summaries rendered in the conversation every single time this skill is invoked — at session start, resume, compaction recovery, or on demand.
 

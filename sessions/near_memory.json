@@ -25,6 +25,19 @@
         "conventions::mindmap_theme_light"
       ],
       "timestamp": "2026-03-13T09:01:53Z"
+    },
+    {
+      "id": 3,
+      "summary": "Updated mind-context skill to auto-load and apply conventions before mindmap display",
+      "far_memory_refs": [
+        5,
+        6
+      ],
+      "mind_memory_refs": [
+        "conventions::mindmap_display_layout",
+        "conventions::mindmap_theme_light"
+      ],
+      "timestamp": "2026-03-13T09:03:36Z"
     }
   ]
 }

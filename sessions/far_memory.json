@@ -24,6 +24,18 @@
       "role": "assistant",
       "content": "Acknowledged the gap. Read mind_memory.md and conventions.json. Identified missed conventions: theme header (conv-002), layout half/half (conv-001), mind-first read principle. Will properly read and apply conventions on every mindmap display going forward.",
       "timestamp": "2026-03-13T09:01:53Z"
+    },
+    {
+      "id": 5,
+      "role": "user",
+      "content": "Can we make sure conventions are read and applied at start/resume/compaction before printing the mindmap?",
+      "timestamp": "2026-03-13T09:03:36Z"
+    },
+    {
+      "id": 6,
+      "role": "assistant",
+      "content": "Updated SKILL.md: added auto-load of mindmap conventions from conventions.json, changed mandatory output rule to explicit 5-step sequence (READ conventions, APPLY them, OUTPUT mindmap with theme, summaries, confirmation). Conventions are now loaded as data not just referenced in instructions.",
+      "timestamp": "2026-03-13T09:03:36Z"
     }
   ],
   "archives": []
