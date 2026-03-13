@@ -120,6 +120,18 @@
       "role": "assistant",
       "content": "Fixed normal mode rendering: show right side groups (architecture, constraints, conventions) as collapsed leaf nodes without children. This maintains left-right half/half width. Left side expanded, right side collapsed.",
       "timestamp": "2026-03-13T09:45:42Z"
+    },
+    {
+      "id": 21,
+      "role": "user",
+      "content": "mermaid mindmap is radial, not left-right. the convention was wrong — I was stating things I couldn't deliver",
+      "timestamp": "2026-03-13T09:49:15Z"
+    },
+    {
+      "id": 22,
+      "role": "assistant",
+      "content": "Acknowledged: mermaid mindmap type uses radial layout, cannot control left-right positioning. The left-right half/half convention was incorrectly written. Need to either accept radial layout or switch diagram type. Asked user for direction.",
+      "timestamp": "2026-03-13T09:49:15Z"
     }
   ],
   "archives": [

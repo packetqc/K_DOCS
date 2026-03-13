@@ -125,6 +125,19 @@
         "conventions::display_layout"
       ],
       "timestamp": "2026-03-13T09:45:42Z"
+    },
+    {
+      "id": 11,
+      "summary": "discovered mermaid mindmap is radial only, left-right convention was wrong, need to choose new approach",
+      "far_memory_refs": [
+        21,
+        22
+      ],
+      "mind_memory_refs": [
+        "conventions::display_layout",
+        "constraints"
+      ],
+      "timestamp": "2026-03-13T09:49:15Z"
     }
   ],
   "last_session": {
