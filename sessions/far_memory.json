@@ -72,6 +72,18 @@
       "role": "assistant",
       "content": "Investigated syntax error. File looks valid. Testing if init directive causes issue with mermaid 11.10.0 by rendering without it.",
       "timestamp": "2026-03-13T09:37:51Z"
+    },
+    {
+      "id": 13,
+      "role": "user",
+      "content": "keep inline things for you, not human and diagram friendly, not required in diagram and recent context",
+      "timestamp": "2026-03-13T09:38:36Z"
+    },
+    {
+      "id": 14,
+      "role": "assistant",
+      "content": "Understood. Removed init directive from rendered mermaid output and near:N prefixes from recent context display. These are internal metadata only.",
+      "timestamp": "2026-03-13T09:38:36Z"
     }
   ],
   "archives": [

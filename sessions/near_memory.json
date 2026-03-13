@@ -75,6 +75,19 @@
         "conventions::mindmap_theme_light"
       ],
       "timestamp": "2026-03-13T09:37:51Z"
+    },
+    {
+      "id": 7,
+      "summary": "convention: no inline refs or init directives in rendered output, keep internal only",
+      "far_memory_refs": [
+        13,
+        14
+      ],
+      "mind_memory_refs": [
+        "conventions::mindmap_node_text",
+        "conventions::mindmap_theme_light"
+      ],
+      "timestamp": "2026-03-13T09:38:36Z"
     }
   ],
   "last_session": {
