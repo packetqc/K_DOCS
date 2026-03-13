@@ -8,6 +8,7 @@ mindmap
       human readable node text convention
       removed redundant inline refs rule
       reserved word syntax error fix
+      radial layout convention correction
     work
     documentation
     architecture
@@ -43,8 +44,10 @@ mindmap
       claude_desktop_no_skills
         project_knowledge approach instead
     conventions
-      mindmap_display_layout
-        left-right half/half both modes
+      display_layout
+        radial mermaid auto layout
+        normal mode session expanded plus groups collapsed
+        full mode all nodes expanded
       mindmap_theme_light
         top level solid blue white bold uppercase
         children lighter blue per depth dark blue bold uppercase
