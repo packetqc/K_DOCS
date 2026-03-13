@@ -29,19 +29,26 @@ Claude-as-engine is ONLY the bootstrap (new session, resume, compaction recovery
 
 ## Lifecycle Events
 
+### MANDATORY: Mindmap Output Rule
+
+**Every time `/mind-context` is invoked — whether at session start, resume, compaction recovery, or on demand — Claude MUST output the mermaid mindmap code block and the recent near_memory summaries as visible text in the conversation.** This is not optional. The mindmap is the user's primary interface to the knowledge system. Failing to output it defeats the purpose of the skill. The output must include:
+1. The mermaid code block (reduced or full per mode)
+2. The last 5 near_memory summaries
+3. Session confirmation
+
 ### On New Session Start
 1. Run: `python3 scripts/session_init.py --session-id "<id>"`
-2. Run `/mind-context` to load the reduced mindmap and recent context
+2. Run `/mind-context` and **output the mindmap and context visually**
 3. Begin real-time maintenance using scripts
 
 ### On Resume
 1. Run: `python3 scripts/session_init.py --session-id "<id>" --preserve-active`
-2. Run `/mind-context` to restore context from the mindmap and recent summaries
+2. Run `/mind-context` and **output the mindmap and context visually**
 3. Dig into memory files as needed for continuity
 4. Continue real-time maintenance using scripts
 
 ### On Compaction Recovery
-1. Run `/mind-context` to recover context from the mindmap and recent summaries
+1. Run `/mind-context` and **output the mindmap and context visually**
 2. Use `python3 scripts/memory_recall.py --subject "<topic>"` if needed for specific details
 3. Continue real-time maintenance using scripts
 

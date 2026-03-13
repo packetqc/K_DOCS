@@ -45,7 +45,14 @@ if 'archives' in fm and fm['archives']:
 - LEFT side (first in source): session, work, documentation
 - RIGHT side (last in source): architecture, constraints, conventions
 
-**After presenting the context**, confirm you are in an active K_MIND session and will maintain all memory files using scripts per CLAUDE.md instructions. Read CLAUDE.md now for full maintenance instructions.
+**MANDATORY OUTPUT RULE:** After loading the data above, you MUST output ALL of the following as visible text in the conversation — this is the entire point of the skill:
+1. The mermaid code block with the mindmap (reduced or full per mode) — inside a ```mermaid fence so it renders visually
+2. The last 5 near_memory summaries as a formatted list
+3. A session confirmation line
+
+**DO NOT** silently consume this data. **DO NOT** just say "context loaded". The user MUST see the mindmap and summaries rendered in the conversation every single time this skill is invoked — at session start, resume, compaction recovery, or on demand.
+
+After outputting, confirm you are in an active K_MIND session and will maintain all memory files using scripts per CLAUDE.md instructions. Read CLAUDE.md now for full maintenance instructions.
 
 **Available scripts** (run these, don't improvise):
 - Every turn: `python3 scripts/memory_append.py --role user --content "..." --role2 assistant --content2 "..." --summary "..." --mind-refs "..."`

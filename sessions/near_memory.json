@@ -1,5 +1,5 @@
 {
-  "session_id": "Ka00A",
+  "session_id": "m4gC5",
   "summaries": [
     {
       "id": 1,
@@ -275,6 +275,19 @@
         "knowledge::conventions::programs_over_improvisation"
       ],
       "timestamp": "2026-03-13T08:40:54Z"
+    },
+    {
+      "id": 21,
+      "summary": "Enforced mandatory mindmap output: CLAUDE.md and SKILL.md updated to require visible mermaid + summaries output on every /mind-context invocation (start, resume, compaction, on demand).",
+      "far_memory_refs": [
+        59,
+        60
+      ],
+      "mind_memory_refs": [
+        "knowledge::architecture::mind_context_skill",
+        "knowledge::conventions::mindmap_display_layout"
+      ],
+      "timestamp": "2026-03-13T08:52:10Z"
     }
   ]
 }
