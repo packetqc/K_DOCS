@@ -18,12 +18,9 @@ elif args and args != 'full':
     parts = args.rsplit(' ', 1)
     if len(parts) == 2 and parts[1].lstrip('-').isdigit():
         path, depth = parts[0], parts[1]
-        # Persist the depth override
         subprocess.run(['python3', 'scripts/set_depth.py', '--path', path, '--depth', depth])
-        # Render with updated config
         subprocess.run(['python3', 'scripts/mindmap_filter.py'])
     else:
-        # Just a path, show it at depth 99 (temp, no save)
         subprocess.run(['python3', 'scripts/mindmap_filter.py', '--path', args, '--depth', '99'])
 else:
     subprocess.run(['python3', 'scripts/mindmap_filter.py'])
@@ -45,32 +42,12 @@ for ref in data['references']:
 
 ### Active Conversation (Near Memory — Categorized by Group)
 !`python3 -c "
-import json, os, glob
+import json
 with open('sessions/near_memory.json') as f:
     data = json.load(f)
-# Show last session context if this is a fresh start
+# Determine source: current session or last session (for fresh starts)
 last = data.get('last_session')
 has_last = last and last.get('summaries')
-if has_last:
-    print('--- Last Session Context (continue where you left off) ---')
-    print(f\"  session: {last.get('session_id', 'unknown')}\")
-    for s in last['summaries'][-5:]:
-        print(f\"  {s['summary']}\")
-    print()
-elif not data['summaries']:
-    # Fallback: load most recent archive for last session context
-    archive_files = sorted(glob.glob('sessions/archives/far_memory_session_*.json'))
-    if archive_files:
-        with open(archive_files[-1]) as af:
-            arc = json.load(af)
-        summaries = arc.get('summaries', [])
-        if summaries:
-            print('--- Last Session Context (from archive) ---')
-            print(f\"  session: {arc.get('session_id', 'unknown')}\")
-            for s in summaries[-5:]:
-                print(f\"  {s['summary']}\")
-            print()
-# Categorize summaries by mind_memory_refs group
 # Use current session summaries, or fall back to last session's summaries for fresh starts
 source_summaries = data['summaries'] if data['summaries'] else (last['summaries'] if has_last else [])
 categories = {'conversation': [], 'conventions': [], 'work': [], 'documentation': []}
@@ -141,7 +118,7 @@ Depth filtering is driven by `conventions/depth_config.json` (human-editable). T
 2. **COPY the exact script output verbatim** — do NOT rephrase, summarize, or reformat ANY of the three sections below
 3. **OUTPUT** three sections, each copied EXACTLY from the script output above:
    - **Mindmap**: copy the mermaid code block from mindmap_filter.py output EXACTLY as-is, inside a ```mermaid fence
-   - **Recent Context**: copy the near_memory categorized output EXACTLY as-is — all 4 categories (conversation, conventions, work, documentation), all bullet points, last session context block — VERBATIM
+   - **Recent Context**: copy the near_memory categorized output EXACTLY as-is — all 4 categories (conversation, conventions, work, documentation), all bullet points — VERBATIM
    - **Memory Stats**: copy the markdown table from memory_stats.py output EXACTLY as-is — all rows including Subtotal, System overhead, Conversation, Context used, Usable limit, Available
 4. A session confirmation line
 
