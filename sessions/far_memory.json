@@ -348,6 +348,18 @@
       "role": "assistant",
       "content": "Yes — Claude automatically maintains the coupling: when architecture evolves, Claude updates the scripts to match. This is convention conv-004 programs_over_improvisation. Added to conventions.json and mindmap.",
       "timestamp": "2026-03-13T08:40:54Z"
+    },
+    {
+      "id": 59,
+      "role": "user",
+      "content": "User pointed out that /mind-context failed to output the mindmap visually in the conversation. Demanded enforcement: mindmap must be output at start, on demand, on resume, and after compaction.",
+      "timestamp": "2026-03-13T08:52:10Z"
+    },
+    {
+      "id": 60,
+      "role": "assistant",
+      "content": "Updated CLAUDE.md with MANDATORY Mindmap Output Rule section requiring visible mermaid output every time /mind-context is invoked. Updated SKILL.md with MANDATORY OUTPUT RULE requiring mermaid code block, near_memory summaries, and session confirmation as visible text. Both files now explicitly prohibit silent context consumption.",
+      "timestamp": "2026-03-13T08:52:10Z"
     }
   ]
 }
