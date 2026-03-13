@@ -25,6 +25,19 @@
         "conventions::mindmap_display_layout"
       ],
       "timestamp": "2026-03-13T09:34:25Z"
+    },
+    {
+      "id": 3,
+      "summary": "fix: mindmap nodes must use human-readable text, added convention mindmap_node_text",
+      "far_memory_refs": [
+        5,
+        6
+      ],
+      "mind_memory_refs": [
+        "conventions::mindmap_node_text",
+        "session"
+      ],
+      "timestamp": "2026-03-13T09:35:23Z"
     }
   ],
   "last_session": {

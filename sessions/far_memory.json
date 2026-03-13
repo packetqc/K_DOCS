@@ -24,6 +24,18 @@
       "role": "assistant",
       "content": "Added child node to session in mind_memory.md: c7919903 session start [far:1,near:1]. Committed and pushed.",
       "timestamp": "2026-03-13T09:34:25Z"
+    },
+    {
+      "id": 5,
+      "role": "user",
+      "content": "nodes have to be human representative text strings, not raw IDs",
+      "timestamp": "2026-03-13T09:35:23Z"
+    },
+    {
+      "id": 6,
+      "role": "assistant",
+      "content": "Fixed session node to use human-readable description. Added mindmap_node_text convention: human readable descriptions only, no raw IDs or internal pointers.",
+      "timestamp": "2026-03-13T09:35:23Z"
     }
   ],
   "archives": [
