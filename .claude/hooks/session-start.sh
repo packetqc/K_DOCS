@@ -19,3 +19,4 @@ fi
 echo ""
 echo "K_MIND session initialized (source: $SOURCE, id: $SESSION_ID)."
 echo "MANDATORY: You MUST now invoke /mind-context and output the mindmap and recent summaries as visible text in the conversation. This is not optional. Do it immediately before anything else."
+echo "MANDATORY: Then, You MUST invoke /context and output the results to user"
