@@ -12,6 +12,19 @@
         "session"
       ],
       "timestamp": "2026-03-13T09:31:47Z"
+    },
+    {
+      "id": 2,
+      "summary": "fix: added session child node to mindmap so it renders with current session context",
+      "far_memory_refs": [
+        3,
+        4
+      ],
+      "mind_memory_refs": [
+        "session",
+        "conventions::mindmap_display_layout"
+      ],
+      "timestamp": "2026-03-13T09:34:25Z"
     }
   ],
   "last_session": {
