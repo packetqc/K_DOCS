@@ -63,6 +63,18 @@
         "session"
       ],
       "timestamp": "2026-03-13T09:37:09Z"
+    },
+    {
+      "id": 6,
+      "summary": "debugging mermaid syntax error in mindmap rendering, testing without init directive",
+      "far_memory_refs": [
+        11,
+        12
+      ],
+      "mind_memory_refs": [
+        "conventions::mindmap_theme_light"
+      ],
+      "timestamp": "2026-03-13T09:37:51Z"
     }
   ],
   "last_session": {

@@ -60,6 +60,18 @@
       "role": "assistant",
       "content": "Displayed reduced mindmap with session/work/documentation nodes and last 4 near_memory summaries.",
       "timestamp": "2026-03-13T09:37:09Z"
+    },
+    {
+      "id": 11,
+      "role": "user",
+      "content": "screenshot showing mermaid syntax error in text, mermaid version 11.10.0",
+      "timestamp": "2026-03-13T09:37:51Z"
+    },
+    {
+      "id": 12,
+      "role": "assistant",
+      "content": "Investigated syntax error. File looks valid. Testing if init directive causes issue with mermaid 11.10.0 by rendering without it.",
+      "timestamp": "2026-03-13T09:37:51Z"
     }
   ],
   "archives": [
