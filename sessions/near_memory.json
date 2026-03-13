@@ -113,6 +113,18 @@
         "session"
       ],
       "timestamp": "2026-03-13T09:43:00Z"
+    },
+    {
+      "id": 10,
+      "summary": "convention clarified: normal mode shows right side groups collapsed not omitted, maintains half/half width",
+      "far_memory_refs": [
+        19,
+        20
+      ],
+      "mind_memory_refs": [
+        "conventions::display_layout"
+      ],
+      "timestamp": "2026-03-13T09:45:42Z"
     }
   ],
   "last_session": {

@@ -108,6 +108,18 @@
       "role": "assistant",
       "content": "Expanded session node to 5 leaves: session init, empty node fix, human readable text convention, removed redundant refs rule, reserved word syntax error fix.",
       "timestamp": "2026-03-13T09:43:00Z"
+    },
+    {
+      "id": 19,
+      "role": "user",
+      "content": "diagram does not occupy whole width. normal mode should show right side group names as collapsed nodes to maintain half/half width",
+      "timestamp": "2026-03-13T09:45:42Z"
+    },
+    {
+      "id": 20,
+      "role": "assistant",
+      "content": "Fixed normal mode rendering: show right side groups (architecture, constraints, conventions) as collapsed leaf nodes without children. This maintains left-right half/half width. Left side expanded, right side collapsed.",
+      "timestamp": "2026-03-13T09:45:42Z"
     }
   ],
   "archives": [

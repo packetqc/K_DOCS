@@ -4,7 +4,7 @@
     {
       "id": "conv-001",
       "name": "mindmap_display_layout",
-      "description": "Both modes use left-right half/half layout. Left side: session, work, documentation (dynamic). Right side: architecture, constraints, conventions (system). Normal mode omits right side. Full mode shows all.",
+      "description": "Both modes use left-right half/half layout. Left side: session, work, documentation (dynamic, expanded). Right side: architecture, constraints, conventions (system). Normal mode shows right side groups as collapsed nodes without children to maintain width. Full mode expands all nodes with children.",
       "far_memory_refs": [29, 30],
       "mind_memory_refs": ["knowledge::conventions::mindmap_display_layout"]
     },
