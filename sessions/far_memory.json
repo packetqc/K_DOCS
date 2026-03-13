@@ -168,6 +168,18 @@
       "role": "assistant",
       "content": "Fixed: the %%init%% theme directive must always be included in rendered output - it controls the blue color scheme per mindmap_theme_light convention. Only near:N refs and raw IDs are internal metadata.",
       "timestamp": "2026-03-13T09:52:25Z"
+    },
+    {
+      "id": 29,
+      "role": "user",
+      "content": "why are boxes black with white line at bottom - theme not working",
+      "timestamp": "2026-03-13T09:53:34Z"
+    },
+    {
+      "id": 30,
+      "role": "assistant",
+      "content": "The %%init%% theme directive does not work with mermaid mindmap type - only applies to flowcharts etc. The blue theme convention was never rendering. Black boxes are default mindmap styling. Asked user whether to accept defaults or switch diagram type.",
+      "timestamp": "2026-03-13T09:53:34Z"
     }
   ],
   "archives": [

@@ -177,6 +177,19 @@
         "conventions::node_text_rules"
       ],
       "timestamp": "2026-03-13T09:52:25Z"
+    },
+    {
+      "id": 15,
+      "summary": "discovered init theme directive does not work with mermaid mindmap type, blue colors never rendered",
+      "far_memory_refs": [
+        29,
+        30
+      ],
+      "mind_memory_refs": [
+        "conventions::mindmap_theme_light",
+        "constraints"
+      ],
+      "timestamp": "2026-03-13T09:53:34Z"
     }
   ],
   "last_session": {
