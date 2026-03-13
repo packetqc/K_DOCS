@@ -29,6 +29,13 @@
       "description": "Claude-as-engine is bootstrap only (new session, resume, compaction recovery). All mechanical operations use Python scripts in scripts/. Claude provides intelligence (summaries, topic names) as arguments to deterministic programs. When architecture evolves, scripts must be updated to match — programs ARE the implementation of the architecture.",
       "far_memory_refs": [51, 52, 55, 56],
       "mind_memory_refs": ["knowledge::architecture::programs_over_improvisation", "knowledge::conventions::programs_over_improvisation"]
+    },
+    {
+      "id": "conv-005",
+      "name": "node_text_rules",
+      "description": "Mindmap node text must be human-readable descriptions only. No raw IDs, internal pointers, or inline refs in node labels. Avoid mermaid reserved words (e.g. 'mindmap', 'graph', 'flowchart') in node text as they cause syntax errors. Init directives and near_memory refs are internal metadata, not shown in rendered output.",
+      "far_memory_refs": [],
+      "mind_memory_refs": ["knowledge::conventions::node_text_rules"]
     }
   ],
   "external_files": []

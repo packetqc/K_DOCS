@@ -3,7 +3,7 @@
 mindmap
   root((knowledge))
     session
-      mindmap node readability fix
+      node readability fix
     work
     documentation
     architecture
@@ -12,7 +12,7 @@ mindmap
       three_file_system
         far_memory full conversation
         near_memory summaries with pointers
-        mind_memory mermaid mindmap core
+        mind_memory mermaid core
       mind_first_strategy
         read mind as primary reference
         dig into files only when needed
@@ -50,9 +50,10 @@ mindmap
         archives folder topic slug named files
         main file keeps active conversation plus index
         recall any memory by subject anytime
-      mindmap_node_text
+      node_text_rules
         human readable descriptions only
         no raw IDs or internal pointers
+        avoid mermaid reserved words in nodes
       programs_over_improvisation
         claude-as-engine is bootstrap only
         scripts are the architecture implementation
