@@ -3,7 +3,7 @@
 mindmap
   root((knowledge))
     session
-      c7919903 session start [far:1,near:1]
+      mindmap node readability fix
     work
     documentation
     architecture
@@ -50,6 +50,10 @@ mindmap
         archives folder topic slug named files
         main file keeps active conversation plus index
         recall any memory by subject anytime
+      mindmap_node_text
+        human readable descriptions only
+        no raw IDs or internal pointers
+        inline refs go in separate metadata not node labels
       programs_over_improvisation
         claude-as-engine is bootstrap only
         scripts are the architecture implementation
