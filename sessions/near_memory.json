@@ -256,6 +256,19 @@
         "conventions::mermaid::mind_map::display_layout"
       ],
       "timestamp": "2026-03-13T19:18:27Z"
+    },
+    {
+      "id": 22,
+      "summary": "feedback: must read mindmap convention nodes before every render, not from cached memory",
+      "far_memory_refs": [
+        43,
+        44
+      ],
+      "mind_memory_refs": [
+        "conventions::mermaid::mind_map::theme_default",
+        "conventions::mermaid::mind_map::display_layout"
+      ],
+      "timestamp": "2026-03-13T19:21:22Z"
     }
   ]
 }

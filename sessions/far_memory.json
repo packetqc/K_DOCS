@@ -252,6 +252,18 @@
       "role": "assistant",
       "content": "Fixed: all 4 categories (conversation, conventions, work, documentation) now always shown even when empty, with (none) placeholder. Re-rendered full output.",
       "timestamp": "2026-03-13T19:18:27Z"
+    },
+    {
+      "id": 43,
+      "role": "user",
+      "content": "you keep losing useMaxWidth - you must read the mindmap conventions before every render, that is the purpose of the project",
+      "timestamp": "2026-03-13T19:21:22Z"
+    },
+    {
+      "id": 44,
+      "role": "assistant",
+      "content": "Acknowledged failure to follow own memory grid. Root cause: rendering from cached memory instead of re-reading convention nodes. Fix: always read mermaid convention nodes from mind_memory.md before every render and apply each one as a checklist.",
+      "timestamp": "2026-03-13T19:21:22Z"
     }
   ],
   "archives": [
