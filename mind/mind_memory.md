@@ -1,8 +1,6 @@
 ```mermaid
 mindmap
   root((knowledge))
-    constraints
-      no_cross_session_access
     architecture
       persistence_format
         JSON for performance
@@ -10,8 +8,20 @@ mindmap
         far_memory full conversation
         near_memory summaries with pointers
         mind_memory mermaid mindmap core
-      mind_memory_is_core
+      mind_first_strategy
+        read mind as primary reference
+        dig into files only when needed
+        minimize claude context usage
       real_time_updates
         every turn all 3 files updated
         captures conversation and work results
+      folder_per_group
+        each top level group has own folder
+        domain specific JSON for persisted refs
+    constraints
+      no_cross_session_access
+    session
+    work
+    conventions
+    documentation
 ```

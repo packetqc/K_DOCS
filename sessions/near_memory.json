@@ -35,6 +35,20 @@
       "far_memory_refs": [15, 16],
       "mind_memory_refs": ["knowledge::constraints"],
       "timestamp": "2026-03-13T00:08:30Z"
+    },
+    {
+      "id": 6,
+      "summary": "Major architecture evolution: 6 top-level mindmap groups (architecture, constraints, session, work, conventions, documentation). Auto-start via CLAUDE.md on session start, resume, and compaction recovery. Mind-first reading strategy — Claude reads mindmap first, digs into files only when needed.",
+      "far_memory_refs": [17, 18, 19, 20],
+      "mind_memory_refs": ["knowledge::architecture::mind_first_strategy", "knowledge::architecture::folder_per_group", "knowledge::documentation"],
+      "timestamp": "2026-03-13T00:10:30Z"
+    },
+    {
+      "id": 7,
+      "summary": "Each top-level group gets its own folder with domain-specific JSON file. Session files are the dynamic brainstorming record, referencing accomplished work for concordance and continuity. Work is the stable anchor point.",
+      "far_memory_refs": [21, 22, 23, 24],
+      "mind_memory_refs": ["knowledge::architecture::folder_per_group", "knowledge::session", "knowledge::work"],
+      "timestamp": "2026-03-13T00:12:30Z"
     }
   ]
 }
