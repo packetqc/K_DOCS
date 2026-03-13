@@ -96,6 +96,18 @@
       "role": "assistant",
       "content": "Fixed: removed 'mindmap' reserved word from all node text in mind_memory.md. Added node_text_rules convention (conv-005) to conventions.json covering human-readable text, no IDs, and avoiding mermaid reserved words.",
       "timestamp": "2026-03-13T09:41:09Z"
+    },
+    {
+      "id": 17,
+      "role": "user",
+      "content": "should see 5 leafs on session node",
+      "timestamp": "2026-03-13T09:43:00Z"
+    },
+    {
+      "id": 18,
+      "role": "assistant",
+      "content": "Expanded session node to 5 leaves: session init, empty node fix, human readable text convention, removed redundant refs rule, reserved word syntax error fix.",
+      "timestamp": "2026-03-13T09:43:00Z"
     }
   ],
   "archives": [

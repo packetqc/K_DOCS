@@ -101,6 +101,18 @@
         "constraints"
       ],
       "timestamp": "2026-03-13T09:41:09Z"
+    },
+    {
+      "id": 9,
+      "summary": "fix: expanded session node to 5 leaves matching all session activities",
+      "far_memory_refs": [
+        17,
+        18
+      ],
+      "mind_memory_refs": [
+        "session"
+      ],
+      "timestamp": "2026-03-13T09:43:00Z"
     }
   ],
   "last_session": {
