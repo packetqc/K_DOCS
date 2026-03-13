@@ -269,6 +269,18 @@
         "conventions::mermaid::mind_map::display_layout"
       ],
       "timestamp": "2026-03-13T19:21:22Z"
+    },
+    {
+      "id": 23,
+      "summary": "created repo-portable auto-memory with install script hooked to session start",
+      "far_memory_refs": [
+        45,
+        46
+      ],
+      "mind_memory_refs": [
+        "conventions::rules::system"
+      ],
+      "timestamp": "2026-03-13T19:30:08Z"
     }
   ]
 }

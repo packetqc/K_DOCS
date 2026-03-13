@@ -8,6 +8,9 @@ SOURCE=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin)
 
 cd "$CLAUDE_PROJECT_DIR"
 
+# Install repo auto-memory files to Claude Code system (if newer or missing)
+bash scripts/install_memory.sh 2>/dev/null || true
+
 # Initialize session based on source
 if [ "$SOURCE" = "startup" ]; then
     python3 scripts/session_init.py --session-id "$SESSION_ID" 2>&1

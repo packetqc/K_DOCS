@@ -264,6 +264,18 @@
       "role": "assistant",
       "content": "Acknowledged failure to follow own memory grid. Root cause: rendering from cached memory instead of re-reading convention nodes. Fix: always read mermaid convention nodes from mind_memory.md before every render and apply each one as a checklist.",
       "timestamp": "2026-03-13T19:21:22Z"
+    },
+    {
+      "id": 45,
+      "role": "user",
+      "content": "make auto-memory portable in repo, not hardcoded to system",
+      "timestamp": "2026-03-13T19:30:08Z"
+    },
+    {
+      "id": 46,
+      "role": "assistant",
+      "content": "Created .claude/memory/ in repo as source of truth. Added scripts/install_memory.sh that copies to Claude Code system path. Hooked into session-start.sh to auto-install on every session start. Portable across machines.",
+      "timestamp": "2026-03-13T19:30:08Z"
     }
   ],
   "archives": [
