@@ -105,6 +105,13 @@
       "far_memory_refs": [45, 46],
       "mind_memory_refs": ["knowledge::session"],
       "timestamp": "2026-03-13T00:23:30Z"
+    },
+    {
+      "id": 16,
+      "summary": "User requested 3 things: (1) write far_memory splitting as a convention visible on mind-context default view, (2) confirm if everything is implemented in programs — answer: no programs exist, system is Claude-as-engine following CLAUDE.md, (3) far_memory should split by summarized subjects into topic archives for recall by subject. Convention conv-003 added. CLAUDE.md updated with splitting instructions. mind-context skill updated to show last 5 active summaries + archive index. User confirmed: recall any memory by subject anytime.",
+      "far_memory_refs": [47, 48, 49, 50],
+      "mind_memory_refs": ["knowledge::conventions::far_memory_topic_splitting", "knowledge::architecture"],
+      "timestamp": "2026-03-13T00:25:30Z"
     }
   ]
 }

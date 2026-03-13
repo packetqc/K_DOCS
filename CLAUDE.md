@@ -54,3 +54,18 @@ Run `/mind-context full` when you need the complete mindmap including architectu
 ## Session Files Role
 
 Session files (far_memory, near_memory) are the dynamic brainstorming record. They reference accomplished work in `work/` for concordance and continuity of working and building activities.
+
+## Far Memory Topic Splitting
+
+When `sessions/far_memory.json` grows large, split completed conversation topics into archive files:
+
+1. **Identify topic boundaries** from near_memory summary clusters (group summaries by subject)
+2. **Extract completed topics** to `sessions/archives/far_memory_<topic_slug>.json`
+3. **Update main file** — keep only active conversation messages + an `archives` index:
+   ```json
+   "archives": [
+     {"file": "archives/far_memory_architecture_design.json", "topic": "Architecture Design", "message_range": [1, 24], "near_memory_range": [1, 7]}
+   ]
+   ```
+4. **Recall by subject** — to recall a past topic, read the archive file by topic name
+5. **Near memory stays unified** — near_memory.json is the search/index layer across all archives

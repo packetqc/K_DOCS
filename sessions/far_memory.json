@@ -276,6 +276,30 @@
       "role": "assistant",
       "content": "Built a detailed session tree from near_memory (parent summary nodes) and far_memory (leaf message refs). Output as mermaid mindmap with 11 topic branches under session, each with leaf refs like [far:N]. Asked user for feedback on structure.",
       "timestamp": "2026-03-13T00:23:30Z"
+    },
+    {
+      "id": 47,
+      "role": "user",
+      "content": "yes, write that as a convention for you to understand and to display on mind-context default view. so, from this mindmap, can you confirm this is all implemented in logic and in programs to run anytime? so, as session near and far memory files grows: we display last near memory active conversation and far memory as it tend to become really huge, it should split files and refer to it in the main far memory file? once this is all implemented, i should try it in another new session.",
+      "timestamp": "2026-03-13T00:24:00Z"
+    },
+    {
+      "id": 48,
+      "role": "assistant",
+      "content": "Confirmed: no programs exist — system is Claude-as-engine following CLAUDE.md instructions. Added convention conv-003 far_memory_topic_splitting: split by summarized subjects (not size), archive to sessions/archives/ with topic-slug naming, main file keeps active conversation + archives index, recall any memory by subject anytime. Updated mindmap, CLAUDE.md, conventions.json, and mind-context skill (now shows last 5 near_memory summaries + archive index on default view). Created sessions/archives/ directory.",
+      "timestamp": "2026-03-13T00:24:30Z"
+    },
+    {
+      "id": 49,
+      "role": "user",
+      "content": "so, at any time, so could recall a memory from its subject ...",
+      "timestamp": "2026-03-13T00:25:00Z"
+    },
+    {
+      "id": 50,
+      "role": "assistant",
+      "content": "Yes — once topics are archived, Claude reads the archive index from far_memory.json, finds the matching topic, and reads that archive file to recall the full conversation. Near_memory summaries serve as the search/index layer pointing to the right archive by subject.",
+      "timestamp": "2026-03-13T00:25:30Z"
     }
   ]
 }

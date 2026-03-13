@@ -15,6 +15,14 @@
       "far_memory_refs": [31, 32],
       "mind_memory_refs": ["knowledge::conventions::mindmap_theme_light"]
     }
+    ,
+    {
+      "id": "conv-003",
+      "name": "far_memory_topic_splitting",
+      "description": "When far_memory.json grows large, Claude splits it into topic-based archive files. Each archive groups messages by summarized subject (from near_memory summaries). Main far_memory.json keeps only the active conversation topic. Archive files are stored in sessions/archives/ named by topic slug (e.g., far_memory_architecture_design.json). Main file maintains an 'archives' index array with {file, topic, message_range, near_memory_range}. On split, Claude identifies topic boundaries from near_memory summary clusters, extracts completed topics to archive files, and updates the index. mind-context default view shows the last active conversation from near_memory.",
+      "far_memory_refs": [47, 48],
+      "mind_memory_refs": ["knowledge::conventions::far_memory_topic_splitting"]
+    }
   ],
   "external_files": []
 }

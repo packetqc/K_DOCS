@@ -37,4 +37,9 @@ mindmap
         top level solid blue white bold uppercase
         children lighter blue per depth dark blue bold uppercase
         inline refs lowercase not bold box color font
+      far_memory_topic_splitting
+        split by summarized subjects not size
+        archives folder topic slug named files
+        main file keeps active conversation plus index
+        recall any memory by subject anytime
 ```

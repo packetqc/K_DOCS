@@ -11,16 +11,25 @@ Arguments: $ARGUMENTS
 ### Mind Map
 !`cat mind/mind_memory.md`
 
-### Recent Context (Near Memory — Last 3 Summaries)
+### Active Conversation (Near Memory — Last 5 Summaries)
 !`python3 -c "
-import json
+import json, os
 with open('sessions/near_memory.json') as f:
     data = json.load(f)
-for s in data['summaries'][-3:]:
+# Show last 5 summaries as active conversation context
+for s in data['summaries'][-5:]:
     print(f\"[near:{s['id']}] {s['summary']}\")
     print(f\"  far_refs: {s['far_memory_refs']}\")
     print(f\"  mind_refs: {s['mind_memory_refs']}\")
     print()
+# Show archive index if far_memory has been split
+fm_path = 'sessions/far_memory.json'
+with open(fm_path) as f:
+    fm = json.load(f)
+if 'archives' in fm and fm['archives']:
+    print('--- Archived Topics (recall by subject) ---')
+    for a in fm['archives']:
+        print(f\"  [{a['topic']}] messages {a['message_range']} -> {a['file']}\")
 "`
 
 ---
