@@ -12,6 +12,19 @@
         "session"
       ],
       "timestamp": "2026-03-13T09:11:11Z"
+    },
+    {
+      "id": 2,
+      "summary": "User asked about memory recall — no archives exist yet, explained archiving workflow",
+      "far_memory_refs": [
+        3,
+        4
+      ],
+      "mind_memory_refs": [
+        "conventions::far_memory_topic_splitting",
+        "architecture::programs_over_improvisation"
+      ],
+      "timestamp": "2026-03-13T09:13:03Z"
     }
   ]
 }

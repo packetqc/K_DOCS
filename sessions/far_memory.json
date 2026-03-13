@@ -12,6 +12,18 @@
       "role": "assistant",
       "content": "Loaded mind-context, displayed reduced mindmap (session/work/documentation). Fresh session, no summaries yet. Greeted user.",
       "timestamp": "2026-03-13T09:11:11Z"
+    },
+    {
+      "id": 3,
+      "role": "user",
+      "content": "what is the call to recall last conversation? yes, list them",
+      "timestamp": "2026-03-13T09:13:03Z"
+    },
+    {
+      "id": 4,
+      "role": "assistant",
+      "content": "Explained memory_recall.py usage (--list, --subject, --full). Ran --list: no archived topics yet. Explained that archives require explicit far_memory_split before session end. Noted mindmap and domain JSONs persist across sessions.",
+      "timestamp": "2026-03-13T09:13:03Z"
     }
   ],
   "archives": []
