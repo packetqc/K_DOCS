@@ -11,6 +11,7 @@ mindmap
       far memory
     work
       en cours
+      validation
         repo restructure to Knowledge K_MIND
           move all content under Knowledge K_MIND
           CLAUDE.md and .claude stay at root untouched
@@ -18,7 +19,6 @@ mindmap
           update all internal references to new paths
           clone equals functional project
           install.sh simplified to hook new modules only
-      validation
         k_mind import system
           install.sh creates Knowledge modules
           gh_helper.py and github skill imported
