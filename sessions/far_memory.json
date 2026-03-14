@@ -108,6 +108,24 @@
           "action": "adapted import paths"
         }
       ]
+    },
+    {
+      "id": 13,
+      "role": "user",
+      "content": "ceci est un bel exemple de mise à jour de K_MIND sur K_DOCS pour que nous utilisions ce gh_helper là aussi.",
+      "timestamp": "2026-03-14T16:49:30Z"
+    },
+    {
+      "id": 14,
+      "role": "assistant",
+      "content": "Mis à jour K_MIND dans K_DOCS: switch de branche 2eHqF vers main, pull, gh_helper.py et skill github maintenant disponibles. Skill copié dans .claude/skills/github/ de K_DOCS. Pattern de mise à jour validé: git pull dans Knowledge/K_MIND + copie des nouveaux skills.",
+      "timestamp": "2026-03-14T16:49:30Z",
+      "tools": [
+        {
+          "tool": "Bash",
+          "action": "git pull K_MIND main dans K_DOCS, copié skill github"
+        }
+      ]
     }
   ],
   "archives": [
