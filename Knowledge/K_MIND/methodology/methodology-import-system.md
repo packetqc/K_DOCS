@@ -1,126 +1,118 @@
 # Methodology — K_MIND Import System
 
 ## Purpose
-Procedure to import K_MIND as a core module into a host project, enabling memory system capabilities in any repository. K_MIND serves as the core Knowledge module — other modules (like K_DOCS) are built on top of it.
+Create a new project with K_MIND memory system capabilities. K_MIND is the core Knowledge module — other modules (like K_DOCS) are built on top of it by cloning K_MIND as their foundation.
 
 ## Prerequisites
-- Host project with git initialized (can be an empty/vanilla repo)
 - Python 3 available
-- GitHub access (for clone)
-- Use WSL terminal / Claude Code CLI for initialization (not Claude Desktop App)
+- GitHub access
+- GH_TOKEN configured in VS Code settings (`claudeCode.environmentVariables`)
+- Use WSL terminal / Claude Code CLI for initialization
 
-## Import Procedure
+## New Project from K_MIND (Recommended)
 
-### 1. Create host project (if new)
+Since K_MIND is structured with `Knowledge/K_MIND/` at its root, a clone is a ready-to-use project. No install script needed.
+
+### 1. Clone K_MIND as the new project
 ```bash
-mkdir /path/to/project && cd /path/to/project
-git init
+git clone https://github.com/packetqc/K_MIND.git /path/to/NEW_PROJECT
 ```
 
-### 2. Import K_MIND
-**Option A — Submodule (recommended):** Keeps the link to K_MIND repo for easy updates.
+### 2. Change the remote to the new project repo
 ```bash
-mkdir -p Knowledge
-git submodule add https://github.com/packetqc/K_MIND.git Knowledge/K_MIND
+cd /path/to/NEW_PROJECT
+git remote set-url origin https://github.com/packetqc/NEW_PROJECT.git
 ```
 
-**Option B — Clone:** Works but triggers embedded repository warning on `git add`.
+### 3. Push initial state
 ```bash
-mkdir -p Knowledge
-git clone https://github.com/packetqc/K_MIND.git Knowledge/K_MIND
-```
-> If using clone inside a git repo, `git add .` will warn about embedded repository. Fix with:
-> ```bash
-> git rm --cached Knowledge/K_MIND
-> git submodule add https://github.com/packetqc/K_MIND.git Knowledge/K_MIND
-> ```
-
-### 3. Run the install script
-```bash
-bash Knowledge/K_MIND/scripts/install.sh
+git push -u origin main
 ```
 
-This script:
-- Detects standalone vs imported mode (exits if standalone)
-- Creates `.claude/hooks/session-start.sh` — auto-detects `Knowledge/K_MIND/` path
-- Creates `.claude/settings.json` with SessionStart hook config
-- Copies skills (`mind-context`, `mind-depth`, `mind-stats`, `github`)
-- Generates `CLAUDE.md` with:
-  - Reference to `Knowledge/K_MIND/CLAUDE.md` as base instructions
-  - Lifecycle directive: instructs Claude to auto-invoke `/mind-context` on session start
-- Syncs `.claude/memory/` files to Claude Code system directory
-
-### 4. Initial commit
-```bash
-git add .
-git commit -m "init: project with K_MIND memory system"
-```
-
-### 5. Launch Claude Code
+### 4. Launch Claude Code
 ```bash
 claude
 ```
-The `session-start.sh` hook fires, detects `Knowledge/K_MIND/scripts`, initializes the session. The lifecycle directive in CLAUDE.md instructs Claude to invoke `/mind-context` and display the mindmap.
 
-## Modes
+That's it. The hook detects `Knowledge/K_MIND/scripts`, initializes the session, and Claude auto-invokes `/mind-context`. Everything is inherited from K_MIND: CLAUDE.md, .claude/ (hooks, skills, settings), and the full Knowledge/K_MIND/ system.
 
-### Standalone Mode
-K_MIND is at the project root (it IS the project). `install.sh` detects `K_MIND_REL="."` and exits — no install needed. The hook reads `K_MIND_ROOT="."`.
+## What You Get Out of the Box
+- `CLAUDE.md` — complete K_MIND instructions (lifecycle, GitHub operations, memory maintenance)
+- `.claude/hooks/session-start.sh` — auto-detects K_MIND, initializes sessions
+- `.claude/settings.json` — SessionStart hook configuration
+- `.claude/skills/` — mind-context, mind-depth, mind-stats, github
+- `Knowledge/K_MIND/` — full memory system (mind, scripts, sessions, conventions, etc.)
 
-### Imported Mode
-K_MIND lives under `Knowledge/K_MIND/`. The hook detects `Knowledge/K_MIND/scripts` and sets `K_MIND_ROOT="Knowledge/K_MIND"`. All scripts use this variable to locate K_MIND files.
+## How It Works
 
-## Generated CLAUDE.md
-For a vanilla (empty) host project, `install.sh` creates a CLAUDE.md with:
-```markdown
-# K_MIND Integration
-Read and apply Knowledge/K_MIND/CLAUDE.md as base instructions for the K_MIND memory system.
-
-## Lifecycle — On Session Start
-When the SessionStart hook outputs "MANDATORY: You MUST now invoke /mind-context",
-you MUST immediately invoke /mind-context and output the mindmap visually.
-This applies on every new session, resume, and compaction recovery.
+### Path Detection
+The `session-start.sh` hook checks:
+```bash
+if [ -d "Knowledge/K_MIND/scripts" ]; then
+    K_MIND_ROOT="Knowledge/K_MIND"
+else
+    K_MIND_ROOT="."
+fi
 ```
-The lifecycle section is critical — without it, Claude receives the hook message but does not know to act on it (the full instructions are in K_MIND's CLAUDE.md which is loaded as a reference, but the lifecycle trigger must be explicit in the host CLAUDE.md).
+Skills also auto-detect via `os.path.isdir('Knowledge/K_MIND/scripts')`.
 
-## Updating K_MIND in a Host Project
-When K_MIND evolves on its remote (new scripts, skills, fixes):
+### No Separate CLAUDE.md Needed
+The root CLAUDE.md contains all K_MIND instructions directly. No reference indirection, no generated templates. What works in K_MIND works identically in the new project.
+
+## Updating K_MIND in a Project
+When K_MIND evolves upstream:
+```bash
+# Add K_MIND as a remote (one-time)
+git remote add k_mind https://github.com/packetqc/K_MIND.git
+
+# Pull updates
+git fetch k_mind main
+git merge k_mind/main --allow-unrelated-histories
+```
+
+Or selectively update just the Knowledge/K_MIND/ directory:
 ```bash
 cd Knowledge/K_MIND
-git pull origin main
-cd ../..
-bash Knowledge/K_MIND/scripts/install.sh   # re-copies skills/hooks if updated
-git add . && git commit -m "chore: update K_MIND to latest"
+# (if it's a subtree or you manually sync files)
 ```
-New skills added to K_MIND are propagated by re-running `install.sh` which copies all skills from K_MIND's `.claude/skills/` to the host's `.claude/skills/`.
+
+## Adding New Knowledge Modules
+To add a new module (e.g., K_DOCS) alongside K_MIND:
+```bash
+mkdir -p Knowledge/K_DOCS
+# install.sh can hook the new module's .claude/ to the root .claude/
+bash Knowledge/K_MIND/scripts/install.sh
+```
+The install script's future role: arrimer (hook up) new modules to the existing root .claude/ without breaking K_MIND.
 
 ## Known Issues and Lessons Learned
 
-### Clone-in-clone warning
-Using `git clone` inside an existing git repo creates an embedded repository. Git warns and outer repo clones won't include the inner repo. Solution: use `git submodule add` instead.
+### GH_TOKEN setup
+`gh_helper.py` reads `GH_TOKEN` from environment. Configure in VS Code:
+```json
+"claudeCode.environmentVariables": [
+    {"name": "GH_TOKEN", "value": "ghp_..."}
+]
+```
+Token is never passed as argument or exposed in session output. Requires session restart to take effect.
 
-### Lifecycle auto-start
-The host CLAUDE.md must contain an explicit lifecycle section. A simple reference to K_MIND's CLAUDE.md is not sufficient — Claude needs the trigger directive in the host's own CLAUDE.md to react to the SessionStart hook output.
+### GitHub skill must be explicit
+Claude does not automatically use `/github` skill after import. The root CLAUDE.md includes a `## GitHub Operations — MANDATORY` section that instructs Claude to use gh_helper.py for all GitHub operations.
 
-### GH_TOKEN for gh_helper.py
-`gh_helper.py` reads `GH_TOKEN` from environment. In VS Code, set it via `claudeCode.environmentVariables` in VS Code settings (`settings.json`), using the key name `CLAUDE_CODE_OAUTH_TOKEN` or directly as `GH_TOKEN`. The token is never passed as argument or exposed in session output.
+### Session restart after config changes
+VS Code environment variables (`GH_TOKEN`, etc.) are only loaded when a new Claude Code session starts. After changing settings.json, restart the session.
 
 ## Key Files
-| File | Role |
-|------|------|
-| `scripts/install.sh` | Bootstrap host project with K_MIND capabilities |
-| `scripts/install_memory.sh` | Sync .claude/memory files to Claude Code system |
-| `scripts/gh_helper.py` | Portable GitHub API (PR, issues, projects) without gh CLI |
-| `.claude/hooks/session-start.sh` | Auto-detect K_MIND location, init session |
-| `.claude/skills/github/SKILL.md` | GitHubHelper usage conventions |
-| `CLAUDE.md` (generated) | Reference to K_MIND instructions + lifecycle directive |
+| File | Location | Role |
+|------|----------|------|
+| `CLAUDE.md` | root | Complete K_MIND instructions (inherited by all projects) |
+| `.claude/hooks/session-start.sh` | root | Auto-detect K_MIND, init session |
+| `.claude/settings.json` | root | SessionStart hook config |
+| `.claude/skills/` | root | All skills (mind-context, mind-depth, mind-stats, github) |
+| `Knowledge/K_MIND/scripts/` | K_MIND | All Python scripts (memory, mindmap, gh_helper) |
+| `Knowledge/K_MIND/mind/` | K_MIND | Mindmap (mind_memory.md) |
+| `Knowledge/K_MIND/sessions/` | K_MIND | Far memory, near memory, archives |
+| `Knowledge/K_MIND/scripts/install.sh` | K_MIND | Bootstrap for adding new modules |
 
 ## Architecture Context
-K_MIND is the **core** Knowledge module. Host projects import it under `Knowledge/K_MIND/` to gain:
-- Memory system (far_memory, near_memory, mind_memory mindmap)
-- Session management (init, resume, compaction recovery)
-- Skills (/mind-context, /mind-depth, /mind-stats, /github)
-- GitHub automation (gh_helper.py — PR create/merge, issues, projects)
-- Real-time memory maintenance (every-turn append via scripts)
-
-Other Knowledge modules (e.g., K_DOCS for documentation) are built as independent repos that import K_MIND as their foundation.
+K_MIND repo is self-hosting: it uses `Knowledge/K_MIND/` internally (dogfooding its own imported mode). A clone of K_MIND IS a functional project. New Knowledge modules are added under `Knowledge/` alongside K_MIND.
