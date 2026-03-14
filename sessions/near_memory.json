@@ -74,6 +74,18 @@
         "work::en cours::k_mind import system"
       ],
       "timestamp": "2026-03-14T16:45:58Z"
+    },
+    {
+      "id": 7,
+      "summary": "Propagé gh_helper + skill github vers K_DOCS via pull main. Pattern de mise à jour K_MIND→K_DOCS validé.",
+      "far_memory_refs": [
+        13,
+        14
+      ],
+      "mind_memory_refs": [
+        "work::en cours::k_mind import system"
+      ],
+      "timestamp": "2026-03-14T16:49:30Z"
     }
   ]
 }

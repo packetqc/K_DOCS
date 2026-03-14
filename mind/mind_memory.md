@@ -106,5 +106,7 @@ mindmap
               human readable descriptions only
               no raw IDs or internal pointers
               avoid mermaid reserved words in nodes
+      methodologies
+        import system
       documentation
 ```

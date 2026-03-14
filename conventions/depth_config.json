@@ -6,6 +6,7 @@
   ],
   "overrides": {
     "session/near memory": 4,
-    "work/display-conventions-and-stats-system": 2
+    "work/display-conventions-and-stats-system": 2,
+    "conventions/methodologies": 2
   }
 }
