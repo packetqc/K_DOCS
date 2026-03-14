@@ -10,29 +10,35 @@ Arguments: $ARGUMENTS
 
 ### Mind Map
 !`python3 -c "
-import subprocess, sys
+import subprocess, sys, os
+R = 'Knowledge/K_MIND' if os.path.isdir('Knowledge/K_MIND/scripts') else '.'
 args = '''$ARGUMENTS'''.strip()
 if args == 'full':
-    subprocess.run(['python3', 'scripts/mindmap_filter.py', '--full'])
+    subprocess.run(['python3', R+'/scripts/mindmap_filter.py', '--full'])
 elif args and args != 'full':
     parts = args.rsplit(' ', 1)
     if len(parts) == 2 and parts[1].lstrip('-').isdigit():
         path, depth = parts[0], parts[1]
-        subprocess.run(['python3', 'scripts/set_depth.py', '--path', path, '--depth', depth])
-        subprocess.run(['python3', 'scripts/mindmap_filter.py'])
+        subprocess.run(['python3', R+'/scripts/set_depth.py', '--path', path, '--depth', depth])
+        subprocess.run(['python3', R+'/scripts/mindmap_filter.py'])
     else:
-        subprocess.run(['python3', 'scripts/mindmap_filter.py', '--path', args, '--depth', '99'])
+        subprocess.run(['python3', R+'/scripts/mindmap_filter.py', '--path', args, '--depth', '99'])
 else:
-    subprocess.run(['python3', 'scripts/mindmap_filter.py'])
+    subprocess.run(['python3', R+'/scripts/mindmap_filter.py'])
 "`
 
 ### Depth Config
-!`python3 scripts/set_depth.py --list`
+!`python3 -c "
+import subprocess, os
+R = 'Knowledge/K_MIND' if os.path.isdir('Knowledge/K_MIND/scripts') else '.'
+subprocess.run(['python3', R+'/scripts/set_depth.py', '--list'])
+"`
 
 ### Display Conventions (from conventions.json)
 !`python3 -c "
-import json
-with open('conventions/conventions.json') as f:
+import json, os
+R = 'Knowledge/K_MIND' if os.path.isdir('Knowledge/K_MIND/scripts') else '.'
+with open(R+'/conventions/conventions.json') as f:
     data = json.load(f)
 for ref in data['references']:
     if ref['name'].startswith('mindmap_'):
@@ -42,8 +48,9 @@ for ref in data['references']:
 
 ### Active Conversation (Near Memory — Categorized by Group)
 !`python3 -c "
-import json
-with open('sessions/near_memory.json') as f:
+import json, os
+R = 'Knowledge/K_MIND' if os.path.isdir('Knowledge/K_MIND/scripts') else '.'
+with open(R+'/sessions/near_memory.json') as f:
     data = json.load(f)
 # Determine source: current session or last session (for fresh starts)
 last = data.get('last_session')
@@ -77,7 +84,11 @@ for cat in ['conversation', 'conventions', 'work', 'documentation']:
 "`
 
 ### Memory Stats
-!`python3 scripts/memory_stats.py`
+!`python3 -c "
+import subprocess, os
+R = 'Knowledge/K_MIND' if os.path.isdir('Knowledge/K_MIND/scripts') else '.'
+subprocess.run(['python3', R+'/scripts/memory_stats.py'])
+"`
 
 ---
 

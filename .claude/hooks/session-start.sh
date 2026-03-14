@@ -8,18 +8,26 @@ SOURCE=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin)
 
 cd "$CLAUDE_PROJECT_DIR"
 
+# Detect K_MIND location: standalone (root) or imported (Knowledge/K_MIND/)
+if [ -d "Knowledge/K_MIND/scripts" ]; then
+    export K_MIND_ROOT="Knowledge/K_MIND"
+else
+    export K_MIND_ROOT="."
+fi
+
 # Install repo auto-memory files to Claude Code system (if newer or missing)
-bash scripts/install_memory.sh 2>/dev/null || true
+bash "$K_MIND_ROOT/scripts/install_memory.sh" 2>/dev/null || true
 
 # Initialize session based on source
 if [ "$SOURCE" = "startup" ]; then
-    python3 scripts/session_init.py --session-id "$SESSION_ID" 2>&1
+    python3 "$K_MIND_ROOT/scripts/session_init.py" --session-id "$SESSION_ID" 2>&1
 elif [ "$SOURCE" = "resume" ] || [ "$SOURCE" = "compact" ]; then
-    python3 scripts/session_init.py --session-id "$SESSION_ID" --preserve-active 2>&1
+    python3 "$K_MIND_ROOT/scripts/session_init.py" --session-id "$SESSION_ID" --preserve-active 2>&1
 fi
 
 # Instruct Claude to output the mindmap
 echo ""
+echo "K_MIND_ROOT=$K_MIND_ROOT"
 echo "K_MIND session initialized (source: $SOURCE, id: $SESSION_ID)."
 echo "MANDATORY: You MUST now invoke /mind-context and output the mindmap and recent summaries as visible text in the conversation. This is not optional. Do it immediately before anything else."
 echo "MANDATORY: Then, You MUST invoke /context and output the results to user"

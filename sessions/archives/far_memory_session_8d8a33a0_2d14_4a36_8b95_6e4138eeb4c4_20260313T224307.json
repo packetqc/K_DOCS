@@ -1,0 +1,41 @@
+{
+  "topic": "session-8d8a33a0-2d14-4a36-8b95-6e4138eeb4c4",
+  "session_id": "8d8a33a0-2d14-4a36-8b95-6e4138eeb4c4",
+  "message_range": [
+    1,
+    2
+  ],
+  "near_memory_range": [
+    1,
+    1
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "ok",
+      "timestamp": "2026-03-13T22:27:48Z"
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "[Session start] Output mindmap, recent context (last session + 4 categories), and memory stats table verbatim from /mind-context skill. Session 8d8a33a0 active, memory grid internalized.",
+      "timestamp": "2026-03-13T22:27:48Z"
+    }
+  ],
+  "summaries": [
+    {
+      "id": 1,
+      "summary": "session start: loaded mind-context, output mindmap + near memory + stats",
+      "far_memory_refs": [
+        1,
+        2
+      ],
+      "mind_memory_refs": [
+        "session::near memory",
+        "work::display-conventions-and-stats-system"
+      ],
+      "timestamp": "2026-03-13T22:27:48Z"
+    }
+  ]
+}

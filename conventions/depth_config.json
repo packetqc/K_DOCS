@@ -5,6 +5,7 @@
     "constraints"
   ],
   "overrides": {
-    "session/near memory": 4
+    "session/near memory": 4,
+    "work/display-conventions-and-stats-system": 2
   }
 }

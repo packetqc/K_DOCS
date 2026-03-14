@@ -58,41 +58,43 @@ mindmap
       claude_desktop_no_skills
         project_knowledge approach instead
     conventions
-      rules
-        system
-          programs_over_improvisation
-            claude-as-engine is bootstrap only
-            scripts are the architecture implementation
-            architecture changes equal script updates
-            claude maintains this coupling automatically
-          far_memory_topic_splitting
-            split by summarized subjects not size
-            archives folder topic slug named files
-            main file keeps active conversation plus index
-            recall any memory by subject anytime
-      mermaid
-        mind map
-          display_layout
-            radial mermaid auto layout
-            default depth 3 for all top level groups
-            normal mode omits architecture and constraints
-            deep subtrees shrink radial layout control depth
-            full mode all nodes at max depth
-            depth config file for human customization
-            user can request branch at specific depth
-            session has near memory and far memory at level 1
-            near memory depth 4 shows category children
-            near memory children are top level group names
-            each group child shows recent activities for that category
-            conversation child for general session chat
-            always show all categories even when empty
-            memory stats table as section 3
-          theme_default
-            mermaid default theme with auto colors
-            init directive always included in output
-            useMaxWidth true in mindmap init config
-          node_text_rules
-            human readable descriptions only
-            no raw IDs or internal pointers
-            avoid mermaid reserved words in nodes
+      mind
+        rules
+          system
+            programs_over_improvisation
+              claude-as-engine is bootstrap only
+              scripts are the architecture implementation
+              architecture changes equal script updates
+              claude maintains this coupling automatically
+            far_memory_topic_splitting
+              split by summarized subjects not size
+              archives folder topic slug named files
+              main file keeps active conversation plus index
+              recall any memory by subject anytime
+        mermaid
+          mind map
+            display_layout
+              radial mermaid auto layout
+              default depth 3 for all top level groups
+              normal mode omits architecture and constraints
+              deep subtrees shrink radial layout control depth
+              full mode all nodes at max depth
+              depth config file for human customization
+              user can request branch at specific depth
+              session has near memory and far memory at level 1
+              near memory depth 4 shows category children
+              near memory children are top level group names
+              each group child shows recent activities for that category
+              conversation child for general session chat
+              always show all categories even when empty
+              memory stats table as section 3
+            theme_default
+              mermaid default theme with auto colors
+              init directive always included in output
+              useMaxWidth true in mindmap init config
+            node_text_rules
+              human readable descriptions only
+              no raw IDs or internal pointers
+              avoid mermaid reserved words in nodes
+      documentation
 ```

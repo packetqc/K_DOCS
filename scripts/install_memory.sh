@@ -1,11 +1,16 @@
 #!/bin/bash
 # Install repo-level auto-memory files to Claude Code's project memory
-# Source: .claude/memory/ (in repo)
+# Source: .claude/memory/ (in repo) or Knowledge/K_MIND/.claude/memory/ (imported)
 # Target: /root/.claude/projects/<project-path>/memory/ (Claude Code system)
 
 set -euo pipefail
 
-REPO_MEMORY="$CLAUDE_PROJECT_DIR/.claude/memory"
+# Detect K_MIND location: standalone or imported
+if [ -d "$CLAUDE_PROJECT_DIR/Knowledge/K_MIND/scripts" ]; then
+    REPO_MEMORY="$CLAUDE_PROJECT_DIR/Knowledge/K_MIND/.claude/memory"
+else
+    REPO_MEMORY="$CLAUDE_PROJECT_DIR/.claude/memory"
+fi
 # Convert project dir to Claude Code's path format (/ becomes -)
 PROJECT_PATH=$(echo "$CLAUDE_PROJECT_DIR" | sed 's|^/||; s|/|-|g')
 TARGET_MEMORY="/root/.claude/projects/-${PROJECT_PATH}/memory"
