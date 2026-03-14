@@ -31,7 +31,13 @@ git remote set-url origin https://github.com/packetqc/NEW_PROJECT.git
 git push -u origin main
 ```
 
-### 4. Launch Claude Code
+### 4. Create the Knowledge module
+```bash
+bash Knowledge/K_MIND/scripts/install.sh K_DOCS
+```
+This creates `Knowledge/K_DOCS/` alongside K_MIND. The install script validates that K_MIND is present and creates the module directory.
+
+### 5. Launch Claude Code
 ```bash
 claude
 ```
@@ -81,11 +87,9 @@ cd Knowledge/K_MIND
 ## Adding New Knowledge Modules
 To add a new module (e.g., K_DOCS) alongside K_MIND:
 ```bash
-mkdir -p Knowledge/K_DOCS
-# install.sh can hook the new module's .claude/ to the root .claude/
-bash Knowledge/K_MIND/scripts/install.sh
+bash Knowledge/K_MIND/scripts/install.sh K_DOCS
 ```
-The install script's future role: arrimer (hook up) new modules to the existing root .claude/ without breaking K_MIND.
+This creates `Knowledge/K_DOCS/` with a basic module structure. The script validates K_MIND presence, prevents duplicates, and reports the created directory.
 
 ## Known Issues and Lessons Learned
 

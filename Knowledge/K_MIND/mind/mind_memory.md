@@ -18,12 +18,12 @@ mindmap
           update all internal references to new paths
           clone equals functional project
           install.sh simplified to hook new modules only
+      validation
         k_mind import system
-          install.sh bootstrap host project
-          install_memory.sh sync memory files
+          install.sh creates Knowledge modules
           gh_helper.py and github skill imported
           methodology import system documented
-      validation
+          clone based workflow validated
       approbation
       conventions
         display-conventions-and-stats-system

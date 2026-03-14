@@ -1,113 +1,42 @@
 #!/bin/bash
-# K_MIND Bootstrap — Install K_MIND capabilities into a host project
-# Run from the host project root: bash Knowledge/K_MIND/scripts/install.sh
+# K_MIND Module Installer — Create a new Knowledge module alongside K_MIND
+# Usage: bash Knowledge/K_MIND/scripts/install.sh <MODULE_NAME>
+# Example: bash Knowledge/K_MIND/scripts/install.sh K_DOCS
 #
-# This script configures the host project's .claude/ directory to use
-# K_MIND skills and hooks from Knowledge/K_MIND/.
+# Run from the project root (where CLAUDE.md and .claude/ live).
+# Creates Knowledge/<MODULE_NAME>/ with a basic module structure.
 
 set -euo pipefail
 
-# Detect K_MIND path relative to the current directory
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-K_MIND_ABS="$(cd "$SCRIPT_DIR/.." && pwd)"
-PROJECT_ROOT="$(pwd)"
+MODULE_NAME="${1:-}"
 
-# Compute relative path from project root to K_MIND
-K_MIND_REL=$(python3 -c "import os; print(os.path.relpath('$K_MIND_ABS', '$PROJECT_ROOT'))")
+if [ -z "$MODULE_NAME" ]; then
+    echo "Usage: bash Knowledge/K_MIND/scripts/install.sh <MODULE_NAME>"
+    echo "Example: bash Knowledge/K_MIND/scripts/install.sh K_DOCS"
+    exit 1
+fi
 
-# Verify we're not running from within K_MIND itself (standalone)
-if [ "$K_MIND_REL" = "." ]; then
-    echo "K_MIND is already at project root (standalone mode). No install needed."
+# Verify we're at project root (Knowledge/K_MIND must exist)
+if [ ! -d "Knowledge/K_MIND/scripts" ]; then
+    echo "Error: Knowledge/K_MIND/scripts not found."
+    echo "Run this from the project root."
+    exit 1
+fi
+
+MODULE_DIR="Knowledge/$MODULE_NAME"
+
+if [ -d "$MODULE_DIR" ]; then
+    echo "Module $MODULE_NAME already exists at $MODULE_DIR"
     exit 0
 fi
 
-echo "Installing K_MIND from: $K_MIND_REL"
+echo "Creating module: $MODULE_NAME"
 
-# --- 1. Create .claude directories ---
-mkdir -p .claude/hooks
-mkdir -p .claude/skills/mind-context
-mkdir -p .claude/skills/mind-depth
-mkdir -p .claude/skills/mind-stats
-mkdir -p .claude/skills/github
+# --- Create module directory structure ---
+mkdir -p "$MODULE_DIR"
 
-# --- 2. Generate .claude/settings.json ---
-if [ -f .claude/settings.json ]; then
-    echo "  .claude/settings.json already exists — skipping (check hooks manually)"
-else
-    cat > .claude/settings.json << 'SETTINGSEOF'
-{
-    "$schema": "https://json-schema.store/claude-code-settings.json",
-    "hooks": {
-        "SessionStart": [
-            {
-                "matcher": "",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
-                    }
-                ]
-            }
-        ]
-    }
-}
-SETTINGSEOF
-    echo "  Created .claude/settings.json"
-fi
-
-# --- 3. Generate .claude/hooks/session-start.sh ---
-cp "$K_MIND_ABS/.claude/hooks/session-start.sh" .claude/hooks/session-start.sh
-chmod +x .claude/hooks/session-start.sh
-echo "  Installed .claude/hooks/session-start.sh"
-
-# --- 4. Copy skills (they auto-detect K_MIND_ROOT) ---
-for skill in mind-context mind-depth mind-stats github; do
-    cp "$K_MIND_ABS/.claude/skills/$skill/SKILL.md" ".claude/skills/$skill/SKILL.md"
-    echo "  Installed skill: $skill"
-done
-
-# --- 5. Install/update CLAUDE.md ---
-K_MIND_INCLUDE="# K_MIND Integration
-Read and apply Knowledge/K_MIND/CLAUDE.md as base instructions for the K_MIND memory system.
-
-## Lifecycle — On Session Start
-When the SessionStart hook outputs \"MANDATORY: You MUST now invoke /mind-context\",
-you MUST immediately invoke /mind-context and output the mindmap visually.
-This applies on every new session, resume, and compaction recovery.
-
-## GitHub Operations — MANDATORY
-For ALL GitHub operations (PR create, merge, issues, projects), you MUST use the /github skill
-and \`gh_helper.py\` (via \`from scripts.gh_helper import GitHubHelper\`). NEVER use \`gh\` CLI
-or raw git push with tokens. Read the /github skill BEFORE any GitHub API call.
-The GH_TOKEN environment variable is pre-configured — GitHubHelper() reads it automatically."
-
-if [ -f CLAUDE.md ]; then
-    if ! grep -q "Knowledge/K_MIND/CLAUDE.md" CLAUDE.md; then
-        echo "" >> CLAUDE.md
-        echo "$K_MIND_INCLUDE" >> CLAUDE.md
-        echo "  Appended K_MIND reference to existing CLAUDE.md"
-    else
-        echo "  CLAUDE.md already references K_MIND — skipping"
-    fi
-else
-    echo "$K_MIND_INCLUDE" > CLAUDE.md
-    echo "  Created CLAUDE.md with K_MIND reference"
-fi
-
-# --- 6. Copy memory files if present ---
-if [ -d "$K_MIND_ABS/.claude/memory" ]; then
-    mkdir -p .claude/memory
-    for src in "$K_MIND_ABS/.claude/memory"/*.md; do
-        [ -f "$src" ] || continue
-        filename=$(basename "$src")
-        if [ ! -f ".claude/memory/$filename" ] || [ "$src" -nt ".claude/memory/$filename" ]; then
-            cp "$src" ".claude/memory/$filename"
-        fi
-    done
-    echo "  Synced memory files"
-fi
+echo "  Created $MODULE_DIR/"
 
 echo ""
-echo "K_MIND bootstrap complete."
-echo "K_MIND location: $K_MIND_REL"
-echo "Open Claude Code in this project to start using K_MIND capabilities."
+echo "Module $MODULE_NAME created at $MODULE_DIR/"
+echo "K_MIND is ready — launch 'claude' to start working."
