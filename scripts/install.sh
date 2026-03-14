@@ -73,7 +73,13 @@ Read and apply Knowledge/K_MIND/CLAUDE.md as base instructions for the K_MIND me
 ## Lifecycle — On Session Start
 When the SessionStart hook outputs \"MANDATORY: You MUST now invoke /mind-context\",
 you MUST immediately invoke /mind-context and output the mindmap visually.
-This applies on every new session, resume, and compaction recovery."
+This applies on every new session, resume, and compaction recovery.
+
+## GitHub Operations — MANDATORY
+For ALL GitHub operations (PR create, merge, issues, projects), you MUST use the /github skill
+and \`gh_helper.py\` (via \`from scripts.gh_helper import GitHubHelper\`). NEVER use \`gh\` CLI
+or raw git push with tokens. Read the /github skill BEFORE any GitHub API call.
+The GH_TOKEN environment variable is pre-configured — GitHubHelper() reads it automatically."
 
 if [ -f CLAUDE.md ]; then
     if ! grep -q "Knowledge/K_MIND/CLAUDE.md" CLAUDE.md; then
