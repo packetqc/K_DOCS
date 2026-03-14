@@ -10,14 +10,23 @@ mindmap
         documentation
       far memory
     work
-      display-conventions-and-stats-system
-        depth_config.json human editable depth settings
-        set_depth.py manage depth config
-        mindmap_filter.py config driven depth filtering
-        mind-stats skill standalone memory stats
-        mind-depth skill standalone depth config
-        memory_stats.py shared stats with context availability
-        convention fixes applied and verified
+      en cours
+        k_mind import system
+          install.sh bootstrap host project
+          install_memory.sh sync memory files
+          standalone vs imported modes
+          branch 2eHqF not yet on main
+      validation
+      approbation
+      conventions
+        display-conventions-and-stats-system
+          depth_config.json human editable depth settings
+          set_depth.py manage depth config
+          mindmap_filter.py config driven depth filtering
+          mind-stats skill standalone memory stats
+          mind-depth skill standalone depth config
+          memory_stats.py shared stats with context availability
+          convention fixes applied and verified
     documentation
     architecture
       persistence_format
@@ -55,8 +64,9 @@ mindmap
         session_init fresh or resume sessions
     constraints
       no_cross_session_access
-      claude_desktop_no_skills
-        project_knowledge approach instead
+      claude_mobile_no_skills
+        mobile app only limitation
+        desktop pc supports skills normally
     conventions
       mind
         rules

@@ -1,0 +1,40 @@
+{
+  "topic": "session-d99725bd-8be9-4b67-8769-3a908b4fce90",
+  "session_id": "d99725bd-8be9-4b67-8769-3a908b4fce90",
+  "message_range": [
+    1,
+    2
+  ],
+  "near_memory_range": [
+    1,
+    1
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "lu",
+      "timestamp": "2026-03-14T00:37:04Z"
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Rendered mindmap, near memory context, and memory stats. Session confirmed active. Asked user what they want to do.",
+      "timestamp": "2026-03-14T00:37:04Z"
+    }
+  ],
+  "summaries": [
+    {
+      "id": 1,
+      "summary": "Session start: rendered mind-context, user acknowledged with 'lu'",
+      "far_memory_refs": [
+        1,
+        2
+      ],
+      "mind_memory_refs": [
+        "session::near memory"
+      ],
+      "timestamp": "2026-03-14T00:37:04Z"
+    }
+  ]
+}

@@ -67,7 +67,12 @@ done
 
 # --- 5. Install/update CLAUDE.md ---
 K_MIND_INCLUDE="# K_MIND Integration
-Read and apply Knowledge/K_MIND/CLAUDE.md as base instructions for the K_MIND memory system."
+Read and apply Knowledge/K_MIND/CLAUDE.md as base instructions for the K_MIND memory system.
+
+## Lifecycle — On Session Start
+When the SessionStart hook outputs \"MANDATORY: You MUST now invoke /mind-context\",
+you MUST immediately invoke /mind-context and output the mindmap visually.
+This applies on every new session, resume, and compaction recovery."
 
 if [ -f CLAUDE.md ]; then
     if ! grep -q "Knowledge/K_MIND/CLAUDE.md" CLAUDE.md; then
