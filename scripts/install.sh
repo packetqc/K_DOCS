@@ -28,6 +28,7 @@ mkdir -p .claude/hooks
 mkdir -p .claude/skills/mind-context
 mkdir -p .claude/skills/mind-depth
 mkdir -p .claude/skills/mind-stats
+mkdir -p .claude/skills/github
 
 # --- 2. Generate .claude/settings.json ---
 if [ -f .claude/settings.json ]; then
@@ -60,7 +61,7 @@ chmod +x .claude/hooks/session-start.sh
 echo "  Installed .claude/hooks/session-start.sh"
 
 # --- 4. Copy skills (they auto-detect K_MIND_ROOT) ---
-for skill in mind-context mind-depth mind-stats; do
+for skill in mind-context mind-depth mind-stats github; do
     cp "$K_MIND_ABS/.claude/skills/$skill/SKILL.md" ".claude/skills/$skill/SKILL.md"
     echo "  Installed skill: $skill"
 done
