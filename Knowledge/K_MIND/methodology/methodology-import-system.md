@@ -20,17 +20,10 @@ cd /path/to/NEW_PROJECT
 ```
 
 ### 2. Create the new repo on GitHub
-```bash
-python3 -c "
-from Knowledge.K_MIND.scripts.gh_helper import GitHubHelper
-import urllib.request, json
-gh = GitHubHelper()
-data = json.dumps({'name': 'NEW_PROJECT', 'private': False}).encode()
-req = urllib.request.Request('https://api.github.com/user/repos', data=data, method='POST',
-    headers={'Authorization': f'Bearer {gh.token}', 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json'})
-print(json.loads(urllib.request.urlopen(req).read())['html_url'])
-"
-```
+Create the repo manually on GitHub, or ask Claude in a session with GH_TOKEN configured:
+> "Create a GitHub repo called NEW_PROJECT using gh_helper"
+
+Claude will use the `/github` skill and `gh_helper.py` with the token from the environment — never exposing it.
 
 ### 3. Change the remote and push
 ```bash
