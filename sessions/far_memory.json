@@ -85,6 +85,29 @@
           "action": "ajouté section Lifecycle dans K_MIND_INCLUDE"
         }
       ]
+    },
+    {
+      "id": 11,
+      "role": "user",
+      "content": "va chercher le script gh_helper.py sur le repo Knowledge/scripts et importes-le dans les scripts de K_MIND. tu devrais trouver et importer aussi le skill qui vient avec.",
+      "timestamp": "2026-03-14T16:45:58Z"
+    },
+    {
+      "id": 12,
+      "role": "assistant",
+      "content": "Importé gh_helper.py depuis packetqc/Knowledge repo + skill github. Adapté les imports de knowledge.engine.scripts.gh_helper vers scripts.gh_helper. Auth testée OK: packetqc, scopes project+repo. Token lu depuis GH_TOKEN env var.",
+      "timestamp": "2026-03-14T16:45:58Z",
+      "tools": [
+        {
+          "tool": "Bash",
+          "action": "cloned Knowledge sparse, copied gh_helper.py and github skill"
+        },
+        {
+          "tool": "Edit",
+          "file": ".claude/skills/github/SKILL.md",
+          "action": "adapted import paths"
+        }
+      ]
     }
   ],
   "archives": [

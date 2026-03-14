@@ -62,6 +62,18 @@
         "work::en cours::k_mind import system"
       ],
       "timestamp": "2026-03-14T16:37:45Z"
+    },
+    {
+      "id": 6,
+      "summary": "Importé gh_helper.py + skill github depuis repo Knowledge. Auth OK. Imports adaptés pour K_MIND.",
+      "far_memory_refs": [
+        11,
+        12
+      ],
+      "mind_memory_refs": [
+        "work::en cours::k_mind import system"
+      ],
+      "timestamp": "2026-03-14T16:45:58Z"
     }
   ]
 }
