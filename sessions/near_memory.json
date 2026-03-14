@@ -86,6 +86,31 @@
         "work::en cours::k_mind import system"
       ],
       "timestamp": "2026-03-14T16:49:30Z"
+    },
+    {
+      "id": 8,
+      "summary": "Créé methodology-import-system.md + noeud mindmap methodologies sous conventions. PR #11 mergé.",
+      "far_memory_refs": [
+        15,
+        16
+      ],
+      "mind_memory_refs": [
+        "conventions::methodologies",
+        "work::en cours::k_mind import system"
+      ],
+      "timestamp": "2026-03-14T16:54:38Z"
+    },
+    {
+      "id": 9,
+      "summary": "GH_TOKEN configuré dans VS Code. Utilisateur teste la mise à jour K_MIND dans K_DOCS et le skill github. En attente de résultats.",
+      "far_memory_refs": [
+        17,
+        18
+      ],
+      "mind_memory_refs": [
+        "work::en cours::k_mind import system"
+      ],
+      "timestamp": "2026-03-14T17:00:59Z"
     }
   ]
 }
