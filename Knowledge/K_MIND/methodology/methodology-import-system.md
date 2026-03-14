@@ -16,16 +16,25 @@ Since K_MIND is structured with `Knowledge/K_MIND/` at its root, a clone is a re
 ### 1. Clone K_MIND as the new project
 ```bash
 git clone https://github.com/packetqc/K_MIND.git /path/to/NEW_PROJECT
-```
-
-### 2. Change the remote to the new project repo
-```bash
 cd /path/to/NEW_PROJECT
-git remote set-url origin https://github.com/packetqc/NEW_PROJECT.git
 ```
 
-### 3. Push initial state
+### 2. Create the new repo on GitHub
 ```bash
+python3 -c "
+from Knowledge.K_MIND.scripts.gh_helper import GitHubHelper
+import urllib.request, json
+gh = GitHubHelper()
+data = json.dumps({'name': 'NEW_PROJECT', 'private': False}).encode()
+req = urllib.request.Request('https://api.github.com/user/repos', data=data, method='POST',
+    headers={'Authorization': f'Bearer {gh.token}', 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json'})
+print(json.loads(urllib.request.urlopen(req).read())['html_url'])
+"
+```
+
+### 3. Change the remote and push
+```bash
+git remote set-url origin https://github.com/packetqc/NEW_PROJECT.git
 git push -u origin main
 ```
 
