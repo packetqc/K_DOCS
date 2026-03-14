@@ -12,14 +12,8 @@ mindmap
     work
       en cours
       validation
-        repo restructure to Knowledge K_MIND
-          move all content under Knowledge K_MIND
-          CLAUDE.md and .claude stay at root untouched
-          no CLAUDE.md in Knowledge K_MIND
-          update all internal references to new paths
-          clone equals functional project
-          install.sh simplified to hook new modules only
         k_mind import system
+          repo restructure to Knowledge K_MIND
           install.sh creates Knowledge modules
           gh_helper.py and github skill imported
           methodology import system documented
