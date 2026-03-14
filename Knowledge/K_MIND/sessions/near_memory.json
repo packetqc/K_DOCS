@@ -111,6 +111,42 @@
         "work::en cours::k_mind import system"
       ],
       "timestamp": "2026-03-14T17:00:59Z"
+    },
+    {
+      "id": 10,
+      "summary": "Fix: CLAUDE.md généré inclut maintenant directive GitHub Operations MANDATORY. PR #13 mergé. Import K_DOCS smooth.",
+      "far_memory_refs": [
+        19,
+        20
+      ],
+      "mind_memory_refs": [
+        "work::en cours::k_mind import system"
+      ],
+      "timestamp": "2026-03-14T17:07:01Z"
+    },
+    {
+      "id": 11,
+      "summary": "DESIGN MAJEUR: restructurer K_MIND avec Knowledge/K_MIND/ à la racine. CLAUDE.md et .claude/ ne bougent pas. Prioritaire.",
+      "far_memory_refs": [
+        21,
+        22
+      ],
+      "mind_memory_refs": [
+        "work::en cours::k_mind import system"
+      ],
+      "timestamp": "2026-03-14T17:51:04Z"
+    },
+    {
+      "id": 12,
+      "summary": "RESTRUCTURATION EXÉCUTÉE: tout le contenu K_MIND déplacé sous Knowledge/K_MIND/. Root garde CLAUDE.md et .claude/. Tests OK.",
+      "far_memory_refs": [
+        23,
+        24
+      ],
+      "mind_memory_refs": [
+        "work::en cours::repo restructure to Knowledge K_MIND"
+      ],
+      "timestamp": "2026-03-14T17:54:14Z"
     }
   ]
 }
