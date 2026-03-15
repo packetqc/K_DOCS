@@ -533,34 +533,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         if (loc && loc !== 'about:blank') localStorage.setItem(RCONTENT_KEY, loc);
       } catch(e) {}
       syncThemeToIframes();
-      /* ─── Right panel routing rules ─── */
-      /* Interface links in right panel → center-frame; Main Navigator → _top */
-      /* Uses CAPTURE phase to fire before the embed page's own click interceptor */
-      try {
-        var rDoc = rightIframe.contentDocument;
-        if (!rDoc) return;
-        rDoc.addEventListener('click', function(e) {
-          var a = e.target.closest('a');
-          if (!a) return;
-          var href = a.getAttribute('href') || '';
-          /* Resolve internal path via viewer rewriter if available */
-          var resolved = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl(href, false) : href;
-          /* Detect interface paths */
-          var isInterface = /\/interfaces\//.test(href) || /\/interfaces\//.test(resolved);
-          var isMainNav = /\/interfaces\/main-navigator\//.test(href) || /\/interfaces\/main-navigator\//.test(resolved);
-          if (isMainNav) {
-            e.preventDefault();
-            e.stopPropagation();
-            window.top.location.reload();
-          } else if (isInterface && centerIframe) {
-            e.preventDefault();
-            e.stopPropagation();
-            var embedUrl = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl(href) : href;
-            centerIframe.src = embedUrl;
-            localStorage.setItem(CENTER_KEY, embedUrl);
-          }
-        }, true); /* capture phase — fires before embed page handlers */
-      } catch(e) {}
+      /* Right panel routing rules are handled by the viewer (index.html) */
+      /* When embed in content-frame: interfaces → center-frame, main-nav → reload */
     });
   }
 

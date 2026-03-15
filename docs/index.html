@@ -1030,6 +1030,30 @@
         var match = resolveInternalPath(href);
         if (match) {
           e.preventDefault();
+
+          // Right-panel routing: when embed in content-frame, route interface links elsewhere
+          if (IS_EMBED && window.name === 'content-frame') {
+            var doc = DOCS[match.index];
+            if (doc.group === 'Interfaces') {
+              // Main Navigator → reload full page
+              if (doc.path.indexOf('main-navigator') !== -1) {
+                window.top.location.reload();
+                return;
+              }
+              // Other interfaces → route to center-frame, keep right panel unchanged
+              try {
+                var centerFrame = window.parent.document.querySelector('iframe[name="center-frame"]');
+                if (centerFrame) {
+                  var embedUrl = window.location.pathname.replace(/[^/]*$/, '') +
+                    'index.html?doc=' + encodeURIComponent(doc.path) + '&embed' +
+                    (match.lang === 'fr' ? '&lang=fr' : '');
+                  centerFrame.src = embedUrl;
+                  return;
+                }
+              } catch(ex) {}
+            }
+          }
+
           document.getElementById('docSelect').value = match.index;
           loadWithLang(match.index, match.lang);
         }
