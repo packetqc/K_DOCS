@@ -538,6 +538,21 @@ body > .container {
     if (saved && saved !== 'auto') themeSelect.value = saved;
   }
 
+  // Listen for theme changes from viewer (master)
+  if (typeof BroadcastChannel !== 'undefined') {
+    var themeChannel = new BroadcastChannel('kdocs-theme-sync');
+    themeChannel.onmessage = function(ev) {
+      var val = ev.data;
+      localStorage.setItem('kdocs-theme', val);
+      if (val === 'auto') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', val);
+      // Sync dropdown
+      if (themeSelect) themeSelect.value = val;
+      // Apply MindElixir canvas theme
+      window.applyMindTheme();
+    };
+  }
+
   // === Help panel — bilingual ===
   var LANG = window.location.pathname.indexOf('/fr/') >= 0 ? 'fr' : 'en';
   var helpContent = {

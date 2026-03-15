@@ -657,11 +657,14 @@
       select.value = saved;
       if (saved !== 'auto') document.documentElement.setAttribute('data-theme', saved);
 
+      var themeChannel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('kdocs-theme-sync') : null;
       select.addEventListener('change', function() {
         var val = this.value;
         localStorage.setItem('kdocs-theme', val);
         if (val === 'auto') document.documentElement.removeAttribute('data-theme');
         else document.documentElement.setAttribute('data-theme', val);
+        // Broadcast to iframes (I5, etc.)
+        if (themeChannel) themeChannel.postMessage(val);
         // Re-render mermaid for new theme
         renderMermaidBlocks();
       });
