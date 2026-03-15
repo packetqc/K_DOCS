@@ -57,7 +57,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-grid {
   flex: 1; min-height: 0; display: grid; overflow: hidden;
   position: relative;
-  grid-template-columns: 220px 6px 1fr 6px 0px;
+  grid-template-columns: 220px 14px 1fr 14px 0px;
   grid-template-rows: 1fr;
   margin: 0.3rem 0.4rem 0.25rem;
   border: 1px solid var(--border, #d0d7de);
@@ -87,13 +87,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   cursor: col-resize; user-select: none;
   transition: background 0.15s ease;
   position: relative;
-  min-width: 6px;
+  min-width: 14px;
   z-index: 10;
 }
 .nav-divider-left { grid-column: 2; }
 .nav-divider-left::before, .nav-divider-right::before {
-  content: '·\A·\A·'; white-space: pre; position: absolute; top: 50%; transform: translateY(-50%);
-  font-size: 0.6rem; line-height: 0.45; color: var(--muted, #656d76);
+  content: '·\A·\A·\A·\A·'; white-space: pre; position: absolute; top: 50%; transform: translateY(-50%);
+  font-size: 0.75rem; line-height: 0.5; color: var(--muted, #656d76);
 }
 .nav-divider-left:hover, .nav-divider-right:hover {
   background: var(--col-alt, #e0e8f0);
@@ -240,7 +240,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 
   /* ─── Panel sizes — draggable + click-to-step ─── */
-  var DIVIDER_W = 6;
+  var DIVIDER_W = 14;
   var LEFT_STEPS = [0, 220, 320]; // click cycles through these
   var savedLeft = parseInt(localStorage.getItem(LPANEL_KEY) || '220');
   var savedRight = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
