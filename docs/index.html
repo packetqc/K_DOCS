@@ -247,6 +247,10 @@
     .chrome-bar-meta .chrome-gen { font-family: monospace; font-size: 0.72rem; }
     .chrome-bar-meta .chrome-citation { font-style: italic; border-top: 1px solid var(--border); padding-top: 0.3rem; margin-top: 0.3rem; }
     .chrome-bar-meta span { display: inline-block; margin-right: 1rem; }
+    .chrome-detail-row { line-height: 1.7; }
+    .chrome-detail-label { display: inline-block; min-width: 5.5rem; font-weight: 600; color: var(--fg); }
+    .doc-header-details .chrome-detail-row { line-height: 1.7; }
+    .doc-header-details .chrome-detail-label { display: inline-block; min-width: 5.5rem; font-weight: 600; color: var(--fg); }
     #ifaceFrame {
       width: calc(100% - 1rem); border: none; background: var(--bg);
       flex: 1; min-height: 0; margin: 0.25rem 0.5rem;
@@ -913,14 +917,36 @@
         String(now.getMinutes()).padStart(2, '0');
       var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
 
-      // Collapsible metadata content
+      // Collapsible metadata content — production format with labeled rows
       var detailsHtml = '';
-      if (meta.pub_meta) detailsHtml += '<span>' + escapeHtml(meta.pub_meta) + '</span>';
-      if (meta.pub_version) detailsHtml += '<span>' + escapeHtml(meta.pub_version) + '</span>';
-      if (meta.pub_date || meta.date) detailsHtml += '<span>' + escapeHtml(meta.pub_date || meta.date) + '</span>';
-      if (meta.header_title || meta.title) detailsHtml += '<span>' + escapeHtml(meta.header_title || meta.title) + '</span>';
-      detailsHtml += '<div class="chrome-gen">' + genLabel + ': ' + genDate + '</div>';
-      if (meta.citation) detailsHtml += '<div class="chrome-citation">' + escapeHtml(meta.citation) + '</div>';
+      // Row 1: Publication: · version · date · title
+      var pubParts = [];
+      if (meta.pub_version) pubParts.push(escapeHtml(meta.pub_version));
+      if (meta.pub_date || meta.date) pubParts.push(escapeHtml(meta.pub_date || meta.date));
+      if (meta.header_title || meta.title) pubParts.push(escapeHtml(meta.header_title || meta.title));
+      if (pubParts.length) {
+        var pubLabel = (meta.lang === 'fr') ? 'Publication' : 'Publication';
+        detailsHtml += '<div class="chrome-detail-row"><span class="chrome-detail-label">' + pubLabel + ':</span> ' + pubParts.join(' &middot; ') + '</div>';
+      }
+      // Row 2: Generated: timestamp
+      detailsHtml += '<div class="chrome-detail-row"><span class="chrome-detail-label">' + genLabel + ':</span> ' + genDate + '</div>';
+      // Row 3: Authors (from citation or pub_meta)
+      var authors = '';
+      if (meta.citation) {
+        // Extract author names before the year parenthetical
+        var authorMatch = meta.citation.match(/^([^(]+)\s*\(/);
+        if (authorMatch) authors = authorMatch[1].replace(/,\s*$/, '').trim();
+      }
+      if (!authors && meta.pub_meta) {
+        // Try to extract from pub_meta after "|"
+        var pipeMatch = meta.pub_meta.match(/\|\s*(.+)$/);
+        if (pipeMatch) authors = pipeMatch[1].trim();
+      }
+      if (authors) {
+        var authLabel = (meta.lang === 'fr') ? 'Auteurs' : 'Authors';
+        var authorLines = authors.split(/\s*[&]\s*/);
+        detailsHtml += '<div class="chrome-detail-row"><span class="chrome-detail-label">' + authLabel + ':</span> ' + authorLines.map(function(a) { return escapeHtml(a.trim()); }).join('<br><span class="chrome-detail-label"></span> ') + '</div>';
+      }
 
       return { actualUrl: actualUrl, backUrl: backUrl, backLabel: backLabel, versionHtml: versionHtml, detailsHtml: detailsHtml };
     }
