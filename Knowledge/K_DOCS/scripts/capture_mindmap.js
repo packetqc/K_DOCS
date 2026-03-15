@@ -4,7 +4,7 @@
  * Uses headless Chrome to render the actual MindElixir library,
  * then captures screenshots as branches expand.
  *
- * Usage: node capture_mindmap.js [daltonism-light|daltonism-dark|cayman|midnight]
+ * Usage: node capture_mindmap.js [daltonism-light|daltonism-dark|cayman|midnight] [--full]
  * Output: /tmp/mindmap-frames/frame-*.png
  */
 
@@ -103,35 +103,92 @@ function filterByDepth(node, maxDepth, currentDepth = 0) {
   return filtered;
 }
 
-function buildProgressiveData(root) {
-  // Return array of data objects, each adding one more top-level branch
-  // Apply depth limit of 3 levels for readability in 1200x630
+function buildProgressiveData(root, fullMode = false) {
+  // Three short movies:
+  //
+  // MOVIE 1 — "The Emergence": Progressive build from root to full overview
+  //   root only → depth 1 → depth 2 → depth 3 (hold)
+  //
+  // MOVIE 2 — "The Collapse": Retract back to skeleton
+  //   depth 3 → depth 2 → depth 1 (hold)
+  //
+  // MOVIE 3 — "The Exploration": Each branch opens progressively, closes before next
+  //   For each branch: depth 1 → 2 → 3 → 4 → (5 in full) → hold → collapse back to 1
+  //
+  // Normal mode: overview max=2, explore max=3
+  // Full mode:   overview max=3, explore max=5
+  const overviewMax = fullMode ? 3 : 2;
+  const exploreMax = fullMode ? 5 : 3;
+
   const topChildren = root.children || [];
   const frames = [];
-  const DEPTH = 2;
 
-  for (let i = 1; i <= topChildren.length; i++) {
-    const frameRoot = filterByDepth(root, DEPTH);
-    frameRoot.children = frameRoot.children.slice(0, i);
-    frames.push({ nodeData: frameRoot, direction: 2 });
+  // ── MOVIE 1: The Emergence ──
+  // Build up from nothing to full overview, one depth at a time
+  for (let d = 0; d <= overviewMax; d++) {
+    frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
+  }
+  // Hold the full overview for an extra beat
+  frames.push({ nodeData: filterByDepth(root, overviewMax), direction: 2 });
+
+  // ── MOVIE 2: The Collapse ──
+  // Retract back down to just branch names
+  for (let d = overviewMax - 1; d >= 1; d--) {
+    frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
+  }
+  // Hold the collapsed view
+  frames.push({ nodeData: filterByDepth(root, 1), direction: 2 });
+
+  // ── MOVIE 3: The Exploration ──
+  // Each branch opens progressively depth by depth, then closes before next
+  for (let i = 0; i < topChildren.length; i++) {
+    // Progressive open: depth 2 → 3 → ... → exploreMax
+    for (let d = 2; d <= exploreMax; d++) {
+      const frameRoot = { topic: root.topic, id: root.id, children: [] };
+      for (let j = 0; j < topChildren.length; j++) {
+        if (j === i) {
+          frameRoot.children.push(filterByDepth(topChildren[j], d, 0));
+        } else {
+          frameRoot.children.push(filterByDepth(topChildren[j], 1, 0));
+        }
+      }
+      frames.push({ nodeData: frameRoot, direction: 2 });
+    }
+    // Hold the fully expanded branch for an extra beat
+    const holdRoot = { topic: root.topic, id: root.id, children: [] };
+    for (let j = 0; j < topChildren.length; j++) {
+      if (j === i) {
+        holdRoot.children.push(filterByDepth(topChildren[j], exploreMax, 0));
+      } else {
+        holdRoot.children.push(filterByDepth(topChildren[j], 1, 0));
+      }
+    }
+    frames.push({ nodeData: holdRoot, direction: 2 });
+
+    // Collapse back (only if not the last branch — last one holds as finale)
+    if (i < topChildren.length - 1) {
+      frames.push({ nodeData: filterByDepth(root, 1), direction: 2 });
+    }
   }
 
   return frames;
 }
 
 async function main() {
-  const themeName = process.argv[2] || 'daltonism-light';
+  const args = process.argv.slice(2);
+  const fullMode = args.includes('--full');
+  const themeName = args.find(a => !a.startsWith('--')) || 'daltonism-light';
   const theme = THEME_MAP[themeName];
   if (!theme) {
     console.error(`Unknown theme: ${themeName}. Use: ${Object.keys(THEME_MAP).join(', ')}`);
     process.exit(1);
   }
 
-  console.log(`Capturing mindmap: ${themeName}`);
+  console.log(`Capturing mindmap: ${themeName}${fullMode ? ' (FULL mode)' : ''}`);
 
   const mermaidCode = readMindmap();
   const root = parseMermaidToMindElixir(mermaidCode);
-  const progressiveFrames = buildProgressiveData(root);
+  const progressiveFrames = buildProgressiveData(root, fullMode);
 
   console.log(`  ${root.children.length} top-level branches, ${progressiveFrames.length} frames`);
 

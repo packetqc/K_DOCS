@@ -71,7 +71,7 @@ def add_chrome(frame_img, theme_name, node_count, frame_num, total_frames):
     except (IOError, OSError):
         f_title = f_small = ImageFont.load_default()
 
-    draw.text((14, 9), "K_MIND \u2014 Live Knowledge Graph", fill=(255,255,255), font=f_title)
+    draw.text((14, 9), "KNOWLEDGE \u2014 Live Knowledge Graph", fill=(255,255,255), font=f_title)
     draw.text((CARD_W - 190, 12), f"{node_count} nodes \u00b7 {theme_name}", fill=(200,220,255), font=f_small)
     draw.text((14, bot_y + 4), "packetqc/K_DOCS", fill=(255,255,255), font=f_small)
     draw.text((CARD_W - 170, bot_y + 4), "Dynamic Webcard", fill=(200,220,255), font=f_small)
@@ -135,7 +135,8 @@ def main():
 
     optimized = [f.quantize(colors=256, method=Image.Quantize.MEDIANCUT,
                             dither=Image.Dither.FLOYDSTEINBERG) for f in frames]
-    durations = [800] * len(frame_files) + [2000] * 3
+    # Cinematic timing: 600ms per transition frame, faster pacing for many frames
+    durations = [600] * len(frame_files) + [2000] * 3
 
     optimized[0].save(str(output_path), save_all=True, append_images=optimized[1:],
                       duration=durations, loop=0, optimize=True)

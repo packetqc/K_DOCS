@@ -41,6 +41,7 @@ mindmap
         session review
         tasks workflow
         live mindmap
+      stories
       profile
       publications
     architecture
