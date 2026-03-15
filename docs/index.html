@@ -1098,19 +1098,14 @@
       }
       // Row 2: Generated: timestamp
       detailsHtml += '<div class="chrome-detail-row"><span class="chrome-detail-label">' + genLabel + ':</span> ' + genDate + '</div>';
-      // Row 3: Authors (from citation or pub_meta)
+      // Row 3: Authors (from pub_meta or default — full names)
       var authors = '';
-      if (meta.citation) {
-        // Extract author names before the year parenthetical
-        var authorMatch = meta.citation.match(/^([^(]+)\s*\(/);
-        if (authorMatch) authors = authorMatch[1].replace(/,\s*$/, '').trim();
-      }
-      if (!authors && meta.pub_meta) {
-        // Try to extract from pub_meta after "|"
+      if (meta.pub_meta) {
+        // Extract from pub_meta after "|"
         var pipeMatch = meta.pub_meta.match(/\|\s*(.+)$/);
         if (pipeMatch) authors = pipeMatch[1].trim();
       }
-      if (!authors) authors = 'Martin Paquet & Claude (Anthropic, Opus 4.6)';
+      if (!authors) authors = 'Martin Paquet & Claude (Anthropic, Claude Opus 4.6)';
       var authLabel = (meta.lang === 'fr') ? 'Auteurs' : 'Authors';
       var authorLines = authors.split(/\s*[&]\s*/);
       detailsHtml += '<div class="chrome-detail-row"><span class="chrome-detail-label">' + authLabel + ':</span> ' + authorLines.map(function(a) { return escapeHtml(a.trim()); }).join('<br><span class="chrome-detail-label"></span> ') + '</div>';
