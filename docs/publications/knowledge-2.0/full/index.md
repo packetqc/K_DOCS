@@ -192,6 +192,8 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
 <script src="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.iife.js"></script>
 <script>
 (function() {
+  if (window._k20MindmapLoaded) return;
+  window._k20MindmapLoaded = true;
   var RAW_BASE = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/';
   var container = document.getElementById('k20-live-mindmap');
 
