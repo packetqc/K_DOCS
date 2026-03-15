@@ -712,6 +712,44 @@
         "knowledge::conventions::documentation::bilingual_en_fr"
       ],
       "timestamp": "2026-03-15T11:08:06Z"
+    },
+    {
+      "id": 57,
+      "summary": "MindElixir +/- and dblclick now expand one level at a time, Ctrl+click for full expand, help text updated",
+      "far_memory_refs": [
+        113,
+        114
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::claude desktop app::mindmap_memory::live_mindmap"
+      ],
+      "timestamp": "2026-03-15T11:19:48Z"
+    },
+    {
+      "id": 58,
+      "summary": "MindElixir final: editable:false read-only, native +/- expand, collapseDeep init, theme broadcast, auto-fit fullscreen",
+      "far_memory_refs": [
+        115,
+        116
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::claude desktop app::mindmap_memory::live_mindmap",
+        "knowledge::documentation::web_docs::live_mindmap"
+      ],
+      "timestamp": "2026-03-15T11:46:25Z"
+    },
+    {
+      "id": 59,
+      "summary": "Multi-module architecture agreed: K_MIND core + modules under Knowledge/, git subtree sync, CLAUDE.md/.claude/ part of core",
+      "far_memory_refs": [
+        117,
+        118
+      ],
+      "mind_memory_refs": [
+        "knowledge::architecture::programs_over_improvisation",
+        "knowledge::conventions::root_essential_files"
+      ],
+      "timestamp": "2026-03-15T11:56:31Z"
     }
   ],
   "last_session": {

@@ -1170,6 +1170,93 @@
           "action": "add help panel CSS, HTML, and bilingual JS content"
         }
       ]
+    },
+    {
+      "id": 113,
+      "role": "user",
+      "content": "is there a way to expand only 1 level with the + sign feature in the live mind map? it seem to expand full paths. with the native feature of the library is not possible to expand 1 level only using the + sign icon? let's explain that in the help that i do not see yet in the interface!",
+      "timestamp": "2026-03-15T11:19:48Z"
+    },
+    {
+      "id": 114,
+      "role": "assistant",
+      "content": "Intercepted MindElixir's me-epd click and dblclick in capture phase across all 3 deployment points. Both +/- button and double-click now expand one level at a time (collapse grandchildren before expanding). Ctrl+Click on + preserves full expand. Updated EN/FR help panel text to document the behavior. Committed and pushed.",
+      "timestamp": "2026-03-15T11:19:48Z",
+      "tools": [
+        {
+          "tool": "WebFetch",
+          "file": "MindElixir CDN",
+          "action": "found me-epd element for +/- button"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "add click capture for me-epd one-level expand + update help text"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add click capture for me-epd one-level expand"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "add click capture for me-epd one-level expand"
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "role": "user",
+      "content": "Series of MindElixir refinements: +/- one-level expand attempt, theme sync, text editing block, node drag block, fullscreen fit, full mode collapsed start. Final: editable:false read-only, native MindElixir +/- expand, collapseDeep on init for starting depth, BroadcastChannel theme sync from viewer to I5, auto-fit on fullscreen/resize, bilingual help panel updated.",
+      "timestamp": "2026-03-15T11:46:25Z"
+    },
+    {
+      "id": 116,
+      "role": "assistant",
+      "content": "Iterated through multiple approaches for MindElixir interactivity. Final clean solution: editable:false (read-only, no drag, no text editing), native +/- expand (no custom capture handlers — they caused display artifacts from data/DOM desync), collapseDeep on init using depth_config default_depth, viewer broadcasts theme to I5 via BroadcastChannel, auto-fit on fullscreen and resize. Updated conv-016 convention.",
+      "timestamp": "2026-03-15T11:46:25Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "multiple iterations on expand/theme/editing"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "sync MindElixir config"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "sync MindElixir config"
+        },
+        {
+          "tool": "Edit",
+          "file": "conventions.json",
+          "action": "update conv-016"
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "role": "user",
+      "content": "Design discussion: K_MIND multi-module architecture. All modules as subtrees under Knowledge/. K_MIND is core (always present), includes CLAUDE.md and .claude/ at root. Modules (K_DOCS, future) have own conventions.json, work.json, documentation.json. Sessions shared. Git subtree for K_MIND to push changes back to packetqc/knowledge. User confirmed: this is the vision.",
+      "timestamp": "2026-03-15T11:56:31Z"
+    },
+    {
+      "id": 118,
+      "role": "assistant",
+      "content": "Agreed on multi-module design. K_MIND core = brain (memory, scripts, skills, CLAUDE.md, .claude/). Modules plug in under Knowledge/ with own domain files. Mindmap and scripts aggregate all installed modules. Git subtree enables bidirectional sync with packetqc/knowledge. Saved to project memory.",
+      "timestamp": "2026-03-15T11:56:31Z",
+      "tools": [
+        {
+          "tool": "Write",
+          "file": "memory/project_multimodule_design.md",
+          "action": "saved design direction"
+        }
+      ]
     }
   ],
   "archives": [

@@ -94,7 +94,7 @@
     {
       "id": "conv-016",
       "name": "live_mindmap_mindelixir",
-      "description": "Live mindmap uses MindElixir v5.9.3 (replaces custom mermaid pan/zoom/click). Three deployment points from same data source: I5 standalone interface, K2.0 inline embed, viewer webcard. Mermaid-to-MindElixir converter strips node syntax and builds {topic, id, children} tree. Depth filtering via depth_config.json (JS port of mindmap_filter.py). Four themes synced with viewer: cayman (blue light), midnight (blue dark), daltonism-light (warm light), daltonism-dark (warm dark). MindElixir init: editable:false, contextMenu:false, keypress:false.",
+      "description": "Live mindmap uses MindElixir v5.9.3 (replaces custom mermaid pan/zoom/click). Three deployment points from same data source: I5 standalone interface, K2.0 inline embed, viewer webcard. Mermaid-to-MindElixir converter strips node syntax and builds {topic, id, children} tree. Depth filtering via depth_config.json (JS port of mindmap_filter.py). Four themes synced with viewer via BroadcastChannel (kdocs-theme-sync): cayman, midnight, daltonism-light, daltonism-dark. Viewer is theme master — broadcasts to I5 iframe. I5 can also pick independently. MindElixir init: editable:false, contextMenu:false, keypress:false. Read-only: no node drag, no text editing, scroll zoom only. +/- expand/collapse handled natively by MindElixir. Full mode shows all branches (incl. architecture/constraints) at default depth via collapseDeep on init. Auto-fit on fullscreen toggle and window resize. I5 has bilingual help panel (? button, right sliding, localStorage persisted).",
       "mind_memory_refs": ["knowledge::documentation::web_docs::live_mindmap"]
     },
     {
