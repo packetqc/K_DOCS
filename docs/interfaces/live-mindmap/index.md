@@ -472,25 +472,6 @@ body > .container {
         window.mindInstance = mind;
         document.documentElement.setAttribute('data-theme', themeKey);
 
-        // Click on +/- button: expand ONE level (capture phase intercepts MindElixir's full expand)
-        container.addEventListener('click', function(e) {
-          if (e.target.tagName !== 'ME-EPD') return;
-          if (e.ctrlKey || e.metaKey) return; // allow ctrl+click for expandAll
-          e.stopImmediatePropagation();
-          var meNodeEl = e.target.previousSibling;
-          if (!meNodeEl || !meNodeEl.nodeObj) return;
-          var nodeObj = meNodeEl.nodeObj;
-          if (!nodeObj.children || nodeObj.children.length === 0) return;
-          if (nodeObj.expanded === false) {
-            nodeObj.children.forEach(function(child) {
-              if (child.children && child.children.length > 0) child.expanded = false;
-            });
-            mind.expandNode(meNodeEl, true);
-          } else {
-            mind.expandNode(meNodeEl, false);
-          }
-        }, true);
-
         // Fit after render
         setTimeout(function() { mind.scaleFit(); }, 200);
 
