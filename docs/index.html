@@ -159,6 +159,7 @@
     .doc-header-toggle {
       cursor: pointer; color: var(--muted); padding: 0 0.5rem;
       font-size: 0.7rem; flex-shrink: 0; user-select: none;
+      border-right: 1px solid var(--border); margin-right: 0.5rem;
     }
     .doc-header-toggle:hover { color: var(--accent); }
     .doc-header-details {
@@ -885,7 +886,7 @@
       var permalink = meta.permalink || meta.permalink_en;
       if (currentLang === 'fr' && meta.permalink_fr) permalink = meta.permalink_fr;
       var actualUrl = permalink
-        ? 'https://packetqc.github.io' + (SITE.production_baseurl || '') + permalink
+        ? SITE.url + (SITE.production_baseurl || '') + permalink
         : '';
 
       // Back-link: /full/ pages link back to summary
@@ -1017,9 +1018,9 @@
         html += '<div class="doc-header">';
         // Non-collapsible bar: nav-back | actual page | version
         html += '<div class="doc-header-bar">';
+        html += '<span class="doc-header-toggle" id="' + dhId + 'Toggle" title="Show/hide details">&#9654;</span>';
         html += '<span class="dh-nav">' + (p.backUrl ? '<a href="' + p.backUrl + '">' + p.backLabel + '</a>' : '') + '</span>';
         html += '<span class="dh-actual">' + (p.actualUrl ? '<a href="' + p.actualUrl + '" target="_blank">Actual Page &#x2197;</a>' : '') + '</span>';
-        html += '<span class="doc-header-toggle" id="' + dhId + 'Toggle" title="Show/hide details">&#9654;</span>';
         html += '<span class="dh-version">' + p.versionHtml + '</span>';
         html += '</div>';
         // Collapsible details
