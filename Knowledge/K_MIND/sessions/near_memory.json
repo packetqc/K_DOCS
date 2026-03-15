@@ -585,6 +585,33 @@
         "knowledge::conventions::documentation::web docs::page conventions"
       ],
       "timestamp": "2026-03-15T09:18:32Z"
+    },
+    {
+      "id": 47,
+      "summary": "K2.0 section 1 Mindmap Memory with embedded live mindmap, I5 Normal/Full dropdown, compact architecture diagram",
+      "far_memory_refs": [
+        93,
+        94
+      ],
+      "mind_memory_refs": [
+        "knowledge::work::en cours::live mindmap",
+        "knowledge::documentation::publications",
+        "knowledge::conventions::documentation::web docs::live mindmap"
+      ],
+      "timestamp": "2026-03-15T09:39:14Z"
+    },
+    {
+      "id": 48,
+      "summary": "Replaced mermaid+custom pan/zoom with MindElixir v5.9.3 in I5 interface, K2.0 embed, and viewer webcard. Added 4-theme sync matching viewer themes.",
+      "far_memory_refs": [
+        95,
+        96
+      ],
+      "mind_memory_refs": [
+        "conventions::live mindmap",
+        "work::en cours::live mindmap"
+      ],
+      "timestamp": "2026-03-15T09:55:35Z"
     }
   ],
   "last_session": {
