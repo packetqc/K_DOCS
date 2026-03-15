@@ -1152,6 +1152,10 @@
     }
 
     function buildWebcardHeader(meta) {
+      // Live webcard: render live mindmap instead of static image
+      if (meta.live_webcard === 'mindmap') {
+        return buildLiveMindmapWebcard();
+      }
       var basePath = (SITE.baseurl || '') + meta.og_image;
       // Theme-aware: cayman (light) vs midnight (dark)
       var caymanPath = basePath;
@@ -1166,6 +1170,39 @@
         '<source srcset="' + midnightPath + '" media="(prefers-color-scheme: dark)">' +
         '<img src="' + imgSrc + '" alt="' + escapeHtml(altText) + '" loading="lazy">' +
         '</picture>' +
+        '</div>';
+    }
+
+    function buildLiveMindmapWebcard() {
+      var RAW_URL = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/mind/mind_memory.md';
+      var localPath = (SITE.baseurl || '') + '/Knowledge/K_MIND/mind/mind_memory.md';
+      var id = 'live-webcard-' + Date.now();
+      // Schedule async load after DOM insertion
+      setTimeout(function() {
+        var container = document.getElementById(id);
+        if (!container) return;
+        fetch(localPath)
+          .then(function(r) { if (!r.ok) throw new Error('local'); return r.text(); })
+          .catch(function() {
+            return fetch(RAW_URL).then(function(r) {
+              if (!r.ok) throw new Error('HTTP ' + r.status);
+              return r.text();
+            });
+          })
+          .then(function(text) {
+            var match = text.match(/```mermaid\s*\n([\s\S]*?)```/);
+            if (!match) throw new Error('No mermaid block');
+            container.innerHTML = '<div class="mermaid">' + match[1].trim() + '</div>';
+            if (window.mermaid) {
+              mermaid.run({ nodes: container.querySelectorAll('.mermaid') });
+            }
+          })
+          .catch(function(err) {
+            container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:1rem;">Live mindmap unavailable</p>';
+          });
+      }, 100);
+      return '<div class="webcard-header" style="min-height:300px;padding:0.5rem;">' +
+        '<div id="' + id + '"><div class="loading">Loading live mindmap...</div></div>' +
         '</div>';
     }
 
