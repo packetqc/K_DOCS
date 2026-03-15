@@ -1395,6 +1395,23 @@
       });
     }
 
+    // Rewrite internal link hrefs so printed PDF/DOCX contains correct URLs
+    function rewriteContentLinks(container) {
+      var links = container.querySelectorAll('a[href]');
+      for (var i = 0; i < links.length; i++) {
+        var href = links[i].getAttribute('href');
+        if (!href || href.charAt(0) === '#') continue;
+        var match = resolveInternalPath(href);
+        if (match) {
+          var doc = DOCS[match.index];
+          var docPath = (match.lang === 'fr' && doc.path_fr) ? doc.path_fr : doc.path;
+          // Build correct URL: site + baseurl + /path (strip index.md for clean URLs)
+          var cleanPath = docPath.replace(/index\.md$/, '');
+          links[i].setAttribute('href', SITE.url + (SITE.baseurl || '') + '/' + cleanPath);
+        }
+      }
+    }
+
     // ===== Interface renderer =====
     // For page_type: interface — renders directly with collapsible chrome bar.
     // Interface content fills viewport via iframe (document.write, same-origin) below the chrome bar.
@@ -1604,8 +1621,9 @@
             renderMermaidBlocks();
           });
 
-          // Intercept internal links
+          // Intercept internal links + rewrite hrefs for print/export
           interceptInternalLinks(content);
+          rewriteContentLinks(content);
 
           // Scroll to top
           window.scrollTo(0, 0);
