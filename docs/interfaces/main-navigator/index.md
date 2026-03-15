@@ -108,7 +108,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   z-index: 1;
 }
 /* Center panel hidden when right takes nearly all space — handled dynamically */
-.nav-center iframe { flex: 1; width: 100%; border: none; background: var(--bg, #fff); }
+.nav-center iframe { flex: 1; width: 100%; border: none; background: var(--bg, #fff); padding-left: 0.5rem; box-sizing: border-box; }
 
 .nav-divider-right { grid-column: 4; z-index: 40; }
 
