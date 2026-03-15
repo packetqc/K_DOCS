@@ -83,7 +83,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  html:not([data-theme]), html[data-theme="auto"] {
     --pv-bg: #0d1117;
     --pv-bg-secondary: #161b22;
     --pv-border: #30363d;
