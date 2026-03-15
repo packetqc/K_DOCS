@@ -450,7 +450,7 @@ body > .container {
         var mind = new MindElixir.default({
           el: container,
           direction: MindElixir.SIDE,
-          editable: true,
+          editable: false,
           keypress: false,
           toolBar: false,
           theme: theme,
@@ -461,16 +461,6 @@ body > .container {
         mind.init(data);
         window.mindInstance = mind;
         document.documentElement.setAttribute('data-theme', themeKey);
-
-        // Block text editing and node dragging (read-only mode, keep pan/zoom)
-        container.addEventListener('focusin', function(e) {
-          if (e.target.tagName === 'ME-TPC') e.target.blur();
-        }, true);
-        container.addEventListener('mousedown', function(e) {
-          if (e.target.closest('me-node') && e.target.tagName !== 'ME-EPD') {
-            e.stopImmediatePropagation();
-          }
-        }, true);
 
         // Click on +/- button: expand ONE level (capture phase intercepts MindElixir's full expand)
         container.addEventListener('click', function(e) {
