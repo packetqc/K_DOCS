@@ -1,0 +1,15 @@
+{
+  "version": 3,
+  "session_id": "claude/fix-project-assignment-JvsCf",
+  "repo": "packetqc/knowledge",
+  "issue_number": 774,
+  "issue_title": "Fix project assignment + I3 Task Workflow Interface",
+  "branch": "claude/fix-project-assignment-JvsCf",
+  "mode": "normal",
+  "created": "2026-03-05T20:22:33.249081+00:00",
+  "updated": "2026-03-05T20:22:33.249098+00:00",
+  "agent_initialized": true,
+  "request_description": "Continue issue #766 \u2014 Implement I3 Task Workflow Interface + fix project assignment to GitHub issues",
+  "clip_mode": "discard",
+  "session_data": {}
+}

@@ -1,0 +1,118 @@
+{
+  "session_id": "demo-sess-001",
+  "issue_number": 42,
+  "issue_title": "Implémenter le système d'authentification OAuth2",
+  "branch": "claude/oauth2-auth-YC3EK",
+  "repo": "packetqc/knowledge",
+  "session_data": {
+    "task_workflow": {
+      "title": "Implémenter le système d'authentification OAuth2",
+      "description": "Ajouter OAuth2 avec Google et GitHub comme providers, incluant le refresh token et la gestion des sessions.",
+      "issue_number": 42,
+      "current_stage": "completion",
+      "current_stage_index": 7,
+      "current_step": null,
+      "project": "P4",
+      "started_at": "2026-03-07T09:15:00Z",
+      "updated_at": "2026-03-07T16:42:00Z",
+      "modifications_occurred": true,
+      "validation_skipped_entirely": false,
+      "stage_history": [
+        {"stage": "initial", "direction": "forward", "reason": "Task received and classified", "entered_at": "2026-03-07T09:15:00Z", "exited_at": "2026-03-07T09:22:00Z"},
+        {"stage": "plan", "direction": "forward", "reason": "Initial validation passed", "entered_at": "2026-03-07T09:22:00Z", "exited_at": "2026-03-07T09:45:00Z"},
+        {"stage": "analyze", "direction": "forward", "reason": "Plan approved by user", "entered_at": "2026-03-07T09:45:00Z", "exited_at": "2026-03-07T10:30:00Z"},
+        {"stage": "implement", "direction": "forward", "reason": "Analysis complete", "entered_at": "2026-03-07T10:30:00Z", "exited_at": "2026-03-07T14:15:00Z"},
+        {"stage": "validation", "direction": "forward", "reason": "Implementation complete", "entered_at": "2026-03-07T14:15:00Z", "exited_at": "2026-03-07T15:00:00Z"},
+        {"stage": "implement", "direction": "backward", "reason": "Bug found in token refresh", "entered_at": "2026-03-07T15:00:00Z", "exited_at": "2026-03-07T15:25:00Z"},
+        {"stage": "validation", "direction": "forward", "reason": "Bug fixed, re-validating", "entered_at": "2026-03-07T15:25:00Z", "exited_at": "2026-03-07T15:45:00Z"},
+        {"stage": "documentation", "direction": "forward", "reason": "All validations passed", "entered_at": "2026-03-07T15:45:00Z", "exited_at": "2026-03-07T16:15:00Z"},
+        {"stage": "approval", "direction": "forward", "reason": "Documentation complete", "entered_at": "2026-03-07T16:15:00Z", "exited_at": "2026-03-07T16:30:00Z"},
+        {"stage": "completion", "direction": "forward", "reason": "Approved", "entered_at": "2026-03-07T16:30:00Z", "exited_at": "2026-03-07T16:42:00Z"}
+      ],
+      "step_history": [
+        {"stage": "initial", "step": "receive_task", "entered_at": "2026-03-07T09:15:00Z", "exited_at": "2026-03-07T09:18:00Z"},
+        {"stage": "initial", "step": "classify_request", "entered_at": "2026-03-07T09:18:00Z", "exited_at": "2026-03-07T09:22:00Z"},
+        {"stage": "plan", "step": "draft_plan", "entered_at": "2026-03-07T09:22:00Z", "exited_at": "2026-03-07T09:35:00Z"},
+        {"stage": "plan", "step": "user_approval", "entered_at": "2026-03-07T09:35:00Z", "exited_at": "2026-03-07T09:45:00Z"},
+        {"stage": "implement", "step": "write_code", "entered_at": "2026-03-07T10:30:00Z", "exited_at": "2026-03-07T13:00:00Z"},
+        {"stage": "implement", "step": "commit_push", "entered_at": "2026-03-07T13:00:00Z", "exited_at": "2026-03-07T14:15:00Z"}
+      ],
+      "validation_results": {
+        "initial": {
+          "overall_status": "passed", "skipped": false,
+          "checks": [
+            {"check_id": "task_understood", "result": "passed", "recorded_at": "2026-03-07T09:20:00Z"},
+            {"check_id": "scope_defined", "result": "passed", "recorded_at": "2026-03-07T09:21:00Z"},
+            {"check_id": "classified", "result": "passed", "recorded_at": "2026-03-07T09:22:00Z"}
+          ],
+          "validated_at": "2026-03-07T09:22:00Z"
+        },
+        "implement": {
+          "overall_status": "passed", "skipped": false,
+          "checks": [
+            {"check_id": "code_written", "result": "passed", "recorded_at": "2026-03-07T14:00:00Z"},
+            {"check_id": "tests_pass", "result": "passed", "recorded_at": "2026-03-07T14:05:00Z"},
+            {"check_id": "no_regressions", "result": "passed", "recorded_at": "2026-03-07T14:10:00Z"},
+            {"check_id": "committed", "result": "passed", "recorded_at": "2026-03-07T14:12:00Z"},
+            {"check_id": "pushed", "result": "passed", "recorded_at": "2026-03-07T14:15:00Z"}
+          ],
+          "validated_at": "2026-03-07T14:15:00Z"
+        }
+      },
+      "unit_tests": [
+        {"id": "ut-1", "stage": "implement", "description": "OAuth2 login flow completes", "source": "jest", "result": "passed"},
+        {"id": "ut-2", "stage": "implement", "description": "Token refresh works after expiry", "source": "jest", "result": "passed"},
+        {"id": "ut-3", "stage": "implement", "description": "Invalid token returns 401", "source": "jest", "result": "passed"},
+        {"id": "ut-4", "stage": "implement", "description": "Google provider callback", "source": "jest", "result": "passed"},
+        {"id": "ut-5", "stage": "implement", "description": "GitHub provider callback", "source": "jest", "result": "passed"},
+        {"id": "ut-6", "stage": "validation", "description": "End-to-end login flow", "source": "manual", "result": "passed"},
+        {"id": "ut-7", "stage": "validation", "description": "Multi-provider switching", "source": "manual", "result": "passed"}
+      ]
+    },
+    "work_summary": {
+      "prs_merged": [{"number": 38}, {"number": 39}, {"number": 40}],
+      "deliverables": ["auth-module", "oauth2-config", "session-middleware"]
+    },
+    "todos_snapshot": [
+      {"content": "Implement OAuth2 flow", "status": "completed"},
+      {"content": "Add unit tests", "status": "completed"},
+      {"content": "Fix token refresh bug", "status": "completed"}
+    ],
+    "knowledge_grid": {
+      "en_cours": false,
+      "resultats": {
+        "Validation de la demande": {"A1": "Vrai", "A2": "Vrai", "A3": "Vrai", "A4": "Vrai"},
+        "Qualité du travail": {"B1": "Vrai", "B2": "Vrai", "B3": "Vrai", "B4": "Vrai"},
+        "Intégrité de session": {"C1": "Vrai", "C2": "Vrai", "C3": "Vrai", "C4": "Vrai"},
+        "Documentation": {"D1": "Vrai", "D2": "Vrai", "D3": "Vrai"},
+        "Approbation": {"E1": "Vrai", "E2": "Vrai", "E3": "Vrai", "E4": "Vrai"}
+      },
+      "labels": {
+        "A1": {"fr": "Confirmez le titre", "en": "Confirm the title"},
+        "A2": {"fr": "Confirmez la description", "en": "Confirm the description"},
+        "A3": {"fr": "Confirmez le projet", "en": "Confirm the project"},
+        "A4": {"fr": "Exécuter la demande", "en": "Execute request"},
+        "B1": {"fr": "Tests et build", "en": "Tests and build"},
+        "B2": {"fr": "Revue de code", "en": "Code review"},
+        "B3": {"fr": "Métriques", "en": "Metrics"},
+        "B4": {"fr": "Tous", "en": "All"},
+        "C1": {"fr": "Commits progressifs", "en": "Progressive commits"},
+        "C2": {"fr": "Cache à jour", "en": "Cache up to date"},
+        "C3": {"fr": "Issue commentée", "en": "Issue commented"},
+        "C4": {"fr": "Tous", "en": "All"},
+        "D1": {"fr": "Documentation système", "en": "System documentation"},
+        "D2": {"fr": "Documentation utilisateur", "en": "User documentation"},
+        "D3": {"fr": "Tous", "en": "All"},
+        "E1": {"fr": "Résumé pré-sauvegarde", "en": "Pre-save summary"},
+        "E2": {"fr": "Sauvegarde finale", "en": "Final save"},
+        "E3": {"fr": "Tous", "en": "All"},
+        "E4": {"fr": "Approuver", "en": "Approve"}
+      },
+      "valeurs_detectees": {
+        "A1": {"valeur": "Implémenter le système d'authentification OAuth2"},
+        "A2": {"valeur": "Ajouter OAuth2 avec Google et GitHub comme providers"},
+        "A3": {"valeur": "CC"}
+      }
+    }
+  }
+}

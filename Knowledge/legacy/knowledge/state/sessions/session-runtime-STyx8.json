@@ -1,0 +1,91 @@
+{
+  "version": 3,
+  "session_id": "claude/add-interactive-help-STyx8",
+  "repo": "packetqc/knowledge",
+  "issue_number": 900,
+  "issue_title": "[TEST-v2.0] Refactoring du module de cache distribu\u00e9",
+  "branch": "claude/add-interactive-help-STyx8",
+  "mode": "burst",
+  "created": "2026-03-09T20:07:36.421781+00:00",
+  "updated": "2026-03-09T20:08:17.132361+00:00",
+  "agent_initialized": false,
+  "request_description": "",
+  "clip_mode": "discard",
+  "session_data": {
+    "user_session_id": "us-20260309-610782",
+    "collateral_tasks": [],
+    "agent_identity": {
+      "role": "systems engineer",
+      "source": "methodology/methodology-engineer.md",
+      "principles": [
+        "Protocol is non-negotiable \u2014 every session, full cycle, no exceptions",
+        "Zero judgment on task importance \u2014 protocol decides, not perception",
+        "Engineering rigor over convenience \u2014 always choose right over fast",
+        "The cycle is complete or it did not happen",
+        "Self-correction, not self-permission \u2014 instinct to skip = execute the step"
+      ],
+      "cycle": "wakeup \u2192 issue \u2192 plan \u2192 execute \u2192 pre-save summary \u2192 doc check \u2192 save \u2192 PR \u2192 merge \u2192 close",
+      "recovery_instruction": "After compaction: re-read methodology/methodology-engineer.md BEFORE any action"
+    },
+    "session_phase": "active",
+    "todo_snapshot": [],
+    "files_modified": [
+      "scripts/knowledge_skills.py",
+      "scripts/compile_tasks.py",
+      "scripts/generate_sessions.py",
+      "docs/data/sessions.json",
+      "docs/data/tasks.json"
+    ],
+    "work_summary": {
+      "prs_merged": [
+        {
+          "number": 895,
+          "title": "fix: bridge knowledge-validation \u2192 web interfaces"
+        },
+        {
+          "number": 896,
+          "title": "fix: sauvegarde() incremental compilation"
+        },
+        {
+          "number": 897,
+          "title": "fix: incremental_update() skip sans cache"
+        },
+        {
+          "number": 903,
+          "title": "data: recompile registres web"
+        },
+        {
+          "number": 904,
+          "title": "data: registres propres \u2014 demos v2.0 + tasks"
+        },
+        {
+          "number": 905,
+          "title": "data: sessions.json complet"
+        }
+      ],
+      "deliverables": [
+        "sessions.json",
+        "tasks.json",
+        "sauvegarde() incremental"
+      ]
+    },
+    "pr_numbers": [
+      895,
+      896,
+      897,
+      903,
+      904,
+      905
+    ],
+    "comment_ids": [],
+    "engineering_cycle": {},
+    "time_markers": [],
+    "errors_encountered": [],
+    "issue_comments_count": 0,
+    "elevation_status": null,
+    "default_branch": "",
+    "git_state": {},
+    "decisions": [],
+    "issues_worked": []
+  }
+}

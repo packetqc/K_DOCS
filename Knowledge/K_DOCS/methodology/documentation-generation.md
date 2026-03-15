@@ -37,7 +37,7 @@ idea → session memory (near_memory)
 
 ## Source Document Structure
 
-Every publication source (`publications/<slug>/v1/README.md`) follows this section order:
+Every publication source (`docs/publications/<slug>/v1/README.md`) follows this section order:
 
 ### 1. Title Block
 
@@ -198,7 +198,7 @@ When diagrams are pre-rendered to images (PNG for dual-theme support), the Merma
 
 | Tier | Location | Content | Audience |
 |------|----------|---------|----------|
-| **Source** | `publications/<slug>/v1/README.md` | Full canonical content | Developer, AI instances |
+| **Source** | `docs/publications/<slug>/v1/README.md` | Full canonical content | Developer, AI instances |
 | **Summary** | `docs/publications/<slug>/index.md` | Abstract + key highlights + links | Quick reader, social sharing |
 | **Full** | `docs/publications/<slug>/full/index.md` | Full documentation on web | Deep reader, reference |
 

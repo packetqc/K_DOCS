@@ -1,0 +1,11 @@
+[
+  {
+    "repo": "",
+    "issue_number": 0,
+    "role": "user",
+    "short_desc": "Demande originale (verbatim)",
+    "content": "project create 9876",
+    "queued_at": "2026-03-06T20:21:10.289733+00:00",
+    "attempts": 0
+  }
+]

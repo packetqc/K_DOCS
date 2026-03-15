@@ -1464,6 +1464,40 @@
       "role": "assistant",
       "content": "Fixed 6 QA issues across all interfaces: 1) session-review All Sessions overview with stats+cards, 2) project-viewer stat-card bg to var(--pv-bg), 3) project-viewer task field name mismatch + target=_top, 4) task-workflow .tw-stat-card CSS added + dashboard stats improved, 5) thin scrollbars CSS to all 3 interface stylesheets, 6) dark theme CSS variable overrides in main-navigator for widgets",
       "timestamp": "2026-03-15T17:09:47Z"
+    },
+    {
+      "id": 139,
+      "role": "user",
+      "content": "Push subtrees first. Gap analysis of legacy and persist legacy. Update imported methodology that guide to create publications. Why do we have a publication folder at root level of repo?",
+      "timestamp": "2026-03-15T18:21:42Z"
+    },
+    {
+      "id": 140,
+      "role": "assistant",
+      "content": "Pushed 3 subtrees (K_VALIDATION, K_PROJECTS, K_GITHUB) to their remotes as new main branches. K_MIND skipped (needs force push, user deferred). Cloned packetqc/knowledge to /tmp, copied full 154MB to Knowledge/legacy/. Updated 3 methodology files + SKILL.md to fix publications path from root publications/ to docs/publications/. Moved stray publications/live-mindmap/v1/README.md into docs/publications/. Removed root publications/ folder. Ran comprehensive gap analysis: 74 scripts in legacy, only 6 replicated. 66 methodologies, only 16 imported. Critical gaps: session agent subsystem (20 modules), distributed mesh (harvest/beacon/PQC), visual documentation engine, 50 methodology files.",
+      "timestamp": "2026-03-15T18:21:42Z",
+      "tools": [
+        {
+          "tool": "Bash",
+          "file": "git subtree push",
+          "action": "pushed K_VALIDATION, K_PROJECTS, K_GITHUB"
+        },
+        {
+          "tool": "Bash",
+          "file": "Knowledge/legacy/",
+          "action": "copied full source repo clone"
+        },
+        {
+          "tool": "Edit",
+          "file": "Knowledge/K_DOCS/methodology/*.md",
+          "action": "fixed publications path to docs/"
+        },
+        {
+          "tool": "Edit",
+          "file": ".claude/skills/docs-create/SKILL.md",
+          "action": "fixed publications path"
+        }
+      ]
     }
   ],
   "archives": [

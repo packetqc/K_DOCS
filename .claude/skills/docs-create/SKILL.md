@@ -57,7 +57,7 @@ Before publishing or delivering a publication:
 |-------|--------|
 | **Gather** | User provides raw intelligence |
 | **Structure** | Methodology file if applicable |
-| **Expand** | Source: `publications/<slug>/v1/README.md` |
+| **Expand** | Source: `docs/publications/<slug>/v1/README.md` |
 | **Web pages** | 4 files: EN/FR summary + full |
 | **Deliver** | Commit and push |
 

@@ -81,5 +81,46 @@
       "mind_memory_refs": ["knowledge::documentation::web_docs::webcards"]
     }
   ],
-  "external_files": []
+  "external_files": [
+    {
+      "id": "ext-001",
+      "path": "conventions/sessions/interactive/visual-documentation.md",
+      "description": "Visual documentation convention — video evidence extraction with OpenCV, contact sheets, deduplication"
+    },
+    {
+      "id": "ext-002",
+      "path": "conventions/sessions/interactive/interactive-work-sessions.md",
+      "description": "Interactive work sessions convention — resilient multi-delivery sessions with 5 persistence channels"
+    },
+    {
+      "id": "ext-003",
+      "path": "conventions/sessions/interactive/interactive-conception.md",
+      "description": "Interactive conception convention — ideation, prototyping, progressive crystallization"
+    },
+    {
+      "id": "ext-004",
+      "path": "conventions/sessions/interactive/interactive-diagnostic.md",
+      "description": "Interactive diagnostic convention — structured hypothesis elimination with real-time issue documentation"
+    },
+    {
+      "id": "ext-005",
+      "path": "conventions/web/webcard-generation.md",
+      "description": "Webcard generation convention — animated OG GIFs, 4 themes, 8-frame sequence, Pillow pipeline"
+    },
+    {
+      "id": "ext-006",
+      "path": "conventions/web/og-social-images.md",
+      "description": "OG social images + LinkedIn banners — static PNG and animated GIF social preview generation"
+    },
+    {
+      "id": "ext-007",
+      "path": "conventions/web/render-web-page.md",
+      "description": "Web page rendering convention — Playwright + Chromium headless for screenshots and Mermaid SVG"
+    },
+    {
+      "id": "ext-008",
+      "path": "conventions/sessions/validation/validation-protocol.md",
+      "description": "Validation protocol convention — QA checklist for interfaces, data pipelines, publications, modules"
+    }
+  ]
 }

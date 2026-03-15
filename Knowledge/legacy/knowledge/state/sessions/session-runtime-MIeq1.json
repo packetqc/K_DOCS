@@ -1,0 +1,217 @@
+{
+  "version": 3,
+  "session_id": "claude/review-issue-609-MIeq1",
+  "repo": "packetqc/knowledge",
+  "issue_number": 609,
+  "issue_title": "Fix session tree \u2014 restore continuation sessions",
+  "branch": "claude/review-issue-609-MIeq1",
+  "mode": "normal",
+  "created": "2026-03-04T09:03:32.691962+00:00",
+  "updated": "2026-03-04T18:11:15.627141+00:00",
+  "agent_initialized": true,
+  "request_description": "Restore continuation sessions and fix broken tree after parent update time",
+  "clip_mode": "discard",
+  "session_data": {
+    "issues_worked": [
+      {
+        "number": 675,
+        "title": "Fix startup hook enforcement \u2014 PreToolUse v56",
+        "type": "conversation",
+        "pr": 676,
+        "status": "closed",
+        "session_kind": "original",
+        "related_issues": [
+          609
+        ],
+        "category": "infrastructure",
+        "summary": "Replace non-blockable SessionStart hook with blockable PreToolUse hook. Two-layer architecture: SessionStart informs, PreToolUse enforces.",
+        "files": [
+          ".claude/hooks/require-session-protocol.sh",
+          ".claude/hooks/startup-checklist.sh",
+          ".claude/settings.json",
+          "CLAUDE.md",
+          "scripts/session_agent/__init__.py",
+          "scripts/session_agent/cache.py"
+        ],
+        "lines_added": 298,
+        "lines_deleted": 236,
+        "time_minutes": 25,
+        "time_phases": [
+          {
+            "name": "Discussion",
+            "duration": "~10 min",
+            "activity": "Proof-of-fix analysis, remnant check",
+            "category": "\ud83d\udca1"
+          },
+          {
+            "name": "Implementation",
+            "duration": "~10 min",
+            "activity": "Hook creation, state file, cache integration",
+            "category": "\u2699\ufe0f"
+          },
+          {
+            "name": "Testing",
+            "duration": "~5 min",
+            "activity": "Hook exit codes, gate unlock verification",
+            "category": "\ud83d\udd0d"
+          }
+        ]
+      },
+      {
+        "number": 677,
+        "title": "Fix G7 enforcement \u2014 auto-post exchanges",
+        "type": "conversation",
+        "pr": 678,
+        "status": "closed",
+        "session_kind": "original",
+        "related_issues": [
+          609,
+          675
+        ],
+        "category": "infrastructure",
+        "summary": "Add post_exchange() one-liner + PreToolUse G7 time-based warning. Three layers: helper function, hook warning, documentation.",
+        "files": [
+          "scripts/session_agent/cache.py",
+          "scripts/session_agent/__init__.py",
+          ".claude/hooks/require-session-protocol.sh",
+          "CLAUDE.md",
+          "methodology/session-protocol.md"
+        ],
+        "lines_added": 131,
+        "lines_deleted": 4,
+        "time_minutes": 20,
+        "time_phases": [
+          {
+            "name": "Analysis",
+            "duration": "~5 min",
+            "activity": "Explore session_agent, identify gap",
+            "category": "\ud83d\udd0d"
+          },
+          {
+            "name": "Implementation",
+            "duration": "~10 min",
+            "activity": "post_exchange(), hook, CLAUDE.md updates",
+            "category": "\u2699\ufe0f"
+          },
+          {
+            "name": "Testing",
+            "duration": "~5 min",
+            "activity": "End-to-end: import, post, timestamp, hook",
+            "category": "\ud83d\udd0d"
+          }
+        ]
+      },
+      {
+        "number": 679,
+        "title": "Implement multi-issue notes generation + rescue session completion",
+        "type": "conversation",
+        "pr": null,
+        "status": "open",
+        "session_kind": "original",
+        "related_issues": [
+          609,
+          675,
+          677,
+          611
+        ],
+        "category": "infrastructure",
+        "summary": "Implement per-issue metrics/time compilation in generate_session_notes(). Close orphan issue #611. Track rescue session work.",
+        "files": [
+          "scripts/session_agent/notes.py",
+          "notes/session-2026-03-04-pretooluse-enforcement-v56.md",
+          "notes/session-2026-03-04-g7-enforcement-post-exchange.md"
+        ],
+        "lines_added": 0,
+        "lines_deleted": 0,
+        "time_minutes": 15,
+        "time_phases": [
+          {
+            "name": "Audit",
+            "duration": "~5 min",
+            "activity": "Check generate_session_notes vs methodology specs",
+            "category": "\ud83d\udd0d"
+          },
+          {
+            "name": "Implementation",
+            "duration": "~8 min",
+            "activity": "Rewrite notes.py with multi-issue support",
+            "category": "\u2699\ufe0f"
+          },
+          {
+            "name": "Verification",
+            "duration": "~2 min",
+            "activity": "Test generation, verify distinct files",
+            "category": "\ud83d\udd0d"
+          }
+        ]
+      }
+    ],
+    "session_phase": "complete",
+    "pr_numbers": [
+      724
+    ],
+    "files_modified": [
+      "docs/interfaces/session-review/session-review.js"
+    ],
+    "work_summary": "Replaced children-vs-related split with issue type breakdown in scope pie",
+    "todo_snapshot": [
+      {
+        "content": "PreToolUse enforcement hook (v56)",
+        "status": "completed"
+      },
+      {
+        "content": "G7 enforcement \u2014 post_exchange() + hook warning",
+        "status": "completed"
+      },
+      {
+        "content": "Close orphan issue #611 with metrics",
+        "status": "completed"
+      },
+      {
+        "content": "Multi-issue notes generation in notes.py",
+        "status": "completed"
+      },
+      {
+        "content": "Enrich cache with per-issue metrics and time",
+        "status": "completed"
+      },
+      {
+        "content": "Verify Session Viewer pipeline compatibility",
+        "status": "completed"
+      },
+      {
+        "content": "Regenerate sessions.json",
+        "status": "completed"
+      }
+    ],
+    "request_addon": [
+      {
+        "index": 1,
+        "timestamp": "2026-03-04T10:54:38.288272+00:00",
+        "verbatim": "strip to multiple files that is too big for later: /home/user/knowledge/docs/interfaces/session-review/index.md",
+        "stage": "unknown",
+        "stage_index": -1,
+        "addon_type": "addon",
+        "request_type": "documentation"
+      }
+    ],
+    "request_addon_synthesis": [
+      {
+        "index": 1,
+        "timestamp": "2026-03-04T10:54:38.288272+00:00",
+        "synthesis": "Split the session viewer index.md into multiple smaller files (HTML, CSS, JS) \u2014 deferred to a future session",
+        "stage": "unknown",
+        "stage_index": -1,
+        "addon_type": "addon",
+        "request_type": "documentation"
+      }
+    ],
+    "comment_ids": {
+      "addon_1": 3996763877
+    },
+    "related_issues": [
+      675
+    ],
+    "parent_issue": 675
+  }
+}

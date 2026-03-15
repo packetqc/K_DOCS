@@ -22,7 +22,7 @@
 | **Three-tier awareness** | Every publication has source → summary → full. All three must be created/updated |
 | **Bilingual mirroring** | Every web page has EN + FR. Create both in the same pass |
 | **Mind map first** | The visual overview is the reader's entry point. Write it before expanding content |
-| **Source is truth** | `publications/<slug>/v1/README.md` drives everything downstream |
+| **Source is truth** | `docs/publications/<slug>/v1/README.md` drives everything downstream |
 
 ---
 
@@ -32,7 +32,7 @@
 |-------|--------|--------|
 | **Gather** | User provides raw intelligence via conversation | Notes, context |
 | **Structure** | Create methodology file if applicable | `methodology/<slug>.md` |
-| **Expand** | Write full publication source | `publications/<slug>/v1/README.md` |
+| **Expand** | Write full publication source | `docs/publications/<slug>/v1/README.md` |
 | **Web pages** | Create 4 web pages (EN/FR summary + full) | 4 markdown files with front matter |
 | **Mirror** | Verify bilingual mirrors are complete | — |
 | **Deliver** | Commit and push | All files committed |
@@ -55,7 +55,7 @@ If the publication documents a new methodology:
 
 ### 3. Write Publication Source
 
-Create `publications/<slug>/v1/README.md` following `documentation-generation.md`:
+Create `docs/publications/<slug>/v1/README.md` following `documentation-generation.md`:
 
 1. Title block with publication number, version, date
 2. Authors with role descriptions

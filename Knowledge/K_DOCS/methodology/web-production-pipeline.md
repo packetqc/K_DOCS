@@ -34,7 +34,7 @@ Each publication exists at three levels, bilingual (5 files per publication):
 
 | Tier | Location | Purpose |
 |------|----------|---------|
-| **Source** | `publications/<slug>/v1/README.md` | Canonical document, English only |
+| **Source** | `docs/publications/<slug>/v1/README.md` | Canonical document, English only |
 | **Summary** (web) | `docs/publications/<slug>/index.md` | Quick overview, links to full |
 | **Full** (web) | `docs/publications/<slug>/full/index.md` | Full documentation with rich HTML |
 

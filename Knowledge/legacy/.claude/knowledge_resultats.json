@@ -1,0 +1,26 @@
+{
+  "en_cours": false,
+  "user_session_id": "us-20260310-55db40",
+  "started_at": "2026-03-10T00:00:00Z",
+  "niveau": "principal",
+  "knowledge_actif": null,
+  "page_principal": 0,
+  "page_secondaire": 0,
+  "demande_executee": false,
+  "demande_reformulee": null,
+  "issue_github": null,
+  "collateral_tasks": [],
+  "system_sessions": ["claude/build-interactive-components-rlLfC"],
+  "valeurs_detectees": {
+    "A1": {"valeur": "nanon", "original": null},
+    "A2": {"valeur": null, "original": null},
+    "A3": {"valeur": "Knowledge", "original": null}
+  },
+  "resultats": {
+    "Validation de la demande": {"A1": "Vrai", "A2": "--", "A3": "Vrai", "A4": "--"},
+    "Qualité du travail": {"B1": "--", "B2": "--", "B3": "--", "B4": "--"},
+    "Intégrité de session": {"C1": "--", "C2": "--", "C3": "--", "C4": "--"},
+    "Documentation": {"D1": "--", "D2": "--", "D3": "--"},
+    "Approbation": {"E1": "--", "E2": "--", "E3": "--", "E4": "--"}
+  }
+}
