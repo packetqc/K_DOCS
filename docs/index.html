@@ -567,14 +567,19 @@
       r.addEventListener('change', function() {
         var isLandscape = this.value === 'landscape';
         document.body.classList.toggle('landscape', isLandscape);
+        localStorage.setItem('kdocs-landscape', isLandscape ? '1' : '0');
         if (orientChannel) orientChannel.postMessage({ landscape: isLandscape });
       });
     });
-    // Embed pages listen for orientation changes
-    if (IS_EMBED && orientChannel) {
-      orientChannel.onmessage = function(e) {
-        document.body.classList.toggle('landscape', e.data.landscape);
-      };
+    // Embed pages: read current orientation from localStorage on load, then listen for changes
+    if (IS_EMBED) {
+      var savedOrient = localStorage.getItem('kdocs-landscape');
+      if (savedOrient === '1') document.body.classList.add('landscape');
+      if (orientChannel) {
+        orientChannel.onmessage = function(e) {
+          document.body.classList.toggle('landscape', e.data.landscape);
+        };
+      }
     }
 
     // ===== PDF export with cover page + page size + running headers =====
@@ -1390,6 +1395,7 @@
 
       // Interfaces are always landscape by default
       document.body.classList.add('landscape');
+      localStorage.setItem('kdocs-landscape', '1');
       var landscapeRadio = document.querySelector('input[name="orient"][value="landscape"]');
       if (landscapeRadio) landscapeRadio.checked = true;
 
