@@ -1114,10 +1114,14 @@
       // Two-column layout for long TOCs (8+ entries)
       if (headings.length >= 8) toc.classList.add('toc-twocol');
 
-      // Insert after first h1 or at top
+      // Insert after doc-header if present, else after first h1, else at top
+      var docHeader = container.querySelector('.doc-header, .chrome-bar-meta');
       var h1 = container.querySelector('h1');
-      if (h1 && h1.nextSibling) {
-        h1.parentNode.insertBefore(toc, h1.nextSibling);
+      var anchor = docHeader || h1;
+      if (anchor && anchor.nextSibling) {
+        anchor.parentNode.insertBefore(toc, anchor.nextSibling);
+      } else if (anchor) {
+        anchor.parentNode.appendChild(toc);
       } else {
         container.insertBefore(toc, container.firstChild);
       }
