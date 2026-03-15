@@ -405,6 +405,19 @@
         "documentation"
       ],
       "timestamp": "2026-03-14T21:59:33Z"
+    },
+    {
+      "id": 33,
+      "summary": "Added right-panel routing rules: interface links→center, main-nav→reload full page",
+      "far_memory_refs": [
+        65,
+        66
+      ],
+      "mind_memory_refs": [
+        "work",
+        "documentation"
+      ],
+      "timestamp": "2026-03-15T05:59:18Z"
     }
   ],
   "last_session": {

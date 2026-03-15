@@ -533,6 +533,31 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         if (loc && loc !== 'about:blank') localStorage.setItem(RCONTENT_KEY, loc);
       } catch(e) {}
       syncThemeToIframes();
+      /* ─── Right panel routing rules ─── */
+      /* Interface links in right panel → center-frame; Main Navigator → _top */
+      try {
+        var rDoc = rightIframe.contentDocument;
+        if (!rDoc) return;
+        rDoc.addEventListener('click', function(e) {
+          var a = e.target.closest('a');
+          if (!a) return;
+          var href = a.getAttribute('href') || '';
+          /* Resolve internal path via viewer rewriter if available */
+          var resolved = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl(href, false) : href;
+          /* Detect interface paths */
+          var isInterface = /\/interfaces\//.test(href) || /\/interfaces\//.test(resolved);
+          var isMainNav = /\/interfaces\/main-navigator\//.test(href) || /\/interfaces\/main-navigator\//.test(resolved);
+          if (isMainNav) {
+            e.preventDefault();
+            window.top.location.reload();
+          } else if (isInterface && centerIframe) {
+            e.preventDefault();
+            var embedUrl = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl(href) : href;
+            centerIframe.src = embedUrl;
+            localStorage.setItem(CENTER_KEY, embedUrl);
+          }
+        });
+      } catch(e) {}
     });
   }
 

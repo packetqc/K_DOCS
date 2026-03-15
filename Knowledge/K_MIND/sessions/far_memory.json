@@ -590,6 +590,25 @@
           "action": "switch from document.write to srcdoc for interface iframe"
         }
       ]
+    },
+    {
+      "id": 65,
+      "role": "user",
+      "content": "there was routing rules on the right panel when it is time to route an interface link: the issue was that the link of interface in a page on the right panel of the main interface will load the interface in the right panel instead of the center panel and there is a special route for this panel when it is the main interface link clicked inside of it to load at all page.",
+      "timestamp": "2026-03-15T05:59:18Z"
+    },
+    {
+      "id": 66,
+      "role": "assistant",
+      "content": "Added right panel routing rules in navigator IIFE: interface links in content-frame route to center-frame, main navigator link reloads full page via window.top.location.reload(). Interceptor re-attaches on each iframe load event.",
+      "timestamp": "2026-03-15T05:59:18Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "add right-panel click interceptor with routing rules"
+        }
+      ]
     }
   ],
   "archives": [
