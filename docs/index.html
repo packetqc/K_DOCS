@@ -152,6 +152,17 @@
     .doc-header-rule { border: none; border-top: 1px solid var(--border); margin: 0.6rem 0; }
     .doc-header-gen { font-size: 0.75rem; color: var(--muted); font-family: monospace; margin-top: 0.3rem; }
 
+    /* ===== Embed bar (standalone link) ===== */
+    .embed-topbar {
+      display: flex; align-items: center; justify-content: flex-end;
+      padding: 0.2rem 0.5rem; font-size: 0.72rem; background: var(--code-bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .embed-topbar a {
+      color: var(--accent); text-decoration: none; opacity: 0.7;
+    }
+    .embed-topbar a:hover { opacity: 1; text-decoration: underline; }
+
     /* ===== TOC ===== */
     .toc {
       background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
@@ -807,9 +818,10 @@
     }
 
     // ===== Markdown rendering =====
-    function renderMarkdown(text) {
+    function renderMarkdown(text, docPath) {
       var parsed = parseFrontMatter(text);
       var meta = parsed.meta;
+      meta._docPath = docPath || '';
       var body = parsed.body;
 
       // Resolve Liquid templates before markdown parsing
@@ -851,8 +863,17 @@
 
       var html = '';
 
-      // Add document header block (styled like TOC card)
-      if (meta.title || meta.pub_meta) {
+      // Embed mode: add standalone link bar at top, skip doc-header
+      if (IS_EMBED) {
+        var standaloneUrl = window.location.pathname.replace(/[^/]*$/, '') +
+          'index.html?doc=' + encodeURIComponent(meta._docPath || '');
+        if (meta.lang === 'fr') standaloneUrl += '&lang=fr';
+        var openLabel = (meta.lang === 'fr') ? 'Ouvrir dans un onglet' : 'Open in tab';
+        html += '<div class="embed-topbar"><a href="' + standaloneUrl + '" target="_blank">' + openLabel + ' &#x2197;</a></div>';
+      }
+
+      // Add document header block (styled like TOC card) — hidden in embed mode
+      if (!IS_EMBED && (meta.title || meta.pub_meta)) {
         var now = new Date();
         var genDate = now.getFullYear() + '-' +
           String(now.getMonth() + 1).padStart(2, '0') + '-' +
@@ -1296,7 +1317,7 @@
             return;
           }
 
-          content.innerHTML = renderMarkdown(text);
+          content.innerHTML = renderMarkdown(text, path);
           generateTOC(content);
 
           // Render mermaid after DOM is ready
