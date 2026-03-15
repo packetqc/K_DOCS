@@ -270,6 +270,24 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
       allowUndo: false
     });
     mind.init(data);
+    // Click +/- button: expand ONE level (capture phase intercepts MindElixir full expand)
+    container.addEventListener('click', function(ev) {
+      if (ev.target.tagName !== 'ME-EPD') return;
+      if (ev.ctrlKey || ev.metaKey) return;
+      ev.stopImmediatePropagation();
+      var meNode = ev.target.previousSibling;
+      if (!meNode || !meNode.nodeObj) return;
+      var nodeObj = meNode.nodeObj;
+      if (!nodeObj.children || nodeObj.children.length === 0) return;
+      if (nodeObj.expanded === false) {
+        nodeObj.children.forEach(function(child) {
+          if (child.children && child.children.length > 0) mind.expandNode(child, false);
+        });
+        mind.expandNode(nodeObj, true);
+      } else {
+        mind.expandNode(nodeObj, false);
+      }
+    }, true);
     // Double-click: expand/collapse (capture phase blocks text editing)
     container.addEventListener('dblclick', function(ev) {
       var meNode = ev.target.closest('me-node');

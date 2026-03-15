@@ -431,6 +431,25 @@ body > .container {
         mind.init(data);
         window.mindInstance = mind;
 
+        // Click on +/- button: expand ONE level (capture phase intercepts MindElixir's full expand)
+        container.addEventListener('click', function(e) {
+          if (e.target.tagName !== 'ME-EPD') return;
+          if (e.ctrlKey || e.metaKey) return; // allow ctrl+click for expandAll
+          e.stopImmediatePropagation();
+          var meNode = e.target.previousSibling;
+          if (!meNode || !meNode.nodeObj) return;
+          var nodeObj = meNode.nodeObj;
+          if (!nodeObj.children || nodeObj.children.length === 0) return;
+          if (nodeObj.expanded === false) {
+            nodeObj.children.forEach(function(child) {
+              if (child.children && child.children.length > 0) mind.expandNode(child, false);
+            });
+            mind.expandNode(nodeObj, true);
+          } else {
+            mind.expandNode(nodeObj, false);
+          }
+        }, true);
+
         // Double-click: expand/collapse ONE level (capture phase blocks MindElixir text editing)
         container.addEventListener('dblclick', function(e) {
           var meNode = e.target.closest('me-node');
@@ -486,8 +505,8 @@ body > .container {
       '<kbd>Click + Drag</kbd> on background to pan<br>' +
       '<kbd>Click + Drag</kbd> on a node to move it</p>' +
       '<h4>Expand / Collapse</h4>' +
-      '<p>Click <kbd>+</kbd> / <kbd>-</kbd> on a node to expand or collapse.<br>' +
-      '<kbd>Double-click</kbd> expands one level at a time — click deeper to reveal more.</p>' +
+      '<p><kbd>+</kbd> / <kbd>-</kbd> or <kbd>Double-click</kbd> — expand or collapse <b>one level</b> at a time<br>' +
+      '<kbd>Ctrl + Click</kbd> on <kbd>+</kbd> — expand <b>all</b> levels at once</p>' +
       '<h4>Toolbar</h4>' +
       '<p><b>Normal</b> — filtered view (depth-limited, architecture/constraints hidden)<br>' +
       '<b>Full</b> — all nodes at max depth<br>' +
@@ -505,8 +524,8 @@ body > .container {
       '<kbd>Clic + Glisser</kbd> sur le fond pour se deplacer<br>' +
       '<kbd>Clic + Glisser</kbd> sur un noeud pour le repositionner</p>' +
       '<h4>Deplier / Replier</h4>' +
-      '<p>Cliquez sur <kbd>+</kbd> ou <kbd>-</kbd> pour deplier ou replier les enfants d\'un noeud.<br>' +
-      '<kbd>Double-clic</kbd> sur un noeud pour basculer.</p>' +
+      '<p><kbd>+</kbd> / <kbd>-</kbd> ou <kbd>Double-clic</kbd> — deplier ou replier <b>un niveau</b> a la fois<br>' +
+      '<kbd>Ctrl + Clic</kbd> sur <kbd>+</kbd> — deplier <b>tous</b> les niveaux d\'un coup</p>' +
       '<h4>Barre d\'outils</h4>' +
       '<p><b>Normal</b> — vue filtree (profondeur limitee, architecture/contraintes masquees)<br>' +
       '<b>Full</b> — tous les noeuds a profondeur maximale<br>' +
