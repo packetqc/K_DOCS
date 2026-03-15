@@ -11,11 +11,11 @@ mindmap
       far memory
     work
       en cours
-        modules imports
-          K_PROJECTS
-          K_VALIDATION
-          K_GITHUB
       validation
+        modules imports
+          K_PROJECTS imported with skills scripts methodology
+          K_VALIDATION enabled with task session compilation
+          K_GITHUB imported with sync scripts methodology
         documentation web viewer system
         live mindmap MindElixir v5
         webcards theme aware
