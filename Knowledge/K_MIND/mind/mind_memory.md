@@ -139,8 +139,14 @@ mindmap
           memory_stats.py shared stats with context availability
           convention fixes applied and verified
       methodologies
-        import system
-        K_DOCS web methodologies imported from production
+        import system from production
+        web production pipeline
+        web pagination and export
+        web page visualization
+        documentation generation
+        webcard generation
+        interactive documentation
+        documentation audience
       documentation
         web docs
           docs directory at project root
@@ -178,9 +184,13 @@ mindmap
           webcards
             og_image meta tag injection on doc load
             webcard header with picture element
-            theme aware cayman light midnight dark
+            theme aware 4 themes daltonism cayman midnight
             prefers-color-scheme media query auto detect
             assets og directory for animated GIFs
+            MindElixir headless Chrome capture pipeline
+            cinematic 3 movie animation sequence
+            capture_mindmap.js plus stitch_webcard.py
+            social redirect HTML pages with og tags
           bilingual en fr always both languages
           live mindmap
             standalone interface page

@@ -103,17 +103,19 @@ function filterByDepth(node, maxDepth, currentDepth = 0) {
   return filtered;
 }
 
+function hold(frames, count) {
+  // Duplicate last frame for cinematic hold
+  for (let i = 0; i < count; i++) {
+    frames.push(JSON.parse(JSON.stringify(frames[frames.length - 1])));
+  }
+}
+
 function buildProgressiveData(root, fullMode = false) {
-  // Three short movies:
+  // Three cinematic short movies — rich progressive animation
   //
-  // MOVIE 1 — "The Emergence": Progressive build from root to full overview
-  //   root only → depth 1 → depth 2 → depth 3 (hold)
-  //
-  // MOVIE 2 — "The Collapse": Retract back to skeleton
-  //   depth 3 → depth 2 → depth 1 (hold)
-  //
-  // MOVIE 3 — "The Exploration": Each branch opens progressively, closes before next
-  //   For each branch: depth 1 → 2 → 3 → 4 → (5 in full) → hold → collapse back to 1
+  // MOVIE 1 — "The Emergence": Branch-by-branch build, then deepen
+  // MOVIE 2 — "The Collapse": Strip back layer by layer to root, then re-emerge
+  // MOVIE 3 — "The Exploration": Each branch opens deep, holds, retracts, next
   //
   // Normal mode: overview max=2, explore max=3
   // Full mode:   overview max=3, explore max=5
@@ -124,23 +126,53 @@ function buildProgressiveData(root, fullMode = false) {
   const frames = [];
 
   // ── MOVIE 1: The Emergence ──
-  // Build up from nothing to full overview, one depth at a time
-  for (let d = 0; d <= overviewMax; d++) {
-    frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
+  // Phase 1a: Root alone
+  frames.push({ nodeData: filterByDepth(root, 0), direction: 2 });
+  hold(frames, 2);
+
+  // Phase 1b: Branches appear one by one (depth 1)
+  for (let i = 0; i < topChildren.length; i++) {
+    const partial = { topic: root.topic, id: root.id, children: [] };
+    for (let j = 0; j <= i; j++) {
+      partial.children.push({ topic: topChildren[j].topic, id: topChildren[j].id, children: [] });
+    }
+    frames.push({ nodeData: partial, direction: 2 });
   }
-  // Hold the full overview for an extra beat
-  frames.push({ nodeData: filterByDepth(root, overviewMax), direction: 2 });
+  // Hold with all branches at depth 1
+  hold(frames, 2);
+
+  // Phase 1c: Deepen to depth 2, then 3
+  for (let d = 2; d <= overviewMax; d++) {
+    frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
+    hold(frames, 1);
+  }
+  // Hold the full overview
+  hold(frames, 3);
 
   // ── MOVIE 2: The Collapse ──
-  // Retract back down to just branch names
+  // Phase 2a: Retract depth by depth
   for (let d = overviewMax - 1; d >= 1; d--) {
     frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
+    hold(frames, 1);
   }
-  // Hold the collapsed view
+
+  // Phase 2b: Remove branches one by one back to root
+  for (let i = topChildren.length - 1; i >= 0; i--) {
+    const partial = { topic: root.topic, id: root.id, children: [] };
+    for (let j = 0; j < i; j++) {
+      partial.children.push({ topic: topChildren[j].topic, id: topChildren[j].id, children: [] });
+    }
+    frames.push({ nodeData: partial, direction: 2 });
+  }
+  // Root alone
+  hold(frames, 2);
+
+  // Phase 2c: Re-emerge all at depth 1 (transition to Movie 3)
   frames.push({ nodeData: filterByDepth(root, 1), direction: 2 });
+  hold(frames, 2);
 
   // ── MOVIE 3: The Exploration ──
-  // Each branch opens progressively depth by depth, then closes before next
+  // Each branch opens progressively, holds for reading, retracts before next
   for (let i = 0; i < topChildren.length; i++) {
     // Progressive open: depth 2 → 3 → ... → exploreMax
     for (let d = 2; d <= exploreMax; d++) {
@@ -154,20 +186,33 @@ function buildProgressiveData(root, fullMode = false) {
       }
       frames.push({ nodeData: frameRoot, direction: 2 });
     }
-    // Hold the fully expanded branch for an extra beat
-    const holdRoot = { topic: root.topic, id: root.id, children: [] };
-    for (let j = 0; j < topChildren.length; j++) {
-      if (j === i) {
-        holdRoot.children.push(filterByDepth(topChildren[j], exploreMax, 0));
-      } else {
-        holdRoot.children.push(filterByDepth(topChildren[j], 1, 0));
-      }
-    }
-    frames.push({ nodeData: holdRoot, direction: 2 });
 
-    // Collapse back (only if not the last branch — last one holds as finale)
+    // Hold the fully expanded branch for reading
+    hold(frames, 3);
+
+    // Progressive retract: exploreMax-1 → 2 → collapse
+    for (let d = exploreMax - 1; d >= 2; d--) {
+      const frameRoot = { topic: root.topic, id: root.id, children: [] };
+      for (let j = 0; j < topChildren.length; j++) {
+        if (j === i) {
+          frameRoot.children.push(filterByDepth(topChildren[j], d, 0));
+        } else {
+          frameRoot.children.push(filterByDepth(topChildren[j], 1, 0));
+        }
+      }
+      frames.push({ nodeData: frameRoot, direction: 2 });
+    }
+
+    // Back to skeleton (unless last branch — hold finale instead)
     if (i < topChildren.length - 1) {
       frames.push({ nodeData: filterByDepth(root, 1), direction: 2 });
+      hold(frames, 1);
+    } else {
+      // Final branch: re-expand to full overview as grand finale
+      for (let d = 2; d <= overviewMax; d++) {
+        frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
+      }
+      hold(frames, 3);
     }
   }
 
