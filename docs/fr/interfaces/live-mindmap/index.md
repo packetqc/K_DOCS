@@ -154,33 +154,33 @@ body > .container {
 }
 </style>
 
-<h2>K_MIND — Live Knowledge Graph</h2>
+<h2>K_MIND — Graphe de connaissances vivant</h2>
 
 <div class="mindmap-controls">
   <select id="mindmap-view" onchange="loadMindmap()">
     <option value="normal">Normal</option>
-    <option value="full">Full</option>
+    <option value="full">Complet</option>
   </select>
   <select id="mindmap-theme" onchange="applyMindTheme()">
-    <option value="auto">Theme: Auto</option>
+    <option value="auto">Thème : Auto</option>
     <option value="cayman">Cayman</option>
     <option value="midnight">Midnight</option>
-    <option value="daltonism-light">Daltonism Light</option>
-    <option value="daltonism-dark">Daltonism Dark</option>
+    <option value="daltonism-light">Daltonisme clair</option>
+    <option value="daltonism-dark">Daltonisme sombre</option>
   </select>
-  <button onclick="loadMindmap()">Reload</button>
+  <button onclick="loadMindmap()">Recharger</button>
   <span class="sep"></span>
-  <button onclick="if(mindInstance)mindInstance.toCenter()">Center</button>
-  <button onclick="if(mindInstance)mindInstance.scaleFit()">Fit</button>
+  <button onclick="if(mindInstance)mindInstance.toCenter()">Centrer</button>
+  <button onclick="if(mindInstance)mindInstance.scaleFit()">Ajuster</button>
   <span class="sep"></span>
-  <button onclick="toggleFullscreen()">Fullscreen</button>
-  <span class="mindmap-status" id="mindmap-status">Loading...</span>
-  <button class="help-btn" id="help-toggle" onclick="toggleHelp()" title="Help">?</button>
+  <button onclick="toggleFullscreen()">Plein écran</button>
+  <span class="mindmap-status" id="mindmap-status">Chargement...</span>
+  <button class="help-btn" id="help-toggle" onclick="toggleHelp()" title="Aide">?</button>
 </div>
 
 <div class="mindmap-area">
   <div id="mindmap-container">
-    <div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>
+    <div class="loading" style="padding:2rem;text-align:center;">Chargement du mindmap...</div>
   </div>
   <div class="help-panel" id="help-panel"></div>
 </div>
@@ -414,8 +414,8 @@ body > .container {
     var viewSelect = document.getElementById('mindmap-view');
     var mode = viewSelect ? viewSelect.value : 'normal';
 
-    container.innerHTML = '<div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>';
-    status.textContent = 'Fetching from GitHub...';
+    container.innerHTML = '<div class="loading" style="padding:2rem;text-align:center;">Chargement du mindmap...</div>';
+    status.textContent = 'Récupération depuis GitHub...';
 
     // Destroy previous instance
     if (window.mindInstance) {
@@ -488,12 +488,13 @@ body > .container {
         // Fit after render
         setTimeout(function() { mind.scaleFit(); }, 200);
 
-        status.textContent = mode.charAt(0).toUpperCase() + mode.slice(1) + ' — ' +
-          nodeCount + ' nodes — ' + new Date().toLocaleTimeString();
+        var modeLabel = mode === 'full' ? 'Complet' : 'Normal';
+        status.textContent = modeLabel + ' — ' +
+          nodeCount + ' nœuds — ' + new Date().toLocaleTimeString();
       })
       .catch(function(err) {
-        container.innerHTML = '<div class="mindmap-error"><p>Error: ' + err.message + '</p></div>';
-        status.textContent = 'Error';
+        container.innerHTML = '<div class="mindmap-error"><p>Erreur : ' + err.message + '</p></div>';
+        status.textContent = 'Erreur';
       });
   };
 
