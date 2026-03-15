@@ -458,6 +458,15 @@ body > .container {
           allowUndo: false
         });
 
+        // Collapse all branches — show only root + direct children
+        function collapseAll(node, depth) {
+          if (node.children && node.children.length > 0) {
+            if (depth >= 1) node.expanded = false;
+            node.children.forEach(function(child) { collapseAll(child, depth + 1); });
+          }
+        }
+        collapseAll(data.nodeData, 0);
+
         mind.init(data);
         window.mindInstance = mind;
         document.documentElement.setAttribute('data-theme', themeKey);
