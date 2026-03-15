@@ -408,22 +408,40 @@
       .cover-meta { font-size: 10pt; color: #444; line-height: 2; }
       .cover-gen-line { font-size: 8.5pt; color: #666; font-family: monospace; margin-top: 0.2cm; }
 
+      /* Corporate color overrides — clean document, not web theme */
+      :root, html, html[data-theme] {
+        --bg: #ffffff !important; --fg: #111111 !important;
+        --accent: #1d4ed8 !important; --muted: #555555 !important;
+        --border: #cccccc !important; --code-bg: #f5f5f5 !important;
+      }
+      body { background: #fff !important; color: #111 !important; font-size: 10pt; line-height: 1.55; }
+
       /* Typography */
-      h1 { font-size: 18pt; }
-      h2 { font-size: 14pt; break-after: avoid; page-break-after: avoid; }
-      h3 { font-size: 12pt; break-after: avoid; page-break-after: avoid; }
+      h1 { font-size: 18pt; color: #1d4ed8 !important; }
+      h2 { font-size: 14pt; color: #111 !important; border-bottom: 1px solid #ccc !important; break-after: avoid; page-break-after: avoid; }
+      h3 { font-size: 12pt; color: #1d4ed8 !important; break-after: avoid; page-break-after: avoid; }
       h4 { font-size: 10pt; break-after: avoid; page-break-after: avoid; }
-      pre { font-size: 8pt; white-space: pre-wrap; word-break: break-all; break-inside: avoid; page-break-inside: avoid; }
+      a { color: #1d4ed8 !important; }
+      pre { font-size: 8pt; white-space: pre-wrap; word-break: break-all; break-inside: avoid; page-break-inside: avoid;
+            background: #f5f5f5 !important; border: 1px solid #ddd !important; color: #111 !important; }
+      code { background: #f5f5f5 !important; border: 1px solid #ddd !important; color: #111 !important; font-size: 8.5pt; }
       table { font-size: 8pt; break-inside: avoid; page-break-inside: avoid; }
-      blockquote { break-inside: avoid; page-break-inside: avoid; }
+      th { background: #e8edf3 !important; color: #111 !important; border-bottom: 2px solid #1d4ed8 !important; }
+      td { border-bottom: 1px solid #ddd !important; }
+      blockquote { break-inside: avoid; page-break-inside: avoid; border-left: 3pt solid #1d4ed8 !important; color: #555 !important; }
+
+      /* TOC in print — clean style */
+      .toc { background: #f9f9f9 !important; border: 1px solid #ddd !important; break-inside: avoid; page-break-inside: avoid; }
+      .toc a { color: #111 !important; }
+      .toc-title { color: #1d4ed8 !important; }
 
       /* Keep elements together */
-      .feature-card, .feature-grid > div, .toc { break-inside: avoid; page-break-inside: avoid; }
+      .feature-card, .feature-grid > div { break-inside: avoid; page-break-inside: avoid; }
       .mermaid { break-inside: avoid; page-break-inside: avoid; }
       .mermaid svg { max-width: 100%; }
 
-      /* Color fidelity */
-      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      /* Mermaid diagrams keep colors */
+      .mermaid, .mermaid * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
   </style>
 
