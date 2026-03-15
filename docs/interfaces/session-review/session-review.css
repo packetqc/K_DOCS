@@ -1,3 +1,17 @@
+/* ── Dark theme variable overrides ── */
+[data-theme="midnight"],
+[data-theme="daltonism-dark"],
+[data-color-mode="dark"],
+.theme-dark {
+  --fg: #c9d1d9;
+  --bg: #0d1117;
+  --code-bg: #161b22;
+  --border: #30363d;
+  --muted: #8b949e;
+  --accent: #58a6ff;
+  --col-alt: #1c2128;
+}
+
 /* ── Discrete thin scrollbars ── */
 *, *::before, *::after {
   scrollbar-width: thin;
