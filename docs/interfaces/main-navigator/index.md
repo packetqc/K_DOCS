@@ -424,9 +424,12 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     var sm = document.createElement('summary'); sm.textContent = w.title; det.appendChild(sm);
     var body = document.createElement('div'); body.className = 'widget-body';
 
+    // Rewrite link href if viewerRewriteUrl is available (running inside viewer srcdoc)
+    var vru = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
+
     if (w.links) {
       w.links.forEach(function(lk) {
-        var a = document.createElement('a'); a.href = lk.h;
+        var a = document.createElement('a'); a.href = lk.top ? vru(lk.h, false) : vru(lk.h);
         a.dataset.navId = 'nav-' + (navLinkId++);
         a.target = lk.top ? '_top' : (lk.center ? 'center-frame' : 'content-frame'); a.textContent = lk.t;
         body.appendChild(a);
@@ -440,7 +443,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         pg.addEventListener('toggle', saveSubDetState);
         var pgsm = document.createElement('summary'); pgsm.textContent = cg.g; pg.appendChild(pgsm);
         cg.cmds.forEach(function(cmd) {
-          var a = document.createElement('a'); a.href = BASE + cg.pub; a.target = 'content-frame';
+          var a = document.createElement('a'); a.href = vru(BASE + cg.pub); a.target = 'content-frame';
           a.dataset.navId = 'nav-' + (navLinkId++);
           var sp = document.createElement('span'); sp.className = 'cmd-link'; sp.textContent = cmd;
           a.appendChild(sp); pg.appendChild(a);
@@ -455,14 +458,14 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
         pg.addEventListener('toggle', saveSubDetState);
         var pgsm = document.createElement('summary'); pgsm.textContent = p.n + ' ' + p.t; pg.appendChild(pgsm);
-        var a1 = document.createElement('a'); a1.href = BASE+'/publications/'+p.s+'/#pub-title';
+        var a1 = document.createElement('a'); a1.href = vru(BASE+'/publications/'+p.s+'/');
         a1.dataset.navId = 'nav-' + (navLinkId++);
         a1.target = 'content-frame'; a1.textContent = 'Summary'; pg.appendChild(a1);
-        var a2 = document.createElement('a'); a2.href = BASE+'/publications/'+p.s+'/full/#pub-title';
+        var a2 = document.createElement('a'); a2.href = vru(BASE+'/publications/'+p.s+'/full/');
         a2.dataset.navId = 'nav-' + (navLinkId++);
         a2.target = 'content-frame'; a2.textContent = 'Full'; pg.appendChild(a2);
         if (p.extra) { p.extra.forEach(function(e) {
-          var ax = document.createElement('a'); ax.href = BASE+e.p;
+          var ax = document.createElement('a'); ax.href = vru(BASE+e.p);
           ax.dataset.navId = 'nav-' + (navLinkId++);
           ax.target = 'content-frame'; ax.textContent = e.t; pg.appendChild(ax);
         }); }
