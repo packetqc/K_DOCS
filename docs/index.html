@@ -178,27 +178,40 @@
     .toc a { color: var(--fg); font-size: 0.88rem; }
     .toc a:hover { color: var(--accent); }
 
-    /* ===== Interface chrome bar ===== */
-    .iface-chrome {
+    /* ===== Chrome bar (shared convention for all panels) ===== */
+    .chrome-bar {
       background: var(--code-bg); border-bottom: 1px solid var(--border);
       font-size: 0.78rem; user-select: none;
       display: flex; align-items: stretch;
     }
-    .iface-chrome-content {
-      flex: 1; display: flex; align-items: center; justify-content: space-between;
-      padding: 0.3rem 0.75rem; gap: 1rem; flex-wrap: wrap;
+    .chrome-bar-fixed {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.2rem 0.75rem; flex-shrink: 0;
     }
-    .iface-chrome-left { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
-    .iface-chrome-title { font-weight: 700; font-size: 0.85rem; color: var(--fg); }
-    .iface-chrome-desc { color: var(--muted); font-style: italic; font-size: 0.76rem; }
-    .iface-chrome-right { display: flex; align-items: center; gap: 1rem; color: var(--muted); font-size: 0.76rem; }
-    .iface-chrome-gen { font-family: monospace; font-size: 0.72rem; }
-    .iface-chrome-toggle {
-      cursor: pointer; color: var(--muted); padding: 0.3rem 0.6rem;
+    .chrome-bar-fixed a {
+      color: var(--accent); text-decoration: none; font-size: 0.76rem; white-space: nowrap;
+    }
+    .chrome-bar-fixed a:hover { text-decoration: underline; }
+    .chrome-bar-toggle {
+      cursor: pointer; color: var(--muted); padding: 0.2rem 0.5rem;
       display: flex; align-items: center; font-size: 0.7rem;
-      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border); flex-shrink: 0;
     }
-    .iface-chrome-toggle:hover { background: var(--col-alt); color: var(--accent); }
+    .chrome-bar-toggle:hover { background: var(--col-alt); color: var(--accent); }
+    .chrome-bar-meta {
+      padding: 0.4rem 0.75rem; border-top: 1px solid var(--border);
+      font-size: 0.75rem; color: var(--muted); line-height: 1.6;
+    }
+    .chrome-bar-meta .chrome-title { font-weight: 700; font-size: 0.82rem; color: var(--fg); }
+    .chrome-bar-meta .chrome-badge {
+      display: inline-block; background: var(--accent); color: white;
+      padding: 0.05em 0.4em; border-radius: 3px; font-size: 0.7em; font-weight: 600;
+      vertical-align: middle; margin-left: 0.3rem;
+    }
+    .chrome-bar-meta .chrome-tagline { font-style: italic; }
+    .chrome-bar-meta .chrome-gen { font-family: monospace; font-size: 0.72rem; }
+    .chrome-bar-meta .chrome-citation { font-style: italic; border-top: 1px solid var(--border); padding-top: 0.3rem; margin-top: 0.3rem; }
+    .chrome-bar-meta span { display: inline-block; margin-right: 1rem; }
     #ifaceFrame {
       width: calc(100% - 1rem); border: none; background: var(--bg);
       flex: 1; min-height: 0; margin: 0.25rem 0.5rem;
@@ -236,12 +249,6 @@
     .toolbar-radio input[type="radio"] { accent-color: var(--accent); cursor: pointer; }
 
     /* ===== Language switch ===== */
-    .actual-page-link {
-      font-size: 0.78rem; color: var(--accent); text-decoration: none;
-      padding: 0.2rem 0.5rem; border: 1px solid var(--border); border-radius: 4px;
-      white-space: nowrap;
-    }
-    .actual-page-link:hover { background: var(--col-alt); text-decoration: underline; }
     .lang-switch { display: flex; gap: 0; }
     .lang-btn {
       background: var(--code-bg); color: var(--muted); border: 1px solid var(--border);
@@ -352,7 +359,6 @@
       </div>
     </div>
     <div class="toolbar-right">
-      <a id="actualPageLink" href="#" target="_blank" class="actual-page-link" title="Open production page" style="display:none;">Actual Page &#x2197;</a>
       <div class="lang-switch">
         <button class="lang-btn lang-active" id="langEn" title="English">EN</button>
         <button class="lang-btn" id="langFr" title="Français">FR</button>
@@ -711,20 +717,6 @@
       btnFr.classList.toggle('lang-disabled', !hasFr);
     }
 
-    function updateActualPageLink(meta) {
-      var link = document.getElementById('actualPageLink');
-      if (!link) return;
-      var permalink = meta.permalink || meta.permalink_en;
-      if (currentLang === 'fr' && meta.permalink_fr) permalink = meta.permalink_fr;
-      if (permalink) {
-        link.href = SITE.production_baseurl
-          ? 'https://packetqc.github.io' + SITE.production_baseurl + permalink
-          : permalink;
-        link.style.display = '';
-      } else {
-        link.style.display = 'none';
-      }
-    }
 
     function loadWithLang(docIdx, lang) {
       var doc = DOCS[docIdx];
@@ -852,6 +844,62 @@
       return body;
     }
 
+    // ===== Chrome bar builder (shared convention) =====
+    // Non-collapsible: "Actual Page" link. Collapsible: full metadata block.
+    function buildChromeBar(meta, barId) {
+      var permalink = meta.permalink || meta.permalink_en;
+      if (currentLang === 'fr' && meta.permalink_fr) permalink = meta.permalink_fr;
+      var actualUrl = permalink
+        ? 'https://packetqc.github.io' + (SITE.production_baseurl || '') + permalink
+        : '';
+
+      var now = new Date();
+      var genDate = now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0') + ' ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0');
+      var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
+
+      var metaHtml = '<div class="chrome-bar-meta" id="' + barId + 'Meta">';
+      if (meta.pub_id) metaHtml += '<div><span>' + escapeHtml(meta.pub_id) + '</span></div>';
+      metaHtml += '<div class="chrome-title">' + escapeHtml(meta.header_title || meta.title || '');
+      if (meta.pub_version || meta.version) metaHtml += ' <span class="chrome-badge">' + escapeHtml(meta.pub_version || meta.version) + '</span>';
+      metaHtml += '</div>';
+      if (meta.tagline || meta.description) metaHtml += '<div class="chrome-tagline">' + escapeHtml(meta.tagline || meta.description) + '</div>';
+      if (meta.pub_meta) metaHtml += '<div><span>' + escapeHtml(meta.pub_meta) + '</span></div>';
+      if (meta.pub_date || meta.date) metaHtml += '<span>' + escapeHtml(meta.pub_date || meta.date) + '</span>';
+      if (meta.source_url) metaHtml += '<span><a href="' + meta.source_url + '" target="_blank">Source (GitHub)</a></span>';
+      metaHtml += '<div class="chrome-gen">' + genLabel + ': ' + genDate + '</div>';
+      if (meta.citation) metaHtml += '<div class="chrome-citation">' + escapeHtml(meta.citation) + '</div>';
+      metaHtml += '</div>';
+
+      return '<div class="chrome-bar" id="' + barId + '">' +
+        '<div class="chrome-bar-toggle" id="' + barId + 'Toggle" title="Show/hide metadata">&#9654;</div>' +
+        '<div class="chrome-bar-fixed">' +
+          (actualUrl ? '<a href="' + actualUrl + '" target="_blank">Actual Page &#x2197;</a>' : '') +
+        '</div>' +
+        '</div>' +
+        metaHtml;
+    }
+
+    function initChromeToggle(barId, storageKey) {
+      var toggle = document.getElementById(barId + 'Toggle');
+      var meta = document.getElementById(barId + 'Meta');
+      if (!toggle || !meta) return;
+      var collapsed = localStorage.getItem(storageKey) !== '0'; // collapsed by default
+      function apply() {
+        meta.style.display = collapsed ? 'none' : '';
+        toggle.innerHTML = collapsed ? '&#9654;' : '&#9660;';
+      }
+      apply();
+      toggle.addEventListener('click', function() {
+        collapsed = !collapsed;
+        apply();
+        localStorage.setItem(storageKey, collapsed ? '1' : '0');
+      });
+    }
+
     // ===== Markdown rendering =====
     function renderMarkdown(text, docPath) {
       var parsed = parseFrontMatter(text);
@@ -898,42 +946,10 @@
 
       var html = '';
 
-      // Embed mode: add standalone link bar at top, skip doc-header
-      if (IS_EMBED) {
-        var standaloneUrl = window.location.pathname.replace(/[^/]*$/, '') +
-          'index.html?doc=' + encodeURIComponent(meta._docPath || '');
-        if (meta.lang === 'fr') standaloneUrl += '&lang=fr';
-        var openLabel = (meta.lang === 'fr') ? 'Ouvrir dans un onglet' : 'Open in tab';
-        html += '<div class="embed-topbar"><a href="' + standaloneUrl + '" target="_blank">' + openLabel + ' &#x2197;</a></div>';
-      }
-
-      // Add document header block (styled like TOC card) — hidden in embed mode
-      if (!IS_EMBED && (meta.title || meta.pub_meta)) {
-        var now = new Date();
-        var genDate = now.getFullYear() + '-' +
-          String(now.getMonth() + 1).padStart(2, '0') + '-' +
-          String(now.getDate()).padStart(2, '0') + ' ' +
-          String(now.getHours()).padStart(2, '0') + ':' +
-          String(now.getMinutes()).padStart(2, '0');
-
-        html += '<div class="doc-header">';
-        if (meta.pub_id) html += '<div class="doc-header-id">' + escapeHtml(meta.pub_id) + '</div>';
-        if (meta.header_title || meta.title) {
-          html += '<div class="doc-header-title">' + escapeHtml(meta.header_title || meta.title);
-          if (meta.pub_version) html += ' <span class="doc-header-badge">' + escapeHtml(meta.pub_version) + '</span>';
-          html += '</div>';
-        }
-        if (meta.tagline) html += '<div class="doc-header-tagline">' + escapeHtml(meta.tagline) + '</div>';
-        html += '<hr class="doc-header-rule">';
-        html += '<div class="doc-header-meta">';
-        if (meta.pub_meta) html += '<span>' + escapeHtml(meta.pub_meta) + '</span>';
-        if (meta.pub_date) html += '<span>' + escapeHtml(meta.pub_date) + '</span>';
-        if (meta.source_url) html += '<span><a href="' + meta.source_url + '" target="_blank">Source (GitHub)</a></span>';
-        html += '</div>';
-        if (meta.citation) html += '<div class="doc-header-citation">' + escapeHtml(meta.citation) + '</div>';
-        var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
-        html += '<div class="doc-header-gen">' + genLabel + ': ' + genDate + '</div>';
-        html += '</div>';
+      // Chrome bar with "Actual Page" link + collapsible metadata
+      if (meta.title || meta.pub_meta) {
+        var chromeId = IS_EMBED ? 'embedChrome' : 'docChrome';
+        html += buildChromeBar(meta, chromeId);
       }
 
       // Set page title
@@ -941,7 +957,7 @@
 
       // Store meta globally for exports
       currentMeta = meta;
-      updateActualPageLink(meta);
+
 
       // Populate cover page
       var coverTitle = document.getElementById('coverTitle');
@@ -1139,7 +1155,7 @@
     function renderInterface(container, meta, body) {
       if (meta.title) document.title = meta.title + ' — K_DOCS';
       currentMeta = meta;
-      updateActualPageLink(meta);
+
 
       // Extract content between {::nomarkdown} and {:/nomarkdown}
       var rawMatch = body.match(/\{::nomarkdown\}([\s\S]*?)\{:\/nomarkdown\}/);
@@ -1274,33 +1290,8 @@
       var landscapeRadio = document.querySelector('input[name="orient"][value="landscape"]');
       if (landscapeRadio) landscapeRadio.checked = true;
 
-      // Build generated timestamp
-      var now = new Date();
-      var genDate = now.getFullYear() + '-' +
-        String(now.getMonth() + 1).padStart(2, '0') + '-' +
-        String(now.getDate()).padStart(2, '0') + ' ' +
-        String(now.getHours()).padStart(2, '0') + ':' +
-        String(now.getMinutes()).padStart(2, '0');
-      var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
-
-      // Collapsible chrome bar with metadata
-      var chromeHtml =
-        '<div class="iface-chrome" id="ifaceChrome">' +
-          '<div class="iface-chrome-content" id="ifaceChromeContent">' +
-            '<div class="iface-chrome-left">' +
-              '<span class="iface-chrome-title">' + escapeHtml(meta.title || 'Interface') +
-                (meta.version ? ' <span class="doc-header-badge">' + escapeHtml(meta.version) + '</span>' : '') +
-              '</span>' +
-              (meta.description ? '<span class="iface-chrome-desc">' + escapeHtml(meta.description) + '</span>' : '') +
-            '</div>' +
-            '<div class="iface-chrome-right">' +
-              (meta.pub_id ? '<span>' + escapeHtml(meta.pub_id) + '</span>' : '') +
-              (meta.date ? '<span>' + escapeHtml(meta.date) + '</span>' : '') +
-              '<span class="iface-chrome-gen">' + genLabel + ': ' + genDate + '</span>' +
-            '</div>' +
-          '</div>' +
-          '<div class="iface-chrome-toggle" id="ifaceChromeToggle" title="Collapse/expand header">▲</div>' +
-        '</div>' +
+      // Chrome bar with "Actual Page" + collapsible metadata
+      var chromeHtml = buildChromeBar(meta, 'ifaceChrome') +
         '<iframe id="ifaceFrame"></iframe>';
 
       container.innerHTML = chromeHtml;
@@ -1310,22 +1301,8 @@
       var ifaceFrame = document.getElementById('ifaceFrame');
       ifaceFrame.srcdoc = fullPage;
 
-      // Chrome toggle behavior
-      var chromeContent = document.getElementById('ifaceChromeContent');
-      var chromeToggle = document.getElementById('ifaceChromeToggle');
-      var chromeCollapsed = localStorage.getItem('kdocs-iface-chrome') === '1';
-
-      function applyIfaceChrome() {
-        chromeContent.style.display = chromeCollapsed ? 'none' : '';
-        chromeToggle.textContent = chromeCollapsed ? '▼' : '▲';
-      }
-      applyIfaceChrome();
-
-      chromeToggle.addEventListener('click', function() {
-        chromeCollapsed = !chromeCollapsed;
-        applyIfaceChrome();
-        localStorage.setItem('kdocs-iface-chrome', chromeCollapsed ? '1' : '0');
-      });
+      // Init chrome toggle
+      initChromeToggle('ifaceChrome', 'kdocs-ifaceChrome');
 
       window.scrollTo(0, 0);
     }
@@ -1368,6 +1345,8 @@
           }
 
           content.innerHTML = renderMarkdown(text, path);
+          var chromeId = IS_EMBED ? 'embedChrome' : 'docChrome';
+          initChromeToggle(chromeId, 'kdocs-' + chromeId);
           generateTOC(content);
 
           // Render mermaid after DOM is ready

@@ -45,9 +45,9 @@
     },
     {
       "id": "conv-007",
-      "name": "doc_header_metadata_block",
-      "description": "Documentation page header displays full metadata: pub_id (identifier), header_title with pub_version badge, tagline, pub_meta (authors/date string), pub_date, source_url (GitHub link), citation (formal reference), and generated timestamp. In embed mode (inside interface panels), doc-header is hidden and replaced by an 'Open in tab' link bar. Front matter fields: layout, title, description, pub_id, pub_meta, pub_version, pub_number, pub_date, header_title, tagline, source_url, citation, permalink, permalink_fr, lang, og_image, keywords, page_type, dev_banner.",
-      "mind_memory_refs": ["knowledge::documentation::page_conventions::doc_header_full_metadata_block"]
+      "name": "unified_chrome_bar",
+      "description": "All panels (interface, center, right) use the same chrome bar convention built by buildChromeBar(). Non-collapsible part: 'Actual Page' permalink link to production. Collapsible part (toggle arrow, collapsed by default): full metadata block — pub_id, title with version badge, tagline/description, pub_meta, pub_date, source_url, generated timestamp, citation. Replaces old doc-header and embed-topbar. State persisted in localStorage per panel. Front matter fields: pub_id, pub_meta, pub_version, pub_date, header_title, tagline, source_url, citation, permalink, permalink_fr.",
+      "mind_memory_refs": ["knowledge::documentation::page_conventions::unified_chrome_bar_for_all_panels"]
     },
     {
       "id": "conv-008",

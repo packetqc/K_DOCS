@@ -39,17 +39,14 @@ mindmap
         soft coupled baseurl auto detect deployment
         nojekyll serves raw markdown on github pages
       page conventions
-        doc header full metadata block
-          pub_id publication identifier
-          header_title with pub_version badge
-          tagline subtitle
-          pub_meta authors and date
-          source_url github link
-          citation formal reference
-          generated timestamp
-        embed mode hides doc header shows open in tab
+        unified chrome bar for all panels
+          non collapsible actual page permalink link
+          collapsible full metadata block
+          pub_id title version tagline pub_meta citation generated
+          same convention for interface center and right panels
         toc two columns when 8 plus entries
         external links open in new browser tab
+        orientation propagated via BroadcastChannel
       interface routing
         right panel interface links route to center
         main navigator link reloads full page
