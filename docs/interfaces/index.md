@@ -20,6 +20,7 @@ Interactive web applications built on the Knowledge publication infrastructure. 
 | I2 | [Main Navigator]({{ '/interfaces/main-navigator/' | relative_url }}) | Three-panel navigation interface — browse all publications, profiles, and commands with inline content viewer. |
 | I3 | [Tasks Workflow]({{ '/interfaces/task-workflow/' | relative_url }}) | Task workflow viewer — track task progression through 8 stages, validation results, and unit test status. |
 | I4 | [Project Viewer]({{ '/interfaces/project-viewer/' | relative_url }}) | Project viewer — browse projects, track task completion, aggregate metrics and knowledge grid scores. |
+| I5 | [Live Mindmap]({{ '/interfaces/live-mindmap/' | relative_url }}) | Live K_MIND knowledge graph — fetches mind_memory.md and renders the mermaid mindmap in real-time with fullscreen support. |
 
 ---
 

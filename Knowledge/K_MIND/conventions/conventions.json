@@ -6,14 +6,14 @@
       "name": "mindmap_display_layout",
       "description": "Mermaid mindmap uses radial auto-layout. Default depth 3 for all top-level groups. Architecture and constraints omitted in normal mode. Session has near_memory and far_memory at level 1; near_memory at depth 4 (shows category children); near_memory children are top-level group names (conversation, conventions, work, documentation) with recent activities under each category; always show all 4 categories even when empty (display '(none)'). Deep subtrees shrink the radial layout — keep balanced by controlling depth. Full mode: all nodes expanded at max depth. User can request specific branches at specific depths. Section 3: memory stats table (Store/Count/Size/Tokens/Loaded) showing disk vs context occupancy per store, with /context hint.",
       "far_memory_refs": [29, 30],
-      "mind_memory_refs": ["knowledge::conventions::mindmap_display_layout"]
+      "mind_memory_refs": ["knowledge::conventions::claude desktop app::mindmap_memory::display_layout"]
     },
     {
       "id": "conv-002",
       "name": "theme_default",
       "description": "Use mermaid default theme for mindmap rendering. Always include %%{init: {'theme': 'default', 'mindmap': {'useMaxWidth': true}}}%% directive in output. This provides automatic multi-color nodes per branch depth and forces full available width. Custom blue theme is not supported by mermaid mindmap type.",
       "far_memory_refs": [31, 32],
-      "mind_memory_refs": ["knowledge::conventions::theme_default"]
+      "mind_memory_refs": ["knowledge::conventions::claude desktop app::mindmap_memory::theme_default"]
     }
     ,
     {
@@ -21,14 +21,14 @@
       "name": "far_memory_topic_splitting",
       "description": "When far_memory.json grows large, Claude splits it into topic-based archive files. Each archive groups messages by summarized subject (from near_memory summaries). Main far_memory.json keeps only the active conversation topic. Archive files are stored in sessions/archives/ named by topic slug (e.g., far_memory_architecture_design.json). Main file maintains an 'archives' index array with {file, topic, message_range, near_memory_range}. On split, Claude identifies topic boundaries from near_memory summary clusters, extracts completed topics to archive files, and updates the index. mind-context default view shows the last active conversation from near_memory.",
       "far_memory_refs": [47, 48],
-      "mind_memory_refs": ["knowledge::conventions::far_memory_topic_splitting"]
+      "mind_memory_refs": ["knowledge::conventions::claude desktop app::mindmap_memory::far_memory_topic_splitting"]
     },
     {
       "id": "conv-004",
       "name": "programs_over_improvisation",
       "description": "Claude-as-engine is bootstrap only (new session, resume, compaction recovery). All mechanical operations use Python scripts in scripts/. Claude provides intelligence (summaries, topic names) as arguments to deterministic programs. When architecture evolves, scripts must be updated to match — programs ARE the implementation of the architecture.",
       "far_memory_refs": [51, 52, 55, 56],
-      "mind_memory_refs": ["knowledge::architecture::programs_over_improvisation", "knowledge::conventions::programs_over_improvisation"]
+      "mind_memory_refs": ["knowledge::architecture::programs_over_improvisation", "knowledge::conventions::claude desktop app::mindmap_memory::programs_over_improvisation"]
     },
     {
       "id": "conv-005",
@@ -41,7 +41,7 @@
       "name": "node_text_rules",
       "description": "Mindmap node text must be human-readable descriptions only. No raw IDs, internal pointers, or inline refs in node labels. Avoid mermaid reserved words (e.g. 'mindmap', 'graph', 'flowchart') in node text as they cause syntax errors.",
       "far_memory_refs": [],
-      "mind_memory_refs": ["knowledge::conventions::node_text_rules"]
+      "mind_memory_refs": ["knowledge::conventions::claude desktop app::mindmap_memory::node_text_rules"]
     },
     {
       "id": "conv-007",
@@ -84,6 +84,12 @@
       "name": "draggable_panel_dividers",
       "description": "Main navigator vertical dividers support both drag (mousedown/mousemove/mouseup with overlay) and click-to-step fallback. Left divider cycles [0, 220, 320]px. Right divider cycles 0 → 50% → full → 0. Grid uses pixel-based grid-template-columns with transition disabled during drag. Dividers 14px wide on desktop, 8px on mobile (≤768px) via CSS media query + JS DIVIDER_W. Styled with 5 grip dots, no arrows.",
       "mind_memory_refs": ["knowledge::documentation::web_docs"]
+    },
+    {
+      "id": "conv-014",
+      "name": "display_conventions_and_stats",
+      "description": "Display convention system for K_MIND mindmap. depth_config.json provides human-editable per-branch depth settings. set_depth.py manages depth config updates. mindmap_filter.py renders depth-filtered mindmap from config. memory_stats.py computes disk/token stats with context availability. /mind-stats and /mind-depth skills provide standalone access. Promoted from work to conventions after validation.",
+      "mind_memory_refs": ["knowledge::conventions::claude desktop app::display conventions and stats"]
     }
   ],
   "external_files": []

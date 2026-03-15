@@ -324,6 +324,18 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ===== Webcard header ===== */
+    .webcard-header {
+      width: 100%; max-width: var(--max-width); margin: 0 auto 1rem;
+      border-radius: 8px; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    body.landscape .webcard-header { max-width: 100%; }
+    .webcard-header img {
+      width: 100%; height: auto; display: block;
+    }
+    @media print { .webcard-header { display: none !important; } }
+
     /* ===== Cover page (hidden on screen, shown in print) ===== */
     #pub-cover-page { display: none; }
 
@@ -543,6 +555,7 @@
       { group: 'Interfaces', name: 'Project Viewer', path: 'interfaces/project-viewer/index.md', path_fr: 'fr/interfaces/project-viewer/index.md' },
       { group: 'Interfaces', name: 'Session Review', path: 'interfaces/session-review/index.md', path_fr: 'fr/interfaces/session-review/index.md' },
       { group: 'Interfaces', name: 'Tasks Workflow', path: 'interfaces/task-workflow/index.md', path_fr: 'fr/interfaces/task-workflow/index.md' },
+      { group: 'Interfaces', name: 'Live Mindmap', path: 'interfaces/live-mindmap/index.md' },
       // --- Profile ---
       { group: 'Profile', name: 'Profile', path: 'profile/index.md', path_fr: 'fr/profile/index.md' },
       { group: 'Profile', name: 'Profile — Full', path: 'profile/full/index.md', path_fr: 'fr/profile/full/index.md' },
@@ -1124,6 +1137,38 @@
       });
     }
 
+    // ===== Webcard support =====
+    function updateOgImage(meta) {
+      // Remove existing og:image meta
+      var existing = document.querySelector('meta[property="og:image"]');
+      if (existing) existing.remove();
+      if (!meta.og_image) return;
+      // Resolve og_image path relative to site
+      var imgUrl = (SITE.url || '') + (SITE.baseurl || '') + meta.og_image;
+      var ogMeta = document.createElement('meta');
+      ogMeta.setAttribute('property', 'og:image');
+      ogMeta.setAttribute('content', imgUrl);
+      document.head.appendChild(ogMeta);
+    }
+
+    function buildWebcardHeader(meta) {
+      var basePath = (SITE.baseurl || '') + meta.og_image;
+      // Theme-aware: cayman (light) vs midnight (dark)
+      var caymanPath = basePath;
+      var midnightPath = basePath.replace('-cayman.', '-midnight.');
+      var altText = (meta.title || 'Webcard') + ' — social preview';
+      // If user has selected a specific dark theme, use midnight variant directly
+      var theme = document.documentElement.getAttribute('data-theme');
+      var isDark = (theme === 'midnight' || theme === 'daltonism-dark');
+      var imgSrc = isDark ? midnightPath : caymanPath;
+      return '<div class="webcard-header">' +
+        '<picture>' +
+        '<source srcset="' + midnightPath + '" media="(prefers-color-scheme: dark)">' +
+        '<img src="' + imgSrc + '" alt="' + escapeHtml(altText) + '" loading="lazy">' +
+        '</picture>' +
+        '</div>';
+    }
+
     // ===== Markdown rendering =====
     function renderMarkdown(text, docPath) {
       var parsed = parseFrontMatter(text);
@@ -1200,6 +1245,11 @@
       // Store meta globally for exports
       currentMeta = meta;
 
+      // Inject og:image meta tag + webcard header
+      updateOgImage(meta);
+      if (meta.og_image) {
+        html += buildWebcardHeader(meta);
+      }
 
       // Populate cover page
       var coverTitle = document.getElementById('coverTitle');

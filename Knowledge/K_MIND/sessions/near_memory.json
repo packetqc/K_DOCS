@@ -469,6 +469,60 @@
         "conventions"
       ],
       "timestamp": "2026-03-15T08:07:06Z"
+    },
+    {
+      "id": 38,
+      "summary": "Moved documentation web viewer system to validation stage in work.json and mindmap",
+      "far_memory_refs": [
+        75,
+        76
+      ],
+      "mind_memory_refs": [
+        "knowledge::work::validation::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-15T08:26:36Z"
+    },
+    {
+      "id": 39,
+      "summary": "Created conventions/claude desktop app group, moved mindmap_memory and display-conventions-and-stats under it, updated all system files",
+      "far_memory_refs": [
+        77,
+        78
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::claude desktop app",
+        "knowledge::conventions::claude desktop app::mindmap_memory",
+        "knowledge::conventions::claude desktop app::display conventions and stats"
+      ],
+      "timestamp": "2026-03-15T08:31:16Z"
+    },
+    {
+      "id": 40,
+      "summary": "Added webcards viewer support (og:image + header), live mindmap standalone page + embedded in k2.0, K_DOCS module sync work item, updated all system files",
+      "far_memory_refs": [
+        79,
+        80
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::webcards",
+        "knowledge::conventions::documentation::web docs::live mindmap",
+        "knowledge::work::en cours::webcards",
+        "knowledge::work::en cours::live mindmap",
+        "knowledge::work::en cours::K_DOCS module sync"
+      ],
+      "timestamp": "2026-03-15T08:42:19Z"
+    },
+    {
+      "id": 41,
+      "summary": "Made live mindmap official interface I5, added to interfaces index + documentation mindmap node",
+      "far_memory_refs": [
+        81,
+        82
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::interfaces::live mindmap"
+      ],
+      "timestamp": "2026-03-15T08:44:06Z"
     }
   ],
   "last_session": {

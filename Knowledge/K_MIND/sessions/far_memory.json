@@ -705,6 +705,127 @@
           "action": "14px dividers + mobile responsive 8px"
         }
       ]
+    },
+    {
+      "id": 75,
+      "role": "user",
+      "content": "move documentation web viewer system to validation stage in work status",
+      "timestamp": "2026-03-15T08:26:36Z"
+    },
+    {
+      "id": 76,
+      "role": "assistant",
+      "content": "Moved documentation-web-viewer-system from in_progress to validation in work.json and moved the node from work/en cours to work/validation in mind_memory.md.",
+      "timestamp": "2026-03-15T08:26:36Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "work/work.json",
+          "action": "status in_progress→validation"
+        },
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "moved node from en cours to validation"
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "role": "user",
+      "content": "move work/conventions/display-conventions-and-stats-system to conventions/claude desktop app/ also, move conventions/mindmap_memory under /convention/claude desktop app/ when i ask move from work to conventions, i means update/create all applicable system documentation, skills and scripts. and it should show in the mindmap.",
+      "timestamp": "2026-03-15T08:31:16Z"
+    },
+    {
+      "id": 78,
+      "role": "assistant",
+      "content": "Created conventions/claude desktop app grouping in mindmap. Moved mindmap_memory (with rules and mermaid subtrees) under it. Moved display-conventions-and-stats from work/conventions to conventions/claude desktop app. Removed display-conventions-and-stats-system from work.json (promoted to conventions). Added conv-014 entry in conventions.json. Updated all mind_memory_refs to new paths. Updated depth_config.json overrides for renamed paths.",
+      "timestamp": "2026-03-15T08:31:16Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "create claude desktop app group, move mindmap_memory and display-conventions-and-stats under it, remove from work"
+        },
+        {
+          "tool": "Edit",
+          "file": "work/work.json",
+          "action": "remove display-conventions-and-stats-system (promoted)"
+        },
+        {
+          "tool": "Edit",
+          "file": "conventions/conventions.json",
+          "action": "add conv-014, update mind_memory_refs paths"
+        },
+        {
+          "tool": "Edit",
+          "file": "conventions/depth_config.json",
+          "action": "update overrides for renamed paths"
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "role": "user",
+      "content": "new work/en cours/webcards node. let's bring back existing webcard in this update of the knowledge project. and then live mindmap as a standalone page and included pages (embedded) in the knowledge 2.0 publication. another work/en cours/K_DOCS module sync. webcards should appear as implemented in the conventions/web docs/. on top of publication it should fit the live mindmap in k2.0! top of content after TOC and official first content page by convention... but really near to most first element of the document.",
+      "timestamp": "2026-03-15T08:42:19Z"
+    },
+    {
+      "id": 80,
+      "role": "assistant",
+      "content": "Created 3 new work items: webcards, live-mindmap, K_DOCS-module-sync. Added webcard support to viewer (updateOgImage + buildWebcardHeader with picture/prefers-color-scheme). Created docs/assets/og/ directory. Created standalone live mindmap interface page at docs/interfaces/live-mindmap/. Embedded live mindmap in knowledge 2.0 full publication after Authors section. Added webcards and live mindmap convention nodes under conventions/documentation/web docs. Updated work.json with files modified. Added DOCS entry for Live Mindmap interface.",
+      "timestamp": "2026-03-15T08:42:19Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add updateOgImage + buildWebcardHeader + webcard CSS + DOCS entry"
+        },
+        {
+          "tool": "Write",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "create standalone live mindmap page"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "embed live mindmap after Authors"
+        },
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "add webcards + live mindmap + K_DOCS module sync nodes"
+        },
+        {
+          "tool": "Edit",
+          "file": "work/work.json",
+          "action": "add 3 work items with files_modified"
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "role": "user",
+      "content": "is mindmap standalone live should be an official new interface style ?",
+      "timestamp": "2026-03-15T08:44:06Z"
+    },
+    {
+      "id": 82,
+      "role": "assistant",
+      "content": "Yes — added Live Mindmap as I5 in the interfaces index page. Updated documentation node in mindmap to list all 5 interfaces under documentation/interfaces.",
+      "timestamp": "2026-03-15T08:44:06Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/index.md",
+          "action": "add I5 Live Mindmap row"
+        },
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "expand interfaces node with all 5 interfaces"
+        }
+      ]
     }
   ],
   "archives": [

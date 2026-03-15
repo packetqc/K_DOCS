@@ -6,8 +6,9 @@
   ],
   "overrides": {
     "session/near memory": 4,
-    "work/display-conventions-and-stats-system": 2,
     "conventions/methodologies": 2,
-    "conventions": 3
+    "conventions": 3,
+    "conventions/claude desktop app": 3,
+    "documentation": 3
   }
 }

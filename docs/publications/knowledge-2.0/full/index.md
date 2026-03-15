@@ -42,6 +42,42 @@ citation: "Paquet, M. & Claude (2026). Knowledge 2.0: Interactive Intelligence F
 
 ---
 
+### Live Knowledge Graph
+
+<div id="live-mindmap-embed" style="width:100%;min-height:40vh;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:1rem;margin:0.5rem 0 1rem;">
+<div class="loading">Loading live mindmap...</div>
+</div>
+
+<script>
+(function() {
+  var base = window.location.pathname.replace(/\/publications\/.*/, '/');
+  var mindPath = base + 'Knowledge/K_MIND/mind/mind_memory.md';
+  var container = document.getElementById('live-mindmap-embed');
+  if (!container) return;
+
+  fetch(mindPath)
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function(text) {
+      var match = text.match(/```mermaid\s*\n([\s\S]*?)```/);
+      if (!match) throw new Error('No mermaid block found');
+      container.innerHTML = '<div class="mermaid">' + match[1].trim() + '</div>';
+      if (window.mermaid) {
+        mermaid.run({ nodes: container.querySelectorAll('.mermaid') });
+      }
+    })
+    .catch(function(err) {
+      container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:2rem;">Mindmap unavailable: ' + err.message + '</p>';
+    });
+})();
+</script>
+
+<p style="font-size:0.8rem;color:var(--muted);text-align:right;margin-top:-0.5rem;"><a href="{{ site.baseurl }}/interfaces/live-mindmap/">Full-screen view &#x2197;</a></p>
+
+---
+
 ## Abstract
 
 Knowledge 1.0 solved **statelessness** — AI sessions that forget everything between conversations.
