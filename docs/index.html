@@ -667,6 +667,10 @@
         if (themeChannel) themeChannel.postMessage(val);
         // Re-render mermaid for new theme
         renderMermaidBlocks();
+        // Update live webcard mindmap theme
+        if (window._webcardMind && window._webcardGetTheme) {
+          window._webcardMind.changeTheme(window._webcardGetTheme());
+        }
       });
     })();
 
@@ -1305,6 +1309,8 @@
           }
           collapseDeep(data.nodeData, 0);
           mind.init(data);
+          window._webcardMind = mind;
+          window._webcardGetTheme = getMindTheme;
           container.addEventListener('click', function(ev) {
             if (ev.target.tagName !== 'ME-EPD') return;
             if (!ev.ctrlKey && !ev.metaKey) return;

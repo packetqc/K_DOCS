@@ -5,51 +5,65 @@
     {
       "id": "ref-web-production-pipeline",
       "name": "Web Production Pipeline",
-      "source": "packetqc/knowledge",
-      "path": "knowledge/methodology/web-production-pipeline.md",
-      "description": "Jekyll pipeline: Markdown source → Liquid → kramdown → HTML. 4-theme system, front matter contract, kramdown gotchas."
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/web-production-pipeline.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/web-production-pipeline.md",
+      "description": "Static viewer pipeline: Markdown → fetch → client-side rendering. 4-theme system, Liquid resolver, .nojekyll deployment."
     },
     {
       "id": "ref-web-pagination-export",
       "name": "Web Pagination & Export",
-      "source": "packetqc/knowledge",
-      "path": "knowledge/methodology/web-pagination-export.md",
-      "description": "CSS Paged Media print stack. @page zones, running headers/footers, PDF export via window.print(). Zero-dependency."
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/web-pagination-export.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/web-pagination-export.md",
+      "description": "CSS Paged Media print stack. @page zones, running headers/footers, PDF export via window.print(). DOCX via MSO elements. Zero-dependency."
     },
     {
       "id": "ref-web-page-visualization",
       "name": "Web Page Visualization",
-      "source": "packetqc/knowledge",
-      "path": "knowledge/methodology/web-page-visualization.md",
-      "description": "Local rendering pipeline: Playwright + Chromium + npm mermaid. Screenshots, Mermaid-to-image. Self-contained."
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/web-page-visualization.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/web-page-visualization.md",
+      "description": "Local rendering pipeline: Playwright + Chromium + npm mermaid. Screenshots, Mermaid-to-image, webcard generation. Self-contained."
     },
     {
-      "id": "ref-publication-layout",
-      "name": "Publication Layout HTML",
-      "source": "packetqc/knowledge",
-      "path": "docs/_layouts/publication.html",
-      "description": "109KB layout with 4-theme CSS, export toolbar, Mermaid CDN, TOC, webcards, bilingual support."
+      "id": "ref-documentation-generation",
+      "name": "Documentation Generation",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/documentation-generation.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/methodology-documentation-generation.md",
+      "description": "Publication lifecycle, source structure, diagram integration, writing style, three-tier structure, quality checklist, front matter contract."
     },
     {
-      "id": "ref-default-layout",
-      "name": "Default Layout HTML",
-      "source": "packetqc/knowledge",
-      "path": "docs/_layouts/default.html",
-      "description": "74KB hub/index layout. Same theme system, publication cards, navigation."
+      "id": "ref-webcard-generation",
+      "name": "Webcard Generation",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/webcard-generation.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/methodology-webcard.md",
+      "description": "Animated OG social preview GIFs. 1200x630, dual-theme, animation types, naming conventions, live webcard alternative."
     },
     {
-      "id": "ref-pilot-publication",
-      "name": "Knowledge 2.0 (pilot)",
-      "source": "packetqc/knowledge",
-      "path": "knowledge/data/publications/knowledge-2.0/v1/README.md",
-      "description": "Pilot publication for viewer development. 522 lines, 5 Mermaid diagrams. Three tiers: source, summary, full."
+      "id": "ref-interactive-documentation",
+      "name": "Interactive Documentation",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/interactive-documentation.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/interactive-documentation.md",
+      "description": "Session workflow for creating publications interactively. Phase pattern: gather → structure → expand → web pages → deliver."
+    },
+    {
+      "id": "ref-documentation-audience",
+      "name": "Documentation Audience",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/documentation-audience.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/methodology-documentation-audience.md",
+      "description": "19-segment audience definition across 5 tiers. Content voice guidelines. Rewrite principle for outward-facing content."
     }
   ],
   "external_files": [],
   "conventions": {
     "docs_directory": "Required at project root when documentation module is active",
     "url_structure": "/docs/publications/<slug>/ must match production for compatibility",
-    "front_matter": "YAML front matter is the metadata contract (layout, title, description, permalink, og_image)",
+    "front_matter": "YAML front matter is the metadata contract (title, description, permalink, og_image)",
     "three_tier_publication": "Source (markdown pur), Summary (web condensé), Full (web complet)",
     "doc_header": "Nav-back + actual page link + version tag, collapsible metadata (Publication/Generated/Authors). Shared buildDocHeaderParts() for both standalone and embed chrome bar.",
     "export_pdf": "Corporate styling: white bg, blue accent (#1d4ed8), cover page centered, TOC page 2, running header/footer with blue liners, CSS @page three-zone layout.",

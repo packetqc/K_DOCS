@@ -135,6 +135,7 @@ mindmap
           convention fixes applied and verified
       methodologies
         import system
+        K_DOCS web methodologies imported from production
       documentation
         web docs
           docs directory at project root
