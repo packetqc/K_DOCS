@@ -138,8 +138,33 @@
     /* ===== Document Header ===== */
     .doc-header {
       background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
-      padding: 1.2rem 1.5rem; margin: 1.5rem 0;
+      margin: 1.5rem 0; overflow: hidden;
     }
+    .doc-header-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.4rem 1rem; border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+    }
+    .doc-header-bar a { color: var(--accent); text-decoration: none; white-space: nowrap; }
+    .doc-header-bar a:hover { text-decoration: underline; }
+    .doc-header-bar .dh-nav { flex-shrink: 0; }
+    .doc-header-bar .dh-actual { flex-shrink: 0; }
+    .doc-header-bar .dh-version {
+      flex-shrink: 0; color: var(--muted); font-size: 0.76rem;
+    }
+    .doc-header-bar .version-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: #28a745; margin-right: 0.3rem; vertical-align: middle;
+    }
+    .doc-header-toggle {
+      cursor: pointer; color: var(--muted); padding: 0 0.5rem;
+      font-size: 0.7rem; flex-shrink: 0; user-select: none;
+    }
+    .doc-header-toggle:hover { color: var(--accent); }
+    .doc-header-details {
+      padding: 0.8rem 1rem; font-size: 0.82rem; color: var(--muted); line-height: 1.8;
+    }
+    .doc-header-details span { display: inline-block; margin-right: 1.5rem; }
     .doc-header-title { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem; line-height: 1.3; }
     .doc-header-tagline { font-size: 0.92rem; color: var(--muted); margin-bottom: 0.8rem; font-style: italic; line-height: 1.5; }
     .doc-header-meta { font-size: 0.82rem; color: var(--muted); line-height: 1.8; }
@@ -185,13 +210,22 @@
       display: flex; align-items: stretch;
     }
     .chrome-bar-fixed {
-      display: flex; align-items: center; gap: 0.6rem;
-      padding: 0.2rem 0.75rem; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.2rem 0.75rem; flex: 1; min-width: 0;
     }
     .chrome-bar-fixed a {
       color: var(--accent); text-decoration: none; font-size: 0.76rem; white-space: nowrap;
     }
     .chrome-bar-fixed a:hover { text-decoration: underline; }
+    .chrome-bar-nav { flex-shrink: 0; }
+    .chrome-bar-actual { flex-shrink: 0; }
+    .chrome-bar-version {
+      flex-shrink: 0; font-size: 0.72rem; color: var(--muted); white-space: nowrap;
+    }
+    .chrome-bar-version .version-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: #28a745; margin-right: 0.3rem; vertical-align: middle;
+    }
     .chrome-bar-toggle {
       cursor: pointer; color: var(--muted); padding: 0.2rem 0.5rem;
       display: flex; align-items: center; font-size: 0.7rem;
@@ -846,13 +880,30 @@
 
     // ===== Chrome bar builder (shared convention) =====
     // Non-collapsible: "Actual Page" link. Collapsible: full metadata block.
-    function buildChromeBar(meta, barId) {
+    function buildDocHeaderParts(meta) {
+      // Actual page URL
       var permalink = meta.permalink || meta.permalink_en;
       if (currentLang === 'fr' && meta.permalink_fr) permalink = meta.permalink_fr;
       var actualUrl = permalink
         ? 'https://packetqc.github.io' + (SITE.production_baseurl || '') + permalink
         : '';
 
+      // Back-link: /full/ pages link back to summary
+      var backUrl = '';
+      var backLabel = (meta.lang === 'fr') ? '\u2190 Retour au sommaire' : '\u2190 Back to summary';
+      var docPath = meta._docPath || '';
+      if (docPath.indexOf('/full/') !== -1) {
+        var summaryPath = docPath.replace(/\/full\/index\.md$/, '/index.md').replace(/\/full\/$/, '/');
+        backUrl = SITE.baseurl + '/' + summaryPath;
+      }
+
+      // Version tag
+      var versionHtml = '';
+      if (meta.pub_version) {
+        versionHtml = '<span class="version-dot"></span>' + escapeHtml(meta.pub_version);
+      }
+
+      // Generated date
       var now = new Date();
       var genDate = now.getFullYear() + '-' +
         String(now.getMonth() + 1).padStart(2, '0') + '-' +
@@ -861,31 +912,37 @@
         String(now.getMinutes()).padStart(2, '0');
       var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
 
-      var metaHtml = '<div class="chrome-bar-meta" id="' + barId + 'Meta">';
-      if (meta.pub_id) metaHtml += '<div><span>' + escapeHtml(meta.pub_id) + '</span></div>';
-      metaHtml += '<div class="chrome-title">' + escapeHtml(meta.header_title || meta.title || '');
-      if (meta.pub_version || meta.version) metaHtml += ' <span class="chrome-badge">' + escapeHtml(meta.pub_version || meta.version) + '</span>';
-      metaHtml += '</div>';
-      if (meta.tagline || meta.description) metaHtml += '<div class="chrome-tagline">' + escapeHtml(meta.tagline || meta.description) + '</div>';
-      if (meta.pub_meta) metaHtml += '<div><span>' + escapeHtml(meta.pub_meta) + '</span></div>';
-      if (meta.pub_date || meta.date) metaHtml += '<span>' + escapeHtml(meta.pub_date || meta.date) + '</span>';
-      if (meta.source_url) metaHtml += '<span><a href="' + meta.source_url + '" target="_blank">Source (GitHub)</a></span>';
-      metaHtml += '<div class="chrome-gen">' + genLabel + ': ' + genDate + '</div>';
-      if (meta.citation) metaHtml += '<div class="chrome-citation">' + escapeHtml(meta.citation) + '</div>';
-      metaHtml += '</div>';
+      // Collapsible metadata content
+      var detailsHtml = '';
+      if (meta.pub_meta) detailsHtml += '<span>' + escapeHtml(meta.pub_meta) + '</span>';
+      if (meta.pub_version) detailsHtml += '<span>' + escapeHtml(meta.pub_version) + '</span>';
+      if (meta.pub_date || meta.date) detailsHtml += '<span>' + escapeHtml(meta.pub_date || meta.date) + '</span>';
+      if (meta.header_title || meta.title) detailsHtml += '<span>' + escapeHtml(meta.header_title || meta.title) + '</span>';
+      detailsHtml += '<div class="chrome-gen">' + genLabel + ': ' + genDate + '</div>';
+      if (meta.citation) detailsHtml += '<div class="chrome-citation">' + escapeHtml(meta.citation) + '</div>';
+
+      return { actualUrl: actualUrl, backUrl: backUrl, backLabel: backLabel, versionHtml: versionHtml, detailsHtml: detailsHtml };
+    }
+
+    function buildChromeBar(meta, barId) {
+      var p = buildDocHeaderParts(meta);
+
+      var metaHtml = '<div class="chrome-bar-meta" id="' + barId + 'Meta">' + p.detailsHtml + '</div>';
 
       return '<div class="chrome-bar" id="' + barId + '">' +
         '<div class="chrome-bar-toggle" id="' + barId + 'Toggle" title="Show/hide metadata">&#9654;</div>' +
         '<div class="chrome-bar-fixed">' +
-          (actualUrl ? '<a href="' + actualUrl + '" target="_blank">Actual Page &#x2197;</a>' : '') +
+          '<span class="chrome-bar-nav">' + (p.backUrl ? '<a href="' + p.backUrl + '">' + p.backLabel + '</a>' : '') + '</span>' +
+          '<span class="chrome-bar-actual">' + (p.actualUrl ? '<a href="' + p.actualUrl + '" target="_blank">Actual Page &#x2197;</a>' : '') + '</span>' +
+          '<span class="chrome-bar-version">' + p.versionHtml + '</span>' +
         '</div>' +
         '</div>' +
         metaHtml;
     }
 
-    function initChromeToggle(barId, storageKey) {
+    function initChromeToggle(barId, storageKey, metaSuffix) {
       var toggle = document.getElementById(barId + 'Toggle');
-      var meta = document.getElementById(barId + 'Meta');
+      var meta = document.getElementById(barId + (metaSuffix || 'Meta'));
       if (!toggle || !meta) return;
       var collapsed = localStorage.getItem(storageKey) !== '0'; // collapsed by default
       function apply() {
@@ -952,32 +1009,21 @@
         html += buildChromeBar(meta, 'embedChrome');
       }
 
-      // Standalone mode: doc-header metadata block before TOC
+      // Standalone mode: doc-header with nav bar + collapsible metadata
       if (!IS_EMBED && (meta.title || meta.pub_meta)) {
-        var now = new Date();
-        var genDate = now.getFullYear() + '-' +
-          String(now.getMonth() + 1).padStart(2, '0') + '-' +
-          String(now.getDate()).padStart(2, '0') + ' ' +
-          String(now.getHours()).padStart(2, '0') + ':' +
-          String(now.getMinutes()).padStart(2, '0');
+        var p = buildDocHeaderParts(meta);
+        var dhId = 'docHeader';
 
         html += '<div class="doc-header">';
-        if (meta.pub_id) html += '<div class="doc-header-id">' + escapeHtml(meta.pub_id) + '</div>';
-        if (meta.header_title || meta.title) {
-          html += '<div class="doc-header-title">' + escapeHtml(meta.header_title || meta.title);
-          if (meta.pub_version) html += ' <span class="doc-header-badge">' + escapeHtml(meta.pub_version) + '</span>';
-          html += '</div>';
-        }
-        if (meta.tagline) html += '<div class="doc-header-tagline">' + escapeHtml(meta.tagline) + '</div>';
-        html += '<hr class="doc-header-rule">';
-        html += '<div class="doc-header-meta">';
-        if (meta.pub_meta) html += '<span>' + escapeHtml(meta.pub_meta) + '</span>';
-        if (meta.pub_date) html += '<span>' + escapeHtml(meta.pub_date) + '</span>';
-        if (meta.source_url) html += '<span><a href="' + meta.source_url + '" target="_blank">Source (GitHub)</a></span>';
+        // Non-collapsible bar: nav-back | actual page | version
+        html += '<div class="doc-header-bar">';
+        html += '<span class="dh-nav">' + (p.backUrl ? '<a href="' + p.backUrl + '">' + p.backLabel + '</a>' : '') + '</span>';
+        html += '<span class="dh-actual">' + (p.actualUrl ? '<a href="' + p.actualUrl + '" target="_blank">Actual Page &#x2197;</a>' : '') + '</span>';
+        html += '<span class="doc-header-toggle" id="' + dhId + 'Toggle" title="Show/hide details">&#9654;</span>';
+        html += '<span class="dh-version">' + p.versionHtml + '</span>';
         html += '</div>';
-        if (meta.citation) html += '<div class="doc-header-citation">' + escapeHtml(meta.citation) + '</div>';
-        var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
-        html += '<div class="doc-header-gen">' + genLabel + ': ' + genDate + '</div>';
+        // Collapsible details
+        html += '<div class="doc-header-details" id="' + dhId + 'Details">' + p.detailsHtml + '</div>';
         html += '</div>';
       }
 
@@ -1369,12 +1415,14 @@
 
           // Interface page type — inject raw HTML directly
           if (parsed.meta.page_type === 'interface') {
+            parsed.meta._docPath = path || '';
             renderInterface(content, parsed.meta, parsed.body);
             return;
           }
 
           content.innerHTML = renderMarkdown(text, path);
           if (IS_EMBED) initChromeToggle('embedChrome', 'kdocs-embedChrome');
+          if (!IS_EMBED) initChromeToggle('docHeader', 'kdocs-docHeader', 'Details');
           generateTOC(content);
 
           // Render mermaid after DOM is ready
