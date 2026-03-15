@@ -384,7 +384,7 @@ Jekyll builds static HTML
     ↓
 Static files deployed to CDN
     ↓
-Live at packetqc.github.io/knowledge/ (~1-5 min)
+Live at packetqc.github.io/K_DOCS/ (~1-5 min)
 ```
 
 ### URL Structure

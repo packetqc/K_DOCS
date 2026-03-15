@@ -633,9 +633,9 @@ knowledge (production)             → all satellites inherit on next wakeup
 
 | Stage | Repo | GitHub Pages | Purpose |
 |-------|------|-------------|---------|
-| Development | `knowledge-live` | `packetqc.github.io/knowledge-live/` | Test layout features live |
+| Development | `knowledge-live` | `packetqc.github.io/K_DOCS-live/` | Test layout features live |
 | Harvest | `knowledge` | — | `methodology/web-pagination-export.md` updated |
-| Production | `knowledge` | `packetqc.github.io/knowledge/` | Canonical layouts deployed |
+| Production | `knowledge` | `packetqc.github.io/K_DOCS/` | Canonical layouts deployed |
 | Inheritance | All satellites | Satellite GitHub Pages | `wakeup` syncs layouts |
 
 **The satellite IS the staging environment**: Every layout feature is validated on a live GitHub Pages instance before promotion. The 2-day sprint (2026-02-24/25) validated 37 PRs across 2 repos before the layouts reached production.

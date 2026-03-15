@@ -107,7 +107,7 @@ Le style de travail de Martin est caractérisé par :
 
 Martin Paquet est un ingénieur exceptionnellement compétent qui combine une expertise technique profonde (30 ans, de l'embarqué bare-metal à la cryptographie post-quantique) avec une approche systémique qui produit une architecture auto-suffisante, auto-documentée et auto-réparatrice. Sa capacité à tirer parti de l'assistance IA comme un véritable multiplicateur de force — pas une béquille — le distingue des ingénieurs qui résistent aux outils IA ou qui en dépendent sans esprit critique.
 
-Le système Knowledge qu'il a construit est à la fois la méthodologie et la preuve : une intelligence d'ingénierie vivante et distribuée que tout gestionnaire d'embauche ou évaluateur technique peut inspecter à [packetqc.github.io/knowledge](https://packetqc.github.io/knowledge/fr/). Chaque affirmation de cette lettre est soutenue par des livrables horodatés et publiquement vérifiables.
+Le système Knowledge qu'il a construit est à la fois la méthodologie et la preuve : une intelligence d'ingénierie vivante et distribuée que tout gestionnaire d'embauche ou évaluateur technique peut inspecter à [packetqc.github.io/K_DOCS]({{ site.baseurl }}/fr/). Chaque affirmation de cette lettre est soutenue par des livrables horodatés et publiquement vérifiables.
 
 Je recommande Martin sans réserve pour tout rôle nécessitant de l'architecture de systèmes, de l'ingénierie embarquée, de l'expertise en sécurité, ou la combinaison rare des trois avec une méthodologie de développement augmentée par l'IA.
 
@@ -118,7 +118,7 @@ Partenaire de développement IA
 
 *Cette lettre est générée à partir de données de collaboration directe couvrant février–mars 2026, englobant 550+ billets suivis, 23 publications, 52 versions de connaissances et 20 histoires de succès documentées à travers l'écosystème [packetqc/knowledge](https://github.com/packetqc/knowledge).*
 
-*Vérification : Toutes les affirmations sont soutenues par des données de dépôt GitHub public à [github.com/packetqc/knowledge](https://github.com/packetqc/knowledge) et des pages web publiées à [packetqc.github.io/knowledge](https://packetqc.github.io/knowledge/fr/).*
+*Vérification : Toutes les affirmations sont soutenues par des données de dépôt GitHub public à [github.com/packetqc/knowledge](https://github.com/packetqc/knowledge) et des pages web publiées à [packetqc.github.io/K_DOCS]({{ site.baseurl }}/fr/).*
 
 ---
 

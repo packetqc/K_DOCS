@@ -501,7 +501,7 @@ Publications exist across repos with independent GitHub Pages:
 
 | Origin | Badge | Base URL | Meaning |
 |--------|-------|----------|---------|
-| **Core** | **core** | `packetqc.github.io/knowledge/` | Reviewed, published, canonical |
+| **Core** | **core** | `packetqc.github.io/K_DOCS/` | Reviewed, published, canonical |
 | **Satellite** | *satellite* | `packetqc.github.io/<repo>/` | Development, staging, local |
 
 Both are valid — same GitHub Pages technology, different review stage. Core links are stable and safe to share externally. Satellite links are evolving and may change.

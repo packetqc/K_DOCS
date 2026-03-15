@@ -73,7 +73,7 @@ Social platforms show the **first frame** as static preview. Full animation play
 
 ## Two Sharing Modes
 
-**Mode 1 — Share the Page URL** (recommended): Share `packetqc.github.io/knowledge/publications/...`. Platforms read OG meta tags and display title + description + webcard first frame. Click-through goes to the publication.
+**Mode 1 — Share the Page URL** (recommended): Share `packetqc.github.io/K_DOCS/publications/...`. Platforms read OG meta tags and display title + description + webcard first frame. Click-through goes to the publication.
 
 **Mode 2 — Share the Image URL directly**: Share the `.gif` URL. Some platforms may play the animation, but no title, no description, click-through goes to the image file. Use only to showcase the animation.
 
@@ -88,7 +88,7 @@ Social platforms show the **first frame** as static preview. Full animation play
 
 ## How-To Recipes
 
-**Share on LinkedIn (Mobile)**: Navigate to `packetqc.github.io/knowledge/publications/...` (NOT `github.com`), tap Share, choose LinkedIn.
+**Share on LinkedIn (Mobile)**: Navigate to `packetqc.github.io/K_DOCS/publications/...` (NOT `github.com`), tap Share, choose LinkedIn.
 
 **Share on LinkedIn (Desktop)**: Copy the GitHub Pages URL, paste in LinkedIn post, wait for preview card, verify it shows title + webcard.
 

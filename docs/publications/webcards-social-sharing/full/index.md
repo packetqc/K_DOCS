@@ -180,7 +180,7 @@ The same webcard looks different depending on where it's displayed:
 
 ### Mode 1: Share the Page URL (Recommended)
 
-**What you share**: `https://packetqc.github.io/knowledge/publications/distributed-minds/`
+**What you share**: `{{ site.baseurl }}/publications/distributed-minds/`
 
 **What happens**:
 
@@ -196,7 +196,7 @@ The same webcard looks different depending on where it's displayed:
 
 ### Mode 2: Share the Image URL Directly
 
-**What you share**: `https://packetqc.github.io/knowledge/assets/og/distributed-minds-en.gif`
+**What you share**: `{{ site.baseurl }}/assets/og/distributed-minds-en.gif`
 
 **What happens**:
 
@@ -271,7 +271,7 @@ The same webcard looks different depending on where it's displayed:
 
 ```
 Step 1 — Open the publication on GitHub Pages
-         URL must start with: packetqc.github.io/knowledge/
+         URL must start with: packetqc.github.io/K_DOCS/
          NOT: github.com/packetqc/knowledge/blob/...
 
 Step 2 — Verify the URL bar shows packetqc.github.io
@@ -288,7 +288,7 @@ Step 5 — Add your commentary and post
 
 ```
 Step 1 — Copy the GitHub Pages URL:
-         https://packetqc.github.io/knowledge/publications/<slug>/
+         {{ site.baseurl }}/publications/<slug>/
 
 Step 2 — In LinkedIn, click "Start a post"
 
@@ -323,7 +323,7 @@ Step 5 — If correct, share the link — LinkedIn now uses the fresh data
 
 ```
 Step 1 — Find the webcard URL:
-         https://packetqc.github.io/knowledge/assets/og/<card>-<lang>.gif
+         {{ site.baseurl }}/assets/og/<card>-<lang>.gif
          Example: .../assets/og/distributed-minds-en.gif
 
 Step 2 — Share this URL directly in your post
@@ -338,7 +338,7 @@ Step 3 — On some platforms (Facebook, Slack), the animation will play
 
 ### LinkedIn shows wrong preview or links to GitHub markdown
 
-**Symptoms**: Shared the page, but clicking the link in LinkedIn goes to `github.com/packetqc/knowledge/blob/...` instead of `packetqc.github.io/knowledge/...`.
+**Symptoms**: Shared the page, but clicking the link in LinkedIn goes to `github.com/packetqc/knowledge/blob/...` instead of `packetqc.github.io/K_DOCS/...`.
 
 **Causes and fixes**:
 

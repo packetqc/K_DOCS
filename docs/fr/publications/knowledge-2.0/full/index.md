@@ -295,18 +295,18 @@ flowchart TB
 
 | # | Publication | Liens |
 |---|-------------|-------|
-| 0 | Système de Knowledge (Maître) | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/knowledge-system/v1) · [Web](https://packetqc.github.io/knowledge/publications/knowledge-system/) |
-| 1 | Pipeline de stockage MPLIB | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/mplib-storage-pipeline/v1) · [Web](https://packetqc.github.io/knowledge/publications/mplib-storage-pipeline/) |
-| 2 | Analyse de session en direct | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/live-session-analysis/v1) · [Web](https://packetqc.github.io/knowledge/publications/live-session-analysis/) |
-| 3 | Persistance de session IA | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/ai-session-persistence/v1) · [Web](https://packetqc.github.io/knowledge/publications/ai-session-persistence/) |
-| 4 | Esprits distribués | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/distributed-minds/v1) · [Web](https://packetqc.github.io/knowledge/publications/distributed-minds/) |
-| 4a | Tableau de bord Knowledge | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/distributed-knowledge-dashboard/v1) · [Web](https://packetqc.github.io/knowledge/publications/distributed-knowledge-dashboard/) |
-| 5 | Webcards & Partage social | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/webcards-social-sharing/v1) · [Web](https://packetqc.github.io/knowledge/publications/webcards-social-sharing/) |
-| 6 | Normalize | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/normalize-structure-concordance/v1) · [Web](https://packetqc.github.io/knowledge/publications/normalize-structure-concordance/) |
-| 7 | Protocole de récolte | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/harvest-protocol/v1) · [Web](https://packetqc.github.io/knowledge/publications/harvest-protocol/) |
-| 8 | Gestion de session | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/session-management/v1) · [Web](https://packetqc.github.io/knowledge/publications/session-management/) |
-| 9 | Sécurité par conception | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/security-by-design/v1) · [Web](https://packetqc.github.io/knowledge/publications/security-by-design/) |
-| 10 | Réseau de Knowledge en direct | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/live-knowledge-network/v1) · [Web](https://packetqc.github.io/knowledge/publications/live-knowledge-network/) |
+| 0 | Système de Knowledge (Maître) | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/knowledge-system/v1) · [Web]({{ site.baseurl }}/publications/knowledge-system/) |
+| 1 | Pipeline de stockage MPLIB | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/mplib-storage-pipeline/v1) · [Web]({{ site.baseurl }}/publications/mplib-storage-pipeline/) |
+| 2 | Analyse de session en direct | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/live-session-analysis/v1) · [Web]({{ site.baseurl }}/publications/live-session-analysis/) |
+| 3 | Persistance de session IA | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/ai-session-persistence/v1) · [Web]({{ site.baseurl }}/publications/ai-session-persistence/) |
+| 4 | Esprits distribués | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/distributed-minds/v1) · [Web]({{ site.baseurl }}/publications/distributed-minds/) |
+| 4a | Tableau de bord Knowledge | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/distributed-knowledge-dashboard/v1) · [Web]({{ site.baseurl }}/publications/distributed-knowledge-dashboard/) |
+| 5 | Webcards & Partage social | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/webcards-social-sharing/v1) · [Web]({{ site.baseurl }}/publications/webcards-social-sharing/) |
+| 6 | Normalize | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/normalize-structure-concordance/v1) · [Web]({{ site.baseurl }}/publications/normalize-structure-concordance/) |
+| 7 | Protocole de récolte | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/harvest-protocol/v1) · [Web]({{ site.baseurl }}/publications/harvest-protocol/) |
+| 8 | Gestion de session | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/session-management/v1) · [Web]({{ site.baseurl }}/publications/session-management/) |
+| 9 | Sécurité par conception | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/security-by-design/v1) · [Web]({{ site.baseurl }}/publications/security-by-design/) |
+| 10 | Réseau de Knowledge en direct | [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/live-knowledge-network/v1) · [Web]({{ site.baseurl }}/publications/live-knowledge-network/) |
 
 ### Sections clés v1
 

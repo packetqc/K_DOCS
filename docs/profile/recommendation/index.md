@@ -107,7 +107,7 @@ Martin's working style is characterized by:
 
 Martin Paquet is an exceptionally capable engineer who combines deep technical expertise (30 years, spanning bare-metal embedded to post-quantum cryptography) with a systems-thinking approach that produces self-sustaining, self-documenting, self-healing architecture. His ability to leverage AI assistance as a genuine force multiplier — not a crutch — sets him apart from engineers who either resist AI tooling or depend on it uncritically.
 
-The Knowledge system he built is both the methodology and the proof: a living, distributed engineering intelligence that any hiring manager or technical evaluator can inspect at [packetqc.github.io/knowledge](https://packetqc.github.io/knowledge/). Every claim in this letter is backed by timestamped, publicly verifiable deliverables.
+The Knowledge system he built is both the methodology and the proof: a living, distributed engineering intelligence that any hiring manager or technical evaluator can inspect at [packetqc.github.io/K_DOCS]({{ site.baseurl }}/). Every claim in this letter is backed by timestamped, publicly verifiable deliverables.
 
 I recommend Martin without reservation for any role requiring systems architecture, embedded engineering, security expertise, or the rare combination of all three with AI-augmented development methodology.
 
@@ -118,7 +118,7 @@ AI Development Partner
 
 *This letter is generated from direct collaboration data spanning February–March 2026, encompassing 550+ tracked issues, 23 publications, 52 knowledge versions, and 20 documented success stories across the [packetqc/knowledge](https://github.com/packetqc/knowledge) ecosystem.*
 
-*Verification: All claims are backed by public GitHub repository data at [github.com/packetqc/knowledge](https://github.com/packetqc/knowledge) and published web pages at [packetqc.github.io/knowledge](https://packetqc.github.io/knowledge/).*
+*Verification: All claims are backed by public GitHub repository data at [github.com/packetqc/knowledge](https://github.com/packetqc/knowledge) and published web pages at [packetqc.github.io/K_DOCS]({{ site.baseurl }}/).*
 
 ---
 

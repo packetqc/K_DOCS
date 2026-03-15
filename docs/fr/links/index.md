@@ -19,7 +19,7 @@ Référence rapide pour toutes les URLs GitHub Pages. Prêt à copier-coller.
 - [Publications](#publications)
 - [Compteurs](#compteurs)
 
-URL de base : `https://packetqc.github.io/knowledge`
+URL de base : `https://packetqc.github.io/K_DOCS`
 
 [Source : LINKS.md](https://github.com/packetqc/knowledge/blob/main/LINKS.md)
 

@@ -539,9 +539,9 @@ knowledge (production)               → tous les satellites héritent au wakeup
 
 | Étape | Dépôt | GitHub Pages | Rôle |
 |-------|-------|-------------|------|
-| Développement | `knowledge-live` | `packetqc.github.io/knowledge-live/` | Tester les fonctionnalités de mise en page live |
+| Développement | `knowledge-live` | `packetqc.github.io/K_DOCS-live/` | Tester les fonctionnalités de mise en page live |
 | Harvest | `knowledge` | — | `methodology/web-pagination-export.md` mis à jour |
-| Production | `knowledge` | `packetqc.github.io/knowledge/` | Mises en page canoniques déployées |
+| Production | `knowledge` | `packetqc.github.io/K_DOCS/` | Mises en page canoniques déployées |
 | Héritage | Tous satellites | GitHub Pages satellites | `wakeup` synchronise les mises en page |
 
 **Le satellite EST l'environnement de staging** : Chaque fonctionnalité de mise en page est validée sur une instance GitHub Pages live avant la promotion. Le sprint de 2 jours (2026-02-24/25) a validé 37 PR sur 2 dépôts avant que les mises en page atteignent la production.

@@ -263,7 +263,7 @@ Pendant la conversation, Claude surveille le contenu lié au domaine d'une publi
 
 | Origine | Badge | URL de base | Signification |
 |---------|-------|-------------|---------------|
-| **Core** | **core** | `packetqc.github.io/knowledge/` | Révisé, publié, canonique |
+| **Core** | **core** | `packetqc.github.io/K_DOCS/` | Révisé, publié, canonique |
 | **Satellite** | *satellite* | `packetqc.github.io/<repo>/` | Développement, staging, local |
 
 Les deux sont valides — même technologie, stade de révision différent.

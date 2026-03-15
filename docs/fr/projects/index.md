@@ -55,7 +55,7 @@ Les publications et la documentation existent dans plusieurs dépôts, chacun av
 
 | Origine | Signification | URL de base | Badge |
 |---------|--------------|-------------|-------|
-| **Central** | Révisé, publié, canonique | `packetqc.github.io/knowledge/` | **central** |
+| **Central** | Révisé, publié, canonique | `packetqc.github.io/K_DOCS/` | **central** |
 | **Satellite** | Développement, staging, docs locaux | `packetqc.github.io/<dépôt>/` | *satellite* |
 
 Les publications centrales sont les versions approuvées et révisées. Les publications satellites sont des documents de travail qui peuvent évoluer indépendamment. Les deux sont accessibles via GitHub Pages — origine différente, même technologie.

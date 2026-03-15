@@ -73,7 +73,7 @@ Les plateformes sociales affichent la **première image** comme aperçu statique
 
 ## Deux modes de partage
 
-**Mode 1 — Partager l'URL de la page** (recommandé) : Partagez `packetqc.github.io/knowledge/publications/...`. Les plateformes lisent les balises méta OG et affichent titre + description + première image du webcard. Le clic mène à la publication.
+**Mode 1 — Partager l'URL de la page** (recommandé) : Partagez `packetqc.github.io/K_DOCS/publications/...`. Les plateformes lisent les balises méta OG et affichent titre + description + première image du webcard. Le clic mène à la publication.
 
 **Mode 2 — Partager l'URL de l'image directement** : Partagez l'URL `.gif`. Certaines plateformes peuvent jouer l'animation, mais sans titre, sans description, le clic mène au fichier image. À utiliser uniquement pour montrer l'animation.
 
@@ -88,7 +88,7 @@ Les plateformes sociales affichent la **première image** comme aperçu statique
 
 ## Recettes pratiques
 
-**Partager sur LinkedIn (Mobile)** : Naviguez vers `packetqc.github.io/knowledge/publications/...` (PAS `github.com`), appuyez sur Partager, choisissez LinkedIn.
+**Partager sur LinkedIn (Mobile)** : Naviguez vers `packetqc.github.io/K_DOCS/publications/...` (PAS `github.com`), appuyez sur Partager, choisissez LinkedIn.
 
 **Partager sur LinkedIn (Bureau)** : Copiez l'URL GitHub Pages, collez dans un post LinkedIn, attendez la carte d'aperçu, vérifiez qu'elle affiche le titre + le webcard.
 

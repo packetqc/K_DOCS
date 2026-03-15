@@ -330,7 +330,7 @@ Jekyll construit le HTML statique
     ↓
 Fichiers déployés sur CDN (~1-5 min)
     ↓
-En ligne à packetqc.github.io/knowledge/
+En ligne à packetqc.github.io/K_DOCS/
 ```
 
 ---

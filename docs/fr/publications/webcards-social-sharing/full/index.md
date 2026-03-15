@@ -180,7 +180,7 @@ Le même webcard apparaît différemment selon l'endroit où il est affiché :
 
 ### Mode 1 : Partager l'URL de la page (recommandé)
 
-**Ce que vous partagez** : `https://packetqc.github.io/knowledge/publications/distributed-minds/`
+**Ce que vous partagez** : `{{ site.baseurl }}/publications/distributed-minds/`
 
 **Ce qui se passe** :
 
@@ -196,7 +196,7 @@ Le même webcard apparaît différemment selon l'endroit où il est affiché :
 
 ### Mode 2 : Partager l'URL de l'image directement
 
-**Ce que vous partagez** : `https://packetqc.github.io/knowledge/assets/og/distributed-minds-en.gif`
+**Ce que vous partagez** : `{{ site.baseurl }}/assets/og/distributed-minds-en.gif`
 
 **Ce qui se passe** :
 
@@ -271,7 +271,7 @@ Le même webcard apparaît différemment selon l'endroit où il est affiché :
 
 ```
 Étape 1 — Ouvrir la publication sur GitHub Pages
-         L'URL doit commencer par : packetqc.github.io/knowledge/
+         L'URL doit commencer par : packetqc.github.io/K_DOCS/
          PAS : github.com/packetqc/knowledge/blob/...
 
 Étape 2 — Vérifier que la barre d'adresse affiche packetqc.github.io
@@ -288,7 +288,7 @@ Le même webcard apparaît différemment selon l'endroit où il est affiché :
 
 ```
 Étape 1 — Copier l'URL GitHub Pages :
-         https://packetqc.github.io/knowledge/publications/<slug>/
+         {{ site.baseurl }}/publications/<slug>/
 
 Étape 2 — Dans LinkedIn, cliquer sur « Commencer un post »
 
@@ -323,7 +323,7 @@ Le même webcard apparaît différemment selon l'endroit où il est affiché :
 
 ```
 Étape 1 — Trouver l'URL du webcard :
-         https://packetqc.github.io/knowledge/assets/og/<carte>-<lang>.gif
+         {{ site.baseurl }}/assets/og/<carte>-<lang>.gif
          Exemple : .../assets/og/distributed-minds-fr.gif
 
 Étape 2 — Partager cette URL directement dans votre post
@@ -338,7 +338,7 @@ Le même webcard apparaît différemment selon l'endroit où il est affiché :
 
 ### LinkedIn affiche un mauvais aperçu ou pointe vers le markdown GitHub
 
-**Symptômes** : Vous avez partagé la page, mais cliquer sur le lien dans LinkedIn mène à `github.com/packetqc/knowledge/blob/...` au lieu de `packetqc.github.io/knowledge/...`.
+**Symptômes** : Vous avez partagé la page, mais cliquer sur le lien dans LinkedIn mène à `github.com/packetqc/knowledge/blob/...` au lieu de `packetqc.github.io/K_DOCS/...`.
 
 **Causes et corrections** :
 
