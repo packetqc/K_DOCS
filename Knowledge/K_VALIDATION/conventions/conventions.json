@@ -1,0 +1,25 @@
+{
+  "module": "K_VALIDATION",
+  "conventions": [
+    {
+      "id": "publication_sync_checklist",
+      "name": "Publication Sync Checklist",
+      "description": "When creating or updating a publication/story/page, sync changes across all required points.",
+      "checklist": [
+        "Source tier: publications/<slug>/v1/README.md",
+        "EN summary: docs/publications/<slug>/index.md",
+        "EN full: docs/publications/<slug>/full/index.md",
+        "FR summary: docs/fr/publications/<slug>/index.md",
+        "FR full: docs/fr/publications/<slug>/full/index.md",
+        "Redirect HTML: index.html alongside each index.md (4 files)",
+        "DOCS array: docs/index.html viewer DOCS[] entry with path + path_fr",
+        "Navigator EN: docs/interfaces/main-navigator/index.md (T keys + pubs list)",
+        "Navigator FR: docs/fr/interfaces/main-navigator/index.md (T keys + pubs list)",
+        "Links EN: docs/links/index.md (table row + counts)",
+        "Links FR: docs/fr/links/index.md (table row + counts)",
+        "Webcard: docs/assets/og/<slug>-<lang>-<theme>.gif",
+        "Front matter: og_image, live_webcard if applicable"
+      ]
+    }
+  ]
+}

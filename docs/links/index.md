@@ -90,6 +90,7 @@ Base URL: `{{ site.url }}{{ site.baseurl }}`
 | 22 | Session Review | [Summary]({{ '/publications/session-review/' | relative_url }}) | [Résumé]({{ '/fr/publications/session-review/' | relative_url }}) | [Full]({{ '/publications/session-review/full/' | relative_url }}) | [Complet]({{ '/fr/publications/session-review/full/' | relative_url }}) |
 | 22 | Visual Documentation | [Summary]({{ '/publications/visual-documentation/' | relative_url }}) | [Résumé]({{ '/fr/publications/visual-documentation/' | relative_url }}) | [Full]({{ '/publications/visual-documentation/full/' | relative_url }}) | [Complet]({{ '/fr/publications/visual-documentation/full/' | relative_url }}) |
 | 23 | Web Documentation Viewer | [Summary]({{ '/publications/web-documentation-viewer/' | relative_url }}) | [Résumé]({{ '/fr/publications/web-documentation-viewer/' | relative_url }}) | [Full]({{ '/publications/web-documentation-viewer/full/' | relative_url }}) | [Complet]({{ '/fr/publications/web-documentation-viewer/full/' | relative_url }}) |
+| 24 | Live Mindmap | [Summary]({{ '/publications/live-mindmap/' | relative_url }}) | [Résumé]({{ '/fr/publications/live-mindmap/' | relative_url }}) | [Full]({{ '/publications/live-mindmap/full/' | relative_url }}) | [Complet]({{ '/fr/publications/live-mindmap/full/' | relative_url }}) |
 
 ---
 
@@ -97,9 +98,9 @@ Base URL: `{{ site.url }}{{ site.baseurl }}`
 
 | Category | Count |
 |----------|-------|
-| Pages EN | 58 |
-| Pages FR | 58 |
-| Total pages | 116 |
+| Pages EN | 60 |
+| Pages FR | 60 |
+| Total pages | 120 |
 | Webcards deployed | 89 |
 
 ---

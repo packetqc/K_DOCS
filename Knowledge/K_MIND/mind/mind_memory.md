@@ -25,10 +25,14 @@ mindmap
           Knowledge folder holds all modules
           K_MIND core always present
           K_DOCS documentation module
+          K_PROJECTS project management module
+          K_VALIDATION quality assurance module
+          K_GITHUB github integration module
           each module has conventions work documentation
           sessions shared in K_MIND
           memory_stats scans all K_ modules
       approbation
+        K_DOCS designation approved
     documentation
       docs
       interfaces

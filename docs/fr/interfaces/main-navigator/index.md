@@ -251,7 +251,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       p10: 'Live Network', p11: 'Success Stories', p12: 'Project Mgmt', p13: 'Pagination',
       p14: 'Architecture', p15: 'Diagrams', p16: 'Visualization', p17: 'Pipeline',
       p18: 'Doc Generation', p19: 'Interactive', p20: 'Session Metrics',
-      p21: 'Main Interface', p22: 'Session Review', p22b: 'Visual Documentation', p23: 'Web Viewer',
+      p21: 'Main Interface', p22: 'Session Review', p22b: 'Visual Documentation', p23: 'Web Viewer', p24: 'Live Mindmap',
       stories_title: 'Success Stories',
       s26: '#26 One Viewer to Rule Them All', s25: '#25 Live Mindmap Memory',
       s24: '#24 The Toggle', s23: '#23 Knowledge v2.0 Platform',
@@ -277,7 +277,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       p10: 'Réseau live', p11: 'Histoires de succès', p12: 'Gestion de projet', p13: 'Pagination',
       p14: 'Architecture', p15: 'Diagrammes', p16: 'Visualisation', p17: 'Pipeline',
       p18: 'Génération doc', p19: 'Interactif', p20: 'Métriques de session',
-      p21: 'Interface principale', p22: 'Revue de session', p22b: 'Documentation visuelle', p23: 'Visualiseur Web',
+      p21: 'Interface principale', p22: 'Revue de session', p22b: 'Documentation visuelle', p23: 'Visualiseur Web', p24: 'Mindmap vivant',
       stories_title: 'Histoires de succès',
       s26: '#26 Un seul visualiseur pour tous', s25: '#25 Mémoire mindmap vivante',
       s24: '#24 Le Toggle', s23: '#23 Plateforme Knowledge v2.0',
@@ -429,6 +429,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       {t: t.full,   h:BASE+LP+'/profile/full/'}
     ]},
     { id:'publications', title: t.publications, open:false, pubs:[
+      {n:'#24', t: t.p24,  s:'live-mindmap'},
       {n:'#23', t: t.p23,  s:'web-documentation-viewer'},
       {n:'#22', t: t.p22b, s:'visual-documentation'},
       {n:'#22', t: t.p22,  s:'session-review'},
