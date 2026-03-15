@@ -558,21 +558,21 @@ body > .container {
     fr: '<h3>Aide — Mindmap vivant</h3>' +
       '<h4>Navigation</h4>' +
       '<p><kbd>Molette</kbd> pour zoomer<br>' +
-      '<kbd>Clic + Glisser</kbd> sur le fond pour se deplacer</p>' +
-      '<h4>Deplier / Replier</h4>' +
-      '<p><kbd>+</kbd> / <kbd>-</kbd> — deplier ou replier <b>un niveau</b> a la fois<br>' +
-      '<kbd>Ctrl + Clic</kbd> sur <kbd>+</kbd> — deplier <b>tous</b> les niveaux d\'un coup</p>' +
+      '<kbd>Clic + Glisser</kbd> sur le fond pour se déplacer</p>' +
+      '<h4>Déplier / Replier</h4>' +
+      '<p><kbd>+</kbd> / <kbd>-</kbd> — déplier ou replier <b>un niveau</b> à la fois<br>' +
+      '<kbd>Ctrl + Clic</kbd> sur <kbd>+</kbd> — déplier <b>tous</b> les niveaux d\'un coup</p>' +
       '<h4>Barre d\'outils</h4>' +
-      '<p><b>Normal</b> — vue filtree (profondeur limitee, architecture/contraintes masquees)<br>' +
-      '<b>Full</b> — tous les noeuds a profondeur maximale<br>' +
-      '<b>Reload</b> — re-charger depuis GitHub<br>' +
-      '<b>Center</b> — centrer sans redimensionner<br>' +
-      '<b>Fit</b> — ajuster la carte a la vue<br>' +
-      '<b>Fullscreen</b> — basculer en plein ecran</p>' +
+      '<p><b>Normal</b> — vue filtrée (profondeur limitée, architecture/contraintes masquées)<br>' +
+      '<b>Complet</b> — tous les nœuds à profondeur maximale<br>' +
+      '<b>Recharger</b> — récupérer à nouveau depuis GitHub<br>' +
+      '<b>Centrer</b> — centrer sans redimensionner<br>' +
+      '<b>Ajuster</b> — ajuster la carte à la vue<br>' +
+      '<b>Plein écran</b> — basculer en plein écran</p>' +
       '<h4>Qu\'est-ce que c\'est ?</h4>' +
-      '<p>Ce mindmap est la <b>grille memoire K_MIND</b> — le graphe de connaissances vivant du systeme. ' +
-      'Chaque noeud represente une directive : regles d\'architecture, conventions, etat du travail ou contexte de session. ' +
-      'Il se met a jour en temps reel au fil des conversations.</p>'
+      '<p>Ce mindmap est la <b>grille mémoire K_MIND</b> — le graphe de connaissances vivant du système. ' +
+      'Chaque nœud représente une directive : règles d\'architecture, conventions, état du travail ou contexte de session. ' +
+      'Il se met à jour en temps réel au fil des conversations.</p>'
   };
 
   var helpPanel = document.getElementById('help-panel');
