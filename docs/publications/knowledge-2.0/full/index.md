@@ -32,6 +32,7 @@ citation: "Paquet, M. & Claude (2026). Knowledge 2.0: Interactive Intelligence F
 - [5. The Deduplication Engine](#5-the-deduplication-engine)
 - [6. Interactive Modes](#6-interactive-modes)
 - [7. Complete Architecture](#7-complete-architecture)
+- [8. The Mindmap Memory](#8-the-mindmap-memory-)
 - [Legacy References — Knowledge 1.0](#legacy-references--knowledge-10-)
 
 ## Authors
@@ -282,6 +283,121 @@ flowchart TB
     ENGINE --> METHODOLOGY_LAYER
     METHODOLOGY_LAYER --> INTERACTIVE
 ```
+
+---
+
+## 8. The Mindmap Memory <span class="badge badge-new">NEW</span>
+
+Knowledge 2.0 introduces a **three-file memory system** where a mermaid mindmap serves as the AI's operating memory — not decoration, but an executable knowledge graph that governs behavior every session.
+
+### The Three-File System
+
+| File | Role | Content |
+|------|------|---------|
+| `mind_memory.md` | **Core mind** | Mermaid mindmap — the subconscious. Every node is a directive Claude commits to follow. |
+| `far_memory.json` | **Full recall** | Verbatim conversation history. Archived by topic when large. |
+| `near_memory.json` | **Working memory** | Real-time summaries with pointers to far_memory and mind_memory. |
+
+### Mind-First Strategy
+
+The mindmap is read **first** at every session start, resume, and compaction recovery. One glance shows the entire knowledge state — branches represent behavioral categories:
+
+- **architecture** nodes → System design rules. HOW you work.
+- **constraints** nodes → Hard limits. BOUNDARIES you never violate.
+- **conventions** nodes → Patterns and standards. HOW you execute.
+- **work** nodes → Accomplished/staged results. STATE and continuity anchor.
+- **session** nodes → Current context. WHAT you're doing now.
+
+Claude walks the full tree and internalizes each node as a rule before proceeding with any task.
+
+### Programs Over Improvisation
+
+Claude-as-engine is the **bootstrap only** — new session, resume, compaction recovery. All mechanical operations use deterministic scripts:
+
+| Script | Purpose |
+|--------|---------|
+| `memory_append.py` | Every turn: appends to far_memory + near_memory atomically |
+| `far_memory_split.py` | Archives completed topics by subject (not by size) |
+| `memory_recall.py` | Searches and loads archived memory by keyword |
+| `session_init.py` | Initializes fresh sessions, preserves archives |
+| `mindmap_filter.py` | Renders depth-filtered mindmap from config |
+| `set_depth.py` | Human-editable depth control per branch |
+
+Claude provides intelligence (summaries, topic names) as arguments to these programs. Architecture changes equal script updates — Claude maintains this coupling automatically.
+
+### Depth-Configurable Display
+
+The mindmap supports **normal** and **full** display modes. A `depth_config.json` file controls:
+
+- **Default depth**: how many levels to show (default: 3)
+- **Omit list**: branches hidden in normal mode (architecture, constraints)
+- **Overrides**: per-branch depth settings for fine control
+
+This enables a clean, focused view for daily work while preserving the full knowledge graph for deep inspection.
+
+### Live Knowledge Graph
+
+The mindmap below renders the current K_MIND memory in real-time — fetched from the repository and filtered by depth configuration. Toggle between Normal and Full views to explore the complete knowledge structure.
+
+<div id="k20-live-mindmap" style="width:100%;min-height:400px;border:1px solid var(--border,#d48a3c);border-radius:8px;background:var(--bg,#faf6f1);padding:1rem;overflow:auto;">
+<div class="loading">Loading live mindmap...</div>
+</div>
+<script>
+(function() {
+  var RAW_BASE = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/';
+  var container = document.getElementById('k20-live-mindmap');
+  Promise.all([
+    fetch(RAW_BASE + 'mind/mind_memory.md').then(function(r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); }),
+    fetch(RAW_BASE + 'conventions/depth_config.json').then(function(r) { return r.ok ? r.json() : {default_depth:3,omit:['architecture','constraints'],overrides:{}}; }).catch(function() { return {default_depth:3,omit:['architecture','constraints'],overrides:{}}; })
+  ]).then(function(res) {
+    var match = res[0].match(/```mermaid\s*\n([\s\S]*?)```/);
+    if (!match) throw new Error('No mermaid block');
+    var code = match[1].trim();
+    // Apply normal mode filtering
+    var lines = code.split('\n'), hdr = [], body = [], inH = true;
+    for (var i = 0; i < lines.length; i++) {
+      var s = lines[i].trim();
+      if (inH && (s.indexOf('%%{') === 0 || s === 'mindmap' || s.indexOf('root(') !== -1)) hdr.push(lines[i]);
+      else { inH = false; body.push(lines[i]); }
+    }
+    var cfg = res[1], nodes = [], out = [];
+    for (var i = 0; i < body.length; i++) {
+      if (!body[i].trim()) continue;
+      var c = body[i].replace(/^\s+/,''), ind = body[i].length - c.length;
+      nodes.push({l:Math.floor(ind/2),t:c,li:i});
+    }
+    if (nodes.length) {
+      var ri = nodes[0].l, omit = cfg.omit||[], ov = cfg.overrides||{}, df = cfg.default_depth||3;
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i], p = [], tg = n.l;
+        for (var j = i; j >= 0; j--) { if (nodes[j].l < tg) { p.unshift(nodes[j].t); tg = nodes[j].l; } else if (j===i) p.push(nodes[j].t); }
+        var path = p.join('/'), top = p[0]||n.t, dep = n.l - ri + 1, skip = false;
+        for (var k = 0; k < omit.length; k++) if (top === omit[k]) { skip = true; break; }
+        if (skip) continue;
+        var mx = df, best = 0;
+        for (var op in ov) { if ((path===op||path.indexOf(op+'/')===0)&&op.length>best) { best=op.length; mx=ov[op]; } }
+        if (dep <= mx) out.push(body[n.li]);
+      }
+    }
+    var filtered = hdr.join('\n') + '\n' + out.join('\n');
+    container.innerHTML = '<div class="mermaid">' + filtered + '</div>';
+    if (window.mermaid) mermaid.run({nodes:container.querySelectorAll('.mermaid')});
+  }).catch(function(e) {
+    container.innerHTML = '<p style="color:var(--muted);text-align:center;">Live mindmap unavailable</p>';
+  });
+})();
+</script>
+
+> [Full-screen Live Mindmap &#x2197;]({{ site.baseurl }}/interfaces/live-mindmap/)
+
+### Real-Time Updates
+
+Every conversation turn updates all three files:
+1. **far_memory** captures the full verbatim exchange
+2. **near_memory** records a one-line summary with pointers
+3. **mind_memory** nodes are updated when knowledge structure changes
+
+Topic splitting archives completed conversations by subject. Any memory can be recalled by keyword at any time — the system never forgets.
 
 ---
 
