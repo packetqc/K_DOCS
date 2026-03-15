@@ -269,6 +269,14 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
       contextMenu: false,
       allowUndo: false
     });
+    // Collapse branches beyond default depth
+    function collapseDeep(node, depth) {
+      if (node.children && node.children.length > 0) {
+        if (depth >= 3) node.expanded = false;
+        node.children.forEach(function(child) { collapseDeep(child, depth + 1); });
+      }
+    }
+    collapseDeep(data.nodeData, 0);
     mind.init(data);
     setTimeout(function(){ mind.scaleFit(); }, 200);
   }).catch(function(e) {
