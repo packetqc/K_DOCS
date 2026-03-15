@@ -11,7 +11,7 @@ pub_meta: "Publication #24 v1 | Mars 2026"
 pub_version: "v1"
 pub_number: 24
 pub_date: "Mars 2026"
-og_image: /assets/og/live-mindmap-en-cayman.gif
+og_image: /assets/og/live-mindmap-en-daltonism-light.gif
 live_webcard: mindmap
 keywords: "mindmap, MindElixir, graphe de connaissances, interactif, filtrage profondeur, synchronisation thème"
 ---
@@ -67,7 +67,7 @@ mindmap
 
 ## En savoir plus
 
-- **[Documentation complète](full/)** — Publication complète avec détails du convertisseur, filtrage par profondeur et architecture des thèmes
+- **[Documentation complète]({{ '/fr/publications/live-mindmap/full/' | relative_url }})** — Publication complète avec détails du convertisseur, filtrage par profondeur et architecture des thèmes
 - **[Success Story #25]({{ '/fr/publications/success-stories/story-25/' | relative_url }})** — L'histoire derrière cette réalisation
 
 ---

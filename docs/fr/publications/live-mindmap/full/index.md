@@ -12,7 +12,7 @@ pub_version: "v1"
 pub_number: 24
 pub_date: "Mars 2026"
 source_url: "https://github.com/packetqc/K_DOCS/tree/main/publications/live-mindmap/v1"
-og_image: /assets/og/live-mindmap-en-cayman.gif
+og_image: /assets/og/live-mindmap-en-daltonism-light.gif
 live_webcard: mindmap
 keywords: "mindmap, MindElixir, graphe de connaissances, interactif, filtrage profondeur, synchronisation thème"
 citation: "Paquet, M. & Claude (2026). Live Mindmap: Interactive Knowledge Graph. packetqc/K_DOCS."

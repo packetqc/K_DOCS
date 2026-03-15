@@ -11,7 +11,7 @@ pub_meta: "Interface | K_DOCS"
 pub_version: "v3"
 pub_date: "March 2026"
 page_type: interface
-og_image: /assets/og/knowledge-system-en-cayman.gif
+og_image: /assets/og/live-mindmap-en-daltonism-light.gif
 ---
 
 {::nomarkdown}
