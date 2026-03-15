@@ -11,11 +11,11 @@ mindmap
       far memory
     work
       en cours
-        webcards
-        live mindmap
         K_DOCS module sync
       validation
         documentation web viewer system
+        live mindmap MindElixir v5
+        webcards theme aware
         k_mind import system
           repo restructure to Knowledge K_MIND
           install.sh creates Knowledge modules
