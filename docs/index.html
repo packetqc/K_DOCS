@@ -886,7 +886,7 @@
       var permalink = meta.permalink || meta.permalink_en;
       if (currentLang === 'fr' && meta.permalink_fr) permalink = meta.permalink_fr;
       var actualUrl = permalink
-        ? SITE.url + (SITE.production_baseurl || '') + permalink
+        ? SITE.url + (SITE.baseurl || '') + permalink
         : '';
 
       // Back-link: /full/ pages link back to summary
