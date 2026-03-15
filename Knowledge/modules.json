@@ -25,31 +25,31 @@
       "id": "K_PROJECTS",
       "name": "Knowledge Projects",
       "description": "Project management module — tracking, planning, project lifecycle",
-      "status": "scaffolded",
-      "imported": false,
-      "upstream": "packetqc/K_PROJECTS",
+      "status": "imported",
+      "imported": true,
+      "upstream": "packetqc/knowledge",
       "path": "Knowledge/K_PROJECTS",
-      "has": ["conventions", "documentation", "methodology", "work"]
+      "has": ["conventions", "documentation", "methodology", "scripts", "skills", "work"]
     },
     {
       "id": "K_VALIDATION",
       "name": "Knowledge Validation",
-      "description": "QA and validation module — testing, verification, approval workflows",
-      "status": "scaffolded",
-      "imported": false,
-      "upstream": "packetqc/K_VALIDATION",
+      "description": "QA and validation module — task workflow, session protocol, metrics, integrity checks",
+      "status": "imported",
+      "imported": true,
+      "upstream": "packetqc/knowledge",
       "path": "Knowledge/K_VALIDATION",
-      "has": ["conventions", "documentation", "methodology", "work"]
+      "has": ["conventions", "documentation", "methodology", "scripts", "skills", "work"]
     },
     {
       "id": "K_GITHUB",
       "name": "Knowledge GitHub",
-      "description": "GitHub integration module — issue tracking, PR workflows, project boards",
-      "status": "scaffolded",
-      "imported": false,
-      "upstream": "packetqc/K_GITHUB",
+      "description": "GitHub integration module — issue tracking, PR workflows, project boards, sync",
+      "status": "imported",
+      "imported": true,
+      "upstream": "packetqc/knowledge",
       "path": "Knowledge/K_GITHUB",
-      "has": ["conventions", "documentation", "methodology", "work"]
+      "has": ["conventions", "documentation", "methodology", "scripts", "work"]
     }
   ]
 }
