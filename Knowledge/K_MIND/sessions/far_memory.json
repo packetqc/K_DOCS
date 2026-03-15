@@ -997,6 +997,179 @@
           "action": "Update live mindmap nodes"
         }
       ]
+    },
+    {
+      "id": 97,
+      "role": "user",
+      "content": "Create viewer publication, update work for live-mindmap, update conventions for bilingual EN/FR, update root essential files from knowledge repo, push to GitHub",
+      "timestamp": "2026-03-15T10:28:41Z"
+    },
+    {
+      "id": 98,
+      "role": "assistant",
+      "content": "Created Publication #23 (web-documentation-viewer) EN/FR summary+full. Updated live-mindmap to validation in work.json with MindElixir details. Added conv-015 (bilingual), conv-016 (MindElixir), conv-017 (root essentials). Fetched README.md, LICENSE, .gitignore from packetqc/knowledge and adapted. Updated mindmap with bilingual and mindmap nodes. Pushed commit a13b38f to GitHub.",
+      "timestamp": "2026-03-15T10:28:41Z"
+    },
+    {
+      "id": 99,
+      "role": "user",
+      "content": "MindElixir constructor fix, I5 padding, webcard padding, embed-mode full width, positive feedback on mindmap displays",
+      "timestamp": "2026-03-15T10:34:33Z"
+    },
+    {
+      "id": 100,
+      "role": "assistant",
+      "content": "Fixed MindElixir.default constructor in all 3 deployment points. Added bottom padding on I5 container and webcard. Fixed embed-mode max-width:100% for chrome bar in right panel. User confirmed mindmaps look great.",
+      "timestamp": "2026-03-15T10:34:33Z"
+    },
+    {
+      "id": 101,
+      "role": "user",
+      "content": "by convention it should be applied in all doc. or in the viewer :)",
+      "timestamp": "2026-03-15T10:53:27Z"
+    },
+    {
+      "id": 102,
+      "role": "assistant",
+      "content": "Moved margin-top:1rem from inline style on live mindmap webcard to .webcard-header CSS class (margin: 1rem auto 0). Now applies to all webcards across all documents.",
+      "timestamp": "2026-03-15T10:53:27Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add margin-top:1rem to .webcard-header CSS class"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "remove inline margin-top from live mindmap webcard"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "role": "user",
+      "content": "about the live-mindmap, nodes cannot be moved, and double click for hide or for expand has no effects.",
+      "timestamp": "2026-03-15T10:56:03Z"
+    },
+    {
+      "id": 104,
+      "role": "assistant",
+      "content": "Fixed all 3 deployment points: editable:true (enables drag), dblclick capture phase with stopImmediatePropagation (blocks text editing, does expand/collapse), expandNode(nodeObj) instead of expandNode(meNode).",
+      "timestamp": "2026-03-15T10:56:03Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "editable:true, fix dblclick+expandNode"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "editable:true, add dblclick+expandNode"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "editable:true, add dblclick+expandNode"
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "role": "user",
+      "content": "can scrollbars in main interface be different ? less system and more discret ?",
+      "timestamp": "2026-03-15T10:58:04Z"
+    },
+    {
+      "id": 106,
+      "role": "assistant",
+      "content": "Added thin discrete scrollbars (6px, transparent track, theme --border color) to main navigator, viewer, and I5 live mindmap. Firefox scrollbar-width:thin + Webkit ::-webkit-scrollbar.",
+      "timestamp": "2026-03-15T10:58:04Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "add thin scrollbar CSS"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add thin scrollbar CSS"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "add thin scrollbar CSS"
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "role": "user",
+      "content": "is there an FR version of the main interface ?",
+      "timestamp": "2026-03-15T11:00:33Z"
+    },
+    {
+      "id": 108,
+      "role": "assistant",
+      "content": "Yes, synced FR main navigator with EN: added scrollbar CSS, center iframe padding, I5 link, #22/#23 publications. Also added #22/#23 to EN publications widget.",
+      "timestamp": "2026-03-15T11:00:33Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "add #22/#23 publications"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/fr/interfaces/main-navigator/index.md",
+          "action": "add scrollbars, padding, I5 link, #22/#23 publications"
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "role": "user",
+      "content": "EN and FR interface or document does not applies to same unique simple concept as we did for the viewer. it is mostly language that changes in the content and in the page frame. i get it for the live mind-map collapse, follow the + sign :) an -. typical standard to show and to hide. tks.",
+      "timestamp": "2026-03-15T11:05:47Z"
+    },
+    {
+      "id": 110,
+      "role": "assistant",
+      "content": "Unified EN/FR main navigator into single codebase. JS auto-detects language from URL path (/fr/ prefix). Translations object T.en/T.fr drives all widget text, link labels, URL prefixes, and localStorage key suffixes. Both files share identical {::nomarkdown} block (577 lines), only YAML front matter and h1 title differ. v4→v5. Also confirmed MindElixir +/- expand/collapse works.",
+      "timestamp": "2026-03-15T11:05:47Z",
+      "tools": [
+        {
+          "tool": "Write",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "unified bilingual navigator v5"
+        },
+        {
+          "tool": "Bash",
+          "file": "docs/fr/interfaces/main-navigator/index.md",
+          "action": "FR with shared nomarkdown block"
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "role": "user",
+      "content": "should we add to I5 a button to open a right panel that show explanation and howto's for the live-mindmap? like a typical ? button. round. after the generated tag, very last to the right in the features/capability bar...",
+      "timestamp": "2026-03-15T11:08:06Z"
+    },
+    {
+      "id": 112,
+      "role": "assistant",
+      "content": "Added round ? help button (far right of controls bar) and sliding right help panel (280px) to I5 live mindmap. Bilingual EN/FR via URL detection. Covers navigation, expand/collapse, toolbar, and what the mindmap is. State persisted in localStorage.",
+      "timestamp": "2026-03-15T11:08:06Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "add help panel CSS, HTML, and bilingual JS content"
+        }
+      ]
     }
   ],
   "archives": [

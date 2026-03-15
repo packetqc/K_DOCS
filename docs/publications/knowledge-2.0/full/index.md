@@ -262,7 +262,7 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
     var mind = new MindElixir.default({
       el: container,
       direction: MindElixir.SIDE,
-      editable: false,
+      editable: true,
       keypress: false,
       toolBar: false,
       theme: getTheme(),
@@ -270,6 +270,16 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
       allowUndo: false
     });
     mind.init(data);
+    // Double-click: expand/collapse (capture phase blocks text editing)
+    container.addEventListener('dblclick', function(ev) {
+      var meNode = ev.target.closest('me-node');
+      if (!meNode) return;
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      var nodeObj = meNode.nodeObj;
+      if (!nodeObj || !nodeObj.children || nodeObj.children.length === 0) return;
+      mind.expandNode(nodeObj, nodeObj.expanded === false);
+    }, true);
     setTimeout(function(){ mind.scaleFit(); }, 200);
   }).catch(function(e) {
     container.innerHTML = '<p style="color:var(--muted);text-align:center;">Live mindmap unavailable</p>';

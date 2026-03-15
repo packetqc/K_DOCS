@@ -4,12 +4,13 @@ page_type: interface
 title: "Navigateur principal"
 description: "Interface de navigation principale du système Knowledge : navigateur trois panneaux avec répertoire de widgets, visualiseur extensible et référence des commandes."
 pub_id: "Navigateur principal · I2"
-version: "v4"
-date: "2026-03-01"
+version: "v5"
+date: "2026-03-15"
 permalink: /fr/interfaces/main-navigator/
+permalink_en: /interfaces/main-navigator/
 keywords: "interface, navigation, navigateur, connaissances, tableau de bord, commandes"
 og_image: /assets/og/main-navigator-fr-cayman.gif
-dev_banner: "Interface en developpement — les fonctionnalites et la mise en page peuvent changer entre les sessions."
+dev_banner: "Interface en développement — les fonctionnalités et la mise en page peuvent changer entre les sessions."
 lang: fr
 ---
 
@@ -21,6 +22,16 @@ lang: fr
 .page-header, .site-footer, .pub-crossrefs { display: none !important; }
 html { margin: 0; padding: 0; height: 100%; }
 body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+
+/* ═══ Discrete thin scrollbars ═══ */
+*, *::before, *::after {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border, #c0c0c0) transparent;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border, #c0c0c0); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted, #888); }
 
 /* ═══ Fill viewport as flex column ═══ */
 .container {
@@ -40,54 +51,6 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   transition: max-height 0.25s ease, opacity 0.2s ease, padding 0.25s ease, margin 0.25s ease;
   overflow: hidden !important;
 }
-/* Collapsed state — hide all chrome + title */
-.container.chrome-collapsed .pub-lang-bar,
-.container.chrome-collapsed .dev-banner,
-.container.chrome-collapsed .pub-topbar,
-.container.chrome-collapsed .pub-version-banner,
-.container.chrome-collapsed .pub-export-toolbar,
-.container.chrome-collapsed > h1 {
-  max-height: 0 !important; opacity: 0 !important;
-  padding-top: 0 !important; padding-bottom: 0 !important;
-  margin-top: 0 !important; margin-bottom: 0 !important;
-  border: none !important;
-}
-
-/* Chrome toggle bar — pinned to top via flex order */
-.chrome-bar {
-  flex-shrink: 0; order: -1;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0.15rem 0.75rem;
-  background: var(--code-bg, #f6f8fa);
-  border-bottom: 1px solid var(--border, #d0d7de);
-  font-size: 0.78rem;
-  user-select: none;
-}
-.chrome-bar .lang-toggle a {
-  text-decoration: none; color: var(--muted, #656d76);
-  padding: 0.1rem 0.3rem; border-radius: 3px;
-}
-.chrome-bar .lang-toggle a:hover { color: var(--accent, #1d4ed8); }
-.chrome-bar .lang-toggle .lang-active {
-  font-weight: 700; color: var(--fg, #24292f);
-  background: var(--bg, #fff); border: 1px solid var(--border, #d0d7de);
-}
-.chrome-bar .orient-toggle a {
-  text-decoration: none; color: var(--muted, #656d76);
-  padding: 0.1rem 0.3rem; border-radius: 3px; cursor: pointer;
-}
-.chrome-bar .orient-toggle a:hover { color: var(--accent, #1d4ed8); }
-.chrome-bar .orient-toggle .orient-active {
-  font-weight: 700; color: var(--fg, #24292f);
-  background: var(--bg, #fff); border: 1px solid var(--border, #d0d7de);
-}
-.chrome-bar .chrome-toggle {
-  cursor: pointer; color: var(--muted, #656d76);
-  padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.7rem;
-}
-.chrome-bar .chrome-toggle:hover {
-  background: var(--col-alt, #f0f0f0); color: var(--accent, #1d4ed8);
-}
 
 /* Page title heading — compact */
 .container > h1 {
@@ -102,68 +65,48 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 /* ═══ Main grid — 5 columns: left(overlay) | div-L | center | div-R | right ═══ */
 .nav-grid {
-  --left-w: 220px;
   flex: 1; min-height: 0; display: grid; overflow: hidden;
   position: relative;
-  grid-template-columns: var(--left-w) 28px 1fr 28px 0px;
+  grid-template-columns: 220px 14px 1fr 14px 0px;
   grid-template-rows: 1fr;
-  transition: grid-template-columns 0.25s ease;
   margin: 0.3rem 0.4rem 0.25rem;
   border: 1px solid var(--border, #d0d7de);
   border-radius: 10px;
   background: var(--bg, #fff);
 }
-.nav-grid.left-closed { --left-w: 0px; }
-/* Right at 50vw — center + right */
-.nav-grid.right-mid {
-  grid-template-columns: var(--left-w) 28px 1fr 28px 50vw;
-}
-/* Right full — center hidden, viewer glued to right edge */
-.nav-grid.right-full {
-  grid-template-columns: var(--left-w) 28px 0fr 28px 1fr;
-  margin-right: 0;
-  border-right: none;
-  border-radius: 10px 0 0 10px;
-}
+.nav-grid.dragging { transition: none; }
+.nav-grid:not(.dragging) { transition: grid-template-columns 0.25s ease; }
 
-/* Left nav panel — overlay, does not take grid space */
+/* Left nav panel */
 .nav-panel {
   grid-column: 1;
-  position: absolute; left: 0; top: 0; bottom: 0;
-  width: 220px; z-index: 20;
+  z-index: 20;
   background: var(--code-bg, #f6f8fa);
   overflow-y: auto; overflow-x: hidden;
   border-right: 1px solid var(--border, #d0d7de);
-  box-shadow: 2px 0 8px rgba(0,0,0,0.08);
-  transition: transform 0.25s ease, opacity 0.2s ease;
   border-radius: 10px 0 0 10px;
-}
-.nav-grid.left-closed .nav-panel {
-  transform: translateX(-100%); opacity: 0; pointer-events: none;
+  min-width: 0;
 }
 
-/* Left divider — visible interactive bar */
-.nav-divider-left {
-  grid-column: 2;
-  background: linear-gradient(180deg, var(--accent, #1d4ed8) 0%, var(--code-bg, #f6f8fa) 10%, var(--code-bg, #f6f8fa) 90%, var(--accent, #1d4ed8) 100%);
-  border-right: 3px solid var(--accent, #1d4ed8);
-  border-left: 3px solid var(--accent, #1d4ed8);
+/* Divider shared styles — thin draggable bar with grip dots */
+.nav-divider-left, .nav-divider-right {
+  background: var(--code-bg, #f6f8fa);
+  border-left: 1px solid var(--border, #d0d7de);
+  border-right: 1px solid var(--border, #d0d7de);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; user-select: none;
-  color: var(--fg, #24292f); font-size: 1rem; font-weight: 700;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  cursor: col-resize; user-select: none;
+  transition: background 0.15s ease;
   position: relative;
-  min-width: 28px;
+  min-width: 14px;
   z-index: 10;
 }
-.nav-divider-left::before {
-  content: '·\A·\A·'; white-space: pre; position: absolute; top: 50%; transform: translateY(-50%);
-  font-size: 0.7rem; line-height: 0.5; color: var(--muted, #656d76); margin-top: -1.5rem;
+.nav-divider-left { grid-column: 2; }
+.nav-divider-left::before, .nav-divider-right::before {
+  content: '·\A·\A·\A·\A·'; white-space: pre; position: absolute; top: 50%; transform: translateY(-50%);
+  font-size: 0.75rem; line-height: 0.5; color: var(--muted, #656d76);
 }
-.nav-divider-left:hover {
-  background: linear-gradient(180deg, var(--accent, #1d4ed8) 0%, var(--col-alt, #e0e8f0) 15%, var(--col-alt, #e0e8f0) 85%, var(--accent, #1d4ed8) 100%);
-  color: var(--accent, #1d4ed8);
-  box-shadow: 0 0 6px rgba(29,78,216,0.2);
+.nav-divider-left:hover, .nav-divider-right:hover {
+  background: var(--col-alt, #e0e8f0);
 }
 
 /* Center panel — content viewer (deepest layer) */
@@ -174,39 +117,10 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   overflow: hidden; transition: opacity 0.2s ease;
   z-index: 1;
 }
-.nav-grid.right-full .nav-center { opacity: 0; pointer-events: none; }
-.nav-center iframe { flex: 1; width: 100%; border: none; background: var(--bg, #fff); }
+/* Center panel hidden when right takes nearly all space — handled dynamically */
+.nav-center iframe { flex: 1; width: 100%; border: none; background: var(--bg, #fff); padding-left: 0.5rem; box-sizing: border-box; }
 
-/* Right divider — visible interactive bar with bidirectional arrows */
-.nav-divider-right {
-  grid-column: 4;
-  background: linear-gradient(180deg, var(--accent, #1d4ed8) 0%, var(--code-bg, #f6f8fa) 10%, var(--code-bg, #f6f8fa) 90%, var(--accent, #1d4ed8) 100%);
-  border-left: 3px solid var(--accent, #1d4ed8);
-  border-right: 3px solid var(--accent, #1d4ed8);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 10px;
-  cursor: pointer; user-select: none;
-  font-size: 0.85rem; color: var(--fg, #24292f);
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
-  min-width: 28px;
-  z-index: 40;
-}
-.nav-divider-right::before {
-  content: '·\A·\A·'; white-space: pre; position: absolute; top: 50%; transform: translateY(-50%);
-  font-size: 0.7rem; line-height: 0.5; color: var(--muted, #656d76); margin-top: -1.5rem;
-}
-.nav-divider-right:hover {
-  background: linear-gradient(180deg, var(--accent, #1d4ed8) 0%, var(--col-alt, #e0e8f0) 15%, var(--col-alt, #e0e8f0) 85%, var(--accent, #1d4ed8) 100%);
-  box-shadow: 0 0 6px rgba(29,78,216,0.2);
-}
-.nav-divider-right .r-arrow {
-  cursor: pointer; padding: 3px 0; line-height: 1;
-  font-size: 0.9rem; font-weight: 700; display: inline-block; width: 1em; text-align: center;
-  z-index: 1;
-}
-.nav-divider-right .r-arrow:hover { color: var(--accent, #1d4ed8); }
-.nav-divider-right .r-arrow.hidden { display: none; }
+.nav-divider-right { grid-column: 4; z-index: 40; }
 
 /* Right content viewer */
 .nav-viewer { grid-column: 5; display: flex; flex-direction: column; min-width: 0; overflow: hidden; z-index: 40; }
@@ -265,13 +179,20 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-widget .pub-group a { padding-left: 1.3rem; font-size: 0.74rem; }
 .cmd-link { font-family: monospace; font-size: 0.72rem; color: var(--muted, #656d76); }
 
+/* ═══ Mobile — shrink dividers for touch screens ═══ */
+@media (max-width: 768px) {
+  .nav-divider-left, .nav-divider-right { min-width: 8px; }
+  .nav-divider-left::before, .nav-divider-right::before { font-size: 0.55rem; }
+  .nav-grid { grid-template-columns: 0px 8px 1fr 8px 0px; }
+}
+
 /* ═══ Print / PDF export — center panel content after cover page ═══ */
 @media print {
   html, body { height: auto !important; overflow: visible !important; }
   body { display: block !important; }
   .container { display: block !important; overflow: visible !important; max-width: 100% !important; }
   /* Hide interactive chrome — left panel, dividers, right panel, chrome bar */
-  .chrome-bar, .nav-panel, .nav-divider-left, .nav-divider-right,
+  .nav-panel, .nav-divider-left, .nav-divider-right,
   .nav-viewer, .page-url-link { display: none !important; }
   /* Un-lock the grid for flow layout */
   .nav-grid {
@@ -291,188 +212,238 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 }
 </style>
 
-<!-- BARRE CHROME -->
-<div class="chrome-bar" id="chrome-bar">
-  <span class="chrome-toggle" id="chrome-toggle" title="Replier/deployer l'en-tete">▲</span>
-  <span class="orient-toggle" id="orient-toggle" title="Basculer l'orientation de la page">
-    <a data-orient="portrait" class="orient-active">Portrait</a>
-    <a data-orient="landscape">Paysage</a>
-  </span>
-  <span class="lang-toggle">
-    <a href="{{ '/interfaces/main-navigator/' | relative_url }}">EN</a>
-    <a href="{{ '/fr/interfaces/main-navigator/' | relative_url }}" class="lang-active">FR</a>
-  </span>
-</div>
-
-<!-- GRILLE PRINCIPALE -->
+<!-- MAIN GRID -->
 <div class="nav-grid" id="nav-grid">
-
-  <!-- GAUCHE — Répertoire de widgets -->
   <div class="nav-panel" id="left-panel"></div>
-
-  <!-- DIVISEUR GAUCHE — bascule ouvert/fermé -->
-  <div class="nav-divider-left" id="left-toggle"><span>◀</span></div>
-
-  <!-- CENTRE — Visualiseur de contenu (liens du panneau gauche) -->
+  <div class="nav-divider-left" id="left-toggle"></div>
   <div class="nav-center" id="center-panel">
-    <iframe name="center-frame" src="{{ '/fr/interfaces/task-workflow/' | relative_url }}"></iframe>
+    <iframe name="center-frame" id="center-frame-el"></iframe>
   </div>
-
-  <!-- DIVISEUR DROIT — flèches bidirectionnelles -->
-  <div class="nav-divider-right" id="right-toggle">
-    <span class="r-arrow" data-dir="extend" title="Étendre le visualiseur">◀</span>
-    <span class="r-arrow hidden" data-dir="collapse" title="Replier le visualiseur">▶</span>
-  </div>
-
-  <!-- DROITE — Visualiseur de contenu -->
+  <div class="nav-divider-right" id="right-toggle"></div>
   <div class="nav-viewer">
-    <iframe name="content-frame" src="{{ '/fr/' | relative_url }}"></iframe>
+    <iframe name="content-frame" id="right-frame-el"></iframe>
   </div>
-
 </div>
 
 <script>
 (function() {
+  /* ─── Language auto-detection from URL path ─── */
+  var LANG = window.location.pathname.indexOf('/fr/') >= 0 ? 'fr' : 'en';
+  var LP = LANG === 'fr' ? '/fr' : '';  // language path prefix
+  var LS = LANG === 'fr' ? '-fr' : '';  // localStorage suffix
+
+  var T = {
+    en: {
+      interfaces: 'Interfaces',
+      i1: 'I1 Session Review', i2: 'I2 Main Navigator', i3: 'I3 Tasks Workflow',
+      i4: 'I4 Project Viewer', i5: 'I5 Live Mindmap', i_doc: '#21 Documentation',
+      essentials: 'Essentials',
+      stories: 'STORIES', readme: 'README', plan: 'PLAN', links: 'LINKS', news: 'NEWS', changelog: 'CHANGELOG',
+      commands: 'Commands',
+      g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
+      g_publications: 'Publications', g_project: 'Project', g_live_session: 'Live Session', g_live_network: 'Live Network',
+      hubs: 'Hubs', landing: 'Landing', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projects',
+      profile: 'Profile', hub: 'Hub', resume: 'Resume', full: 'Full',
+      summary: 'Summary',
+      p0: 'Knowledge System', p1: 'Knowledge 2.0', p2: 'Live Session', p3: 'AI Persistence',
+      p4: 'Distributed Minds', p4a: 'Dashboard', p5: 'Webcards', p6: 'Normalize',
+      p7: 'Harvest', p8: 'Session Mgmt', p9: 'Security', p9a: '#9a Compliance',
+      p10: 'Live Network', p11: 'Success Stories', p12: 'Project Mgmt', p13: 'Pagination',
+      p14: 'Architecture', p15: 'Diagrams', p16: 'Visualization', p17: 'Pipeline',
+      p18: 'Doc Generation', p19: 'Interactive', p20: 'Session Metrics',
+      p21: 'Main Interface', p22: 'Session Review', p22b: 'Visual Documentation', p23: 'Web Viewer'
+    },
+    fr: {
+      interfaces: 'Interfaces',
+      i1: 'I1 Revue de session', i2: 'I2 Navigateur principal', i3: 'I3 Flux de travail',
+      i4: 'I4 Visualiseur projets', i5: 'I5 Mindmap vivant', i_doc: '#21 Documentation',
+      essentials: 'Essentiels',
+      stories: 'HISTOIRES', readme: 'README', plan: 'PLAN', links: 'LIENS', news: 'NOUVELLES', changelog: 'CHANGELOG',
+      commands: 'Commandes',
+      g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
+      g_publications: 'Publications', g_project: 'Projet', g_live_session: 'Session live', g_live_network: 'Réseau live',
+      hubs: 'Hubs', landing: 'Accueil', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projets',
+      profile: 'Profil', hub: 'Hub', resume: 'Résumé', full: 'Complet',
+      summary: 'Résumé',
+      p0: 'Système de connaissances', p1: 'Knowledge 2.0', p2: 'Session live', p3: 'Persistance IA',
+      p4: 'Esprits distribués', p4a: 'Tableau de bord', p5: 'Webcards', p6: 'Normalize',
+      p7: 'Harvest', p8: 'Gestion de session', p9: 'Sécurité', p9a: '#9a Conformité',
+      p10: 'Réseau live', p11: 'Histoires de succès', p12: 'Gestion de projet', p13: 'Pagination',
+      p14: 'Architecture', p15: 'Diagrammes', p16: 'Visualisation', p17: 'Pipeline',
+      p18: 'Génération doc', p19: 'Interactif', p20: 'Métriques de session',
+      p21: 'Interface principale', p22: 'Revue de session', p22b: 'Documentation visuelle', p23: 'Visualiseur Web'
+    }
+  };
+  var t = T[LANG];
+
   var BASE = '{{ "" | relative_url }}';
-  var CENTER_KEY  = 'navigator-center-url-fr';
-  var WIDGET_KEY  = 'navigator-widgets-fr';
+  var CENTER_KEY  = 'navigator-center-url' + LS;
+  var WIDGET_KEY  = 'navigator-widgets' + LS;
   var LPANEL_KEY  = 'navigator-left-state';
   var RPANEL_KEY  = 'navigator-right-state';
-  var CHROME_KEY  = 'navigator-chrome-collapsed';
-  var RCONTENT_KEY = 'navigator-right-url-fr';
-  var ACTIVE_KEY  = 'navigator-active-href-fr';
-  var SUBDET_KEY  = 'navigator-subdetails-fr';
-  var centerIframe = document.querySelector('iframe[name="center-frame"]');
-  var rightIframe  = document.querySelector('iframe[name="content-frame"]');
+  var RCONTENT_KEY = 'navigator-right-url' + LS;
+  var ACTIVE_KEY  = 'navigator-active-href' + LS;
+  var SUBDET_KEY  = 'navigator-subdetails' + LS;
+
+  /* Set default iframe sources based on language */
+  var centerIframe = document.getElementById('center-frame-el');
+  var rightIframe  = document.getElementById('right-frame-el');
+  centerIframe.src = BASE + LP + '/interfaces/task-workflow/';
+  rightIframe.src  = BASE + LP + '/';
+
   var panel  = document.getElementById('left-panel');
   var grid   = document.getElementById('nav-grid');
   var lToggle = document.getElementById('left-toggle');
   var rToggle = document.getElementById('right-toggle');
   if (!panel || !grid) return;
 
-  /* ─── Chrome collapse/expand ─── */
-  var container = document.querySelector('.container');
-  var chromeToggle = document.getElementById('chrome-toggle');
-  var chromeCollapsed = localStorage.getItem(CHROME_KEY) !== '0';
+  /* ─── Panel sizes — draggable + click-to-step ─── */
+  var DIVIDER_W = (window.innerWidth <= 768) ? 8 : 14;
+  var LEFT_STEPS = [0, 220, 320];
+  var savedLeft = parseInt(localStorage.getItem(LPANEL_KEY) || '220');
+  var savedRight = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
+  var leftW = savedLeft;
+  var rightW = savedRight;
 
-  function applyChromeState() {
-    if (chromeCollapsed) {
-      container.classList.add('chrome-collapsed');
-      chromeToggle.textContent = '▼';
-      chromeToggle.title = 'Deployer l\'en-tete';
-    } else {
-      container.classList.remove('chrome-collapsed');
-      chromeToggle.textContent = '▲';
-      chromeToggle.title = 'Replier l\'en-tete';
-    }
+  function applyGrid(animate) {
+    if (!animate) grid.classList.add('dragging');
+    else grid.classList.remove('dragging');
+    grid.style.gridTemplateColumns = leftW + 'px ' + DIVIDER_W + 'px 1fr ' + DIVIDER_W + 'px ' + rightW + 'px';
+    localStorage.setItem(LPANEL_KEY, String(leftW));
+    localStorage.setItem(RPANEL_KEY, String(rightW));
   }
-  applyChromeState();
-  chromeToggle.addEventListener('click', function() {
-    chromeCollapsed = !chromeCollapsed;
-    applyChromeState();
-    localStorage.setItem(CHROME_KEY, chromeCollapsed ? '1' : '0');
-  });
+  applyGrid(false);
+  requestAnimationFrame(function() { grid.classList.remove('dragging'); });
 
-  /* ─── Left divider — 2 states: open / closed ─── */
-  var lArrow = lToggle.querySelector('span');
-  var leftOpen = localStorage.getItem(LPANEL_KEY) !== '0';
+  /* ─── Drag logic (shared) ─── */
+  function makeDraggable(divider, getSetter) {
+    var startX, dragged;
+    divider.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      startX = e.clientX;
+      dragged = false;
+      var setter = getSetter();
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;cursor:col-resize;';
+      document.body.appendChild(overlay);
+      grid.classList.add('dragging');
 
-  /* ─── Right divider — 3 states: 0=collapsed, 1=40%, 2=full ─── */
-  var rState = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
-  var extendBtn = rToggle.querySelector('[data-dir="extend"]');
-  var collapseBtn = rToggle.querySelector('[data-dir="collapse"]');
-
-  function applyGridState() {
-    var cls = 'nav-grid';
-    if (!leftOpen) cls += ' left-closed';
-    if (rState === 1) cls += ' right-mid';
-    else if (rState === 2) cls += ' right-full';
-    grid.className = cls;
-    /* Left arrow */
-    lArrow.textContent = leftOpen ? '◀' : '▶';
-    /* Right arrows visibility */
-    extendBtn.classList.toggle('hidden', rState >= 2);
-    collapseBtn.classList.toggle('hidden', rState <= 0);
+      function onMove(ev) {
+        var dx = ev.clientX - startX;
+        if (Math.abs(dx) > 3) dragged = true;
+        setter(dx);
+        applyGrid(false);
+      }
+      function onUp() {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        overlay.remove();
+        grid.classList.remove('dragging');
+        if (!dragged) {
+          setter('step');
+          applyGrid(true);
+        }
+      }
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
   }
-  applyGridState();
 
-  lToggle.addEventListener('click', function() {
-    leftOpen = !leftOpen;
-    applyGridState();
-    localStorage.setItem(LPANEL_KEY, leftOpen ? '1' : '0');
+  /* Left divider: drag resizes left panel, click cycles steps */
+  var leftStepIdx = LEFT_STEPS.indexOf(leftW) >= 0 ? LEFT_STEPS.indexOf(leftW) : 1;
+  makeDraggable(lToggle, function() {
+    var startW = leftW;
+    return function(dx) {
+      if (dx === 'step') {
+        leftStepIdx = (leftStepIdx + 1) % LEFT_STEPS.length;
+        leftW = LEFT_STEPS[leftStepIdx];
+      } else {
+        leftW = Math.max(0, Math.min(startW + dx, grid.offsetWidth * 0.5));
+      }
+    };
   });
 
-  extendBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (rState < 2) { rState++; applyGridState(); localStorage.setItem(RPANEL_KEY, rState); }
-  });
-  collapseBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (rState > 0) { rState--; applyGridState(); localStorage.setItem(RPANEL_KEY, rState); }
+  /* Right divider: drag resizes right panel, click cycles 0 → 50% → full → 0 */
+  makeDraggable(rToggle, function() {
+    var startW = rightW;
+    return function(dx) {
+      if (dx === 'step') {
+        var gw = grid.offsetWidth;
+        if (rightW < gw * 0.25) rightW = Math.round(gw * 0.5);
+        else if (rightW < gw * 0.75) rightW = gw - leftW - DIVIDER_W * 2;
+        else rightW = 0;
+      } else {
+        rightW = Math.max(0, Math.min(startW - dx, grid.offsetWidth - leftW - DIVIDER_W * 2 - 50));
+      }
+    };
   });
 
-  /* ─── Widget definitions (French) ─── */
+  /* ─── Widget definitions — bilingual, driven by LANG ─── */
   var widgets = [
-    { id:'interfaces', title:'Interfaces', open:true, links:[
-      {t:'I1 Revue de session',     h:BASE+'/fr/interfaces/session-review/', center:true},
-      {t:'I2 Navigateur principal',  h:BASE+'/fr/interfaces/main-navigator/', top:true},
-      {t:'I3 Flux de travail',      h:BASE+'/fr/interfaces/task-workflow/', center:true},
-      {t:'I4 Visualiseur projets',  h:BASE+'/fr/interfaces/project-viewer/', center:true},
-      {t:'#21 Documentation',       h:BASE+'/fr/publications/main-interface/'}
+    { id:'interfaces', title: t.interfaces, open:true, links:[
+      {t: t.i1,  h:BASE+LP+'/interfaces/session-review/', center:true},
+      {t: t.i2,  h:BASE+LP+'/interfaces/main-navigator/', top:true},
+      {t: t.i3,  h:BASE+LP+'/interfaces/task-workflow/', center:true},
+      {t: t.i4,  h:BASE+LP+'/interfaces/project-viewer/', center:true},
+      {t: t.i5,  h:BASE+LP+'/interfaces/live-mindmap/', center:true},
+      {t: t.i_doc, h:BASE+LP+'/publications/main-interface/'}
     ]},
-    { id:'essentials', title:'Essentiels', open:false, links:[
-      {t:'HISTOIRES',     h:BASE+'/fr/publications/success-stories/'},
-      {t:'README',        h:BASE+'/fr/'},
-      {t:'PLAN',          h:BASE+'/fr/plan/'},
-      {t:'LIENS',         h:BASE+'/fr/links/'},
-      {t:'NOUVELLES',     h:BASE+'/fr/news/'},
-      {t:'CHANGELOG',     h:BASE+'/fr/changelog/'}
+    { id:'essentials', title: t.essentials, open:false, links:[
+      {t: t.stories,   h:BASE+LP+'/publications/success-stories/'},
+      {t: t.readme,    h:BASE+LP+'/'},
+      {t: t.plan,      h:BASE+LP+'/plan/'},
+      {t: t.links,     h:BASE+LP+'/links/'},
+      {t: t.news,      h:BASE+LP+'/news/'},
+      {t: t.changelog, h:BASE+LP+'/changelog/'}
     ]},
-    { id:'commands', title:'Commandes', open:false, groups:[
-      { g:'Session', pub:'/fr/publications/session-management/full/#pub-title', cmds:['wakeup','refresh','help / aide','status','save','remember','resume','recall','checkpoint','elevate'] },
-      { g:'Normalize', pub:'/fr/publications/normalize-structure-concordance/full/#pub-title', cmds:['normalize','normalize --fix','normalize --check'] },
-      { g:'Harvest', pub:'/fr/publications/harvest-protocol/full/#pub-title', cmds:['harvest','harvest --list','harvest --procedure','harvest --healthcheck','harvest --review','harvest --stage','harvest --promote','harvest --auto','harvest --fix'] },
-      { g:'Publications', pub:'/fr/publications/webcards-social-sharing/full/#pub-title', cmds:['pub list','pub check','pub new','pub sync','doc review','docs check','webcard','weblinks','pub export'] },
-      { g:'Projet', pub:'/fr/publications/knowledge-system/full/#pub-title', cmds:['project list','project info','project create','project register','project review','#N: note','g:board:item'] },
-      { g:'Session live', pub:'/fr/publications/live-session-analysis/full/#pub-title', cmds:["I'm live",'multi-live','deep','analyze','recipe'] },
-      { g:'Réseau live', pub:'/fr/publications/live-knowledge-network/full/#pub-title', cmds:['beacon'] }
+    { id:'commands', title: t.commands, open:false, groups:[
+      { g: t.g_session,      pub:LP+'/publications/session-management/full/#pub-title', cmds:['wakeup','refresh','help / aide','status','save','remember','resume','recover','recall','checkpoint','elevate'] },
+      { g: t.g_normalize,    pub:LP+'/publications/normalize-structure-concordance/full/#pub-title', cmds:['normalize','normalize --fix','normalize --check'] },
+      { g: t.g_harvest,      pub:LP+'/publications/harvest-protocol/full/#pub-title', cmds:['harvest','harvest --list','harvest --procedure','harvest --healthcheck','harvest --review','harvest --stage','harvest --promote','harvest --auto','harvest --fix'] },
+      { g: t.g_publications, pub:LP+'/publications/webcards-social-sharing/full/#pub-title', cmds:['pub list','pub check','pub new','pub sync','doc review','docs check','webcard','weblinks','pub export'] },
+      { g: t.g_project,      pub:LP+'/publications/knowledge-system/full/#pub-title', cmds:['project list','project info','project create','project register','project review','#N: note','g:board:item'] },
+      { g: t.g_live_session, pub:LP+'/publications/live-session-analysis/full/#pub-title', cmds:["I'm live",'multi-live','deep','analyze','recipe'] },
+      { g: t.g_live_network, pub:LP+'/publications/live-knowledge-network/full/#pub-title', cmds:['beacon'] }
     ]},
-    { id:'hubs', title:'Hubs', open:false, links:[
-      {t:'Accueil',      h:BASE+'/fr/'},
-      {t:'Publications', h:BASE+'/fr/publications/'},
-      {t:'Projets',      h:BASE+'/fr/projects/'}
+    { id:'hubs', title: t.hubs, open:false, links:[
+      {t: t.landing,        h:BASE+LP+'/'},
+      {t: t.publications,   h:BASE+LP+'/publications/'},
+      {t: t.interfaces_hub, h:BASE+LP+'/interfaces/'},
+      {t: t.projects,       h:BASE+LP+'/projects/'}
     ]},
-    { id:'profile', title:'Profil', open:false, links:[
-      {t:'Hub',     h:BASE+'/fr/profile/'},
-      {t:'Résumé',  h:BASE+'/fr/profile/resume/'},
-      {t:'Complet', h:BASE+'/fr/profile/full/'}
+    { id:'profile', title: t.profile, open:false, links:[
+      {t: t.hub,    h:BASE+LP+'/profile/'},
+      {t: t.resume, h:BASE+LP+'/profile/resume/'},
+      {t: t.full,   h:BASE+LP+'/profile/full/'}
     ]},
-    { id:'publications', title:'Publications', open:false, pubs:[
-      {n:'#0',  t:'Système de connaissances', s:'knowledge-system'},
-      {n:'#1',  t:'Pipeline MPLIB',           s:'mplib-storage-pipeline'},
-      {n:'#2',  t:'Session live',             s:'live-session-analysis'},
-      {n:'#3',  t:'Persistance IA',           s:'ai-session-persistence'},
-      {n:'#4',  t:'Esprits distribués',       s:'distributed-minds'},
-      {n:'#4a', t:'Tableau de bord',          s:'distributed-knowledge-dashboard'},
-      {n:'#5',  t:'Webcards',                 s:'webcards-social-sharing'},
-      {n:'#6',  t:'Normalize',                s:'normalize-structure-concordance'},
-      {n:'#7',  t:'Harvest',                  s:'harvest-protocol'},
-      {n:'#8',  t:'Gestion de session',       s:'session-management'},
-      {n:'#9',  t:'Sécurité',                 s:'security-by-design',
-        extra:[{t:'#9a Conformité', p:'/fr/publications/security-by-design/compliance/'}]},
-      {n:'#10', t:'Réseau live',              s:'live-knowledge-network'},
-      {n:'#11', t:'Histoires de succès',      s:'success-stories'},
-      {n:'#12', t:'Gestion de projet',        s:'project-management'},
-      {n:'#13', t:'Pagination',               s:'web-pagination-export'},
-      {n:'#14', t:'Architecture',             s:'architecture-analysis'},
-      {n:'#15', t:'Diagrammes',               s:'architecture-diagrams'},
-      {n:'#16', t:'Visualisation',            s:'web-page-visualization'},
-      {n:'#17', t:'Pipeline',                 s:'web-production-pipeline'},
-      {n:'#18', t:'Génération doc',           s:'documentation-generation'},
-      {n:'#19', t:'Interactif',               s:'interactive-work-sessions'},
-      {n:'#20', t:'Métriques de session',     s:'session-metrics-time'},
-      {n:'#21', t:'Interface principale',     s:'main-interface'},
-      {n:'#22', t:'Revue de session',         s:'session-review'}
+    { id:'publications', title: t.publications, open:false, pubs:[
+      {n:'#0',  t: t.p0,   s:'knowledge-system'},
+      {n:'#1',  t: t.p1,   s:'knowledge-2.0'},
+      {n:'#2',  t: t.p2,   s:'live-session-analysis'},
+      {n:'#3',  t: t.p3,   s:'ai-session-persistence'},
+      {n:'#4',  t: t.p4,   s:'distributed-minds'},
+      {n:'#4a', t: t.p4a,  s:'distributed-knowledge-dashboard'},
+      {n:'#5',  t: t.p5,   s:'webcards-social-sharing'},
+      {n:'#6',  t: t.p6,   s:'normalize-structure-concordance'},
+      {n:'#7',  t: t.p7,   s:'harvest-protocol'},
+      {n:'#8',  t: t.p8,   s:'session-management'},
+      {n:'#9',  t: t.p9,   s:'security-by-design',
+        extra:[{t: t.p9a, p:LP+'/publications/security-by-design/compliance/'}]},
+      {n:'#10', t: t.p10,  s:'live-knowledge-network'},
+      {n:'#11', t: t.p11,  s:'success-stories'},
+      {n:'#12', t: t.p12,  s:'project-management'},
+      {n:'#13', t: t.p13,  s:'web-pagination-export'},
+      {n:'#14', t: t.p14,  s:'architecture-analysis'},
+      {n:'#15', t: t.p15,  s:'architecture-diagrams'},
+      {n:'#16', t: t.p16,  s:'web-page-visualization'},
+      {n:'#17', t: t.p17,  s:'web-production-pipeline'},
+      {n:'#18', t: t.p18,  s:'documentation-generation'},
+      {n:'#19', t: t.p19,  s:'interactive-work-sessions'},
+      {n:'#20', t: t.p20,  s:'session-metrics-time'},
+      {n:'#21', t: t.p21,  s:'main-interface'},
+      {n:'#22', t: t.p22,  s:'session-review'},
+      {n:'#22', t: t.p22b, s:'visual-documentation'},
+      {n:'#23', t: t.p23,  s:'web-documentation-viewer'}
     ]}
   ];
 
@@ -504,9 +475,12 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     var sm = document.createElement('summary'); sm.textContent = w.title; det.appendChild(sm);
     var body = document.createElement('div'); body.className = 'widget-body';
 
+    // Rewrite link href if viewerRewriteUrl is available (running inside viewer srcdoc)
+    var vru = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
+
     if (w.links) {
       w.links.forEach(function(lk) {
-        var a = document.createElement('a'); a.href = lk.h;
+        var a = document.createElement('a'); a.href = lk.top ? vru(lk.h, false) : vru(lk.h);
         a.dataset.navId = 'nav-' + (navLinkId++);
         a.target = lk.top ? '_top' : (lk.center ? 'center-frame' : 'content-frame'); a.textContent = lk.t;
         body.appendChild(a);
@@ -520,7 +494,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         pg.addEventListener('toggle', saveSubDetState);
         var pgsm = document.createElement('summary'); pgsm.textContent = cg.g; pg.appendChild(pgsm);
         cg.cmds.forEach(function(cmd) {
-          var a = document.createElement('a'); a.href = BASE + cg.pub; a.target = 'content-frame';
+          var a = document.createElement('a'); a.href = vru(BASE + cg.pub); a.target = 'content-frame';
           a.dataset.navId = 'nav-' + (navLinkId++);
           var sp = document.createElement('span'); sp.className = 'cmd-link'; sp.textContent = cmd;
           a.appendChild(sp); pg.appendChild(a);
@@ -535,14 +509,14 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
         pg.addEventListener('toggle', saveSubDetState);
         var pgsm = document.createElement('summary'); pgsm.textContent = p.n + ' ' + p.t; pg.appendChild(pgsm);
-        var a1 = document.createElement('a'); a1.href = BASE+'/fr/publications/'+p.s+'/#pub-title';
+        var a1 = document.createElement('a'); a1.href = vru(BASE+LP+'/publications/'+p.s+'/');
         a1.dataset.navId = 'nav-' + (navLinkId++);
-        a1.target = 'content-frame'; a1.textContent = 'Résumé'; pg.appendChild(a1);
-        var a2 = document.createElement('a'); a2.href = BASE+'/fr/publications/'+p.s+'/full/#pub-title';
+        a1.target = 'content-frame'; a1.textContent = t.summary; pg.appendChild(a1);
+        var a2 = document.createElement('a'); a2.href = vru(BASE+LP+'/publications/'+p.s+'/full/');
         a2.dataset.navId = 'nav-' + (navLinkId++);
-        a2.target = 'content-frame'; a2.textContent = 'Complet'; pg.appendChild(a2);
+        a2.target = 'content-frame'; a2.textContent = t.full; pg.appendChild(a2);
         if (p.extra) { p.extra.forEach(function(e) {
-          var ax = document.createElement('a'); ax.href = BASE+e.p;
+          var ax = document.createElement('a'); ax.href = vru(BASE+e.p);
           ax.dataset.navId = 'nav-' + (navLinkId++);
           ax.target = 'content-frame'; ax.textContent = e.t; pg.appendChild(ax);
         }); }
@@ -552,12 +526,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     det.appendChild(body); panel.appendChild(det);
   });
 
-  /* ─── Restore last viewed page in center + right + active link ─── */
+  /* ─── Restore last viewed pages ─── */
   var savedCenter = localStorage.getItem(CENTER_KEY);
   if (savedCenter && centerIframe) { centerIframe.src = savedCenter; }
   var savedRight = localStorage.getItem(RCONTENT_KEY);
   if (savedRight && rightIframe) { rightIframe.src = savedRight; }
 
+  /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
   if (savedActive) {
     var found = panel.querySelector('a[data-nav-id="' + savedActive + '"]');
@@ -573,10 +548,10 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     localStorage.setItem(ACTIVE_KEY, a.dataset.navId || a.href);
     /* Save center URL if targeting center */
     if (a.target === 'center-frame') { localStorage.setItem(CENTER_KEY, a.href); }
-    /* Save right URL + extend right panel if collapsed */
+    /* Save right URL + extend panel if collapsed */
     if (a.target === 'content-frame') {
       localStorage.setItem(RCONTENT_KEY, a.href);
-      if (rState < 1) { rState = 1; applyGridState(); localStorage.setItem(RPANEL_KEY, String(rState)); }
+      if (rightW < 100) { rightW = Math.round(grid.offsetWidth * 0.5); applyGrid(true); }
     }
   });
 
@@ -615,212 +590,6 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     });
   }
 
-  /* ─── Language propagation — transform center iframe URL on lang switch ─── */
-  document.querySelectorAll('.chrome-bar .lang-toggle a:not(.lang-active)').forEach(function(langLink) {
-    langLink.addEventListener('click', function() {
-      var curPath = '';
-      try { curPath = centerIframe.contentWindow.location.pathname; } catch(ex) {}
-      if (!curPath) return;
-      var afterBase = curPath.substring(BASE.length);
-      var targetPath = BASE + afterBase.replace(/^\/fr/, '');
-      localStorage.setItem('navigator-center-url', targetPath);
-    });
-  });
-
-  /* ─── Orientation toggle — controls right panel (3rd panel) only ─── */
-  var ORIENT_KEY = 'navigator-orient:';
-  var orientLinks = document.querySelectorAll('#orient-toggle a[data-orient]');
-
-  function getPagePath() {
-    try { return rightIframe.contentWindow.location.pathname.replace(/\/+$/, ''); } catch(e) { return ''; }
-  }
-
-  function applyOrientUI(orient) {
-    orientLinks.forEach(function(a) {
-      a.classList.toggle('orient-active', a.dataset.orient === orient);
-    });
-  }
-
-  function sendOrientToRight(orient) {
-    try { rightIframe.contentWindow.postMessage({ type: 'set-orientation', orient: orient }, '*'); } catch(e) {}
-  }
-
-  /* On right iframe load — restore per-page orientation */
-  if (rightIframe) {
-    rightIframe.addEventListener('load', function() {
-      var path = getPagePath();
-      if (!path) return;
-      var saved = localStorage.getItem(ORIENT_KEY + path) || 'portrait';
-      applyOrientUI(saved);
-      sendOrientToRight(saved);
-    });
-  }
-
-  /* On toggle click — save + send to right iframe */
-  orientLinks.forEach(function(a) {
-    a.addEventListener('click', function() {
-      var orient = this.dataset.orient;
-      applyOrientUI(orient);
-      var path = getPagePath();
-      if (path) localStorage.setItem(ORIENT_KEY + path, orient);
-      sendOrientToRight(orient);
-    });
-  });
-
-})();
-
-/* ═══ Panel selector — inject into layout's export toolbar ═══ */
-(function() {
-  var PANEL_KEY = 'navigator-export-panel';
-  var selectedPanel = localStorage.getItem(PANEL_KEY) || 'center';
-
-  var pdfBtn = document.getElementById('exportPdf');
-  if (!pdfBtn) return;
-  var toolbarGroup = pdfBtn.parentElement;
-
-  var panelGroup = document.createElement('span');
-  panelGroup.className = 'pub-orient-group';
-  panelGroup.style.marginRight = '0.5rem';
-  panelGroup.innerHTML =
-    '<label class="pub-export-radio" title="Exporter le panneau central">' +
-      '<input type="radio" name="navPanel" value="center"' + (selectedPanel === 'center' ? ' checked' : '') + '> Central' +
-    '</label>' +
-    '<label class="pub-export-radio" title="Exporter le panneau de droite">' +
-      '<input type="radio" name="navPanel" value="right"' + (selectedPanel === 'right' ? ' checked' : '') + '> Droite' +
-    '</label>';
-
-  var sep = document.createElement('span');
-  sep.className = 'pub-orient-sep';
-
-  toolbarGroup.insertBefore(sep, pdfBtn);
-  toolbarGroup.insertBefore(panelGroup, sep);
-
-  panelGroup.querySelectorAll('input[name="navPanel"]').forEach(function(r) {
-    r.addEventListener('change', function() {
-      selectedPanel = this.value;
-      localStorage.setItem(PANEL_KEY, selectedPanel);
-    });
-  });
-
-  function getSelectedFrame() {
-    return selectedPanel === 'right' ? 'content-frame' : 'center-frame';
-  }
-
-  var newPdf = pdfBtn.cloneNode(true);
-  pdfBtn.parentNode.replaceChild(newPdf, pdfBtn);
-  newPdf.addEventListener('click', function(e) {
-    e.preventDefault();
-    var frameName = getSelectedFrame();
-    var frame = window.frames[frameName];
-    if (!frame) return;
-    try {
-      var fdoc = frame.document;
-      if (!fdoc.getElementById('pub-cover-page')) {
-        var title = fdoc.title || 'Export';
-        var now = new Date();
-        var gen = now.getFullYear() + '-' +
-          String(now.getMonth()+1).padStart(2,'0') + '-' +
-          String(now.getDate()).padStart(2,'0') + '  ' +
-          String(now.getHours()).padStart(2,'0') + ':' +
-          String(now.getMinutes()).padStart(2,'0');
-        var cover = fdoc.createElement('div');
-        cover.id = 'pub-cover-page';
-        cover.setAttribute('aria-hidden', 'true');
-        cover.innerHTML =
-          '<div class="cover-body">' +
-            '<div class="cover-title">' + title + '</div>' +
-            '<hr class="cover-rule">' +
-            '<div class="cover-meta">Martin Paquet<br>Claude (Anthropic, Opus 4.6)</div>' +
-            '<div class="cover-gen-line">Généré : ' + gen + '</div>' +
-          '</div>';
-        var style = fdoc.createElement('style');
-        style.textContent =
-          '@media print { #pub-cover-page { display:flex; align-items:center; justify-content:center; ' +
-          'text-align:center; min-height:20cm; page-break-after:always; } ' +
-          '.cover-body { max-width:18cm; } ' +
-          '.cover-title { font-size:28pt; font-weight:700; color:#111; line-height:1.2; margin-bottom:0.7cm; } ' +
-          '.cover-rule { border:none; border-top:1.5pt solid #444; margin:0 auto 0.8cm; width:6cm; } ' +
-          '.cover-meta { font-size:10pt; color:#444; line-height:2; } ' +
-          '.cover-gen-line { font-size:8.5pt; color:#666; font-family:monospace; margin-top:0.2cm; } }' +
-          '@media screen { #pub-cover-page { display:none; } }';
-        fdoc.head.appendChild(style);
-        fdoc.body.insertBefore(cover, fdoc.body.firstChild);
-      }
-      frame.focus(); frame.print();
-    } catch(err) {
-      var url = document.querySelector('iframe[name="' + frameName + '"]').src;
-      window.open(url, '_blank');
-    }
-  });
-
-  var docxBtn = document.getElementById('exportDocx');
-  if (docxBtn) {
-    var newDocx = docxBtn.cloneNode(true);
-    docxBtn.parentNode.replaceChild(newDocx, docxBtn);
-    newDocx.addEventListener('click', function(e) {
-      e.preventDefault();
-      var frameName = getSelectedFrame();
-      var frame = window.frames[frameName];
-      if (!frame) return;
-      try {
-        var iframeDocx = frame.document.getElementById('exportDocx');
-        if (iframeDocx) { iframeDocx.click(); }
-        else { window.open(document.querySelector('iframe[name="' + frameName + '"]').src, '_blank'); }
-      } catch(err) {
-        window.open(document.querySelector('iframe[name="' + frameName + '"]').src, '_blank');
-      }
-    });
-  }
-})();
-
-/* ═══ Propagate theme + page size changes to both iframes ═══ */
-(function() {
-  var centerIframe = document.querySelector('iframe[name="center-frame"]');
-  var rightIframe = document.querySelector('iframe[name="content-frame"]');
-
-  function sendToIframes(msg) {
-    try { if (centerIframe) centerIframe.contentWindow.postMessage(msg, '*'); } catch(e) {}
-    try { if (rightIframe) rightIframe.contentWindow.postMessage(msg, '*'); } catch(e) {}
-  }
-
-  var themeSelect = document.getElementById('themeSelect');
-  if (themeSelect) {
-    themeSelect.addEventListener('change', function() {
-      sendToIframes({ type: 'set-theme', theme: this.value });
-    });
-  }
-
-  var sizeRadios = document.querySelectorAll('input[name="pubPageSize"]');
-  sizeRadios.forEach(function(r) {
-    r.addEventListener('change', function() {
-      sendToIframes({ type: 'set-page-size', size: this.value });
-    });
-  });
-
-  var orientRadios = document.querySelectorAll('input[name="pubOrient"]');
-  orientRadios.forEach(function(r) {
-    r.addEventListener('change', function() {
-      sendToIframes({ type: 'set-orientation', orient: this.value });
-    });
-  });
-
-  function pushCurrentState(iframe) {
-    if (!iframe) return;
-    iframe.addEventListener('load', function() {
-      var theme = (themeSelect && themeSelect.value) || localStorage.getItem('knowledge-theme') || 'auto';
-      var size = 'letter';
-      sizeRadios.forEach(function(r) { if (r.checked) size = r.value; });
-      var orient = 'portrait';
-      orientRadios.forEach(function(r) { if (r.checked) orient = r.value; });
-      try {
-        iframe.contentWindow.postMessage({ type: 'set-theme', theme: theme }, '*');
-        iframe.contentWindow.postMessage({ type: 'set-page-size', size: size }, '*');
-        iframe.contentWindow.postMessage({ type: 'set-orientation', orient: orient }, '*');
-      } catch(e) {}
-    });
-  }
-  pushCurrentState(centerIframe);
-  pushCurrentState(rightIframe);
 })();
 </script>
 {:/nomarkdown}

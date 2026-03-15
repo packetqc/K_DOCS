@@ -612,6 +612,106 @@
         "work::en cours::live mindmap"
       ],
       "timestamp": "2026-03-15T09:55:35Z"
+    },
+    {
+      "id": 49,
+      "summary": "Publication #23 viewer EN/FR created, live-mindmap→validation, conventions 015-017 added, root essentials from knowledge repo, pushed",
+      "far_memory_refs": [
+        97,
+        98
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::web_docs",
+        "knowledge::conventions::documentation",
+        "knowledge::work::en_cours"
+      ],
+      "timestamp": "2026-03-15T10:28:41Z"
+    },
+    {
+      "id": 50,
+      "summary": "MindElixir fixes (constructor, padding, embed width) pushed — user validates live mindmap displays",
+      "far_memory_refs": [
+        99,
+        100
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::web_docs::live_mindmap"
+      ],
+      "timestamp": "2026-03-15T10:34:33Z"
+    },
+    {
+      "id": 51,
+      "summary": "Convention: webcard-header margin-top:1rem moved to CSS class for all docs",
+      "far_memory_refs": [
+        101,
+        102
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web_docs"
+      ],
+      "timestamp": "2026-03-15T10:53:27Z"
+    },
+    {
+      "id": 52,
+      "summary": "Fix: MindElixir editable:true for drag, dblclick capture for expand/collapse, correct expandNode arg",
+      "far_memory_refs": [
+        103,
+        104
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::claude_desktop_app::live_mindmap_mindelixir"
+      ],
+      "timestamp": "2026-03-15T10:56:03Z"
+    },
+    {
+      "id": 53,
+      "summary": "Added discrete thin scrollbars to main navigator, viewer, and I5",
+      "far_memory_refs": [
+        105,
+        106
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web_docs"
+      ],
+      "timestamp": "2026-03-15T10:58:04Z"
+    },
+    {
+      "id": 54,
+      "summary": "Synced FR main navigator with EN: scrollbars, padding, I5 link, #22/#23 pubs",
+      "far_memory_refs": [
+        107,
+        108
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::bilingual_en_fr"
+      ],
+      "timestamp": "2026-03-15T11:00:33Z"
+    },
+    {
+      "id": 55,
+      "summary": "Unified EN/FR main navigator: single JS with auto lang detection, translations object, shared nomarkdown block",
+      "far_memory_refs": [
+        109,
+        110
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::bilingual_en_fr",
+        "knowledge::documentation::web_docs"
+      ],
+      "timestamp": "2026-03-15T11:05:47Z"
+    },
+    {
+      "id": 56,
+      "summary": "Added ? help button + right help panel to I5 live mindmap, bilingual EN/FR",
+      "far_memory_refs": [
+        111,
+        112
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::interfaces",
+        "knowledge::conventions::documentation::bilingual_en_fr"
+      ],
+      "timestamp": "2026-03-15T11:08:06Z"
     }
   ],
   "last_session": {

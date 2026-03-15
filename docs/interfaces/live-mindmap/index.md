@@ -19,6 +19,12 @@ og_image: /assets/og/knowledge-system-en-cayman.gif
 html, body {
   height: 100%; margin: 0; overflow: hidden;
 }
+/* Discrete thin scrollbars */
+*, *::before, *::after { scrollbar-width: thin; scrollbar-color: var(--border, #c0c0c0) transparent; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border, #c0c0c0); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted, #888); }
 body > .container {
   display: flex; flex-direction: column;
   height: 100%; overflow: hidden;
@@ -55,19 +61,68 @@ body > .container {
   color: var(--muted, #5c5c78);
   margin-left: auto;
 }
+/* Main area: mindmap + help panel side by side */
+.mindmap-area {
+  display: flex; flex: 1; min-height: 0; gap: 0;
+  margin-bottom: 1.5rem;
+}
 #mindmap-container {
-  width: 100%;
   flex: 1;
   overflow: hidden;
   border: 1px solid var(--border, #d48a3c);
-  margin-bottom: 1.5rem;
   border-radius: 8px;
   position: relative;
+  min-width: 0;
 }
 .mindmap-error {
   color: #dc2626;
   padding: 1rem;
   text-align: center;
+}
+/* Help button — round ? */
+.help-btn {
+  width: 1.6rem; height: 1.6rem;
+  border-radius: 50%;
+  background: var(--accent, #0055b3);
+  color: white;
+  border: none;
+  font-size: 0.9rem; font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+}
+.help-btn:hover { opacity: 0.85; }
+.help-btn.active { background: var(--muted, #5c5c78); }
+/* Help panel — right side */
+.help-panel {
+  width: 0; overflow: hidden;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  background: var(--code-bg, #eee8df);
+  transition: width 0.25s ease, border-width 0.25s ease, padding 0.25s ease;
+  padding: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--fg, #1a1a2e);
+}
+.help-panel.open {
+  width: 280px;
+  border: 1px solid var(--border, #d48a3c);
+  border-left: none;
+  padding: 1rem;
+  overflow-y: auto;
+}
+.help-panel h3 {
+  margin: 0 0 0.6rem; font-size: 0.95rem; color: var(--accent, #0055b3);
+}
+.help-panel h4 {
+  margin: 0.8rem 0 0.3rem; font-size: 0.85rem; color: var(--accent, #0055b3);
+}
+.help-panel p { margin: 0 0 0.5rem; }
+.help-panel kbd {
+  display: inline-block; background: var(--bg, #faf6f1); border: 1px solid var(--border, #d48a3c);
+  border-radius: 3px; padding: 0.05rem 0.35rem; font-size: 0.78rem; font-family: monospace;
 }
 </style>
 
@@ -92,10 +147,14 @@ body > .container {
   <span class="sep"></span>
   <button onclick="toggleFullscreen()">Fullscreen</button>
   <span class="mindmap-status" id="mindmap-status">Loading...</span>
+  <button class="help-btn" id="help-toggle" onclick="toggleHelp()" title="Help">?</button>
 </div>
 
-<div id="mindmap-container">
-  <div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>
+<div class="mindmap-area">
+  <div id="mindmap-container">
+    <div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>
+  </div>
+  <div class="help-panel" id="help-panel"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.iife.js"></script>
@@ -361,7 +420,7 @@ body > .container {
         var mind = new MindElixir.default({
           el: container,
           direction: MindElixir.SIDE,
-          editable: false,
+          editable: true,
           keypress: false,
           toolBar: false,
           theme: theme,
@@ -372,22 +431,16 @@ body > .container {
         mind.init(data);
         window.mindInstance = mind;
 
-        // Double-click to expand/collapse branches
+        // Double-click: expand/collapse branches (capture phase blocks MindElixir text editing)
         container.addEventListener('dblclick', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          // Find the closest me-node element
           var meNode = e.target.closest('me-node');
           if (!meNode) return;
-          // Get the node data object from MindElixir's internal map
+          e.preventDefault();
+          e.stopImmediatePropagation();
           var nodeObj = meNode.nodeObj;
           if (!nodeObj || !nodeObj.children || nodeObj.children.length === 0) return;
-          if (nodeObj.expanded !== false) {
-            mind.expandNode(meNode, false);
-          } else {
-            mind.expandNode(meNode, true);
-          }
-        });
+          mind.expandNode(nodeObj, nodeObj.expanded === false);
+        }, true);
 
         // Fit after render
         setTimeout(function() { mind.scaleFit(); }, 200);
@@ -412,6 +465,66 @@ body > .container {
   if (themeSelect) {
     var saved = localStorage.getItem('kdocs-theme');
     if (saved && saved !== 'auto') themeSelect.value = saved;
+  }
+
+  // === Help panel — bilingual ===
+  var LANG = window.location.pathname.indexOf('/fr/') >= 0 ? 'fr' : 'en';
+  var helpContent = {
+    en: '<h3>Live Mindmap Help</h3>' +
+      '<h4>Navigation</h4>' +
+      '<p><kbd>Scroll</kbd> to zoom in/out<br>' +
+      '<kbd>Click + Drag</kbd> on background to pan<br>' +
+      '<kbd>Click + Drag</kbd> on a node to move it</p>' +
+      '<h4>Expand / Collapse</h4>' +
+      '<p>Click the <kbd>+</kbd> or <kbd>-</kbd> icon on a node to expand or collapse its children.<br>' +
+      '<kbd>Double-click</kbd> a node to toggle expand/collapse.</p>' +
+      '<h4>Toolbar</h4>' +
+      '<p><b>Normal</b> — filtered view (depth-limited, architecture/constraints hidden)<br>' +
+      '<b>Full</b> — all nodes at max depth<br>' +
+      '<b>Reload</b> — re-fetch from GitHub<br>' +
+      '<b>Center</b> — center the map without scaling<br>' +
+      '<b>Fit</b> — fit entire map in view<br>' +
+      '<b>Fullscreen</b> — toggle fullscreen mode</p>' +
+      '<h4>What is this?</h4>' +
+      '<p>This mindmap is the <b>K_MIND memory grid</b> — the live knowledge graph of the system. ' +
+      'Every node represents a directive: architecture rules, conventions, work state, or session context. ' +
+      'It updates in real-time as conversations progress.</p>',
+    fr: '<h3>Aide — Mindmap vivant</h3>' +
+      '<h4>Navigation</h4>' +
+      '<p><kbd>Molette</kbd> pour zoomer<br>' +
+      '<kbd>Clic + Glisser</kbd> sur le fond pour se deplacer<br>' +
+      '<kbd>Clic + Glisser</kbd> sur un noeud pour le repositionner</p>' +
+      '<h4>Deplier / Replier</h4>' +
+      '<p>Cliquez sur <kbd>+</kbd> ou <kbd>-</kbd> pour deplier ou replier les enfants d\'un noeud.<br>' +
+      '<kbd>Double-clic</kbd> sur un noeud pour basculer.</p>' +
+      '<h4>Barre d\'outils</h4>' +
+      '<p><b>Normal</b> — vue filtree (profondeur limitee, architecture/contraintes masquees)<br>' +
+      '<b>Full</b> — tous les noeuds a profondeur maximale<br>' +
+      '<b>Reload</b> — re-charger depuis GitHub<br>' +
+      '<b>Center</b> — centrer sans redimensionner<br>' +
+      '<b>Fit</b> — ajuster la carte a la vue<br>' +
+      '<b>Fullscreen</b> — basculer en plein ecran</p>' +
+      '<h4>Qu\'est-ce que c\'est ?</h4>' +
+      '<p>Ce mindmap est la <b>grille memoire K_MIND</b> — le graphe de connaissances vivant du systeme. ' +
+      'Chaque noeud represente une directive : regles d\'architecture, conventions, etat du travail ou contexte de session. ' +
+      'Il se met a jour en temps reel au fil des conversations.</p>'
+  };
+
+  var helpPanel = document.getElementById('help-panel');
+  var helpBtn = document.getElementById('help-toggle');
+  var HELP_KEY = 'mindmap-help-open';
+  helpPanel.innerHTML = helpContent[LANG];
+
+  window.toggleHelp = function() {
+    var open = helpPanel.classList.toggle('open');
+    helpBtn.classList.toggle('active', open);
+    localStorage.setItem(HELP_KEY, open ? '1' : '0');
+  };
+
+  // Restore state
+  if (localStorage.getItem(HELP_KEY) === '1') {
+    helpPanel.classList.add('open');
+    helpBtn.classList.add('active');
   }
 
   // Init

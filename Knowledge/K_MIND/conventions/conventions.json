@@ -108,6 +108,24 @@
       "name": "display_conventions_and_stats",
       "description": "Display convention system for K_MIND mindmap. depth_config.json provides human-editable per-branch depth settings. set_depth.py manages depth config updates. mindmap_filter.py renders depth-filtered mindmap from config. memory_stats.py computes disk/token stats with context availability. /mind-stats and /mind-depth skills provide standalone access. Promoted from work to conventions after validation.",
       "mind_memory_refs": ["knowledge::conventions::claude desktop app::display conventions and stats"]
+    },
+    {
+      "id": "conv-018",
+      "name": "interface_padding_convention",
+      "description": "Interface chrome bars (controls, toolbars) must live inside the same padded container as the content so they inherit identical horizontal padding (1rem). No separate padding values on bars. Does not apply to main navigator which has its own grid layout. All interfaces except main navigator follow this rule.",
+      "mind_memory_refs": ["knowledge::conventions::documentation::web_docs"]
+    },
+    {
+      "id": "conv-019",
+      "name": "discrete_scrollbars",
+      "description": "All interfaces and viewer pages use thin discrete scrollbars: 6px wide, transparent track, --border color for thumb, --muted on hover. Both Firefox (scrollbar-width: thin; scrollbar-color: var(--border) transparent) and Webkit (::-webkit-scrollbar 6px) covered. Applied via *, *::before, *::after selector.",
+      "mind_memory_refs": ["knowledge::conventions::documentation::web_docs"]
+    },
+    {
+      "id": "conv-020",
+      "name": "bilingual_single_codebase",
+      "description": "Interfaces with identical EN/FR logic use a single shared {::nomarkdown} block. JS auto-detects language from URL path (indexOf('/fr/') >= 0). Translations object T.en/T.fr drives all text. localStorage keys use language suffix (LS = '-fr' or ''). URL paths use language prefix (LP = '/fr' or ''). Only YAML front matter and h1 title differ between EN and FR files.",
+      "mind_memory_refs": ["knowledge::conventions::documentation::bilingual_en_fr"]
     }
   ],
   "external_files": []

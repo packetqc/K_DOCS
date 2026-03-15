@@ -4,9 +4,10 @@ page_type: interface
 title: "Main Navigator"
 description: "Knowledge system main navigation interface: three-panel browser with widget directory, extensible content viewer, and full command reference."
 pub_id: "Main Navigator · I2"
-version: "v4"
-date: "2026-03-01"
+version: "v5"
+date: "2026-03-15"
 permalink: /interfaces/main-navigator/
+permalink_fr: /fr/interfaces/main-navigator/
 keywords: "interface, navigation, browser, knowledge, dashboard, commands"
 og_image: /assets/og/main-navigator-en-cayman.gif
 dev_banner: "Interface in development — features and layout may change between sessions."
@@ -21,6 +22,16 @@ dev_banner: "Interface in development — features and layout may change between
 .page-header, .site-footer, .pub-crossrefs { display: none !important; }
 html { margin: 0; padding: 0; height: 100%; }
 body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+
+/* ═══ Discrete thin scrollbars ═══ */
+*, *::before, *::after {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border, #c0c0c0) transparent;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border, #c0c0c0); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted, #888); }
 
 /* ═══ Fill viewport as flex column ═══ */
 .container {
@@ -40,7 +51,6 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   transition: max-height 0.25s ease, opacity 0.2s ease, padding 0.25s ease, margin 0.25s ease;
   overflow: hidden !important;
 }
-
 
 /* Page title heading — compact */
 .container > h1 {
@@ -204,51 +214,92 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 <!-- MAIN GRID -->
 <div class="nav-grid" id="nav-grid">
-
-  <!-- LEFT — Widget Directory -->
   <div class="nav-panel" id="left-panel"></div>
-
-  <!-- LEFT DIVIDER — open/close toggle -->
   <div class="nav-divider-left" id="left-toggle"></div>
-
-  <!-- CENTER — Content Viewer (left panel links load here) -->
   <div class="nav-center" id="center-panel">
-    <iframe name="center-frame" src="{{ '/interfaces/task-workflow/' | relative_url }}"></iframe>
+    <iframe name="center-frame" id="center-frame-el"></iframe>
   </div>
-
-  <!-- RIGHT DIVIDER — bidirectional arrows -->
   <div class="nav-divider-right" id="right-toggle"></div>
-
-  <!-- RIGHT — Content Viewer -->
   <div class="nav-viewer">
-    <iframe name="content-frame" src="{{ '/' | relative_url }}"></iframe>
+    <iframe name="content-frame" id="right-frame-el"></iframe>
   </div>
-
 </div>
 
 <script>
 (function() {
+  /* ─── Language auto-detection from URL path ─── */
+  var LANG = window.location.pathname.indexOf('/fr/') >= 0 ? 'fr' : 'en';
+  var LP = LANG === 'fr' ? '/fr' : '';  // language path prefix
+  var LS = LANG === 'fr' ? '-fr' : '';  // localStorage suffix
+
+  var T = {
+    en: {
+      interfaces: 'Interfaces',
+      i1: 'I1 Session Review', i2: 'I2 Main Navigator', i3: 'I3 Tasks Workflow',
+      i4: 'I4 Project Viewer', i5: 'I5 Live Mindmap', i_doc: '#21 Documentation',
+      essentials: 'Essentials',
+      stories: 'STORIES', readme: 'README', plan: 'PLAN', links: 'LINKS', news: 'NEWS', changelog: 'CHANGELOG',
+      commands: 'Commands',
+      g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
+      g_publications: 'Publications', g_project: 'Project', g_live_session: 'Live Session', g_live_network: 'Live Network',
+      hubs: 'Hubs', landing: 'Landing', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projects',
+      profile: 'Profile', hub: 'Hub', resume: 'Resume', full: 'Full',
+      summary: 'Summary',
+      p0: 'Knowledge System', p1: 'Knowledge 2.0', p2: 'Live Session', p3: 'AI Persistence',
+      p4: 'Distributed Minds', p4a: 'Dashboard', p5: 'Webcards', p6: 'Normalize',
+      p7: 'Harvest', p8: 'Session Mgmt', p9: 'Security', p9a: '#9a Compliance',
+      p10: 'Live Network', p11: 'Success Stories', p12: 'Project Mgmt', p13: 'Pagination',
+      p14: 'Architecture', p15: 'Diagrams', p16: 'Visualization', p17: 'Pipeline',
+      p18: 'Doc Generation', p19: 'Interactive', p20: 'Session Metrics',
+      p21: 'Main Interface', p22: 'Session Review', p22b: 'Visual Documentation', p23: 'Web Viewer'
+    },
+    fr: {
+      interfaces: 'Interfaces',
+      i1: 'I1 Revue de session', i2: 'I2 Navigateur principal', i3: 'I3 Flux de travail',
+      i4: 'I4 Visualiseur projets', i5: 'I5 Mindmap vivant', i_doc: '#21 Documentation',
+      essentials: 'Essentiels',
+      stories: 'HISTOIRES', readme: 'README', plan: 'PLAN', links: 'LIENS', news: 'NOUVELLES', changelog: 'CHANGELOG',
+      commands: 'Commandes',
+      g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
+      g_publications: 'Publications', g_project: 'Projet', g_live_session: 'Session live', g_live_network: 'Réseau live',
+      hubs: 'Hubs', landing: 'Accueil', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projets',
+      profile: 'Profil', hub: 'Hub', resume: 'Résumé', full: 'Complet',
+      summary: 'Résumé',
+      p0: 'Système de connaissances', p1: 'Knowledge 2.0', p2: 'Session live', p3: 'Persistance IA',
+      p4: 'Esprits distribués', p4a: 'Tableau de bord', p5: 'Webcards', p6: 'Normalize',
+      p7: 'Harvest', p8: 'Gestion de session', p9: 'Sécurité', p9a: '#9a Conformité',
+      p10: 'Réseau live', p11: 'Histoires de succès', p12: 'Gestion de projet', p13: 'Pagination',
+      p14: 'Architecture', p15: 'Diagrammes', p16: 'Visualisation', p17: 'Pipeline',
+      p18: 'Génération doc', p19: 'Interactif', p20: 'Métriques de session',
+      p21: 'Interface principale', p22: 'Revue de session', p22b: 'Documentation visuelle', p23: 'Visualiseur Web'
+    }
+  };
+  var t = T[LANG];
+
   var BASE = '{{ "" | relative_url }}';
-  var CENTER_KEY  = 'navigator-center-url';
-  var WIDGET_KEY  = 'navigator-widgets';
+  var CENTER_KEY  = 'navigator-center-url' + LS;
+  var WIDGET_KEY  = 'navigator-widgets' + LS;
   var LPANEL_KEY  = 'navigator-left-state';
   var RPANEL_KEY  = 'navigator-right-state';
+  var RCONTENT_KEY = 'navigator-right-url' + LS;
+  var ACTIVE_KEY  = 'navigator-active-href' + LS;
+  var SUBDET_KEY  = 'navigator-subdetails' + LS;
 
-  var RCONTENT_KEY = 'navigator-right-url';
-  var ACTIVE_KEY  = 'navigator-active-href';
-  var SUBDET_KEY  = 'navigator-subdetails';
-  var centerIframe = document.querySelector('iframe[name="center-frame"]');
-  var rightIframe  = document.querySelector('iframe[name="content-frame"]');
+  /* Set default iframe sources based on language */
+  var centerIframe = document.getElementById('center-frame-el');
+  var rightIframe  = document.getElementById('right-frame-el');
+  centerIframe.src = BASE + LP + '/interfaces/task-workflow/';
+  rightIframe.src  = BASE + LP + '/';
+
   var panel  = document.getElementById('left-panel');
   var grid   = document.getElementById('nav-grid');
   var lToggle = document.getElementById('left-toggle');
   var rToggle = document.getElementById('right-toggle');
   if (!panel || !grid) return;
 
-
   /* ─── Panel sizes — draggable + click-to-step ─── */
   var DIVIDER_W = (window.innerWidth <= 768) ? 8 : 14;
-  var LEFT_STEPS = [0, 220, 320]; // click cycles through these
+  var LEFT_STEPS = [0, 220, 320];
   var savedLeft = parseInt(localStorage.getItem(LPANEL_KEY) || '220');
   var savedRight = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
   var leftW = savedLeft;
@@ -262,7 +313,6 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     localStorage.setItem(RPANEL_KEY, String(rightW));
   }
   applyGrid(false);
-  // Remove dragging class after init so future changes animate
   requestAnimationFrame(function() { grid.classList.remove('dragging'); });
 
   /* ─── Drag logic (shared) ─── */
@@ -290,7 +340,6 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         overlay.remove();
         grid.classList.remove('dragging');
         if (!dragged) {
-          // Click-to-step behavior
           setter('step');
           applyGrid(true);
         }
@@ -329,70 +378,72 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     };
   });
 
-  /* ─── Widget definitions ─── */
-  /* Full widget set — pages will be created progressively. */
+  /* ─── Widget definitions — bilingual, driven by LANG ─── */
   var widgets = [
-    { id:'interfaces', title:'Interfaces', open:true, links:[
-      {t:'I1 Session Review',  h:BASE+'/interfaces/session-review/', center:true},
-      {t:'I2 Main Navigator',  h:BASE+'/interfaces/main-navigator/', top:true},
-      {t:'I3 Tasks Workflow',  h:BASE+'/interfaces/task-workflow/', center:true},
-      {t:'I4 Project Viewer', h:BASE+'/interfaces/project-viewer/', center:true},
-      {t:'I5 Live Mindmap',    h:BASE+'/interfaces/live-mindmap/', center:true}
+    { id:'interfaces', title: t.interfaces, open:true, links:[
+      {t: t.i1,  h:BASE+LP+'/interfaces/session-review/', center:true},
+      {t: t.i2,  h:BASE+LP+'/interfaces/main-navigator/', top:true},
+      {t: t.i3,  h:BASE+LP+'/interfaces/task-workflow/', center:true},
+      {t: t.i4,  h:BASE+LP+'/interfaces/project-viewer/', center:true},
+      {t: t.i5,  h:BASE+LP+'/interfaces/live-mindmap/', center:true},
+      {t: t.i_doc, h:BASE+LP+'/publications/main-interface/'}
     ]},
-    { id:'essentials', title:'Essentials', open:false, links:[
-      {t:'STORIES',    h:BASE+'/publications/success-stories/'},
-      {t:'README',     h:BASE+'/'},
-      {t:'PLAN',       h:BASE+'/plan/'},
-      {t:'LINKS',      h:BASE+'/links/'},
-      {t:'NEWS',       h:BASE+'/news/'},
-      {t:'CHANGELOG',  h:BASE+'/changelog/'}
+    { id:'essentials', title: t.essentials, open:false, links:[
+      {t: t.stories,   h:BASE+LP+'/publications/success-stories/'},
+      {t: t.readme,    h:BASE+LP+'/'},
+      {t: t.plan,      h:BASE+LP+'/plan/'},
+      {t: t.links,     h:BASE+LP+'/links/'},
+      {t: t.news,      h:BASE+LP+'/news/'},
+      {t: t.changelog, h:BASE+LP+'/changelog/'}
     ]},
-    { id:'commands', title:'Commands', open:false, groups:[
-      { g:'Session', pub:'/publications/session-management/full/#pub-title', cmds:['wakeup','refresh','help / aide','status','save','remember','resume','recover','recall','checkpoint','elevate'] },
-      { g:'Normalize', pub:'/publications/normalize-structure-concordance/full/#pub-title', cmds:['normalize','normalize --fix','normalize --check'] },
-      { g:'Harvest', pub:'/publications/harvest-protocol/full/#pub-title', cmds:['harvest','harvest --list','harvest --procedure','harvest --healthcheck','harvest --review','harvest --stage','harvest --promote','harvest --auto','harvest --fix'] },
-      { g:'Publications', pub:'/publications/webcards-social-sharing/full/#pub-title', cmds:['pub list','pub check','pub new','pub sync','doc review','docs check','webcard','weblinks','pub export'] },
-      { g:'Project', pub:'/publications/knowledge-system/full/#pub-title', cmds:['project list','project info','project create','project register','project review','#N: note','g:board:item'] },
-      { g:'Live Session', pub:'/publications/live-session-analysis/full/#pub-title', cmds:["I'm live",'multi-live','deep','analyze','recipe'] },
-      { g:'Live Network', pub:'/publications/live-knowledge-network/full/#pub-title', cmds:['beacon'] }
+    { id:'commands', title: t.commands, open:false, groups:[
+      { g: t.g_session,      pub:LP+'/publications/session-management/full/#pub-title', cmds:['wakeup','refresh','help / aide','status','save','remember','resume','recover','recall','checkpoint','elevate'] },
+      { g: t.g_normalize,    pub:LP+'/publications/normalize-structure-concordance/full/#pub-title', cmds:['normalize','normalize --fix','normalize --check'] },
+      { g: t.g_harvest,      pub:LP+'/publications/harvest-protocol/full/#pub-title', cmds:['harvest','harvest --list','harvest --procedure','harvest --healthcheck','harvest --review','harvest --stage','harvest --promote','harvest --auto','harvest --fix'] },
+      { g: t.g_publications, pub:LP+'/publications/webcards-social-sharing/full/#pub-title', cmds:['pub list','pub check','pub new','pub sync','doc review','docs check','webcard','weblinks','pub export'] },
+      { g: t.g_project,      pub:LP+'/publications/knowledge-system/full/#pub-title', cmds:['project list','project info','project create','project register','project review','#N: note','g:board:item'] },
+      { g: t.g_live_session, pub:LP+'/publications/live-session-analysis/full/#pub-title', cmds:["I'm live",'multi-live','deep','analyze','recipe'] },
+      { g: t.g_live_network, pub:LP+'/publications/live-knowledge-network/full/#pub-title', cmds:['beacon'] }
     ]},
-    { id:'hubs', title:'Hubs', open:false, links:[
-      {t:'Landing',      h:BASE+'/'},
-      {t:'Publications', h:BASE+'/publications/'},
-      {t:'Interfaces',   h:BASE+'/interfaces/'},
-      {t:'Projects',     h:BASE+'/projects/'}
+    { id:'hubs', title: t.hubs, open:false, links:[
+      {t: t.landing,        h:BASE+LP+'/'},
+      {t: t.publications,   h:BASE+LP+'/publications/'},
+      {t: t.interfaces_hub, h:BASE+LP+'/interfaces/'},
+      {t: t.projects,       h:BASE+LP+'/projects/'}
     ]},
-    { id:'profile', title:'Profile', open:false, links:[
-      {t:'Hub',    h:BASE+'/profile/'},
-      {t:'Resume', h:BASE+'/profile/resume/'},
-      {t:'Full',   h:BASE+'/profile/full/'}
+    { id:'profile', title: t.profile, open:false, links:[
+      {t: t.hub,    h:BASE+LP+'/profile/'},
+      {t: t.resume, h:BASE+LP+'/profile/resume/'},
+      {t: t.full,   h:BASE+LP+'/profile/full/'}
     ]},
-    { id:'publications', title:'Publications', open:false, pubs:[
-      {n:'#0',  t:'Knowledge System',  s:'knowledge-system'},
-      {n:'#1',  t:'Knowledge 2.0',     s:'knowledge-2.0'},
-      {n:'#2',  t:'Live Session',      s:'live-session-analysis'},
-      {n:'#3',  t:'AI Persistence',    s:'ai-session-persistence'},
-      {n:'#4',  t:'Distributed Minds', s:'distributed-minds'},
-      {n:'#4a', t:'Dashboard',         s:'distributed-knowledge-dashboard'},
-      {n:'#5',  t:'Webcards',          s:'webcards-social-sharing'},
-      {n:'#6',  t:'Normalize',         s:'normalize-structure-concordance'},
-      {n:'#7',  t:'Harvest',           s:'harvest-protocol'},
-      {n:'#8',  t:'Session Mgmt',      s:'session-management'},
-      {n:'#9',  t:'Security',          s:'security-by-design',
-        extra:[{t:'#9a Compliance', p:'/publications/security-by-design/compliance/'}]},
-      {n:'#10', t:'Live Network',      s:'live-knowledge-network'},
-      {n:'#11', t:'Success Stories',   s:'success-stories'},
-      {n:'#12', t:'Project Mgmt',      s:'project-management'},
-      {n:'#13', t:'Pagination',        s:'web-pagination-export'},
-      {n:'#14', t:'Architecture',      s:'architecture-analysis'},
-      {n:'#15', t:'Diagrams',          s:'architecture-diagrams'},
-      {n:'#16', t:'Visualization',     s:'web-page-visualization'},
-      {n:'#17', t:'Pipeline',          s:'web-production-pipeline'},
-      {n:'#18', t:'Doc Generation',    s:'documentation-generation'},
-      {n:'#19', t:'Interactive',       s:'interactive-work-sessions'},
-      {n:'#20', t:'Session Metrics',   s:'session-metrics-time'},
-      {n:'#21', t:'Main Interface',    s:'main-interface'},
-      {n:'#22', t:'Session Review',    s:'session-review'}
+    { id:'publications', title: t.publications, open:false, pubs:[
+      {n:'#0',  t: t.p0,   s:'knowledge-system'},
+      {n:'#1',  t: t.p1,   s:'knowledge-2.0'},
+      {n:'#2',  t: t.p2,   s:'live-session-analysis'},
+      {n:'#3',  t: t.p3,   s:'ai-session-persistence'},
+      {n:'#4',  t: t.p4,   s:'distributed-minds'},
+      {n:'#4a', t: t.p4a,  s:'distributed-knowledge-dashboard'},
+      {n:'#5',  t: t.p5,   s:'webcards-social-sharing'},
+      {n:'#6',  t: t.p6,   s:'normalize-structure-concordance'},
+      {n:'#7',  t: t.p7,   s:'harvest-protocol'},
+      {n:'#8',  t: t.p8,   s:'session-management'},
+      {n:'#9',  t: t.p9,   s:'security-by-design',
+        extra:[{t: t.p9a, p:LP+'/publications/security-by-design/compliance/'}]},
+      {n:'#10', t: t.p10,  s:'live-knowledge-network'},
+      {n:'#11', t: t.p11,  s:'success-stories'},
+      {n:'#12', t: t.p12,  s:'project-management'},
+      {n:'#13', t: t.p13,  s:'web-pagination-export'},
+      {n:'#14', t: t.p14,  s:'architecture-analysis'},
+      {n:'#15', t: t.p15,  s:'architecture-diagrams'},
+      {n:'#16', t: t.p16,  s:'web-page-visualization'},
+      {n:'#17', t: t.p17,  s:'web-production-pipeline'},
+      {n:'#18', t: t.p18,  s:'documentation-generation'},
+      {n:'#19', t: t.p19,  s:'interactive-work-sessions'},
+      {n:'#20', t: t.p20,  s:'session-metrics-time'},
+      {n:'#21', t: t.p21,  s:'main-interface'},
+      {n:'#22', t: t.p22,  s:'session-review'},
+      {n:'#22', t: t.p22b, s:'visual-documentation'},
+      {n:'#23', t: t.p23,  s:'web-documentation-viewer'}
     ]}
   ];
 
@@ -458,12 +509,12 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
         pg.addEventListener('toggle', saveSubDetState);
         var pgsm = document.createElement('summary'); pgsm.textContent = p.n + ' ' + p.t; pg.appendChild(pgsm);
-        var a1 = document.createElement('a'); a1.href = vru(BASE+'/publications/'+p.s+'/');
+        var a1 = document.createElement('a'); a1.href = vru(BASE+LP+'/publications/'+p.s+'/');
         a1.dataset.navId = 'nav-' + (navLinkId++);
-        a1.target = 'content-frame'; a1.textContent = 'Summary'; pg.appendChild(a1);
-        var a2 = document.createElement('a'); a2.href = vru(BASE+'/publications/'+p.s+'/full/');
+        a1.target = 'content-frame'; a1.textContent = t.summary; pg.appendChild(a1);
+        var a2 = document.createElement('a'); a2.href = vru(BASE+LP+'/publications/'+p.s+'/full/');
         a2.dataset.navId = 'nav-' + (navLinkId++);
-        a2.target = 'content-frame'; a2.textContent = 'Full'; pg.appendChild(a2);
+        a2.target = 'content-frame'; a2.textContent = t.full; pg.appendChild(a2);
         if (p.extra) { p.extra.forEach(function(e) {
           var ax = document.createElement('a'); ax.href = vru(BASE+e.p);
           ax.dataset.navId = 'nav-' + (navLinkId++);
@@ -536,15 +587,9 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         if (loc && loc !== 'about:blank') localStorage.setItem(RCONTENT_KEY, loc);
       } catch(e) {}
       syncThemeToIframes();
-      /* Right panel routing rules are handled by the viewer (index.html) */
-      /* When embed in content-frame: interfaces → center-frame, main-nav → reload */
     });
   }
 
-  /* Language and orientation are handled by the viewer's top toolbar */
-
 })();
-
-/* Export and theme propagation handled by the viewer */
 </script>
 {:/nomarkdown}
