@@ -57,9 +57,10 @@ def compile_sessions(output_path=None):
 
     # Try git log for metrics
     import subprocess
+    prs = []
     try:
         result = subprocess.run(
-            ["git", "log", "--shortstat", "--oneline", "-50"],
+            ["git", "log", "--shortstat", "--oneline"],
             capture_output=True, text=True, cwd=str(PROJECT_ROOT)
         )
         for line in result.stdout.split("\n"):
@@ -78,6 +79,29 @@ def compile_sessions(output_path=None):
     except Exception:
         pass
 
+    # Count merged PRs from git log
+    try:
+        result = subprocess.run(
+            ["git", "log", "--oneline", "--merges", "--grep=Merge pull request"],
+            capture_output=True, text=True, cwd=str(PROJECT_ROOT)
+        )
+        for line in result.stdout.strip().split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            # Extract PR number from "Merge pull request #N from ..."
+            import re
+            m = re.search(r"Merge pull request #(\d+)", line)
+            if m:
+                pr_num = int(m.group(1))
+                prs.append({
+                    "number": pr_num,
+                    "title": line.split(" ", 1)[1] if " " in line else line,
+                    "url": f"https://github.com/packetqc/K_DOCS/pull/{pr_num}",
+                })
+    except Exception:
+        pass
+
     # Build session entry
     session = {
         "id": session_id,
@@ -90,8 +114,8 @@ def compile_sessions(output_path=None):
         "summary": "Multi-module knowledge system — K_MIND memory, K_DOCS documentation, K_VALIDATION QA, K_PROJECTS management, K_GITHUB integration",
         "repo": "packetqc/K_DOCS",
         "project": "Knowledge",
-        "prs": [],
-        "total_prs": 0,
+        "prs": prs,
+        "total_prs": len(prs),
         "has_notes": True,
         "has_issue": False,
         "total_additions": total_additions,
@@ -122,7 +146,7 @@ def compile_sessions(output_path=None):
             "categories": [
                 {
                     "name": "Documentation",
-                    "prs": 0,
+                    "prs": len(prs),
                     "additions": total_additions,
                     "deletions": total_deletions,
                     "files": total_files_changed,

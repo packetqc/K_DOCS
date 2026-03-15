@@ -34,6 +34,30 @@
   --pv-select-bg: #fff;
 }
 
+/* ── Explicit light themes (override prefers-color-scheme: dark) ── */
+[data-theme="cayman"],
+[data-theme="daltonism-light"] {
+  --pv-bg: #fff;
+  --pv-bg-secondary: #f6f8fa;
+  --pv-border: #d0d7de;
+  --pv-border-light: #e1e4e8;
+  --pv-text: #1f2328;
+  --pv-muted: #57606a;
+  --pv-muted-light: #8b949e;
+  --pv-accent: #0969da;
+  --pv-success: #1a7f37;
+  --pv-success-bg: #dafbe1;
+  --pv-warning: #735c0f;
+  --pv-warning-bg: #fff8c5;
+  --pv-hover: #f6f8fa;
+  --pv-badge-stage-bg: #ddf4ff;
+  --pv-badge-stage-color: #0969da;
+  --pv-badge-complete-bg: #dafbe1;
+  --pv-badge-complete-color: #1a7f37;
+  --pv-select-bg: #fff;
+}
+
+/* ── Dark themes ── */
 [data-theme="midnight"],
 [data-theme="daltonism-dark"],
 [data-color-mode="dark"],

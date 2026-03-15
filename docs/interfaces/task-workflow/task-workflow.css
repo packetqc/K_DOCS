@@ -26,6 +26,23 @@
   --tw-radius: 6px;
 }
 
+/* ── Explicit light themes (override prefers-color-scheme: dark) ── */
+[data-theme="cayman"],
+[data-theme="daltonism-light"] {
+  --tw-bg: #fff;
+  --tw-border: #e1e4e8;
+  --tw-text: #24292e;
+  --tw-muted: #586069;
+  --tw-accent: #0366d6;
+  --tw-success: #28a745;
+  --tw-danger: #d73a49;
+  --tw-warning: #f9a825;
+  --tw-info: #0366d6;
+  --tw-card-bg: #f6f8fa;
+  --tw-hover: #f1f3f5;
+}
+
+/* ── Dark themes ── */
 [data-theme="midnight"],
 [data-theme="daltonism-dark"],
 [data-color-mode="dark"],

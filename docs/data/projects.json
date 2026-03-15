@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-03-15T16:47:55Z",
+    "generated_at": "2026-03-15T17:25:35Z",
     "total_projects": 1,
     "source": "K_PROJECTS data + tasks.json + sessions.json + modules.json"
   },
@@ -18,17 +18,18 @@
         "initial": 0,
         "plan": 0,
         "analyze": 0,
-        "implement": 1,
-        "validation": 5,
+        "implement": 0,
+        "validation": 6,
         "documentation": 0,
         "approval": 0,
         "completion": 1
       },
       "metrics": {
-        "prs": 0,
-        "additions": 834448,
-        "deletions": 812018,
-        "files_changed": 9151
+        "prs": 16,
+        "additions": 900852,
+        "deletions": 818737,
+        "files_changed": 9818,
+        "commits": 229
       },
       "branches": [
         "main"
@@ -66,7 +67,7 @@
         {
           "id": "K_PROJECTS",
           "name": "Knowledge Projects",
-          "status": "imported",
+          "status": "active",
           "has": [
             "conventions",
             "documentation",
@@ -79,7 +80,7 @@
         {
           "id": "K_VALIDATION",
           "name": "Knowledge Validation",
-          "status": "imported",
+          "status": "active",
           "has": [
             "conventions",
             "documentation",
@@ -106,9 +107,9 @@
         {
           "id": "task-1",
           "title": "modules imports",
-          "stage": "implement",
+          "stage": "validation",
           "children_count": 3,
-          "message_count": 0
+          "message_count": 2
         },
         {
           "id": "task-2",
@@ -143,7 +144,7 @@
           "title": "multi module architecture",
           "stage": "validation",
           "children_count": 9,
-          "message_count": 2
+          "message_count": 4
         },
         {
           "id": "task-7",

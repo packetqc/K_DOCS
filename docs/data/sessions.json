@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-03-15T16:47:54Z",
+    "generated_at": "2026-03-15T17:25:32Z",
     "total_sessions": 1,
     "source": "K_MIND near_memory + far_memory + tasks.json"
   },
@@ -16,36 +16,116 @@
       "summary": "Multi-module knowledge system — K_MIND memory, K_DOCS documentation, K_VALIDATION QA, K_PROJECTS management, K_GITHUB integration",
       "repo": "packetqc/K_DOCS",
       "project": "Knowledge",
-      "prs": [],
-      "total_prs": 0,
+      "prs": [
+        {
+          "number": 17,
+          "title": "Merge pull request #17 from packetqc/claude/fix-no-token-in-methodology",
+          "url": "https://github.com/packetqc/K_DOCS/pull/17"
+        },
+        {
+          "number": 16,
+          "title": "Merge pull request #16 from packetqc/claude/fix-methodology-create-repo",
+          "url": "https://github.com/packetqc/K_DOCS/pull/16"
+        },
+        {
+          "number": 15,
+          "title": "Merge pull request #15 from packetqc/claude/update-methodology-restructure",
+          "url": "https://github.com/packetqc/K_DOCS/pull/15"
+        },
+        {
+          "number": 14,
+          "title": "Merge pull request #14 from packetqc/claude/restructure-knowledge-k-mind",
+          "url": "https://github.com/packetqc/K_DOCS/pull/14"
+        },
+        {
+          "number": 13,
+          "title": "Merge pull request #13 from packetqc/claude/fix-claudemd-github-directive",
+          "url": "https://github.com/packetqc/K_DOCS/pull/13"
+        },
+        {
+          "number": 12,
+          "title": "Merge pull request #12 from packetqc/claude/fix-install-github-skill",
+          "url": "https://github.com/packetqc/K_DOCS/pull/12"
+        },
+        {
+          "number": 11,
+          "title": "Merge pull request #11 from packetqc/claude/add-methodology-import",
+          "url": "https://github.com/packetqc/K_DOCS/pull/11"
+        },
+        {
+          "number": 10,
+          "title": "Merge pull request #10 from packetqc/claude/import-gh-helper",
+          "url": "https://github.com/packetqc/K_DOCS/pull/10"
+        },
+        {
+          "number": 8,
+          "title": "Merge pull request #8 from packetqc/claude/clarify-requirements-UwaYz",
+          "url": "https://github.com/packetqc/K_DOCS/pull/8"
+        },
+        {
+          "number": 7,
+          "title": "Merge pull request #7 from packetqc/claude/general-session-p8cxV",
+          "url": "https://github.com/packetqc/K_DOCS/pull/7"
+        },
+        {
+          "number": 6,
+          "title": "Merge pull request #6 from packetqc/claude/general-session-hkvWB",
+          "url": "https://github.com/packetqc/K_DOCS/pull/6"
+        },
+        {
+          "number": 5,
+          "title": "Merge pull request #5 from packetqc/claude/general-session-MblZ1",
+          "url": "https://github.com/packetqc/K_DOCS/pull/5"
+        },
+        {
+          "number": 4,
+          "title": "Merge pull request #4 from packetqc/claude/general-session-07BH3",
+          "url": "https://github.com/packetqc/K_DOCS/pull/4"
+        },
+        {
+          "number": 3,
+          "title": "Merge pull request #3 from packetqc/claude/general-session-KHXzN",
+          "url": "https://github.com/packetqc/K_DOCS/pull/3"
+        },
+        {
+          "number": 2,
+          "title": "Merge pull request #2 from packetqc/claude/general-session-m4gC5",
+          "url": "https://github.com/packetqc/K_DOCS/pull/2"
+        },
+        {
+          "number": 1,
+          "title": "Merge pull request #1 from packetqc/claude/general-session-Ka00A",
+          "url": "https://github.com/packetqc/K_DOCS/pull/1"
+        }
+      ],
+      "total_prs": 16,
       "has_notes": true,
       "has_issue": false,
-      "total_additions": 834448,
-      "total_deletions": 812018,
-      "total_files_changed": 9151,
-      "total_commits": 50,
+      "total_additions": 900852,
+      "total_deletions": 818737,
+      "total_files_changed": 9818,
+      "total_commits": 229,
       "issue_number": null,
       "issue_labels": [],
       "first_activity_time": "2026-03-14T18:27:44Z",
-      "last_activity_time": "2026-03-15T16:45:55Z",
-      "message_count": 136,
-      "summary_count": 68,
+      "last_activity_time": "2026-03-15T17:09:47Z",
+      "message_count": 138,
+      "summary_count": 69,
       "archive_count": 15,
       "task_count": 7,
       "stage_distribution": {
-        "implement": 1,
-        "validation": 5,
+        "validation": 6,
         "completion": 1
       },
       "engineering_stage": "implement",
       "work_summary": {
         "title": "Knowledge Module System",
         "tasks_completed": 1,
-        "tasks_in_progress": 1,
-        "tasks_in_validation": 5,
-        "files_changed": 9151,
-        "additions": 834448,
-        "deletions": 812018,
+        "tasks_in_progress": 0,
+        "tasks_in_validation": 6,
+        "files_changed": 9818,
+        "additions": 900852,
+        "deletions": 818737,
         "deliverables": [
           "modules imports",
           "documentation web viewer system",
@@ -60,29 +140,29 @@
         "categories": [
           {
             "name": "Documentation",
-            "prs": 0,
-            "additions": 834448,
-            "deletions": 812018,
-            "files": 9151,
-            "commits": 50,
+            "prs": 16,
+            "additions": 900852,
+            "deletions": 818737,
+            "files": 9818,
+            "commits": 229,
             "issues": 0,
             "lessons": 0
           }
         ],
         "totals": {
           "prs": 0,
-          "additions": 834448,
-          "deletions": 812018,
-          "files": 9151,
-          "commits": 50
+          "additions": 900852,
+          "deletions": 818737,
+          "files": 9818,
+          "commits": 229
         }
       },
       "tasks": [
         {
           "id": "task-1",
           "title": "modules imports",
-          "stage": "implement",
-          "description": "K_PROJECTS | K_VALIDATION | K_GITHUB"
+          "stage": "validation",
+          "description": "Imported 3 modules from production, created project data model, built mind-to-tasks bridge script"
         },
         {
           "id": "task-2",

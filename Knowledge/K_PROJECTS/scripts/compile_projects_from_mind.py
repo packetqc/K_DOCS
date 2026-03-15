@@ -68,13 +68,15 @@ def compile_projects(output_path=None):
     completion_pct = round(completed / total * 100) if total else 0
 
     # Git metrics from session
-    metrics = {"prs": 0, "additions": 0, "deletions": 0, "files_changed": 0}
+    metrics = {"prs": 0, "additions": 0, "deletions": 0, "files_changed": 0, "commits": 0}
     session_ids = []
     branches = []
     for s in sessions:
+        metrics["prs"] += s.get("total_prs", 0)
         metrics["additions"] += s.get("total_additions", 0)
         metrics["deletions"] += s.get("total_deletions", 0)
         metrics["files_changed"] += s.get("total_files_changed", 0)
+        metrics["commits"] += s.get("total_commits", 0)
         session_ids.append(s.get("id", ""))
         if s.get("branch"):
             branches.append(s["branch"])
