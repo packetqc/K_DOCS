@@ -523,6 +523,68 @@
         "knowledge::documentation::interfaces::live mindmap"
       ],
       "timestamp": "2026-03-15T08:44:06Z"
+    },
+    {
+      "id": 42,
+      "summary": "Interfaces index 404 was GitHub Pages deployment lag, resolved",
+      "far_memory_refs": [
+        83,
+        84
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::interfaces"
+      ],
+      "timestamp": "2026-03-15T08:46:23Z"
+    },
+    {
+      "id": 43,
+      "summary": "Fix: live mindmap fetches from GitHub raw URL since mind_memory.md is outside docs/",
+      "far_memory_refs": [
+        85,
+        86
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::live mindmap"
+      ],
+      "timestamp": "2026-03-15T08:47:45Z"
+    },
+    {
+      "id": 44,
+      "summary": "Created live webcard (dynamic #2): live mindmap renders in webcard header for K2.0, GIF generator for social sharing",
+      "far_memory_refs": [
+        87,
+        88
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::webcards",
+        "knowledge::work::en cours::webcards"
+      ],
+      "timestamp": "2026-03-15T08:53:07Z"
+    },
+    {
+      "id": 45,
+      "summary": "Fix webcards: disable static image display (GIFs missing), keep live_webcard in doc-header only, no webcards in main interface or panels",
+      "far_memory_refs": [
+        89,
+        90
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::webcards"
+      ],
+      "timestamp": "2026-03-15T09:10:58Z"
+    },
+    {
+      "id": 46,
+      "summary": "Webcard placement: first before doc-header, faded cover page bg for print, removed K2.0 orphaned blockquote",
+      "far_memory_refs": [
+        91,
+        92
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::webcards",
+        "knowledge::conventions::documentation::web docs::page conventions"
+      ],
+      "timestamp": "2026-03-15T09:18:32Z"
     }
   ],
   "last_session": {

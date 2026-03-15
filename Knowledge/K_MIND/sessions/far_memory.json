@@ -826,6 +826,114 @@
           "action": "expand interfaces node with all 5 interfaces"
         }
       ]
+    },
+    {
+      "id": 83,
+      "role": "user",
+      "content": "i get a 404 from interfaces index. there it is ...",
+      "timestamp": "2026-03-15T08:46:23Z"
+    },
+    {
+      "id": 84,
+      "role": "assistant",
+      "content": "File exists, .nojekyll in place. Was GitHub Pages deployment lag — resolved after 1-2 minutes.",
+      "timestamp": "2026-03-15T08:46:23Z"
+    },
+    {
+      "id": 85,
+      "role": "user",
+      "content": "but looping loading mindmap ....",
+      "timestamp": "2026-03-15T08:47:45Z"
+    },
+    {
+      "id": 86,
+      "role": "assistant",
+      "content": "Fixed: Knowledge/K_MIND/mind/mind_memory.md is outside docs/ — GitHub Pages can't serve it. Now tries local path first (dev server), falls back to raw.githubusercontent.com for production. Fixed both standalone page and K2.0 embed.",
+      "timestamp": "2026-03-15T08:47:45Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "add raw.githubusercontent.com fallback"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "add raw.githubusercontent.com fallback"
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "role": "user",
+      "content": "can we create another type of dynamic webcard, that would be the second one dynamic webcard. this one is to have the live-mindmap in a webcard. so that will become the official webcard of knowledge 2.0 publication! yeah, the unicorn would be that it is not an animated gif but the actual live-mindmap... but if webcard can be live then go for it too!",
+      "timestamp": "2026-03-15T08:53:07Z"
+    },
+    {
+      "id": 88,
+      "role": "assistant",
+      "content": "Created live webcard system: buildLiveMindmapWebcard() renders live mermaid mindmap in the webcard header area instead of a static GIF. Activated for K2.0 full publication with live_webcard: mindmap front matter. Also created generate_mindmap_webcard.py for GIF generation (social sharing fallback). Removed redundant inline embed from K2.0 since webcard header now shows the live mindmap.",
+      "timestamp": "2026-03-15T08:53:07Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add buildLiveMindmapWebcard() function"
+        },
+        {
+          "tool": "Write",
+          "file": "scripts/generate_mindmap_webcard.py",
+          "action": "create GIF generator script"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "add live_webcard: mindmap, remove inline embed"
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "role": "user",
+      "content": "i should see webcards on publications? / i think they are broken links and they should be displayed before the top viewer bar: perhaps embedded in the top viewer bar when there is one webcard available for the page to view. / but not applicable on the main interface and in the panels. no show webcards in the main interface",
+      "timestamp": "2026-03-15T09:10:58Z"
+    },
+    {
+      "id": 90,
+      "role": "assistant",
+      "content": "Fixed webcards: static og_image webcards no longer rendered visually (GIFs don't exist), only og:image meta tag set for social sharing. Live webcards (live_webcard: mindmap) still render inside doc-header. No webcards in panels or main interface. Added onerror handler for broken images. CSS updated for webcard-header inside doc-header.",
+      "timestamp": "2026-03-15T09:10:58Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "disable static webcard display, keep live_webcard only, add onerror handler, update CSS"
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "role": "user",
+      "content": "webcards should be first element before doc-header on standalone pages, hidden from export, faded background on cover page. Also remove orphaned live mindmap blockquote from K2.0 full.",
+      "timestamp": "2026-03-15T09:18:32Z"
+    },
+    {
+      "id": 92,
+      "role": "assistant",
+      "content": "Moved webcard to first element before doc-header. CSS: rounded top corners, seamless join with doc-header below. Print: hidden on screen export, og_image used as faded background-image on cover page with white overlay. Removed orphaned blockquote from K2.0 full (was referencing 'above' but mindmap is now in webcard at top). onerror handler hides broken image webcards gracefully.",
+      "timestamp": "2026-03-15T09:18:32Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "webcard before doc-header, cover page bg, CSS updates"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "remove orphaned live mindmap blockquote"
+        }
+      ]
     }
   ],
   "archives": [

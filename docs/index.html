@@ -324,16 +324,21 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ===== Webcard header ===== */
+    /* ===== Webcard header (first element before doc-header) ===== */
     .webcard-header {
-      width: 100%; max-width: var(--max-width); margin: 0 auto 1rem;
-      border-radius: 8px; overflow: hidden;
-      border: 1px solid var(--border);
+      width: 100%; max-width: var(--max-width); margin: 0 auto 0;
+      border-radius: 8px 8px 0 0; overflow: hidden;
+      border: 1px solid var(--border); border-bottom: none;
     }
     body.landscape .webcard-header { max-width: 100%; }
     .webcard-header img {
       width: 100%; height: auto; display: block;
     }
+    /* When webcard sits above doc-header, flatten the join */
+    .webcard-header + .doc-header {
+      border-radius: 0 0 8px 8px; margin-top: 0;
+    }
+    .webcard-header.webcard-hidden { display: none !important; }
     @media print { .webcard-header { display: none !important; } }
 
     /* ===== Cover page (hidden on screen, shown in print) ===== */
@@ -413,7 +418,16 @@
         display: block !important; page-break-after: always;
         min-height: 90vh; position: relative;
         text-align: center;
+        background-size: contain; background-repeat: no-repeat;
+        background-position: center 15%;
       }
+      /* Faded webcard background overlay */
+      #pub-cover-page.has-webcard-bg::before {
+        content: ''; position: absolute; inset: 0;
+        background: rgba(255,255,255,0.82);
+        z-index: 0;
+      }
+      #pub-cover-page.has-webcard-bg .cover-body { position: relative; z-index: 1; }
       .cover-body { max-width: 18cm; margin: 0 auto; padding-top: 30vh; }
       .cover-title { font-size: 28pt; font-weight: 700; color: #111; line-height: 1.2; margin-bottom: 0.7cm; }
       .cover-desc { font-size: 12pt; color: #333; line-height: 1.55; margin-bottom: 1cm; font-style: italic; }
@@ -1168,7 +1182,7 @@
       return '<div class="webcard-header">' +
         '<picture>' +
         '<source srcset="' + midnightPath + '" media="(prefers-color-scheme: dark)">' +
-        '<img src="' + imgSrc + '" alt="' + escapeHtml(altText) + '" loading="lazy">' +
+        '<img src="' + imgSrc + '" alt="' + escapeHtml(altText) + '" loading="lazy" onerror="this.closest(\'.webcard-header\').classList.add(\'webcard-hidden\')">' +
         '</picture>' +
         '</div>';
     }
@@ -1193,9 +1207,15 @@
             var match = text.match(/```mermaid\s*\n([\s\S]*?)```/);
             if (!match) throw new Error('No mermaid block');
             container.innerHTML = '<div class="mermaid">' + match[1].trim() + '</div>';
-            if (window.mermaid) {
-              mermaid.run({ nodes: container.querySelectorAll('.mermaid') });
+            // Wait for mermaid to be available, then render
+            function tryRender() {
+              if (window.mermaid) {
+                mermaid.run({ nodes: container.querySelectorAll('.mermaid') });
+              } else {
+                setTimeout(tryRender, 200);
+              }
             }
+            tryRender();
           })
           .catch(function(err) {
             container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:1rem;">Live mindmap unavailable</p>';
@@ -1252,28 +1272,37 @@
 
       var html = '';
 
-      // Chrome bar with "Actual Page" link + collapsible metadata
-      // Embed mode: chrome bar with "Actual Page" + collapsible metadata
+      // Webcard: first element on standalone pages, hidden from export.
+      // Only live webcards render visually; static og_image is meta-only (GIFs not yet generated).
+      var webcardHtml = '';
+      if (meta.live_webcard || meta.og_image) {
+        webcardHtml = buildWebcardHeader(meta);
+      }
+
+      // Embed mode: chrome bar (no webcards in panels)
       if (IS_EMBED && (meta.title || meta.pub_meta)) {
         html += buildChromeBar(meta, 'embedChrome');
       }
 
-      // Standalone mode: doc-header with nav bar + collapsible metadata
-      if (!IS_EMBED && (meta.title || meta.pub_meta)) {
-        var p = buildDocHeaderParts(meta);
-        var dhId = 'docHeader';
+      // Standalone mode: webcard FIRST, then doc-header
+      if (!IS_EMBED) {
+        // Webcard before doc-header
+        html += webcardHtml;
 
-        html += '<div class="doc-header">';
-        // Non-collapsible bar: nav-back | actual page | version
-        html += '<div class="doc-header-bar">';
-        html += '<span class="doc-header-toggle" id="' + dhId + 'Toggle" title="Show/hide details">&#9654;</span>';
-        html += '<span class="dh-nav">' + (p.backUrl ? '<a href="' + p.backUrl + '">' + p.backLabel + '</a>' : '') + '</span>';
-        html += '<span class="dh-actual">' + (p.actualUrl ? '<a href="' + p.actualUrl + '" target="_blank">Actual Page &#x2197;</a>' : '') + '</span>';
-        html += '<span class="dh-version">' + p.versionHtml + '</span>';
-        html += '</div>';
-        // Collapsible details
-        html += '<div class="doc-header-details" id="' + dhId + 'Details">' + p.detailsHtml + '</div>';
-        html += '</div>';
+        if (meta.title || meta.pub_meta) {
+          var p = buildDocHeaderParts(meta);
+          var dhId = 'docHeader';
+
+          html += '<div class="doc-header">';
+          html += '<div class="doc-header-bar">';
+          html += '<span class="doc-header-toggle" id="' + dhId + 'Toggle" title="Show/hide details">&#9654;</span>';
+          html += '<span class="dh-nav">' + (p.backUrl ? '<a href="' + p.backUrl + '">' + p.backLabel + '</a>' : '') + '</span>';
+          html += '<span class="dh-actual">' + (p.actualUrl ? '<a href="' + p.actualUrl + '" target="_blank">Actual Page &#x2197;</a>' : '') + '</span>';
+          html += '<span class="dh-version">' + p.versionHtml + '</span>';
+          html += '</div>';
+          html += '<div class="doc-header-details" id="' + dhId + 'Details">' + p.detailsHtml + '</div>';
+          html += '</div>';
+        }
       }
 
       // Set page title
@@ -1282,19 +1311,26 @@
       // Store meta globally for exports
       currentMeta = meta;
 
-      // Inject og:image meta tag + webcard header
+      // Inject og:image meta tag
       updateOgImage(meta);
-      if (meta.og_image || meta.live_webcard) {
-        html += buildWebcardHeader(meta);
-      }
 
-      // Populate cover page
+      // Populate cover page + webcard as faded background
+      var coverPage = document.getElementById('pub-cover-page');
       var coverTitle = document.getElementById('coverTitle');
       var coverDesc = document.getElementById('coverDesc');
       var coverMeta = document.getElementById('coverMeta');
       if (coverTitle) coverTitle.textContent = meta.title || '';
       if (coverDesc) coverDesc.textContent = meta.description || '';
       if (coverMeta) coverMeta.textContent = meta.pub_meta || '';
+      // Set webcard image as faded cover background
+      if (coverPage && meta.og_image) {
+        var bgUrl = (SITE.baseurl || '') + meta.og_image;
+        coverPage.style.backgroundImage = 'url(' + bgUrl + ')';
+        coverPage.classList.add('has-webcard-bg');
+      } else if (coverPage) {
+        coverPage.style.backgroundImage = '';
+        coverPage.classList.remove('has-webcard-bg');
+      }
 
       // Render markdown
       html += marked.parse(body);

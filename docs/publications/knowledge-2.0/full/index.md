@@ -43,10 +43,6 @@ citation: "Paquet, M. & Claude (2026). Knowledge 2.0: Interactive Intelligence F
 
 ---
 
-> The **live knowledge graph** above renders the current K_MIND mindmap in real-time. [Full-screen view &#x2197;]({{ site.baseurl }}/interfaces/live-mindmap/)
-
----
-
 ## Abstract
 
 Knowledge 1.0 solved **statelessness** — AI sessions that forget everything between conversations.
