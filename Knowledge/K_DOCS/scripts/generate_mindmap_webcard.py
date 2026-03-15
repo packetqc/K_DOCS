@@ -3,8 +3,8 @@
 Dynamic Webcard Generator — Live Mindmap
 =========================================
 Renders the K_MIND mindmap into an animated OG webcard GIF.
-Visual style matches MindElixir's rendering (rounded pills, branch colors,
-radial-ish layout). Pure Pillow — no browser dependency.
+Visual style matches MindElixir: curved bezier edges, rounded pill nodes,
+organic radial layout. Pure Pillow — no browser dependency.
 
 Usage:
   python3 Knowledge/K_DOCS/scripts/generate_mindmap_webcard.py                    # Both themes
@@ -29,41 +29,45 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 MIND_PATH = PROJECT_ROOT / "Knowledge" / "K_MIND" / "mind" / "mind_memory.md"
 OUTPUT_DIR = PROJECT_ROOT / "docs" / "assets" / "og"
 
-# MindElixir-matched palettes (from viewer theme sync)
+# MindElixir-matched 4-theme palettes (from viewer CSS variables)
 THEMES = {
     "cayman": {
-        "bg": "#eff6ff",
-        "fg": "#1e293b",
-        "accent": "#1d4ed8",
-        "muted": "#64748b",
-        "root_bg": "#1d4ed8",
-        "root_fg": "#ffffff",
-        "gradient_top": "#0d9488",
-        "gradient_bot": "#1d4ed8",
-        # MindElixir branch colors (from Cayman palette)
-        "branch": ["#1d4ed8", "#0d9488", "#7c3aed", "#dc2626", "#ea580c", "#0284c7",
+        "bg": "#eff6ff", "fg": "#1e293b", "accent": "#1d4ed8", "muted": "#64748b",
+        "root_bg": "#1d4ed8", "root_fg": "#ffffff",
+        "gradient_top": "#0d9488", "gradient_bot": "#1d4ed8",
+        "branch": ["#2563eb", "#0d9488", "#7c3aed", "#dc2626", "#ea580c", "#0284c7",
                     "#4f46e5", "#059669", "#9333ea", "#e11d48"],
-        "leaf_alpha": 0.12,
+        "leaf_alpha": 0.12, "edge_alpha": 0.35,
     },
     "midnight": {
-        "bg": "#0f172a",
-        "fg": "#e2e8f0",
-        "accent": "#60a5fa",
-        "muted": "#94a3b8",
-        "root_bg": "#1e40af",
-        "root_fg": "#e2e8f0",
-        "gradient_top": "#1e3a5f",
-        "gradient_bot": "#0f172a",
+        "bg": "#0f172a", "fg": "#e2e8f0", "accent": "#60a5fa", "muted": "#94a3b8",
+        "root_bg": "#1e40af", "root_fg": "#e2e8f0",
+        "gradient_top": "#1e3a5f", "gradient_bot": "#0f172a",
         "branch": ["#60a5fa", "#34d399", "#a78bfa", "#fb7185", "#fb923c", "#38bdf8",
                     "#818cf8", "#6ee7b7", "#c084fc", "#fda4af"],
-        "leaf_alpha": 0.18,
+        "leaf_alpha": 0.20, "edge_alpha": 0.50,
+    },
+    "daltonism-light": {
+        "bg": "#faf6f1", "fg": "#1a1a2e", "accent": "#0055b3", "muted": "#5c5c78",
+        "root_bg": "#0055b3", "root_fg": "#ffffff",
+        "gradient_top": "#0055b3", "gradient_bot": "#003d82",
+        "branch": ["#0055b3", "#b35900", "#6b21a8", "#b91c1c", "#0e7490", "#15803d",
+                    "#1d4ed8", "#a16207", "#7e22ce", "#be123c"],
+        "leaf_alpha": 0.10, "edge_alpha": 0.30,
+    },
+    "daltonism-dark": {
+        "bg": "#1a1a2e", "fg": "#e8e0d4", "accent": "#5b9bd5", "muted": "#8888a0",
+        "root_bg": "#2a4a7a", "root_fg": "#e8e0d4",
+        "gradient_top": "#2a4a7a", "gradient_bot": "#1a1a2e",
+        "branch": ["#5b9bd5", "#f0a050", "#b088d0", "#e87070", "#50b8d0", "#60c080",
+                    "#7090e0", "#d0a040", "#a070e0", "#e08090"],
+        "leaf_alpha": 0.18, "edge_alpha": 0.45,
     },
 }
 
 
 def hex_rgb(h):
-    h = h.lstrip("#")
-    return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+    return tuple(int(h.lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
 
 
 def blend(c1, c2, t):
@@ -71,20 +75,15 @@ def blend(c1, c2, t):
 
 
 def parse_mindmap(mermaid_code):
-    """Parse mermaid mindmap into tree."""
     lines = mermaid_code.split("\n")
     root = None
     stack = []
-
     for line in lines:
         stripped = line.strip()
         if not stripped or stripped.startswith("%%") or stripped == "mindmap":
             continue
-
         indent = len(line) - len(line.lstrip())
         text = stripped
-
-        # Strip decorators
         rm = re.match(r'^root\(\((.*)\)\)$', text)
         if rm:
             text = rm.group(1)
@@ -94,59 +93,48 @@ def parse_mindmap(mermaid_code):
                 if m:
                     text = m.group(1)
                     break
-
         node = {"text": text, "children": [], "indent": indent}
-
         if root is None:
             root = node
             stack = [(indent, node)]
             continue
-
         while stack and stack[-1][0] >= indent:
             stack.pop()
         if stack:
             stack[-1][1]["children"].append(node)
         stack.append((indent, node))
-
     return root
 
 
-def measure_text(draw, text, font):
-    bbox = draw.textbbox((0, 0), text, font=font)
-    return bbox[2] - bbox[0], bbox[3] - bbox[1]
+def measure(draw, text, font):
+    bb = draw.textbbox((0, 0), text, font=font)
+    return bb[2] - bb[0], bb[3] - bb[1]
 
 
-def draw_rounded_pill(draw, x, y, w, h, radius, fill, outline=None, width=1):
-    """Draw a rounded rectangle (pill shape)."""
-    draw.rounded_rectangle([(x, y), (x + w, y + h)], radius=radius,
-                           fill=fill, outline=outline, width=width)
-
-
-def draw_curved_edge(draw, x1, y1, x2, y2, color, width=2):
-    """Draw a curved bezier-like edge between two points."""
-    # Simple approach: draw a straight line with slight curve via midpoint offset
-    mx = (x1 + x2) / 2
-    my = (y1 + y2) / 2
-    # Slight curve toward center
-    cx_off = (x2 - x1) * 0.3
-    # Draw as polyline approximation of bezier
-    steps = 12
-    points = []
+def draw_bezier(draw, x1, y1, x2, y2, color, width=2):
+    """Draw a smooth cubic bezier curve (MindElixir-style)."""
+    # Control points: horizontal first, then vertical
+    cx1 = x1 + (x2 - x1) * 0.5
+    cy1 = y1
+    cx2 = x1 + (x2 - x1) * 0.5
+    cy2 = y2
+    steps = 20
+    pts = []
     for i in range(steps + 1):
         t = i / steps
-        # Quadratic bezier: P = (1-t)^2*P0 + 2t(1-t)*Pc + t^2*P1
-        cpx = mx
-        cpy = my - (y2 - y1) * 0.1  # slight curve
-        px = (1-t)**2 * x1 + 2*t*(1-t) * cpx + t**2 * x2
-        py = (1-t)**2 * y1 + 2*t*(1-t) * cpy + t**2 * y2
-        points.append((px, py))
-
-    for i in range(len(points) - 1):
-        draw.line([points[i], points[i+1]], fill=color, width=width)
+        t2 = t * t
+        t3 = t2 * t
+        mt = 1 - t
+        mt2 = mt * mt
+        mt3 = mt2 * mt
+        px = mt3*x1 + 3*mt2*t*cx1 + 3*mt*t2*cx2 + t3*x2
+        py = mt3*y1 + 3*mt2*t*cy1 + 3*mt*t2*cy2 + t3*y2
+        pts.append((px, py))
+    for i in range(len(pts) - 1):
+        draw.line([pts[i], pts[i+1]], fill=color, width=width)
 
 
 def generate_frame(theme_name, root, visible_branches, node_count, total_branches):
-    """Render one frame with N visible branches using MindElixir visual style."""
     T = THEMES[theme_name]
     bg = hex_rgb(T["bg"])
     fg = hex_rgb(T["fg"])
@@ -158,232 +146,218 @@ def generate_frame(theme_name, root, visible_branches, node_count, total_branche
     gb = hex_rgb(T["gradient_bot"])
     branch_colors = [hex_rgb(c) for c in T["branch"]]
     leaf_alpha = T["leaf_alpha"]
+    edge_alpha = T["edge_alpha"]
 
     card = Image.new("RGB", (CARD_W, CARD_H), bg)
     draw = ImageDraw.Draw(card)
 
-    # === Top gradient bar (36px) ===
+    # Top gradient bar
     bar_h = 36
     for y in range(bar_h):
-        t = y / bar_h
-        draw.line([(0, y), (CARD_W, y)], fill=blend(gt, gb, t))
+        draw.line([(0, y), (CARD_W, y)], fill=blend(gt, gb, y / bar_h))
 
-    # === Fonts ===
+    # Fonts
     try:
         f_title = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 16)
         f_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 11)
-        f_root = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 15)
+        f_root = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14)
         f_branch = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 11)
         f_leaf = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 10)
     except (IOError, OSError):
         f_title = f_small = f_root = f_branch = f_leaf = ImageFont.load_default()
 
-    # Title bar
     draw.text((14, 9), "K_MIND \u2014 Live Knowledge Graph", fill=(255, 255, 255), font=f_title)
     draw.text((CARD_W - 190, 12), f"{node_count} nodes \u00b7 {theme_name}", fill=(200, 220, 255), font=f_small)
 
-    # Bottom bar (22px)
     bot_y = CARD_H - 22
     draw.rectangle([(0, bot_y), (CARD_W, CARD_H)], fill=accent)
     draw.text((14, bot_y + 4), "packetqc/K_DOCS", fill=(255, 255, 255), font=f_small)
     draw.text((CARD_W - 170, bot_y + 4), "Dynamic Webcard", fill=(200, 220, 255), font=f_small)
 
-    # === Content area ===
-    ct = bar_h + 6
-    cb = bot_y - 6
+    # Content area
+    ct = bar_h + 8
+    cb = bot_y - 8
     ch = cb - ct
     cx = CARD_W // 2
     cy = ct + ch // 2
 
-    # Filter to visible branches
     children = root.get("children", [])[:visible_branches]
-
-    # === Layout: root center, branches distributed around ===
-    # Use horizontal tree: 3 branches left, 3 branches right (or split evenly)
     n = len(children)
     left_n = (n + 1) // 2
     right_n = n - left_n
 
-    # Collect all nodes to draw
-    nodes = []  # (x, y, text, depth, branch_idx, is_root)
-    edges = []  # (from_idx, to_idx)
+    # Compute positions
+    nodes = []   # (x, y, text, depth, branch_idx)
+    edges = []   # (src_idx, dst_idx, branch_idx)
 
-    # Root node at center
-    rw, rh = measure_text(draw, root["text"], f_root)
     nodes.append((cx, cy, root["text"], 0, -1))
 
-    # Branch spacing
-    branch_x_offset = 220  # horizontal distance from root to branch
-    leaf_x_offset = 180    # horizontal distance from branch to leaf
-    vert_spacing = max(38, ch / max(max(left_n, right_n) + 1, 2))
+    branch_x = 200
+    leaf_x = 160
 
     for bi, child in enumerate(children):
-        bc = branch_colors[bi % len(branch_colors)]
-
         if bi < left_n:
-            # Left side
             side = -1
-            slot = bi
-            total_on_side = left_n
+            slot, count = bi, left_n
         else:
-            # Right side
             side = 1
-            slot = bi - left_n
-            total_on_side = right_n
+            slot, count = bi - left_n, right_n
 
-        # Vertical position
-        y_start = cy - (total_on_side - 1) * vert_spacing / 2
-        bx = cx + side * branch_x_offset
-        by = y_start + slot * vert_spacing
-
-        # Clamp to content area
-        by = max(ct + 18, min(cb - 18, by))
+        v_space = min(55, ch / max(count + 1, 2))
+        y_center = cy
+        by = y_center + (slot - (count - 1) / 2) * v_space
+        by = max(ct + 20, min(cb - 20, by))
+        bx = cx + side * branch_x
 
         b_idx = len(nodes)
-        nodes.append((bx, by, child["text"], 1, bi))
-        edges.append((0, b_idx))
+        t = child["text"]
+        if len(t) > 22:
+            t = t[:20] + ".."
+        nodes.append((bx, by, t, 1, bi))
+        edges.append((0, b_idx, bi))
 
-        # Second-level children (leaves)
-        grandchildren = child.get("children", [])
-        max_leaves = 4  # limit for readability
-        for gi, gc in enumerate(grandchildren[:max_leaves]):
-            leaf_vert = vert_spacing * 0.55
-            gc_total = min(len(grandchildren), max_leaves)
-            gy_start = by - (gc_total - 1) * leaf_vert / 2
-            gx = bx + side * leaf_x_offset
-            gy = gy_start + gi * leaf_vert
+        # Leaves
+        gc_list = child.get("children", [])
+        max_gc = 4
+        gc_show = gc_list[:max_gc]
+        gc_n = len(gc_show)
+        lv_space = min(28, v_space * 0.7)
+
+        for gi, gc in enumerate(gc_show):
+            gy = by + (gi - (gc_n - 1) / 2) * lv_space
             gy = max(ct + 12, min(cb - 12, gy))
-
+            gx = bx + side * leaf_x
             gc_idx = len(nodes)
-            text = gc["text"]
-            if len(text) > 22:
-                text = text[:20] + ".."
-            nodes.append((gx, gy, text, 2, bi))
-            edges.append((b_idx, gc_idx))
+            t = gc["text"]
+            if len(t) > 22:
+                t = t[:20] + ".."
+            nodes.append((gx, gy, t, 2, bi))
+            edges.append((b_idx, gc_idx, bi))
 
-        # Show "+N more" if truncated
-        if len(grandchildren) > max_leaves:
-            more = len(grandchildren) - max_leaves
-            gc_total = min(len(grandchildren), max_leaves)
-            gy = by - (gc_total - 1) * leaf_vert / 2 + max_leaves * leaf_vert
+        if len(gc_list) > max_gc:
+            gy = by + (max_gc - (gc_n - 1) / 2) * lv_space
             gy = max(ct + 12, min(cb - 12, gy))
-            gx = bx + side * leaf_x_offset
+            gx = bx + side * leaf_x
             gc_idx = len(nodes)
-            nodes.append((gx, gy, f"+{more} more", 3, bi))  # depth 3 = "more" indicator
+            nodes.append((gx, gy, f"+{len(gc_list) - max_gc} more", 3, bi))
+            edges.append((b_idx, gc_idx, bi))
 
-    # === Draw edges ===
-    for (si, di) in edges:
+    # Draw edges (bezier curves)
+    for (si, di, bi) in edges:
         sx, sy = nodes[si][0], nodes[si][1]
         dx, dy = nodes[di][0], nodes[di][1]
-        bi = nodes[di][4]
         bc = branch_colors[bi % len(branch_colors)]
-        edge_color = blend(bc, bg, 0.5)
-        draw_curved_edge(draw, sx, sy, dx, dy, edge_color, width=2)
+        ec = blend(bc, bg, 1 - edge_alpha)
+        draw_bezier(draw, sx, sy, dx, dy, ec, width=2)
 
-    # === Draw nodes (back to front: leaves, branches, root) ===
-    for i in reversed(range(len(nodes))):
-        x, y, text, depth, bi = nodes[i]
+    # Draw small circles at edge connection points on nodes
+    for (si, di, bi) in edges:
+        bc = branch_colors[bi % len(branch_colors)]
+        dot_color = blend(bc, bg, 0.3)
+        dx, dy = nodes[di][0], nodes[di][1]
+        # Small dot at destination
+        depth = nodes[di][3]
+        if depth == 1:
+            # Connection dot on the branch node side facing root
+            side = 1 if nodes[di][0] > cx else -1
+            tw, _ = measure(draw, nodes[di][2], f_branch)
+            dot_x = nodes[di][0] - side * (tw // 2 + 14)
+            draw.ellipse([(dot_x - 3, dy - 3), (dot_x + 3, dy + 3)], fill=dot_color)
+
+    # Draw nodes
+    for i, (x, y, text, depth, bi) in enumerate(nodes):
         bc = branch_colors[bi % len(branch_colors)] if bi >= 0 else root_bg
 
         if depth == 0:
-            # Root — large rounded pill, accent color
-            tw, th = measure_text(draw, text, f_root)
-            px, py = 18, 10
-            draw_rounded_pill(draw, x - tw//2 - px, y - th//2 - py,
-                              tw + px*2, th + py*2, 14, root_bg, outline=accent, width=2)
+            # Root — large rounded pill
+            tw, th = measure(draw, text, f_root)
+            px, py = 20, 10
+            draw.rounded_rectangle(
+                [(x - tw//2 - px, y - th//2 - py), (x + tw//2 + px, y + th//2 + py)],
+                radius=16, fill=root_bg, outline=blend(root_bg, (255,255,255), 0.3), width=2
+            )
             draw.text((x - tw//2, y - th//2), text, fill=root_fg, font=f_root)
 
         elif depth == 1:
-            # Branch — colored pill (MindElixir style)
-            tw, th = measure_text(draw, text, f_branch)
-            if len(text) > 20:
-                text = text[:18] + ".."
-                tw, th = measure_text(draw, text, f_branch)
+            # Branch pill
+            tw, th = measure(draw, text, f_branch)
             px, py = 12, 6
-            draw_rounded_pill(draw, x - tw//2 - px, y - th//2 - py,
-                              tw + px*2, th + py*2, 10, bc)
+            # Slight gradient effect via outline
+            draw.rounded_rectangle(
+                [(x - tw//2 - px, y - th//2 - py), (x + tw//2 + px, y + th//2 + py)],
+                radius=12, fill=bc, outline=blend(bc, (255,255,255), 0.2), width=1
+            )
             draw.text((x - tw//2, y - th//2), text, fill=(255, 255, 255), font=f_branch)
 
         elif depth == 2:
-            # Leaf — subtle tinted background
-            tw, th = measure_text(draw, text, f_leaf)
+            # Leaf — tinted pill
+            tw, th = measure(draw, text, f_leaf)
             px, py = 8, 4
-            leaf_bg = blend(bg, bc, leaf_alpha)
-            leaf_border = blend(bg, bc, 0.3)
-            draw_rounded_pill(draw, x - tw//2 - px, y - th//2 - py,
-                              tw + px*2, th + py*2, 6, leaf_bg, outline=leaf_border)
+            lbg = blend(bg, bc, leaf_alpha)
+            lborder = blend(bg, bc, 0.25)
+            draw.rounded_rectangle(
+                [(x - tw//2 - px, y - th//2 - py), (x + tw//2 + px, y + th//2 + py)],
+                radius=8, fill=lbg, outline=lborder, width=1
+            )
             draw.text((x - tw//2, y - th//2), text, fill=fg, font=f_leaf)
 
         elif depth == 3:
-            # "+N more" indicator
-            tw, th = measure_text(draw, text, f_leaf)
+            tw, th = measure(draw, text, f_leaf)
             draw.text((x - tw//2, y - th//2), text, fill=muted, font=f_leaf)
 
-    # Progress indicator
+    # Progress
     if visible_branches < total_branches:
-        draw.text((14, ct), f"Building... {visible_branches}/{total_branches} branches",
+        draw.text((14, ct), f"Building... {visible_branches}/{total_branches}",
                   fill=muted, font=f_small)
 
     return card
 
 
 def generate_webcard(theme_name, lang="en"):
-    """Generate the animated mindmap webcard GIF."""
-    print(f"Generating mindmap webcard: {theme_name}/{lang}")
-
+    print(f"Generating: {theme_name}/{lang}")
     text = MIND_PATH.read_text(encoding="utf-8")
     match = re.search(r"```mermaid\s*\n([\s\S]*?)```", text)
     if not match:
-        print("Error: No mermaid block found")
+        print("Error: No mermaid block")
         return None
 
     code = match.group(1).strip()
     node_lines = [l.strip() for l in code.split("\n")
                   if l.strip() and not l.strip().startswith("%%") and l.strip() != "mindmap"]
     node_count = len(node_lines)
-
     root = parse_mindmap(code)
     if not root:
-        print("Error: Failed to parse mindmap")
         return None
 
     total = len(root.get("children", []))
-    print(f"  Mindmap: {node_count} nodes, {total} top-level branches")
+    print(f"  {node_count} nodes, {total} branches")
 
-    # Progressive frames: one per branch
     frames = []
     for i in range(1, total + 1):
-        frame = generate_frame(theme_name, root, i, node_count, total)
-        frames.append(frame)
-
-    # Hold final frame
+        frames.append(generate_frame(theme_name, root, i, node_count, total))
     for _ in range(3):
         frames.append(frames[-1])
 
-    print(f"  Animation: {total} + 3 hold = {len(frames)} frames")
-
-    # Save as animated GIF
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     filename = f"live-mindmap-{lang}-{theme_name}.gif"
     output_path = OUTPUT_DIR / filename
 
     optimized = [f.quantize(colors=256, method=Image.Quantize.MEDIANCUT,
                             dither=Image.Dither.FLOYDSTEINBERG) for f in frames]
-
     durations = [800] * total + [2000] * 3
 
     optimized[0].save(str(output_path), save_all=True, append_images=optimized[1:],
                       duration=durations, loop=0, optimize=True)
 
     size_kb = output_path.stat().st_size / 1024
-    print(f"  Output: {output_path} ({size_kb:.0f} KB)")
+    print(f"  -> {output_path} ({size_kb:.0f} KB, {len(frames)} frames)")
     return output_path
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate mindmap dynamic webcard")
-    parser.add_argument("--theme", choices=["cayman", "midnight"], help="One theme only")
-    parser.add_argument("--lang", default="en", help="Language (default: en)")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--theme", choices=["cayman", "midnight", "daltonism-light", "daltonism-dark"])
+    parser.add_argument("--lang", default="en")
     args = parser.parse_args()
 
     if not MIND_PATH.exists():
@@ -391,19 +365,8 @@ def main():
         sys.exit(1)
 
     themes = [args.theme] if args.theme else ["cayman", "midnight"]
-    results = []
     for theme in themes:
-        path = generate_webcard(theme, args.lang)
-        if path:
-            results.append(str(path))
-
-    if results:
-        print(f"\nGenerated {len(results)} webcard(s):")
-        for r in results:
-            print(f"  {r}")
-    else:
-        print("\nNo webcards generated")
-        sys.exit(1)
+        generate_webcard(theme, args.lang)
 
 
 if __name__ == "__main__":
