@@ -228,7 +228,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 <script>
 (function() {
   /* ─── Language auto-detection from URL path ─── */
-  var LANG = window.location.pathname.indexOf('/fr/') >= 0 ? 'fr' : 'en';
+  var LANG = 'fr'; // Hardcoded: srcdoc iframe has no /fr/ in pathname
   var LP = LANG === 'fr' ? '/fr' : '';  // language path prefix
   var LS = LANG === 'fr' ? '-fr' : '';  // localStorage suffix
 
@@ -251,7 +251,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       p10: 'Live Network', p11: 'Success Stories', p12: 'Project Mgmt', p13: 'Pagination',
       p14: 'Architecture', p15: 'Diagrams', p16: 'Visualization', p17: 'Pipeline',
       p18: 'Doc Generation', p19: 'Interactive', p20: 'Session Metrics',
-      p21: 'Main Interface', p22: 'Session Review', p22b: 'Visual Documentation', p23: 'Web Viewer'
+      p21: 'Main Interface', p22: 'Session Review', p22b: 'Visual Documentation', p23: 'Web Viewer', p24: 'Live Mindmap',
+      stories_title: 'Success Stories',
+      s26: '#26 One Viewer to Rule Them All', s25: '#25 Live Mindmap Memory',
+      s24: '#24 The Toggle', s23: '#23 Knowledge v2.0 Platform',
+      s22: '#22 Visual Documentation Engine', s21: '#21 Task Workflow State Machine',
+      s19: '#19 Board-Driven Protocol', s17: '#17 Satellite Bootstrap',
+      s16: '#16 Cross-Session Recall'
     },
     fr: {
       interfaces: 'Interfaces',
@@ -271,7 +277,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       p10: 'Réseau live', p11: 'Histoires de succès', p12: 'Gestion de projet', p13: 'Pagination',
       p14: 'Architecture', p15: 'Diagrammes', p16: 'Visualisation', p17: 'Pipeline',
       p18: 'Génération doc', p19: 'Interactif', p20: 'Métriques de session',
-      p21: 'Interface principale', p22: 'Revue de session', p22b: 'Documentation visuelle', p23: 'Visualiseur Web'
+      p21: 'Interface principale', p22: 'Revue de session', p22b: 'Documentation visuelle', p23: 'Visualiseur Web', p24: 'Mindmap vivant',
+      stories_title: 'Histoires de succès',
+      s26: '#26 Un seul visualiseur pour tous', s25: '#25 Mémoire mindmap vivante',
+      s24: '#24 Le Toggle', s23: '#23 Plateforme Knowledge v2.0',
+      s22: '#22 Moteur de documentation visuelle', s21: '#21 Machine à états',
+      s19: '#19 Protocole par tableau', s17: '#17 Bootstrap satellite',
+      s16: '#16 Rappel inter-session'
     }
   };
   var t = T[LANG];
@@ -417,33 +429,45 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       {t: t.full,   h:BASE+LP+'/profile/full/'}
     ]},
     { id:'publications', title: t.publications, open:false, pubs:[
-      {n:'#0',  t: t.p0,   s:'knowledge-system'},
-      {n:'#1',  t: t.p1,   s:'knowledge-2.0'},
-      {n:'#2',  t: t.p2,   s:'live-session-analysis'},
-      {n:'#3',  t: t.p3,   s:'ai-session-persistence'},
-      {n:'#4',  t: t.p4,   s:'distributed-minds'},
-      {n:'#4a', t: t.p4a,  s:'distributed-knowledge-dashboard'},
-      {n:'#5',  t: t.p5,   s:'webcards-social-sharing'},
-      {n:'#6',  t: t.p6,   s:'normalize-structure-concordance'},
-      {n:'#7',  t: t.p7,   s:'harvest-protocol'},
-      {n:'#8',  t: t.p8,   s:'session-management'},
+      {n:'#24', t: t.p24,  s:'live-mindmap'},
+      {n:'#23', t: t.p23,  s:'web-documentation-viewer'},
+      {n:'#22', t: t.p22b, s:'visual-documentation'},
+      {n:'#22', t: t.p22,  s:'session-review'},
+      {n:'#21', t: t.p21,  s:'main-interface'},
+      {n:'#20', t: t.p20,  s:'session-metrics-time'},
+      {n:'#19', t: t.p19,  s:'interactive-work-sessions'},
+      {n:'#18', t: t.p18,  s:'documentation-generation'},
+      {n:'#17', t: t.p17,  s:'web-production-pipeline'},
+      {n:'#16', t: t.p16,  s:'web-page-visualization'},
+      {n:'#15', t: t.p15,  s:'architecture-diagrams'},
+      {n:'#14', t: t.p14,  s:'architecture-analysis'},
+      {n:'#13', t: t.p13,  s:'web-pagination-export'},
+      {n:'#12', t: t.p12,  s:'project-management'},
+      {n:'#11', t: t.p11,  s:'success-stories'},
+      {n:'#10', t: t.p10,  s:'live-knowledge-network'},
       {n:'#9',  t: t.p9,   s:'security-by-design',
         extra:[{t: t.p9a, p:LP+'/publications/security-by-design/compliance/'}]},
-      {n:'#10', t: t.p10,  s:'live-knowledge-network'},
-      {n:'#11', t: t.p11,  s:'success-stories'},
-      {n:'#12', t: t.p12,  s:'project-management'},
-      {n:'#13', t: t.p13,  s:'web-pagination-export'},
-      {n:'#14', t: t.p14,  s:'architecture-analysis'},
-      {n:'#15', t: t.p15,  s:'architecture-diagrams'},
-      {n:'#16', t: t.p16,  s:'web-page-visualization'},
-      {n:'#17', t: t.p17,  s:'web-production-pipeline'},
-      {n:'#18', t: t.p18,  s:'documentation-generation'},
-      {n:'#19', t: t.p19,  s:'interactive-work-sessions'},
-      {n:'#20', t: t.p20,  s:'session-metrics-time'},
-      {n:'#21', t: t.p21,  s:'main-interface'},
-      {n:'#22', t: t.p22,  s:'session-review'},
-      {n:'#22', t: t.p22b, s:'visual-documentation'},
-      {n:'#23', t: t.p23,  s:'web-documentation-viewer'}
+      {n:'#8',  t: t.p8,   s:'session-management'},
+      {n:'#7',  t: t.p7,   s:'harvest-protocol'},
+      {n:'#6',  t: t.p6,   s:'normalize-structure-concordance'},
+      {n:'#5',  t: t.p5,   s:'webcards-social-sharing'},
+      {n:'#4a', t: t.p4a,  s:'distributed-knowledge-dashboard'},
+      {n:'#4',  t: t.p4,   s:'distributed-minds'},
+      {n:'#3',  t: t.p3,   s:'ai-session-persistence'},
+      {n:'#2',  t: t.p2,   s:'live-session-analysis'},
+      {n:'#1',  t: t.p1,   s:'knowledge-2.0'},
+      {n:'#0',  t: t.p0,   s:'knowledge-system'}
+    ]},
+    { id:'stories', title: t.stories_title, open:false, links:[
+      {t: t.s26, h:BASE+LP+'/publications/success-stories/story-26/'},
+      {t: t.s25, h:BASE+LP+'/publications/success-stories/story-25/'},
+      {t: t.s24, h:BASE+LP+'/publications/success-stories/story-24/'},
+      {t: t.s23, h:BASE+LP+'/publications/success-stories/story-23/'},
+      {t: t.s22, h:BASE+LP+'/publications/success-stories/story-22/'},
+      {t: t.s21, h:BASE+LP+'/publications/success-stories/story-21/'},
+      {t: t.s19, h:BASE+LP+'/publications/success-stories/story-19/'},
+      {t: t.s17, h:BASE+LP+'/publications/success-stories/story-17/'},
+      {t: t.s16, h:BASE+LP+'/publications/success-stories/story-16/'}
     ]}
   ];
 

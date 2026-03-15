@@ -89,6 +89,8 @@ URL de base : `https://packetqc.github.io/K_DOCS`
 | 21 | Interface principale | [Summary]({{ '/publications/main-interface/' | relative_url }}) | [Résumé]({{ '/fr/publications/main-interface/' | relative_url }}) | [Full]({{ '/publications/main-interface/full/' | relative_url }}) | [Complet]({{ '/fr/publications/main-interface/full/' | relative_url }}) |
 | 22 | Revue de session | [Summary]({{ '/publications/session-review/' | relative_url }}) | [Résumé]({{ '/fr/publications/session-review/' | relative_url }}) | [Full]({{ '/publications/session-review/full/' | relative_url }}) | [Complet]({{ '/fr/publications/session-review/full/' | relative_url }}) |
 | 22 | Documentation visuelle | [Summary]({{ '/publications/visual-documentation/' | relative_url }}) | [Résumé]({{ '/fr/publications/visual-documentation/' | relative_url }}) | [Full]({{ '/publications/visual-documentation/full/' | relative_url }}) | [Complet]({{ '/fr/publications/visual-documentation/full/' | relative_url }}) |
+| 23 | Visualiseur Web K_DOCS | [Summary]({{ '/publications/web-documentation-viewer/' | relative_url }}) | [Résumé]({{ '/fr/publications/web-documentation-viewer/' | relative_url }}) | [Full]({{ '/publications/web-documentation-viewer/full/' | relative_url }}) | [Complet]({{ '/fr/publications/web-documentation-viewer/full/' | relative_url }}) |
+| 24 | Mindmap vivant | [Summary]({{ '/publications/live-mindmap/' | relative_url }}) | [Résumé]({{ '/fr/publications/live-mindmap/' | relative_url }}) | [Full]({{ '/publications/live-mindmap/full/' | relative_url }}) | [Complet]({{ '/fr/publications/live-mindmap/full/' | relative_url }}) |
 
 ---
 
@@ -96,10 +98,10 @@ URL de base : `https://packetqc.github.io/K_DOCS`
 
 | Catégorie | Nombre |
 |----------|--------|
-| Pages EN | 56 |
-| Pages FR | 56 |
-| Total pages | 112 |
-| Webcards déployés | 68 |
+| Pages EN | 60 |
+| Pages FR | 60 |
+| Total pages | 120 |
+| Webcards déployés | 89 |
 
 ---
 

@@ -1,0 +1,55 @@
+{
+  "description": "Knowledge module registry — declares all modules, their status, and upstream sources",
+  "modules": [
+    {
+      "id": "K_MIND",
+      "name": "Knowledge Mind",
+      "description": "Core memory system — mindmap, session management, near/far memory, domain JSONs, scripts",
+      "status": "active",
+      "imported": true,
+      "upstream": null,
+      "path": "Knowledge/K_MIND",
+      "has": ["mind", "sessions", "architecture", "constraints", "conventions", "work", "documentation", "scripts"]
+    },
+    {
+      "id": "K_DOCS",
+      "name": "Knowledge Documentation",
+      "description": "Web documentation system — viewer, publications, interfaces, webcards, methodology, scripts",
+      "status": "active",
+      "imported": true,
+      "upstream": "packetqc/knowledge",
+      "path": "Knowledge/K_DOCS",
+      "has": ["conventions", "documentation", "methodology", "scripts"]
+    },
+    {
+      "id": "K_PROJECTS",
+      "name": "Knowledge Projects",
+      "description": "Project management module — tracking, planning, project lifecycle",
+      "status": "scaffolded",
+      "imported": false,
+      "upstream": null,
+      "path": "Knowledge/K_PROJECTS",
+      "has": ["conventions", "documentation", "methodology", "work"]
+    },
+    {
+      "id": "K_VALIDATION",
+      "name": "Knowledge Validation",
+      "description": "QA and validation module — testing, verification, approval workflows",
+      "status": "scaffolded",
+      "imported": false,
+      "upstream": null,
+      "path": "Knowledge/K_VALIDATION",
+      "has": ["conventions", "documentation", "methodology", "work"]
+    },
+    {
+      "id": "K_GITHUB",
+      "name": "Knowledge GitHub",
+      "description": "GitHub integration module — issue tracking, PR workflows, project boards",
+      "status": "scaffolded",
+      "imported": false,
+      "upstream": null,
+      "path": "Knowledge/K_GITHUB",
+      "has": ["conventions", "documentation", "methodology", "work"]
+    }
+  ]
+}

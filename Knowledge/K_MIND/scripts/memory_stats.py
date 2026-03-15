@@ -38,13 +38,32 @@ def main():
                      and not l.strip().startswith('%%') and 'mindmap' not in l.strip()
                      and 'root(' not in l.strip())
 
+    # Scan K_MIND domain files
     domain_files = [f for f in glob.glob('*/**/**.json', recursive=True)
                     if not f.startswith('sessions/') and not f.startswith('node_modules/')]
+    # Scan sibling modules (Knowledge/K_*/) for their domain files
+    knowledge_root = os.path.join(BASE_DIR, '..')
+    for module_dir in sorted(glob.glob(os.path.join(knowledge_root, 'K_*'))):
+        mod_name = os.path.basename(module_dir)
+        if mod_name == 'K_MIND':
+            continue  # already scanned above
+        for mf in glob.glob(os.path.join(module_dir, '**', '*.json'), recursive=True):
+            domain_files.append(mf)
     domain_size = sum(os.path.getsize(f) for f in domain_files)
     domain_count = len(domain_files)
 
     claude_md = os.path.getsize('CLAUDE.md') if os.path.exists('CLAUDE.md') else 0
-    conv_size = os.path.getsize('conventions/conventions.json') if os.path.exists('conventions/conventions.json') else 0
+    # Aggregate convention sizes from all modules for loaded tokens
+    conv_size = 0
+    if os.path.exists('conventions/conventions.json'):
+        conv_size += os.path.getsize('conventions/conventions.json')
+    for module_dir in sorted(glob.glob(os.path.join(knowledge_root, 'K_*'))):
+        mod_name = os.path.basename(module_dir)
+        if mod_name == 'K_MIND':
+            continue
+        mod_conv = os.path.join(module_dir, 'conventions', 'conventions.json')
+        if os.path.exists(mod_conv):
+            conv_size += os.path.getsize(mod_conv)
 
     def kb(b):
         return f'{b / 1024:.1f} KB'
@@ -73,7 +92,7 @@ def main():
     print(f'| mind_memory | {node_count} nodes | {kb(mm_size)} | {tk(mm_size)} | {tk(mm_size)} |')
     print(f'| domain JSONs | {domain_count} refs | {kb(domain_size)} | {tk(domain_size)} | {tk(conv_size)} |')
     print(f'| CLAUDE.md | 1 file | {kb(claude_md)} | {tk(claude_md)} | {tk(claude_md)} |')
-    print(f'| **Subtotal (K_MIND)** | | **{kb(disk_total)}** | **{tk(disk_total)}** | **~{loaded_tokens:,}** |')
+    print(f'| **Subtotal (all modules)** | | **{kb(disk_total)}** | **{tk(disk_total)}** | **~{loaded_tokens:,}** |')
     print(f'| **System overhead** | tools+MCP | | | **~{SYSTEM_OVERHEAD:,}** |')
     print(f'| **Conversation** | {fm_msgs} msgs | {kb(fm_size)} | | **~{conversation_tokens:,}** |')
     print(f'| **Context used** | | | | **~{total_context_used:,}** |')

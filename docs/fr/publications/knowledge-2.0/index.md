@@ -12,6 +12,7 @@ pub_version: "v2"
 pub_number: 0
 pub_date: "Mars 2026"
 og_image: /assets/og/knowledge-2-fr-cayman.gif
+live_webcard: mindmap
 ---
 
 ## Aperçu

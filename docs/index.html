@@ -578,7 +578,7 @@
       { group: 'Interfaces', name: 'Project Viewer', path: 'interfaces/project-viewer/index.md', path_fr: 'fr/interfaces/project-viewer/index.md' },
       { group: 'Interfaces', name: 'Session Review', path: 'interfaces/session-review/index.md', path_fr: 'fr/interfaces/session-review/index.md' },
       { group: 'Interfaces', name: 'Tasks Workflow', path: 'interfaces/task-workflow/index.md', path_fr: 'fr/interfaces/task-workflow/index.md' },
-      { group: 'Interfaces', name: 'Live Mindmap', path: 'interfaces/live-mindmap/index.md' },
+      { group: 'Interfaces', name: 'Live Mindmap', path: 'interfaces/live-mindmap/index.md', path_fr: 'fr/interfaces/live-mindmap/index.md' },
       // --- Profile ---
       { group: 'Profile', name: 'Profile', path: 'profile/index.md', path_fr: 'fr/profile/index.md' },
       { group: 'Profile', name: 'Profile — Full', path: 'profile/full/index.md', path_fr: 'fr/profile/full/index.md' },
@@ -638,6 +638,10 @@
       { group: 'Publications', name: 'Web Production Pipeline — Full', path: 'publications/web-production-pipeline/full/index.md', path_fr: 'fr/publications/web-production-pipeline/full/index.md' },
       { group: 'Publications', name: 'Webcards & Social Sharing', path: 'publications/webcards-social-sharing/index.md', path_fr: 'fr/publications/webcards-social-sharing/index.md' },
       { group: 'Publications', name: 'Webcards & Social Sharing — Full', path: 'publications/webcards-social-sharing/full/index.md', path_fr: 'fr/publications/webcards-social-sharing/full/index.md' },
+      { group: 'Publications', name: 'Web Documentation Viewer', path: 'publications/web-documentation-viewer/index.md', path_fr: 'fr/publications/web-documentation-viewer/index.md' },
+      { group: 'Publications', name: 'Web Documentation Viewer — Full', path: 'publications/web-documentation-viewer/full/index.md', path_fr: 'fr/publications/web-documentation-viewer/full/index.md' },
+      { group: 'Publications', name: 'Live Mindmap', path: 'publications/live-mindmap/index.md', path_fr: 'fr/publications/live-mindmap/index.md' },
+      { group: 'Publications', name: 'Live Mindmap — Full', path: 'publications/live-mindmap/full/index.md', path_fr: 'fr/publications/live-mindmap/full/index.md' },
       // --- Success Stories ---
       { group: 'Success Stories', name: 'Success Stories', path: 'publications/success-stories/index.md', path_fr: 'fr/publications/success-stories/index.md' },
       { group: 'Success Stories', name: 'Success Stories — Full', path: 'publications/success-stories/full/index.md', path_fr: 'fr/publications/success-stories/full/index.md' },
@@ -647,7 +651,9 @@
       { group: 'Success Stories', name: 'Story #21 — Task Workflow', path: 'publications/success-stories/story-21/index.md', path_fr: 'fr/publications/success-stories/story-21/index.md' },
       { group: 'Success Stories', name: 'Story #22 — Visual Documentation', path: 'publications/success-stories/story-22/index.md', path_fr: 'fr/publications/success-stories/story-22/index.md' },
       { group: 'Success Stories', name: 'Story #23 — Knowledge v2.0', path: 'publications/success-stories/story-23/index.md', path_fr: 'fr/publications/success-stories/story-23/index.md' },
-      { group: 'Success Stories', name: 'Story #24 — The Toggle', path: 'publications/success-stories/story-24/index.md' },
+      { group: 'Success Stories', name: 'Story #24 — The Toggle', path: 'publications/success-stories/story-24/index.md', path_fr: 'fr/publications/success-stories/story-24/index.md' },
+      { group: 'Success Stories', name: 'Story #25 — Live Mindmap Memory', path: 'publications/success-stories/story-25/index.md', path_fr: 'fr/publications/success-stories/story-25/index.md' },
+      { group: 'Success Stories', name: 'Story #26 — One Viewer to Rule Them All', path: 'publications/success-stories/story-26/index.md', path_fr: 'fr/publications/success-stories/story-26/index.md' },
     ];
 
     // ===== Theme management =====
@@ -665,8 +671,25 @@
         else document.documentElement.setAttribute('data-theme', val);
         // Broadcast to iframes (I5, etc.)
         if (themeChannel) themeChannel.postMessage(val);
+        // Sync srcdoc iframes directly (BroadcastChannel can't reach null-origin srcdoc)
+        (function syncIframes(doc) {
+          doc.querySelectorAll('iframe').forEach(function(f) {
+            try {
+              var d = f.contentDocument;
+              if (d && d.documentElement) {
+                if (val === 'auto') d.documentElement.removeAttribute('data-theme');
+                else d.documentElement.setAttribute('data-theme', val);
+                syncIframes(d);
+              }
+            } catch(e) {}
+          });
+        })(document);
         // Re-render mermaid for new theme
         renderMermaidBlocks();
+        // Update live webcard mindmap theme
+        if (window._webcardMind && window._webcardGetTheme) {
+          window._webcardMind.changeTheme(window._webcardGetTheme());
+        }
       });
     })();
 
@@ -1305,6 +1328,8 @@
           }
           collapseDeep(data.nodeData, 0);
           mind.init(data);
+          window._webcardMind = mind;
+          window._webcardGetTheme = getMindTheme;
           container.addEventListener('click', function(ev) {
             if (ev.target.tagName !== 'ME-EPD') return;
             if (!ev.ctrlKey && !ev.metaKey) return;

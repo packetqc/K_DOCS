@@ -3,6 +3,7 @@ layout: publication
 title: "Live Mindmap — K_MIND Knowledge Graph"
 description: "Interactive live rendering of the K_MIND memory mindmap. Reads mind_memory.md and renders with MindElixir in real-time."
 permalink: /interfaces/live-mindmap/
+permalink_fr: /fr/interfaces/live-mindmap/
 lang: en
 header_title: "Live Mindmap"
 tagline: "K_MIND Knowledge Graph — Real-Time"
@@ -10,7 +11,7 @@ pub_meta: "Interface | K_DOCS"
 pub_version: "v3"
 pub_date: "March 2026"
 page_type: interface
-og_image: /assets/og/knowledge-system-en-cayman.gif
+og_image: /assets/og/live-mindmap-en-daltonism-light.gif
 ---
 
 {::nomarkdown}

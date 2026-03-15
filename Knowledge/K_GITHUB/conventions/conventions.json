@@ -1,0 +1,20 @@
+{
+  "module": "K_GITHUB",
+  "conventions": [
+    {
+      "id": "gh_helper_constructor",
+      "name": "GitHubHelper() Zero-Arg Constructor",
+      "description": "GitHubHelper() takes NO arguments. Token from env. Repo goes on every method call, not constructor."
+    },
+    {
+      "id": "push_with_token",
+      "name": "WSL Push with GH_TOKEN",
+      "description": "WSL cannot use Windows credential manager. Push via: git push https://user:${GH_TOKEN}@github.com/owner/repo.git branch"
+    },
+    {
+      "id": "realtime_comment_protocol",
+      "name": "Real-Time Comment Protocol",
+      "description": "Post to GitHub issue before displaying to user. User messages posted verbatim. Post first, display second."
+    }
+  ]
+}

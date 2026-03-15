@@ -11,7 +11,6 @@ mindmap
       far memory
     work
       en cours
-        K_DOCS module sync
       validation
         documentation web viewer system
         live mindmap MindElixir v5
@@ -22,17 +21,71 @@ mindmap
           gh_helper.py and github skill imported
           methodology import system documented
           clone based workflow validated
+        multi module architecture
+          Knowledge folder holds all modules
+          K_MIND core always present
+          K_DOCS documentation module
+          K_PROJECTS project management module
+          K_VALIDATION quality assurance module
+          K_GITHUB github integration module
+          each module has conventions work documentation
+          sessions shared in K_MIND
+          memory_stats scans all K_ modules
       approbation
+        K_DOCS designation approved
     documentation
       docs
+        docs directory at project root
+        static js viewer
+        nojekyll github pages
       interfaces
         main navigator
         project viewer
         session review
         tasks workflow
         live mindmap
+      stories
+        story 16 session management
+        story 17 live session
+        story 19 mplib pipeline
+        story 21 pagination export
+        story 22 visual documentation
+        story 23 knowledge 2.0
+        story 24 live mindmap
+        story 25 web documentation viewer
+        story 26 webcards social sharing
       profile
+        resume
+        recommendation
+        full profile
       publications
+        knowledge system
+        knowledge 2.0
+        session management
+        live session analysis
+        architecture analysis
+        architecture diagrams
+        documentation generation
+        interactive work sessions
+        session review
+        session metrics time
+        normalize structure concordance
+        mplib storage pipeline
+        harvest protocol
+        project management
+        distributed minds
+        distributed knowledge dashboard
+        visual documentation
+        web production pipeline
+        web pagination export
+        web page visualization
+        web documentation viewer
+        live mindmap
+        webcards social sharing
+        security by design
+        ai session persistence
+        main interface
+        live knowledge network
     architecture
       persistence_format
         JSON for performance
@@ -56,6 +109,13 @@ mindmap
       folder_per_group
         each top level group has own folder
         domain specific JSON for persisted refs
+      multi_module
+        Knowledge folder root for all modules
+        K_MIND core module always present
+        K_DOCS and other K_ modules alongside
+        each module owns conventions work documentation
+        sessions and mind memory stay in K_MIND
+        scripts scan Knowledge K_ siblings automatically
       mind_context_skill
         /mind-context reduced dynamic nodes
         /mind-context full complete mindmap
@@ -121,7 +181,14 @@ mindmap
           memory_stats.py shared stats with context availability
           convention fixes applied and verified
       methodologies
-        import system
+        import system from production
+        web production pipeline
+        web pagination and export
+        web page visualization
+        documentation generation
+        webcard generation
+        interactive documentation
+        documentation audience
       documentation
         web docs
           docs directory at project root
@@ -159,9 +226,13 @@ mindmap
           webcards
             og_image meta tag injection on doc load
             webcard header with picture element
-            theme aware cayman light midnight dark
+            theme aware 4 themes daltonism cayman midnight
             prefers-color-scheme media query auto detect
             assets og directory for animated GIFs
+            MindElixir headless Chrome capture pipeline
+            cinematic 3 movie animation sequence
+            capture_mindmap.js plus stitch_webcard.py
+            social redirect HTML pages with og tags
           bilingual en fr always both languages
           live mindmap
             standalone interface page
