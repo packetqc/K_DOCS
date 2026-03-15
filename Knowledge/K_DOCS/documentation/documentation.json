@@ -40,7 +40,7 @@
       "source": "local",
       "path": "Knowledge/K_DOCS/methodology/webcard-generation.md",
       "origin": "packetqc/knowledge:knowledge/methodology/methodology-webcard.md",
-      "description": "Animated OG social preview GIFs. 1200x630, dual-theme, animation types, naming conventions, live webcard alternative."
+      "description": "Animated OG social preview GIFs. 1200x630, 4 themes, cinematic 3-movie MindElixir capture pipeline (capture_mindmap.js + stitch_webcard.py), naming conventions, live webcard alternative."
     },
     {
       "id": "ref-interactive-documentation",

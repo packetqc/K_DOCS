@@ -12,7 +12,7 @@ Animated OG social preview GIFs for publications and pages.
 |-----------|-------|
 | **Size** | 1200 x 630 px |
 | **Format** | Animated GIF |
-| **Themes** | Dual — Cayman (light) + Midnight (dark) |
+| **Themes** | 4 themes — Daltonism Light, Daltonism Dark, Cayman, Midnight |
 | **Languages** | EN + FR (4 GIFs total per card) |
 | **Output** | `docs/assets/og/<slug>-<lang>-<theme>.gif` |
 | **Quantization** | 256 colors, MEDIANCUT, Floyd-Steinberg dithering |
@@ -83,21 +83,54 @@ K_DOCS supports **live webcards** via `live_webcard: mindmap` in front matter. I
 
 ---
 
-## K_DOCS Webcard Generator
+## K_DOCS Webcard Generators
 
-The mindmap webcard generator lives at `Knowledge/K_DOCS/scripts/generate_mindmap_webcard.py`:
+### MindElixir Capture Pipeline (Primary)
 
+Two-step pipeline that captures actual MindElixir rendering via headless Chrome:
+
+**Step 1 — Capture frames** (`capture_mindmap.js`):
 ```bash
-python3 scripts/generate_mindmap_webcard.py                    # Both themes
-python3 scripts/generate_mindmap_webcard.py --theme cayman     # Light only
-python3 scripts/generate_mindmap_webcard.py --theme midnight   # Dark only
+node Knowledge/K_DOCS/scripts/capture_mindmap.js daltonism-light          # Normal mode
+node Knowledge/K_DOCS/scripts/capture_mindmap.js daltonism-dark --full    # Full mode (all branches)
 ```
 
-Features:
-- Reads `mind_memory.md` as source
-- Progressive frame animation (branch-by-branch build)
-- 1200x630 format with gradient header/footer bars
-- Floyd-Steinberg dithering for optimized GIF
+- Renders MindElixir v5.9.3 in headless Puppeteer (1200x630)
+- Applies theme palette via `changeTheme()` API
+- Progressive scene-based animation (3 movies)
+- Output: `/tmp/mindmap-frames/frame-*.png`
+
+**Step 2 — Stitch GIF** (`stitch_webcard.py`):
+```bash
+python3 Knowledge/K_DOCS/scripts/stitch_webcard.py daltonism-light
+python3 Knowledge/K_DOCS/scripts/stitch_webcard.py daltonism-dark
+```
+
+- Adds KNOWLEDGE header bar (gradient) + footer bar (accent)
+- Shows node count and theme name
+- 600ms per transition frame, 2000ms hold on final
+- Floyd-Steinberg dithering, 256 colors, optimized GIF
+
+### Cinematic Animation — 3 Movies
+
+| Movie | Name | Sequence |
+|-------|------|----------|
+| **1** | The Emergence | Root alone → depth 1 → depth 2 → depth 3 (hold) |
+| **2** | The Collapse | Depth 3 → 2 → 1 (hold) |
+| **3** | The Exploration | Each branch opens depth 2→3→4→5, holds, collapses before next |
+
+**Normal mode**: Overview max depth 2, exploration max depth 3 (~20 frames)
+**Full mode** (`--full`): Overview max depth 3, exploration max depth 5 (~43 frames). Includes architecture and constraints branches.
+
+### Pillow Fallback Generator
+
+Static fallback at `Knowledge/K_DOCS/scripts/generate_mindmap_webcard.py`:
+
+```bash
+python3 scripts/generate_mindmap_webcard.py --theme cayman
+```
+
+Features: Pillow-only rendering, bezier curves, 4 themes. Use when headless Chrome is unavailable.
 
 ---
 
@@ -158,4 +191,5 @@ Every page with an `og_image` needs a lightweight `index.html` alongside its `in
 - Original: `packetqc/knowledge:knowledge/methodology/methodology-webcard.md`
 - `methodology/web-page-visualization.md` — Rendering pipeline
 - `methodology/documentation-generation.md` — Front matter contract
-- Generator script: `Knowledge/K_DOCS/scripts/generate_mindmap_webcard.py`
+- Generator scripts: `Knowledge/K_DOCS/scripts/capture_mindmap.js` + `stitch_webcard.py`
+- Fallback: `Knowledge/K_DOCS/scripts/generate_mindmap_webcard.py`

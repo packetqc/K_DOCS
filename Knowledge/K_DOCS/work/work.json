@@ -14,8 +14,8 @@
     },
     {
       "name": "webcards",
-      "description": "Webcard system in viewer: og:image meta tag injection, webcard header display with <picture> + prefers-color-scheme, theme-aware cayman/midnight variants, assets/og/ directory for animated GIFs (1200x630).",
-      "status": "in_progress",
+      "description": "Webcard system: og:image meta tag injection, webcard header with <picture> + prefers-color-scheme, 4 theme-aware variants (daltonism-light/dark, cayman, midnight). Animated webcards via MindElixir headless Chrome capture pipeline (capture_mindmap.js + stitch_webcard.py). Cinematic 3-movie sequence (Emergence/Collapse/Exploration), 43 frames, ~1MB. Full mode includes architecture+constraints branches at depth 5.",
+      "status": "validation",
       "session": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
       "files_modified": [
         "docs/index.html",
