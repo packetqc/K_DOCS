@@ -42,6 +42,30 @@
       "description": "Mindmap node text must be human-readable descriptions only. No raw IDs, internal pointers, or inline refs in node labels. Avoid mermaid reserved words (e.g. 'mindmap', 'graph', 'flowchart') in node text as they cause syntax errors.",
       "far_memory_refs": [],
       "mind_memory_refs": ["knowledge::conventions::node_text_rules"]
+    },
+    {
+      "id": "conv-007",
+      "name": "doc_header_metadata_block",
+      "description": "Documentation page header displays full metadata: pub_id (identifier), header_title with pub_version badge, tagline, pub_meta (authors/date string), pub_date, source_url (GitHub link), citation (formal reference), and generated timestamp. In embed mode (inside interface panels), doc-header is hidden and replaced by an 'Open in tab' link bar. Front matter fields: layout, title, description, pub_id, pub_meta, pub_version, pub_number, pub_date, header_title, tagline, source_url, citation, permalink, permalink_fr, lang, og_image, keywords, page_type, dev_banner.",
+      "mind_memory_refs": ["knowledge::documentation::page_conventions::doc_header_full_metadata_block"]
+    },
+    {
+      "id": "conv-008",
+      "name": "toc_two_columns",
+      "description": "Table of contents uses CSS two-column layout when there are 8 or more heading entries. Uses CSS columns property with break-inside:avoid on list items. Threshold: 8+ entries triggers toc-twocol class.",
+      "mind_memory_refs": ["knowledge::documentation::page_conventions::toc_two_columns_when_8_plus_entries"]
+    },
+    {
+      "id": "conv-009",
+      "name": "interface_panel_routing",
+      "description": "When viewer runs embedded in content-frame (right panel of main navigator): interface links route to center-frame instead of loading in-place, main navigator link reloads the full page. External links (different origin) always open in a new browser tab. Routing is handled in the viewer's interceptInternalLinks using window.name detection. The navigator's srcdoc iframe has null origin so cross-document access from navigator to panel content is not possible.",
+      "mind_memory_refs": ["knowledge::documentation::interface_routing"]
+    },
+    {
+      "id": "conv-010",
+      "name": "soft_coupled_baseurl",
+      "description": "Viewer auto-detects SITE.baseurl from window.location.pathname at runtime. Production baseurl (/knowledge) is kept as fallback for resolving Liquid tags in imported markdown. resolveInternalPath and viewerRewriteUrl both check viewer baseurl first, then production baseurl. resolveLiquid handles both single and double-quoted Liquid syntax.",
+      "mind_memory_refs": ["knowledge::documentation::web_docs::soft_coupled_baseurl_auto_detect_deployment"]
     }
   ],
   "external_files": []

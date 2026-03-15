@@ -36,6 +36,24 @@ mindmap
         mermaid rendering client side
         interactive mindmap with drag and drop
         production url structure compatibility
+        soft coupled baseurl auto detect deployment
+        nojekyll serves raw markdown on github pages
+      page conventions
+        doc header full metadata block
+          pub_id publication identifier
+          header_title with pub_version badge
+          tagline subtitle
+          pub_meta authors and date
+          source_url github link
+          citation formal reference
+          generated timestamp
+        embed mode hides doc header shows open in tab
+        toc two columns when 8 plus entries
+        external links open in new browser tab
+      interface routing
+        right panel interface links route to center
+        main navigator link reloads full page
+        embed pages detect window name for routing
     architecture
       persistence_format
         JSON for performance

@@ -151,6 +151,8 @@
     }
     .doc-header-rule { border: none; border-top: 1px solid var(--border); margin: 0.6rem 0; }
     .doc-header-gen { font-size: 0.75rem; color: var(--muted); font-family: monospace; margin-top: 0.3rem; }
+    .doc-header-id { font-size: 0.78rem; color: var(--muted); font-weight: 600; margin-bottom: 0.2rem; }
+    .doc-header-citation { font-size: 0.75rem; color: var(--muted); font-style: italic; margin-top: 0.4rem; border-top: 1px solid var(--border); padding-top: 0.4rem; }
 
     /* ===== Embed bar (standalone link) ===== */
     .embed-topbar {
@@ -170,7 +172,8 @@
     }
     .toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--accent); }
     .toc ul { list-style: none; margin: 0; padding: 0; }
-    .toc li { margin: 0.25rem 0; }
+    .toc.toc-twocol ul { columns: 2; column-gap: 2rem; }
+    .toc li { margin: 0.25rem 0; break-inside: avoid; }
     .toc li.toc-h3 { padding-left: 1.2rem; }
     .toc a { color: var(--fg); font-size: 0.88rem; }
     .toc a:hover { color: var(--accent); }
@@ -882,6 +885,7 @@
           String(now.getMinutes()).padStart(2, '0');
 
         html += '<div class="doc-header">';
+        if (meta.pub_id) html += '<div class="doc-header-id">' + escapeHtml(meta.pub_id) + '</div>';
         if (meta.header_title || meta.title) {
           html += '<div class="doc-header-title">' + escapeHtml(meta.header_title || meta.title);
           if (meta.pub_version) html += ' <span class="doc-header-badge">' + escapeHtml(meta.pub_version) + '</span>';
@@ -891,8 +895,10 @@
         html += '<hr class="doc-header-rule">';
         html += '<div class="doc-header-meta">';
         if (meta.pub_meta) html += '<span>' + escapeHtml(meta.pub_meta) + '</span>';
+        if (meta.pub_date) html += '<span>' + escapeHtml(meta.pub_date) + '</span>';
         if (meta.source_url) html += '<span><a href="' + meta.source_url + '" target="_blank">Source (GitHub)</a></span>';
         html += '</div>';
+        if (meta.citation) html += '<div class="doc-header-citation">' + escapeHtml(meta.citation) + '</div>';
         var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
         html += '<div class="doc-header-gen">' + genLabel + ': ' + genDate + '</div>';
         html += '</div>';
@@ -947,6 +953,9 @@
       });
 
       toc.appendChild(ul);
+
+      // Two-column layout for long TOCs (8+ entries)
+      if (headings.length >= 8) toc.classList.add('toc-twocol');
 
       // Insert after first h1 or at top
       var h1 = container.querySelector('h1');
