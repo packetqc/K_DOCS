@@ -11,7 +11,6 @@ mindmap
       far memory
     work
       en cours
-        K_DOCS module sync
       validation
         documentation web viewer system
         live mindmap MindElixir v5
@@ -22,6 +21,13 @@ mindmap
           gh_helper.py and github skill imported
           methodology import system documented
           clone based workflow validated
+        multi module architecture
+          Knowledge folder holds all modules
+          K_MIND core always present
+          K_DOCS documentation module
+          each module has conventions work documentation
+          sessions shared in K_MIND
+          memory_stats scans all K_ modules
       approbation
     documentation
       docs
@@ -56,6 +62,13 @@ mindmap
       folder_per_group
         each top level group has own folder
         domain specific JSON for persisted refs
+      multi_module
+        Knowledge folder root for all modules
+        K_MIND core module always present
+        K_DOCS and other K_ modules alongside
+        each module owns conventions work documentation
+        sessions and mind memory stay in K_MIND
+        scripts scan Knowledge K_ siblings automatically
       mind_context_skill
         /mind-context reduced dynamic nodes
         /mind-context full complete mindmap

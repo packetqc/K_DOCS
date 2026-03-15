@@ -1,0 +1,79 @@
+{
+  "domain": "conventions",
+  "module": "K_DOCS",
+  "references": [
+    {
+      "id": "conv-007",
+      "name": "unified_chrome_bar",
+      "description": "All panels (interface, center, right) use the same chrome bar convention built by buildChromeBar(). Non-collapsible part: 'Actual Page' permalink link to production. Collapsible part (toggle arrow, collapsed by default): full metadata block — pub_id, title with version badge, tagline/description, pub_meta, pub_date, source_url, generated timestamp, citation. Replaces old doc-header and embed-topbar. State persisted in localStorage per panel. Front matter fields: pub_id, pub_meta, pub_version, pub_date, header_title, tagline, source_url, citation, permalink, permalink_fr.",
+      "mind_memory_refs": ["knowledge::documentation::page_conventions::unified_chrome_bar_for_all_panels"]
+    },
+    {
+      "id": "conv-008",
+      "name": "toc_two_columns",
+      "description": "Table of contents uses CSS two-column layout when there are 8 or more heading entries. Uses CSS columns property with break-inside:avoid on list items. Threshold: 8+ entries triggers toc-twocol class.",
+      "mind_memory_refs": ["knowledge::documentation::page_conventions::toc_two_columns_when_8_plus_entries"]
+    },
+    {
+      "id": "conv-009",
+      "name": "interface_panel_routing",
+      "description": "When viewer runs embedded in content-frame (right panel of main navigator): interface links route to center-frame instead of loading in-place, main navigator link reloads the full page. External links (different origin) always open in a new browser tab. Routing is handled in the viewer's interceptInternalLinks using window.name detection. The navigator's srcdoc iframe has null origin so cross-document access from navigator to panel content is not possible.",
+      "mind_memory_refs": ["knowledge::documentation::interface_routing"]
+    },
+    {
+      "id": "conv-010",
+      "name": "soft_coupled_baseurl",
+      "description": "Viewer auto-detects SITE.baseurl from window.location.pathname at runtime. Production baseurl (/knowledge) is kept as fallback for resolving Liquid tags in imported markdown. resolveInternalPath and viewerRewriteUrl both check viewer baseurl first, then production baseurl. resolveLiquid handles both single and double-quoted Liquid syntax.",
+      "mind_memory_refs": ["knowledge::documentation::web_docs::soft_coupled_baseurl_auto_detect_deployment"]
+    },
+    {
+      "id": "conv-011",
+      "name": "doc_header_convention",
+      "description": "Doc-header bar displays: toggle arrow (left), nav-back link (for /full/ pages back to summary), actual page permalink, version dot+tag. Collapsible section shows labeled rows: Publication (version · date · title), Generated (timestamp), Authors (default: Martin Paquet & Claude). Built by shared buildDocHeaderParts(meta) used in both standalone doc-header and embed chrome bar. Authors split by & displayed on separate lines.",
+      "mind_memory_refs": ["knowledge::documentation::web_docs"]
+    },
+    {
+      "id": "conv-012",
+      "name": "export_corporate_styling",
+      "description": "PDF and DOCX exports use corporate styling, not web theme colors. White background (#fff), black text (#111), corporate blue accent (#1d4ed8). Cover page centered horizontally with title, description, separator line, pub_meta, timestamp, authors. TOC on page 2 with page-break-after. Running header: title with blue bottom liner. Running footer: Generated timestamp · version, K_DOCS right-aligned, blue top liner. First page (cover) has empty header/footer. Filename: PUB_ID - Title - VER.pdf/.docx.",
+      "mind_memory_refs": ["knowledge::documentation::web_docs"]
+    },
+    {
+      "id": "conv-013",
+      "name": "draggable_panel_dividers",
+      "description": "Main navigator vertical dividers support both drag (mousedown/mousemove/mouseup with overlay) and click-to-step fallback. Left divider cycles [0, 220, 320]px. Right divider cycles 0 → 50% → full → 0. Grid uses pixel-based grid-template-columns with transition disabled during drag. Dividers 14px wide on desktop, 8px on mobile (≤768px) via CSS media query + JS DIVIDER_W. Styled with 5 grip dots, no arrows.",
+      "mind_memory_refs": ["knowledge::documentation::web_docs"]
+    },
+    {
+      "id": "conv-015",
+      "name": "bilingual_en_fr",
+      "description": "All documentation must be created in both English and French — always. EN files at docs/publications/<slug>/ and FR files at docs/fr/publications/<slug>/. EN front matter includes permalink_fr, FR front matter includes permalink_en. Same structure, same front matter fields, translated content. This applies to publications, success stories, interfaces, and any new documentation page. Never create EN without FR or vice versa.",
+      "mind_memory_refs": ["knowledge::conventions::documentation"]
+    },
+    {
+      "id": "conv-016",
+      "name": "live_mindmap_mindelixir",
+      "description": "Live mindmap uses MindElixir v5.9.3 (replaces custom mermaid pan/zoom/click). Three deployment points from same data source: I5 standalone interface, K2.0 inline embed, viewer webcard. Mermaid-to-MindElixir converter strips node syntax and builds {topic, id, children} tree. Depth filtering via depth_config.json (JS port of mindmap_filter.py). Four themes synced with viewer via BroadcastChannel (kdocs-theme-sync): cayman, midnight, daltonism-light, daltonism-dark. Viewer is theme master — broadcasts to I5 iframe. I5 can also pick independently. MindElixir init: editable:false, contextMenu:false, keypress:false. Read-only: no node drag, no text editing, scroll zoom only. +/- expand/collapse handled natively by MindElixir. Full mode shows all branches (incl. architecture/constraints) at default depth via collapseDeep on init. Auto-fit on fullscreen toggle and window resize. I5 has bilingual help panel (? button, right sliding, localStorage persisted).",
+      "mind_memory_refs": ["knowledge::documentation::web_docs::live_mindmap"]
+    },
+    {
+      "id": "conv-018",
+      "name": "interface_padding_convention",
+      "description": "Interface chrome bars (controls, toolbars) must live inside the same padded container as the content so they inherit identical horizontal padding (1rem). No separate padding values on bars. Does not apply to main navigator which has its own grid layout. All interfaces except main navigator follow this rule.",
+      "mind_memory_refs": ["knowledge::conventions::documentation::web_docs"]
+    },
+    {
+      "id": "conv-019",
+      "name": "discrete_scrollbars",
+      "description": "All interfaces and viewer pages use thin discrete scrollbars: 6px wide, transparent track, --border color for thumb, --muted on hover. Both Firefox (scrollbar-width: thin; scrollbar-color: var(--border) transparent) and Webkit (::-webkit-scrollbar 6px) covered. Applied via *, *::before, *::after selector.",
+      "mind_memory_refs": ["knowledge::conventions::documentation::web_docs"]
+    },
+    {
+      "id": "conv-020",
+      "name": "bilingual_single_codebase",
+      "description": "Interfaces with identical EN/FR logic use a single shared {::nomarkdown} block. JS auto-detects language from URL path (indexOf('/fr/') >= 0). Translations object T.en/T.fr drives all text. localStorage keys use language suffix (LS = '-fr' or ''). URL paths use language prefix (LP = '/fr' or ''). Only YAML front matter and h1 title differ between EN and FR files.",
+      "mind_memory_refs": ["knowledge::conventions::documentation::bilingual_en_fr"]
+    }
+  ],
+  "external_files": []
+}
