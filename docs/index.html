@@ -1182,39 +1182,79 @@
         '</div>';
     }
 
+    // Depth-filter a mermaid mindmap using config (JS port of mindmap_filter.py)
+    function filterMindmapCode(mermaidCode, config) {
+      var lines = mermaidCode.split('\n');
+      var headerLines = [], bodyLines = [], inHeader = true;
+      for (var i = 0; i < lines.length; i++) {
+        var s = lines[i].trim();
+        if (inHeader && (s.indexOf('%%{') === 0 || s === 'mindmap' || s.indexOf('root(') !== -1)) {
+          headerLines.push(lines[i]);
+        } else { inHeader = false; bodyLines.push(lines[i]); }
+      }
+      var nodes = [];
+      for (var i = 0; i < bodyLines.length; i++) {
+        if (!bodyLines[i].trim()) continue;
+        var content = bodyLines[i].replace(/^\s+/, '');
+        var indent = bodyLines[i].length - content.length;
+        nodes.push({ level: Math.floor(indent / 2), text: content, lineIdx: i });
+      }
+      if (!nodes.length) return headerLines.join('\n');
+      var rootIndent = nodes[0].level;
+      var omit = config.omit || [], overrides = config.overrides || {}, def = config.default_depth || 3;
+      var out = [];
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i], parts = [], tgt = n.level;
+        for (var j = i; j >= 0; j--) {
+          if (nodes[j].level < tgt) { parts.unshift(nodes[j].text); tgt = nodes[j].level; }
+          else if (j === i) parts.push(nodes[j].text);
+        }
+        var path = parts.join('/'), top = parts[0] || n.text;
+        var depth = n.level - rootIndent + 1;
+        var skip = false;
+        for (var k = 0; k < omit.length; k++) { if (top === omit[k]) { skip = true; break; } }
+        if (skip) continue;
+        var max = def, best = 0;
+        for (var op in overrides) {
+          if ((path === op || path.indexOf(op + '/') === 0) && op.length > best) { best = op.length; max = overrides[op]; }
+        }
+        if (depth <= max) out.push(bodyLines[n.lineIdx]);
+      }
+      return headerLines.join('\n') + '\n' + out.join('\n');
+    }
+
     function buildLiveMindmapWebcard() {
-      var RAW_URL = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/mind/mind_memory.md';
-      var localPath = (SITE.baseurl || '') + '/Knowledge/K_MIND/mind/mind_memory.md';
+      var RAW_BASE = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/';
       var id = 'live-webcard-' + Date.now();
-      // Schedule async load after DOM insertion
       setTimeout(function() {
         var container = document.getElementById(id);
         if (!container) return;
-        fetch(localPath)
-          .then(function(r) { if (!r.ok) throw new Error('local'); return r.text(); })
-          .catch(function() {
-            return fetch(RAW_URL).then(function(r) {
-              if (!r.ok) throw new Error('HTTP ' + r.status);
-              return r.text();
-            });
+        Promise.all([
+          fetch(RAW_BASE + 'mind/mind_memory.md').then(function(r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.text();
+          }),
+          fetch(RAW_BASE + 'conventions/depth_config.json').then(function(r) {
+            return r.ok ? r.json() : { default_depth: 3, omit: ['architecture', 'constraints'], overrides: {} };
+          }).catch(function() {
+            return { default_depth: 3, omit: ['architecture', 'constraints'], overrides: {} };
           })
-          .then(function(text) {
-            var match = text.match(/```mermaid\s*\n([\s\S]*?)```/);
-            if (!match) throw new Error('No mermaid block');
-            container.innerHTML = '<div class="mermaid">' + match[1].trim() + '</div>';
-            // Wait for mermaid to be available, then render
-            function tryRender() {
-              if (window.mermaid) {
-                mermaid.run({ nodes: container.querySelectorAll('.mermaid') });
-              } else {
-                setTimeout(tryRender, 200);
-              }
-            }
-            tryRender();
-          })
-          .catch(function(err) {
-            container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:1rem;">Live mindmap unavailable</p>';
-          });
+        ])
+        .then(function(results) {
+          var match = results[0].match(/```mermaid\s*\n([\s\S]*?)```/);
+          if (!match) throw new Error('No mermaid block');
+          var filtered = filterMindmapCode(match[1].trim(), results[1]);
+          container.innerHTML = '<div class="mermaid">' + filtered + '</div>';
+          function tryRender() {
+            if (window.mermaid) {
+              mermaid.run({ nodes: container.querySelectorAll('.mermaid') });
+            } else { setTimeout(tryRender, 200); }
+          }
+          tryRender();
+        })
+        .catch(function(err) {
+          container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:1rem;">Live mindmap unavailable</p>';
+        });
       }, 100);
       return '<div class="webcard-header" style="min-height:300px;padding:0.5rem;">' +
         '<div id="' + id + '"><div class="loading">Loading live mindmap...</div></div>' +
