@@ -262,7 +262,7 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
     var mind = new MindElixir.default({
       el: container,
       direction: MindElixir.SIDE,
-      editable: true,
+      editable: false,
       keypress: false,
       toolBar: false,
       theme: getTheme(),
@@ -270,10 +270,15 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
       allowUndo: false
     });
     mind.init(data);
-    // One-level expand helper
-    function expandOneLevel(meNodeEl) {
+    // Click +/- button: expand ONE level
+    container.addEventListener('click', function(ev) {
+      if (ev.target.tagName !== 'ME-EPD') return;
+      if (ev.ctrlKey || ev.metaKey) return;
+      ev.stopImmediatePropagation();
+      var meNodeEl = ev.target.previousSibling;
+      if (!meNodeEl || !meNodeEl.nodeObj) return;
       var nodeObj = meNodeEl.nodeObj;
-      if (!nodeObj || !nodeObj.children || nodeObj.children.length === 0) return;
+      if (!nodeObj.children || nodeObj.children.length === 0) return;
       if (nodeObj.expanded === false) {
         nodeObj.children.forEach(function(child) {
           if (child.children && child.children.length > 0) child.expanded = false;
@@ -282,23 +287,6 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
       } else {
         mind.expandNode(meNodeEl, false);
       }
-    }
-    // Click +/- button: expand ONE level
-    container.addEventListener('click', function(ev) {
-      if (ev.target.tagName !== 'ME-EPD') return;
-      if (ev.ctrlKey || ev.metaKey) return;
-      ev.stopImmediatePropagation();
-      var meNodeEl = ev.target.previousSibling;
-      if (!meNodeEl || !meNodeEl.nodeObj) return;
-      expandOneLevel(meNodeEl);
-    }, true);
-    // Double-click: expand/collapse ONE level
-    container.addEventListener('dblclick', function(ev) {
-      var meNodeEl = ev.target.closest('me-node');
-      if (!meNodeEl) return;
-      ev.preventDefault();
-      ev.stopImmediatePropagation();
-      expandOneLevel(meNodeEl);
     }, true);
     setTimeout(function(){ mind.scaleFit(); }, 200);
   }).catch(function(e) {

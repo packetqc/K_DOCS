@@ -450,7 +450,7 @@ body > .container {
         var mind = new MindElixir.default({
           el: container,
           direction: MindElixir.SIDE,
-          editable: true,
+          editable: false,
           keypress: false,
           toolBar: false,
           theme: theme,
@@ -460,33 +460,7 @@ body > .container {
 
         mind.init(data);
         window.mindInstance = mind;
-        // Set page theme + disable text editing on nodes
         document.documentElement.setAttribute('data-theme', themeKey);
-
-        // MutationObserver: block contenteditable=true whenever MindElixir sets it
-        new MutationObserver(function(mutations) {
-          mutations.forEach(function(m) {
-            if (m.type === 'attributes' && m.target.tagName === 'ME-TPC' &&
-                m.target.getAttribute('contenteditable') === 'true') {
-              m.target.setAttribute('contenteditable', 'false');
-              m.target.blur();
-            }
-          });
-        }).observe(container, { attributes: true, attributeFilter: ['contenteditable'], subtree: true });
-
-        // One-level expand helper: collapse grandchildren data before expanding
-        function expandOneLevel(meNodeEl) {
-          var nodeObj = meNodeEl.nodeObj;
-          if (!nodeObj || !nodeObj.children || nodeObj.children.length === 0) return;
-          if (nodeObj.expanded === false) {
-            nodeObj.children.forEach(function(child) {
-              if (child.children && child.children.length > 0) child.expanded = false;
-            });
-            mind.expandNode(meNodeEl, true);
-          } else {
-            mind.expandNode(meNodeEl, false);
-          }
-        }
 
         // Click on +/- button: expand ONE level (capture phase intercepts MindElixir's full expand)
         container.addEventListener('click', function(e) {
@@ -495,16 +469,16 @@ body > .container {
           e.stopImmediatePropagation();
           var meNodeEl = e.target.previousSibling;
           if (!meNodeEl || !meNodeEl.nodeObj) return;
-          expandOneLevel(meNodeEl);
-        }, true);
-
-        // Double-click: expand/collapse ONE level (capture phase blocks MindElixir text editing)
-        container.addEventListener('dblclick', function(e) {
-          var meNodeEl = e.target.closest('me-node');
-          if (!meNodeEl) return;
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          expandOneLevel(meNodeEl);
+          var nodeObj = meNodeEl.nodeObj;
+          if (!nodeObj.children || nodeObj.children.length === 0) return;
+          if (nodeObj.expanded === false) {
+            nodeObj.children.forEach(function(child) {
+              if (child.children && child.children.length > 0) child.expanded = false;
+            });
+            mind.expandNode(meNodeEl, true);
+          } else {
+            mind.expandNode(meNodeEl, false);
+          }
         }, true);
 
         // Fit after render
