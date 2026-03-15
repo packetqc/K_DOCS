@@ -130,6 +130,26 @@ Every frame starts from:
 5. [ ] Generate both themes
 6. [ ] Verify: GIFs produced for each lang/theme combo
 7. [ ] Set `og_image` in front matter (cayman variant as default)
+8. [ ] Generate redirect `index.html` alongside `index.md` for social sharing
+
+---
+
+## Social Sharing Redirect Pages
+
+Every page with an `og_image` needs a lightweight `index.html` alongside its `index.md`:
+
+```html
+<!DOCTYPE html><html><head>
+<meta property="og:title" content="...">
+<meta property="og:description" content="...">
+<meta property="og:image" content="https://site/assets/og/slug-lang-cayman.gif">
+<meta http-equiv="refresh" content="0;url=/K_DOCS/index.html?doc=path/index.md">
+</head><body>Redirecting...</body></html>
+```
+
+**Why**: Social media crawlers don't execute JavaScript. The viewer is a single `index.html` that loads content via `?doc=` — crawlers only see the base page. Redirect pages provide og:image to crawlers and instant redirect to the viewer for humans.
+
+**Convention**: Generated from front matter fields (`title`, `description`, `og_image`, `permalink`). Must be regenerated when new pages are created or `og_image` changes.
 
 ---
 
