@@ -15,9 +15,16 @@ og_image: /assets/og/knowledge-system-en-cayman.gif
 
 {::nomarkdown}
 <style>
+html, body {
+  height: 100%; margin: 0; overflow: hidden;
+}
+body > .container {
+  display: flex; flex-direction: column;
+  height: 100%; overflow: hidden;
+}
 .mindmap-container {
   width: 100%;
-  min-height: 70vh;
+  flex: 1;
   overflow: auto;
   border: 1px solid var(--border, #d48a3c);
   border-radius: 8px;
@@ -28,7 +35,7 @@ og_image: /assets/og/knowledge-system-en-cayman.gif
 .mindmap-container svg {
   width: 100% !important;
   height: auto !important;
-  min-height: 60vh;
+  max-height: 100%;
 }
 .mindmap-controls {
   display: flex;
@@ -74,31 +81,19 @@ og_image: /assets/og/knowledge-system-en-cayman.gif
 
 <script>
 (function() {
-  // mind_memory.md is outside docs/ — not served by GitHub Pages
-  // Primary: GitHub raw URL. Fallback: local relative path (for local dev server).
+  // mind_memory.md is outside docs/ — fetch from GitHub raw (works in srcdoc iframes too)
   var RAW_URL = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/mind/mind_memory.md';
-  var base = window.location.pathname.replace(/\/interfaces\/live-mindmap\/?.*/, '');
-  if (base && !base.endsWith('/')) base += '/';
-  var LOCAL_PATH = base + 'Knowledge/K_MIND/mind/mind_memory.md';
 
   window.loadMindmap = function() {
     var container = document.getElementById('mindmap-container');
     var status = document.getElementById('mindmap-status');
     container.innerHTML = '<div class="loading">Loading mindmap...</div>';
-    status.textContent = 'Fetching...';
+    status.textContent = 'Fetching from GitHub...';
 
-    fetch(LOCAL_PATH)
+    fetch(RAW_URL)
       .then(function(r) {
-        if (!r.ok) throw new Error('local 404');
+        if (!r.ok) throw new Error('HTTP ' + r.status + ' — cannot load mind_memory.md');
         return r.text();
-      })
-      .catch(function() {
-        // Fallback to GitHub raw content
-        status.textContent = 'Fetching from GitHub...';
-        return fetch(RAW_URL).then(function(r) {
-          if (!r.ok) throw new Error('HTTP ' + r.status + ' — cannot load mind_memory.md');
-          return r.text();
-        });
       })
       .then(function(text) {
         // Extract mermaid code from markdown fences
