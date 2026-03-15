@@ -947,9 +947,38 @@
       var html = '';
 
       // Chrome bar with "Actual Page" link + collapsible metadata
-      if (meta.title || meta.pub_meta) {
-        var chromeId = IS_EMBED ? 'embedChrome' : 'docChrome';
-        html += buildChromeBar(meta, chromeId);
+      // Embed mode: chrome bar with "Actual Page" + collapsible metadata
+      if (IS_EMBED && (meta.title || meta.pub_meta)) {
+        html += buildChromeBar(meta, 'embedChrome');
+      }
+
+      // Standalone mode: doc-header metadata block before TOC
+      if (!IS_EMBED && (meta.title || meta.pub_meta)) {
+        var now = new Date();
+        var genDate = now.getFullYear() + '-' +
+          String(now.getMonth() + 1).padStart(2, '0') + '-' +
+          String(now.getDate()).padStart(2, '0') + ' ' +
+          String(now.getHours()).padStart(2, '0') + ':' +
+          String(now.getMinutes()).padStart(2, '0');
+
+        html += '<div class="doc-header">';
+        if (meta.pub_id) html += '<div class="doc-header-id">' + escapeHtml(meta.pub_id) + '</div>';
+        if (meta.header_title || meta.title) {
+          html += '<div class="doc-header-title">' + escapeHtml(meta.header_title || meta.title);
+          if (meta.pub_version) html += ' <span class="doc-header-badge">' + escapeHtml(meta.pub_version) + '</span>';
+          html += '</div>';
+        }
+        if (meta.tagline) html += '<div class="doc-header-tagline">' + escapeHtml(meta.tagline) + '</div>';
+        html += '<hr class="doc-header-rule">';
+        html += '<div class="doc-header-meta">';
+        if (meta.pub_meta) html += '<span>' + escapeHtml(meta.pub_meta) + '</span>';
+        if (meta.pub_date) html += '<span>' + escapeHtml(meta.pub_date) + '</span>';
+        if (meta.source_url) html += '<span><a href="' + meta.source_url + '" target="_blank">Source (GitHub)</a></span>';
+        html += '</div>';
+        if (meta.citation) html += '<div class="doc-header-citation">' + escapeHtml(meta.citation) + '</div>';
+        var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
+        html += '<div class="doc-header-gen">' + genLabel + ': ' + genDate + '</div>';
+        html += '</div>';
       }
 
       // Set page title
@@ -1345,8 +1374,7 @@
           }
 
           content.innerHTML = renderMarkdown(text, path);
-          var chromeId = IS_EMBED ? 'embedChrome' : 'docChrome';
-          initChromeToggle(chromeId, 'kdocs-' + chromeId);
+          if (IS_EMBED) initChromeToggle('embedChrome', 'kdocs-embedChrome');
           generateTOC(content);
 
           // Render mermaid after DOM is ready
