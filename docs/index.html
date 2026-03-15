@@ -665,6 +665,19 @@
         else document.documentElement.setAttribute('data-theme', val);
         // Broadcast to iframes (I5, etc.)
         if (themeChannel) themeChannel.postMessage(val);
+        // Sync srcdoc iframes directly (BroadcastChannel can't reach null-origin srcdoc)
+        (function syncIframes(doc) {
+          doc.querySelectorAll('iframe').forEach(function(f) {
+            try {
+              var d = f.contentDocument;
+              if (d && d.documentElement) {
+                if (val === 'auto') d.documentElement.removeAttribute('data-theme');
+                else d.documentElement.setAttribute('data-theme', val);
+                syncIframes(d);
+              }
+            } catch(e) {}
+          });
+        })(document);
         // Re-render mermaid for new theme
         renderMermaidBlocks();
         // Update live webcard mindmap theme
