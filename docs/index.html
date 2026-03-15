@@ -1284,7 +1284,7 @@
 
       // Inject og:image meta tag + webcard header
       updateOgImage(meta);
-      if (meta.og_image) {
+      if (meta.og_image || meta.live_webcard) {
         html += buildWebcardHeader(meta);
       }
 
