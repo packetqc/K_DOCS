@@ -11,6 +11,10 @@ mindmap
       far memory
     work
       en cours
+        modules imports
+          K_PROJECTS
+          K_VALIDATION
+          K_GITHUB
       validation
         documentation web viewer system
         live mindmap MindElixir v5

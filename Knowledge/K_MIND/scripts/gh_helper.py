@@ -228,6 +228,42 @@ class GitHubHelper:
         except urllib.error.HTTPError as e:
             return {"authenticated": False, "http_status": e.code}
 
+    def repo_create(
+        self,
+        name: str,
+        description: str = "",
+        private: bool = True,
+        auto_init: bool = True,
+    ) -> dict:
+        """Create a new GitHub repository for the authenticated user.
+
+        Args:
+            name: Repository name (e.g. 'K_PROJECTS')
+            description: Repository description
+            private: Whether the repo is private (default True)
+            auto_init: Initialize with README (default True)
+
+        Returns:
+            Dict with 'html_url', 'full_name', 'private', 'created'.
+            On error, dict with 'message' and 'http_status'.
+        """
+        data = {
+            "name": name,
+            "description": description,
+            "private": private,
+            "auto_init": auto_init,
+        }
+        result = self._request("POST", "/user/repos", data)
+        if "html_url" in result:
+            return {
+                "html_url": result["html_url"],
+                "full_name": result["full_name"],
+                "private": result.get("private", private),
+                "default_branch": result.get("default_branch", "main"),
+                "created": True,
+            }
+        return result
+
     def _find_existing_pr(self, repo: str, head: str) -> Optional[dict]:
         """Search for an existing PR from the given head branch.
 
@@ -1609,6 +1645,7 @@ def main():
         print("  issue comment-edit   Edit an existing issue comment")
         print("  issue comments       List all comments on an issue")
         print("  issue close          Close an issue")
+        print("  repo create          Create a new repository")
         print("  auth status          Check token validity")
         print("")
         print("Token: Set GH_TOKEN in cloud environment config (never on command line)")
@@ -1658,6 +1695,22 @@ def main():
                 print(f"Scopes: {result['scopes']}")
         else:
             print(f"Authentication failed (HTTP {result.get('http_status', '?')})")
+            sys.exit(1)
+
+    elif command == "repo" and subcommand == "create":
+        name = opts.get("name")
+        if not name:
+            print("Error: --name required", file=sys.stderr)
+            sys.exit(1)
+        description = opts.get("description", "")
+        private = opts.get("private", "true").lower() != "false"
+        auto_init = opts.get("auto-init", "true").lower() != "false"
+        result = gh.repo_create(name, description=description, private=private, auto_init=auto_init)
+        if result.get("created"):
+            print(f"Created: {result['full_name']} ({'private' if result['private'] else 'public'})")
+            print(f"URL: {result['html_url']}")
+        else:
+            print(f"Error: {result.get('message', 'Unknown error')}", file=sys.stderr)
             sys.exit(1)
 
     elif command == "pr" and subcommand == "create":

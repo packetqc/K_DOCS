@@ -27,7 +27,7 @@
       "description": "Project management module — tracking, planning, project lifecycle",
       "status": "scaffolded",
       "imported": false,
-      "upstream": null,
+      "upstream": "packetqc/K_PROJECTS",
       "path": "Knowledge/K_PROJECTS",
       "has": ["conventions", "documentation", "methodology", "work"]
     },
@@ -37,7 +37,7 @@
       "description": "QA and validation module — testing, verification, approval workflows",
       "status": "scaffolded",
       "imported": false,
-      "upstream": null,
+      "upstream": "packetqc/K_VALIDATION",
       "path": "Knowledge/K_VALIDATION",
       "has": ["conventions", "documentation", "methodology", "work"]
     },
@@ -47,7 +47,7 @@
       "description": "GitHub integration module — issue tracking, PR workflows, project boards",
       "status": "scaffolded",
       "imported": false,
-      "upstream": null,
+      "upstream": "packetqc/K_GITHUB",
       "path": "Knowledge/K_GITHUB",
       "has": ["conventions", "documentation", "methodology", "work"]
     }
