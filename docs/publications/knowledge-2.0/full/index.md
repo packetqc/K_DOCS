@@ -278,7 +278,14 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
       ev.stopImmediatePropagation();
       var nodeObj = meNode.nodeObj;
       if (!nodeObj || !nodeObj.children || nodeObj.children.length === 0) return;
-      mind.expandNode(nodeObj, nodeObj.expanded === false);
+      if (nodeObj.expanded === false) {
+        nodeObj.children.forEach(function(child) {
+          if (child.children && child.children.length > 0) mind.expandNode(child, false);
+        });
+        mind.expandNode(nodeObj, true);
+      } else {
+        mind.expandNode(nodeObj, false);
+      }
     }, true);
     setTimeout(function(){ mind.scaleFit(); }, 200);
   }).catch(function(e) {

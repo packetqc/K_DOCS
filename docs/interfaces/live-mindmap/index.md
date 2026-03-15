@@ -431,7 +431,7 @@ body > .container {
         mind.init(data);
         window.mindInstance = mind;
 
-        // Double-click: expand/collapse branches (capture phase blocks MindElixir text editing)
+        // Double-click: expand/collapse ONE level (capture phase blocks MindElixir text editing)
         container.addEventListener('dblclick', function(e) {
           var meNode = e.target.closest('me-node');
           if (!meNode) return;
@@ -439,7 +439,17 @@ body > .container {
           e.stopImmediatePropagation();
           var nodeObj = meNode.nodeObj;
           if (!nodeObj || !nodeObj.children || nodeObj.children.length === 0) return;
-          mind.expandNode(nodeObj, nodeObj.expanded === false);
+          if (nodeObj.expanded === false) {
+            // Collapse all grandchildren first so only 1 level expands
+            nodeObj.children.forEach(function(child) {
+              if (child.children && child.children.length > 0) {
+                mind.expandNode(child, false);
+              }
+            });
+            mind.expandNode(nodeObj, true);
+          } else {
+            mind.expandNode(nodeObj, false);
+          }
         }, true);
 
         // Fit after render
@@ -476,8 +486,8 @@ body > .container {
       '<kbd>Click + Drag</kbd> on background to pan<br>' +
       '<kbd>Click + Drag</kbd> on a node to move it</p>' +
       '<h4>Expand / Collapse</h4>' +
-      '<p>Click the <kbd>+</kbd> or <kbd>-</kbd> icon on a node to expand or collapse its children.<br>' +
-      '<kbd>Double-click</kbd> a node to toggle expand/collapse.</p>' +
+      '<p>Click <kbd>+</kbd> / <kbd>-</kbd> on a node to expand or collapse.<br>' +
+      '<kbd>Double-click</kbd> expands one level at a time — click deeper to reveal more.</p>' +
       '<h4>Toolbar</h4>' +
       '<p><b>Normal</b> — filtered view (depth-limited, architecture/constraints hidden)<br>' +
       '<b>Full</b> — all nodes at max depth<br>' +
