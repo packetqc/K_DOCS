@@ -537,10 +537,9 @@ body > .container {
     en: '<h3>Live Mindmap Help</h3>' +
       '<h4>Navigation</h4>' +
       '<p><kbd>Scroll</kbd> to zoom in/out<br>' +
-      '<kbd>Click + Drag</kbd> on background to pan<br>' +
-      '<kbd>Click + Drag</kbd> on a node to move it</p>' +
+      '<kbd>Click + Drag</kbd> on background to pan</p>' +
       '<h4>Expand / Collapse</h4>' +
-      '<p><kbd>+</kbd> / <kbd>-</kbd> or <kbd>Double-click</kbd> — expand or collapse <b>one level</b> at a time<br>' +
+      '<p><kbd>+</kbd> / <kbd>-</kbd> — expand or collapse <b>one level</b> at a time<br>' +
       '<kbd>Ctrl + Click</kbd> on <kbd>+</kbd> — expand <b>all</b> levels at once</p>' +
       '<h4>Toolbar</h4>' +
       '<p><b>Normal</b> — filtered view (depth-limited, architecture/constraints hidden)<br>' +
@@ -556,10 +555,9 @@ body > .container {
     fr: '<h3>Aide — Mindmap vivant</h3>' +
       '<h4>Navigation</h4>' +
       '<p><kbd>Molette</kbd> pour zoomer<br>' +
-      '<kbd>Clic + Glisser</kbd> sur le fond pour se deplacer<br>' +
-      '<kbd>Clic + Glisser</kbd> sur un noeud pour le repositionner</p>' +
+      '<kbd>Clic + Glisser</kbd> sur le fond pour se deplacer</p>' +
       '<h4>Deplier / Replier</h4>' +
-      '<p><kbd>+</kbd> / <kbd>-</kbd> ou <kbd>Double-clic</kbd> — deplier ou replier <b>un niveau</b> a la fois<br>' +
+      '<p><kbd>+</kbd> / <kbd>-</kbd> — deplier ou replier <b>un niveau</b> a la fois<br>' +
       '<kbd>Ctrl + Clic</kbd> sur <kbd>+</kbd> — deplier <b>tous</b> les niveaux d\'un coup</p>' +
       '<h4>Barre d\'outils</h4>' +
       '<p><b>Normal</b> — vue filtree (profondeur limitee, architecture/contraintes masquees)<br>' +
