@@ -472,6 +472,17 @@ body > .container {
         window.mindInstance = mind;
         document.documentElement.setAttribute('data-theme', themeKey);
 
+        // Fix Ctrl+click expand all: reset descendant state before MindElixir handles it
+        container.addEventListener('click', function(e) {
+          if (e.target.tagName !== 'ME-EPD') return;
+          if (!e.ctrlKey && !e.metaKey) return;
+          var tpc = e.target.previousSibling;
+          if (!tpc || !tpc.nodeObj) return;
+          (function resetAll(obj) {
+            if (obj.children) obj.children.forEach(function(c) { c.expanded = false; resetAll(c); });
+          })(tpc.nodeObj);
+        }, true);
+
         // Fit after render
         setTimeout(function() { mind.scaleFit(); }, 200);
 

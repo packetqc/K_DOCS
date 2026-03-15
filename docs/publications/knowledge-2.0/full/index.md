@@ -278,6 +278,15 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
     }
     collapseDeep(data.nodeData, 0);
     mind.init(data);
+    container.addEventListener('click', function(ev) {
+      if (ev.target.tagName !== 'ME-EPD') return;
+      if (!ev.ctrlKey && !ev.metaKey) return;
+      var tpc = ev.target.previousSibling;
+      if (!tpc || !tpc.nodeObj) return;
+      (function resetAll(obj) {
+        if (obj.children) obj.children.forEach(function(c) { c.expanded = false; resetAll(c); });
+      })(tpc.nodeObj);
+    }, true);
     setTimeout(function(){ mind.scaleFit(); }, 200);
   }).catch(function(e) {
     container.innerHTML = '<p style="color:var(--muted);text-align:center;">Live mindmap unavailable</p>';
