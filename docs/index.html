@@ -396,12 +396,13 @@
         @bottom-right  { content: ""; border: none; padding: 0; }
       }
 
-      /* Cover page */
+      /* Cover page — centered horizontally */
       #pub-cover-page {
         display: block !important; page-break-after: always;
         min-height: 90vh; position: relative;
+        text-align: center;
       }
-      .cover-body { max-width: 18cm; padding-top: 30vh; }
+      .cover-body { max-width: 18cm; margin: 0 auto; padding-top: 30vh; }
       .cover-title { font-size: 28pt; font-weight: 700; color: #111; line-height: 1.2; margin-bottom: 0.7cm; }
       .cover-desc { font-size: 12pt; color: #333; line-height: 1.55; margin-bottom: 1cm; font-style: italic; }
       .cover-rule { border: none; border-top: 1.5pt solid #444; margin: 0 auto 0.8cm; width: 6cm; }
@@ -430,8 +431,10 @@
       td { border-bottom: 1px solid #ddd !important; }
       blockquote { break-inside: avoid; page-break-inside: avoid; border-left: 3pt solid #1d4ed8 !important; color: #555 !important; }
 
-      /* TOC in print — clean style */
-      .toc { background: #f9f9f9 !important; border: 1px solid #ddd !important; break-inside: avoid; page-break-inside: avoid; }
+      /* TOC in print — own page */
+      .toc { background: #f9f9f9 !important; border: 1px solid #ddd !important;
+             break-inside: avoid; page-break-inside: avoid;
+             page-break-after: always; break-after: page; }
       .toc a { color: #111 !important; }
       .toc-title { color: #1d4ed8 !important; }
 
