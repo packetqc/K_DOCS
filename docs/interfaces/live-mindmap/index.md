@@ -73,13 +73,12 @@ og_image: /assets/og/knowledge-system-en-cayman.gif
 
 <script>
 (function() {
-  // Path to mind_memory.md relative to docs root
-  var MIND_PATH = '../Knowledge/K_MIND/mind/mind_memory.md';
-
-  // Auto-detect base path
+  // mind_memory.md is outside docs/ — not served by GitHub Pages
+  // Primary: GitHub raw URL. Fallback: local relative path (for local dev server).
+  var RAW_URL = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/mind/mind_memory.md';
   var base = window.location.pathname.replace(/\/interfaces\/live-mindmap\/?.*/, '');
   if (base && !base.endsWith('/')) base += '/';
-  MIND_PATH = base + 'Knowledge/K_MIND/mind/mind_memory.md';
+  var LOCAL_PATH = base + 'Knowledge/K_MIND/mind/mind_memory.md';
 
   window.loadMindmap = function() {
     var container = document.getElementById('mindmap-container');
@@ -87,10 +86,18 @@ og_image: /assets/og/knowledge-system-en-cayman.gif
     container.innerHTML = '<div class="loading">Loading mindmap...</div>';
     status.textContent = 'Fetching...';
 
-    fetch(MIND_PATH)
+    fetch(LOCAL_PATH)
       .then(function(r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status + ' — cannot load mind_memory.md');
+        if (!r.ok) throw new Error('local 404');
         return r.text();
+      })
+      .catch(function() {
+        // Fallback to GitHub raw content
+        status.textContent = 'Fetching from GitHub...';
+        return fetch(RAW_URL).then(function(r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status + ' — cannot load mind_memory.md');
+          return r.text();
+        });
       })
       .then(function(text) {
         // Extract mermaid code from markdown fences

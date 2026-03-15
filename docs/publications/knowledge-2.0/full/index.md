@@ -50,15 +50,22 @@ citation: "Paquet, M. & Claude (2026). Knowledge 2.0: Interactive Intelligence F
 
 <script>
 (function() {
+  var RAW_URL = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/mind/mind_memory.md';
   var base = window.location.pathname.replace(/\/publications\/.*/, '/');
-  var mindPath = base + 'Knowledge/K_MIND/mind/mind_memory.md';
+  var localPath = base + 'Knowledge/K_MIND/mind/mind_memory.md';
   var container = document.getElementById('live-mindmap-embed');
   if (!container) return;
 
-  fetch(mindPath)
+  fetch(localPath)
     .then(function(r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
+      if (!r.ok) throw new Error('local 404');
       return r.text();
+    })
+    .catch(function() {
+      return fetch(RAW_URL).then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      });
     })
     .then(function(text) {
       var match = text.match(/```mermaid\s*\n([\s\S]*?)```/);
