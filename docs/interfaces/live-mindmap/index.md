@@ -16,9 +16,36 @@ og_image: /assets/og/knowledge-system-en-cayman.gif
 {::nomarkdown}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.css">
 <style>
+/* Theme CSS variables — synced with viewer */
+:root, html, html[data-theme="daltonism-light"] {
+  --bg: #faf6f1; --fg: #1a1a2e; --accent: #0055b3; --muted: #5c5c78;
+  --border: #d48a3c; --code-bg: #eee8df;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]), html[data-theme="auto"] {
+    --bg: #1a1a2e; --fg: #e8e4f0; --accent: #5599dd; --muted: #9494aa;
+    --border: #cc8833; --code-bg: #28283e;
+  }
+}
+html[data-theme="cayman"] {
+  --bg: #eff6ff; --fg: #0f172a; --accent: #1d4ed8; --muted: #475569;
+  --border: #93c5fd; --code-bg: #dbeafe;
+}
+html[data-theme="midnight"] {
+  --bg: #0f172a; --fg: #e2e8f0; --accent: #60a5fa; --muted: #94a3b8;
+  --border: #334155; --code-bg: #1e293b;
+}
+html[data-theme="daltonism-dark"] {
+  --bg: #1a1a2e; --fg: #e8e4f0; --accent: #5599dd; --muted: #9494aa;
+  --border: #cc8833; --code-bg: #28283e;
+}
 html, body {
   height: 100%; margin: 0; overflow: hidden;
+  background: var(--bg); color: var(--fg);
 }
+/* Prevent MindElixir text editing on nodes */
+me-tpc { user-select: none !important; -webkit-user-select: none !important; }
+me-tpc:focus { outline: none !important; box-shadow: none !important; }
 /* Discrete thin scrollbars */
 *, *::before, *::after { scrollbar-width: thin; scrollbar-color: var(--border, #c0c0c0) transparent; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -237,10 +264,17 @@ body > .container {
   }
 
   window.applyMindTheme = function() {
-    if (!window.mindInstance) return;
     var themeKey = getCurrentTheme();
+    // Apply page theme via data-theme attribute
+    document.documentElement.setAttribute('data-theme', themeKey);
+    // Apply MindElixir canvas theme
+    if (!window.mindInstance) return;
     var theme = MIND_THEMES[themeKey];
     if (theme) window.mindInstance.changeTheme(theme);
+    // Disable contenteditable on all node topics
+    document.querySelectorAll('me-tpc[contenteditable]').forEach(function(el) {
+      el.setAttribute('contenteditable', 'false');
+    });
   };
 
   // === Fetch helpers ===
@@ -430,45 +464,53 @@ body > .container {
 
         mind.init(data);
         window.mindInstance = mind;
+        // Set page theme + disable text editing on nodes
+        document.documentElement.setAttribute('data-theme', themeKey);
+        setTimeout(function() {
+          document.querySelectorAll('me-tpc[contenteditable]').forEach(function(el) {
+            el.setAttribute('contenteditable', 'false');
+          });
+        }, 100);
+
+        // Disable contenteditable on newly rendered nodes
+        function lockNodes() {
+          document.querySelectorAll('me-tpc[contenteditable]').forEach(function(el) {
+            el.setAttribute('contenteditable', 'false');
+          });
+        }
+
+        // One-level expand helper: collapse grandchildren data before expanding
+        function expandOneLevel(meNodeEl) {
+          var nodeObj = meNodeEl.nodeObj;
+          if (!nodeObj || !nodeObj.children || nodeObj.children.length === 0) return;
+          if (nodeObj.expanded === false) {
+            nodeObj.children.forEach(function(child) {
+              if (child.children && child.children.length > 0) child.expanded = false;
+            });
+            mind.expandNode(meNodeEl, true);
+            setTimeout(lockNodes, 50);
+          } else {
+            mind.expandNode(meNodeEl, false);
+          }
+        }
 
         // Click on +/- button: expand ONE level (capture phase intercepts MindElixir's full expand)
         container.addEventListener('click', function(e) {
           if (e.target.tagName !== 'ME-EPD') return;
           if (e.ctrlKey || e.metaKey) return; // allow ctrl+click for expandAll
           e.stopImmediatePropagation();
-          var meNode = e.target.previousSibling;
-          if (!meNode || !meNode.nodeObj) return;
-          var nodeObj = meNode.nodeObj;
-          if (!nodeObj.children || nodeObj.children.length === 0) return;
-          if (nodeObj.expanded === false) {
-            nodeObj.children.forEach(function(child) {
-              if (child.children && child.children.length > 0) mind.expandNode(child, false);
-            });
-            mind.expandNode(nodeObj, true);
-          } else {
-            mind.expandNode(nodeObj, false);
-          }
+          var meNodeEl = e.target.previousSibling;
+          if (!meNodeEl || !meNodeEl.nodeObj) return;
+          expandOneLevel(meNodeEl);
         }, true);
 
         // Double-click: expand/collapse ONE level (capture phase blocks MindElixir text editing)
         container.addEventListener('dblclick', function(e) {
-          var meNode = e.target.closest('me-node');
-          if (!meNode) return;
+          var meNodeEl = e.target.closest('me-node');
+          if (!meNodeEl) return;
           e.preventDefault();
           e.stopImmediatePropagation();
-          var nodeObj = meNode.nodeObj;
-          if (!nodeObj || !nodeObj.children || nodeObj.children.length === 0) return;
-          if (nodeObj.expanded === false) {
-            // Collapse all grandchildren first so only 1 level expands
-            nodeObj.children.forEach(function(child) {
-              if (child.children && child.children.length > 0) {
-                mind.expandNode(child, false);
-              }
-            });
-            mind.expandNode(nodeObj, true);
-          } else {
-            mind.expandNode(nodeObj, false);
-          }
+          expandOneLevel(meNodeEl);
         }, true);
 
         // Fit after render
