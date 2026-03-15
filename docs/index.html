@@ -1033,13 +1033,16 @@
         path = path.substring(3); // strip 'fr/'
       }
 
-      // Strip trailing slash
-      path = path.replace(/\/$/, '');
+      // Strip trailing slash and hash
+      path = path.replace(/\/$/, '').replace(/#.*$/, '');
+
+      // Root path maps to index.md
+      if (path === '') path = 'index.md';
 
       // Try matching against DOCS entries
       for (var i = 0; i < DOCS.length; i++) {
-        var docPath = DOCS[i].path.replace(/\/$/, '').replace(/\/index\.md$/, '');
-        var candidate = path.replace(/\/index\.md$/, '');
+        var docPath = DOCS[i].path.replace(/\/$/, '').replace(/(^|\/)index\.md$/, '');
+        var candidate = path.replace(/(^|\/)index\.md$/, '');
         if (candidate === docPath || candidate + '/index.md' === DOCS[i].path || candidate === DOCS[i].path) {
           return { index: i, lang: lang };
         }
