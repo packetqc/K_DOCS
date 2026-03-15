@@ -51,6 +51,8 @@
     validation: '#cf222e', documentation: '#0550ae', approval: '#1a7f37', completion: '#2da44e'
   };
 
+  var stageOrder = ['initial', 'plan', 'analyze', 'implement', 'validation', 'documentation', 'approval', 'completion'];
+
   var allData = null;
   var currentProject = null;
 
@@ -111,13 +113,15 @@
       if (project.board_url) lines.push('Board: #' + project.board_number);
       if (project.metrics) lines.push(t.prs + ': ' + project.metrics.prs + ' — +' +
         project.metrics.additions.toLocaleString() + '/-' + project.metrics.deletions.toLocaleString());
-      lines.push(t.gridScore + ': ' + project.grid_pct + '%');
+      lines.push(t.completion + ': ' + project.completion_pct + '%');
       lines.push('Generated: ' + new Date().toLocaleDateString());
       metaEl.innerHTML = lines.join('<br>');
     } else {
       titleEl.textContent = lang === 'fr' ? 'Visualiseur de projets' : 'Project Viewer';
+      var totalTk = 0;
+      data.projects.forEach(function(p) { totalTk += p.task_count || 0; });
       descEl.textContent = data.meta.total_projects + ' ' + t.projects.toLowerCase() + ' — ' +
-        data.meta.total_tasks + ' ' + t.tasks.toLowerCase();
+        totalTk + ' ' + t.tasks.toLowerCase();
       metaEl.innerHTML = 'Generated: ' + new Date().toLocaleDateString();
     }
   }
@@ -132,10 +136,11 @@
     // Stats
     var statsEl = document.getElementById('pv-overview-stats');
     if (statsEl) {
-      var totalTasks = data.meta.total_tasks || 0;
+      var totalTasks = 0;
       var totalPrs = 0;
       var totalAdds = 0;
       data.projects.forEach(function (p) {
+        totalTasks += p.task_count || 0;
         totalPrs += (p.metrics || {}).prs || 0;
         totalAdds += (p.metrics || {}).additions || 0;
       });
@@ -157,8 +162,8 @@
       html += '<div class="pv-card-title">' + esc(p.title) + '</div>';
       html += '<div class="pv-card-meta">';
       html += '<span>' + p.task_count + ' ' + t.tasks.toLowerCase() + '</span>';
-      html += '<span>' + (p.metrics || {}).prs + ' ' + t.prs + '</span>';
-      html += '<span>' + p.grid_pct + '% ' + t.gridScore.toLowerCase() + '</span>';
+      html += '<span>' + ((p.metrics || {}).prs || 0) + ' ' + t.prs + '</span>';
+      html += '<span>' + (p.completion_pct || 0) + '% ' + t.completion.toLowerCase() + '</span>';
       html += boardLink;
       html += '</div>';
       html += '<div class="pv-progress-bar"><div class="pv-progress-fill ' + completionCls + '" style="width:' + p.completion_pct + '%"></div></div>';
@@ -330,7 +335,7 @@
 
     // Grid score
     var scoreEl = document.getElementById('pv-grid-score');
-    if (scoreEl) scoreEl.textContent = t.gridScore + ': ' + p.grid_pct + '%';
+    if (scoreEl) scoreEl.textContent = t.completion + ': ' + (p.completion_pct || 0) + '%';
   }
 
   function renderTasksTable(p) {
@@ -347,20 +352,23 @@
 
     var html = '';
     tasks.forEach(function (tk) {
-      var stageBadge = '<span class="pv-badge pv-badge-stage">' + (sL[tk.current_stage] || tk.current_stage) + '</span>';
-      var visited = (tk.current_stage_index || 0) + 1;
+      var stage = tk.current_stage || tk.stage || 'initial';
+      var stageBadge = '<span class="pv-badge pv-badge-stage">' + (sL[stage] || stage) + '</span>';
+      var stageIdx = tk.current_stage_index;
+      if (stageIdx == null) stageIdx = stageOrder.indexOf(stage);
+      if (stageIdx < 0) stageIdx = 0;
+      var visited = stageIdx + 1;
       var pct = ((visited / 8) * 100).toFixed(0);
       var issueLink = tk.issue_number ? '<a href="https://github.com/packetqc/knowledge/issues/' + tk.issue_number + '" class="pv-link" target="_blank">#' + tk.issue_number + '</a>' : '--';
-      var taskLink = '<a href="' + baseUrl + twPath + '?task=' + (tk.id || '') + '" class="pv-link">' + t.viewTask + '</a>';
-      var synthMark = tk.synthesized ? ' *' : '';
+      var taskLink = '<a href="' + baseUrl + twPath + '?task=' + (tk.id || '') + '" class="pv-link" target="_top">' + t.viewTask + '</a>';
 
       html += '<tr>';
       html += '<td>' + issueLink + '</td>';
       html += '<td>' + esc(tk.title).substring(0, 60) + '</td>';
       html += '<td>' + stageBadge + '</td>';
       html += '<td><div class="pv-progress-bar"><div class="pv-progress-fill pv-blue" style="width:' + pct + '%"></div></div><span class="pv-muted">' + pct + '%</span></td>';
-      html += '<td>+' + (tk.additions || 0) + '/-' + (tk.deletions || 0) + '</td>';
-      html += '<td>' + (tk.grid_score || 0) + '/19' + synthMark + '</td>';
+      html += '<td>' + (tk.children_count || 0) + ' sub</td>';
+      html += '<td>' + (tk.message_count || 0) + ' msg</td>';
       html += '<td>' + taskLink + '</td>';
       html += '</tr>';
     });

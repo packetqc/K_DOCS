@@ -841,6 +841,47 @@
         "knowledge::work::validation::webcards theme aware"
       ],
       "timestamp": "2026-03-15T14:10:19Z"
+    },
+    {
+      "id": 67,
+      "summary": "Cinematic animated webcards: 118 frames at 400ms, 3 movies, expanded documentation mindmap to leafs, fixed og_image and link 404s, moved node_modules, updated conventions/methodology",
+      "far_memory_refs": [
+        133,
+        134
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::webcards",
+        "knowledge::conventions::methodologies",
+        "knowledge::documentation::publications",
+        "knowledge::documentation::stories"
+      ],
+      "timestamp": "2026-03-15T15:31:19Z"
+    },
+    {
+      "id": 68,
+      "summary": "Imported 3 modules from production, created project data model, built mind-to-tasks bridge script",
+      "far_memory_refs": [
+        135,
+        136
+      ],
+      "mind_memory_refs": [
+        "knowledge::work::en cours::modules imports",
+        "knowledge::work::validation::multi module architecture"
+      ],
+      "timestamp": "2026-03-15T16:45:55Z"
+    },
+    {
+      "id": 69,
+      "summary": "QA: 6 interface fixes — session overview, project theme/404/fields, task stat-card CSS, thin scrollbars, dark theme font variables",
+      "far_memory_refs": [
+        137,
+        138
+      ],
+      "mind_memory_refs": [
+        "documentation::interfaces",
+        "work::validation"
+      ],
+      "timestamp": "2026-03-15T17:09:47Z"
     }
   ],
   "last_session": {

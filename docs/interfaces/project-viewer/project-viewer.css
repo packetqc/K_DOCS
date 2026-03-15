@@ -2,6 +2,16 @@
    Project Viewer (I4) — Styles
    ═══════════════════════════════════════════════════════════════ */
 
+/* ── Discrete thin scrollbars ── */
+*, *::before, *::after {
+  scrollbar-width: thin;
+  scrollbar-color: var(--pv-border, #c0c0c0) transparent;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--pv-border, #c0c0c0); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--pv-muted, #888); }
+
 /* ── Variables ── */
 :root {
   --pv-bg: #fff;
@@ -131,7 +141,7 @@
   border: 1px solid var(--pv-border);
   border-radius: 6px;
   text-align: center;
-  background: var(--pv-bg-secondary);
+  background: var(--pv-bg);
 }
 .pv-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--pv-text); }
 .pv-stat-label { font-size: 0.75rem; color: var(--pv-muted); margin-top: 0.25rem; }

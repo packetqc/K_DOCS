@@ -240,6 +240,9 @@
         if (saved && selectEl.querySelector('option[value="' + saved + '"]')) {
           selectEl.value = saved;
           showSession(saved);
+        } else {
+          // Default: show all sessions overview
+          showSession('');
         }
       }
     })
@@ -778,7 +781,94 @@
     }
   }
 
+  // ── Overview rendering (All Sessions) ──
+  var overviewEl = document.getElementById('sv-view-overview');
+
+  function renderSessionOverview() {
+    if (!overviewEl || !sessionsData) return;
+    var sessions = sessionsData.sessions || [];
+
+    // Aggregate stats
+    var totalSessions = sessions.length;
+    var totalPRs = 0;
+    var totalAdds = 0;
+    var totalDels = 0;
+    var totalFiles = 0;
+    sessions.forEach(function(s) {
+      totalPRs += s.total_prs || s.pr_count || 0;
+      totalAdds += s.total_additions || 0;
+      totalDels += s.total_deletions || 0;
+      totalFiles += s.total_files_changed || 0;
+    });
+
+    var statsEl = document.getElementById('sv-overview-stats');
+    if (statsEl) {
+      statsEl.innerHTML =
+        '<div class="sv-stat-card"><div class="sv-stat-value">' + totalSessions + '</div><div class="sv-stat-label">' + (lang === 'fr' ? 'Sessions' : 'Sessions') + '</div></div>' +
+        '<div class="sv-stat-card"><div class="sv-stat-value">' + totalPRs + '</div><div class="sv-stat-label">' + t.prCount + '</div></div>' +
+        '<div class="sv-stat-card"><div class="sv-stat-value">+' + totalAdds.toLocaleString() + '</div><div class="sv-stat-label">' + t.additions + '</div></div>' +
+        '<div class="sv-stat-card"><div class="sv-stat-value">-' + totalDels.toLocaleString() + '</div><div class="sv-stat-label">' + t.deletions + '</div></div>' +
+        '<div class="sv-stat-card"><div class="sv-stat-value">' + totalFiles + '</div><div class="sv-stat-label">' + t.filesChanged + '</div></div>';
+    }
+
+    // Session cards
+    var cardsEl = document.getElementById('sv-session-cards');
+    if (!cardsEl) return;
+
+    var sorted = sessions.slice().sort(function(a, b) {
+      var ta = effectiveTime(a) || '';
+      var tb = effectiveTime(b) || '';
+      return tb.localeCompare(ta);
+    });
+
+    var html = '';
+    sorted.forEach(function(s) {
+      var title = esc(s.title || t.noTitle);
+      if (title.length > 60) title = title.substring(0, 57) + '...';
+      var date = s.date || '';
+      var issueTag = s.issue_number ? '#' + s.issue_number + ' ' : '';
+      var rtInfo = s.request_type ? reqTypeMap[s.request_type] : null;
+      var rtEmoji = rtInfo ? rtInfo.emoji + ' ' : '';
+
+      html += '<div class="sv-card" data-session-id="' + esc(s.id) + '">';
+      html += '<div class="sv-card-title">' + rtEmoji + issueTag + title + '</div>';
+      html += '<div class="sv-card-meta">';
+      html += '<span class="sv-badge sv-badge-type">' + esc(s.type || '') + '</span>';
+      html += '<span>' + date + '</span>';
+      html += '<span>+' + (s.total_additions || 0) + '/-' + (s.total_deletions || 0) + '</span>';
+      html += '<span>' + (s.total_prs || s.pr_count || 0) + ' PRs</span>';
+      html += '</div>';
+      html += '</div>';
+    });
+    cardsEl.innerHTML = html;
+
+    // Click handlers
+    cardsEl.querySelectorAll('.sv-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var id = card.getAttribute('data-session-id');
+        selectEl.value = id;
+        showSession(id);
+      });
+    });
+  }
+
   function showSession(id) {
+    // "All Sessions" overview mode
+    if (!id) {
+      currentSession = null;
+      destroyCharts();
+      emptyEl.style.display = 'none';
+      contentEl.style.display = 'none';
+      if (overviewEl) {
+        overviewEl.style.display = '';
+        renderSessionOverview();
+      }
+      try { localStorage.removeItem('sv-selected-session'); } catch(e) {}
+      return;
+    }
+    // Hide overview when viewing a single session
+    if (overviewEl) overviewEl.style.display = 'none';
+
     var s = findSession(id);
     if (!s) { currentSession = null; destroyCharts(); emptyEl.style.display = ''; contentEl.style.display = 'none'; return; }
     currentSession = s;

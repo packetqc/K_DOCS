@@ -1,5 +1,15 @@
 /* ═══ Tasks Workflow Viewer (I3) — CSS ═══ */
 
+/* ── Discrete thin scrollbars ── */
+*, *::before, *::after {
+  scrollbar-width: thin;
+  scrollbar-color: var(--tw-border, #c0c0c0) transparent;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--tw-border, #c0c0c0); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--tw-muted, #888); }
+
 /* ── Variables ── */
 :root {
   --tw-bg: #fff;
@@ -281,6 +291,16 @@
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
+
+.tw-stat-card {
+  padding: 0.75rem;
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius);
+  text-align: center;
+  background: var(--tw-bg);
+}
+.tw-stat-card .tw-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--tw-text); }
+.tw-stat-card .tw-stat-label { font-size: 0.75rem; color: var(--tw-muted); margin-top: 0.25rem; }
 
 /* ── Tables ── */
 .tw-table {

@@ -598,11 +598,13 @@
     if (statsEl) {
       var mc = task.metrics_compilation || {};
       var tc = task.time_compilation || {};
+      var visited = (task.current_stage_index || 0) + 1;
+      var pct = ((visited / 8) * 100).toFixed(0);
       statsEl.innerHTML =
         '<div class="tw-stat-card"><div class="tw-stat-value">' + esc(stageName(task.current_stage)) + '</div><div class="tw-stat-label">' + t.stage + '</div></div>' +
-        '<div class="tw-stat-card"><div class="tw-stat-value">' + (mc.prs || 0) + '</div><div class="tw-stat-label">' + t.prs + '</div></div>' +
-        '<div class="tw-stat-card"><div class="tw-stat-value">' + fmtSec(tc.active_seconds) + '</div><div class="tw-stat-label">' + t.activeTime + '</div></div>' +
-        '<div class="tw-stat-card"><div class="tw-stat-value">' + (task.issue_number ? '#' + task.issue_number : '—') + '</div><div class="tw-stat-label">Issue</div></div>';
+        '<div class="tw-stat-card"><div class="tw-stat-value">' + pct + '%</div><div class="tw-stat-label">' + t.progress + '</div></div>' +
+        '<div class="tw-stat-card"><div class="tw-stat-value">' + (task.message_count || 0) + '</div><div class="tw-stat-label">' + (lang === 'fr' ? 'Messages' : 'Messages') + '</div></div>' +
+        '<div class="tw-stat-card"><div class="tw-stat-value">' + (mc.prs || (task.issue_number ? '#' + task.issue_number : '—')) + '</div><div class="tw-stat-label">' + (mc.prs ? t.prs : 'Issue') + '</div></div>';
     }
 
     // ── Knowledge Grid ──
