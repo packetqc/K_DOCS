@@ -750,6 +750,18 @@
         "knowledge::conventions::root_essential_files"
       ],
       "timestamp": "2026-03-15T11:56:31Z"
+    },
+    {
+      "id": 60,
+      "summary": "Ctrl+click expand fix (reset state), full mode depth reduced to configDepth-1, session wrapping up",
+      "far_memory_refs": [
+        119,
+        120
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::web_docs::live_mindmap"
+      ],
+      "timestamp": "2026-03-15T12:04:16Z"
     }
   ],
   "last_session": {

@@ -1257,6 +1257,25 @@
           "action": "saved design direction"
         }
       ]
+    },
+    {
+      "id": 119,
+      "role": "user",
+      "content": "Full mode depth too deep, try minus 1. Also fix Ctrl+click expand all stale after collapse. Multi-module design discussion concluded. Wrapping up session.",
+      "timestamp": "2026-03-15T12:04:16Z"
+    },
+    {
+      "id": 120,
+      "role": "assistant",
+      "content": "Fixed Ctrl+click by resetting descendant expanded states in capture phase before MindElixir expandNodeAll runs. Full mode now starts at configDepth-1 (depth 2). User may want depth 1 — will test on return. All synced across 3 deployment points.",
+      "timestamp": "2026-03-15T12:04:16Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "3 MindElixir files",
+          "action": "Ctrl+click reset + full mode depth-1"
+        }
+      ]
     }
   ],
   "archives": [
