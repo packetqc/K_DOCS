@@ -267,7 +267,9 @@
       padding: 0.5rem 1rem;
       display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
       justify-content: space-between;
+      max-width: var(--max-width); margin: 0 auto;
     }
+    body.landscape .toolbar { max-width: 100%; }
     .toolbar-top { top: 0; border-bottom: 1px solid var(--border); }
     .toolbar-bottom { bottom: 0; border-top: 1px solid var(--border); }
     .toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
@@ -942,11 +944,10 @@
         var pipeMatch = meta.pub_meta.match(/\|\s*(.+)$/);
         if (pipeMatch) authors = pipeMatch[1].trim();
       }
-      if (authors) {
-        var authLabel = (meta.lang === 'fr') ? 'Auteurs' : 'Authors';
-        var authorLines = authors.split(/\s*[&]\s*/);
-        detailsHtml += '<div class="chrome-detail-row"><span class="chrome-detail-label">' + authLabel + ':</span> ' + authorLines.map(function(a) { return escapeHtml(a.trim()); }).join('<br><span class="chrome-detail-label"></span> ') + '</div>';
-      }
+      if (!authors) authors = 'Martin Paquet & Claude (Anthropic, Opus 4.6)';
+      var authLabel = (meta.lang === 'fr') ? 'Auteurs' : 'Authors';
+      var authorLines = authors.split(/\s*[&]\s*/);
+      detailsHtml += '<div class="chrome-detail-row"><span class="chrome-detail-label">' + authLabel + ':</span> ' + authorLines.map(function(a) { return escapeHtml(a.trim()); }).join('<br><span class="chrome-detail-label"></span> ') + '</div>';
 
       return { actualUrl: actualUrl, backUrl: backUrl, backLabel: backLabel, versionHtml: versionHtml, detailsHtml: detailsHtml };
     }
