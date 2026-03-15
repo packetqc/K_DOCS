@@ -609,6 +609,30 @@
           "action": "add right-panel click interceptor with routing rules"
         }
       ]
+    },
+    {
+      "id": 67,
+      "role": "user",
+      "content": "interface links in right panel load in both center and right. only main works. srcdoc origin null prevents cross-doc access.",
+      "timestamp": "2026-03-15T06:16:00Z"
+    },
+    {
+      "id": 68,
+      "role": "assistant",
+      "content": "Moved right-panel routing from navigator (srcdoc, origin null) to viewer's interceptInternalLinks. When IS_EMBED && window.name === 'content-frame': interfaces route to parent center-frame, main-nav reloads top. Also soft-coupled SITE.baseurl to auto-detect from deployment path, with production_baseurl fallback for Liquid resolution.",
+      "timestamp": "2026-03-15T06:16:00Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add right-panel routing in interceptInternalLinks + auto-detect baseurl"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "remove navigator-side routing interceptor"
+        }
+      ]
     }
   ],
   "archives": [

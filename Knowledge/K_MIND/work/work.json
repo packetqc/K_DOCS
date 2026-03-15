@@ -2,6 +2,16 @@
   "domain": "work",
   "references": [
     {
+      "name": "documentation-web-viewer-system",
+      "description": "Static JS documentation viewer (docs/index.html) with: markdown parsing, Mermaid rendering, 4-theme system, bilingual FR/EN, portrait/landscape toggle, doc-header convention (nav-back, actual page link, version tag, collapsible metadata), unified chrome bar for embeds, TOC generation (two-column 8+), corporate PDF export (cover centered, TOC page 2, running header/footer, blue liners), corporate DOCX export (same styling via MSO elements), internal link interceptor with viewer URL rewriting, Liquid tag resolver, soft-coupled baseurl auto-detection. Main navigator interface with draggable panel dividers (drag + click-to-step), publication card links via viewerRewriteUrl.",
+      "status": "in_progress",
+      "session": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "files_modified": [
+        "docs/index.html",
+        "docs/interfaces/main-navigator/index.md"
+      ]
+    },
+    {
       "name": "display-conventions-and-stats-system",
       "description": "Session topic covering display convention fixes and stats system build-out. Conventions: fixed stale session nodes, added useMaxWidth, fixed stats format, added empty-category rule, near memory depth 4, far_memory verbatim rule. Work: created depth_config.json, set_depth.py, mindmap_filter.py, memory_stats.py, /mind-stats skill, /mind-depth skill. All verified with no regressions.",
       "status": "completed",

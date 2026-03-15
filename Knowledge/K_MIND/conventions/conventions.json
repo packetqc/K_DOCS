@@ -66,6 +66,24 @@
       "name": "soft_coupled_baseurl",
       "description": "Viewer auto-detects SITE.baseurl from window.location.pathname at runtime. Production baseurl (/knowledge) is kept as fallback for resolving Liquid tags in imported markdown. resolveInternalPath and viewerRewriteUrl both check viewer baseurl first, then production baseurl. resolveLiquid handles both single and double-quoted Liquid syntax.",
       "mind_memory_refs": ["knowledge::documentation::web_docs::soft_coupled_baseurl_auto_detect_deployment"]
+    },
+    {
+      "id": "conv-011",
+      "name": "doc_header_convention",
+      "description": "Doc-header bar displays: toggle arrow (left), nav-back link (for /full/ pages back to summary), actual page permalink, version dot+tag. Collapsible section shows labeled rows: Publication (version · date · title), Generated (timestamp), Authors (default: Martin Paquet & Claude). Built by shared buildDocHeaderParts(meta) used in both standalone doc-header and embed chrome bar. Authors split by & displayed on separate lines.",
+      "mind_memory_refs": ["knowledge::documentation::web_docs"]
+    },
+    {
+      "id": "conv-012",
+      "name": "export_corporate_styling",
+      "description": "PDF and DOCX exports use corporate styling, not web theme colors. White background (#fff), black text (#111), corporate blue accent (#1d4ed8). Cover page centered horizontally with title, description, separator line, pub_meta, timestamp, authors. TOC on page 2 with page-break-after. Running header: title with blue bottom liner. Running footer: Generated timestamp · version, K_DOCS right-aligned, blue top liner. First page (cover) has empty header/footer. Filename: PUB_ID - Title - VER.pdf/.docx.",
+      "mind_memory_refs": ["knowledge::documentation::web_docs"]
+    },
+    {
+      "id": "conv-013",
+      "name": "draggable_panel_dividers",
+      "description": "Main navigator vertical dividers support both drag (mousedown/mousemove/mouseup with overlay) and click-to-step fallback. Left divider cycles [0, 220, 320]px. Right divider cycles 0 → 50% → full → 0. Grid uses pixel-based grid-template-columns with transition disabled during drag. Dividers styled as thin bars with grip dots (·), no arrows.",
+      "mind_memory_refs": ["knowledge::documentation::web_docs"]
     }
   ],
   "external_files": []
