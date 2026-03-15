@@ -1041,13 +1041,13 @@
     // Auto-detect baseurl from deployment path (works on /K_DOCS/, /knowledge/, localhost, etc.)
     var VIEWER_PATH = window.location.pathname.replace(/\/index\.html.*$/, '').replace(/\/$/, '') || '';
     // Production baseurl for resolving Liquid tags in imported markdown
-    var PRODUCTION_BASEURL = '/knowledge';
+    var PRODUCTION_BASEURL = '/K_DOCS';
     var SITE = {
       url: window.location.origin,
       baseurl: VIEWER_PATH,
       production_baseurl: PRODUCTION_BASEURL,
-      github_repo: 'packetqc/knowledge',
-      github: { repository_url: 'https://github.com/packetqc/knowledge' }
+      github_repo: 'packetqc/K_DOCS',
+      github: { repository_url: 'https://github.com/packetqc/K_DOCS' }
     };
 
     function resolveLiquid(body, meta) {
@@ -1881,7 +1881,7 @@
           content.className = '';
           content.innerHTML = '<h1>Error loading document</h1><p>' + err.message + '</p>' +
             '<p>Path: <code>' + path + '</code></p>' +
-            '<p>Make sure you are serving this file via a local HTTP server (e.g. <code>python3 -m http.server 8000</code>).</p>';
+            '<p>If on GitHub Pages, ensure <code>.nojekyll</code> exists so raw .md files are served.</p>';
         });
     }
   </script>
