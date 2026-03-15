@@ -509,6 +509,14 @@ body > .container {
     else container.requestFullscreen();
   };
 
+  // Fit mindmap on fullscreen change and window resize
+  document.addEventListener('fullscreenchange', function() {
+    if (window.mindInstance) setTimeout(function() { window.mindInstance.scaleFit(); }, 200);
+  });
+  window.addEventListener('resize', function() {
+    if (window.mindInstance) window.mindInstance.scaleFit();
+  });
+
   // Sync theme on page load
   var themeSelect = document.getElementById('mindmap-theme');
   if (themeSelect) {
