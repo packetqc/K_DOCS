@@ -125,12 +125,12 @@ function buildProgressiveData(root, fullMode = false) {
   const topChildren = root.children || [];
   const frames = [];
 
-  // At 15fps: 1 frame = 67ms. hold(15) = 1s, hold(30) = 2s, hold(8) = 0.5s
+  // 400ms per frame. hold(N) = N×400ms. hold(3) = 1.2s, hold(5) = 2s
 
-  // ── MOVIE 1: The Emergence (~5s) ──
+  // ── MOVIE 1: The Emergence ──
   // Phase 1a: Root alone
   frames.push({ nodeData: filterByDepth(root, 0), direction: 2 });
-  hold(frames, 10); // ~0.7s pause on root
+  hold(frames, 2);
 
   // Phase 1b: Branches appear one by one (depth 1)
   for (let i = 0; i < topChildren.length; i++) {
@@ -139,27 +139,22 @@ function buildProgressiveData(root, fullMode = false) {
       partial.children.push({ topic: topChildren[j].topic, id: topChildren[j].id, children: [] });
     }
     frames.push({ nodeData: partial, direction: 2 });
-    hold(frames, 2); // brief pause between each branch
   }
-  // Hold with all branches at depth 1
-  hold(frames, 10); // ~0.7s
+  hold(frames, 2);
 
   // Phase 1c: Deepen to depth 2, then 3
   for (let d = 2; d <= overviewMax; d++) {
     frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
-    hold(frames, 8); // ~0.5s per depth level
+    hold(frames, 1);
   }
-  // Hold the full overview for reading
-  hold(frames, 22); // ~1.5s
+  // Hold the full overview
+  hold(frames, 4);
 
-  // ── Inter-movie pause ──
-  hold(frames, 8);
-
-  // ── MOVIE 2: The Collapse (~5s) ──
+  // ── MOVIE 2: The Collapse ──
   // Phase 2a: Retract depth by depth
   for (let d = overviewMax - 1; d >= 1; d--) {
     frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
-    hold(frames, 6);
+    hold(frames, 1);
   }
 
   // Phase 2b: Remove branches one by one back to root
@@ -169,17 +164,15 @@ function buildProgressiveData(root, fullMode = false) {
       partial.children.push({ topic: topChildren[j].topic, id: topChildren[j].id, children: [] });
     }
     frames.push({ nodeData: partial, direction: 2 });
-    hold(frames, 2);
   }
-  // Root alone — dramatic pause
-  hold(frames, 15); // ~1s
+  // Root alone
+  hold(frames, 3);
 
-  // Phase 2c: Re-emerge all at depth 1 (transition to Movie 3)
+  // Phase 2c: Re-emerge all at depth 1
   frames.push({ nodeData: filterByDepth(root, 1), direction: 2 });
-  hold(frames, 12); // ~0.8s
+  hold(frames, 2);
 
-  // ── MOVIE 3: The Exploration (~5s per branch) ──
-  // Each branch opens progressively, holds for reading, retracts before next
+  // ── MOVIE 3: The Exploration ──
   for (let i = 0; i < topChildren.length; i++) {
     // Progressive open: depth 2 → 3 → ... → exploreMax
     for (let d = 2; d <= exploreMax; d++) {
@@ -192,13 +185,12 @@ function buildProgressiveData(root, fullMode = false) {
         }
       }
       frames.push({ nodeData: frameRoot, direction: 2 });
-      hold(frames, 4); // ~0.3s between depth levels
     }
 
     // Hold the fully expanded branch for reading
-    hold(frames, 22); // ~1.5s reading time
+    hold(frames, 4);
 
-    // Progressive retract: exploreMax-1 → 2 → collapse
+    // Progressive retract
     for (let d = exploreMax - 1; d >= 2; d--) {
       const frameRoot = { topic: root.topic, id: root.id, children: [] };
       for (let j = 0; j < topChildren.length; j++) {
@@ -209,20 +201,17 @@ function buildProgressiveData(root, fullMode = false) {
         }
       }
       frames.push({ nodeData: frameRoot, direction: 2 });
-      hold(frames, 2);
     }
 
-    // Back to skeleton (unless last branch — hold finale instead)
     if (i < topChildren.length - 1) {
       frames.push({ nodeData: filterByDepth(root, 1), direction: 2 });
-      hold(frames, 6); // ~0.4s pause between branches
+      hold(frames, 1);
     } else {
-      // Final branch: re-expand to full overview as grand finale
+      // Grand finale: re-expand to full overview
       for (let d = 2; d <= overviewMax; d++) {
         frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
-        hold(frames, 4);
       }
-      hold(frames, 30); // ~2s grand finale hold
+      hold(frames, 5);
     }
   }
 
