@@ -57,6 +57,7 @@ body > .container {
   flex: 1;
   overflow: hidden;
   border: 1px solid var(--border, #d48a3c);
+  margin-bottom: 1.5rem;
   border-radius: 8px;
   position: relative;
 }
