@@ -13,6 +13,7 @@ page_type: interface
 og_image: /assets/og/knowledge-system-en-cayman.gif
 ---
 
+{::nomarkdown}
 <style>
 .mindmap-container {
   width: 100%;
@@ -150,3 +151,4 @@ og_image: /assets/og/knowledge-system-en-cayman.gif
   }
 })();
 </script>
+{:/nomarkdown}
