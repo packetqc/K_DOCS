@@ -210,6 +210,9 @@
       font-size: 0.78rem; user-select: none;
       display: flex; align-items: stretch;
     }
+    body.embed-mode .container { padding: 0; }
+    body.embed-mode #content > *:not(.chrome-bar):not(.chrome-bar-meta) { margin-left: 1rem; margin-right: 1rem; }
+    body.embed-mode #content { padding-bottom: 1rem; }
     .chrome-bar-fixed {
       display: flex; align-items: center; justify-content: space-between;
       padding: 0.2rem 0.75rem; flex: 1; min-width: 0;
@@ -443,8 +446,6 @@
     var IS_EMBED = new URLSearchParams(window.location.search).has('embed');
     if (IS_EMBED) {
       document.querySelectorAll('.toolbar-top, .toolbar-bottom').forEach(function(el) { el.style.display = 'none'; });
-      var cont = document.querySelector('.container');
-      if (cont) cont.style.padding = '0 1rem 1rem';
       document.body.classList.add('embed-mode');
     }
   </script>
