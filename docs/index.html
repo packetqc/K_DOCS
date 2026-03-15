@@ -1398,6 +1398,7 @@
     // Rewrite internal link hrefs so printed PDF/DOCX contains correct URLs
     function rewriteContentLinks(container) {
       var links = container.querySelectorAll('a[href]');
+      var viewerBase = SITE.url + (SITE.baseurl || '') + '/index.html';
       for (var i = 0; i < links.length; i++) {
         var href = links[i].getAttribute('href');
         if (!href || href.charAt(0) === '#') continue;
@@ -1405,9 +1406,10 @@
         if (match) {
           var doc = DOCS[match.index];
           var docPath = (match.lang === 'fr' && doc.path_fr) ? doc.path_fr : doc.path;
-          // Build correct URL: site + baseurl + /path (strip index.md for clean URLs)
-          var cleanPath = docPath.replace(/index\.md$/, '');
-          links[i].setAttribute('href', SITE.url + (SITE.baseurl || '') + '/' + cleanPath);
+          // Build viewer URL: site/index.html?doc=<path> (works on GitHub Pages without Jekyll)
+          var url = viewerBase + '?doc=' + encodeURIComponent(docPath);
+          if (match.lang === 'fr') url += '&lang=fr';
+          links[i].setAttribute('href', url);
         }
       }
     }
