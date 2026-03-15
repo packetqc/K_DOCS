@@ -271,10 +271,6 @@ body > .container {
     if (!window.mindInstance) return;
     var theme = MIND_THEMES[themeKey];
     if (theme) window.mindInstance.changeTheme(theme);
-    // Disable contenteditable on all node topics
-    document.querySelectorAll('me-tpc[contenteditable]').forEach(function(el) {
-      el.setAttribute('contenteditable', 'false');
-    });
   };
 
   // === Fetch helpers ===
@@ -466,18 +462,17 @@ body > .container {
         window.mindInstance = mind;
         // Set page theme + disable text editing on nodes
         document.documentElement.setAttribute('data-theme', themeKey);
-        setTimeout(function() {
-          document.querySelectorAll('me-tpc[contenteditable]').forEach(function(el) {
-            el.setAttribute('contenteditable', 'false');
-          });
-        }, 100);
 
-        // Disable contenteditable on newly rendered nodes
-        function lockNodes() {
-          document.querySelectorAll('me-tpc[contenteditable]').forEach(function(el) {
-            el.setAttribute('contenteditable', 'false');
+        // MutationObserver: block contenteditable=true whenever MindElixir sets it
+        new MutationObserver(function(mutations) {
+          mutations.forEach(function(m) {
+            if (m.type === 'attributes' && m.target.tagName === 'ME-TPC' &&
+                m.target.getAttribute('contenteditable') === 'true') {
+              m.target.setAttribute('contenteditable', 'false');
+              m.target.blur();
+            }
           });
-        }
+        }).observe(container, { attributes: true, attributeFilter: ['contenteditable'], subtree: true });
 
         // One-level expand helper: collapse grandchildren data before expanding
         function expandOneLevel(meNodeEl) {
@@ -488,7 +483,6 @@ body > .container {
               if (child.children && child.children.length > 0) child.expanded = false;
             });
             mind.expandNode(meNodeEl, true);
-            setTimeout(lockNodes, 50);
           } else {
             mind.expandNode(meNodeEl, false);
           }
