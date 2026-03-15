@@ -13,6 +13,7 @@ pub_number: 0
 pub_date: "March 2026"
 source_url: "https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/knowledge-2.0/v1"
 og_image: /assets/og/knowledge-2-en-cayman.gif
+live_webcard: mindmap
 citation: "Paquet, M. & Claude (2026). Knowledge 2.0: Interactive Intelligence Framework. packetqc/knowledge."
 ---
 
@@ -42,46 +43,7 @@ citation: "Paquet, M. & Claude (2026). Knowledge 2.0: Interactive Intelligence F
 
 ---
 
-### Live Knowledge Graph
-
-<div id="live-mindmap-embed" style="width:100%;min-height:40vh;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:1rem;margin:0.5rem 0 1rem;">
-<div class="loading">Loading live mindmap...</div>
-</div>
-
-<script>
-(function() {
-  var RAW_URL = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/mind/mind_memory.md';
-  var base = window.location.pathname.replace(/\/publications\/.*/, '/');
-  var localPath = base + 'Knowledge/K_MIND/mind/mind_memory.md';
-  var container = document.getElementById('live-mindmap-embed');
-  if (!container) return;
-
-  fetch(localPath)
-    .then(function(r) {
-      if (!r.ok) throw new Error('local 404');
-      return r.text();
-    })
-    .catch(function() {
-      return fetch(RAW_URL).then(function(r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.text();
-      });
-    })
-    .then(function(text) {
-      var match = text.match(/```mermaid\s*\n([\s\S]*?)```/);
-      if (!match) throw new Error('No mermaid block found');
-      container.innerHTML = '<div class="mermaid">' + match[1].trim() + '</div>';
-      if (window.mermaid) {
-        mermaid.run({ nodes: container.querySelectorAll('.mermaid') });
-      }
-    })
-    .catch(function(err) {
-      container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:2rem;">Mindmap unavailable: ' + err.message + '</p>';
-    });
-})();
-</script>
-
-<p style="font-size:0.8rem;color:var(--muted);text-align:right;margin-top:-0.5rem;"><a href="{{ site.baseurl }}/interfaces/live-mindmap/">Full-screen view &#x2197;</a></p>
+> The **live knowledge graph** above renders the current K_MIND mindmap in real-time. [Full-screen view &#x2197;]({{ site.baseurl }}/interfaces/live-mindmap/)
 
 ---
 
