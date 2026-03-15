@@ -1027,6 +1027,13 @@
         // Handle anchor links (scroll within page)
         if (href.charAt(0) === '#') return;
 
+        // External links → open in new browser tab (they can't load in iframes)
+        if (/^https?:\/\//.test(href) && href.indexOf(window.location.origin) !== 0) {
+          e.preventDefault();
+          window.open(href, '_blank', 'noopener');
+          return;
+        }
+
         var match = resolveInternalPath(href);
         if (match) {
           e.preventDefault();
