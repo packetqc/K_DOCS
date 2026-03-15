@@ -169,6 +169,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-widget .pub-group a { padding-left: 1.3rem; font-size: 0.74rem; }
 .cmd-link { font-family: monospace; font-size: 0.72rem; color: var(--muted, #656d76); }
 
+/* ═══ Mobile — shrink dividers for touch screens ═══ */
+@media (max-width: 768px) {
+  .nav-divider-left, .nav-divider-right { min-width: 8px; }
+  .nav-divider-left::before, .nav-divider-right::before { font-size: 0.55rem; }
+  .nav-grid { grid-template-columns: 0px 8px 1fr 8px 0px; }
+}
+
 /* ═══ Print / PDF export — center panel content after cover page ═══ */
 @media print {
   html, body { height: auto !important; overflow: visible !important; }
@@ -240,7 +247,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 
   /* ─── Panel sizes — draggable + click-to-step ─── */
-  var DIVIDER_W = 14;
+  var DIVIDER_W = (window.innerWidth <= 768) ? 8 : 14;
   var LEFT_STEPS = [0, 220, 320]; // click cycles through these
   var savedLeft = parseInt(localStorage.getItem(LPANEL_KEY) || '220');
   var savedRight = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
