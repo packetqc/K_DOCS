@@ -165,5 +165,7 @@ mindmap
           live mindmap
             standalone interface page
             embedded in knowledge 2.0 publication
-            fetches mind_memory.md renders mermaid live
+            MindElixir v5 replaces mermaid rendering
+            theme sync with viewer 4 themes
+            pan zoom drag built in
 ```

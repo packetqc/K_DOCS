@@ -1,19 +1,20 @@
 ---
 layout: publication
 title: "Live Mindmap — K_MIND Knowledge Graph"
-description: "Interactive live rendering of the K_MIND memory mindmap. Reads mind_memory.md and renders the mermaid mindmap in real-time."
+description: "Interactive live rendering of the K_MIND memory mindmap. Reads mind_memory.md and renders with MindElixir in real-time."
 permalink: /interfaces/live-mindmap/
 lang: en
 header_title: "Live Mindmap"
 tagline: "K_MIND Knowledge Graph — Real-Time"
 pub_meta: "Interface | K_DOCS"
-pub_version: "v2"
+pub_version: "v3"
 pub_date: "March 2026"
 page_type: interface
 og_image: /assets/og/knowledge-system-en-cayman.gif
 ---
 
 {::nomarkdown}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.css">
 <style>
 html, body {
   height: 100%; margin: 0; overflow: hidden;
@@ -21,21 +22,6 @@ html, body {
 body > .container {
   display: flex; flex-direction: column;
   height: 100%; overflow: hidden;
-}
-.mindmap-container {
-  width: 100%;
-  flex: 1;
-  overflow: hidden;
-  border: 1px solid var(--border, #d48a3c);
-  border-radius: 8px;
-  background: var(--bg, #faf6f1);
-  position: relative;
-  cursor: grab;
-}
-.mindmap-container.dragging { cursor: grabbing; }
-.mindmap-container svg {
-  position: absolute;
-  transform-origin: 0 0;
 }
 .mindmap-controls {
   display: flex;
@@ -66,40 +52,18 @@ body > .container {
   color: var(--muted, #5c5c78);
   margin-left: auto;
 }
+#mindmap-container {
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+  border: 1px solid var(--border, #d48a3c);
+  border-radius: 8px;
+  position: relative;
+}
 .mindmap-error {
   color: #dc2626;
   padding: 1rem;
   text-align: center;
-}
-/* Node path breadcrumb */
-.mindmap-breadcrumb {
-  position: absolute;
-  bottom: 0.5rem; left: 0.5rem; right: 0.5rem;
-  background: var(--code-bg, rgba(0,0,0,0.05));
-  color: var(--fg, #1a1a2e);
-  font-size: 0.78rem;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  pointer-events: none;
-  z-index: 10;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.mindmap-breadcrumb.visible { opacity: 1; }
-/* Zoom indicator */
-.zoom-indicator {
-  position: absolute;
-  top: 0.5rem; right: 0.5rem;
-  background: var(--code-bg, rgba(0,0,0,0.05));
-  color: var(--muted, #5c5c78);
-  font-size: 0.72rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  z-index: 10;
-  pointer-events: none;
 }
 </style>
 
@@ -110,22 +74,27 @@ body > .container {
     <option value="normal">Normal</option>
     <option value="full">Full</option>
   </select>
+  <select id="mindmap-theme" onchange="applyMindTheme()">
+    <option value="auto">Theme: Auto</option>
+    <option value="cayman">Cayman</option>
+    <option value="midnight">Midnight</option>
+    <option value="daltonism-light">Daltonism Light</option>
+    <option value="daltonism-dark">Daltonism Dark</option>
+  </select>
   <button onclick="loadMindmap()">Reload</button>
   <span class="sep"></span>
-  <button onclick="zoomIn()">+</button>
-  <button onclick="zoomOut()">&minus;</button>
-  <button onclick="zoomFit()">Fit</button>
+  <button onclick="if(mindInstance)mindInstance.toCenter()">Center</button>
+  <button onclick="if(mindInstance)mindInstance.scaleFit()">Fit</button>
   <span class="sep"></span>
   <button onclick="toggleFullscreen()">Fullscreen</button>
   <span class="mindmap-status" id="mindmap-status">Loading...</span>
 </div>
 
-<div class="mindmap-container" id="mindmap-container">
-  <div class="loading">Loading mindmap...</div>
-  <div class="mindmap-breadcrumb" id="mindmap-breadcrumb"></div>
-  <div class="zoom-indicator" id="zoom-indicator">100%</div>
+<div id="mindmap-container">
+  <div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.iife.js"></script>
 <script>
 (function() {
   var RAW_BASE = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/';
@@ -134,11 +103,84 @@ body > .container {
 
   var cachedMermaid = null;
   var cachedConfig = null;
+  window.mindInstance = null;
 
-  // Pan & zoom state
-  var panZoom = { x: 0, y: 0, scale: 1, minScale: 0.1, maxScale: 5 };
-  var drag = { active: false, startX: 0, startY: 0, startPanX: 0, startPanY: 0 };
+  // === Theme definitions matching viewer themes ===
+  var MIND_THEMES = {
+    cayman: {
+      name: 'Cayman', type: 'light',
+      palette: ['#1d4ed8','#2563eb','#3b82f6','#60a5fa','#0ea5e9','#0284c7','#7c3aed','#8b5cf6','#06b6d4','#14b8a6'],
+      cssVar: {
+        '--bgcolor': '#eff6ff',
+        '--root-color': '#ffffff', '--root-bgcolor': '#1d4ed8', '--root-border-color': '#1e40af',
+        '--main-color': '#0f172a', '--main-bgcolor': '#dbeafe',
+        '--color': '#334155', '--selected': '#3b82f6',
+        '--root-radius': '30px', '--main-radius': '8px',
+        '--panel-color': '#0f172a', '--panel-bgcolor': '#eff6ff', '--panel-border-color': '#93c5fd'
+      }
+    },
+    midnight: {
+      name: 'Midnight', type: 'dark',
+      palette: ['#60a5fa','#818cf8','#a78bfa','#38bdf8','#22d3ee','#34d399','#fb923c','#f472b6','#c084fc','#facc15'],
+      cssVar: {
+        '--bgcolor': '#0f172a',
+        '--root-color': '#e2e8f0', '--root-bgcolor': '#1e40af', '--root-border-color': '#3b82f6',
+        '--main-color': '#e2e8f0', '--main-bgcolor': '#1e293b',
+        '--color': '#94a3b8', '--selected': '#60a5fa',
+        '--root-radius': '30px', '--main-radius': '8px',
+        '--panel-color': '#e2e8f0', '--panel-bgcolor': '#1e293b', '--panel-border-color': '#334155'
+      }
+    },
+    'daltonism-light': {
+      name: 'Daltonism Light', type: 'light',
+      palette: ['#0055b3','#d48a3c','#6b21a8','#0369a1','#b45309','#047857','#be185d','#4338ca','#0e7490','#a16207'],
+      cssVar: {
+        '--bgcolor': '#faf6f1',
+        '--root-color': '#ffffff', '--root-bgcolor': '#0055b3', '--root-border-color': '#003d80',
+        '--main-color': '#1a1a2e', '--main-bgcolor': '#eee8df',
+        '--color': '#5c5c78', '--selected': '#0055b3',
+        '--root-radius': '30px', '--main-radius': '8px',
+        '--panel-color': '#1a1a2e', '--panel-bgcolor': '#faf6f1', '--panel-border-color': '#d48a3c'
+      }
+    },
+    'daltonism-dark': {
+      name: 'Daltonism Dark', type: 'dark',
+      palette: ['#5599dd','#cc8833','#a78bfa','#38bdf8','#fbbf24','#34d399','#f472b6','#818cf8','#22d3ee','#fb923c'],
+      cssVar: {
+        '--bgcolor': '#1a1a2e',
+        '--root-color': '#e8e4f0', '--root-bgcolor': '#2a4a7a', '--root-border-color': '#5599dd',
+        '--main-color': '#e8e4f0', '--main-bgcolor': '#28283e',
+        '--color': '#9494aa', '--selected': '#5599dd',
+        '--root-radius': '30px', '--main-radius': '8px',
+        '--panel-color': '#e8e4f0', '--panel-bgcolor': '#28283e', '--panel-border-color': '#cc8833'
+      }
+    }
+  };
 
+  function detectTheme() {
+    // Check viewer theme from parent or localStorage
+    var saved = localStorage.getItem('kdocs-theme');
+    if (saved && saved !== 'auto' && MIND_THEMES[saved]) return saved;
+    // Auto: check prefers-color-scheme
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'daltonism-dark';
+    return 'daltonism-light';
+  }
+
+  function getCurrentTheme() {
+    var sel = document.getElementById('mindmap-theme');
+    var val = sel ? sel.value : 'auto';
+    if (val === 'auto') return detectTheme();
+    return val;
+  }
+
+  window.applyMindTheme = function() {
+    if (!window.mindInstance) return;
+    var themeKey = getCurrentTheme();
+    var theme = MIND_THEMES[themeKey];
+    if (theme) window.mindInstance.changeTheme(theme);
+  };
+
+  // === Fetch helpers ===
   function fetchMindmap() {
     if (cachedMermaid) return Promise.resolve(cachedMermaid);
     return fetch(MIND_URL)
@@ -162,6 +204,7 @@ body > .container {
       });
   }
 
+  // === Depth filter (JS port of mindmap_filter.py) ===
   function filterMindmap(mermaidCode, config) {
     var lines = mermaidCode.split('\n');
     var headerLines = [], bodyLines = [], inHeader = true;
@@ -201,250 +244,73 @@ body > .container {
     return headerLines.join('\n') + '\n' + out.join('\n');
   }
 
-  // === Pan & Zoom ===
-  function applyTransform() {
-    var container = document.getElementById('mindmap-container');
-    var svg = container.querySelector('svg');
-    if (!svg) return;
-    svg.style.transform = 'translate(' + panZoom.x + 'px,' + panZoom.y + 'px) scale(' + panZoom.scale + ')';
-    var zi = document.getElementById('zoom-indicator');
-    if (zi) zi.textContent = Math.round(panZoom.scale * 100) + '%';
-  }
-
-  window.zoomIn = function() {
-    panZoom.scale = Math.min(panZoom.maxScale, panZoom.scale * 1.25);
-    applyTransform();
-  };
-  window.zoomOut = function() {
-    panZoom.scale = Math.max(panZoom.minScale, panZoom.scale / 1.25);
-    applyTransform();
-  };
-  window.zoomFit = function() {
-    var container = document.getElementById('mindmap-container');
-    var svg = container.querySelector('svg');
-    if (!svg) return;
-    var cw = container.clientWidth, ch = container.clientHeight;
-    var sw = svg.getAttribute('width') || svg.viewBox.baseVal.width || svg.getBBox().width;
-    var sh = svg.getAttribute('height') || svg.viewBox.baseVal.height || svg.getBBox().height;
-    sw = parseFloat(sw); sh = parseFloat(sh);
-    if (!sw || !sh) { panZoom.scale = 1; panZoom.x = 0; panZoom.y = 0; applyTransform(); return; }
-    var scaleX = cw / sw, scaleY = ch / sh;
-    panZoom.scale = Math.min(scaleX, scaleY, 2) * 0.95;
-    panZoom.x = (cw - sw * panZoom.scale) / 2;
-    panZoom.y = (ch - sh * panZoom.scale) / 2;
-    applyTransform();
-  };
-
-  // Mouse drag to pan
-  function onMouseDown(e) {
-    if (e.button !== 0) return;
-    // Don't drag if clicking a node
-    if (e.target.closest('.mindmap-node, text, rect, circle, ellipse, path[class*="edge"]')) return;
-    drag.active = true;
-    drag.startX = e.clientX; drag.startY = e.clientY;
-    drag.startPanX = panZoom.x; drag.startPanY = panZoom.y;
-    document.getElementById('mindmap-container').classList.add('dragging');
-    e.preventDefault();
-  }
-  function onMouseMove(e) {
-    if (!drag.active) return;
-    panZoom.x = drag.startPanX + (e.clientX - drag.startX);
-    panZoom.y = drag.startPanY + (e.clientY - drag.startY);
-    applyTransform();
-  }
-  function onMouseUp() {
-    if (!drag.active) return;
-    drag.active = false;
-    document.getElementById('mindmap-container').classList.remove('dragging');
-  }
-
-  // Mouse wheel zoom (zoom toward cursor)
-  function onWheel(e) {
-    e.preventDefault();
-    var container = document.getElementById('mindmap-container');
-    var rect = container.getBoundingClientRect();
-    var mx = e.clientX - rect.left, my = e.clientY - rect.top;
-    var oldScale = panZoom.scale;
-    var factor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
-    panZoom.scale = Math.max(panZoom.minScale, Math.min(panZoom.maxScale, panZoom.scale * factor));
-    // Zoom toward cursor
-    panZoom.x = mx - (mx - panZoom.x) * (panZoom.scale / oldScale);
-    panZoom.y = my - (my - panZoom.y) * (panZoom.scale / oldScale);
-    applyTransform();
-  }
-
-  // Touch pinch zoom
-  var lastTouchDist = 0;
-  var lastTouchMid = { x: 0, y: 0 };
-  function onTouchStart(e) {
-    if (e.touches.length === 2) {
-      var dx = e.touches[0].clientX - e.touches[1].clientX;
-      var dy = e.touches[0].clientY - e.touches[1].clientY;
-      lastTouchDist = Math.sqrt(dx * dx + dy * dy);
-      lastTouchMid.x = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-      lastTouchMid.y = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-      e.preventDefault();
-    } else if (e.touches.length === 1) {
-      drag.active = true;
-      drag.startX = e.touches[0].clientX; drag.startY = e.touches[0].clientY;
-      drag.startPanX = panZoom.x; drag.startPanY = panZoom.y;
-    }
-  }
-  function onTouchMove(e) {
-    if (e.touches.length === 2 && lastTouchDist) {
-      var dx = e.touches[0].clientX - e.touches[1].clientX;
-      var dy = e.touches[0].clientY - e.touches[1].clientY;
-      var dist = Math.sqrt(dx * dx + dy * dy);
-      var factor = dist / lastTouchDist;
-      var container = document.getElementById('mindmap-container');
-      var rect = container.getBoundingClientRect();
-      var mx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
-      var my = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
-      var oldScale = panZoom.scale;
-      panZoom.scale = Math.max(panZoom.minScale, Math.min(panZoom.maxScale, panZoom.scale * factor));
-      panZoom.x = mx - (mx - panZoom.x) * (panZoom.scale / oldScale);
-      panZoom.y = my - (my - panZoom.y) * (panZoom.scale / oldScale);
-      lastTouchDist = dist;
-      applyTransform();
-      e.preventDefault();
-    } else if (e.touches.length === 1 && drag.active) {
-      panZoom.x = drag.startPanX + (e.touches[0].clientX - drag.startX);
-      panZoom.y = drag.startPanY + (e.touches[0].clientY - drag.startY);
-      applyTransform();
-      e.preventDefault();
-    }
-  }
-  function onTouchEnd(e) {
-    if (e.touches.length < 2) lastTouchDist = 0;
-    if (e.touches.length === 0) drag.active = false;
-  }
-
-  // Double-click to zoom in on area
-  function onDblClick(e) {
-    var container = document.getElementById('mindmap-container');
-    var rect = container.getBoundingClientRect();
-    var mx = e.clientX - rect.left, my = e.clientY - rect.top;
-    var oldScale = panZoom.scale;
-    panZoom.scale = Math.min(panZoom.maxScale, panZoom.scale * 1.5);
-    panZoom.x = mx - (mx - panZoom.x) * (panZoom.scale / oldScale);
-    panZoom.y = my - (my - panZoom.y) * (panZoom.scale / oldScale);
-    applyTransform();
-  }
-
-  // === Node click → breadcrumb path ===
-  function setupNodeClicks() {
-    var container = document.getElementById('mindmap-container');
-    var svg = container.querySelector('svg');
-    if (!svg) return;
-    var breadcrumb = document.getElementById('mindmap-breadcrumb');
-
-    // Find all text elements in the mindmap
-    var texts = svg.querySelectorAll('text, .mindmap-node');
-    texts.forEach(function(el) {
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', function(e) {
-        e.stopPropagation();
-        // Get the text content of the clicked node
-        var nodeText = el.textContent.trim();
-        if (!nodeText) return;
-
-        // Find path in the mermaid source
-        var path = findNodePath(nodeText);
-        if (path) {
-          breadcrumb.textContent = path;
-          breadcrumb.classList.add('visible');
-          // Highlight the node
-          svg.querySelectorAll('.node-highlight').forEach(function(h) { h.remove(); });
-          var bbox = el.getBBox ? el.getBBox() : el.getBoundingClientRect();
-          if (el.getBBox) {
-            var highlight = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            highlight.setAttribute('x', bbox.x - 4);
-            highlight.setAttribute('y', bbox.y - 2);
-            highlight.setAttribute('width', bbox.width + 8);
-            highlight.setAttribute('height', bbox.height + 4);
-            highlight.setAttribute('rx', '3');
-            highlight.setAttribute('fill', 'rgba(29,78,216,0.15)');
-            highlight.setAttribute('stroke', '#1d4ed8');
-            highlight.setAttribute('stroke-width', '1.5');
-            highlight.classList.add('node-highlight');
-            el.parentNode.insertBefore(highlight, el);
-          }
-          // Auto-hide after 4s
-          clearTimeout(breadcrumb._timer);
-          breadcrumb._timer = setTimeout(function() {
-            breadcrumb.classList.remove('visible');
-            svg.querySelectorAll('.node-highlight').forEach(function(h) { h.remove(); });
-          }, 4000);
-        }
-      });
-    });
-
-    // Click background to dismiss breadcrumb
-    container.addEventListener('click', function(e) {
-      if (!e.target.closest('text, .mindmap-node')) {
-        breadcrumb.classList.remove('visible');
-        svg.querySelectorAll('.node-highlight').forEach(function(h) { h.remove(); });
-      }
-    });
-  }
-
-  // Find node path from mermaid source
-  var currentDisplayCode = '';
-  function findNodePath(nodeText) {
-    if (!currentDisplayCode) return null;
-    var lines = currentDisplayCode.split('\n');
-    var bodyLines = [], inH = true;
+  // === Mermaid → MindElixir data converter ===
+  function mermaidToMindElixir(mermaidCode) {
+    var lines = mermaidCode.split('\n');
+    var bodyLines = [];
+    var inHeader = true;
     for (var i = 0; i < lines.length; i++) {
       var s = lines[i].trim();
-      if (inH && (s.indexOf('%%{') === 0 || s === 'mindmap' || s.indexOf('root(') !== -1)) continue;
-      inH = false;
-      bodyLines.push(lines[i]);
+      if (inHeader && (s.indexOf('%%{') === 0 || s === 'mindmap' || s.indexOf('root(') !== -1)) continue;
+      inHeader = false;
+      if (s) bodyLines.push({ raw: lines[i], text: s });
     }
-    // Parse to find the node
-    var nodes = [];
+
+    // Parse into flat node list with levels
+    var flatNodes = [];
     for (var i = 0; i < bodyLines.length; i++) {
-      if (!bodyLines[i].trim()) continue;
-      var content = bodyLines[i].replace(/^\s+/, '');
-      var indent = bodyLines[i].length - content.length;
-      // Clean mermaid node syntax: root((text)), ((text)), (text), [text], etc.
-      var clean = content.replace(/^root\(\(/, '').replace(/\)\)$/, '')
+      var line = bodyLines[i].raw;
+      var content = line.replace(/^\s+/, '');
+      var indent = line.length - content.length;
+      var level = Math.floor(indent / 2);
+      // Clean mermaid syntax: root((text)), ((text)), (text), [text]
+      var clean = content
+        .replace(/^root\(\(/, '').replace(/\)\)$/, '')
         .replace(/^\(\(/, '').replace(/\)\)$/, '')
         .replace(/^\(/, '').replace(/\)$/, '')
         .replace(/^\[/, '').replace(/\]$/, '')
         .replace(/^\{/, '').replace(/\}$/, '');
-      nodes.push({ level: Math.floor(indent / 2), text: clean, raw: content });
+      flatNodes.push({ level: level, topic: clean, id: 'me-' + i });
     }
-    // Find matching node
-    var matchIdx = -1;
-    for (var i = 0; i < nodes.length; i++) {
-      if (nodes[i].text === nodeText || nodes[i].raw.indexOf(nodeText) !== -1) {
-        matchIdx = i; break;
-      }
-    }
-    if (matchIdx === -1) return null;
-    // Build path from root
-    var path = [nodes[matchIdx].text];
-    var targetLevel = nodes[matchIdx].level;
-    for (var j = matchIdx - 1; j >= 0; j--) {
-      if (nodes[j].level < targetLevel) {
-        path.unshift(nodes[j].text);
-        targetLevel = nodes[j].level;
-      }
-    }
-    return 'knowledge / ' + path.join(' / ');
-  }
 
-  // === Bind events ===
-  function bindEvents() {
-    var container = document.getElementById('mindmap-container');
-    container.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-    container.addEventListener('wheel', onWheel, { passive: false });
-    container.addEventListener('dblclick', onDblClick);
-    container.addEventListener('touchstart', onTouchStart, { passive: false });
-    container.addEventListener('touchmove', onTouchMove, { passive: false });
-    container.addEventListener('touchend', onTouchEnd);
+    if (!flatNodes.length) {
+      return MindElixir.new('knowledge');
+    }
+
+    // Build tree recursively
+    function buildChildren(startIdx, parentLevel) {
+      var children = [];
+      var i = startIdx;
+      while (i < flatNodes.length) {
+        var node = flatNodes[i];
+        if (node.level <= parentLevel) break;
+        if (node.level === parentLevel + 1) {
+          var child = { topic: node.topic, id: node.id, children: [] };
+          // Collect sub-children
+          var sub = buildChildren(i + 1, node.level);
+          child.children = sub.children;
+          children.push(child);
+          i = sub.nextIdx;
+        } else {
+          i++;
+        }
+      }
+      return { children: children, nextIdx: i };
+    }
+
+    var root = { topic: 'knowledge', id: 'me-root', children: [] };
+    var result = buildChildren(0, flatNodes[0].level - 1);
+    root.children = result.children;
+
+    // If first node is also "knowledge" (the root), use its children directly
+    if (root.children.length === 0 && flatNodes.length > 0) {
+      root.topic = flatNodes[0].topic;
+    }
+
+    return {
+      nodeData: root,
+      direction: 2
+    };
   }
 
   // === Load ===
@@ -454,60 +320,59 @@ body > .container {
     var viewSelect = document.getElementById('mindmap-view');
     var mode = viewSelect ? viewSelect.value : 'normal';
 
-    container.innerHTML = '<div class="loading">Loading mindmap...</div>' +
-      '<div class="mindmap-breadcrumb" id="mindmap-breadcrumb"></div>' +
-      '<div class="zoom-indicator" id="zoom-indicator">100%</div>';
+    container.innerHTML = '<div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>';
     status.textContent = 'Fetching from GitHub...';
+
+    // Destroy previous instance
+    if (window.mindInstance) {
+      try { window.mindInstance.destroy(); } catch(e) {}
+      window.mindInstance = null;
+    }
 
     Promise.all([fetchMindmap(), fetchConfig()])
       .then(function(results) {
         var mermaidCode = results[0];
         var config = results[1];
         var displayCode = (mode === 'full') ? mermaidCode : filterMindmap(mermaidCode, config);
-        currentDisplayCode = displayCode;
 
-        // Reset pan/zoom
-        panZoom.x = 0; panZoom.y = 0; panZoom.scale = 1;
+        // Convert to MindElixir data
+        var data = mermaidToMindElixir(displayCode);
 
-        container.innerHTML = '<div class="mermaid">' + displayCode + '</div>' +
-          '<div class="mindmap-breadcrumb" id="mindmap-breadcrumb"></div>' +
-          '<div class="zoom-indicator" id="zoom-indicator">100%</div>';
-        status.textContent = 'Rendering (' + mode + ')...';
-
-        function tryRender() {
-          if (window.mermaid) {
-            mermaid.run({ nodes: container.querySelectorAll('.mermaid') }).then(function() {
-              // Remove mermaid wrapper, keep SVG directly in container
-              var svg = container.querySelector('svg');
-              if (svg) {
-                svg.style.width = ''; svg.style.height = '';
-                svg.removeAttribute('style');
-              }
-              var nodeCount = displayCode.split('\n').filter(function(l) {
-                return l.trim() && !l.trim().match(/^(%%|mindmap$|root\()/);
-              }).length;
-              status.textContent = mode.charAt(0).toUpperCase() + mode.slice(1) + ' — ' +
-                nodeCount + ' nodes — ' + new Date().toLocaleTimeString();
-              // Fit after render
-              setTimeout(function() { zoomFit(); setupNodeClicks(); }, 100);
-            });
-          } else {
-            var script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
-            script.onload = function() {
-              mermaid.initialize({ startOnLoad: false, theme: 'default', mindmap: { useMaxWidth: true } });
-              mermaid.run({ nodes: container.querySelectorAll('.mermaid') }).then(function() {
-                var svg = container.querySelector('svg');
-                if (svg) { svg.style.width = ''; svg.style.height = ''; svg.removeAttribute('style'); }
-                status.textContent = mode.charAt(0).toUpperCase() + mode.slice(1) + ' — ' +
-                  new Date().toLocaleTimeString();
-                setTimeout(function() { zoomFit(); setupNodeClicks(); }, 100);
-              });
-            };
-            document.head.appendChild(script);
-          }
+        // Count nodes
+        function countNodes(node) {
+          var c = 1;
+          if (node.children) for (var i = 0; i < node.children.length; i++) c += countNodes(node.children[i]);
+          return c;
         }
-        tryRender();
+        var nodeCount = countNodes(data.nodeData) - 1; // exclude root
+
+        // Clear container
+        container.innerHTML = '';
+
+        // Get theme
+        var themeKey = getCurrentTheme();
+        var theme = MIND_THEMES[themeKey] || MIND_THEMES['daltonism-light'];
+
+        // Initialize MindElixir
+        var mind = new MindElixir({
+          el: container,
+          direction: MindElixir.SIDE,
+          editable: false,
+          keypress: false,
+          toolBar: false,
+          theme: theme,
+          contextMenu: false,
+          allowUndo: false
+        });
+
+        mind.init(data);
+        window.mindInstance = mind;
+
+        // Fit after render
+        setTimeout(function() { mind.toCenter(); }, 200);
+
+        status.textContent = mode.charAt(0).toUpperCase() + mode.slice(1) + ' — ' +
+          nodeCount + ' nodes — ' + new Date().toLocaleTimeString();
       })
       .catch(function(err) {
         container.innerHTML = '<div class="mindmap-error"><p>Error: ' + err.message + '</p></div>';
@@ -521,8 +386,14 @@ body > .container {
     else container.requestFullscreen();
   };
 
+  // Sync theme on page load
+  var themeSelect = document.getElementById('mindmap-theme');
+  if (themeSelect) {
+    var saved = localStorage.getItem('kdocs-theme');
+    if (saved && saved !== 'auto') themeSelect.value = saved;
+  }
+
   // Init
-  bindEvents();
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadMindmap);
   } else {

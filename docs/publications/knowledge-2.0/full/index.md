@@ -185,48 +185,90 @@ This enables a clean, focused view for daily work while preserving the full know
 
 The mindmap below renders the current K_MIND memory in real-time — fetched from the repository and filtered by depth configuration.
 
-<div id="k20-live-mindmap" style="width:100%;min-height:400px;border:1px solid var(--border,#d48a3c);border-radius:8px;background:var(--bg,#faf6f1);padding:1rem;overflow:auto;">
-<div class="loading">Loading live mindmap...</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.css">
+<div id="k20-live-mindmap" style="width:100%;height:450px;border:1px solid var(--border,#d48a3c);border-radius:8px;overflow:hidden;">
+<div class="loading" style="padding:2rem;text-align:center;">Loading live mindmap...</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.iife.js"></script>
 <script>
 (function() {
   var RAW_BASE = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/';
   var container = document.getElementById('k20-live-mindmap');
+
+  // Theme detection from viewer
+  function getTheme() {
+    var t = document.documentElement.getAttribute('data-theme');
+    var isDark = (t === 'midnight' || t === 'daltonism-dark');
+    if (!isDark && window.matchMedia) isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (isDark) return {
+      name:'Dark',type:'dark',
+      palette:['#60a5fa','#818cf8','#a78bfa','#38bdf8','#22d3ee','#34d399','#fb923c','#f472b6','#c084fc','#facc15'],
+      cssVar:{'--bgcolor':'#0f172a','--root-color':'#e2e8f0','--root-bgcolor':'#1e40af','--root-border-color':'#3b82f6','--main-color':'#e2e8f0','--main-bgcolor':'#1e293b','--color':'#94a3b8','--selected':'#60a5fa','--root-radius':'30px','--main-radius':'8px','--panel-color':'#e2e8f0','--panel-bgcolor':'#1e293b','--panel-border-color':'#334155'}
+    };
+    return {
+      name:'Light',type:'light',
+      palette:['#0055b3','#d48a3c','#6b21a8','#0369a1','#b45309','#047857','#be185d','#4338ca','#0e7490','#a16207'],
+      cssVar:{'--bgcolor':'#faf6f1','--root-color':'#ffffff','--root-bgcolor':'#0055b3','--root-border-color':'#003d80','--main-color':'#1a1a2e','--main-bgcolor':'#eee8df','--color':'#5c5c78','--selected':'#0055b3','--root-radius':'30px','--main-radius':'8px','--panel-color':'#1a1a2e','--panel-bgcolor':'#faf6f1','--panel-border-color':'#d48a3c'}
+    };
+  }
+
+  // Mermaid to MindElixir converter
+  function convert(code) {
+    var lines = code.split('\n'), body = [], inH = true;
+    for (var i = 0; i < lines.length; i++) {
+      var s = lines[i].trim();
+      if (inH && (s.indexOf('%%{')===0||s==='mindmap'||s.indexOf('root(')!==-1)) continue;
+      inH = false;
+      if (s) body.push({raw:lines[i],text:s});
+    }
+    var flat = [];
+    for (var i = 0; i < body.length; i++) {
+      var c = body[i].raw.replace(/^\s+/,''), ind = body[i].raw.length - c.length;
+      var clean = c.replace(/^root\(\(/,'').replace(/\)\)$/,'').replace(/^\(\(/,'').replace(/\)\)$/,'').replace(/^\(/,'').replace(/\)$/,'').replace(/^\[/,'').replace(/\]$/,'').replace(/^\{/,'').replace(/\}$/,'');
+      flat.push({level:Math.floor(ind/2),topic:clean,id:'k20-'+i});
+    }
+    function build(si,pl) {
+      var ch=[],i=si;
+      while(i<flat.length){if(flat[i].level<=pl)break;if(flat[i].level===pl+1){var c={topic:flat[i].topic,id:flat[i].id,children:[]};var r=build(i+1,flat[i].level);c.children=r.ch;ch.push(c);i=r.ni;}else i++;}
+      return{ch:ch,ni:i};
+    }
+    var root={topic:'knowledge',id:'k20-root',children:[]};
+    if(flat.length){var r=build(0,flat[0].level-1);root.children=r.ch;}
+    return{nodeData:root,direction:2};
+  }
+
+  // Depth filter
+  function filter(code,cfg) {
+    var lines=code.split('\n'),hdr=[],body=[],inH=true;
+    for(var i=0;i<lines.length;i++){var s=lines[i].trim();if(inH&&(s.indexOf('%%{')===0||s==='mindmap'||s.indexOf('root(')!==-1))hdr.push(lines[i]);else{inH=false;body.push(lines[i]);}}
+    var nodes=[];for(var i=0;i<body.length;i++){if(!body[i].trim())continue;var c=body[i].replace(/^\s+/,''),ind=body[i].length-c.length;nodes.push({l:Math.floor(ind/2),t:c,li:i});}
+    if(!nodes.length)return hdr.join('\n');
+    var ri=nodes[0].l,omit=cfg.omit||[],ov=cfg.overrides||{},df=cfg.default_depth||3,out=[];
+    for(var i=0;i<nodes.length;i++){var n=nodes[i],p=[],tg=n.l;for(var j=i;j>=0;j--){if(nodes[j].l<tg){p.unshift(nodes[j].t);tg=nodes[j].l;}else if(j===i)p.push(nodes[j].t);}var path=p.join('/'),top=p[0]||n.t,dep=n.l-ri+1,skip=false;for(var k=0;k<omit.length;k++)if(top===omit[k]){skip=true;break;}if(skip)continue;var mx=df,best=0;for(var op in ov){if((path===op||path.indexOf(op+'/')===0)&&op.length>best){best=op.length;mx=ov[op];}}if(dep<=mx)out.push(body[n.li]);}
+    return hdr.join('\n')+'\n'+out.join('\n');
+  }
+
   Promise.all([
-    fetch(RAW_BASE + 'mind/mind_memory.md').then(function(r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); }),
-    fetch(RAW_BASE + 'conventions/depth_config.json').then(function(r) { return r.ok ? r.json() : {default_depth:3,omit:['architecture','constraints'],overrides:{}}; }).catch(function() { return {default_depth:3,omit:['architecture','constraints'],overrides:{}}; })
+    fetch(RAW_BASE+'mind/mind_memory.md').then(function(r){return r.ok?r.text():Promise.reject('HTTP '+r.status);}),
+    fetch(RAW_BASE+'conventions/depth_config.json').then(function(r){return r.ok?r.json():{default_depth:3,omit:['architecture','constraints'],overrides:{}};}).catch(function(){return{default_depth:3,omit:['architecture','constraints'],overrides:{}};})
   ]).then(function(res) {
     var match = res[0].match(/```mermaid\s*\n([\s\S]*?)```/);
     if (!match) throw new Error('No mermaid block');
-    var code = match[1].trim();
-    var lines = code.split('\n'), hdr = [], body = [], inH = true;
-    for (var i = 0; i < lines.length; i++) {
-      var s = lines[i].trim();
-      if (inH && (s.indexOf('%%{') === 0 || s === 'mindmap' || s.indexOf('root(') !== -1)) hdr.push(lines[i]);
-      else { inH = false; body.push(lines[i]); }
-    }
-    var cfg = res[1], nodes = [], out = [];
-    for (var i = 0; i < body.length; i++) {
-      if (!body[i].trim()) continue;
-      var c = body[i].replace(/^\s+/,''), ind = body[i].length - c.length;
-      nodes.push({l:Math.floor(ind/2),t:c,li:i});
-    }
-    if (nodes.length) {
-      var ri = nodes[0].l, omit = cfg.omit||[], ov = cfg.overrides||{}, df = cfg.default_depth||3;
-      for (var i = 0; i < nodes.length; i++) {
-        var n = nodes[i], p = [], tg = n.l;
-        for (var j = i; j >= 0; j--) { if (nodes[j].l < tg) { p.unshift(nodes[j].t); tg = nodes[j].l; } else if (j===i) p.push(nodes[j].t); }
-        var path = p.join('/'), top = p[0]||n.t, dep = n.l - ri + 1, skip = false;
-        for (var k = 0; k < omit.length; k++) if (top === omit[k]) { skip = true; break; }
-        if (skip) continue;
-        var mx = df, best = 0;
-        for (var op in ov) { if ((path===op||path.indexOf(op+'/')===0)&&op.length>best) { best=op.length; mx=ov[op]; } }
-        if (dep <= mx) out.push(body[n.li]);
-      }
-    }
-    var filtered = hdr.join('\n') + '\n' + out.join('\n');
-    container.innerHTML = '<div class="mermaid">' + filtered + '</div>';
-    if (window.mermaid) mermaid.run({nodes:container.querySelectorAll('.mermaid')});
+    var filtered = filter(match[1].trim(), res[1]);
+    var data = convert(filtered);
+    container.innerHTML = '';
+    var mind = new MindElixir({
+      el: container,
+      direction: MindElixir.SIDE,
+      editable: false,
+      keypress: false,
+      toolBar: false,
+      theme: getTheme(),
+      contextMenu: false,
+      allowUndo: false
+    });
+    mind.init(data);
+    setTimeout(function(){ mind.toCenter(); }, 200);
   }).catch(function(e) {
     container.innerHTML = '<p style="color:var(--muted);text-align:center;">Live mindmap unavailable</p>';
   });

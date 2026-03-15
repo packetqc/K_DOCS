@@ -548,6 +548,8 @@
   <!-- Dependencies: marked.js for markdown, mermaid for diagrams -->
   <script src="https://cdn.jsdelivr.net/npm/marked@15/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.css">
+  <script src="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.iife.js"></script>
 
   <script>
     // ===== Document registry =====
@@ -1229,6 +1231,33 @@
       setTimeout(function() {
         var container = document.getElementById(id);
         if (!container) return;
+        // Detect theme for MindElixir
+        function getMindTheme() {
+          var t = document.documentElement.getAttribute('data-theme');
+          var isDark = (t === 'midnight' || t === 'daltonism-dark');
+          if (!isDark && window.matchMedia) isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (isDark) return {
+            name:'Dark',type:'dark',
+            palette:['#60a5fa','#818cf8','#a78bfa','#38bdf8','#22d3ee','#34d399','#fb923c','#f472b6','#c084fc','#facc15'],
+            cssVar:{'--bgcolor':'#0f172a','--root-color':'#e2e8f0','--root-bgcolor':'#1e40af','--root-border-color':'#3b82f6','--main-color':'#e2e8f0','--main-bgcolor':'#1e293b','--color':'#94a3b8','--selected':'#60a5fa','--root-radius':'30px','--main-radius':'8px'}
+          };
+          return {
+            name:'Light',type:'light',
+            palette:['#0055b3','#d48a3c','#6b21a8','#0369a1','#b45309','#047857','#be185d','#4338ca','#0e7490','#a16207'],
+            cssVar:{'--bgcolor':'#faf6f1','--root-color':'#ffffff','--root-bgcolor':'#0055b3','--root-border-color':'#003d80','--main-color':'#1a1a2e','--main-bgcolor':'#eee8df','--color':'#5c5c78','--selected':'#0055b3','--root-radius':'30px','--main-radius':'8px'}
+          };
+        }
+        // Mermaid to MindElixir converter
+        function mermaidToME(code) {
+          var lines=code.split('\n'),body=[],inH=true;
+          for(var i=0;i<lines.length;i++){var s=lines[i].trim();if(inH&&(s.indexOf('%%{')===0||s==='mindmap'||s.indexOf('root(')!==-1))continue;inH=false;if(s)body.push({raw:lines[i],text:s});}
+          var flat=[];
+          for(var i=0;i<body.length;i++){var c=body[i].raw.replace(/^\s+/,''),ind=body[i].raw.length-c.length;var clean=c.replace(/^root\(\(/,'').replace(/\)\)$/,'').replace(/^\(\(/,'').replace(/\)\)$/,'').replace(/^\(/,'').replace(/\)$/,'').replace(/^\[/,'').replace(/\]$/,'').replace(/^\{/,'').replace(/\}$/,'');flat.push({level:Math.floor(ind/2),topic:clean,id:'wc-'+i});}
+          function build(si,pl){var ch=[],i=si;while(i<flat.length){if(flat[i].level<=pl)break;if(flat[i].level===pl+1){var c={topic:flat[i].topic,id:flat[i].id,children:[]};var r=build(i+1,flat[i].level);c.children=r.ch;ch.push(c);i=r.ni;}else i++;}return{ch:ch,ni:i};}
+          var root={topic:'knowledge',id:'wc-root',children:[]};
+          if(flat.length){var r=build(0,flat[0].level-1);root.children=r.ch;}
+          return{nodeData:root,direction:2};
+        }
         Promise.all([
           fetch(RAW_BASE + 'mind/mind_memory.md').then(function(r) {
             if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -1244,20 +1273,28 @@
           var match = results[0].match(/```mermaid\s*\n([\s\S]*?)```/);
           if (!match) throw new Error('No mermaid block');
           var filtered = filterMindmapCode(match[1].trim(), results[1]);
-          container.innerHTML = '<div class="mermaid">' + filtered + '</div>';
-          function tryRender() {
-            if (window.mermaid) {
-              mermaid.run({ nodes: container.querySelectorAll('.mermaid') });
-            } else { setTimeout(tryRender, 200); }
-          }
-          tryRender();
+          var data = mermaidToME(filtered);
+          container.innerHTML = '';
+          container.style.height = '300px';
+          var mind = new MindElixir({
+            el: container,
+            direction: MindElixir.SIDE,
+            editable: false,
+            keypress: false,
+            toolBar: false,
+            theme: getMindTheme(),
+            contextMenu: false,
+            allowUndo: false
+          });
+          mind.init(data);
+          setTimeout(function(){ mind.toCenter(); }, 200);
         })
         .catch(function(err) {
           container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:1rem;">Live mindmap unavailable</p>';
         });
       }, 100);
-      return '<div class="webcard-header" style="min-height:300px;padding:0.5rem;">' +
-        '<div id="' + id + '"><div class="loading">Loading live mindmap...</div></div>' +
+      return '<div class="webcard-header" style="min-height:300px;padding:0;">' +
+        '<div id="' + id + '" style="width:100%;height:100%;"><div class="loading" style="padding:2rem;text-align:center;">Loading live mindmap...</div></div>' +
         '</div>';
     }
 
