@@ -22,6 +22,7 @@ html, body {
 body > .container {
   display: flex; flex-direction: column;
   height: 100%; overflow: hidden;
+  padding-left: 1rem;
   padding-right: 1rem;
   box-sizing: border-box;
 }
