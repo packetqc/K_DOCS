@@ -135,8 +135,8 @@ def main():
 
     optimized = [f.quantize(colors=256, method=Image.Quantize.MEDIANCUT,
                             dither=Image.Dither.FLOYDSTEINBERG) for f in frames]
-    # Cinematic timing: 600ms per transition frame, faster pacing for many frames
-    durations = [600] * len(frame_files) + [2000] * 3
+    # 15fps cinematic timing: 67ms per frame (~5s per movie), 1500ms hold on final
+    durations = [67] * len(frame_files) + [1500] * 3
 
     optimized[0].save(str(output_path), save_all=True, append_images=optimized[1:],
                       duration=durations, loop=0, optimize=True)

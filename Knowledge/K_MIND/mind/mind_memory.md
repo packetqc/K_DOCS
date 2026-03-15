@@ -35,6 +35,9 @@ mindmap
         K_DOCS designation approved
     documentation
       docs
+        docs directory at project root
+        static js viewer
+        nojekyll github pages
       interfaces
         main navigator
         project viewer
@@ -42,8 +45,47 @@ mindmap
         tasks workflow
         live mindmap
       stories
+        story 16 session management
+        story 17 live session
+        story 19 mplib pipeline
+        story 21 pagination export
+        story 22 visual documentation
+        story 23 knowledge 2.0
+        story 24 live mindmap
+        story 25 web documentation viewer
+        story 26 webcards social sharing
       profile
+        resume
+        recommendation
+        full profile
       publications
+        knowledge system
+        knowledge 2.0
+        session management
+        live session analysis
+        architecture analysis
+        architecture diagrams
+        documentation generation
+        interactive work sessions
+        session review
+        session metrics time
+        normalize structure concordance
+        mplib storage pipeline
+        harvest protocol
+        project management
+        distributed minds
+        distributed knowledge dashboard
+        visual documentation
+        web production pipeline
+        web pagination export
+        web page visualization
+        web documentation viewer
+        live mindmap
+        webcards social sharing
+        security by design
+        ai session persistence
+        main interface
+        live knowledge network
     architecture
       persistence_format
         JSON for performance

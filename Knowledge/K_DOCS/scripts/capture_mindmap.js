@@ -125,10 +125,12 @@ function buildProgressiveData(root, fullMode = false) {
   const topChildren = root.children || [];
   const frames = [];
 
-  // ── MOVIE 1: The Emergence ──
+  // At 15fps: 1 frame = 67ms. hold(15) = 1s, hold(30) = 2s, hold(8) = 0.5s
+
+  // ── MOVIE 1: The Emergence (~5s) ──
   // Phase 1a: Root alone
   frames.push({ nodeData: filterByDepth(root, 0), direction: 2 });
-  hold(frames, 2);
+  hold(frames, 10); // ~0.7s pause on root
 
   // Phase 1b: Branches appear one by one (depth 1)
   for (let i = 0; i < topChildren.length; i++) {
@@ -137,23 +139,27 @@ function buildProgressiveData(root, fullMode = false) {
       partial.children.push({ topic: topChildren[j].topic, id: topChildren[j].id, children: [] });
     }
     frames.push({ nodeData: partial, direction: 2 });
+    hold(frames, 2); // brief pause between each branch
   }
   // Hold with all branches at depth 1
-  hold(frames, 2);
+  hold(frames, 10); // ~0.7s
 
   // Phase 1c: Deepen to depth 2, then 3
   for (let d = 2; d <= overviewMax; d++) {
     frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
-    hold(frames, 1);
+    hold(frames, 8); // ~0.5s per depth level
   }
-  // Hold the full overview
-  hold(frames, 3);
+  // Hold the full overview for reading
+  hold(frames, 22); // ~1.5s
 
-  // ── MOVIE 2: The Collapse ──
+  // ── Inter-movie pause ──
+  hold(frames, 8);
+
+  // ── MOVIE 2: The Collapse (~5s) ──
   // Phase 2a: Retract depth by depth
   for (let d = overviewMax - 1; d >= 1; d--) {
     frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
-    hold(frames, 1);
+    hold(frames, 6);
   }
 
   // Phase 2b: Remove branches one by one back to root
@@ -163,15 +169,16 @@ function buildProgressiveData(root, fullMode = false) {
       partial.children.push({ topic: topChildren[j].topic, id: topChildren[j].id, children: [] });
     }
     frames.push({ nodeData: partial, direction: 2 });
+    hold(frames, 2);
   }
-  // Root alone
-  hold(frames, 2);
+  // Root alone — dramatic pause
+  hold(frames, 15); // ~1s
 
   // Phase 2c: Re-emerge all at depth 1 (transition to Movie 3)
   frames.push({ nodeData: filterByDepth(root, 1), direction: 2 });
-  hold(frames, 2);
+  hold(frames, 12); // ~0.8s
 
-  // ── MOVIE 3: The Exploration ──
+  // ── MOVIE 3: The Exploration (~5s per branch) ──
   // Each branch opens progressively, holds for reading, retracts before next
   for (let i = 0; i < topChildren.length; i++) {
     // Progressive open: depth 2 → 3 → ... → exploreMax
@@ -185,10 +192,11 @@ function buildProgressiveData(root, fullMode = false) {
         }
       }
       frames.push({ nodeData: frameRoot, direction: 2 });
+      hold(frames, 4); // ~0.3s between depth levels
     }
 
     // Hold the fully expanded branch for reading
-    hold(frames, 3);
+    hold(frames, 22); // ~1.5s reading time
 
     // Progressive retract: exploreMax-1 → 2 → collapse
     for (let d = exploreMax - 1; d >= 2; d--) {
@@ -201,18 +209,20 @@ function buildProgressiveData(root, fullMode = false) {
         }
       }
       frames.push({ nodeData: frameRoot, direction: 2 });
+      hold(frames, 2);
     }
 
     // Back to skeleton (unless last branch — hold finale instead)
     if (i < topChildren.length - 1) {
       frames.push({ nodeData: filterByDepth(root, 1), direction: 2 });
-      hold(frames, 1);
+      hold(frames, 6); // ~0.4s pause between branches
     } else {
       // Final branch: re-expand to full overview as grand finale
       for (let d = 2; d <= overviewMax; d++) {
         frames.push({ nodeData: filterByDepth(root, d), direction: 2 });
+        hold(frames, 4);
       }
-      hold(frames, 3);
+      hold(frames, 30); // ~2s grand finale hold
     }
   }
 
