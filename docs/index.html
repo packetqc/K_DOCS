@@ -339,25 +339,64 @@
     /* ===== Page size dim ===== */
     .pub-size-dim { font-size: 0.72rem; color: var(--muted); }
 
-    /* ===== Print / PDF export ===== */
+    /* ===== Print / PDF export — Three-Zone Layout (from production) ===== */
     @media print {
-      .toolbar, .toolbar-bottom, .toc, .doc-header, .copy-toast { display: none !important; }
+      /* Hide non-content elements */
+      .toolbar, .toolbar-bottom, .doc-header, .chrome-bar, .chrome-bar-meta, .copy-toast { display: none !important; }
       body { padding: 0; }
       .container { max-width: 100%; padding: 0; }
+
+      /* Three-zone @page: header liner + content + footer liner */
       @page {
-        size: letter; margin: 1.8cm;
-        @bottom-left   { content: ""; font-size: 7.5pt; color: #888; }
-        @bottom-center { content: counter(page) " / " counter(pages); font-size: 7.5pt; color: #888; }
-        @bottom-right  { content: "K_DOCS"; font-size: 7.5pt; color: #888; }
+        size: letter;
+        margin: 1.8cm 1.5cm 1.8cm 1.5cm;
+        padding: 0.4cm 0; /* liner-to-content gap */
       }
+      /* Running header — single-box liner (Chrome double-liner fix) */
+      @page {
+        @top-left {
+          content: ""; /* overridden by printAs() */
+          width: 100%;
+          font-size: 7.5pt; color: #888;
+          vertical-align: bottom;
+          padding-bottom: 0.3cm;
+          border-bottom: 2pt solid #1d4ed8;
+        }
+        @top-center { content: ""; width: 0; }
+        @top-right  { content: ""; width: 0; }
+      }
+      /* Three-column footer with liner */
+      @page {
+        @bottom-left {
+          content: ""; /* overridden by printAs() */
+          font-size: 7.5pt; color: #888;
+          padding-top: 0.3cm;
+          border-top: 2pt solid #1d4ed8;
+        }
+        @bottom-center {
+          content: counter(page) " / " counter(pages);
+          font-size: 7.5pt; color: #888;
+          padding-top: 0.3cm;
+          border-top: 2pt solid #1d4ed8;
+        }
+        @bottom-right {
+          content: "K_DOCS";
+          font-size: 7.5pt; color: #888;
+          padding-top: 0.3cm;
+          border-top: 2pt solid #1d4ed8;
+        }
+      }
+      /* Cover page — no headers/footers/liners */
       @page :first {
-        @top-left { content: ""; border: none; }
-        @top-center { content: ""; border: none; }
-        @top-right { content: ""; border: none; }
-        @bottom-left { content: ""; border: none; }
-        @bottom-center { content: ""; border: none; }
-        @bottom-right { content: ""; border: none; }
+        @top-left    { content: ""; border: none; padding: 0; width: 100%; }
+        @top-center  { content: ""; width: 0; }
+        @top-right   { content: ""; width: 0; }
+        @bottom-left   { content: ""; border: none; padding: 0; }
+        @bottom-center { content: ""; border: none; padding: 0; }
+        @bottom-right  { content: ""; border: none; padding: 0; }
       }
+
+      /* Cover page */
       #pub-cover-page {
         display: block !important; page-break-after: always;
         min-height: 90vh; position: relative;
@@ -368,13 +407,22 @@
       .cover-rule { border: none; border-top: 1.5pt solid #444; margin: 0 auto 0.8cm; width: 6cm; }
       .cover-meta { font-size: 10pt; color: #444; line-height: 2; }
       .cover-gen-line { font-size: 8.5pt; color: #666; font-family: monospace; margin-top: 0.2cm; }
+
+      /* Typography */
       h1 { font-size: 18pt; }
-      h2 { font-size: 14pt; break-after: avoid; }
-      h3 { font-size: 12pt; break-after: avoid; }
-      pre { font-size: 8pt; white-space: pre-wrap; word-break: break-all; }
-      table { font-size: 8pt; }
-      .feature-card { break-inside: avoid; }
+      h2 { font-size: 14pt; break-after: avoid; page-break-after: avoid; }
+      h3 { font-size: 12pt; break-after: avoid; page-break-after: avoid; }
+      h4 { font-size: 10pt; break-after: avoid; page-break-after: avoid; }
+      pre { font-size: 8pt; white-space: pre-wrap; word-break: break-all; break-inside: avoid; page-break-inside: avoid; }
+      table { font-size: 8pt; break-inside: avoid; page-break-inside: avoid; }
+      blockquote { break-inside: avoid; page-break-inside: avoid; }
+
+      /* Keep elements together */
+      .feature-card, .feature-grid > div, .toc { break-inside: avoid; page-break-inside: avoid; }
+      .mermaid { break-inside: avoid; page-break-inside: avoid; }
       .mermaid svg { max-width: 100%; }
+
+      /* Color fidelity */
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
   </style>
@@ -604,21 +652,36 @@
       // Update cover page
       document.getElementById('coverGenDate').textContent = ts;
 
-      // Inject dynamic print styles
+      // Build header/footer content from current meta
+      var pubTitle = currentMeta.header_title || currentMeta.title || 'K_DOCS';
+      var pubVersion = currentMeta.pub_version || currentMeta.version || '';
+      var pubId = currentMeta.pub_id || '';
+      var footerLeft = 'Generated: ' + ts;
+      if (pubVersion) footerLeft += ' \\B7  ' + pubVersion;
+
+      // Inject dynamic print styles — running header + footer + size
       document.getElementById('printSizeStyle').textContent =
         '@page { size: ' + size + '; }\n' +
         '@page {\n' +
-        '  @bottom-left   { content: "Generated: ' + ts + '"; }\n' +
-        '  @bottom-center { content: counter(page) " / " counter(pages); }\n' +
-        '  @bottom-right  { content: "K_DOCS"; }\n' +
+        '  @top-left {\n' +
+        '    content: "' + pubTitle.replace(/"/g, '\\"') + '";\n' +
+        '    width: 100%; font-size: 7.5pt; color: #888;\n' +
+        '    vertical-align: bottom; padding-bottom: 0.3cm;\n' +
+        '    border-bottom: 2pt solid #1d4ed8;\n' +
+        '  }\n' +
+        '  @top-center { content: ""; width: 0; }\n' +
+        '  @top-right  { content: ""; width: 0; }\n' +
+        '  @bottom-left   { content: "' + footerLeft + '"; font-size: 7.5pt; color: #888; padding-top: 0.3cm; border-top: 2pt solid #1d4ed8; }\n' +
+        '  @bottom-center { content: counter(page) " / " counter(pages); font-size: 7.5pt; color: #888; padding-top: 0.3cm; border-top: 2pt solid #1d4ed8; }\n' +
+        '  @bottom-right  { content: "K_DOCS"; font-size: 7.5pt; color: #888; padding-top: 0.3cm; border-top: 2pt solid #1d4ed8; }\n' +
         '}\n' +
         '@page :first {\n' +
-        '  @top-left { content: ""; border: none; }\n' +
-        '  @top-center { content: ""; border: none; }\n' +
-        '  @top-right { content: ""; border: none; }\n' +
-        '  @bottom-left { content: ""; border: none; }\n' +
-        '  @bottom-center { content: ""; border: none; }\n' +
-        '  @bottom-right { content: ""; border: none; }\n' +
+        '  @top-left    { content: ""; border: none; padding: 0; width: 100%; }\n' +
+        '  @top-center  { content: ""; width: 0; }\n' +
+        '  @top-right   { content: ""; width: 0; }\n' +
+        '  @bottom-left   { content: ""; border: none; padding: 0; }\n' +
+        '  @bottom-center { content: ""; border: none; padding: 0; }\n' +
+        '  @bottom-right  { content: ""; border: none; padding: 0; }\n' +
         '}';
 
       // Smart TOC page break
@@ -635,10 +698,17 @@
         }, { once: true });
       }
 
-      // Set PDF filename
+      // Set PDF filename: PUB_ID - Title - VER.pdf
       var origTitle = document.title;
-      var safeTitle = origTitle.replace(/[\u2014\u2013]/g, ' - ').replace(/[<>:"/\\|?*#]/g, '').trim();
-      document.title = safeTitle || 'k-docs-publication';
+      var cleanTitle = (currentMeta.title || 'K_DOCS')
+        .replace(/[\u2014\u2013]/g, ' - ')
+        .replace(/[<>:"/\\|?*#]/g, '')
+        .trim();
+      var pdfName = '';
+      if (pubId) pdfName += pubId.replace(/[<>:"/\\|?*#]/g, '') + ' - ';
+      pdfName += cleanTitle;
+      if (pubVersion) pdfName += ' - ' + pubVersion;
+      document.title = pdfName;
       window.addEventListener('afterprint', function() { document.title = origTitle; }, { once: true });
       setTimeout(function() { window.print(); }, 0);
     }
@@ -653,9 +723,11 @@
       var container = document.getElementById('content');
       var clone = container.cloneNode(true);
 
-      // Strip TOC from DOCX
-      var tocEl = clone.querySelector('.toc');
-      if (tocEl) tocEl.remove();
+      // Strip web-only elements from DOCX
+      ['.toc', '.doc-header', '.chrome-bar', '.chrome-bar-meta', '.copy-toast', '.toolbar'].forEach(function(sel) {
+        var el = clone.querySelector(sel);
+        if (el) el.remove();
+      });
 
       // Convert Mermaid SVGs to PNGs for Word compatibility
       var mermaidEls = Array.from(clone.querySelectorAll('.mermaid'));
@@ -692,6 +764,12 @@
 
       Promise.all(pngPromises).then(function() {
         // Build cover page HTML for DOCX
+        var now = new Date();
+        var docxTs = now.getFullYear() + '-' +
+          String(now.getMonth() + 1).padStart(2, '0') + '-' +
+          String(now.getDate()).padStart(2, '0') + ' ' +
+          String(now.getHours()).padStart(2, '0') + ':' +
+          String(now.getMinutes()).padStart(2, '0');
         var coverHtml = '';
         if (currentMeta.title) {
           coverHtml =
@@ -701,6 +779,8 @@
             (currentMeta.description ? '<div style="font-size:12pt;color:#333;line-height:1.55;margin-bottom:1cm;font-style:italic;">' + escapeHtml(currentMeta.description) + '</div>' : '') +
             '<p style="border-bottom:1.5pt solid #444;width:6cm;margin:0 auto 0.8cm;font-size:1pt;line-height:0;">&nbsp;</p>' +
             (currentMeta.pub_meta ? '<div style="font-size:10pt;color:#444;line-height:2;">' + escapeHtml(currentMeta.pub_meta) + '</div>' : '') +
+            '<div style="font-size:8.5pt;color:#666;font-family:Consolas,monospace;margin-top:0.2cm;">Generated: ' + docxTs + '</div>' +
+            '<div style="font-size:9pt;color:#444;margin-top:0.5cm;">Martin Paquet &amp; Claude (Anthropic, Opus 4.6)</div>' +
             '</div></div>' +
             '<p style="page-break-before:always;font-size:1pt;line-height:0;">&nbsp;</p>';
         }
@@ -728,13 +808,39 @@
           if (i > 0) el.style.pageBreakBefore = 'always';
         });
 
-        var cleanHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' + css +
-          '</style></head><body>' + coverHtml + clone.innerHTML + '</body></html>';
+        // MSO running header/footer elements
+        var docxPubTitle = escapeHtml(currentMeta.header_title || currentMeta.title || 'K_DOCS');
+        var docxVersion = currentMeta.pub_version || '';
+        var msoHeader =
+          '<div style="mso-element:header" id="h1">' +
+          '<p style="font-size:7.5pt;color:#888;border-bottom:2pt solid #1d4ed8;padding-bottom:0.3cm;margin-bottom:0.4cm;">' +
+          docxPubTitle + '</p></div>';
+        var msoFooter =
+          '<div style="mso-element:footer" id="f1">' +
+          '<p style="font-size:7.5pt;color:#888;border-top:2pt solid #1d4ed8;padding-top:0.3cm;margin-top:0.4cm;">' +
+          'Generated: ' + docxTs + (docxVersion ? ' &middot; ' + escapeHtml(docxVersion) : '') +
+          '<span style="float:right;">K_DOCS</span></p></div>';
+        // Empty header/footer for first page (cover)
+        var msoFirstHeader = '<div style="mso-element:header" id="fh1"><p style="font-size:1pt;">&nbsp;</p></div>';
+        var msoFirstFooter = '<div style="mso-element:footer" id="ff1"><p style="font-size:1pt;">&nbsp;</p></div>';
+
+        var cleanHtml = '<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">' +
+          '<head><meta charset="utf-8">' +
+          '<style>' + css + '</style>' +
+          '<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]-->' +
+          '</head><body>' +
+          msoFirstHeader + msoFirstFooter + msoHeader + msoFooter +
+          coverHtml + clone.innerHTML + '</body></html>';
 
         // Build Word-compatible blob
         var blob = new Blob([cleanHtml], { type: 'application/vnd.ms-word;charset=utf-8' });
-        var safeTitle = (currentMeta.title || 'k-docs-publication').replace(/[\u2014\u2013]/g, ' - ').replace(/[<>:"/\\|?*#]/g, '').trim();
-        var filename = safeTitle + '.docx';
+        // Filename: PUB_ID - Title - VER.docx
+        var cleanDocxTitle = (currentMeta.title || 'k-docs-publication').replace(/[\u2014\u2013]/g, ' - ').replace(/[<>:"/\\|?*#]/g, '').trim();
+        var filename = '';
+        if (currentMeta.pub_id) filename += currentMeta.pub_id.replace(/[<>:"/\\|?*#]/g, '') + ' - ';
+        filename += cleanDocxTitle;
+        if (docxVersion) filename += ' - ' + docxVersion;
+        filename += '.docx';
 
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
