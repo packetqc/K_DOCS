@@ -1,0 +1,13 @@
+{
+  "description": "K_PROJECTS registry — maps projects to repos and GitHub boards",
+  "projets": [
+    {
+      "id": 1,
+      "titre": "Knowledge",
+      "repo": "packetqc/K_DOCS",
+      "board_number": 39,
+      "board_url": "https://github.com/users/packetqc/projects/39",
+      "project_id": null
+    }
+  ]
+}
