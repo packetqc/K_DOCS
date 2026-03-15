@@ -606,7 +606,7 @@
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 .sv-card:hover { border-color: var(--accent, #0969da); box-shadow: 0 1px 3px rgba(88,166,255,0.15); }
-.sv-card-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--text, #1f2328); }
+.sv-card-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--fg, #1f2328); }
 .sv-card-meta { font-size: 0.8rem; color: var(--muted, #57606a); }
 .sv-card-meta span { margin-right: 1rem; }
 .sv-stat-card {
@@ -616,8 +616,8 @@
   text-align: center;
   background: var(--code-bg, #f6f8fa);
 }
-.sv-stat-card .sv-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--text, #1f2328); }
-.sv-stat-card .sv-stat-label { font-size: 0.75rem; color: var(--muted, #57606a); margin-top: 0.25rem; }
+.sv-stat-card .sv-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--fg, #1f2328); }
+.sv-stat-card .sv-stat-label { font-size: 0.75rem; color: var(--muted, #8b949e); margin-top: 0.25rem; }
 
 @media (max-width: 768px) {
   .sv-cards { grid-template-columns: 1fr; }
