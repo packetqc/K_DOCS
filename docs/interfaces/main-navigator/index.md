@@ -55,68 +55,48 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 /* ═══ Main grid — 5 columns: left(overlay) | div-L | center | div-R | right ═══ */
 .nav-grid {
-  --left-w: 220px;
   flex: 1; min-height: 0; display: grid; overflow: hidden;
   position: relative;
-  grid-template-columns: var(--left-w) 28px 1fr 28px 0px;
+  grid-template-columns: 220px 6px 1fr 6px 0px;
   grid-template-rows: 1fr;
-  transition: grid-template-columns 0.25s ease;
   margin: 0.3rem 0.4rem 0.25rem;
   border: 1px solid var(--border, #d0d7de);
   border-radius: 10px;
   background: var(--bg, #fff);
 }
-.nav-grid.left-closed { --left-w: 0px; }
-/* Right at 50vw — center + right */
-.nav-grid.right-mid {
-  grid-template-columns: var(--left-w) 28px 1fr 28px 50vw;
-}
-/* Right full — center hidden, viewer glued to right edge */
-.nav-grid.right-full {
-  grid-template-columns: var(--left-w) 28px 0fr 28px 1fr;
-  margin-right: 0;
-  border-right: none;
-  border-radius: 10px 0 0 10px;
-}
+.nav-grid.dragging { transition: none; }
+.nav-grid:not(.dragging) { transition: grid-template-columns 0.25s ease; }
 
-/* Left nav panel — overlay, does not take grid space */
+/* Left nav panel */
 .nav-panel {
   grid-column: 1;
-  position: absolute; left: 0; top: 0; bottom: 0;
-  width: 220px; z-index: 20;
+  z-index: 20;
   background: var(--code-bg, #f6f8fa);
   overflow-y: auto; overflow-x: hidden;
   border-right: 1px solid var(--border, #d0d7de);
-  box-shadow: 2px 0 8px rgba(0,0,0,0.08);
-  transition: transform 0.25s ease, opacity 0.2s ease;
   border-radius: 10px 0 0 10px;
-}
-.nav-grid.left-closed .nav-panel {
-  transform: translateX(-100%); opacity: 0; pointer-events: none;
+  min-width: 0;
 }
 
-/* Left divider — visible interactive bar */
-.nav-divider-left {
-  grid-column: 2;
-  background: linear-gradient(180deg, var(--accent, #1d4ed8) 0%, var(--code-bg, #f6f8fa) 10%, var(--code-bg, #f6f8fa) 90%, var(--accent, #1d4ed8) 100%);
-  border-right: 3px solid var(--accent, #1d4ed8);
-  border-left: 3px solid var(--accent, #1d4ed8);
+/* Divider shared styles — thin draggable bar with grip dots */
+.nav-divider-left, .nav-divider-right {
+  background: var(--code-bg, #f6f8fa);
+  border-left: 1px solid var(--border, #d0d7de);
+  border-right: 1px solid var(--border, #d0d7de);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; user-select: none;
-  color: var(--fg, #24292f); font-size: 1rem; font-weight: 700;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  cursor: col-resize; user-select: none;
+  transition: background 0.15s ease;
   position: relative;
-  min-width: 28px;
+  min-width: 6px;
   z-index: 10;
 }
-.nav-divider-left::before {
+.nav-divider-left { grid-column: 2; }
+.nav-divider-left::before, .nav-divider-right::before {
   content: '·\A·\A·'; white-space: pre; position: absolute; top: 50%; transform: translateY(-50%);
-  font-size: 0.7rem; line-height: 0.5; color: var(--muted, #656d76); margin-top: -1.5rem;
+  font-size: 0.6rem; line-height: 0.45; color: var(--muted, #656d76);
 }
-.nav-divider-left:hover {
-  background: linear-gradient(180deg, var(--accent, #1d4ed8) 0%, var(--col-alt, #e0e8f0) 15%, var(--col-alt, #e0e8f0) 85%, var(--accent, #1d4ed8) 100%);
-  color: var(--accent, #1d4ed8);
-  box-shadow: 0 0 6px rgba(29,78,216,0.2);
+.nav-divider-left:hover, .nav-divider-right:hover {
+  background: var(--col-alt, #e0e8f0);
 }
 
 /* Center panel — content viewer (deepest layer) */
@@ -127,39 +107,10 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   overflow: hidden; transition: opacity 0.2s ease;
   z-index: 1;
 }
-.nav-grid.right-full .nav-center { opacity: 0; pointer-events: none; }
+/* Center panel hidden when right takes nearly all space — handled dynamically */
 .nav-center iframe { flex: 1; width: 100%; border: none; background: var(--bg, #fff); }
 
-/* Right divider — visible interactive bar with bidirectional arrows */
-.nav-divider-right {
-  grid-column: 4;
-  background: linear-gradient(180deg, var(--accent, #1d4ed8) 0%, var(--code-bg, #f6f8fa) 10%, var(--code-bg, #f6f8fa) 90%, var(--accent, #1d4ed8) 100%);
-  border-left: 3px solid var(--accent, #1d4ed8);
-  border-right: 3px solid var(--accent, #1d4ed8);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 10px;
-  cursor: pointer; user-select: none;
-  font-size: 0.85rem; color: var(--fg, #24292f);
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
-  min-width: 28px;
-  z-index: 40;
-}
-.nav-divider-right::before {
-  content: '·\A·\A·'; white-space: pre; position: absolute; top: 50%; transform: translateY(-50%);
-  font-size: 0.7rem; line-height: 0.5; color: var(--muted, #656d76); margin-top: -1.5rem;
-}
-.nav-divider-right:hover {
-  background: linear-gradient(180deg, var(--accent, #1d4ed8) 0%, var(--col-alt, #e0e8f0) 15%, var(--col-alt, #e0e8f0) 85%, var(--accent, #1d4ed8) 100%);
-  box-shadow: 0 0 6px rgba(29,78,216,0.2);
-}
-.nav-divider-right .r-arrow {
-  cursor: pointer; padding: 3px 0; line-height: 1;
-  font-size: 0.9rem; font-weight: 700; display: inline-block; width: 1em; text-align: center;
-  z-index: 1;
-}
-.nav-divider-right .r-arrow:hover { color: var(--accent, #1d4ed8); }
-.nav-divider-right .r-arrow.hidden { display: none; }
+.nav-divider-right { grid-column: 4; z-index: 40; }
 
 /* Right content viewer */
 .nav-viewer { grid-column: 5; display: flex; flex-direction: column; min-width: 0; overflow: hidden; z-index: 40; }
@@ -251,7 +202,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   <div class="nav-panel" id="left-panel"></div>
 
   <!-- LEFT DIVIDER — open/close toggle -->
-  <div class="nav-divider-left" id="left-toggle"><span>◀</span></div>
+  <div class="nav-divider-left" id="left-toggle"></div>
 
   <!-- CENTER — Content Viewer (left panel links load here) -->
   <div class="nav-center" id="center-panel">
@@ -259,10 +210,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   </div>
 
   <!-- RIGHT DIVIDER — bidirectional arrows -->
-  <div class="nav-divider-right" id="right-toggle">
-    <span class="r-arrow" data-dir="extend" title="Extend viewer">◀</span>
-    <span class="r-arrow hidden" data-dir="collapse" title="Collapse viewer">▶</span>
-  </div>
+  <div class="nav-divider-right" id="right-toggle"></div>
 
   <!-- RIGHT — Content Viewer -->
   <div class="nav-viewer">
@@ -291,42 +239,87 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   if (!panel || !grid) return;
 
 
-  /* ─── Left divider — 2 states: open / closed ─── */
-  var lArrow = lToggle.querySelector('span');
-  var leftOpen = localStorage.getItem(LPANEL_KEY) !== '0';
+  /* ─── Panel sizes — draggable + click-to-step ─── */
+  var DIVIDER_W = 6;
+  var LEFT_STEPS = [0, 220, 320]; // click cycles through these
+  var savedLeft = parseInt(localStorage.getItem(LPANEL_KEY) || '220');
+  var savedRight = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
+  var leftW = savedLeft;
+  var rightW = savedRight;
 
-  /* ─── Right divider — 3 states: 0=collapsed, 1=40%, 2=full ─── */
-  var rState = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
-  var extendBtn = rToggle.querySelector('[data-dir="extend"]');
-  var collapseBtn = rToggle.querySelector('[data-dir="collapse"]');
-
-  function applyGridState() {
-    var cls = 'nav-grid';
-    if (!leftOpen) cls += ' left-closed';
-    if (rState === 1) cls += ' right-mid';
-    else if (rState === 2) cls += ' right-full';
-    grid.className = cls;
-    /* Left arrow */
-    lArrow.textContent = leftOpen ? '◀' : '▶';
-    /* Right arrows visibility */
-    extendBtn.classList.toggle('hidden', rState >= 2);
-    collapseBtn.classList.toggle('hidden', rState <= 0);
+  function applyGrid(animate) {
+    if (!animate) grid.classList.add('dragging');
+    else grid.classList.remove('dragging');
+    grid.style.gridTemplateColumns = leftW + 'px ' + DIVIDER_W + 'px 1fr ' + DIVIDER_W + 'px ' + rightW + 'px';
+    localStorage.setItem(LPANEL_KEY, String(leftW));
+    localStorage.setItem(RPANEL_KEY, String(rightW));
   }
-  applyGridState();
+  applyGrid(false);
+  // Remove dragging class after init so future changes animate
+  requestAnimationFrame(function() { grid.classList.remove('dragging'); });
 
-  lToggle.addEventListener('click', function() {
-    leftOpen = !leftOpen;
-    applyGridState();
-    localStorage.setItem(LPANEL_KEY, leftOpen ? '1' : '0');
+  /* ─── Drag logic (shared) ─── */
+  function makeDraggable(divider, getSetter) {
+    var startX, dragged;
+    divider.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      startX = e.clientX;
+      dragged = false;
+      var setter = getSetter();
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;cursor:col-resize;';
+      document.body.appendChild(overlay);
+      grid.classList.add('dragging');
+
+      function onMove(ev) {
+        var dx = ev.clientX - startX;
+        if (Math.abs(dx) > 3) dragged = true;
+        setter(dx);
+        applyGrid(false);
+      }
+      function onUp() {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        overlay.remove();
+        grid.classList.remove('dragging');
+        if (!dragged) {
+          // Click-to-step behavior
+          setter('step');
+          applyGrid(true);
+        }
+      }
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+  }
+
+  /* Left divider: drag resizes left panel, click cycles steps */
+  var leftStepIdx = LEFT_STEPS.indexOf(leftW) >= 0 ? LEFT_STEPS.indexOf(leftW) : 1;
+  makeDraggable(lToggle, function() {
+    var startW = leftW;
+    return function(dx) {
+      if (dx === 'step') {
+        leftStepIdx = (leftStepIdx + 1) % LEFT_STEPS.length;
+        leftW = LEFT_STEPS[leftStepIdx];
+      } else {
+        leftW = Math.max(0, Math.min(startW + dx, grid.offsetWidth * 0.5));
+      }
+    };
   });
 
-  extendBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (rState < 2) { rState++; applyGridState(); localStorage.setItem(RPANEL_KEY, rState); }
-  });
-  collapseBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (rState > 0) { rState--; applyGridState(); localStorage.setItem(RPANEL_KEY, rState); }
+  /* Right divider: drag resizes right panel, click cycles 0 → 50% → full → 0 */
+  makeDraggable(rToggle, function() {
+    var startW = rightW;
+    return function(dx) {
+      if (dx === 'step') {
+        var gw = grid.offsetWidth;
+        if (rightW < gw * 0.25) rightW = Math.round(gw * 0.5);
+        else if (rightW < gw * 0.75) rightW = gw - leftW - DIVIDER_W * 2;
+        else rightW = 0;
+      } else {
+        rightW = Math.max(0, Math.min(startW - dx, grid.offsetWidth - leftW - DIVIDER_W * 2 - 50));
+      }
+    };
   });
 
   /* ─── Widget definitions ─── */
@@ -500,7 +493,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     /* Save right URL + extend panel if collapsed */
     if (a.target === 'content-frame') {
       localStorage.setItem(RCONTENT_KEY, a.href);
-      if (rState < 1) { rState = 1; applyGridState(); localStorage.setItem(RPANEL_KEY, String(rState)); }
+      if (rightW < 100) { rightW = Math.round(grid.offsetWidth * 0.5); applyGrid(true); }
     }
   });
 
