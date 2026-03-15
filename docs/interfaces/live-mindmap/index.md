@@ -462,9 +462,14 @@ body > .container {
         window.mindInstance = mind;
         document.documentElement.setAttribute('data-theme', themeKey);
 
-        // Block text editing: blur any node topic that gains focus
+        // Block text editing and node dragging (read-only mode, keep pan/zoom)
         container.addEventListener('focusin', function(e) {
           if (e.target.tagName === 'ME-TPC') e.target.blur();
+        }, true);
+        container.addEventListener('mousedown', function(e) {
+          if (e.target.closest('me-node') && e.target.tagName !== 'ME-EPD') {
+            e.stopImmediatePropagation();
+          }
         }, true);
 
         // Click on +/- button: expand ONE level (capture phase intercepts MindElixir's full expand)
