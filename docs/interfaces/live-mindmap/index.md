@@ -459,7 +459,8 @@ body > .container {
         });
 
         // Collapse branches beyond default depth (same visual as normal mode)
-        var defaultDepth = (config && config.default_depth) ? config.default_depth : 3;
+        var configDepth = (config && config.default_depth) ? config.default_depth : 3;
+        var defaultDepth = (mode === 'full') ? configDepth - 1 : configDepth;
         function collapseDeep(node, depth) {
           if (node.children && node.children.length > 0) {
             if (depth >= defaultDepth) node.expanded = false;
