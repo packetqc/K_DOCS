@@ -758,9 +758,14 @@
 
     // ===== Liquid template resolver =====
     // Resolves Jekyll/Liquid syntax so production markdown renders in our static viewer.
+    // Auto-detect baseurl from deployment path (works on /K_DOCS/, /knowledge/, localhost, etc.)
+    var VIEWER_PATH = window.location.pathname.replace(/\/index\.html.*$/, '').replace(/\/$/, '') || '';
+    // Production baseurl for resolving Liquid tags in imported markdown
+    var PRODUCTION_BASEURL = '/knowledge';
     var SITE = {
-      url: 'https://packetqc.github.io',
-      baseurl: '/knowledge',
+      url: window.location.origin,
+      baseurl: VIEWER_PATH,
+      production_baseurl: PRODUCTION_BASEURL,
       github_repo: 'packetqc/knowledge',
       github: { repository_url: 'https://github.com/packetqc/knowledge' }
     };
@@ -972,17 +977,23 @@
     }
 
     // ===== Internal link interceptor =====
-    // Maps production URLs (/knowledge/...) to viewer doc entries
+    // Maps both viewer URLs and production URLs to viewer doc entries
     function resolveInternalPath(href) {
-      var prefix = SITE.baseurl + '/'; // '/knowledge/'
       var path = null;
       var lang = 'en';
 
-      // Match /knowledge/... or full absolute URL
-      if (href.indexOf(prefix) === 0) {
-        path = href.substring(prefix.length);
-      } else if (href.indexOf(SITE.url + prefix) === 0) {
-        path = href.substring((SITE.url + prefix).length);
+      // Try viewer baseurl first, then production baseurl as fallback
+      var prefixes = [SITE.baseurl + '/'];
+      if (SITE.production_baseurl && SITE.production_baseurl !== SITE.baseurl) {
+        prefixes.push(SITE.production_baseurl + '/');
+      }
+      for (var pi = 0; pi < prefixes.length; pi++) {
+        var prefix = prefixes[pi];
+        if (href.indexOf(prefix) === 0) {
+          path = href.substring(prefix.length); break;
+        } else if (href.indexOf(SITE.url + prefix) === 0) {
+          path = href.substring((SITE.url + prefix).length); break;
+        }
       }
       if (path === null) return null;
 
@@ -1077,10 +1088,14 @@
         'var VIEWER_ORIGIN = ' + JSON.stringify(viewerOrigin) + ';\n' +
         'var VIEWER_DOCS = ' + JSON.stringify(DOCS.map(function(d) { return { path: d.path, path_fr: d.path_fr || null }; })) + ';\n' +
         'var VIEWER_BASEURL = ' + JSON.stringify(SITE.baseurl) + ';\n' +
+        'var VIEWER_PROD_BASEURL = ' + JSON.stringify(SITE.production_baseurl) + ';\n' +
         'function viewerRewriteUrl(url, forEmbed) {\n' +
-        '  var prefix = VIEWER_BASEURL + "/";\n' +
+        '  var prefixes = [VIEWER_BASEURL + "/"];\n' +
+        '  if (VIEWER_PROD_BASEURL && VIEWER_PROD_BASEURL !== VIEWER_BASEURL) prefixes.push(VIEWER_PROD_BASEURL + "/");\n' +
         '  var path = null, lang = "en";\n' +
-        '  if (url.indexOf(prefix) === 0) path = url.substring(prefix.length);\n' +
+        '  for (var pi = 0; pi < prefixes.length; pi++) {\n' +
+        '    if (url.indexOf(prefixes[pi]) === 0) { path = url.substring(prefixes[pi].length); break; }\n' +
+        '  }\n' +
         '  if (path === null) return url;\n' +
         '  if (path.indexOf("fr/") === 0) { lang = "fr"; path = path.substring(3); }\n' +
         '  path = path.replace(/\\/$/, "").replace(/#.*$/, "");\n' +
