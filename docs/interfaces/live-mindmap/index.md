@@ -274,7 +274,7 @@ body > .container {
     }
 
     if (!flatNodes.length) {
-      return MindElixir.new('knowledge');
+      return { nodeData: { topic: 'knowledge', id: 'me-root', children: [] }, direction: 2 };
     }
 
     // Build tree recursively
@@ -354,7 +354,7 @@ body > .container {
         var theme = MIND_THEMES[themeKey] || MIND_THEMES['daltonism-light'];
 
         // Initialize MindElixir
-        var mind = new MindElixir({
+        var mind = new MindElixir.default({
           el: container,
           direction: MindElixir.SIDE,
           editable: false,

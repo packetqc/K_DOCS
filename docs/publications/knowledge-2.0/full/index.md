@@ -257,7 +257,7 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
     var filtered = filter(match[1].trim(), res[1]);
     var data = convert(filtered);
     container.innerHTML = '';
-    var mind = new MindElixir({
+    var mind = new MindElixir.default({
       el: container,
       direction: MindElixir.SIDE,
       editable: false,
