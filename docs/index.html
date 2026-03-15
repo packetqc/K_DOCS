@@ -236,6 +236,12 @@
     .toolbar-radio input[type="radio"] { accent-color: var(--accent); cursor: pointer; }
 
     /* ===== Language switch ===== */
+    .actual-page-link {
+      font-size: 0.78rem; color: var(--accent); text-decoration: none;
+      padding: 0.2rem 0.5rem; border: 1px solid var(--border); border-radius: 4px;
+      white-space: nowrap;
+    }
+    .actual-page-link:hover { background: var(--col-alt); text-decoration: underline; }
     .lang-switch { display: flex; gap: 0; }
     .lang-btn {
       background: var(--code-bg); color: var(--muted); border: 1px solid var(--border);
@@ -346,6 +352,7 @@
       </div>
     </div>
     <div class="toolbar-right">
+      <a id="actualPageLink" href="#" target="_blank" class="actual-page-link" title="Open production page" style="display:none;">Actual Page &#x2197;</a>
       <div class="lang-switch">
         <button class="lang-btn lang-active" id="langEn" title="English">EN</button>
         <button class="lang-btn" id="langFr" title="Français">FR</button>
@@ -704,6 +711,21 @@
       btnFr.classList.toggle('lang-disabled', !hasFr);
     }
 
+    function updateActualPageLink(meta) {
+      var link = document.getElementById('actualPageLink');
+      if (!link) return;
+      var permalink = meta.permalink || meta.permalink_en;
+      if (currentLang === 'fr' && meta.permalink_fr) permalink = meta.permalink_fr;
+      if (permalink) {
+        link.href = SITE.production_baseurl
+          ? 'https://packetqc.github.io' + SITE.production_baseurl + permalink
+          : permalink;
+        link.style.display = '';
+      } else {
+        link.style.display = 'none';
+      }
+    }
+
     function loadWithLang(docIdx, lang) {
       var doc = DOCS[docIdx];
       var path = (lang === 'fr' && doc.path_fr) ? doc.path_fr : doc.path;
@@ -919,6 +941,7 @@
 
       // Store meta globally for exports
       currentMeta = meta;
+      updateActualPageLink(meta);
 
       // Populate cover page
       var coverTitle = document.getElementById('coverTitle');
@@ -1116,6 +1139,7 @@
     function renderInterface(container, meta, body) {
       if (meta.title) document.title = meta.title + ' — K_DOCS';
       currentMeta = meta;
+      updateActualPageLink(meta);
 
       // Extract content between {::nomarkdown} and {:/nomarkdown}
       var rawMatch = body.match(/\{::nomarkdown\}([\s\S]*?)\{:\/nomarkdown\}/);
@@ -1246,6 +1270,8 @@
 
       // Interfaces are always landscape by default
       document.body.classList.add('landscape');
+      var landscapeRadio = document.querySelector('input[name="orient"][value="landscape"]');
+      if (landscapeRadio) landscapeRadio.checked = true;
 
       // Build generated timestamp
       var now = new Date();
@@ -1313,6 +1339,8 @@
         cont.style.padding = '';
         cont.style.maxWidth = '';
         document.body.classList.remove('landscape');
+        var portraitRadio = document.querySelector('input[name="orient"][value="portrait"]');
+        if (portraitRadio) portraitRadio.checked = true;
       }
     }
 
