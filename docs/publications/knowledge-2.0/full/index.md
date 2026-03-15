@@ -13,6 +13,7 @@ pub_number: 0
 pub_date: "March 2026"
 source_url: "https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/knowledge-2.0/v1"
 og_image: /assets/og/knowledge-2-en-cayman.gif
+live_webcard: mindmap
 citation: "Paquet, M. & Claude (2026). Knowledge 2.0: Interactive Intelligence Framework. packetqc/knowledge."
 ---
 
