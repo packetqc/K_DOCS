@@ -337,7 +337,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       {t:'I2 Main Navigator',  h:BASE+'/interfaces/main-navigator/', top:true},
       {t:'I3 Tasks Workflow',  h:BASE+'/interfaces/task-workflow/', center:true},
       {t:'I4 Project Viewer', h:BASE+'/interfaces/project-viewer/', center:true},
-      {t:'#21 Documentation',  h:BASE+'/publications/main-interface/'}
+      {t:'I5 Live Mindmap',    h:BASE+'/interfaces/live-mindmap/', center:true}
     ]},
     { id:'essentials', title:'Essentials', open:false, links:[
       {t:'STORIES',    h:BASE+'/publications/success-stories/'},
