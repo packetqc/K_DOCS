@@ -108,7 +108,7 @@ python3 Knowledge/K_DOCS/scripts/stitch_webcard.py daltonism-dark
 
 - Adds KNOWLEDGE header bar (gradient) + footer bar (accent)
 - Shows node count and theme name
-- 600ms per transition frame, 2000ms hold on final
+- 800ms per frame (cinematic pace), 3000ms hold on final
 - Floyd-Steinberg dithering, 256 colors, optimized GIF
 
 ### Cinematic Animation — 3 Movies
@@ -120,7 +120,9 @@ python3 Knowledge/K_DOCS/scripts/stitch_webcard.py daltonism-dark
 | **3** | The Exploration | Each branch opens depth 2→3→4→5, holds, collapses before next |
 
 **Normal mode**: Overview max depth 2, exploration max depth 3 (~20 frames)
-**Full mode** (`--full`): Overview max depth 3, exploration max depth 5 (~43 frames). Includes architecture and constraints branches.
+**Full mode** (`--full`): Overview max depth 3, exploration max depth 5 (~118 frames). Includes architecture and constraints branches.
+
+**Timing**: 800ms per frame for cinematic pace. 3000ms hold on final frame. Typical output: 121 frames (118 + 3 hold), ~2MB per GIF.
 
 ### Pillow Fallback Generator
 
@@ -162,7 +164,7 @@ Every frame starts from:
 4. [ ] Use theme globals (never hardcode colors)
 5. [ ] Generate both themes
 6. [ ] Verify: GIFs produced for each lang/theme combo
-7. [ ] Set `og_image` in front matter (cayman variant as default)
+7. [ ] Set `og_image` in front matter (daltonism-light variant as default)
 8. [ ] Generate redirect `index.html` alongside `index.md` for social sharing
 
 ---

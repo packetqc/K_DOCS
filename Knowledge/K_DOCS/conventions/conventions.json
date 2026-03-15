@@ -77,7 +77,7 @@
     ,{
       "id": "conv-021",
       "name": "animated_webcard_pipeline",
-      "description": "Animated mindmap webcards use a 2-step pipeline: (1) capture_mindmap.js renders MindElixir v5.9.3 in headless Puppeteer, capturing progressive PNG frames at 1200x630. (2) stitch_webcard.py adds KNOWLEDGE header/footer bars and stitches into animated GIF (256 colors, Floyd-Steinberg). Cinematic 3-movie sequence: Emergence (root→overview), Collapse (retract to skeleton), Exploration (each branch opens progressively then closes). Normal mode: depth 2/3. Full mode (--full): depth 3/5, includes architecture+constraints. 4 theme palettes: daltonism-light, daltonism-dark, cayman, midnight. Output: docs/assets/og/<slug>-<lang>-<theme>.gif. Typical: 43 frames, ~1MB, under 50MB social limit.",
+      "description": "Animated mindmap webcards use a 2-step pipeline: (1) capture_mindmap.js renders MindElixir v5.9.3 in headless Puppeteer, capturing progressive PNG frames at 1200x630. (2) stitch_webcard.py adds KNOWLEDGE header/footer bars and stitches into animated GIF (256 colors, Floyd-Steinberg, MEDIANCUT). Cinematic 3-movie sequence: Emergence (root→overview), Collapse (retract to skeleton), Exploration (each branch opens progressively then closes). Normal mode: depth 2/3. Full mode (--full): depth 3/5, includes architecture+constraints. Timing: 800ms per frame (cinematic pace), 3000ms hold on final frame. 4 theme palettes: daltonism-light, daltonism-dark, cayman, midnight. Output: docs/assets/og/<slug>-<lang>-<theme>.gif. Typical: 121 frames, ~2MB, under 50MB social limit.",
       "mind_memory_refs": ["knowledge::documentation::web_docs::webcards"]
     }
   ],
