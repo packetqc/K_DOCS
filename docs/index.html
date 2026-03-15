@@ -509,9 +509,23 @@
     // ===== Orientation =====
     document.querySelectorAll('input[name="orient"]').forEach(function(r) {
       r.addEventListener('change', function() {
-        document.body.classList.toggle('landscape', this.value === 'landscape');
+        var isLandscape = this.value === 'landscape';
+        document.body.classList.toggle('landscape', isLandscape);
+        // Propagate to interface iframe and its child embed pages
+        var ifaceFrame = document.getElementById('ifaceFrame');
+        if (ifaceFrame) {
+          ifaceFrame.contentWindow.postMessage({ type: 'kdocs-orient', landscape: isLandscape }, '*');
+        }
       });
     });
+    // Embed pages listen for orientation changes from parent
+    if (IS_EMBED) {
+      window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'kdocs-orient') {
+          document.body.classList.toggle('landscape', e.data.landscape);
+        }
+      });
+    }
 
     // ===== PDF export with cover page + page size + running headers =====
     var PAGE_SIZES = { letter: '8.5in 11in', legal: '8.5in 14in' };
@@ -1201,6 +1215,14 @@
         '    } else {\n' +
         '      var frame = document.querySelector(\'iframe[name="\' + a.target + \'"]\');\n' +
         '      if (frame) frame.src = rewritten;\n' +
+        '    }\n' +
+        '  });\n' +
+        '  /* Relay orientation messages to child iframes */\n' +
+        '  window.addEventListener("message", function(e) {\n' +
+        '    if (e.data && e.data.type === "kdocs-orient") {\n' +
+        '      document.querySelectorAll("iframe").forEach(function(f) {\n' +
+        '        try { f.contentWindow.postMessage(e.data, "*"); } catch(ex) {}\n' +
+        '      });\n' +
         '    }\n' +
         '  });\n' +
         '}, 50);\n' +
