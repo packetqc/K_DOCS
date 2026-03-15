@@ -162,10 +162,13 @@ mindmap
             theme aware cayman light midnight dark
             prefers-color-scheme media query auto detect
             assets og directory for animated GIFs
+          bilingual en fr always both languages
           live mindmap
             standalone interface page
             embedded in knowledge 2.0 publication
+            viewer webcard deployment
             MindElixir v5 replaces mermaid rendering
             theme sync with viewer 4 themes
+            depth filtering from config
             pan zoom drag built in
 ```

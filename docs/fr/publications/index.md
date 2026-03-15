@@ -192,3 +192,9 @@ GitHub : [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data
 <p class="version">v2 — Mars 2026 · <a href="{{ site.baseurl }}/fr/publications/visual-documentation/">Résumé →</a> · <a href="{{ site.baseurl }}/fr/publications/visual-documentation/full/">Complet →</a></p>
 </div>
 
+<div class="pub-card">
+<h3>#23 — Visualiseur Web K_DOCS</h3>
+<p>Moteur de documentation mono-fichier — pipeline markdown, 4 thèmes, export PDF/DOCX, disposition 3 panneaux, mindmap vivant, bilingue EN/FR</p>
+<p class="version">v1 — Mars 2026 · <a href="{{ site.baseurl }}/fr/publications/web-documentation-viewer/">Résumé →</a> · <a href="{{ site.baseurl }}/fr/publications/web-documentation-viewer/full/">Complet →</a></p>
+</div>
+

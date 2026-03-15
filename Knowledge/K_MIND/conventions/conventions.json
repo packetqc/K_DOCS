@@ -86,6 +86,24 @@
       "mind_memory_refs": ["knowledge::documentation::web_docs"]
     },
     {
+      "id": "conv-015",
+      "name": "bilingual_en_fr",
+      "description": "All documentation must be created in both English and French — always. EN files at docs/publications/<slug>/ and FR files at docs/fr/publications/<slug>/. EN front matter includes permalink_fr, FR front matter includes permalink_en. Same structure, same front matter fields, translated content. This applies to publications, success stories, interfaces, and any new documentation page. Never create EN without FR or vice versa.",
+      "mind_memory_refs": ["knowledge::conventions::documentation"]
+    },
+    {
+      "id": "conv-016",
+      "name": "live_mindmap_mindelixir",
+      "description": "Live mindmap uses MindElixir v5.9.3 (replaces custom mermaid pan/zoom/click). Three deployment points from same data source: I5 standalone interface, K2.0 inline embed, viewer webcard. Mermaid-to-MindElixir converter strips node syntax and builds {topic, id, children} tree. Depth filtering via depth_config.json (JS port of mindmap_filter.py). Four themes synced with viewer: cayman (blue light), midnight (blue dark), daltonism-light (warm light), daltonism-dark (warm dark). MindElixir init: editable:false, contextMenu:false, keypress:false.",
+      "mind_memory_refs": ["knowledge::documentation::web_docs::live_mindmap"]
+    },
+    {
+      "id": "conv-017",
+      "name": "root_essential_files",
+      "description": "Root level of repository must contain: CLAUDE.md (K_MIND system instructions), README.md (project overview adapted per repo), LICENSE (MIT), .gitignore (Python + Claude Code artifacts), .gitattributes. These files are fetched from packetqc/knowledge as base and adapted for each satellite repo.",
+      "mind_memory_refs": []
+    },
+    {
       "id": "conv-014",
       "name": "display_conventions_and_stats",
       "description": "Display convention system for K_MIND mindmap. depth_config.json provides human-editable per-branch depth settings. set_depth.py manages depth config updates. mindmap_filter.py renders depth-filtered mindmap from config. memory_stats.py computes disk/token stats with context availability. /mind-stats and /mind-depth skills provide standalone access. Promoted from work to conventions after validation.",

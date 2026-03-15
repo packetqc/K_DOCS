@@ -23,8 +23,8 @@
     },
     {
       "name": "live-mindmap",
-      "description": "Live mindmap: standalone interface page at /interfaces/live-mindmap/ and embedded at top of knowledge 2.0 full publication. Fetches mind_memory.md, renders mermaid mindmap in real-time. Fullscreen support.",
-      "status": "in_progress",
+      "description": "Live mindmap with MindElixir v5.9.3: standalone interface I5 at /interfaces/live-mindmap/, embedded in Knowledge 2.0 publication, and viewer webcard. Replaced custom mermaid pan/zoom/click with MindElixir library. 4 themes synced with viewer (cayman, midnight, daltonism-light, daltonism-dark). Depth filtering via depth_config.json. Mermaid-to-MindElixir converter. Three deployment points from same data source.",
+      "status": "validation",
       "session": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
       "files_modified": [
         "docs/interfaces/live-mindmap/index.md",

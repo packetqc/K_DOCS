@@ -192,3 +192,9 @@ GitHub: [Source](https://github.com/packetqc/knowledge/tree/main/knowledge/data/
 <p class="version">v2 — March 2026 · <a href="{{ site.baseurl }}/publications/visual-documentation/">Summary →</a> · <a href="{{ site.baseurl }}/publications/visual-documentation/full/">Complete →</a></p>
 </div>
 
+<div class="pub-card">
+<h3>#23 — K_DOCS Web Viewer</h3>
+<p>Single-file documentation engine — markdown pipeline, 4 themes, PDF/DOCX export, three-panel layout, live mindmap, bilingual EN/FR</p>
+<p class="version">v1 — March 2026 · <a href="{{ site.baseurl }}/publications/web-documentation-viewer/">Summary →</a> · <a href="{{ site.baseurl }}/publications/web-documentation-viewer/full/">Complete →</a></p>
+</div>
+

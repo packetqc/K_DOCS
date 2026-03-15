@@ -54,6 +54,7 @@
     "export_pdf": "Corporate styling: white bg, blue accent (#1d4ed8), cover page centered, TOC page 2, running header/footer with blue liners, CSS @page three-zone layout.",
     "export_docx": "Same corporate styling as PDF: cover page centered, TOC page 2, MSO running header/footer with blue liners, Calibri 10pt, page-break-before on h2 #2+.",
     "panel_dividers": "Draggable + click-to-step vertical dividers in main navigator. 14px desktop, 8px mobile responsive. Grip dots, no arrows. Pixel-based grid-template-columns.",
-    "site_safe_urls": "No hardcoded domain URLs in markdown source. Web links use {{ site.baseurl }}/ Liquid tags resolved at render time. Export links use viewer URL format (index.html?doc=)."
+    "site_safe_urls": "No hardcoded domain URLs in markdown source. Web links use {{ site.baseurl }}/ Liquid tags resolved at render time. Export links use viewer URL format (index.html?doc=).",
+    "bilingual_en_fr": "All documentation always in both EN and FR. EN at docs/publications/<slug>/, FR at docs/fr/publications/<slug>/. Front matter cross-links via permalink_fr (EN) and permalink_en (FR). Never create one without the other."
   }
 }
