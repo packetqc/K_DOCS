@@ -25,14 +25,14 @@ citation: "Paquet, M. & Claude (2026). Knowledge 2.0: Interactive Intelligence F
 - [Abstract](#abstract)
 - [What's New in 2.0](#whats-new-in-20-)
 - [The Evolution: v1 → v2](#the-evolution-v1--v2)
-- [1. The Session Questionnaire](#1-the-session-questionnaire)
-- [2. The Command Router](#2-the-command-router)
-- [3. The Skill Architecture](#3-the-skill-architecture)
-- [4. Methodology Resolution](#4-methodology-resolution)
-- [5. The Deduplication Engine](#5-the-deduplication-engine)
-- [6. Interactive Modes](#6-interactive-modes)
-- [7. Complete Architecture](#7-complete-architecture)
-- [8. The Mindmap Memory](#8-the-mindmap-memory-)
+- [1. The Mindmap Memory](#1-the-mindmap-memory-)
+- [2. The Session Questionnaire](#2-the-session-questionnaire)
+- [3. The Command Router](#3-the-command-router)
+- [4. The Skill Architecture](#4-the-skill-architecture)
+- [5. Methodology Resolution](#5-methodology-resolution)
+- [6. The Deduplication Engine](#6-the-deduplication-engine)
+- [7. Interactive Modes](#7-interactive-modes)
+- [8. Complete Architecture](#8-complete-architecture)
 - [Legacy References — Knowledge 1.0](#legacy-references--knowledge-10-)
 
 ## Authors
@@ -131,162 +131,7 @@ flowchart LR
 </tbody>
 </table>
 
-## 1. The Session Questionnaire
-
-Every session begins with a structured validation grid — replacing unstructured guessing with a deterministic protocol.
-
-| Knowledge | ID | Question | Action Type |
-|-----------|----|----------|-------------|
-| **A — Request Validation** | A1 | Confirm the title | function |
-| | A2 | Confirm the description | program |
-| | A3 | Confirm the project | function |
-| | A4 | Execute request | executer_demande |
-| **B — Work Quality** | B1 | Tests and build | program |
-| | B2 | Code review | function |
-| | B3 | Metrics | program |
-| | B4 | All | all |
-| **C — Session Integrity** | C1 | Progressive commits | function |
-| | C2 | Cache up to date | program |
-| | C3 | Issue commented | function |
-| | C4 | All | all |
-| **D — Documentation** | D1 | System documentation | function |
-| | D2 | User documentation | function |
-| | D3 | All | all |
-| **E — Approval** | E1 | Pre-save summary | function |
-| | E2 | Final save | program |
-| | E3 | All | all |
-
-> **Persistence**: State saved in `.claude/knowledge_resultats.json`. Survives compaction and crashes. After recovery: `en_cours: true` → resume, `demande_executee: true` → skip re-execution.
-
-## 2. The Command Router
-
-Commands are **routed**, not interpreted. `routes.json` maps keywords to programs.
-
-```mermaid
-flowchart LR
-    INPUT["User prompt"] --> MATCH{"Keyword match?"}
-    MATCH -->|Yes| ROUTE["Route found"]
-    MATCH -->|No| CLAUDE["Claude handles naturally"]
-    ROUTE --> PROG{"Has program?"}
-    PROG -->|Yes| EXEC["Execute program"]
-    PROG -->|No| MODE["Enter mode (interactive)"]
-```
-
-| Route | Syntax | Program | Type |
-|-------|--------|---------|------|
-| `project-create` | `project create [title]` | `scripts/project_create.py` | Command |
-| `interactive` | `interactif` | — | Mode switch |
-
-## 3. The Skill Architecture
-
-Knowledge is decomposed into composable **skills** — each a self-contained unit registered in `SkillRegistry`.
-
-| Skill | Role | Used By |
-|-------|------|---------|
-| `LireChoixSkill` | Read user choice (1-N) | Questionnaire navigation |
-| `FonctionSkill` | Execute internal function | A1, A3, B2, C1, C3 |
-| `ProgrammeSkill` | Execute external program | A2, B1, B3, C2 |
-
-```
-KnowledgeSkill → registre.executer("lire_choix") → LireChoixSkill
-               → registre.executer("fonction")   → FonctionSkill
-               → registre.executer("programme")  → ProgrammeSkill
-```
-
-## 4. Methodology Resolution
-
-Commands declare a **family**, the system resolves all matching methodology files automatically.
-
-| Family Prefix | Files | Used By |
-|---------------|-------|---------|
-| `documentation` | 6 files | pub new, pub check, docs check |
-| `interactive` | 4 files | interactif, live, normalize |
-| `system` | 5 files | Infrastructure commands |
-| `satellite` | 2 files | bootstrap, satellite commands |
-| `project` | 2 files | project create, project manage |
-| `compilation` | 2 files | Metrics and time tracking |
-
-## 5. The Deduplication Engine
-
-```mermaid
-flowchart LR
-    CMD["Command (family: interactive)"] --> RESOLVE["resolve_methodologies() → 4 files"]
-    RESOLVE --> FILTER["filter_unread() → check cache"]
-    FILTER --> READ["Read only new files"]
-    READ --> MARK["mark_read() → update cache"]
-```
-
-| Scenario | Without Dedup | With Dedup |
-|----------|--------------|------------|
-| 1st interactive command | 7 files read | 7 files read |
-| 2nd interactive command | 7 files read | **0 files read** |
-| 3rd interactive command | 7 files read | **0 files read** |
-| **Total for 3 commands** | **21 file reads** | **7 file reads** |
-
-> **66% reduction** in methodology loading for multi-command sessions.
-
-## 6. Interactive Modes
-
-<div class="feature-grid">
-<div class="feature-card">
-<h4>Conception</h4>
-<p>Design new capabilities, explore architectures, prototype features. Phase: Anchor → Ideate → Explore → Propose → Prototype → Validate → Iterate → Formalize → Deliver.</p>
-</div>
-<div class="feature-card">
-<h4>Documentation</h4>
-<p>Create publications, methodologies, system docs. Phase: Assess → Structure → Draft → Review → Finalize.</p>
-</div>
-<div class="feature-card">
-<h4>Diagnostic</h4>
-<p>Live debugging, real-time analysis, forensic investigation. Phase: Observe → Hypothesize → Test → Fix → Verify.</p>
-</div>
-</div>
-
-## 7. Complete Architecture
-
-```mermaid
-flowchart TB
-    subgraph BOOT["Session Boot"]
-        CLAUDE_MD["CLAUDE.md (survives compaction)"]
-        KNOWLEDGE["knowledge_resultats.json"]
-        CHECKPOINT["checkpoint_execution.json"]
-    end
-
-    subgraph QUESTIONNAIRE["Knowledge Questionnaire"]
-        A["A: Request Validation (A1-A4)"]
-        B["B: Context (B1-B3)"]
-        C["C: Validation (C1-C3)"]
-        D["D: Documentation (D1-D3)"]
-    end
-
-    subgraph ENGINE["Execution Engine"]
-        ROUTER["routes.json — Command Router"]
-        SKILLS["SkillRegistry — Composable Skills"]
-        EXEC["executer_demande.py — Executor"]
-    end
-
-    subgraph METHODOLOGY_LAYER["Methodology Layer"]
-        RESOLVE["resolve_methodologies(family)"]
-        DEDUP["filter_unread / mark_read"]
-        STANDARDS["Working Style Standards"]
-        FILES["28 methodology files — 6 families"]
-    end
-
-    subgraph INTERACTIVE["Interactive Modes"]
-        IC["Conception"]
-        ID2["Documentation"]
-        IDI["Diagnostic"]
-    end
-
-    BOOT --> QUESTIONNAIRE
-    QUESTIONNAIRE --> ENGINE
-    ENGINE --> METHODOLOGY_LAYER
-    METHODOLOGY_LAYER --> INTERACTIVE
-```
-
----
-
-## 8. The Mindmap Memory <span class="badge badge-new">NEW</span>
+## 1. The Mindmap Memory <span class="badge badge-new">NEW</span>
 
 Knowledge 2.0 introduces a **three-file memory system** where a mermaid mindmap serves as the AI's operating memory — not decoration, but an executable knowledge graph that governs behavior every session.
 
@@ -337,7 +182,7 @@ This enables a clean, focused view for daily work while preserving the full know
 
 ### Live Knowledge Graph
 
-The mindmap below renders the current K_MIND memory in real-time — fetched from the repository and filtered by depth configuration. Toggle between Normal and Full views to explore the complete knowledge structure.
+The mindmap below renders the current K_MIND memory in real-time — fetched from the repository and filtered by depth configuration.
 
 <div id="k20-live-mindmap" style="width:100%;min-height:400px;border:1px solid var(--border,#d48a3c);border-radius:8px;background:var(--bg,#faf6f1);padding:1rem;overflow:auto;">
 <div class="loading">Loading live mindmap...</div>
@@ -353,7 +198,6 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
     var match = res[0].match(/```mermaid\s*\n([\s\S]*?)```/);
     if (!match) throw new Error('No mermaid block');
     var code = match[1].trim();
-    // Apply normal mode filtering
     var lines = code.split('\n'), hdr = [], body = [], inH = true;
     for (var i = 0; i < lines.length; i++) {
       var s = lines[i].trim();
@@ -398,6 +242,127 @@ Every conversation turn updates all three files:
 3. **mind_memory** nodes are updated when knowledge structure changes
 
 Topic splitting archives completed conversations by subject. Any memory can be recalled by keyword at any time — the system never forgets.
+
+## 2. The Session Questionnaire
+
+Every session begins with a structured validation grid — replacing unstructured guessing with a deterministic protocol.
+
+| Knowledge | ID | Question | Action Type |
+|-----------|----|----------|-------------|
+| **A — Request Validation** | A1 | Confirm the title | function |
+| | A2 | Confirm the description | program |
+| | A3 | Confirm the project | function |
+| | A4 | Execute request | executer_demande |
+| **B — Work Quality** | B1 | Tests and build | program |
+| | B2 | Code review | function |
+| | B3 | Metrics | program |
+| | B4 | All | all |
+| **C — Session Integrity** | C1 | Progressive commits | function |
+| | C2 | Cache up to date | program |
+| | C3 | Issue commented | function |
+| | C4 | All | all |
+| **D — Documentation** | D1 | System documentation | function |
+| | D2 | User documentation | function |
+| | D3 | All | all |
+| **E — Approval** | E1 | Pre-save summary | function |
+| | E2 | Final save | program |
+| | E3 | All | all |
+
+> **Persistence**: State saved in `.claude/knowledge_resultats.json`. Survives compaction and crashes. After recovery: `en_cours: true` → resume, `demande_executee: true` → skip re-execution.
+
+## 3. The Command Router
+
+Commands are **routed**, not interpreted. `routes.json` maps keywords to programs.
+
+```mermaid
+flowchart LR
+    INPUT["User prompt"] --> MATCH{"Keyword match?"}
+    MATCH -->|Yes| ROUTE["Route found"]
+    MATCH -->|No| CLAUDE["Claude handles naturally"]
+    ROUTE --> PROG{"Has program?"}
+    PROG -->|Yes| EXEC["Execute program"]
+    PROG -->|No| MODE["Enter mode (interactive)"]
+```
+
+| Route | Syntax | Program | Type |
+|-------|--------|---------|------|
+| `project-create` | `project create [title]` | `scripts/project_create.py` | Command |
+| `interactive` | `interactif` | — | Mode switch |
+
+## 4. The Skill Architecture
+
+Knowledge is decomposed into composable **skills** — each a self-contained unit registered in `SkillRegistry`.
+
+| Skill | Role | Used By |
+|-------|------|---------|
+| `LireChoixSkill` | Read user choice (1-N) | Questionnaire navigation |
+| `FonctionSkill` | Execute internal function | A1, A3, B2, C1, C3 |
+| `ProgrammeSkill` | Execute external program | A2, B1, B3, C2 |
+
+```
+KnowledgeSkill → registre.executer("lire_choix") → LireChoixSkill
+               → registre.executer("fonction")   → FonctionSkill
+               → registre.executer("programme")  → ProgrammeSkill
+```
+
+## 5. Methodology Resolution
+
+Commands declare a **family**, the system resolves all matching methodology files automatically.
+
+| Family Prefix | Files | Used By |
+|---------------|-------|---------|
+| `documentation` | 6 files | pub new, pub check, docs check |
+| `interactive` | 4 files | interactif, live, normalize |
+| `system` | 5 files | Infrastructure commands |
+| `satellite` | 2 files | bootstrap, satellite commands |
+| `project` | 2 files | project create, project manage |
+| `compilation` | 2 files | Metrics and time tracking |
+
+## 6. The Deduplication Engine
+
+```mermaid
+flowchart LR
+    CMD["Command (family: interactive)"] --> RESOLVE["resolve_methodologies() → 4 files"]
+    RESOLVE --> FILTER["filter_unread() → check cache"]
+    FILTER --> READ["Read only new files"]
+    READ --> MARK["mark_read() → update cache"]
+```
+
+| Scenario | Without Dedup | With Dedup |
+|----------|--------------|------------|
+| 1st interactive command | 7 files read | 7 files read |
+| 2nd interactive command | 7 files read | **0 files read** |
+| 3rd interactive command | 7 files read | **0 files read** |
+| **Total for 3 commands** | **21 file reads** | **7 file reads** |
+
+> **66% reduction** in methodology loading for multi-command sessions.
+
+## 7. Interactive Modes
+
+<div class="feature-grid">
+<div class="feature-card">
+<h4>Conception</h4>
+<p>Design new capabilities, explore architectures, prototype features. Phase: Anchor → Ideate → Explore → Propose → Prototype → Validate → Iterate → Formalize → Deliver.</p>
+</div>
+<div class="feature-card">
+<h4>Documentation</h4>
+<p>Create publications, methodologies, system docs. Phase: Assess → Structure → Draft → Review → Finalize.</p>
+</div>
+<div class="feature-card">
+<h4>Diagnostic</h4>
+<p>Live debugging, real-time analysis, forensic investigation. Phase: Observe → Hypothesize → Test → Fix → Verify.</p>
+</div>
+</div>
+
+## 8. Complete Architecture
+
+```mermaid
+flowchart LR
+    BOOT["Boot<br/>CLAUDE.md + checkpoints"] --> Q["Questionnaire<br/>A·B·C·D validation"]
+    Q --> ENGINE["Engine<br/>Router → Skills → Executor"]
+    ENGINE --> METH["Methodologies<br/>6 families · dedup"]
+    METH --> MODES["Modes<br/>Conception · Docs · Diagnostic"]
+```
 
 ---
 
