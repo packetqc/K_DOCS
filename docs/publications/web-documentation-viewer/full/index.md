@@ -22,6 +22,41 @@ keywords: "documentation viewer, single-file, static, themes, export, panels, mi
 
 ---
 
+## Abstract
+
+The K_DOCS Web Viewer solves a fundamental problem: how to serve rich, interactive documentation from a single static file with zero build step and zero server-side processing. The production Knowledge system (`packetqc/knowledge`) relies on Jekyll + GitHub Pages with two massive HTML layouts (183 KB total). That pipeline works but requires Ruby, a build step, and Jekyll-specific conventions that create fragile gotchas (Liquid stripping, kramdown parsing issues, `<details>` block mode exits).
+
+The viewer replaces all of that with one `index.html` that fetches markdown at runtime, parses YAML front matter, resolves Liquid tags client-side, renders Mermaid diagrams, and serves a live interactive MindElixir mindmap. Four CSS themes (Cayman, Midnight, Daltonism Light/Dark) persist via localStorage. Corporate PDF and DOCX export use CSS Paged Media and MSO elements respectively — zero external dependencies. A three-panel layout with draggable dividers hosts 25+ publications and 5 interfaces. The entire documentation platform deploys with `git push`.
+
+```mermaid
+mindmap
+  root((Web Viewer))
+    Rendering Pipeline
+      Markdown fetch and parse
+      YAML front matter
+      Liquid resolver
+      Mermaid diagrams
+    4 Theme System
+      Cayman and Midnight
+      Daltonism Light and Dark
+      localStorage persistence
+    Three Panel Layout
+      Draggable dividers
+      Interface routing
+      Chrome bar convention
+    Export Engine
+      PDF via CSS Paged Media
+      DOCX via MSO elements
+      Corporate styling
+    Live Mindmap
+      MindElixir v5
+      Depth filtering
+      Theme sync
+    Bilingual EN FR
+```
+
+---
+
 <div class="story-section">
 
 ## 1. Design Philosophy
