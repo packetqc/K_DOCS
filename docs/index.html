@@ -200,13 +200,13 @@
     }
     .iface-chrome-toggle:hover { background: var(--col-alt); color: var(--accent); }
     #ifaceFrame {
-      width: 100%; border: none; background: var(--bg);
-      flex: 1; min-height: 0;
+      width: calc(100% - 1rem); border: none; background: var(--bg);
+      flex: 1; min-height: 0; margin: 0.25rem 0.5rem;
     }
     /* When in interface mode, content fills remaining viewport as flex column */
     #content[data-interface-mode="1"] {
       display: flex !important; flex-direction: column !important;
-      height: calc(100vh - 5rem) !important; overflow: hidden !important;
+      height: calc(100vh - 5.5rem) !important; overflow: hidden !important;
     }
 
     /* ===== Toolbar (shared) ===== */
