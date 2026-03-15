@@ -372,6 +372,23 @@ body > .container {
         mind.init(data);
         window.mindInstance = mind;
 
+        // Double-click to expand/collapse branches
+        container.addEventListener('dblclick', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          // Find the closest me-node element
+          var meNode = e.target.closest('me-node');
+          if (!meNode) return;
+          // Get the node data object from MindElixir's internal map
+          var nodeObj = meNode.nodeObj;
+          if (!nodeObj || !nodeObj.children || nodeObj.children.length === 0) return;
+          if (nodeObj.expanded !== false) {
+            mind.expandNode(meNode, false);
+          } else {
+            mind.expandNode(meNode, true);
+          }
+        });
+
         // Fit after render
         setTimeout(function() { mind.scaleFit(); }, 200);
 
