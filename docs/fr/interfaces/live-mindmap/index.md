@@ -1,17 +1,17 @@
 ---
 layout: publication
-title: "Live Mindmap — K_MIND Knowledge Graph"
-description: "Interactive live rendering of the K_MIND memory mindmap. Reads mind_memory.md and renders with MindElixir in real-time."
-permalink: /interfaces/live-mindmap/
-permalink_fr: /fr/interfaces/live-mindmap/
-lang: en
-header_title: "Live Mindmap"
-tagline: "K_MIND Knowledge Graph — Real-Time"
+title: "Mindmap vivant — Graphe de connaissances K_MIND"
+description: "Rendu interactif en temps réel du mindmap mémoire K_MIND. Lit mind_memory.md et rend avec MindElixir en direct."
+permalink: /fr/interfaces/live-mindmap/
+permalink_en: /interfaces/live-mindmap/
+lang: fr
+header_title: "Mindmap vivant"
+tagline: "Graphe de connaissances K_MIND — Temps réel"
 pub_meta: "Interface | K_DOCS"
 pub_version: "v3"
-pub_date: "March 2026"
+pub_date: "Mars 2026"
 page_type: interface
-og_image: /assets/og/knowledge-system-en-cayman.gif
+og_image: /assets/og/knowledge-system-fr-cayman.gif
 ---
 
 {::nomarkdown}
