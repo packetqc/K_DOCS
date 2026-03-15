@@ -1197,9 +1197,10 @@
         '  if (path === null) return url;\n' +
         '  if (path.indexOf("fr/") === 0) { lang = "fr"; path = path.substring(3); }\n' +
         '  path = path.replace(/\\/$/, "").replace(/#.*$/, "");\n' +
+        '  if (path === "") path = "index.md";\n' +
         '  for (var i = 0; i < VIEWER_DOCS.length; i++) {\n' +
-        '    var dp = VIEWER_DOCS[i].path.replace(/\\/$/, "").replace(/\\/index\\.md$/, "");\n' +
-        '    var c = path.replace(/\\/index\\.md$/, "");\n' +
+        '    var dp = VIEWER_DOCS[i].path.replace(/\\/$/, "").replace(/(^|\\/)index\\.md$/, "");\n' +
+        '    var c = path.replace(/(^|\\/)index\\.md$/, "");\n' +
         '    if (c === dp || c + "/index.md" === VIEWER_DOCS[i].path || c === VIEWER_DOCS[i].path) {\n' +
         '      var u = VIEWER_ORIGIN + "index.html?doc=" + encodeURIComponent(VIEWER_DOCS[i].path);\n' +
         '      if (forEmbed !== false) u += "&embed";\n' +
