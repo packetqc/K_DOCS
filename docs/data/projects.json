@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "generated_at": "2026-03-15T16:47:55Z",
+    "total_projects": 1,
+    "source": "K_PROJECTS data + tasks.json + sessions.json + modules.json"
+  },
+  "projects": [
+    {
+      "id": "project-knowledge",
+      "title": "Knowledge System",
+      "repo": "packetqc/K_DOCS",
+      "board_number": 39,
+      "board_url": "https://github.com/users/packetqc/projects/39",
+      "task_count": 7,
+      "completed_tasks": 1,
+      "completion_pct": 14,
+      "stage_distribution": {
+        "initial": 0,
+        "plan": 0,
+        "analyze": 0,
+        "implement": 1,
+        "validation": 5,
+        "documentation": 0,
+        "approval": 0,
+        "completion": 1
+      },
+      "metrics": {
+        "prs": 0,
+        "additions": 834448,
+        "deletions": 812018,
+        "files_changed": 9151
+      },
+      "branches": [
+        "main"
+      ],
+      "session_ids": [
+        "3a957be0-f9d5-404f-9154-6fc16dc1b449"
+      ],
+      "modules": [
+        {
+          "id": "K_MIND",
+          "name": "Knowledge Mind",
+          "status": "active",
+          "has": [
+            "mind",
+            "sessions",
+            "architecture",
+            "constraints",
+            "conventions",
+            "work",
+            "documentation",
+            "scripts"
+          ]
+        },
+        {
+          "id": "K_DOCS",
+          "name": "Knowledge Documentation",
+          "status": "active",
+          "has": [
+            "conventions",
+            "documentation",
+            "methodology",
+            "scripts"
+          ]
+        },
+        {
+          "id": "K_PROJECTS",
+          "name": "Knowledge Projects",
+          "status": "imported",
+          "has": [
+            "conventions",
+            "documentation",
+            "methodology",
+            "scripts",
+            "skills",
+            "work"
+          ]
+        },
+        {
+          "id": "K_VALIDATION",
+          "name": "Knowledge Validation",
+          "status": "imported",
+          "has": [
+            "conventions",
+            "documentation",
+            "methodology",
+            "scripts",
+            "skills",
+            "work"
+          ]
+        },
+        {
+          "id": "K_GITHUB",
+          "name": "Knowledge GitHub",
+          "status": "imported",
+          "has": [
+            "conventions",
+            "documentation",
+            "methodology",
+            "scripts",
+            "work"
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "id": "task-1",
+          "title": "modules imports",
+          "stage": "implement",
+          "children_count": 3,
+          "message_count": 0
+        },
+        {
+          "id": "task-2",
+          "title": "documentation web viewer system",
+          "stage": "validation",
+          "children_count": 0,
+          "message_count": 30
+        },
+        {
+          "id": "task-3",
+          "title": "live mindmap MindElixir v5",
+          "stage": "validation",
+          "children_count": 0,
+          "message_count": 6
+        },
+        {
+          "id": "task-4",
+          "title": "webcards theme aware",
+          "stage": "validation",
+          "children_count": 0,
+          "message_count": 8
+        },
+        {
+          "id": "task-5",
+          "title": "k_mind import system",
+          "stage": "validation",
+          "children_count": 5,
+          "message_count": 0
+        },
+        {
+          "id": "task-6",
+          "title": "multi module architecture",
+          "stage": "validation",
+          "children_count": 9,
+          "message_count": 2
+        },
+        {
+          "id": "task-7",
+          "title": "K_DOCS designation approved",
+          "stage": "completion",
+          "children_count": 0,
+          "message_count": 0
+        }
+      ]
+    }
+  ]
+}
