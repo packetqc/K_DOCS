@@ -450,7 +450,7 @@ body > .container {
         var mind = new MindElixir.default({
           el: container,
           direction: MindElixir.SIDE,
-          editable: false,
+          editable: true,
           keypress: false,
           toolBar: false,
           theme: theme,
@@ -461,6 +461,11 @@ body > .container {
         mind.init(data);
         window.mindInstance = mind;
         document.documentElement.setAttribute('data-theme', themeKey);
+
+        // Block text editing: blur any node topic that gains focus
+        container.addEventListener('focusin', function(e) {
+          if (e.target.tagName === 'ME-TPC') e.target.blur();
+        }, true);
 
         // Click on +/- button: expand ONE level (capture phase intercepts MindElixir's full expand)
         container.addEventListener('click', function(e) {

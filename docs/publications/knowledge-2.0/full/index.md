@@ -262,7 +262,7 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
     var mind = new MindElixir.default({
       el: container,
       direction: MindElixir.SIDE,
-      editable: false,
+      editable: true,
       keypress: false,
       toolBar: false,
       theme: getTheme(),
@@ -270,6 +270,9 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
       allowUndo: false
     });
     mind.init(data);
+    container.addEventListener('focusin', function(ev) {
+      if (ev.target.tagName === 'ME-TPC') ev.target.blur();
+    }, true);
     // Click +/- button: expand ONE level
     container.addEventListener('click', function(ev) {
       if (ev.target.tagName !== 'ME-EPD') return;

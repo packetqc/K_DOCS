@@ -1289,7 +1289,7 @@
           var mind = new MindElixir.default({
             el: container,
             direction: MindElixir.SIDE,
-            editable: false,
+            editable: true,
             keypress: false,
             toolBar: false,
             theme: getMindTheme(),
@@ -1297,6 +1297,9 @@
             allowUndo: false
           });
           mind.init(data);
+          container.addEventListener('focusin', function(ev) {
+            if (ev.target.tagName === 'ME-TPC') ev.target.blur();
+          }, true);
           // Click +/- button: expand ONE level
           container.addEventListener('click', function(ev) {
             if (ev.target.tagName !== 'ME-EPD') return;
