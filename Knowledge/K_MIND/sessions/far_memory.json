@@ -633,6 +633,78 @@
           "action": "remove navigator-side routing interceptor"
         }
       ]
+    },
+    {
+      "id": 69,
+      "role": "user",
+      "content": "apply same for docx export that is applicable same as the export pdf qa updates we just accomplished. update documentation conventions where that applies and the jsons. in pdf exported, the hyperlinks that refers to the knowledge (now site based is K_DOCS), we get 404 because it may point to old structure which was in a folder publications. if at the end also modify the documentation to be safe site based help.",
+      "timestamp": "2026-03-15T08:00:43Z"
+    },
+    {
+      "id": 70,
+      "role": "assistant",
+      "content": "Fixed DOCX export: removed .toc from strip list so TOC included on page 2 with page-break-after. Added TOC CSS with corporate styling. Updated conventions.json (conv-011 doc_header, conv-012 export_corporate_styling, conv-013 draggable_panel_dividers), documentation.json (export_pdf, export_docx, panel_dividers conventions), work.json (documentation-web-viewer-system entry). Fixed PDF/DOCX link 404s: added rewriteContentLinks() that rewrites href attributes at render time from old /knowledge/ paths to current SITE.baseurl paths. All pushed to main.",
+      "timestamp": "2026-03-15T08:00:43Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "remove .toc from DOCX strip list, add TOC CSS, add rewriteContentLinks()"
+        },
+        {
+          "tool": "Edit",
+          "file": "conventions/conventions.json",
+          "action": "added conv-011..013"
+        },
+        {
+          "tool": "Edit",
+          "file": "documentation/documentation.json",
+          "action": "added export/divider conventions"
+        },
+        {
+          "tool": "Edit",
+          "file": "work/work.json",
+          "action": "added documentation-web-viewer-system entry"
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "role": "user",
+      "content": "links to site in exported pdf still points to old structure and get 404. per example: https://packetqc.github.io/K_DOCS/publications/ (publications reference is old i think...)",
+      "timestamp": "2026-03-15T08:04:56Z"
+    },
+    {
+      "id": 72,
+      "role": "assistant",
+      "content": "Fixed rewriteContentLinks to use viewer URL format (index.html?doc=path) instead of direct file paths. Direct paths 404 on GitHub Pages because markdown files aren't processed by Jekyll. Now links in PDF/DOCX point to viewer URLs that work.",
+      "timestamp": "2026-03-15T08:04:56Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "rewriteContentLinks uses viewer URL format"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "role": "user",
+      "content": "have main interface vertical bars very much larger. but acceptable size when viewing from mobile adaptive version of the page. what have we worked so far that should be updated in the system?",
+      "timestamp": "2026-03-15T08:07:06Z"
+    },
+    {
+      "id": 74,
+      "role": "assistant",
+      "content": "Widened divider bars to 14px (was 6px) with 5 grip dots. Added responsive CSS @media (max-width: 768px) shrinking to 8px, left panel collapsed by default on mobile. JS DIVIDER_W adapts to viewport width. Pushed to main.",
+      "timestamp": "2026-03-15T08:07:06Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "14px dividers + mobile responsive 8px"
+        }
+      ]
     }
   ],
   "archives": [

@@ -53,6 +53,7 @@
     "doc_header": "Nav-back + actual page link + version tag, collapsible metadata (Publication/Generated/Authors). Shared buildDocHeaderParts() for both standalone and embed chrome bar.",
     "export_pdf": "Corporate styling: white bg, blue accent (#1d4ed8), cover page centered, TOC page 2, running header/footer with blue liners, CSS @page three-zone layout.",
     "export_docx": "Same corporate styling as PDF: cover page centered, TOC page 2, MSO running header/footer with blue liners, Calibri 10pt, page-break-before on h2 #2+.",
-    "panel_dividers": "Draggable + click-to-step vertical dividers in main navigator. Grip dots, no arrows. Pixel-based grid-template-columns."
+    "panel_dividers": "Draggable + click-to-step vertical dividers in main navigator. 14px desktop, 8px mobile responsive. Grip dots, no arrows. Pixel-based grid-template-columns.",
+    "site_safe_urls": "No hardcoded domain URLs in markdown source. Web links use {{ site.baseurl }}/ Liquid tags resolved at render time. Export links use viewer URL format (index.html?doc=)."
   }
 }

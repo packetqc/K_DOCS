@@ -82,7 +82,7 @@
     {
       "id": "conv-013",
       "name": "draggable_panel_dividers",
-      "description": "Main navigator vertical dividers support both drag (mousedown/mousemove/mouseup with overlay) and click-to-step fallback. Left divider cycles [0, 220, 320]px. Right divider cycles 0 → 50% → full → 0. Grid uses pixel-based grid-template-columns with transition disabled during drag. Dividers styled as thin bars with grip dots (·), no arrows.",
+      "description": "Main navigator vertical dividers support both drag (mousedown/mousemove/mouseup with overlay) and click-to-step fallback. Left divider cycles [0, 220, 320]px. Right divider cycles 0 → 50% → full → 0. Grid uses pixel-based grid-template-columns with transition disabled during drag. Dividers 14px wide on desktop, 8px on mobile (≤768px) via CSS media query + JS DIVIDER_W. Styled with 5 grip dots, no arrows.",
       "mind_memory_refs": ["knowledge::documentation::web_docs"]
     }
   ],

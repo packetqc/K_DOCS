@@ -431,6 +431,44 @@
         "documentation"
       ],
       "timestamp": "2026-03-15T06:16:00Z"
+    },
+    {
+      "id": 35,
+      "summary": "DOCX export matches PDF QA (TOC page 2), updated conventions/docs/work JSONs, fixed internal link 404s in PDF/DOCX via rewriteContentLinks()",
+      "far_memory_refs": [
+        69,
+        70
+      ],
+      "mind_memory_refs": [
+        "documentation::web_docs",
+        "conventions"
+      ],
+      "timestamp": "2026-03-15T08:00:43Z"
+    },
+    {
+      "id": 36,
+      "summary": "Fixed PDF/DOCX export links: use viewer URL format (index.html?doc=) instead of direct paths that 404 on GitHub Pages",
+      "far_memory_refs": [
+        71,
+        72
+      ],
+      "mind_memory_refs": [
+        "documentation::web_docs"
+      ],
+      "timestamp": "2026-03-15T08:04:56Z"
+    },
+    {
+      "id": 37,
+      "summary": "Dividers widened to 14px desktop / 8px mobile responsive, pushed. User asks what system updates needed.",
+      "far_memory_refs": [
+        73,
+        74
+      ],
+      "mind_memory_refs": [
+        "documentation::web_docs",
+        "conventions"
+      ],
+      "timestamp": "2026-03-15T08:07:06Z"
     }
   ],
   "last_session": {

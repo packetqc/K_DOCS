@@ -38,19 +38,31 @@ mindmap
         production url structure compatibility
         soft coupled baseurl auto detect deployment
         nojekyll serves raw markdown on github pages
+        site safe documentation no hardcoded domain urls
+        rewriteContentLinks viewer url format for export
       page conventions
         unified chrome bar for all panels
           non collapsible actual page permalink link
           collapsible full metadata block
           pub_id title version tagline pub_meta citation generated
           same convention for interface center and right panels
+        doc header with nav back actual page version tag
         toc two columns when 8 plus entries
         external links open in new browser tab
         orientation propagated via BroadcastChannel
+      export conventions
+        corporate styling not web theme colors
+        cover page centered with title description authors
+        toc on page 2 with page break after
+        running header footer with blue liners
+        pdf via css paged media window print
+        docx via mso elements calibri 10pt
       interface routing
         right panel interface links route to center
         main navigator link reloads full page
         embed pages detect window name for routing
+        draggable panel dividers 14px desktop 8px mobile
+        click to step fallback with grip dots
     architecture
       persistence_format
         JSON for performance
