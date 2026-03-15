@@ -1,5 +1,6 @@
 ---
 name: mind-stats
+user_invocable: true
 description: "Show memory stats table — disk size, token counts, loaded context, and available tokens before compaction."
 allowed-tools: Bash
 ---

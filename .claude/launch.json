@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "docs-server",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8000", "-d", "/mnt/d/K/K_DOCS/docs"],
+      "port": 8000
+    }
+  ]
+}

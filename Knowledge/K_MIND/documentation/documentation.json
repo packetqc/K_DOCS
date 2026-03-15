@@ -1,5 +1,54 @@
 {
   "domain": "documentation",
-  "references": [],
-  "external_files": []
+  "references": [
+    {
+      "id": "ref-web-production-pipeline",
+      "name": "Web Production Pipeline",
+      "source": "packetqc/knowledge",
+      "path": "knowledge/methodology/web-production-pipeline.md",
+      "description": "Jekyll pipeline: Markdown source → Liquid → kramdown → HTML. 4-theme system, front matter contract, kramdown gotchas."
+    },
+    {
+      "id": "ref-web-pagination-export",
+      "name": "Web Pagination & Export",
+      "source": "packetqc/knowledge",
+      "path": "knowledge/methodology/web-pagination-export.md",
+      "description": "CSS Paged Media print stack. @page zones, running headers/footers, PDF export via window.print(). Zero-dependency."
+    },
+    {
+      "id": "ref-web-page-visualization",
+      "name": "Web Page Visualization",
+      "source": "packetqc/knowledge",
+      "path": "knowledge/methodology/web-page-visualization.md",
+      "description": "Local rendering pipeline: Playwright + Chromium + npm mermaid. Screenshots, Mermaid-to-image. Self-contained."
+    },
+    {
+      "id": "ref-publication-layout",
+      "name": "Publication Layout HTML",
+      "source": "packetqc/knowledge",
+      "path": "docs/_layouts/publication.html",
+      "description": "109KB layout with 4-theme CSS, export toolbar, Mermaid CDN, TOC, webcards, bilingual support."
+    },
+    {
+      "id": "ref-default-layout",
+      "name": "Default Layout HTML",
+      "source": "packetqc/knowledge",
+      "path": "docs/_layouts/default.html",
+      "description": "74KB hub/index layout. Same theme system, publication cards, navigation."
+    },
+    {
+      "id": "ref-pilot-publication",
+      "name": "Knowledge 2.0 (pilot)",
+      "source": "packetqc/knowledge",
+      "path": "knowledge/data/publications/knowledge-2.0/v1/README.md",
+      "description": "Pilot publication for viewer development. 522 lines, 5 Mermaid diagrams. Three tiers: source, summary, full."
+    }
+  ],
+  "external_files": [],
+  "conventions": {
+    "docs_directory": "Required at project root when documentation module is active",
+    "url_structure": "/docs/publications/<slug>/ must match production for compatibility",
+    "front_matter": "YAML front matter is the metadata contract (layout, title, description, permalink, og_image)",
+    "three_tier_publication": "Source (markdown pur), Summary (web condensé), Full (web complet)"
+  }
 }

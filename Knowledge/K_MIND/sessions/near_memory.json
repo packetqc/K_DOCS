@@ -1,152 +1,562 @@
 {
-  "session_id": "e910485a-7485-4a51-877f-061c67e6636d",
+  "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
   "summaries": [
     {
       "id": 1,
-      "summary": "Retrouvé scripts install.sh et install_memory.sh sur branche 2eHqF pour intégrer K_MIND dans projet hôte (K_DOCS). Modes standalone vs importé.",
+      "summary": "Session start — mindmap and context displayed",
       "far_memory_refs": [
         1,
         2
       ],
       "mind_memory_refs": [
-        "work",
-        "conventions::documentation"
+        "session::near memory"
       ],
-      "timestamp": "2026-03-14T16:06:41Z"
+      "timestamp": "2026-03-14T18:27:44Z"
     },
     {
       "id": 2,
-      "summary": "Confirmé CLAUDE.md créé par install.sh pour repo vanille. WSL terminal pour init, pas Desktop. Contrainte no_skills est mobile only.",
+      "summary": "Full mindmap displayed — all nodes expanded",
       "far_memory_refs": [
         3,
         4
       ],
       "mind_memory_refs": [
-        "work::en cours::k_mind import system",
-        "constraints::claude_desktop_no_skills"
+        "session::near memory",
+        "conventions::mind::mermaid"
       ],
-      "timestamp": "2026-03-14T16:22:52Z"
+      "timestamp": "2026-03-14T18:34:05Z"
     },
     {
       "id": 3,
-      "summary": "Validation utilisateur: K_MIND est le core importé, K_DOCS sera le premier module Knowledge développé par-dessus.",
+      "summary": "Normal mindmap displayed",
       "far_memory_refs": [
         5,
         6
       ],
       "mind_memory_refs": [
-        "work::en cours::k_mind import system"
+        "session::near memory"
       ],
-      "timestamp": "2026-03-14T16:23:41Z"
+      "timestamp": "2026-03-14T18:38:33Z"
     },
     {
       "id": 4,
-      "summary": "Test K_DOCS: installation OK, skills détectés, mais /mind-context ne se lance pas auto au démarrage. Hook présent mais message MANDATORY pas suivi par Claude.",
+      "summary": "Analyse méthodologies web du repo production + recherche libs mindmap interactives. MindElixir recommandé.",
       "far_memory_refs": [
         7,
         8
       ],
       "mind_memory_refs": [
-        "work::en cours::k_mind import system"
+        "work::en cours",
+        "documentation",
+        "conventions::methodologies"
       ],
-      "timestamp": "2026-03-14T16:34:47Z"
+      "timestamp": "2026-03-14T18:53:52Z"
     },
     {
       "id": 5,
-      "summary": "Fix install.sh: CLAUDE.md généré inclut maintenant directive lifecycle pour auto-lancement /mind-context au démarrage.",
+      "summary": "CONTRAINTE DESIGN: compatibilité bidirectionnelle production ↔ K_DOCS. Format Jekyll preserved, viewer JS est un ajout local.",
       "far_memory_refs": [
         9,
         10
       ],
       "mind_memory_refs": [
-        "work::en cours::k_mind import system"
+        "work::en cours",
+        "architecture"
       ],
-      "timestamp": "2026-03-14T16:37:45Z"
+      "timestamp": "2026-03-14T18:56:25Z"
     },
     {
       "id": 6,
-      "summary": "Importé gh_helper.py + skill github depuis repo Knowledge. Auth OK. Imports adaptés pour K_MIND.",
+      "summary": "ÉTAPE 1 COMPLÈTE: docs/ créé, mindmap+install.sh+documentation.json mis à jour. Publication pilote Knowledge 2.0 choisie.",
       "far_memory_refs": [
         11,
         12
       ],
       "mind_memory_refs": [
-        "work::en cours::k_mind import system"
+        "documentation",
+        "work::en cours::documentation web viewer system"
       ],
-      "timestamp": "2026-03-14T16:45:58Z"
+      "timestamp": "2026-03-14T19:24:21Z"
     },
     {
       "id": 7,
-      "summary": "Propagé gh_helper + skill github vers K_DOCS via pull main. Pattern de mise à jour K_MIND→K_DOCS validé.",
+      "summary": "Viewer docs/index.html fonctionnel sur localhost:8000. Knowledge/K_DOCS/ créé comme module. User voit le résultat.",
       "far_memory_refs": [
         13,
         14
       ],
       "mind_memory_refs": [
-        "work::en cours::k_mind import system"
+        "work::en cours::documentation web viewer system",
+        "documentation"
       ],
-      "timestamp": "2026-03-14T16:49:30Z"
+      "timestamp": "2026-03-14T19:31:48Z"
     },
     {
       "id": 8,
-      "summary": "Créé methodology-import-system.md + noeud mindmap methodologies sous conventions. PR #11 mergé.",
+      "summary": "Ajouté export DOCX, sélection Letter/Legal, cover page PDF avec running footers au viewer.",
       "far_memory_refs": [
         15,
         16
       ],
       "mind_memory_refs": [
-        "conventions::methodologies",
-        "work::en cours::k_mind import system"
+        "work::en cours::documentation web viewer system"
       ],
-      "timestamp": "2026-03-14T16:54:38Z"
+      "timestamp": "2026-03-14T19:35:49Z"
     },
     {
       "id": 9,
-      "summary": "GH_TOKEN configuré dans VS Code. Utilisateur teste la mise à jour K_MIND dans K_DOCS et le skill github. En attente de résultats.",
+      "summary": "Added document header block to viewer with title, version badge, tagline, pub meta, and generated date",
       "far_memory_refs": [
         17,
         18
       ],
       "mind_memory_refs": [
-        "work::en cours::k_mind import system"
+        "documentation"
       ],
-      "timestamp": "2026-03-14T17:00:59Z"
+      "timestamp": "2026-03-14T19:43:15Z"
     },
     {
       "id": 10,
-      "summary": "Fix: CLAUDE.md généré inclut maintenant directive GitHub Operations MANDATORY. PR #13 mergé. Import K_DOCS smooth.",
+      "summary": "Added EN/FR language toggle buttons to toolbar with paired doc loading",
       "far_memory_refs": [
         19,
         20
       ],
       "mind_memory_refs": [
-        "work::en cours::k_mind import system"
+        "documentation"
       ],
-      "timestamp": "2026-03-14T17:07:01Z"
+      "timestamp": "2026-03-14T19:53:00Z"
     },
     {
       "id": 11,
-      "summary": "DESIGN MAJEUR: restructurer K_MIND avec Knowledge/K_MIND/ à la racine. CLAUDE.md et .claude/ ne bougent pas. Prioritaire.",
+      "summary": "Fixed duplicate TOC in FR and localized TOC title + Generated label",
       "far_memory_refs": [
         21,
         22
       ],
       "mind_memory_refs": [
-        "work::en cours::k_mind import system"
+        "documentation"
       ],
-      "timestamp": "2026-03-14T17:51:04Z"
+      "timestamp": "2026-03-14T20:20:24Z"
     },
     {
       "id": 12,
-      "summary": "RESTRUCTURATION EXÉCUTÉE: tout le contenu K_MIND déplacé sous Knowledge/K_MIND/. Root garde CLAUDE.md et .claude/. Tests OK.",
+      "summary": "Cataloged all production page types (77 EN + 76 FR files), launched parallel download of all content",
       "far_memory_refs": [
         23,
         24
       ],
       "mind_memory_refs": [
-        "work::en cours::repo restructure to Knowledge K_MIND"
+        "documentation",
+        "work"
       ],
-      "timestamp": "2026-03-14T17:54:14Z"
+      "timestamp": "2026-03-14T20:20:33Z"
+    },
+    {
+      "id": 13,
+      "summary": "User flagged K_MIND real-time maintenance falling behind — catching up on missed memory_append calls",
+      "far_memory_refs": [
+        25,
+        26
+      ],
+      "mind_memory_refs": [
+        "conventions"
+      ],
+      "timestamp": "2026-03-14T20:20:37Z"
+    },
+    {
+      "id": 14,
+      "summary": "All 154 production docs downloaded, full registry with optgroup selector built",
+      "far_memory_refs": [
+        27,
+        28
+      ],
+      "mind_memory_refs": [
+        "documentation",
+        "work"
+      ],
+      "timestamp": "2026-03-14T20:22:25Z"
+    },
+    {
+      "id": 15,
+      "summary": "Split toolbar: top=navigation, bottom=layout+export, both sticky",
+      "far_memory_refs": [
+        29,
+        30
+      ],
+      "mind_memory_refs": [
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T20:25:27Z"
+    },
+    {
+      "id": 16,
+      "summary": "Added Liquid template resolver for Jekyll syntax — fixes broken links across all production docs",
+      "far_memory_refs": [
+        31,
+        32
+      ],
+      "mind_memory_refs": [
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T20:32:10Z"
+    },
+    {
+      "id": 17,
+      "summary": "Fix internal link 404s — added click interceptor mapping production URLs to viewer DOCS entries, with FR auto-detection",
+      "far_memory_refs": [
+        33,
+        34
+      ],
+      "mind_memory_refs": [
+        "documentation",
+        "work"
+      ],
+      "timestamp": "2026-03-14T20:39:25Z"
+    },
+    {
+      "id": 18,
+      "summary": "Restructured documentation mindmap: added web docs parent node, displayed depth config",
+      "far_memory_refs": [
+        35,
+        36
+      ],
+      "mind_memory_refs": [
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T20:43:36Z"
+    },
+    {
+      "id": 19,
+      "summary": "Depth config: conventions set to 3, displayed mindmap context with web docs restructure",
+      "far_memory_refs": [
+        37,
+        38
+      ],
+      "mind_memory_refs": [
+        "documentation::web docs",
+        "conventions"
+      ],
+      "timestamp": "2026-03-14T20:46:13Z"
+    },
+    {
+      "id": 20,
+      "summary": "Active work: viewer internal link interceptor, Liquid resolver, bilingual, export — all under documentation web viewer system",
+      "far_memory_refs": [
+        39,
+        40
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T20:47:48Z"
+    },
+    {
+      "id": 21,
+      "summary": "Fixed near_memory ref format: stripped knowledge:: prefix so categorization works for work/documentation/conventions",
+      "far_memory_refs": [
+        41,
+        42
+      ],
+      "mind_memory_refs": [
+        "conventions::mind::rules",
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T20:53:11Z"
+    },
+    {
+      "id": 22,
+      "summary": "Fixed skills visibility: added user_invocable: true to mind-context, mind-depth, mind-stats",
+      "far_memory_refs": [
+        43,
+        44
+      ],
+      "mind_memory_refs": [
+        "conventions::mind::rules",
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T20:54:59Z"
+    },
+    {
+      "id": 23,
+      "summary": "Implemented page_type:interface support — standalone HTML via Blob URL with embed mode for iframes, URL rewriting for widget links",
+      "far_memory_refs": [
+        45,
+        46
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:05:21Z"
+    },
+    {
+      "id": 24,
+      "summary": "Fixed viewer crash: </script> in JS string literal broke HTML parser, fixed with concatenation",
+      "far_memory_refs": [
+        47,
+        48
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T21:08:50Z"
+    },
+    {
+      "id": 25,
+      "summary": "Redesigned interface pages: direct render, collapsible chrome bar with metadata, keep top toolbar, auto-landscape, no launch button",
+      "far_memory_refs": [
+        49,
+        50
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:26:59Z"
+    },
+    {
+      "id": 26,
+      "summary": "Stripped lang/orient/export from main navigator chrome bar — viewer handles all layout capabilities now",
+      "far_memory_refs": [
+        51,
+        52
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:28:31Z"
+    },
+    {
+      "id": 27,
+      "summary": "Removed redundant chrome bar from main navigator — viewer's interface chrome bar is the only one",
+      "far_memory_refs": [
+        53,
+        54
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:33:21Z"
+    },
+    {
+      "id": 28,
+      "summary": "User confirmed main navigator interface rendering correctly in viewer",
+      "far_memory_refs": [
+        55,
+        56
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T21:35:38Z"
+    },
+    {
+      "id": 29,
+      "summary": "Fixed interface iframe routing: absolute URLs for Blob context, _top links reload viewer, center/right links embed correctly",
+      "far_memory_refs": [
+        57,
+        58
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:38:19Z"
+    },
+    {
+      "id": 30,
+      "summary": "Fixed interface panel links: click interceptor with direct iframe.src assignment instead of href rewrite",
+      "far_memory_refs": [
+        59,
+        60
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:44:42Z"
+    },
+    {
+      "id": 31,
+      "summary": "Fix: replaced Blob URL with document.write() for interface iframe — same-origin enables widget link navigation",
+      "far_memory_refs": [
+        61,
+        62
+      ],
+      "mind_memory_refs": [
+        "work",
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T21:52:10Z"
+    },
+    {
+      "id": 32,
+      "summary": "Fix: resolveLiquid double-quote support + srcdoc iframe — root cause of broken widget links",
+      "far_memory_refs": [
+        63,
+        64
+      ],
+      "mind_memory_refs": [
+        "work",
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T21:59:33Z"
     }
-  ]
+  ],
+  "last_session": {
+    "session_id": "e910485a-7485-4a51-877f-061c67e6636d",
+    "summaries": [
+      {
+        "id": 1,
+        "summary": "Retrouvé scripts install.sh et install_memory.sh sur branche 2eHqF pour intégrer K_MIND dans projet hôte (K_DOCS). Modes standalone vs importé.",
+        "far_memory_refs": [
+          1,
+          2
+        ],
+        "mind_memory_refs": [
+          "work",
+          "conventions::documentation"
+        ],
+        "timestamp": "2026-03-14T16:06:41Z"
+      },
+      {
+        "id": 2,
+        "summary": "Confirmé CLAUDE.md créé par install.sh pour repo vanille. WSL terminal pour init, pas Desktop. Contrainte no_skills est mobile only.",
+        "far_memory_refs": [
+          3,
+          4
+        ],
+        "mind_memory_refs": [
+          "work::en cours::k_mind import system",
+          "constraints::claude_desktop_no_skills"
+        ],
+        "timestamp": "2026-03-14T16:22:52Z"
+      },
+      {
+        "id": 3,
+        "summary": "Validation utilisateur: K_MIND est le core importé, K_DOCS sera le premier module Knowledge développé par-dessus.",
+        "far_memory_refs": [
+          5,
+          6
+        ],
+        "mind_memory_refs": [
+          "work::en cours::k_mind import system"
+        ],
+        "timestamp": "2026-03-14T16:23:41Z"
+      },
+      {
+        "id": 4,
+        "summary": "Test K_DOCS: installation OK, skills détectés, mais /mind-context ne se lance pas auto au démarrage. Hook présent mais message MANDATORY pas suivi par Claude.",
+        "far_memory_refs": [
+          7,
+          8
+        ],
+        "mind_memory_refs": [
+          "work::en cours::k_mind import system"
+        ],
+        "timestamp": "2026-03-14T16:34:47Z"
+      },
+      {
+        "id": 5,
+        "summary": "Fix install.sh: CLAUDE.md généré inclut maintenant directive lifecycle pour auto-lancement /mind-context au démarrage.",
+        "far_memory_refs": [
+          9,
+          10
+        ],
+        "mind_memory_refs": [
+          "work::en cours::k_mind import system"
+        ],
+        "timestamp": "2026-03-14T16:37:45Z"
+      },
+      {
+        "id": 6,
+        "summary": "Importé gh_helper.py + skill github depuis repo Knowledge. Auth OK. Imports adaptés pour K_MIND.",
+        "far_memory_refs": [
+          11,
+          12
+        ],
+        "mind_memory_refs": [
+          "work::en cours::k_mind import system"
+        ],
+        "timestamp": "2026-03-14T16:45:58Z"
+      },
+      {
+        "id": 7,
+        "summary": "Propagé gh_helper + skill github vers K_DOCS via pull main. Pattern de mise à jour K_MIND→K_DOCS validé.",
+        "far_memory_refs": [
+          13,
+          14
+        ],
+        "mind_memory_refs": [
+          "work::en cours::k_mind import system"
+        ],
+        "timestamp": "2026-03-14T16:49:30Z"
+      },
+      {
+        "id": 8,
+        "summary": "Créé methodology-import-system.md + noeud mindmap methodologies sous conventions. PR #11 mergé.",
+        "far_memory_refs": [
+          15,
+          16
+        ],
+        "mind_memory_refs": [
+          "conventions::methodologies",
+          "work::en cours::k_mind import system"
+        ],
+        "timestamp": "2026-03-14T16:54:38Z"
+      },
+      {
+        "id": 9,
+        "summary": "GH_TOKEN configuré dans VS Code. Utilisateur teste la mise à jour K_MIND dans K_DOCS et le skill github. En attente de résultats.",
+        "far_memory_refs": [
+          17,
+          18
+        ],
+        "mind_memory_refs": [
+          "work::en cours::k_mind import system"
+        ],
+        "timestamp": "2026-03-14T17:00:59Z"
+      },
+      {
+        "id": 10,
+        "summary": "Fix: CLAUDE.md généré inclut maintenant directive GitHub Operations MANDATORY. PR #13 mergé. Import K_DOCS smooth.",
+        "far_memory_refs": [
+          19,
+          20
+        ],
+        "mind_memory_refs": [
+          "work::en cours::k_mind import system"
+        ],
+        "timestamp": "2026-03-14T17:07:01Z"
+      },
+      {
+        "id": 11,
+        "summary": "DESIGN MAJEUR: restructurer K_MIND avec Knowledge/K_MIND/ à la racine. CLAUDE.md et .claude/ ne bougent pas. Prioritaire.",
+        "far_memory_refs": [
+          21,
+          22
+        ],
+        "mind_memory_refs": [
+          "work::en cours::k_mind import system"
+        ],
+        "timestamp": "2026-03-14T17:51:04Z"
+      },
+      {
+        "id": 12,
+        "summary": "RESTRUCTURATION EXÉCUTÉE: tout le contenu K_MIND déplacé sous Knowledge/K_MIND/. Root garde CLAUDE.md et .claude/. Tests OK.",
+        "far_memory_refs": [
+          23,
+          24
+        ],
+        "mind_memory_refs": [
+          "work::en cours::repo restructure to Knowledge K_MIND"
+        ],
+        "timestamp": "2026-03-14T17:54:14Z"
+      }
+    ]
+  }
 }

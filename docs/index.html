@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>K_DOCS Viewer</title>
+
+  <style>
+    /* ===== 4-theme system (from production) ===== */
+    :root {
+      --bg: #faf6f1; --fg: #1a1a2e; --accent: #0055b3; --muted: #5c5c78;
+      --border: #d48a3c; --code-bg: #eee8df; --col-alt: rgba(0, 85, 179, 0.05);
+      --max-width: 860px;
+    }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]), html[data-theme="auto"] {
+        --bg: #1a1a2e; --fg: #e8e4f0; --accent: #5599dd; --muted: #9494aa;
+        --border: #cc8833; --code-bg: #28283e; --col-alt: rgba(85, 153, 221, 0.07);
+      }
+    }
+    html[data-theme="cayman"] {
+      --bg: #eff6ff; --fg: #0f172a; --accent: #1d4ed8; --muted: #475569;
+      --border: #93c5fd; --code-bg: #dbeafe; --col-alt: rgba(29, 78, 216, 0.05);
+    }
+    html[data-theme="midnight"] {
+      --bg: #0f172a; --fg: #e2e8f0; --accent: #60a5fa; --muted: #94a3b8;
+      --border: #334155; --code-bg: #1e293b; --col-alt: rgba(96, 165, 250, 0.07);
+    }
+    html[data-theme="daltonism-light"] {
+      --bg: #faf6f1; --fg: #1a1a2e; --accent: #0055b3; --muted: #5c5c78;
+      --border: #d48a3c; --code-bg: #eee8df; --col-alt: rgba(0, 85, 179, 0.05);
+    }
+    html[data-theme="daltonism-dark"] {
+      --bg: #1a1a2e; --fg: #e8e4f0; --accent: #5599dd; --muted: #9494aa;
+      --border: #cc8833; --code-bg: #28283e; --col-alt: rgba(85, 153, 221, 0.07);
+    }
+
+    /* ===== Base styles ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg); color: var(--fg); line-height: 1.7; padding: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1rem 3.5rem; }
+    body.landscape .container { max-width: 100%; }
+
+    /* ===== Typography ===== */
+    h1 { font-size: 2rem; margin: 1.5rem 0 0.5rem; color: var(--accent); }
+    h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.3rem; border-bottom: 2px solid var(--border); }
+    h3 { font-size: 1.2rem; margin-top: 1.8rem; margin-bottom: 0.6rem; color: var(--accent); }
+    h4 { font-size: 1rem; margin-top: 1.2rem; margin-bottom: 0.4rem; }
+    p { margin-bottom: 1rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    strong { font-weight: 600; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    /* ===== Code ===== */
+    code {
+      background: var(--code-bg); padding: 0.15em 0.4em; border-radius: 4px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.85em;
+    }
+    pre {
+      background: var(--code-bg); padding: 1rem; border-radius: 6px;
+      overflow-x: auto; margin: 1rem 0; line-height: 1.45;
+    }
+    pre code { background: none; padding: 0; font-size: 0.85em; }
+
+    /* ===== Tables ===== */
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.88rem; line-height: 1.5; }
+    th, td { padding: 0.45rem 0.7rem; border-bottom: 1px solid var(--border); text-align: left; }
+    th { background: var(--code-bg); font-weight: 600; border-bottom: 2px solid var(--accent); white-space: nowrap; }
+    tr:nth-child(even) td { background: var(--col-alt); }
+    td code { font-size: 0.82rem; padding: 0.1em 0.3em; }
+    .table-wrap { overflow-x: auto; margin: 1rem 0; }
+
+    /* ===== Blockquotes ===== */
+    blockquote {
+      border-left: 4px solid var(--border); padding: 0.5rem 1rem; margin: 1rem 0;
+      color: var(--muted); background: var(--col-alt); border-radius: 0 4px 4px 0;
+    }
+    blockquote p { margin-bottom: 0.5rem; }
+    blockquote p:last-child { margin-bottom: 0; }
+
+    /* ===== Lists ===== */
+    ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+    li { margin-bottom: 0.3rem; }
+
+    /* ===== Images ===== */
+    img { max-width: 100%; height: auto; border-radius: 4px; }
+
+    /* ===== Mermaid ===== */
+    .mermaid { text-align: center; margin: 1.5rem 0; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid-source { display: none !important; }
+
+    /* ===== Feature grid (from production) ===== */
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem; margin: 1.5rem 0;
+    }
+    .feature-card {
+      background: var(--code-bg); border-radius: 8px; padding: 1.2rem;
+      border: 1px solid var(--border); transition: transform 0.2s;
+    }
+    .feature-card:hover { transform: translateY(-2px); }
+    .feature-card h4 { margin-top: 0; color: var(--accent); font-size: 0.95rem; }
+    .feature-card p { margin-bottom: 0; font-size: 0.88rem; color: var(--muted); }
+
+    /* ===== Badges (from production) ===== */
+    .badge {
+      display: inline-block; padding: 0.15em 0.5em; border-radius: 3px;
+      font-size: 0.75em; font-weight: 600; vertical-align: middle;
+    }
+    .badge-new { background: #dcfce7; color: #166534; }
+    .badge-v1 { background: #e0e7ff; color: #3730a3; }
+    .badge-legacy { background: #fef3c7; color: #92400e; }
+    html[data-theme="midnight"] .badge-new,
+    html[data-theme="daltonism-dark"] .badge-new { background: #064e3b; color: #6ee7b7; }
+    html[data-theme="midnight"] .badge-v1,
+    html[data-theme="daltonism-dark"] .badge-v1 { background: #312e81; color: #a5b4fc; }
+    html[data-theme="midnight"] .badge-legacy,
+    html[data-theme="daltonism-dark"] .badge-legacy { background: #78350f; color: #fcd34d; }
+
+    /* ===== Comparison table (from production) ===== */
+    .comparison-table .v1 { color: var(--muted); }
+    .comparison-table .v2 { color: var(--accent); font-weight: 500; }
+
+    /* ===== Annex section ===== */
+    .annex-section {
+      border-top: 3px solid var(--border); margin-top: 3rem; padding-top: 1.5rem;
+      opacity: 0.85;
+    }
+
+    /* ===== Document Header ===== */
+    .doc-header {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.2rem 1.5rem; margin: 1.5rem 0;
+    }
+    .doc-header-title { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem; line-height: 1.3; }
+    .doc-header-tagline { font-size: 0.92rem; color: var(--muted); margin-bottom: 0.8rem; font-style: italic; line-height: 1.5; }
+    .doc-header-meta { font-size: 0.82rem; color: var(--muted); line-height: 1.8; }
+    .doc-header-meta span { display: inline-block; margin-right: 1.5rem; }
+    .doc-header-badge {
+      display: inline-block; background: var(--accent); color: white;
+      padding: 0.1em 0.5em; border-radius: 3px; font-size: 0.75em; font-weight: 600;
+      vertical-align: middle; margin-left: 0.4rem;
+    }
+    .doc-header-rule { border: none; border-top: 1px solid var(--border); margin: 0.6rem 0; }
+    .doc-header-gen { font-size: 0.75rem; color: var(--muted); font-family: monospace; margin-top: 0.3rem; }
+
+    /* ===== TOC ===== */
+    .toc {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1rem 1.5rem; margin: 1.5rem 0;
+    }
+    .toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--accent); }
+    .toc ul { list-style: none; margin: 0; padding: 0; }
+    .toc li { margin: 0.25rem 0; }
+    .toc li.toc-h3 { padding-left: 1.2rem; }
+    .toc a { color: var(--fg); font-size: 0.88rem; }
+    .toc a:hover { color: var(--accent); }
+
+    /* ===== Interface chrome bar ===== */
+    .iface-chrome {
+      background: var(--code-bg); border-bottom: 1px solid var(--border);
+      font-size: 0.78rem; user-select: none;
+      display: flex; align-items: stretch;
+    }
+    .iface-chrome-content {
+      flex: 1; display: flex; align-items: center; justify-content: space-between;
+      padding: 0.3rem 0.75rem; gap: 1rem; flex-wrap: wrap;
+    }
+    .iface-chrome-left { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .iface-chrome-title { font-weight: 700; font-size: 0.85rem; color: var(--fg); }
+    .iface-chrome-desc { color: var(--muted); font-style: italic; font-size: 0.76rem; }
+    .iface-chrome-right { display: flex; align-items: center; gap: 1rem; color: var(--muted); font-size: 0.76rem; }
+    .iface-chrome-gen { font-family: monospace; font-size: 0.72rem; }
+    .iface-chrome-toggle {
+      cursor: pointer; color: var(--muted); padding: 0.3rem 0.6rem;
+      display: flex; align-items: center; font-size: 0.7rem;
+      border-left: 1px solid var(--border);
+    }
+    .iface-chrome-toggle:hover { background: var(--col-alt); color: var(--accent); }
+    #ifaceFrame {
+      width: 100%; border: none; background: var(--bg);
+      flex: 1; min-height: 0;
+    }
+    /* When in interface mode, content fills remaining viewport as flex column */
+    #content[data-interface-mode="1"] {
+      display: flex !important; flex-direction: column !important;
+      height: calc(100vh - 2.5rem) !important; overflow: hidden !important;
+    }
+
+    /* ===== Toolbar (shared) ===== */
+    .toolbar {
+      position: sticky; z-index: 100; background: var(--bg);
+      padding: 0.5rem 1rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .toolbar-top { top: 0; border-bottom: 1px solid var(--border); }
+    .toolbar-bottom { bottom: 0; border-top: 1px solid var(--border); }
+    .toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+    .toolbar label { font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+    .toolbar select {
+      background: var(--code-bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 0.3rem 0.5rem; font-size: 0.82rem; cursor: pointer;
+    }
+    .toolbar select:hover { border-color: var(--accent); }
+    .toolbar select option { background: var(--bg); color: var(--fg); }
+    .toolbar-btn {
+      background: var(--accent); color: white; border: none; border-radius: 4px;
+      padding: 0.35rem 0.8rem; font-size: 0.82rem; cursor: pointer; font-weight: 500;
+    }
+    .toolbar-btn:hover { opacity: 0.85; }
+    .toolbar-btn:disabled { opacity: 0.5; cursor: wait; }
+    .toolbar-radio { display: flex; align-items: center; gap: 0.3rem; font-size: 0.82rem; color: var(--muted); cursor: pointer; }
+    .toolbar-radio input[type="radio"] { accent-color: var(--accent); cursor: pointer; }
+
+    /* ===== Language switch ===== */
+    .lang-switch { display: flex; gap: 0; }
+    .lang-btn {
+      background: var(--code-bg); color: var(--muted); border: 1px solid var(--border);
+      padding: 0.35rem 0.6rem; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      letter-spacing: 0.05em; transition: background 0.2s, color 0.2s;
+    }
+    .lang-btn:first-child { border-radius: 4px 0 0 4px; border-right: none; }
+    .lang-btn:last-child { border-radius: 0 4px 4px 0; }
+    .lang-btn.lang-active { background: var(--accent); color: white; border-color: var(--accent); }
+    .lang-btn.lang-disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ===== Document selector ===== */
+    .doc-selector select { min-width: 280px; max-width: 400px; }
+
+    /* ===== Meta header ===== */
+    .pub-meta {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem;
+      border-left: 3px solid var(--accent); padding-left: 0.8rem;
+    }
+    .pub-meta p { margin-bottom: 0.2rem; }
+
+    /* ===== Loading ===== */
+    .loading { text-align: center; padding: 3rem; color: var(--muted); }
+    .loading::after {
+      content: ''; display: block; width: 32px; height: 32px;
+      margin: 1rem auto; border: 3px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== Cover page (hidden on screen, shown in print) ===== */
+    #pub-cover-page { display: none; }
+
+    /* ===== Toast notification ===== */
+    .copy-toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: white; padding: 0.6rem 1.2rem;
+      border-radius: 6px; font-size: 0.85rem; opacity: 0; transition: opacity 0.3s;
+      z-index: 9999; pointer-events: none;
+    }
+    .copy-toast.show { opacity: 1; }
+
+    /* ===== Page size dim ===== */
+    .pub-size-dim { font-size: 0.72rem; color: var(--muted); }
+
+    /* ===== Print / PDF export ===== */
+    @media print {
+      .toolbar, .toolbar-bottom, .toc, .doc-header, .copy-toast { display: none !important; }
+      body { padding: 0; }
+      .container { max-width: 100%; padding: 0; }
+      @page {
+        size: letter; margin: 1.8cm;
+        @bottom-left   { content: ""; font-size: 7.5pt; color: #888; }
+        @bottom-center { content: counter(page) " / " counter(pages); font-size: 7.5pt; color: #888; }
+        @bottom-right  { content: "K_DOCS"; font-size: 7.5pt; color: #888; }
+      }
+      @page :first {
+        @top-left { content: ""; border: none; }
+        @top-center { content: ""; border: none; }
+        @top-right { content: ""; border: none; }
+        @bottom-left { content: ""; border: none; }
+        @bottom-center { content: ""; border: none; }
+        @bottom-right { content: ""; border: none; }
+      }
+      #pub-cover-page {
+        display: block !important; page-break-after: always;
+        min-height: 90vh; position: relative;
+      }
+      .cover-body { max-width: 18cm; padding-top: 30vh; }
+      .cover-title { font-size: 28pt; font-weight: 700; color: #111; line-height: 1.2; margin-bottom: 0.7cm; }
+      .cover-desc { font-size: 12pt; color: #333; line-height: 1.55; margin-bottom: 1cm; font-style: italic; }
+      .cover-rule { border: none; border-top: 1.5pt solid #444; margin: 0 auto 0.8cm; width: 6cm; }
+      .cover-meta { font-size: 10pt; color: #444; line-height: 2; }
+      .cover-gen-line { font-size: 8.5pt; color: #666; font-family: monospace; margin-top: 0.2cm; }
+      h1 { font-size: 18pt; }
+      h2 { font-size: 14pt; break-after: avoid; }
+      h3 { font-size: 12pt; break-after: avoid; }
+      pre { font-size: 8pt; white-space: pre-wrap; word-break: break-all; }
+      table { font-size: 8pt; }
+      .feature-card { break-inside: avoid; }
+      .mermaid svg { max-width: 100%; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+
+  <!-- Restore theme before paint -->
+  <script>(function(){var t=localStorage.getItem('kdocs-theme');if(t&&t!=='auto')document.documentElement.setAttribute('data-theme',t);})()</script>
+</head>
+<body>
+
+  <!-- Top toolbar — navigation -->
+  <div class="toolbar toolbar-top">
+    <div class="toolbar-left">
+      <div class="doc-selector">
+        <label>Doc:</label>
+        <select id="docSelect"></select>
+      </div>
+      <div>
+        <label>Theme:</label>
+        <select id="themeSelect">
+          <option value="auto">Auto</option>
+          <option value="cayman">Cayman</option>
+          <option value="midnight">Midnight</option>
+          <option value="daltonism-light">Daltonism Light</option>
+          <option value="daltonism-dark">Daltonism Dark</option>
+        </select>
+      </div>
+    </div>
+    <div class="toolbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn lang-active" id="langEn" title="English">EN</button>
+        <button class="lang-btn" id="langFr" title="Français">FR</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content container -->
+  <div class="container">
+    <!-- Print-only cover page -->
+    <div id="pub-cover-page" aria-hidden="true">
+      <div class="cover-body">
+        <div class="cover-title" id="coverTitle"></div>
+        <div class="cover-desc" id="coverDesc"></div>
+        <div class="cover-rule"></div>
+        <div class="cover-meta" id="coverMeta"></div>
+        <div class="cover-gen-line">Generated: <span id="coverGenDate"></span></div>
+      </div>
+    </div>
+    <div id="content" class="loading">Loading document...</div>
+  </div>
+  <!-- Bottom toolbar — layout & export -->
+  <div class="toolbar toolbar-bottom">
+    <div class="toolbar-left">
+      <label class="toolbar-radio"><input type="radio" name="orient" value="portrait" checked> Portrait</label>
+      <label class="toolbar-radio"><input type="radio" name="orient" value="landscape"> Landscape</label>
+      <label class="toolbar-radio"><input type="radio" name="pageSize" value="letter" checked> Letter <span class="pub-size-dim">8.5x11</span></label>
+      <label class="toolbar-radio"><input type="radio" name="pageSize" value="legal"> Legal <span class="pub-size-dim">8.5x14</span></label>
+    </div>
+    <div class="toolbar-right">
+      <button class="toolbar-btn" id="exportPdf" title="Export PDF">&#x1F5A8; PDF</button>
+      <button class="toolbar-btn" id="exportDocx" title="Export DOCX">&#x1F4C4; DOCX</button>
+    </div>
+  </div>
+  <div class="copy-toast" id="copyToast"></div>
+
+  <style id="printSizeStyle"></style>
+
+  <!-- Embed mode: hide chrome when loaded in iframe -->
+  <script>
+    var IS_EMBED = new URLSearchParams(window.location.search).has('embed');
+    if (IS_EMBED) {
+      document.querySelectorAll('.toolbar-top, .toolbar-bottom').forEach(function(el) { el.style.display = 'none'; });
+      var cont = document.querySelector('.container');
+      if (cont) cont.style.padding = '0 1rem 1rem';
+    }
+  </script>
+
+  <!-- Dependencies: marked.js for markdown, mermaid for diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@15/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+
+  <script>
+    // ===== Document registry =====
+    // Add publications here. Path is relative to docs/.
+    // path = EN version, path_fr = FR version (optional). Convention: fr/ prefix mirrors EN path.
+    // group = optgroup label for the dropdown selector.
+    const DOCS = [
+      // --- Hub / Index pages ---
+      { group: 'Hub', name: 'Home', path: 'index.md', path_fr: 'fr/index.md' },
+      { group: 'Hub', name: 'Publications Index', path: 'publications/index.md', path_fr: 'fr/publications/index.md' },
+      { group: 'Hub', name: 'Interfaces Index', path: 'interfaces/index.md', path_fr: 'fr/interfaces/index.md' },
+      { group: 'Hub', name: 'News', path: 'news/index.md', path_fr: 'fr/news/index.md' },
+      { group: 'Hub', name: 'General Plan', path: 'plan/index.md', path_fr: 'fr/plan/index.md' },
+      { group: 'Hub', name: 'Projects', path: 'projects/index.md', path_fr: 'fr/projects/index.md' },
+      { group: 'Hub', name: 'All Links', path: 'links/index.md', path_fr: 'fr/links/index.md' },
+      { group: 'Hub', name: 'Changelog', path: 'changelog/index.md', path_fr: 'fr/changelog/index.md' },
+      // --- Interfaces ---
+      { group: 'Interfaces', name: 'Main Navigator', path: 'interfaces/main-navigator/index.md', path_fr: 'fr/interfaces/main-navigator/index.md' },
+      { group: 'Interfaces', name: 'Project Viewer', path: 'interfaces/project-viewer/index.md', path_fr: 'fr/interfaces/project-viewer/index.md' },
+      { group: 'Interfaces', name: 'Session Review', path: 'interfaces/session-review/index.md', path_fr: 'fr/interfaces/session-review/index.md' },
+      { group: 'Interfaces', name: 'Tasks Workflow', path: 'interfaces/task-workflow/index.md', path_fr: 'fr/interfaces/task-workflow/index.md' },
+      // --- Profile ---
+      { group: 'Profile', name: 'Profile', path: 'profile/index.md', path_fr: 'fr/profile/index.md' },
+      { group: 'Profile', name: 'Profile — Full', path: 'profile/full/index.md', path_fr: 'fr/profile/full/index.md' },
+      { group: 'Profile', name: 'Resume', path: 'profile/resume/index.md', path_fr: 'fr/profile/resume/index.md' },
+      { group: 'Profile', name: 'Recommendation', path: 'profile/recommendation/index.md', path_fr: 'fr/profile/recommendation/index.md' },
+      // --- Publications ---
+      { group: 'Publications', name: 'Knowledge 2.0', path: 'publications/knowledge-2.0/index.md', path_fr: 'fr/publications/knowledge-2.0/index.md' },
+      { group: 'Publications', name: 'Knowledge 2.0 — Full', path: 'publications/knowledge-2.0/full/index.md', path_fr: 'fr/publications/knowledge-2.0/full/index.md' },
+      { group: 'Publications', name: 'Knowledge 2.0 — Source', path: 'publications/knowledge-2.0/source.md' },
+      { group: 'Publications', name: 'Knowledge System', path: 'publications/knowledge-system/index.md', path_fr: 'fr/publications/knowledge-system/index.md' },
+      { group: 'Publications', name: 'Knowledge System — Full', path: 'publications/knowledge-system/full/index.md', path_fr: 'fr/publications/knowledge-system/full/index.md' },
+      { group: 'Publications', name: 'Bootstrap Optimization', path: 'publications/knowledge-system/bootstrap-optimization/index.md', path_fr: 'fr/publications/knowledge-system/bootstrap-optimization/index.md' },
+      { group: 'Publications', name: 'AI Session Persistence', path: 'publications/ai-session-persistence/index.md', path_fr: 'fr/publications/ai-session-persistence/index.md' },
+      { group: 'Publications', name: 'AI Session Persistence — Full', path: 'publications/ai-session-persistence/full/index.md', path_fr: 'fr/publications/ai-session-persistence/full/index.md' },
+      { group: 'Publications', name: 'Architecture Analysis', path: 'publications/architecture-analysis/index.md', path_fr: 'fr/publications/architecture-analysis/index.md' },
+      { group: 'Publications', name: 'Architecture Analysis — Full', path: 'publications/architecture-analysis/full/index.md', path_fr: 'fr/publications/architecture-analysis/full/index.md' },
+      { group: 'Publications', name: 'Architecture Diagrams', path: 'publications/architecture-diagrams/index.md', path_fr: 'fr/publications/architecture-diagrams/index.md' },
+      { group: 'Publications', name: 'Architecture Diagrams — Full', path: 'publications/architecture-diagrams/full/index.md', path_fr: 'fr/publications/architecture-diagrams/full/index.md' },
+      { group: 'Publications', name: 'Distributed Knowledge Dashboard', path: 'publications/distributed-knowledge-dashboard/index.md', path_fr: 'fr/publications/distributed-knowledge-dashboard/index.md' },
+      { group: 'Publications', name: 'Distributed Knowledge Dashboard — Full', path: 'publications/distributed-knowledge-dashboard/full/index.md', path_fr: 'fr/publications/distributed-knowledge-dashboard/full/index.md' },
+      { group: 'Publications', name: 'Distributed Minds', path: 'publications/distributed-minds/index.md', path_fr: 'fr/publications/distributed-minds/index.md' },
+      { group: 'Publications', name: 'Distributed Minds — Full', path: 'publications/distributed-minds/full/index.md', path_fr: 'fr/publications/distributed-minds/full/index.md' },
+      { group: 'Publications', name: 'Documentation Generation', path: 'publications/documentation-generation/index.md', path_fr: 'fr/publications/documentation-generation/index.md' },
+      { group: 'Publications', name: 'Documentation Generation — Full', path: 'publications/documentation-generation/full/index.md', path_fr: 'fr/publications/documentation-generation/full/index.md' },
+      { group: 'Publications', name: 'Harvest Protocol', path: 'publications/harvest-protocol/index.md', path_fr: 'fr/publications/harvest-protocol/index.md' },
+      { group: 'Publications', name: 'Harvest Protocol — Full', path: 'publications/harvest-protocol/full/index.md', path_fr: 'fr/publications/harvest-protocol/full/index.md' },
+      { group: 'Publications', name: 'Interactive Work Sessions', path: 'publications/interactive-work-sessions/index.md', path_fr: 'fr/publications/interactive-work-sessions/index.md' },
+      { group: 'Publications', name: 'Interactive Work Sessions — Full', path: 'publications/interactive-work-sessions/full/index.md', path_fr: 'fr/publications/interactive-work-sessions/full/index.md' },
+      { group: 'Publications', name: 'Live Knowledge Network', path: 'publications/live-knowledge-network/index.md', path_fr: 'fr/publications/live-knowledge-network/index.md' },
+      { group: 'Publications', name: 'Live Knowledge Network — Full', path: 'publications/live-knowledge-network/full/index.md', path_fr: 'fr/publications/live-knowledge-network/full/index.md' },
+      { group: 'Publications', name: 'Live Session Analysis', path: 'publications/live-session-analysis/index.md', path_fr: 'fr/publications/live-session-analysis/index.md' },
+      { group: 'Publications', name: 'Live Session Analysis — Full', path: 'publications/live-session-analysis/full/index.md', path_fr: 'fr/publications/live-session-analysis/full/index.md' },
+      { group: 'Publications', name: 'Main Interface', path: 'publications/main-interface/index.md', path_fr: 'fr/publications/main-interface/index.md' },
+      { group: 'Publications', name: 'Main Interface — Full', path: 'publications/main-interface/full/index.md', path_fr: 'fr/publications/main-interface/full/index.md' },
+      { group: 'Publications', name: 'MPLIB Storage Pipeline', path: 'publications/mplib-storage-pipeline/index.md', path_fr: 'fr/publications/mplib-storage-pipeline/index.md' },
+      { group: 'Publications', name: 'MPLIB Storage Pipeline — Full', path: 'publications/mplib-storage-pipeline/full/index.md', path_fr: 'fr/publications/mplib-storage-pipeline/full/index.md' },
+      { group: 'Publications', name: 'Normalize & Structure Concordance', path: 'publications/normalize-structure-concordance/index.md', path_fr: 'fr/publications/normalize-structure-concordance/index.md' },
+      { group: 'Publications', name: 'Normalize & Structure Concordance — Full', path: 'publications/normalize-structure-concordance/full/index.md', path_fr: 'fr/publications/normalize-structure-concordance/full/index.md' },
+      { group: 'Publications', name: 'Project Management', path: 'publications/project-management/index.md', path_fr: 'fr/publications/project-management/index.md' },
+      { group: 'Publications', name: 'Project Management — Full', path: 'publications/project-management/full/index.md', path_fr: 'fr/publications/project-management/full/index.md' },
+      { group: 'Publications', name: 'Security by Design', path: 'publications/security-by-design/index.md', path_fr: 'fr/publications/security-by-design/index.md' },
+      { group: 'Publications', name: 'Security by Design — Full', path: 'publications/security-by-design/full/index.md', path_fr: 'fr/publications/security-by-design/full/index.md' },
+      { group: 'Publications', name: 'Security by Design — Compliance', path: 'publications/security-by-design/compliance/index.md', path_fr: 'fr/publications/security-by-design/compliance/index.md' },
+      { group: 'Publications', name: 'Session Management', path: 'publications/session-management/index.md', path_fr: 'fr/publications/session-management/index.md' },
+      { group: 'Publications', name: 'Session Management — Full', path: 'publications/session-management/full/index.md', path_fr: 'fr/publications/session-management/full/index.md' },
+      { group: 'Publications', name: 'Session Metrics & Time', path: 'publications/session-metrics-time/index.md', path_fr: 'fr/publications/session-metrics-time/index.md' },
+      { group: 'Publications', name: 'Session Metrics & Time — Full', path: 'publications/session-metrics-time/full/index.md', path_fr: 'fr/publications/session-metrics-time/full/index.md' },
+      { group: 'Publications', name: 'Session Review', path: 'publications/session-review/index.md', path_fr: 'fr/publications/session-review/index.md' },
+      { group: 'Publications', name: 'Session Review — Full', path: 'publications/session-review/full/index.md', path_fr: 'fr/publications/session-review/full/index.md' },
+      { group: 'Publications', name: 'Visual Documentation', path: 'publications/visual-documentation/index.md', path_fr: 'fr/publications/visual-documentation/index.md' },
+      { group: 'Publications', name: 'Visual Documentation — Full', path: 'publications/visual-documentation/full/index.md', path_fr: 'fr/publications/visual-documentation/full/index.md' },
+      { group: 'Publications', name: 'Web Page Visualization', path: 'publications/web-page-visualization/index.md', path_fr: 'fr/publications/web-page-visualization/index.md' },
+      { group: 'Publications', name: 'Web Page Visualization — Full', path: 'publications/web-page-visualization/full/index.md', path_fr: 'fr/publications/web-page-visualization/full/index.md' },
+      { group: 'Publications', name: 'Web Pagination & Export', path: 'publications/web-pagination-export/index.md', path_fr: 'fr/publications/web-pagination-export/index.md' },
+      { group: 'Publications', name: 'Web Pagination & Export — Full', path: 'publications/web-pagination-export/full/index.md', path_fr: 'fr/publications/web-pagination-export/full/index.md' },
+      { group: 'Publications', name: 'Web Production Pipeline', path: 'publications/web-production-pipeline/index.md', path_fr: 'fr/publications/web-production-pipeline/index.md' },
+      { group: 'Publications', name: 'Web Production Pipeline — Full', path: 'publications/web-production-pipeline/full/index.md', path_fr: 'fr/publications/web-production-pipeline/full/index.md' },
+      { group: 'Publications', name: 'Webcards & Social Sharing', path: 'publications/webcards-social-sharing/index.md', path_fr: 'fr/publications/webcards-social-sharing/index.md' },
+      { group: 'Publications', name: 'Webcards & Social Sharing — Full', path: 'publications/webcards-social-sharing/full/index.md', path_fr: 'fr/publications/webcards-social-sharing/full/index.md' },
+      // --- Success Stories ---
+      { group: 'Success Stories', name: 'Success Stories', path: 'publications/success-stories/index.md', path_fr: 'fr/publications/success-stories/index.md' },
+      { group: 'Success Stories', name: 'Success Stories — Full', path: 'publications/success-stories/full/index.md', path_fr: 'fr/publications/success-stories/full/index.md' },
+      { group: 'Success Stories', name: 'Story #16 — Rencontre productive', path: 'publications/success-stories/story-16/index.md', path_fr: 'fr/publications/success-stories/story-16/index.md' },
+      { group: 'Success Stories', name: 'Story #17 — Performance documentaire', path: 'publications/success-stories/story-17/index.md', path_fr: 'fr/publications/success-stories/story-17/index.md' },
+      { group: 'Success Stories', name: 'Story #19 — Three interfaces', path: 'publications/success-stories/story-19/index.md', path_fr: 'fr/publications/success-stories/story-19/index.md' },
+      { group: 'Success Stories', name: 'Story #21 — Task Workflow', path: 'publications/success-stories/story-21/index.md', path_fr: 'fr/publications/success-stories/story-21/index.md' },
+      { group: 'Success Stories', name: 'Story #22 — Visual Documentation', path: 'publications/success-stories/story-22/index.md', path_fr: 'fr/publications/success-stories/story-22/index.md' },
+      { group: 'Success Stories', name: 'Story #23 — Knowledge v2.0', path: 'publications/success-stories/story-23/index.md', path_fr: 'fr/publications/success-stories/story-23/index.md' },
+      { group: 'Success Stories', name: 'Story #24 — The Toggle', path: 'publications/success-stories/story-24/index.md' },
+    ];
+
+    // ===== Theme management =====
+    (function initTheme() {
+      var select = document.getElementById('themeSelect');
+      var saved = localStorage.getItem('kdocs-theme') || 'auto';
+      select.value = saved;
+      if (saved !== 'auto') document.documentElement.setAttribute('data-theme', saved);
+
+      select.addEventListener('change', function() {
+        var val = this.value;
+        localStorage.setItem('kdocs-theme', val);
+        if (val === 'auto') document.documentElement.removeAttribute('data-theme');
+        else document.documentElement.setAttribute('data-theme', val);
+        // Re-render mermaid for new theme
+        renderMermaidBlocks();
+      });
+    })();
+
+    // ===== Orientation =====
+    document.querySelectorAll('input[name="orient"]').forEach(function(r) {
+      r.addEventListener('change', function() {
+        document.body.classList.toggle('landscape', this.value === 'landscape');
+      });
+    });
+
+    // ===== PDF export with cover page + page size + running headers =====
+    var PAGE_SIZES = { letter: '8.5in 11in', legal: '8.5in 14in' };
+    var currentMeta = {};
+
+    function printAs(format) {
+      var size = PAGE_SIZES[format] || PAGE_SIZES.letter;
+      var orientRadio = document.querySelector('input[name="orient"]:checked');
+      var orient = orientRadio ? orientRadio.value : 'portrait';
+      if (orient === 'landscape') size += ' landscape';
+
+      var now = new Date();
+      var ts = now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0') + ' ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0');
+
+      // Update cover page
+      document.getElementById('coverGenDate').textContent = ts;
+
+      // Inject dynamic print styles
+      document.getElementById('printSizeStyle').textContent =
+        '@page { size: ' + size + '; }\n' +
+        '@page {\n' +
+        '  @bottom-left   { content: "Generated: ' + ts + '"; }\n' +
+        '  @bottom-center { content: counter(page) " / " counter(pages); }\n' +
+        '  @bottom-right  { content: "K_DOCS"; }\n' +
+        '}\n' +
+        '@page :first {\n' +
+        '  @top-left { content: ""; border: none; }\n' +
+        '  @top-center { content: ""; border: none; }\n' +
+        '  @top-right { content: ""; border: none; }\n' +
+        '  @bottom-left { content: ""; border: none; }\n' +
+        '  @bottom-center { content: ""; border: none; }\n' +
+        '  @bottom-right { content: ""; border: none; }\n' +
+        '}';
+
+      // Smart TOC page break
+      var toc = document.querySelector('.toc');
+      var h2First = document.querySelector('#content h2');
+      if (toc && h2First) {
+        var halfPagePx = (format === 'legal') ? 585 : 441;
+        var needsOwnPage = toc.getBoundingClientRect().height > halfPagePx;
+        h2First.style.pageBreakBefore = needsOwnPage ? 'always' : 'auto';
+        h2First.style.breakBefore = needsOwnPage ? 'page' : 'auto';
+        window.addEventListener('afterprint', function() {
+          h2First.style.pageBreakBefore = '';
+          h2First.style.breakBefore = '';
+        }, { once: true });
+      }
+
+      // Set PDF filename
+      var origTitle = document.title;
+      var safeTitle = origTitle.replace(/[\u2014\u2013]/g, ' - ').replace(/[<>:"/\\|?*#]/g, '').trim();
+      document.title = safeTitle || 'k-docs-publication';
+      window.addEventListener('afterprint', function() { document.title = origTitle; }, { once: true });
+      setTimeout(function() { window.print(); }, 0);
+    }
+
+    document.getElementById('exportPdf').addEventListener('click', function() {
+      var size = document.querySelector('input[name="pageSize"]:checked').value;
+      printAs(size);
+    });
+
+    // ===== DOCX export — HTML-to-Word blob =====
+    document.getElementById('exportDocx').addEventListener('click', function() {
+      var container = document.getElementById('content');
+      var clone = container.cloneNode(true);
+
+      // Strip TOC from DOCX
+      var tocEl = clone.querySelector('.toc');
+      if (tocEl) tocEl.remove();
+
+      // Convert Mermaid SVGs to PNGs for Word compatibility
+      var mermaidEls = Array.from(clone.querySelectorAll('.mermaid'));
+      var liveMermaidSvgs = Array.from(document.querySelectorAll('#content .mermaid svg'));
+      var pngPromises = mermaidEls.map(function(el, idx) {
+        return new Promise(function(resolve) {
+          var svgEl = liveMermaidSvgs[idx];
+          if (!svgEl) { el.remove(); resolve(); return; }
+          var rect = svgEl.getBoundingClientRect();
+          var w = Math.round(rect.width) || 700;
+          var h = Math.round(rect.height) || 300;
+          var svgStr = new XMLSerializer().serializeToString(svgEl);
+          var svgUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr);
+          var loader = new Image();
+          loader.onload = function() {
+            var canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, w, h);
+            ctx.drawImage(loader, 0, 0, w, h);
+            var img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            img.style.maxWidth = '100%';
+            img.style.display = 'block';
+            img.style.margin = '0.4cm 0';
+            el.parentNode.replaceChild(img, el);
+            resolve();
+          };
+          loader.onerror = function() { el.remove(); resolve(); };
+          loader.src = svgUrl;
+        });
+      });
+
+      Promise.all(pngPromises).then(function() {
+        // Build cover page HTML for DOCX
+        var coverHtml = '';
+        if (currentMeta.title) {
+          coverHtml =
+            '<div style="text-align:center;min-height:680pt;">' +
+            '<div style="margin-top:8cm;text-align:center;">' +
+            '<div style="font-size:28pt;font-weight:700;color:#111;line-height:1.2;margin-bottom:0.7cm;">' + escapeHtml(currentMeta.title) + '</div>' +
+            (currentMeta.description ? '<div style="font-size:12pt;color:#333;line-height:1.55;margin-bottom:1cm;font-style:italic;">' + escapeHtml(currentMeta.description) + '</div>' : '') +
+            '<p style="border-bottom:1.5pt solid #444;width:6cm;margin:0 auto 0.8cm;font-size:1pt;line-height:0;">&nbsp;</p>' +
+            (currentMeta.pub_meta ? '<div style="font-size:10pt;color:#444;line-height:2;">' + escapeHtml(currentMeta.pub_meta) + '</div>' : '') +
+            '</div></div>' +
+            '<p style="page-break-before:always;font-size:1pt;line-height:0;">&nbsp;</p>';
+        }
+
+        // DOCX CSS
+        var css =
+          '@page{size:letter;margin:1.8cm 1.5cm;}' +
+          'body{font-family:Calibri,sans-serif;font-size:10pt;line-height:1.6;color:#000;}' +
+          'h1{font-size:20pt;color:#1d4ed8;margin-bottom:6pt;}' +
+          'h2{font-size:13pt;color:#111;border-bottom:1px solid #ccc;padding-bottom:3pt;margin-top:18pt;page-break-after:avoid;}' +
+          'h3{font-size:11pt;color:#111;margin-top:12pt;page-break-after:avoid;}' +
+          'table{border-collapse:collapse;width:100%;font-size:9pt;line-height:1.4;}' +
+          'th,td{border-bottom:1px solid #93c5fd;padding:0.35rem 0.5rem;text-align:left;}' +
+          'th{background:#dbeafe;font-weight:600;border-bottom:2px solid #1d4ed8;}' +
+          'code{background:#f5f5f5;border:1px solid #ddd;padding:1pt 3pt;font-family:Consolas,monospace;font-size:8.5pt;}' +
+          'pre{background:#f5f5f5;border:1px solid #ddd;padding:6pt;font-family:Consolas,monospace;font-size:8.5pt;white-space:pre-wrap;}' +
+          'blockquote{border-left:3pt solid #1d4ed8;padding:4pt 8pt;color:#666;font-style:italic;}' +
+          'a{color:#1d4ed8;text-decoration:underline;}' +
+          'img{max-width:100%;max-height:15cm;page-break-inside:avoid;}' +
+          'table,pre,blockquote{page-break-inside:avoid;}';
+
+        // Add page breaks before h2 #2+
+        var h2list = clone.querySelectorAll('h2');
+        h2list.forEach(function(el, i) {
+          if (i > 0) el.style.pageBreakBefore = 'always';
+        });
+
+        var cleanHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' + css +
+          '</style></head><body>' + coverHtml + clone.innerHTML + '</body></html>';
+
+        // Build Word-compatible blob
+        var blob = new Blob([cleanHtml], { type: 'application/vnd.ms-word;charset=utf-8' });
+        var safeTitle = (currentMeta.title || 'k-docs-publication').replace(/[\u2014\u2013]/g, ' - ').replace(/[<>:"/\\|?*#]/g, '').trim();
+        var filename = safeTitle + '.docx';
+
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a); URL.revokeObjectURL(url);
+
+        // Toast
+        var t = document.getElementById('copyToast');
+        t.textContent = 'DOCX exported!';
+        t.classList.add('show');
+        setTimeout(function() { t.classList.remove('show'); }, 2000);
+      });
+    });
+
+    // ===== Language state =====
+    var currentLang = 'en'; // 'en' or 'fr'
+
+    function updateLangButtons() {
+      var btnEn = document.getElementById('langEn');
+      var btnFr = document.getElementById('langFr');
+      var select = document.getElementById('docSelect');
+      var doc = DOCS[select.value];
+      var hasFr = !!doc.path_fr;
+
+      btnEn.classList.toggle('lang-active', currentLang === 'en');
+      btnFr.classList.toggle('lang-active', currentLang === 'fr');
+      btnFr.classList.toggle('lang-disabled', !hasFr);
+    }
+
+    function loadWithLang(docIdx, lang) {
+      var doc = DOCS[docIdx];
+      var path = (lang === 'fr' && doc.path_fr) ? doc.path_fr : doc.path;
+      currentLang = (lang === 'fr' && doc.path_fr) ? 'fr' : 'en';
+      loadDocument(path);
+      updateLangButtons();
+
+      var url = new URL(window.location);
+      url.searchParams.set('doc', doc.path); // Always reference EN path in URL
+      if (currentLang === 'fr') url.searchParams.set('lang', 'fr');
+      else url.searchParams.delete('lang');
+      history.replaceState(null, '', url);
+    }
+
+    // ===== Document selector =====
+    (function initDocSelector() {
+      var select = document.getElementById('docSelect');
+      var currentGroup = null;
+      var optgroup = null;
+      DOCS.forEach(function(doc, i) {
+        if (doc.group && doc.group !== currentGroup) {
+          currentGroup = doc.group;
+          optgroup = document.createElement('optgroup');
+          optgroup.label = currentGroup;
+          select.appendChild(optgroup);
+        }
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = doc.name;
+        (optgroup || select).appendChild(opt);
+      });
+
+      // Check URL params
+      var params = new URLSearchParams(window.location.search);
+      var docParam = params.get('doc');
+      var langParam = params.get('lang');
+      if (docParam) {
+        var idx = DOCS.findIndex(function(d) { return d.path === docParam; });
+        if (idx >= 0) select.value = idx;
+      }
+      if (langParam === 'fr') currentLang = 'fr';
+
+      select.addEventListener('change', function() {
+        currentLang = 'en'; // Reset to EN when switching docs
+        loadWithLang(parseInt(this.value), 'en');
+      });
+
+      // Language buttons
+      document.getElementById('langEn').addEventListener('click', function() {
+        if (currentLang !== 'en') loadWithLang(parseInt(select.value), 'en');
+      });
+      document.getElementById('langFr').addEventListener('click', function() {
+        var doc = DOCS[select.value];
+        if (currentLang !== 'fr' && doc.path_fr) loadWithLang(parseInt(select.value), 'fr');
+      });
+
+      // Load initial document
+      loadWithLang(parseInt(select.value), currentLang);
+    })();
+
+    // ===== Front matter parser =====
+    function parseFrontMatter(text) {
+      var match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
+      if (!match) return { meta: {}, body: text };
+      var meta = {};
+      match[1].split('\n').forEach(function(line) {
+        var m = line.match(/^(\w[\w_-]*)\s*:\s*(.+)$/);
+        if (m) {
+          var val = m[2].trim();
+          if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
+          meta[m[1]] = val;
+        }
+      });
+      return { meta: meta, body: match[2] };
+    }
+
+    // ===== Liquid template resolver =====
+    // Resolves Jekyll/Liquid syntax so production markdown renders in our static viewer.
+    var SITE = {
+      url: 'https://packetqc.github.io',
+      baseurl: '/knowledge',
+      github_repo: 'packetqc/knowledge',
+      github: { repository_url: 'https://github.com/packetqc/knowledge' }
+    };
+
+    function resolveLiquid(body, meta) {
+      // {{ 'path' | relative_url }} or {{ "path" | relative_url }} → baseurl + path
+      body = body.replace(/\{\{\s*(['"])([^'"]*)\1\s*\|\s*relative_url\s*\}\}/g, function(_, q, p) {
+        return SITE.baseurl + p;
+      });
+      // {{ 'path' | absolute_url }} or {{ "path" | absolute_url }} → url + baseurl + path
+      body = body.replace(/\{\{\s*(['"])([^'"]*)\1\s*\|\s*absolute_url\s*\}\}/g, function(_, q, p) {
+        return SITE.url + SITE.baseurl + p;
+      });
+      // {{ page.X | absolute_url }}
+      body = body.replace(/\{\{\s*page\.(\w+)\s*\|\s*absolute_url\s*\}\}/g, function(_, key) {
+        return SITE.url + SITE.baseurl + (meta[key] || '');
+      });
+      // {{ page.X }}
+      body = body.replace(/\{\{\s*page\.(\w+)\s*\}\}/g, function(_, key) {
+        return meta[key] || '';
+      });
+      // {{ site.X.Y }}
+      body = body.replace(/\{\{\s*site\.(\w+)\.(\w+)\s*\}\}/g, function(_, a, b) {
+        return (SITE[a] && SITE[a][b]) || '';
+      });
+      // {{ site.X | default: 'val' }}
+      body = body.replace(/\{\{\s*site\.(\w+)\s*\|\s*default:\s*'([^']+)'\s*\}\}/g, function(_, key, def) {
+        return SITE[key] || def;
+      });
+      // {{ site.X }}
+      body = body.replace(/\{\{\s*site\.(\w+)\s*\}\}/g, function(_, key) {
+        return SITE[key] || '';
+      });
+      // {{ "{{" }} — escaped double braces
+      body = body.replace(/\{\{\s*"\{\{"\s*\}\}/g, '{{');
+      // {% include ... %} — strip (can't resolve includes)
+      body = body.replace(/\{%[^%]*%\}/g, '');
+      return body;
+    }
+
+    // ===== Markdown rendering =====
+    function renderMarkdown(text) {
+      var parsed = parseFrontMatter(text);
+      var meta = parsed.meta;
+      var body = parsed.body;
+
+      // Resolve Liquid templates before markdown parsing
+      body = resolveLiquid(body, meta);
+
+      // Remove kramdown IAL syntax like {: #pub-title}
+      body = body.replace(/\{:\s*#[^}]+\}/g, '');
+      // Remove {: .class} annotations
+      body = body.replace(/\{:\s*\.[^}]+\}/g, '');
+      // Remove manual TOC (EN: **Contents**, FR: **Table des matières**) followed by anchor-link bullet list
+      body = body.replace(/\*\*(?:Contents|Table des matières)\*\*\s*\n(- \[.*?\]\(#.*?\)\s*\n)+/g, '');
+
+      // Configure marked
+      marked.setOptions({
+        gfm: true,
+        breaks: false,
+        headerIds: true,
+        mangle: false
+      });
+
+      // Custom renderer for mermaid code blocks
+      var renderer = new marked.Renderer();
+      var originalCode = renderer.code;
+
+      renderer.code = function(obj) {
+        // marked v15: code receives an object { text, lang, escaped }
+        var code = typeof obj === 'string' ? obj : (obj.text || '');
+        var lang = typeof obj === 'string' ? arguments[1] : (obj.lang || '');
+
+        if (lang === 'mermaid') {
+          return '<div class="mermaid">' + code + '</div>';
+        }
+        // For other languages
+        return '<pre><code class="language-' + (lang || '') + '">' +
+               escapeHtml(code) + '</code></pre>';
+      };
+
+      marked.setOptions({ renderer: renderer });
+
+      var html = '';
+
+      // Add document header block (styled like TOC card)
+      if (meta.title || meta.pub_meta) {
+        var now = new Date();
+        var genDate = now.getFullYear() + '-' +
+          String(now.getMonth() + 1).padStart(2, '0') + '-' +
+          String(now.getDate()).padStart(2, '0') + ' ' +
+          String(now.getHours()).padStart(2, '0') + ':' +
+          String(now.getMinutes()).padStart(2, '0');
+
+        html += '<div class="doc-header">';
+        if (meta.header_title || meta.title) {
+          html += '<div class="doc-header-title">' + escapeHtml(meta.header_title || meta.title);
+          if (meta.pub_version) html += ' <span class="doc-header-badge">' + escapeHtml(meta.pub_version) + '</span>';
+          html += '</div>';
+        }
+        if (meta.tagline) html += '<div class="doc-header-tagline">' + escapeHtml(meta.tagline) + '</div>';
+        html += '<hr class="doc-header-rule">';
+        html += '<div class="doc-header-meta">';
+        if (meta.pub_meta) html += '<span>' + escapeHtml(meta.pub_meta) + '</span>';
+        if (meta.source_url) html += '<span><a href="' + meta.source_url + '" target="_blank">Source (GitHub)</a></span>';
+        html += '</div>';
+        var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
+        html += '<div class="doc-header-gen">' + genLabel + ': ' + genDate + '</div>';
+        html += '</div>';
+      }
+
+      // Set page title
+      if (meta.title) document.title = meta.title + ' — K_DOCS';
+
+      // Store meta globally for exports
+      currentMeta = meta;
+
+      // Populate cover page
+      var coverTitle = document.getElementById('coverTitle');
+      var coverDesc = document.getElementById('coverDesc');
+      var coverMeta = document.getElementById('coverMeta');
+      if (coverTitle) coverTitle.textContent = meta.title || '';
+      if (coverDesc) coverDesc.textContent = meta.description || '';
+      if (coverMeta) coverMeta.textContent = meta.pub_meta || '';
+
+      // Render markdown
+      html += marked.parse(body);
+
+      return html;
+    }
+
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ===== TOC generation =====
+    function generateTOC(container) {
+      var headings = container.querySelectorAll('h2, h3');
+      if (headings.length < 3) return; // Too few headings, skip TOC
+
+      var toc = document.createElement('div');
+      toc.className = 'toc';
+      var tocLabel = (currentMeta.lang === 'fr') ? 'Table des matières' : 'Contents';
+      toc.innerHTML = '<div class="toc-title">' + tocLabel + '</div>';
+      var ul = document.createElement('ul');
+
+      headings.forEach(function(h, i) {
+        if (!h.id) h.id = 'heading-' + i;
+        var li = document.createElement('li');
+        if (h.tagName === 'H3') li.className = 'toc-h3';
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+
+      toc.appendChild(ul);
+
+      // Insert after first h1 or at top
+      var h1 = container.querySelector('h1');
+      if (h1 && h1.nextSibling) {
+        h1.parentNode.insertBefore(toc, h1.nextSibling);
+      } else {
+        container.insertBefore(toc, container.firstChild);
+      }
+    }
+
+    // ===== Mermaid rendering =====
+    var mermaidInitialized = false;
+
+    function renderMermaidBlocks() {
+      var blocks = document.querySelectorAll('.mermaid');
+      if (blocks.length === 0) return;
+
+      // Determine theme based on current data-theme
+      var theme = document.documentElement.getAttribute('data-theme') || 'auto';
+      var mermaidTheme = 'default';
+      if (theme === 'midnight' || theme === 'daltonism-dark') mermaidTheme = 'dark';
+
+      // Store original source before re-rendering
+      blocks.forEach(function(block) {
+        if (!block.getAttribute('data-source')) {
+          block.setAttribute('data-source', block.textContent);
+        }
+      });
+
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: mermaidTheme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true },
+        mindmap: { useMaxWidth: true }
+      });
+
+      blocks.forEach(function(block, i) {
+        var source = block.getAttribute('data-source');
+        if (!source) return;
+        block.innerHTML = source; // Reset to source
+        block.removeAttribute('data-processed');
+      });
+
+      // Use mermaid.run() for v11
+      mermaid.run({ nodes: blocks }).catch(function(err) {
+        console.warn('Mermaid render error:', err);
+      });
+    }
+
+    // ===== Internal link interceptor =====
+    // Maps production URLs (/knowledge/...) to viewer doc entries
+    function resolveInternalPath(href) {
+      var prefix = SITE.baseurl + '/'; // '/knowledge/'
+      var path = null;
+      var lang = 'en';
+
+      // Match /knowledge/... or full absolute URL
+      if (href.indexOf(prefix) === 0) {
+        path = href.substring(prefix.length);
+      } else if (href.indexOf(SITE.url + prefix) === 0) {
+        path = href.substring((SITE.url + prefix).length);
+      }
+      if (path === null) return null;
+
+      // Detect FR prefix
+      if (path.indexOf('fr/') === 0) {
+        lang = 'fr';
+        path = path.substring(3); // strip 'fr/'
+      }
+
+      // Strip trailing slash
+      path = path.replace(/\/$/, '');
+
+      // Try matching against DOCS entries
+      for (var i = 0; i < DOCS.length; i++) {
+        var docPath = DOCS[i].path.replace(/\/$/, '').replace(/\/index\.md$/, '');
+        var candidate = path.replace(/\/index\.md$/, '');
+        if (candidate === docPath || candidate + '/index.md' === DOCS[i].path || candidate === DOCS[i].path) {
+          return { index: i, lang: lang };
+        }
+      }
+      return null;
+    }
+
+    function interceptInternalLinks(container) {
+      container.addEventListener('click', function(e) {
+        var link = e.target.closest('a');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href) return;
+
+        // Handle anchor links (scroll within page)
+        if (href.charAt(0) === '#') return;
+
+        var match = resolveInternalPath(href);
+        if (match) {
+          e.preventDefault();
+          document.getElementById('docSelect').value = match.index;
+          loadWithLang(match.index, match.lang);
+        }
+      });
+    }
+
+    // ===== Interface renderer =====
+    // For page_type: interface — renders directly with collapsible chrome bar.
+    // Interface content fills viewport via iframe (document.write, same-origin) below the chrome bar.
+    function renderInterface(container, meta, body) {
+      if (meta.title) document.title = meta.title + ' — K_DOCS';
+      currentMeta = meta;
+
+      // Extract content between {::nomarkdown} and {:/nomarkdown}
+      var rawMatch = body.match(/\{::nomarkdown\}([\s\S]*?)\{:\/nomarkdown\}/);
+      if (!rawMatch) {
+        var resolved = resolveLiquid(body, meta);
+        container.innerHTML = marked.parse(resolved);
+        generateTOC(container);
+        return;
+      }
+
+      var rawHtml = rawMatch[1];
+      rawHtml = resolveLiquid(rawHtml, meta);
+
+      // Theme
+      var theme = localStorage.getItem('kdocs-theme') || 'auto';
+      var themeAttr = (theme && theme !== 'auto') ? ' data-theme="' + theme + '"' : '';
+
+      // Base URL for absolute paths (needed because interface runs in Blob URL context)
+      var viewerOrigin = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+
+      // Rewrite production URLs in static HTML
+      function rewriteUrl(url, forEmbed) {
+        if (url.charAt(0) === '#' || url.indexOf('javascript:') === 0) return url;
+        var m = resolveInternalPath(url);
+        if (m) {
+          var d = DOCS[m.index];
+          var base = viewerOrigin + 'index.html?doc=' + encodeURIComponent(d.path);
+          if (forEmbed !== false) base += '&embed';
+          if (m.lang === 'fr') base += '&lang=fr';
+          return base;
+        }
+        return url;
+      }
+
+      rawHtml = rawHtml.replace(/(src=["'])([^"']*?)(["'])/g, function(_, pre, url, post) {
+        return pre + rewriteUrl(url) + post;
+      });
+      rawHtml = rawHtml.replace(/(href=["'])([^"']*?)(["'])/g, function(_, pre, url, post) {
+        return pre + rewriteUrl(url) + post;
+      });
+
+      // URL rewriter for dynamically created links inside interface JS
+      var jsRewriter = '\n<script>\n' +
+        'var VIEWER_ORIGIN = ' + JSON.stringify(viewerOrigin) + ';\n' +
+        'var VIEWER_DOCS = ' + JSON.stringify(DOCS.map(function(d) { return { path: d.path, path_fr: d.path_fr || null }; })) + ';\n' +
+        'var VIEWER_BASEURL = ' + JSON.stringify(SITE.baseurl) + ';\n' +
+        'function viewerRewriteUrl(url, forEmbed) {\n' +
+        '  var prefix = VIEWER_BASEURL + "/";\n' +
+        '  var path = null, lang = "en";\n' +
+        '  if (url.indexOf(prefix) === 0) path = url.substring(prefix.length);\n' +
+        '  if (path === null) return url;\n' +
+        '  if (path.indexOf("fr/") === 0) { lang = "fr"; path = path.substring(3); }\n' +
+        '  path = path.replace(/\\/$/, "").replace(/#.*$/, "");\n' +
+        '  for (var i = 0; i < VIEWER_DOCS.length; i++) {\n' +
+        '    var dp = VIEWER_DOCS[i].path.replace(/\\/$/, "").replace(/\\/index\\.md$/, "");\n' +
+        '    var c = path.replace(/\\/index\\.md$/, "");\n' +
+        '    if (c === dp || c + "/index.md" === VIEWER_DOCS[i].path || c === VIEWER_DOCS[i].path) {\n' +
+        '      var u = VIEWER_ORIGIN + "index.html?doc=" + encodeURIComponent(VIEWER_DOCS[i].path);\n' +
+        '      if (forEmbed !== false) u += "&embed";\n' +
+        '      if (lang === "fr") u += "&lang=fr";\n' +
+        '      return u;\n' +
+        '    }\n' +
+        '  }\n' +
+        '  return url;\n' +
+        '}\n' +
+        '</' + 'script>\n';
+
+      // Post-render: rewrite iframes and intercept all link clicks
+      var jsPostRewrite = '\n<script>\n' +
+        'setTimeout(function() {\n' +
+        '  /* Rewrite iframe srcs */\n' +
+        '  document.querySelectorAll("iframe").forEach(function(f) {\n' +
+        '    var s = f.getAttribute("src"); if (s) {\n' +
+        '      var nw = viewerRewriteUrl(s); if (nw !== s) f.src = nw;\n' +
+        '    }\n' +
+        '  });\n' +
+        '  /* Intercept ALL link clicks in the nav panel */\n' +
+        '  var panel = document.getElementById("left-panel");\n' +
+        '  if (panel) panel.addEventListener("click", function(e) {\n' +
+        '    var a = e.target.closest("a");\n' +
+        '    if (!a) return;\n' +
+        '    var href = a.getAttribute("href");\n' +
+        '    if (!href) return;\n' +
+        '    var rewritten = (a.target === "_top") ? viewerRewriteUrl(href, false) : viewerRewriteUrl(href);\n' +
+        '    if (rewritten === href) return;\n' +
+        '    e.preventDefault();\n' +
+        '    if (a.target === "_top") {\n' +
+        '      window.top.location.href = rewritten;\n' +
+        '    } else {\n' +
+        '      var frame = document.querySelector(\'iframe[name="\' + a.target + \'"]\');\n' +
+        '      if (frame) frame.src = rewritten;\n' +
+        '    }\n' +
+        '  });\n' +
+        '}, 50);\n' +
+        '</' + 'script>\n';
+
+      // Build standalone HTML page for iframe
+      var fullPage = '<!DOCTYPE html>\n<html lang="en"' + themeAttr + '>\n<head>\n' +
+        '<meta charset="utf-8">\n' +
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
+        '<title>' + escapeHtml(meta.title || 'Interface') + '</title>\n' +
+        '<style>\n' +
+        '  :root { --bg:#faf6f1;--fg:#1a1a2e;--accent:#0055b3;--muted:#5c5c78;--border:#d48a3c;--code-bg:#eee8df;--col-alt:rgba(0,85,179,0.05); }\n' +
+        '  @media(prefers-color-scheme:dark){html:not([data-theme]),html[data-theme="auto"]{--bg:#1a1a2e;--fg:#e8e4f0;--accent:#5599dd;--muted:#9494aa;--border:#cc8833;--code-bg:#28283e;--col-alt:rgba(85,153,221,0.07);}}\n' +
+        '  html[data-theme="cayman"]{--bg:#eff6ff;--fg:#0f172a;--accent:#1d4ed8;--muted:#475569;--border:#93c5fd;--code-bg:#dbeafe;--col-alt:rgba(29,78,216,0.05);}\n' +
+        '  html[data-theme="midnight"]{--bg:#0f172a;--fg:#e2e8f0;--accent:#60a5fa;--muted:#94a3b8;--border:#334155;--code-bg:#1e293b;--col-alt:rgba(96,165,250,0.07);}\n' +
+        '  html[data-theme="daltonism-light"]{--bg:#faf6f1;--fg:#1a1a2e;--accent:#0055b3;--muted:#5c5c78;--border:#d48a3c;--code-bg:#eee8df;--col-alt:rgba(0,85,179,0.05);}\n' +
+        '  html[data-theme="daltonism-dark"]{--bg:#1a1a2e;--fg:#e8e4f0;--accent:#5599dd;--muted:#9494aa;--border:#cc8833;--code-bg:#28283e;--col-alt:rgba(85,153,221,0.07);}\n' +
+        '  * { box-sizing:border-box; margin:0; padding:0; }\n' +
+        '  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--fg); }\n' +
+        '</style>\n' +
+        '</head>\n<body>\n' +
+        '<div class="container">\n' +
+        jsRewriter +
+        rawHtml +
+        jsPostRewrite +
+        '</div>\n</body>\n</html>';
+
+      // --- Enter interface mode ---
+      // Keep top toolbar (doc selector + lang), hide bottom export bar
+      document.querySelector('.toolbar-bottom').style.display = 'none';
+      var cont = document.querySelector('.container');
+      cont.style.padding = '0';
+      cont.style.maxWidth = '100%';
+
+      // Interfaces are always landscape by default
+      document.body.classList.add('landscape');
+
+      // Build generated timestamp
+      var now = new Date();
+      var genDate = now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0') + ' ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0');
+      var genLabel = (meta.lang === 'fr') ? 'Généré' : 'Generated';
+
+      // Collapsible chrome bar with metadata
+      var chromeHtml =
+        '<div class="iface-chrome" id="ifaceChrome">' +
+          '<div class="iface-chrome-content" id="ifaceChromeContent">' +
+            '<div class="iface-chrome-left">' +
+              '<span class="iface-chrome-title">' + escapeHtml(meta.title || 'Interface') +
+                (meta.version ? ' <span class="doc-header-badge">' + escapeHtml(meta.version) + '</span>' : '') +
+              '</span>' +
+              (meta.description ? '<span class="iface-chrome-desc">' + escapeHtml(meta.description) + '</span>' : '') +
+            '</div>' +
+            '<div class="iface-chrome-right">' +
+              (meta.pub_id ? '<span>' + escapeHtml(meta.pub_id) + '</span>' : '') +
+              (meta.date ? '<span>' + escapeHtml(meta.date) + '</span>' : '') +
+              '<span class="iface-chrome-gen">' + genLabel + ': ' + genDate + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="iface-chrome-toggle" id="ifaceChromeToggle" title="Collapse/expand header">▲</div>' +
+        '</div>' +
+        '<iframe id="ifaceFrame"></iframe>';
+
+      container.innerHTML = chromeHtml;
+      container.dataset.interfaceMode = '1';
+
+      // Write HTML directly into iframe via srcdoc (same-origin, enables iframe navigation)
+      var ifaceFrame = document.getElementById('ifaceFrame');
+      ifaceFrame.srcdoc = fullPage;
+
+      // Chrome toggle behavior
+      var chromeContent = document.getElementById('ifaceChromeContent');
+      var chromeToggle = document.getElementById('ifaceChromeToggle');
+      var chromeCollapsed = localStorage.getItem('kdocs-iface-chrome') === '1';
+
+      function applyIfaceChrome() {
+        chromeContent.style.display = chromeCollapsed ? 'none' : '';
+        chromeToggle.textContent = chromeCollapsed ? '▼' : '▲';
+      }
+      applyIfaceChrome();
+
+      chromeToggle.addEventListener('click', function() {
+        chromeCollapsed = !chromeCollapsed;
+        applyIfaceChrome();
+        localStorage.setItem('kdocs-iface-chrome', chromeCollapsed ? '1' : '0');
+      });
+
+      window.scrollTo(0, 0);
+    }
+
+    // Restore viewer chrome when leaving interface mode
+    function exitInterfaceMode() {
+      var content = document.getElementById('content');
+      if (content && content.dataset.interfaceMode === '1') {
+        delete content.dataset.interfaceMode;
+        document.querySelector('.toolbar-bottom').style.display = '';
+        var cont = document.querySelector('.container');
+        cont.style.padding = '';
+        cont.style.maxWidth = '';
+        document.body.classList.remove('landscape');
+      }
+    }
+
+    // ===== Document loader =====
+    function loadDocument(path) {
+      exitInterfaceMode();
+      var content = document.getElementById('content');
+      content.className = 'loading';
+      content.textContent = 'Loading document...';
+
+      fetch(path)
+        .then(function(r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.text();
+        })
+        .then(function(text) {
+          content.className = '';
+          var parsed = parseFrontMatter(text);
+
+          // Interface page type — inject raw HTML directly
+          if (parsed.meta.page_type === 'interface') {
+            renderInterface(content, parsed.meta, parsed.body);
+            return;
+          }
+
+          content.innerHTML = renderMarkdown(text);
+          generateTOC(content);
+
+          // Render mermaid after DOM is ready
+          requestAnimationFrame(function() {
+            renderMermaidBlocks();
+          });
+
+          // Intercept internal links
+          interceptInternalLinks(content);
+
+          // Scroll to top
+          window.scrollTo(0, 0);
+        })
+        .catch(function(err) {
+          content.className = '';
+          content.innerHTML = '<h1>Error loading document</h1><p>' + err.message + '</p>' +
+            '<p>Path: <code>' + path + '</code></p>' +
+            '<p>Make sure you are serving this file via a local HTTP server (e.g. <code>python3 -m http.server 8000</code>).</p>';
+        });
+    }
+  </script>
+
+</body>
+</html>

@@ -34,8 +34,14 @@ echo "Creating module: $MODULE_NAME"
 
 # --- Create module directory structure ---
 mkdir -p "$MODULE_DIR"
-
 echo "  Created $MODULE_DIR/"
+
+# --- Create docs/ at project root (documentation convention) ---
+if [ ! -d "docs" ]; then
+    mkdir -p "docs"
+    touch "docs/.gitkeep"
+    echo "  Created docs/ (documentation root)"
+fi
 
 echo ""
 echo "Module $MODULE_NAME created at $MODULE_DIR/"

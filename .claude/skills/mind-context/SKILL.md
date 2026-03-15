@@ -1,5 +1,6 @@
 ---
 name: mind-context
+user_invocable: true
 description: "Load K_MIND context. Usage: /mind-context (normal), /mind-context full (all nodes), /mind-context <path> <depth> (set branch depth and render)."
 allowed-tools: Read, Grep, Glob, Bash
 ---

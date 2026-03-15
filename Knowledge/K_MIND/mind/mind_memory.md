@@ -11,6 +11,7 @@ mindmap
       far memory
     work
       en cours
+        documentation web viewer system
       validation
         k_mind import system
           repo restructure to Knowledge K_MIND
@@ -29,6 +30,12 @@ mindmap
           memory_stats.py shared stats with context availability
           convention fixes applied and verified
     documentation
+      web docs
+        docs directory at project root
+        static js viewer for normalized markdown
+        mermaid rendering client side
+        interactive mindmap with drag and drop
+        production url structure compatibility
     architecture
       persistence_format
         JSON for performance

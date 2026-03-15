@@ -1,5 +1,6 @@
 ---
 name: mind-depth
+user_invocable: true
 description: "Show depth config table for all mindmap branches. Usage: /mind-depth (show table), /mind-depth <path> <level> (set and show)."
 allowed-tools: Bash
 ---
