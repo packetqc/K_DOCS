@@ -1287,7 +1287,7 @@
             allowUndo: false
           });
           mind.init(data);
-          setTimeout(function(){ mind.toCenter(); }, 200);
+          setTimeout(function(){ mind.scaleFit(); }, 200);
         })
         .catch(function(err) {
           container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:1rem;">Live mindmap unavailable</p>';

@@ -373,7 +373,7 @@ body > .container {
         window.mindInstance = mind;
 
         // Fit after render
-        setTimeout(function() { mind.toCenter(); }, 200);
+        setTimeout(function() { mind.scaleFit(); }, 200);
 
         status.textContent = mode.charAt(0).toUpperCase() + mode.slice(1) + ' — ' +
           nodeCount + ' nodes — ' + new Date().toLocaleTimeString();

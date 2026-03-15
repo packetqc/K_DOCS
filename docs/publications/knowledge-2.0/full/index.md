@@ -268,7 +268,7 @@ The mindmap below renders the current K_MIND memory in real-time — fetched fro
       allowUndo: false
     });
     mind.init(data);
-    setTimeout(function(){ mind.toCenter(); }, 200);
+    setTimeout(function(){ mind.scaleFit(); }, 200);
   }).catch(function(e) {
     container.innerHTML = '<p style="color:var(--muted);text-align:center;">Live mindmap unavailable</p>';
   });
