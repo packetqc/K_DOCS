@@ -21,6 +21,9 @@ keywords: "succès, histoires, validation, rappel, récolte, récupération, boo
 |---|---|
 | [Résumé](#résumé) | Hub vivant de validation |
 | [Histoires](#histoires) | Toutes les histoires, plus récentes en premier |
+| &nbsp;&nbsp;[26 - Un seul visualiseur pour tous](#story-26) | Moteur de documentation mono-fichier — 3 panneaux, 4 thèmes, export PDF/DOCX, zéro compilation |
+| &nbsp;&nbsp;[25 - Mémoire mindmap vivante](#story-25) | Du diagramme mermaid statique au graphe de connaissances MindElixir interactif |
+| &nbsp;&nbsp;[24 - Le Toggle](#story-24) | Restructuration de Knowledge avec filet de sécurité — 852 fichiers déplacés, zéro bris |
 | &nbsp;&nbsp;[23 - Knowledge v2.0 : Du questionnaire à une plateforme vivante](#story-23) | 30+ PR en une journée — GitHub Project, persistance non-bloquante, interfaces paysage |
 | &nbsp;&nbsp;[22 - Moteur de documentation visuelle](#story-22) | De la vidéo aux évidences en quelques secondes — extraction automatisée par vision par ordinateur |
 | &nbsp;&nbsp;[21 - Machine à états du flux de tâches](#story-21) | Ingénierie de protocole auto-vérifiante — le système a trouvé ses propres bogues |
@@ -54,6 +57,87 @@ Les publications individuelles expliquent *ce que* le système fait. Cette publi
 ## Histoires
 
 *Plus récentes en premier.*
+
+<a id="story-26"></a>
+### 26 - Un seul visualiseur pour tous : Un moteur de documentation mono-fichier
+
+<div class="story-section">
+
+> *« Un seul fichier HTML. Aucune étape de compilation. Aucun framework. Aucun serveur. Poussez du markdown sur GitHub, il se rend avec des thèmes, s'exporte en PDF et DOCX, navigue entre trois panneaux, et sert un mindmap interactif vivant. »*
+
+**Date** : 2026-03-15 | **Catégorie** : 🏗️ 🎨 📄
+
+Un seul `index.html` est devenu une plateforme documentaire complète — reproduisant les fonctionnalités clés de 183 Ko de mises en page Jekyll sans aucune étape de compilation. Disposition 3 panneaux avec diviseurs déplaçables, système de 4 thèmes CSS, export PDF/DOCX via CSS Paged Media, rendu markdown avec analyse du front matter, résolution de templates Liquid, diagrammes mermaid, et graphes de connaissances MindElixir vivants. Le routage d'interfaces gère la navigation inter-panneaux sans rechargement. 25+ publications et 5 interfaces servies depuis zéro infrastructure.
+
+<div class="story-row">
+<div class="story-row-left">
+
+[**Validé**]({{ '/fr/publications/success-stories/story-26/' | relative_url }})
+
+</div>
+<div class="story-row-right">
+
+Autosuffisant (#1), Autonome (#2), Intuitif (#3), Concis (#4), Adaptable (#5)
+
+</div>
+</div>
+</div>
+
+---
+
+<a id="story-25"></a>
+### 25 - Mémoire mindmap vivante : Du diagramme statique au graphe de connaissances interactif
+
+<div class="story-section">
+
+> *« Le mindmap a commencé comme un fichier texte rendu par mermaid. Maintenant c'est un graphe de connaissances vivant et interactif qu'on peut déplacer, zoomer et explorer — récupéré en temps réel du dépôt, filtré par profondeur et thématisé pour correspondre au visualiseur. »*
+
+**Date** : 2026-03-15 | **Catégorie** : 🧠 🎨 ⚙️
+
+Évolution en trois phases : (1) Rendu mermaid statique, (2) Mermaid interactif personnalisé avec 400 lignes de gestionnaires pan/zoom/clic, (3) MindElixir v5.9.3 — bibliothèque dédiée remplaçant tout le code personnalisé par 50 lignes de configuration. Filtrage de profondeur (portage JS de `mindmap_filter.py`) avec bascule Normal/Complet et synchronisation de 4 thèmes. Déployé en trois endroits : interface I5 autonome, embarquement K2.0, et webcard du visualiseur.
+
+<div class="story-row">
+<div class="story-row-left">
+
+[**Validé**]({{ '/fr/publications/success-stories/story-25/' | relative_url }})
+
+</div>
+<div class="story-row-right">
+
+Autosuffisant (#1), Intuitif (#3), Adaptable (#5), Intégré (#13)
+
+</div>
+</div>
+</div>
+
+---
+
+<a id="story-24"></a>
+### 24 - Le Toggle : Restructuration de Knowledge avec filet de sécurité
+
+<div class="story-section">
+
+> *« 852 fichiers déplacés, 158 chemins recartographiés, zéro bris. La stratégie toggle a transformé une restructuration risquée en une opération validée et réversible. »*
+
+**Date** : 2026-03-10 | **Catégorie** : 🏗️ ⚙️
+
+Au lieu de restructurer le dépôt core en direct, utilisation d'une stratégie toggle : construire le script de migration sur core, fusionner vers main, déposer sur un satellite, valider, puis appliquer au core avec confiance. Le script `knowledge_migrate.py` auto-contenu détecte, restructure et recartographie tous les chemins.
+
+<div class="story-row">
+<div class="story-row-left">
+
+[**Validé**]({{ '/fr/publications/success-stories/story-24/' | relative_url }})
+
+</div>
+<div class="story-row-right">
+
+Autosuffisant (#1), Autonome (#2), Adaptable (#5)
+
+</div>
+</div>
+</div>
+
+---
 
 <a id="story-23"></a>
 ### 23 - Knowledge v2.0 : Du questionnaire à une plateforme d'ingénierie vivante

@@ -21,6 +21,10 @@ keywords: "success, stories, validation, recall, harvest, recovery, bootstrap"
 | [Abstract](#abstract) | Living validation hub overview |
 | [Story Format](#story-format) | Standard structure for each story |
 | [Stories](#stories) | All stories, newest first |
+| &nbsp;&nbsp;[26 - One Viewer to Rule Them All](#story-26) | Single-file documentation engine — 3 panels, 4 themes, PDF/DOCX export, zero build step |
+| &nbsp;&nbsp;[25 - Live Mindmap Memory](#story-25) | From static mermaid to interactive MindElixir knowledge graph with depth filtering and theme sync |
+| &nbsp;&nbsp;[24 - The Toggle](#story-24) | Restructuring Knowledge with a safety net — 852 files moved, zero breakage |
+| &nbsp;&nbsp;[23 - Knowledge v2.0 Platform](#story-23) | From questionnaire to living engineering platform — GitHub Project, persistence, viewers |
 | &nbsp;&nbsp;[22 - Visual Documentation Engine](#story-22) | From video to evidence in seconds — automated extraction with computer vision |
 | &nbsp;&nbsp;[21 - Task Workflow State Machine](#story-21) | Self-verifying protocol engineering — the system found its own bugs |
 | &nbsp;&nbsp;[19 - One request, three interfaces](#story-19) | 1 request → 3 publications scaffolded proactively |
@@ -107,6 +111,74 @@ Each story includes a **Times of Delivery** section with an inline pie chart <sp
 ## Stories
 
 *Newest first.*
+
+<a id="story-26"></a>
+### 26 - One Viewer to Rule Them All: A Single-File Documentation Engine
+
+<div class="story-section">
+
+> *"One HTML file. No build step. No framework. No server. Push markdown to GitHub, it renders with themes, exports to PDF and DOCX, routes across three panels, and serves a live interactive mindmap. The entire documentation platform is a single `index.html`."*
+
+**Date**: 2026-03-15 | **Category**: 🏗️ 🎨 📄
+
+A single `index.html` became a complete documentation engine reproducing 183KB of Jekyll layout features with zero build step. Three-panel layout with draggable dividers (14px desktop, 8px mobile), 4-theme CSS variable system (Cayman, Midnight, Daltonism Light/Dark) with localStorage persistence, PDF/DOCX export via CSS Paged Media, markdown rendering with YAML front matter parsing, Liquid template resolution, mermaid diagram rendering, and live MindElixir interactive mindmaps. Interface routing handles cross-panel navigation without full page reloads. BroadcastChannel propagates orientation. 25+ publications and 5 interfaces served from static file hosting with zero infrastructure.
+
+[**Validated**]({{ '/publications/success-stories/story-26/' | relative_url }})
+
+</div>
+
+---
+
+<a id="story-25"></a>
+### 25 - Live Mindmap Memory: From Static Diagram to Interactive Knowledge Graph
+
+<div class="story-section">
+
+> *"The mindmap started as a text file rendered by mermaid. Now it's a live, interactive knowledge graph you can pan, zoom, and explore — fetched in real-time from the repository, depth-filtered by configuration, and themed to match your viewer. The mind became visible."*
+
+**Date**: 2026-03-15 | **Category**: 🧠 🎨 ⚙️
+
+Three-phase evolution: (1) Static mermaid rendering — mindmap visible but not interactive. (2) Custom interactive mermaid — 400 lines of hand-built pan/zoom/click/pinch handlers with SVG rect overlays for node highlighting. Fragile, no animations, no drag-and-drop. (3) MindElixir v5.9.3 — dedicated mind mapping library replaced all custom code with 50 lines of configuration. Built-in pan, zoom, drag, node selection with smooth animations. Added depth filtering (JS port of `mindmap_filter.py`) with Normal/Full toggle and 4-theme sync. Deployed in three locations: I5 standalone interface with theme dropdown, K2.0 publication inline embed, and viewer live webcard. All fetch `mind_memory.md` from GitHub in real-time, apply `depth_config.json` filtering, convert mermaid indented text to MindElixir `{topic, id, children}` JSON tree.
+
+[**Validated**]({{ '/publications/success-stories/story-25/' | relative_url }})
+
+</div>
+
+---
+
+<a id="story-24"></a>
+### 24 - The Toggle: Restructuring Knowledge with a Safety Net
+
+<div class="story-section">
+
+> *"852 files moved, 158 paths remapped, zero breakage. The toggle strategy turned a risky repo restructure into a validated, reversible operation."*
+
+**Date**: 2026-03-10 | **Category**: 🏗️ ⚙️
+
+The knowledge repo had 15 directories at root level competing for attention. The toggle strategy: build migration script on core, merge to main, drop on a satellite, validate, then apply to core. Self-contained `knowledge_migrate.py` detected legacy indicators (version tags, flat structure, scripts at root), restructured into `knowledge/` subdivisions (engine, methodology, data, web, state), and remapped all paths. Satellite-first validation caught issues before production. Core/satellite version juggling eliminated.
+
+[**Validated**]({{ '/publications/success-stories/story-24/' | relative_url }})
+
+</div>
+
+---
+
+<a id="story-23"></a>
+### 23 - Knowledge v2.0: From Questionnaire to Living Engineering Platform
+
+<div class="story-section">
+
+> *"The knowledge system started as a simple validation quiz. Now it manages GitHub Project boards, creates and links issues, persists everything locally when GitHub is down, shows task progression in real-time, and does it all without ever blocking the developer's flow."*
+
+**Date**: 2026-03-08 | **Category**: 🚀 ⚙️ 🏗️
+
+Knowledge v2.0 evolved from a session questionnaire into a complete engineering platform in a single intensive day. Five major capabilities emerged: GitHub Project board integration as a non-blocking precondition at execution launch (not during menu validation), local persistence for all GitHub operations, a task progression viewer as the primary visual in Task Workflow, a modular session viewer with knowledge grids, and landscape-native standalone interfaces. 30+ PRs merged, each building on the last. Core principle validated: *external system failures must never block local workflow*.
+
+[**Validated**]({{ '/publications/success-stories/story-23/' | relative_url }})
+
+</div>
+
+---
 
 <a id="story-22"></a>
 ### 22 - Visual Documentation Engine: From Video to Evidence in Seconds

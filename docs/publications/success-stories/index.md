@@ -21,6 +21,9 @@ keywords: "success, stories, validation, recall, harvest, recovery, bootstrap"
 |---|---|
 | [Abstract](#abstract) | Living validation hub overview |
 | [Stories](#stories) | All stories, newest first |
+| &nbsp;&nbsp;[26 - One Viewer to Rule Them All](#story-26) | Single-file documentation engine — 3 panels, 4 themes, PDF/DOCX export, zero build step |
+| &nbsp;&nbsp;[25 - Live Mindmap Memory](#story-25) | From static mermaid diagram to interactive MindElixir knowledge graph with depth filtering and theme sync |
+| &nbsp;&nbsp;[24 - The Toggle](#story-24) | Restructuring Knowledge with a safety net — 852 files moved, zero breakage |
 | &nbsp;&nbsp;[23 - Knowledge v2.0 Platform](#story-23) | From questionnaire to living engineering platform — GitHub Project, persistence, viewers |
 | &nbsp;&nbsp;[22 - Visual Documentation Engine](#story-22) | From video to evidence in seconds — automated extraction with computer vision |
 | &nbsp;&nbsp;[21 - Task Workflow State Machine](#story-21) | Self-verifying protocol engineering — the system found its own bugs |
@@ -54,6 +57,87 @@ Individual publications explain *what* the system does. This publication shows *
 ## Stories
 
 *Newest first.*
+
+<a id="story-26"></a>
+### 26 - One Viewer to Rule Them All: A Single-File Documentation Engine
+
+<div class="story-section">
+
+> *"One HTML file. No build step. No framework. No server. Push markdown to GitHub, it renders with themes, exports to PDF and DOCX, routes across three panels, and serves a live interactive mindmap."*
+
+**Date**: 2026-03-15 | **Category**: 🏗️ 🎨 📄
+
+A single `index.html` file became a complete documentation platform — reproducing the key features of 183KB Jekyll layouts without any build step. Three-panel layout with draggable dividers, 4-theme CSS variable system with localStorage persistence, PDF/DOCX export via CSS Paged Media, markdown rendering with front matter parsing, Liquid template resolution, mermaid diagrams, and live MindElixir knowledge graphs. Interface routing handles cross-panel navigation without full page reloads. 25+ publications and 5 interfaces served from zero infrastructure — just static file hosting.
+
+<div class="story-row">
+<div class="story-row-left">
+
+[**Validated**]({{ '/publications/success-stories/story-26/' | relative_url }})
+
+</div>
+<div class="story-row-right">
+
+Autosuffisant (#1), Autonome (#2), Intuitif (#3), Concis (#4), Adaptable (#5)
+
+</div>
+</div>
+</div>
+
+---
+
+<a id="story-25"></a>
+### 25 - Live Mindmap Memory: From Static Diagram to Interactive Knowledge Graph
+
+<div class="story-section">
+
+> *"The mindmap started as a text file rendered by mermaid. Now it's a live, interactive knowledge graph you can pan, zoom, and explore — fetched in real-time from the repository, depth-filtered by configuration, and themed to match your viewer."*
+
+**Date**: 2026-03-15 | **Category**: 🧠 🎨 ⚙️
+
+The K_MIND mindmap evolved through three phases: static mermaid rendering, custom interactive mermaid with 400 lines of hand-built pan/zoom/click handlers, and finally MindElixir v5.9.3 — a dedicated mind mapping library that replaced all custom code with 50 lines of configuration. Added depth filtering (JS port of `mindmap_filter.py`) with Normal/Full toggle, and 4-theme sync matching the viewer's Cayman/Midnight/Daltonism Light/Dark themes. Deployed in three locations: I5 standalone interface, K2.0 publication inline embed, and viewer webcard.
+
+<div class="story-row">
+<div class="story-row-left">
+
+[**Validated**]({{ '/publications/success-stories/story-25/' | relative_url }})
+
+</div>
+<div class="story-row-right">
+
+Autosuffisant (#1), Intuitif (#3), Adaptable (#5), Intégré (#13)
+
+</div>
+</div>
+</div>
+
+---
+
+<a id="story-24"></a>
+### 24 - The Toggle: Restructuring Knowledge with a Safety Net
+
+<div class="story-section">
+
+> *"852 files moved, 158 paths remapped, zero breakage. The toggle strategy turned a risky repo restructure into a validated, reversible operation."*
+
+**Date**: 2026-03-10 | **Category**: 🏗️ ⚙️
+
+Instead of restructuring the core repo live, a toggle strategy was used: build the migration script on core, merge to main, drop on a satellite, validate, then apply to core with confidence. The self-contained `knowledge_migrate.py` script detected legacy indicators, restructured into `knowledge/` subdivisions (engine, methodology, data, web, state), and remapped all paths. Satellite-first validation caught issues before they reached production.
+
+<div class="story-row">
+<div class="story-row-left">
+
+[**Validated**]({{ '/publications/success-stories/story-24/' | relative_url }})
+
+</div>
+<div class="story-row-right">
+
+Autosuffisant (#1), Autonome (#2), Adaptable (#5)
+
+</div>
+</div>
+</div>
+
+---
 
 <a id="story-23"></a>
 ### 23 - Knowledge v2.0: From Questionnaire to Living Engineering Platform

@@ -21,6 +21,10 @@ keywords: "succès, histoires, validation, rappel, récolte, récupération, boo
 | [Résumé](#résumé) | Hub vivant de validation |
 | [Format des histoires](#format-des-histoires) | Structure standard de chaque histoire |
 | [Histoires](#histoires) | Toutes les histoires, plus récentes en premier |
+| &nbsp;&nbsp;[26 - Un seul visualiseur pour tous](#story-26) | Moteur de documentation mono-fichier — 3 panneaux, 4 thèmes, zéro compilation |
+| &nbsp;&nbsp;[25 - Mémoire mindmap vivante](#story-25) | Du mermaid statique au graphe MindElixir interactif |
+| &nbsp;&nbsp;[24 - Le Toggle](#story-24) | Restructuration de Knowledge avec filet de sécurité — 852 fichiers, zéro bris |
+| &nbsp;&nbsp;[23 - Knowledge v2.0](#story-23) | Du questionnaire à une plateforme d'ingénierie vivante |
 | &nbsp;&nbsp;[22 - Moteur de documentation visuelle](#story-22) | De la vidéo aux évidences en quelques secondes |
 | &nbsp;&nbsp;[21 - Machine à états du flux de tâches](#story-21) | Ingénierie de protocole auto-vérifiante |
 | &nbsp;&nbsp;[19 - Une demande, trois interfaces](#story-19) | 1 demande → 3 publications créées proactivement |
@@ -107,6 +111,74 @@ Chaque histoire inclut une section **Temps de livraison** avec un diagramme circ
 ## Histoires
 
 *Plus récentes en premier.*
+
+<a id="story-26"></a>
+### 26 - Un seul visualiseur pour tous : Un moteur de documentation mono-fichier
+
+<div class="story-section">
+
+> *« Un seul fichier HTML. Aucune étape de compilation. Aucun framework. Aucun serveur. Poussez du markdown sur GitHub, il se rend avec des thèmes, s'exporte en PDF et DOCX, navigue entre trois panneaux, et sert un mindmap interactif vivant. Toute la plateforme documentaire est un seul `index.html`. »*
+
+**Date** : 2026-03-15 | **Catégorie** : 🏗️ 🎨 📄
+
+Un seul `index.html` est devenu un moteur documentaire complet reproduisant les fonctionnalités clés de 183 Ko de mises en page Jekyll sans aucune compilation. Disposition 3 panneaux avec diviseurs déplaçables (14px bureau, 8px mobile), système de 4 thèmes CSS (Cayman, Midnight, Daltonisme clair/sombre) avec persistance localStorage, export PDF/DOCX via CSS Paged Media, rendu markdown avec analyse du front matter YAML, résolution Liquid, rendu mermaid, et mindmaps interactifs MindElixir vivants. Le routage d'interfaces gère la navigation inter-panneaux sans rechargement. BroadcastChannel propage l'orientation. 25+ publications et 5 interfaces servies depuis l'hébergement statique avec zéro infrastructure.
+
+[**Validé**]({{ '/fr/publications/success-stories/story-26/' | relative_url }})
+
+</div>
+
+---
+
+<a id="story-25"></a>
+### 25 - Mémoire mindmap vivante : Du diagramme statique au graphe de connaissances interactif
+
+<div class="story-section">
+
+> *« Le mindmap a commencé comme un fichier texte rendu par mermaid. Maintenant c'est un graphe de connaissances vivant et interactif qu'on peut déplacer, zoomer et explorer — récupéré en temps réel du dépôt, filtré par profondeur selon la configuration, et thématisé pour correspondre au visualiseur. L'esprit est devenu visible. »*
+
+**Date** : 2026-03-15 | **Catégorie** : 🧠 🎨 ⚙️
+
+Évolution en trois phases : (1) Rendu mermaid statique — mindmap visible mais non interactif. (2) Mermaid interactif personnalisé — 400 lignes de gestionnaires pan/zoom/clic/pincement construits à la main avec superpositions SVG rect pour le surlignage de nœuds. Fragile, sans animations, sans glisser-déposer. (3) MindElixir v5.9.3 — bibliothèque dédiée au mind mapping remplaçant tout le code personnalisé par 50 lignes de configuration. Pan, zoom, glisser, sélection de nœuds intégrés avec animations fluides. Ajout du filtrage de profondeur (portage JS de `mindmap_filter.py`) avec bascule Normal/Complet et synchronisation de 4 thèmes. Déployé en trois endroits : interface I5 autonome avec menu déroulant de thèmes, embarquement en ligne dans la publication K2.0, et webcard vivante du visualiseur. Tous récupèrent `mind_memory.md` depuis GitHub en temps réel, appliquent le filtrage `depth_config.json`, convertissent le texte indenté mermaid en arbre JSON MindElixir `{topic, id, children}`.
+
+[**Validé**]({{ '/fr/publications/success-stories/story-25/' | relative_url }})
+
+</div>
+
+---
+
+<a id="story-24"></a>
+### 24 - Le Toggle : Restructuration de Knowledge avec filet de sécurité
+
+<div class="story-section">
+
+> *« 852 fichiers déplacés, 158 chemins recartographiés, zéro bris. La stratégie toggle a transformé une restructuration risquée du dépôt en une opération validée et réversible. »*
+
+**Date** : 2026-03-10 | **Catégorie** : 🏗️ ⚙️
+
+Le dépôt knowledge avait 15 répertoires au niveau racine en compétition pour l'attention. La stratégie toggle : construire le script de migration sur core, fusionner vers main, déposer sur un satellite, valider, puis appliquer au core avec confiance. Le script `knowledge_migrate.py` auto-contenu détecte les indicateurs hérités (tags de version, structure plate, scripts à la racine), restructure en subdivisions `knowledge/` (moteur, méthodologie, données, web, état), et recartographie tous les chemins. La validation satellite-en-premier a capturé les problèmes avant la production. Le jonglage de versions core/satellite éliminé.
+
+[**Validé**]({{ '/fr/publications/success-stories/story-24/' | relative_url }})
+
+</div>
+
+---
+
+<a id="story-23"></a>
+### 23 - Knowledge v2.0 : Du questionnaire à une plateforme d'ingénierie vivante
+
+<div class="story-section">
+
+> *« Le système knowledge a commencé comme un simple quiz de validation. Maintenant il gère les tableaux GitHub Project, crée et lie les issues, persiste tout localement quand GitHub est indisponible, affiche la progression des tâches en temps réel, et fait tout ça sans jamais bloquer le flux du développeur. »*
+
+**Date** : 2026-03-08 | **Catégorie** : 🚀 ⚙️ 🏗️
+
+Knowledge v2.0 a évolué d'un questionnaire de session à une plateforme d'ingénierie complète en une seule journée intense. Cinq capacités majeures ont émergé : intégration GitHub Project comme précondition non-bloquante au lancement de l'exécution (pas pendant la validation du menu), persistance locale pour toutes les opérations GitHub, visualiseur de progression de tâches, visualiseur de session modulaire avec grilles knowledge, et interfaces autonomes en mode paysage. 30+ PR fusionnés. Principe validé : *les défaillances de systèmes externes ne doivent jamais bloquer le flux de travail local*.
+
+[**Validé**]({{ '/fr/publications/success-stories/story-23/' | relative_url }})
+
+</div>
+
+---
 
 <a id="story-22"></a>
 ### 22 - Moteur de documentation visuelle : De la vidéo aux évidences en quelques secondes
