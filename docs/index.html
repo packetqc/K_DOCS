@@ -663,6 +663,23 @@
       { group: 'Success Stories', name: 'Story #24 — The Toggle', path: 'publications/success-stories/story-24/index.md', path_fr: 'fr/publications/success-stories/story-24/index.md' },
       { group: 'Success Stories', name: 'Story #25 — Live Mindmap Memory', path: 'publications/success-stories/story-25/index.md', path_fr: 'fr/publications/success-stories/story-25/index.md' },
       { group: 'Success Stories', name: 'Story #26 — One Viewer to Rule Them All', path: 'publications/success-stories/story-26/index.md', path_fr: 'fr/publications/success-stories/story-26/index.md' },
+      // --- Methodologies (symlinked from Knowledge modules via docs/methodologies/) ---
+      { group: 'Methodologies · K_DOCS', name: 'Documentation Generation', path: 'methodologies/K_DOCS/documentation-generation.md' },
+      { group: 'Methodologies · K_DOCS', name: 'Documentation Audience', path: 'methodologies/K_DOCS/documentation-audience.md' },
+      { group: 'Methodologies · K_DOCS', name: 'Interactive Documentation', path: 'methodologies/K_DOCS/interactive-documentation.md' },
+      { group: 'Methodologies · K_DOCS', name: 'Web Page Visualization', path: 'methodologies/K_DOCS/web-page-visualization.md' },
+      { group: 'Methodologies · K_DOCS', name: 'Web Pagination & Export', path: 'methodologies/K_DOCS/web-pagination-export.md' },
+      { group: 'Methodologies · K_DOCS', name: 'Web Production Pipeline', path: 'methodologies/K_DOCS/web-production-pipeline.md' },
+      { group: 'Methodologies · K_DOCS', name: 'Webcard Generation', path: 'methodologies/K_DOCS/webcard-generation.md' },
+      { group: 'Methodologies · K_MIND', name: 'Import System', path: 'methodologies/K_MIND/methodology-import-system.md' },
+      { group: 'Methodologies · K_GITHUB', name: 'GitHub Project Integration', path: 'methodologies/K_GITHUB/github-project-integration.md' },
+      { group: 'Methodologies · K_GITHUB', name: 'Board Item Alias', path: 'methodologies/K_GITHUB/github-board-item-alias.md' },
+      { group: 'Methodologies · K_PROJECTS', name: 'Project Create', path: 'methodologies/K_PROJECTS/project-create.md' },
+      { group: 'Methodologies · K_PROJECTS', name: 'Project Management', path: 'methodologies/K_PROJECTS/project-management.md' },
+      { group: 'Methodologies · K_VALIDATION', name: 'Session Protocol', path: 'methodologies/K_VALIDATION/session-protocol.md' },
+      { group: 'Methodologies · K_VALIDATION', name: 'Task Workflow', path: 'methodologies/K_VALIDATION/task-workflow.md' },
+      { group: 'Methodologies · K_VALIDATION', name: 'Checkpoint/Resume', path: 'methodologies/K_VALIDATION/checkpoint-resume.md' },
+      { group: 'Methodologies · K_VALIDATION', name: 'Metrics Compilation', path: 'methodologies/K_VALIDATION/metrics-compilation.md' },
     ];
 
     // ===== Theme management =====
@@ -1006,11 +1023,14 @@
       var params = new URLSearchParams(window.location.search);
       var docParam = params.get('doc');
       var langParam = params.get('lang');
+      var directDoc = null;
       if (docParam) {
         var idx = DOCS.findIndex(function(d) { return d.path === docParam || d.path_fr === docParam; });
         if (idx >= 0) {
           select.value = idx;
           if (DOCS[idx].path_fr === docParam) currentLang = 'fr';
+        } else {
+          directDoc = docParam; // unregistered path (e.g. raw GitHub URL) — load directly
         }
       }
       if (langParam === 'fr') currentLang = 'fr';
@@ -1030,7 +1050,7 @@
       });
 
       // Load initial document
-      loadWithLang(parseInt(select.value), currentLang);
+      if (directDoc) { loadDocument(directDoc); } else { loadWithLang(parseInt(select.value), currentLang); }
     })();
 
     // ===== Front matter parser =====

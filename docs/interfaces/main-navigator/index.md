@@ -268,15 +268,23 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
       g_publications: 'Publications', g_project: 'Project', g_live_session: 'Live Session', g_live_network: 'Live Network',
       methodologies: 'Methodologies',
-      m_kdocs: 'K_DOCS', m_kmind: 'K_MIND', m_kgithub: 'K_GITHUB', m_kprojects: 'K_PROJECTS', m_kvalidation: 'K_VALIDATION',
-      m_doc_gen: 'Documentation Generation', m_audience: 'Documentation Audience',
-      m_interactive: 'Interactive Documentation', m_viz: 'Web Page Visualization',
-      m_pagination: 'Web Pagination & Export', m_pipeline: 'Web Production Pipeline',
-      m_webcard: 'Webcard Generation', m_import: 'Import System',
-      m_gh_integration: 'GitHub Project Integration', m_gh_alias: 'Board Item Alias',
-      m_proj_create: 'Project Create', m_proj_mgmt: 'Project Management',
-      m_session_proto: 'Session Protocol', m_task_wf: 'Task Workflow',
-      m_checkpoint: 'Checkpoint/Resume', m_metrics: 'Metrics Compilation',
+      m_k_docs: 'K_DOCS', m_k_github: 'K_GITHUB', m_k_mind: 'K_MIND', m_k_projects: 'K_PROJECTS', m_k_validation: 'K_VALIDATION',
+      m_documentation_audience: 'Documentation Audience',
+      m_documentation_generation: 'Documentation Generation',
+      m_interactive_documentation: 'Interactive Documentation',
+      m_web_page_visualization: 'Web Page Visualization',
+      m_web_pagination_export: 'Web Pagination & Export',
+      m_web_production_pipeline: 'Web Production Pipeline',
+      m_webcard_generation: 'Webcard Generation',
+      m_github_board_item_alias: 'Board Item Alias',
+      m_github_project_integration: 'GitHub Project Integration',
+      m_methodology_import_system: 'Import System',
+      m_project_create: 'Project Create',
+      m_project_management: 'Project Management',
+      m_checkpoint_resume: 'Checkpoint/Resume',
+      m_metrics_compilation: 'Metrics Compilation',
+      m_session_protocol: 'Session Protocol',
+      m_task_workflow: 'Task Workflow',
       hubs: 'Hubs', landing: 'Landing', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projects',
       profile: 'Profile', hub: 'Hub', resume: 'Resume', full: 'Full',
       summary: 'Summary',
@@ -304,15 +312,23 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
       g_publications: 'Publications', g_project: 'Projet', g_live_session: 'Session live', g_live_network: 'Réseau live',
       methodologies: 'Méthodologies',
-      m_kdocs: 'K_DOCS', m_kmind: 'K_MIND', m_kgithub: 'K_GITHUB', m_kprojects: 'K_PROJECTS', m_kvalidation: 'K_VALIDATION',
-      m_doc_gen: 'Génération documentaire', m_audience: 'Audience documentaire',
-      m_interactive: 'Documentation interactive', m_viz: 'Visualisation de pages web',
-      m_pagination: 'Pagination et export', m_pipeline: 'Pipeline de production web',
-      m_webcard: 'Génération de webcards', m_import: 'Système d\'import',
-      m_gh_integration: 'Intégration projets GitHub', m_gh_alias: 'Alias d\'items board',
-      m_proj_create: 'Création de projet', m_proj_mgmt: 'Gestion de projet',
-      m_session_proto: 'Protocole de session', m_task_wf: 'Flux de travail',
-      m_checkpoint: 'Checkpoint/Reprise', m_metrics: 'Compilation de métriques',
+      m_k_docs: 'K_DOCS', m_k_github: 'K_GITHUB', m_k_mind: 'K_MIND', m_k_projects: 'K_PROJECTS', m_k_validation: 'K_VALIDATION',
+      m_documentation_audience: 'Audience documentaire',
+      m_documentation_generation: 'Génération documentaire',
+      m_interactive_documentation: 'Documentation interactive',
+      m_web_page_visualization: 'Visualisation de pages web',
+      m_web_pagination_export: 'Pagination et export',
+      m_web_production_pipeline: 'Pipeline de production web',
+      m_webcard_generation: 'Génération de webcards',
+      m_github_board_item_alias: 'Alias d\'items board',
+      m_github_project_integration: 'Intégration projets GitHub',
+      m_methodology_import_system: 'Système d\'import',
+      m_project_create: 'Création de projet',
+      m_project_management: 'Gestion de projet',
+      m_checkpoint_resume: 'Checkpoint/Reprise',
+      m_metrics_compilation: 'Compilation de métriques',
+      m_session_protocol: 'Protocole de session',
+      m_task_workflow: 'Flux de travail',
       hubs: 'Hubs', landing: 'Accueil', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projets',
       profile: 'Profil', hub: 'Hub', resume: 'Résumé', full: 'Complet',
       summary: 'Résumé',
@@ -463,31 +479,31 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       { g: t.g_live_network, pub:LP+'/publications/live-knowledge-network/full/#pub-title', cmds:['beacon'] }
     ]},
     { id:'methodologies', title: t.methodologies, open:false, methods:[
-      { g: t.m_kdocs, items:[
-        {t: t.m_doc_gen,     p:'methodologies/K_DOCS/documentation-generation.md'},
-        {t: t.m_audience,    p:'methodologies/K_DOCS/documentation-audience.md'},
-        {t: t.m_interactive, p:'methodologies/K_DOCS/interactive-documentation.md'},
-        {t: t.m_viz,         p:'methodologies/K_DOCS/web-page-visualization.md'},
-        {t: t.m_pagination,  p:'methodologies/K_DOCS/web-pagination-export.md'},
-        {t: t.m_pipeline,    p:'methodologies/K_DOCS/web-production-pipeline.md'},
-        {t: t.m_webcard,     p:'methodologies/K_DOCS/webcard-generation.md'}
+      { g: t.m_k_docs, items:[
+        {t: t.m_documentation_audience, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/documentation-audience.md'},
+        {t: t.m_documentation_generation, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/documentation-generation.md'},
+        {t: t.m_interactive_documentation, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/interactive-documentation.md'},
+        {t: t.m_web_page_visualization, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-page-visualization.md'},
+        {t: t.m_web_pagination_export, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-pagination-export.md'},
+        {t: t.m_web_production_pipeline, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-production-pipeline.md'},
+        {t: t.m_webcard_generation, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/webcard-generation.md'}
       ]},
-      { g: t.m_kmind, items:[
-        {t: t.m_import, p:'methodologies/K_MIND/methodology-import-system.md'}
+      { g: t.m_k_github, items:[
+        {t: t.m_github_board_item_alias, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/methodology/github-board-item-alias.md'},
+        {t: t.m_github_project_integration, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/methodology/github-project-integration.md'}
       ]},
-      { g: t.m_kgithub, items:[
-        {t: t.m_gh_integration, p:'methodologies/K_GITHUB/github-project-integration.md'},
-        {t: t.m_gh_alias,       p:'methodologies/K_GITHUB/github-board-item-alias.md'}
+      { g: t.m_k_mind, items:[
+        {t: t.m_methodology_import_system, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/methodology/methodology-import-system.md'}
       ]},
-      { g: t.m_kprojects, items:[
-        {t: t.m_proj_create, p:'methodologies/K_PROJECTS/project-create.md'},
-        {t: t.m_proj_mgmt,   p:'methodologies/K_PROJECTS/project-management.md'}
+      { g: t.m_k_projects, items:[
+        {t: t.m_project_create, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-create.md'},
+        {t: t.m_project_management, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-management.md'}
       ]},
-      { g: t.m_kvalidation, items:[
-        {t: t.m_session_proto, p:'methodologies/K_VALIDATION/session-protocol.md'},
-        {t: t.m_task_wf,       p:'methodologies/K_VALIDATION/task-workflow.md'},
-        {t: t.m_checkpoint,    p:'methodologies/K_VALIDATION/checkpoint-resume.md'},
-        {t: t.m_metrics,       p:'methodologies/K_VALIDATION/metrics-compilation.md'}
+      { g: t.m_k_validation, items:[
+        {t: t.m_checkpoint_resume, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/checkpoint-resume.md'},
+        {t: t.m_metrics_compilation, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/metrics-compilation.md'},
+        {t: t.m_session_protocol, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/session-protocol.md'},
+        {t: t.m_task_workflow, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/task-workflow.md'}
       ]}
     ]},
     { id:'hubs', title: t.hubs, open:false, links:[
