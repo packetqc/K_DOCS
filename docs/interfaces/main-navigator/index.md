@@ -263,17 +263,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   cursor: pointer; opacity: 0.4;
   transition: opacity 0.15s, color 0.15s;
 }
-.iface-pub-btn:hover, .doc-btn:hover {
+.iface-pub-btn:hover {
   opacity: 1; color: var(--accent, #1d4ed8);
-}
-/* ═══ Documentation buttons — reuses .iface-row container ═══ */
-.doc-btn {
-  flex-shrink: 0; padding: 0.2rem 0.4rem;
-  font-size: 0.62rem; font-weight: 600; text-decoration: none;
-  color: var(--muted, #656d76); border-radius: 3px;
-  cursor: pointer; opacity: 0.4;
-  text-transform: uppercase; letter-spacing: 0.03em;
-  transition: opacity 0.15s, color 0.15s;
 }
 
 /* ═══ Dark theme overrides for widgets ═══ */
@@ -570,31 +561,14 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           });
         }
 
-        /* ── Documentation: flat rows with summary + full buttons ── */
+        /* ── Documentation: flat links like essentials ── */
         else if (section === 'documentation') {
-          var dSumTip = LANG === 'fr' ? 'Résumé' : 'Summary';
-          var dFullTip = LANG === 'fr' ? 'Complet' : 'Full';
           var allItems = [];
           (data.groups || []).forEach(function(g) { if (g.items) allItems = allItems.concat(g.items); });
           if (data.items) allItems = allItems.concat(data.items);
           allItems.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
           allItems.forEach(function(item) {
-            var sumUrl = vru(BASE + LP + '/publications/' + item.slug + '/');
-            if (!item.has_full) {
-              body.appendChild(makeLink(label(item), sumUrl, 'content-frame'));
-            } else {
-              var row = document.createElement('div'); row.className = 'iface-row';
-              row.appendChild(makeLink(label(item), sumUrl, 'content-frame'));
-              var sb = document.createElement('a'); sb.className = 'doc-btn';
-              sb.textContent = 'S'; sb.title = dSumTip;
-              sb.href = sumUrl;
-              sb.target = 'content-frame'; row.appendChild(sb);
-              var fb = document.createElement('a'); fb.className = 'doc-btn';
-              fb.textContent = 'F'; fb.title = dFullTip;
-              fb.href = vru(BASE + LP + '/publications/' + item.slug + '/full/');
-              fb.target = 'content-frame'; row.appendChild(fb);
-              body.appendChild(row);
-            }
+            body.appendChild(makeLink(label(item), vru(BASE + LP + '/publications/' + item.slug + '/'), 'content-frame'));
           });
         }
 
