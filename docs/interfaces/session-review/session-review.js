@@ -20,7 +20,7 @@
       sessionsAvailable: 'sessions available',
       selectPrompt: 'Select a session from the dropdown above to view its full report.',
       prCount: 'Pull Requests',
-      issueCount: 'Issues',
+      taskCount: 'Tasks',
       lessonCount: 'Lessons',
       noPRs: 'No pull requests recorded.',
       noLessons: 'No lessons recorded for this session.',
@@ -34,7 +34,7 @@
       source: 'Source file',
       srcPR: 'PRs',
       srcNotes: 'Notes',
-      srcIssue: 'Issue',
+      srcTask: 'Task',
       noCompilation: 'This session predates the compilation feature (v50). Only PR delivery data is available \u2014 no detailed metrics or time blocks.',
       prOnly: 'This session was reconstructed from Pull Request data. No session notes or GitHub issue were created at the time.',
       generated: 'Generated from',
@@ -84,24 +84,24 @@
       stImplementation: 'Implementation', stTesting: 'Testing', stValidation: 'Validation',
       stReview: 'Review', stDeployment: 'Deployment', stOperations: 'Operations',
       stImprovement: 'Improvement',
-      issueCol: 'Issue',
+      taskCol: 'Task',
       typeCol: 'Type',
       titleCol: 'Title',
-      issueTypeSession: 'Session',
-      issueTypeRelated: 'Related',
+      taskTypeSession: 'Session',
+      taskTypeRelated: 'Related',
       sessionCol: 'Session',
       openSession: 'Open',
       openTab: 'New tab',
       scopeTitle: 'Session Scope',
       scopeChildren: 'Child Sessions',
-      scopeRelated: 'Related Issues'
+      scopeRelated: 'Related Tasks'
     },
     fr: {
       selectSession: '\u2014 Choisir une session \u2014',
       sessionsAvailable: 'sessions disponibles',
       selectPrompt: 'S\u00e9lectionnez une session ci-dessus pour afficher son rapport complet.',
       prCount: 'Pull Requests',
-      issueCount: 'Issues',
+      taskCount: 'Tasks',
       lessonCount: 'Le\u00e7ons',
       noPRs: 'Aucun pull request enregistr\u00e9.',
       noLessons: 'Aucune le\u00e7on enregistr\u00e9e pour cette session.',
@@ -115,7 +115,7 @@
       source: 'Fichier source',
       srcPR: 'PRs',
       srcNotes: 'Notes',
-      srcIssue: 'Issue',
+      srcTask: 'Task',
       noCompilation: 'Cette session pr\u00e9c\u00e8de la fonctionnalit\u00e9 de compilation (v50). Seules les donn\u00e9es de livraison PR sont disponibles \u2014 pas de m\u00e9triques ni de blocs temporels d\u00e9taill\u00e9s.',
       prOnly: 'Cette session a \u00e9t\u00e9 reconstruite \u00e0 partir des donn\u00e9es de Pull Requests. Aucune note de session ni issue GitHub n\u2019a \u00e9t\u00e9 cr\u00e9\u00e9e \u00e0 l\u2019\u00e9poque.',
       generated: 'G\u00e9n\u00e9r\u00e9 \u00e0 partir de',
@@ -165,17 +165,17 @@
       stImplementation: 'Implémentation', stTesting: 'Test', stValidation: 'Validation',
       stReview: 'Révision', stDeployment: 'Déploiement', stOperations: 'Opérations',
       stImprovement: 'Amélioration',
-      issueCol: 'Issue',
+      taskCol: 'Task',
       typeCol: 'Type',
       titleCol: 'Titre',
-      issueTypeSession: 'Session',
-      issueTypeRelated: 'Liée',
+      taskTypeSession: 'Session',
+      taskTypeRelated: 'Liée',
       sessionCol: 'Session',
       openSession: 'Ouvrir',
       openTab: 'Nouvel onglet',
       scopeTitle: 'Portée de la session',
       scopeChildren: 'Sessions enfants',
-      scopeRelated: 'Issues liées'
+      scopeRelated: 'Tâches liées'
     }
   };
   var t = L[lang] || L.en;
@@ -231,7 +231,7 @@
       // URL parameter ?session=N → auto-select session
       var urlParams = new URLSearchParams(window.location.search);
       var urlSession = urlParams.get('session');
-      var autoId = urlSession ? 'issue-' + urlSession : null;
+      var autoId = urlSession ? 'task-' + urlSession : null;
       if (autoId && selectEl.querySelector('option[value="' + autoId + '"]')) {
         selectEl.value = autoId;
         showSession(autoId);
@@ -292,14 +292,14 @@
         if (rtInfo) suffix += rtInfo.emoji;
         if (s.pr_count > 0) suffix += '\ud83d\udce6';
         if (s.has_notes) suffix += '\ud83d\udccb';
-        if (s.has_issue) suffix += '\ud83c\udfab';
+        if (s.has_task) suffix += '\ud83c\udfab';
         var timePrefix = effectiveTime(s) ? formatTime(effectiveTime(s)) + ' ' : '';
         var label = s.title || t.noTitle;
         if (label.length > 50) label = label.substring(0, 47) + '...';
-        var issueTag = s.issue_number ? '#' + s.issue_number + ' ' : '';
+        var taskTag = s.task_number ? '#' + s.task_number + ' ' : '';
         // Session kind emoji: 💬 original, 🔁 continuation (between #issue and title)
         var kindEmoji = s.session_kind === 'continuation' ? '\ud83d\udd01 ' : '\ud83d\udcac ';
-        opt.textContent = timePrefix + issueTag + kindEmoji + label + (suffix ? ' ' + suffix : '');
+        opt.textContent = timePrefix + taskTag + kindEmoji + label + (suffix ? ' ' + suffix : '');
         group.appendChild(opt);
       });
       selectEl.appendChild(group);
@@ -314,17 +314,17 @@
     return null;
   }
 
-  function issueLabel(num) {
-    var map = (sessionsData && sessionsData.issue_labels) || {};
+  function taskLabel(num) {
+    var map = (sessionsData && sessionsData.task_labels) || {};
     var info = map[String(num)];
     return info ? info.label : null;
   }
 
-  function issueLabelBadge(num, fallback) {
-    var lbl = issueLabel(num);
-    if (!lbl) return '<span class="sv-issue-type sv-issue-type-related">' + esc(fallback) + '</span>';
-    var cls = 'sv-issue-type sv-issue-label-' + lbl.toLowerCase().replace(/[^a-z]/g, '');
-    return '<span class="sv-issue-type ' + cls + '">' + esc(lbl) + '</span>';
+  function taskLabelBadge(num, fallback) {
+    var lbl = taskLabel(num);
+    if (!lbl) return '<span class="sv-task-type sv-task-type-related">' + esc(fallback) + '</span>';
+    var cls = 'sv-task-type sv-task-label-' + lbl.toLowerCase().replace(/[^a-z]/g, '');
+    return '<span class="sv-task-type ' + cls + '">' + esc(lbl) + '</span>';
   }
 
   function esc(str) {
@@ -508,8 +508,8 @@
       });
     }
 
-    // --- Session Scope pie chart: Issue type breakdown across all related/child issues ---
-    // Classify all related_issues by their secondary label (bug, enhancement, feature, etc.)
+    // --- Session Scope pie chart: Issue type breakdown across all related/child tasks ---
+    // Classify all related_tasks by their secondary label (bug, enhancement, feature, etc.)
     var scopeByType = {};
     var scopeColors = {
       'bug': { bg: 'rgba(239,68,68,0.7)', border: '#ef4444' },
@@ -528,8 +528,8 @@
       'DESIGN': 'Design',
       'documentation': 'Documentation'
     };
-    (s.related_issues || []).forEach(function(ri) {
-      if (ri.number === s.issue_number) return;
+    (s.related_tasks || []).forEach(function(ri) {
+      if (ri.number === s.task_number) return;
       var labels = ri.labels || [];
       // Find the type label (skip SESSION which is just a marker)
       var typeLabel = null;
@@ -540,7 +540,7 @@
       if (!scopeByType[typeLabel]) scopeByType[typeLabel] = { count: 0, lines: 0 };
       scopeByType[typeLabel].count++;
       // Try to get lines from session data
-      var cs = findSession('issue-' + ri.number);
+      var cs = findSession('task-' + ri.number);
       if (cs) scopeByType[typeLabel].lines += (cs.total_additions || 0) + (cs.total_deletions || 0);
     });
     var scopeTypeKeys = Object.keys(scopeByType);
@@ -586,7 +586,7 @@
             },
             title: {
               display: true,
-              text: t.scopeTitle + ' (' + scopeTotal + ' issues)',
+              text: t.scopeTitle + ' (' + scopeTotal + ' tasks)',
               color: titleColorSc,
               font: { size: 14, weight: 'bold' }
             }
@@ -602,15 +602,15 @@
     if (s.prs && s.prs.length > 0) {
       s.prs.forEach(function(p) { mCommits += (p.commits || 0); mFiles += (p.changed_files || 0); });
     }
-    var mIssues = (s.issues && s.issues.length) || 0;
+    var mTasks = (s.related_tasks && s.related_tasks.length) || 0;
     var mLessons = (s.lessons && s.lessons.length) || 0;
-    var mTotal = mPrs + mCommits + mFiles + mIssues + mLessons;
+    var mTotal = mPrs + mCommits + mFiles + mTasks + mLessons;
     if (mTotal > 0) {
       var mLabels = [], mData = [], mBg = [], mBorder = [];
       if (mPrs > 0) { mLabels.push(t.prCount + ' (' + mPrs + ')'); mData.push(mPrs); mBg.push(chartColors.cats[0].bg); mBorder.push(chartColors.cats[0].border); }
       if (mCommits > 0) { mLabels.push(t.commits + ' (' + mCommits + ')'); mData.push(mCommits); mBg.push(chartColors.cats[3].bg); mBorder.push(chartColors.cats[3].border); }
       if (mFiles > 0) { mLabels.push(t.filesChanged + ' (' + mFiles + ')'); mData.push(mFiles); mBg.push(chartColors.cats[4].bg); mBorder.push(chartColors.cats[4].border); }
-      if (mIssues > 0) { mLabels.push(t.issueCount + ' (' + mIssues + ')'); mData.push(mIssues); mBg.push(chartColors.cats[1].bg); mBorder.push(chartColors.cats[1].border); }
+      if (mTasks > 0) { mLabels.push(t.taskCount + ' (' + mTasks + ')'); mData.push(mTasks); mBg.push(chartColors.cats[1].bg); mBorder.push(chartColors.cats[1].border); }
       if (mLessons > 0) { mLabels.push(t.lessonCount + ' (' + mLessons + ')'); mData.push(mLessons); mBg.push(chartColors.cats[2].bg); mBorder.push(chartColors.cats[2].border); }
       var metricsWrap = document.getElementById('sv-chart-metrics-wrap');
       metricsWrap.style.display = '';
@@ -826,12 +826,12 @@
       var title = esc(s.title || t.noTitle);
       if (title.length > 60) title = title.substring(0, 57) + '...';
       var date = s.date || '';
-      var issueTag = s.issue_number ? '#' + s.issue_number + ' ' : '';
+      var taskTag = s.task_number ? '#' + s.task_number + ' ' : '';
       var rtInfo = s.request_type ? reqTypeMap[s.request_type] : null;
       var rtEmoji = rtInfo ? rtInfo.emoji + ' ' : '';
 
       html += '<div class="sv-card" data-session-id="' + esc(s.id) + '">';
-      html += '<div class="sv-card-title">' + rtEmoji + issueTag + title + '</div>';
+      html += '<div class="sv-card-title">' + rtEmoji + taskTag + title + '</div>';
       html += '<div class="sv-card-meta">';
       html += '<span class="sv-badge sv-badge-type">' + esc(s.type || '') + '</span>';
       html += '<span>' + date + '</span>';
@@ -880,12 +880,12 @@
     var noticeEl = document.getElementById('sv-notice');
     var hasPRs = s.pr_count > 0;
     var hasNotes = s.has_notes;
-    var hasIssue = s.has_issue;
-    if (!hasNotes && !hasIssue) {
+    var hasTask = s.has_task;
+    if (!hasNotes && !hasTask) {
       noticeEl.className = 'sv-notice sv-notice-warn';
       noticeEl.innerHTML = '<strong>\u26a0\ufe0f</strong> ' + t.prOnly;
       noticeEl.style.display = '';
-    } else if (!hasNotes && hasIssue) {
+    } else if (!hasNotes && hasTask) {
       noticeEl.className = 'sv-notice sv-notice-info';
       noticeEl.innerHTML = '<strong>\u2139\ufe0f</strong> ' + t.noCompilation;
       noticeEl.style.display = '';
@@ -920,7 +920,7 @@
     var badges = '';
     if (hasPRs) badges += '<span class="sv-src-badge sv-src-pr">' + t.srcPR + '</span>';
     if (hasNotes) badges += '<span class="sv-src-badge sv-src-notes">' + t.srcNotes + '</span>';
-    if (hasIssue) badges += '<span class="sv-src-badge sv-src-issue">' + t.srcIssue + '</span>';
+    if (hasTask) badges += '<span class="sv-src-badge sv-src-task">' + t.srcTask + '</span>';
     badgesEl.innerHTML = badges;
 
     var sumEl = document.getElementById('sv-summary');
@@ -956,7 +956,7 @@
       { v: filesStr, l: t.filesChanged },
       { v: activeStr, l: t.activeTime },
       { v: calendarStr, l: t.calendarTime },
-      { v: (s.issues || []).length, l: t.issueCount },
+      { v: (s.related_tasks || []).length, l: t.taskCount },
       { v: (s.lessons || []).length, l: t.lessonCount }
     ].forEach(function(c) {
       var d = document.createElement('div'); d.className = 'sv-stat-card';
@@ -967,12 +967,12 @@
     // 2. Metrics — parent/child collapsible rows grouped by sub_type
     var mTotals = document.getElementById('sv-metrics-totals');
     var mBody = document.getElementById('sv-metrics-body');
-    var pc = effPrCount, ic = (s.issues||[]).length, lc = (s.lessons||[]).length;
+    var pc = effPrCount, ic = (s.related_tasks||[]).length, lc = (s.lessons||[]).length;
     var tl = totalLines, tf = effFiles, tc = effCommits;
     mTotals.innerHTML = '<strong>' + t.totals + ':</strong> ' + pc + ' PRs \u00b7 ' + tc + ' commits \u00b7 +' +
       effAdditions + ' \u2212' + effDeletions + ' lines \u00b7 ' + tf + ' files' +
       (s.lines_per_hour ? ' \u00b7 <em>' + s.lines_per_hour + ' ' + t.linesPerHour + '</em>' : '') +
-      (agg ? ' \u00b7 <em>' + (agg.children_count || 0) + ' child issues</em>' : '');
+      (agg ? ' \u00b7 <em>' + (agg.children_count || 0) + ' child tasks</em>' : '');
     mBody.innerHTML = '';
     // Sub-type labels and icons
     var subLabels = {
@@ -1092,7 +1092,7 @@
       }
     }
     var hasPrs = tcPrs.length > 0;
-    var hasAggComments = agg && agg.comments_by_issue && agg.comments_by_issue.length > 0;
+    var hasAggComments = agg && agg.comments_by_task && agg.comments_by_task.length > 0;
     if (hasComments || hasAggComments || hasPrs) {
       // Compute calendar time span — use aggregated times for root sessions, own times otherwise
       var tcFirstTime = (agg ? agg.first_activity_time : null) || s.first_pr_time || s.issue_created_at || effFirstTime;
@@ -1119,26 +1119,26 @@
       var sessionWindowEnd = null;
       var isScoped = false;
 
-      if (s.session_kind === 'continuation' && s.parent_issues && s.parent_issues.length > 0) {
+      if (s.session_kind === 'continuation' && s.parent_tasks && s.parent_tasks.length > 0) {
         // Find siblings (all children of the same parent) sorted by creation time
-        var parentNum = s.parent_issues[0];
+        var parentNum = s.parent_tasks[0];
         var parentSession = null;
         for (var pi = 0; pi < sessionsData.sessions.length; pi++) {
-          if (sessionsData.sessions[pi].issue_number === parentNum) { parentSession = sessionsData.sessions[pi]; break; }
+          if (sessionsData.sessions[pi].task_number === parentNum) { parentSession = sessionsData.sessions[pi]; break; }
         }
-        if (parentSession && parentSession.children_issues) {
+        if (parentSession && parentSession.children_tasks) {
           var siblings = [];
-          parentSession.children_issues.forEach(function(cNum) {
+          parentSession.children_tasks.forEach(function(cNum) {
             var cs = null;
             for (var ci = 0; ci < sessionsData.sessions.length; ci++) {
-              if (sessionsData.sessions[ci].issue_number === cNum) { cs = sessionsData.sessions[ci]; break; }
+              if (sessionsData.sessions[ci].task_number === cNum) { cs = sessionsData.sessions[ci]; break; }
             }
             if (cs) siblings.push(cs);
           });
           siblings.sort(function(a, b) { return (a.issue_created_at || '').localeCompare(b.issue_created_at || ''); });
           // Find this session's position and set window end to next sibling's start
           for (var si = 0; si < siblings.length; si++) {
-            if (siblings[si].issue_number === s.issue_number) {
+            if (siblings[si].task_number === s.task_number) {
               if (si + 1 < siblings.length) {
                 sessionWindowEnd = siblings[si + 1].issue_created_at;
               }
@@ -1152,9 +1152,9 @@
           var sourceMap = {}; // issue_number → {title, comments}
           allSources.forEach(function(src) {
             if (!src || !src.comments || src.comments.length === 0) return;
-            var num = src.issue_number;
+            var num = src.task_number;
             if (sourceMap[num]) return; // dedup
-            sourceMap[num] = { issue_number: num, issue_title: src.title || '', comments: [] };
+            sourceMap[num] = { task_number: num, task_title: src.title || '', comments: [] };
             src.comments.forEach(function(c) {
               var ct = c.created_at || '';
               if (ct >= sessionWindowStart && (!sessionWindowEnd || ct < sessionWindowEnd)) {
@@ -1170,8 +1170,8 @@
           });
           // Sort groups: session's own issue first, then by first comment time
           commentGroups.sort(function(a, b) {
-            if (a.issue_number === s.issue_number) return -1;
-            if (b.issue_number === s.issue_number) return 1;
+            if (a.task_number === s.task_number) return -1;
+            if (b.task_number === s.task_number) return 1;
             var aT = a.comments.length > 0 ? a.comments[0].created_at : '';
             var bT = b.comments.length > 0 ? b.comments[0].created_at : '';
             return aT.localeCompare(bT);
@@ -1194,12 +1194,12 @@
         // that fall within the session date (activities the session interacted with).
         if (hasAggComments) {
           var sessionDate = (s.issue_created_at || s.date || '').substring(0, 10);
-          agg.comments_by_issue.forEach(function(g) {
+          agg.comments_by_task.forEach(function(g) {
             // Always include the session's own issue fully
-            if (g.issue_number === s.issue_number) {
+            if (g.task_number === s.task_number) {
               commentGroups.push({
-                issue_number: g.issue_number,
-                issue_title: g.issue_title || '',
+                task_number: g.task_number,
+                task_title: g.task_title || '',
                 comments: g.comments
               });
               return;
@@ -1211,8 +1211,8 @@
             });
             if (scopedComments.length > 0) {
               commentGroups.push({
-                issue_number: g.issue_number,
-                issue_title: g.issue_title || '',
+                task_number: g.task_number,
+                task_title: g.task_title || '',
                 comments: scopedComments
               });
             }
@@ -1220,8 +1220,8 @@
         } else if (hasComments) {
           // Leaf session or no aggregation — use own comments only
           commentGroups = [{
-            issue_number: s.issue_number,
-            issue_title: s.title || '',
+            task_number: s.task_number,
+            task_title: s.title || '',
             comments: s.comments
           }];
         }
@@ -1255,7 +1255,7 @@
 
       var scopeLabel = isScoped ? ' \u00b7 \ud83d\udd2c ' + (lang === 'fr' ? 'Fen\u00eatre de session' : 'Session window') : '';
       tTotals.textContent = t.totals + ': ' + itemCount + ' ' + t.tasks +
-        (commentGroups.length > 1 ? ' \u00b7 ' + commentGroups.length + ' issues' : '') +
+        (commentGroups.length > 1 ? ' \u00b7 ' + commentGroups.length + ' tasks' : '') +
         ' \u00b7 ' + t.calendarTime + ': ' + calStart + '\u2014' + calEnd +
         (calDur != null ? ' (' + formatDuration(calDur) + ')' : '') +
         ' \u00b7 ' + block + scopeLabel;
@@ -1270,14 +1270,14 @@
         var totalInactiveMin = 0;
         var totalCalMin = 0;
         var globalRowIdx = 0;
-        var isMultiIssue = commentGroups.length > 1;
+        var isMultiTask = commentGroups.length > 1;
         // Track which PRs have been assigned to avoid counting a PR in multiple groups
         var assignedPrs = {};
 
         commentGroups.forEach(function(group, gIdx) {
           var groupComments = group.comments;
-          var issueNum = group.issue_number;
-          var issueTitle = group.issue_title || '';
+          var taskNum = group.task_number;
+          var taskTitle = group.task_title || '';
 
           // Compute group-level time span
           var gFirstTime = groupComments.length > 0 ? groupComments[0].created_at : null;
@@ -1286,17 +1286,17 @@
           var gGroupActiveMin = 0;
 
           // Issue header row (level 0) — always rendered for all sessions
-          var issueRowId = 'issue-' + gIdx;
+          var taskRowId = 'task-' + gIdx;
           var gStart = gFirstTime ? formatTime(gFirstTime) : '\u2014';
           var gEnd = gLastTime ? formatTime(gLastTime) : '\u2014';
-          var issueLnk = issueNum ? '<a href="https://github.com/packetqc/knowledge/issues/' + issueNum + '" target="_blank" style="text-decoration:none">#' + issueNum + '</a>' : '';
-          var truncTitle = issueTitle.length > 55 ? issueTitle.substring(0, 52) + '...' : issueTitle;
-          tbl += '<tr class="sv-row-parent sv-row-issue" data-issue="' + issueRowId + '" style="background:var(--code-bg, #f0f4ff);font-weight:bold;cursor:pointer">' +
+          var taskLnk = taskNum ? '<a href="https://github.com/packetqc/knowledge/issues/' + taskNum + '" target="_blank" style="text-decoration:none">#' + taskNum + '</a>' : '';
+          var truncTitle = taskTitle.length > 55 ? taskTitle.substring(0, 52) + '...' : taskTitle;
+          tbl += '<tr class="sv-row-parent sv-row-task" data-task="' + taskRowId + '" style="background:var(--code-bg, #f0f4ff);font-weight:bold;cursor:pointer">' +
                  '<td></td>' +
-                 '<td>' + (issueLnk ? issueLnk + ' ' : '') + '\ud83d\udccc ' + esc(truncTitle) + ' <span style="font-weight:normal;opacity:0.6">(' + groupComments.length + ')</span></td>' +
+                 '<td>' + (taskLnk ? taskLnk + ' ' : '') + '\ud83d\udccc ' + esc(truncTitle) + ' <span style="font-weight:normal;opacity:0.6">(' + groupComments.length + ')</span></td>' +
                  '<td>' + gStart + '</td>' +
                  '<td>' + gEnd + '</td>' +
-                 '<td class="sv-issue-active-' + gIdx + '"></td>' +
+                 '<td class="sv-task-active-' + gIdx + '"></td>' +
                  '<td></td>' +
                  '<td>' + formatDuration(gCalMin) + '</td>' +
                  '<td></td></tr>';
@@ -1336,7 +1336,7 @@
             } else if (i + 1 < groupComments.length) {
               endIso = groupComments[i + 1].created_at;
               estimated = true;
-            } else if (isMultiIssue) {
+            } else if (isMultiTask) {
               // Last comment in a multi-issue group: use group's last known time
               // (don't bleed global session time into this group's duration)
               endIso = gLastTime;
@@ -1405,10 +1405,10 @@
             var hasBody = c.body_lines && c.body_lines.length > 0;
             var rowClass = c.type === 'user' ? 'sv-row-user' : 'sv-row-bot';
             if (!isChild && hasBody) rowClass += ' sv-row-parent';
-            rowClass += ' sv-row-child sv-issue-child-' + gIdx;
+            rowClass += ' sv-row-child sv-task-child-' + gIdx;
             if (isChild) rowClass += ' sv-row-run-child';
             var html = '<tr class="' + rowClass + '" data-idx="' + rowId + '"' +
-                   ' data-issue="issue-' + gIdx + '"' +
+                   ' data-task="task-' + gIdx + '"' +
                    (isChild ? ' data-parent="' + parentRowId + '"' : '') +
                    ' style="padding-left:' + (isChild ? '1.2rem' : '0.5rem') + '">' +
                    '<td>' + (isChild ? '' : '<img src="' + avatarUrl + '" alt="' + avatarAlt + '" class="sv-avatar">') + '</td>' +
@@ -1423,7 +1423,7 @@
             if (hasBody && !isChild) {
               var bodyHtml = c.body_lines.map(function(line) { return esc(line); }).join('\n');
               html += '<tr class="sv-row-body" data-parent="' + rowId + '"' +
-                     ' data-issue="issue-' + gIdx + '">' +
+                     ' data-task="task-' + gIdx + '">' +
                      '<td></td><td colspan="7">' + bodyHtml + '</td></tr>';
             }
             return html;
@@ -1438,8 +1438,8 @@
                 var prStart = formatTime(pr.created_at);
                 var prEnd = formatTime(pr.merged_at);
                 var prDur = calcDuration(pr.created_at, pr.merged_at);
-                html += '<tr class="sv-row-child sv-row-pr sv-issue-child-' + gIdx + '"' +
-                       ' data-issue="issue-' + gIdx + '">' +
+                html += '<tr class="sv-row-child sv-row-pr sv-task-child-' + gIdx + '"' +
+                       ' data-task="task-' + gIdx + '">' +
                        '<td><svg class="sv-avatar" width="20" height="20" viewBox="0 0 16 16" style="vertical-align:middle;border-radius:50%;background:#8b5cf6;padding:2px;box-sizing:border-box" fill="#ffffff"><path fill-rule="evenodd" d="M5 3.254V3.25v.005a.75.75 0 110-.005v.004zm.45 1.9a2.25 2.25 0 10-1.95.218v5.256a2.25 2.25 0 101.5 0V7.123A5.735 5.735 0 009.25 9h1.378a2.251 2.251 0 100-1.5H9.25a4.25 4.25 0 01-3.8-2.346zM12.75 9a.75.75 0 100-1.5.75.75 0 000 1.5zm-8.5 4.5a.75.75 0 100-1.5.75.75 0 000 1.5z"></path></svg></td>' +
                        '<td>PR #' + pr.number + (pr.title ? ' \u2014 ' + esc(pr.title) : '') + '</td>' +
                        '<td>' + prStart + '</td>' +
@@ -1489,9 +1489,9 @@
               // Preview: first comment's preview
               var runPreview = getPreview(firstC);
               var rowClass = firstC.type === 'user' ? 'sv-row-user' : 'sv-row-bot';
-              rowClass += ' sv-row-parent sv-row-child sv-issue-child-' + gIdx + ' sv-row-run';
+              rowClass += ' sv-row-parent sv-row-child sv-task-child-' + gIdx + ' sv-row-run';
               tbl += '<tr class="' + rowClass + '" data-idx="' + groupRowId + '"' +
-                     ' data-issue="issue-' + gIdx + '"' +
+                     ' data-task="task-' + gIdx + '"' +
                      ' style="padding-left:0.5rem">' +
                      '<td><img src="' + avatarUrl + '" alt="' + avatarAlt + '" class="sv-avatar"></td>' +
                      '<td>' + esc(runPreview) + ' <span style="font-weight:normal;opacity:0.6">(' + run.indices.length + ')</span></td>' +
@@ -1514,7 +1514,7 @@
           // Fill in the group's active time in the issue header row
           (function(idx, activeMin) {
             setTimeout(function() {
-              var activeCell = tContent.querySelector('.sv-issue-active-' + idx);
+              var activeCell = tContent.querySelector('.sv-task-active-' + idx);
               if (activeCell) activeCell.textContent = formatDuration(activeMin);
             }, 0);
           })(gIdx, gGroupActiveMin);
@@ -1539,7 +1539,7 @@
         tContent.innerHTML = tbl;
 
         // --- Expand/collapse state persistence (localStorage) ---
-        var tcStateKey = 'sv-tc-state-' + (s.issue_number || s.id);
+        var tcStateKey = 'sv-tc-state-' + (s.task_number || s.id);
         function tcLoadState() {
           try { return JSON.parse(localStorage.getItem(tcStateKey)) || {}; } catch(e) { return {}; }
         }
@@ -1547,11 +1547,11 @@
           try { localStorage.setItem(tcStateKey, JSON.stringify(state)); } catch(e) {}
         }
 
-        function tcSetIssue(row, expand, state, save) {
-          var issueId = row.getAttribute('data-issue');
-          var gKey = issueId.replace('issue-', '');
+        function tcSetTask(row, expand, state, save) {
+          var taskId = row.getAttribute('data-task');
+          var gKey = taskId.replace('task-', '');
           if (expand) { row.classList.add('sv-expanded'); } else { row.classList.remove('sv-expanded'); }
-          tContent.querySelectorAll('.sv-issue-child-' + gKey).forEach(function(child) {
+          tContent.querySelectorAll('.sv-task-child-' + gKey).forEach(function(child) {
             if (expand) {
               // Skip run children and body rows — they are controlled by their parent run/comment
               if (child.classList.contains('sv-row-run-child') || child.classList.contains('sv-row-body')) return;
@@ -1601,15 +1601,15 @@
         }
 
         // Toggle handlers — issue rows
-        tContent.querySelectorAll('.sv-row-issue').forEach(function(row) {
+        tContent.querySelectorAll('.sv-row-task').forEach(function(row) {
           row.addEventListener('click', function() {
             var state = tcLoadState();
-            tcSetIssue(this, !this.classList.contains('sv-expanded'), state, true);
+            tcSetTask(this, !this.classList.contains('sv-expanded'), state, true);
           });
         });
 
         // Toggle handlers — comment rows (expand/collapse body + PRs)
-        tContent.querySelectorAll('.sv-row-parent:not(.sv-row-issue)').forEach(function(row) {
+        tContent.querySelectorAll('.sv-row-parent:not(.sv-row-task)').forEach(function(row) {
           row.addEventListener('click', function(e) {
             e.stopPropagation();
             var state = tcLoadState();
@@ -1621,11 +1621,11 @@
         var tcState = tcLoadState();
         var hasState = Object.keys(tcState).length > 0;
         if (hasState) {
-          tContent.querySelectorAll('.sv-row-issue').forEach(function(row) {
-            var gKey = row.getAttribute('data-issue').replace('issue-', '');
-            if (tcState['g-' + gKey]) tcSetIssue(row, true, null, false);
+          tContent.querySelectorAll('.sv-row-task').forEach(function(row) {
+            var gKey = row.getAttribute('data-task').replace('task-', '');
+            if (tcState['g-' + gKey]) tcSetTask(row, true, null, false);
           });
-          tContent.querySelectorAll('.sv-row-parent:not(.sv-row-issue)').forEach(function(row) {
+          tContent.querySelectorAll('.sv-row-parent:not(.sv-row-task)').forEach(function(row) {
             var idx = row.getAttribute('data-idx');
             if (tcState['c-' + idx]) tcSetComment(row, true, null, false);
           });
@@ -1723,35 +1723,35 @@
       }
     }
     // Issues (separate section — table format)
-    var iSection = document.getElementById('sv-section-issues');
-    var iBody = document.getElementById('sv-issues-body');
-    var hasSessionIssue = s.issue_number && s.issue_number !== null;
-    var relatedIssues = s.related_issues || [];
-    // Fallback: if related_issues not enriched, build from issues array
-    if (relatedIssues.length === 0) {
-      var relatedNums = (s.issues || []).filter(function(n) { return n !== s.issue_number; });
+    var iSection = document.getElementById('sv-section-related-tasks');
+    var iBody = document.getElementById('sv-tasks-body');
+    var hasSessionTask = s.task_number && s.task_number !== null;
+    var relatedTasks = s.related_tasks || [];
+    // Fallback: if related_tasks not enriched, build from issues array
+    if (relatedTasks.length === 0) {
+      var relatedNums = (s.related_tasks || []).filter(function(n) { return n !== s.task_number; });
       relatedNums.forEach(function(n) {
-        relatedIssues.push({ number: n, title: '', state: '', labels: [] });
+        relatedTasks.push({ number: n, title: '', state: '', labels: [] });
       });
     }
-    var totalIssueCount = (hasSessionIssue ? 1 : 0) + relatedIssues.length;
-    if (hasSessionIssue || relatedIssues.length > 0) {
+    var totalTaskCount = (hasSessionTask ? 1 : 0) + relatedTasks.length;
+    if (hasSessionTask || relatedTasks.length > 0) {
       iSection.style.display = '';
       iBody.innerHTML = '';
       // Update table headers with translated labels
       var thead = iBody.parentElement.querySelector('thead tr');
-      thead.innerHTML = '<th>#</th><th>' + t.issueCol + '</th><th>' + t.typeCol + '</th><th>' + t.titleCol + '</th><th>' + t.sessionCol + '</th>';
-      var issueIdx = 0;
+      thead.innerHTML = '<th>#</th><th>' + t.taskCol + '</th><th>' + t.typeCol + '</th><th>' + t.titleCol + '</th><th>' + t.sessionCol + '</th>';
+      var taskIdx = 0;
       // Row 1: session's own issue
-      if (hasSessionIssue) {
-        issueIdx++;
+      if (hasSessionTask) {
+        taskIdx++;
         var sr = document.createElement('tr');
-        var sHref = 'https://github.com/packetqc/knowledge/issues/' + s.issue_number;
+        var sHref = 'https://github.com/packetqc/knowledge/issues/' + s.task_number;
         // Session kind emoji: 💬 original, 🔁 continuation
         var sKindEmoji = s.session_kind === 'continuation' ? '\ud83d\udd01' : '\ud83d\udcac';
-        sr.innerHTML = '<td><strong>' + issueIdx + '</strong></td>' +
-                       '<td><a href="' + sHref + '" target="_blank">#' + s.issue_number + '</a></td>' +
-                       '<td>' + issueLabelBadge(s.issue_number, t.issueTypeSession) + '</td>' +
+        sr.innerHTML = '<td><strong>' + taskIdx + '</strong></td>' +
+                       '<td><a href="' + sHref + '" target="_blank">#' + s.task_number + '</a></td>' +
+                       '<td>' + taskLabelBadge(s.task_number, t.taskTypeSession) + '</td>' +
                        '<td>' + sKindEmoji + ' ' + esc(s.title || '') + '</td>' +
                        '<td><span style="opacity:0.5">\u2014</span></td>';
         iBody.appendChild(sr);
@@ -1760,20 +1760,20 @@
       // 🔗 = non-session related issue
       // 💬 = parent session (created before current, in tree)
       // 🔁 = child/continuation session (created after current, in tree)
-      var parentIssues = s.parent_issues || [];
-      var childrenIssues = s.children_issues || [];
-      relatedIssues.forEach(function(ri) {
-        issueIdx++;
+      var parentTasks = s.parent_tasks || [];
+      var childrenTasks = s.children_tasks || [];
+      relatedTasks.forEach(function(ri) {
+        taskIdx++;
         var rr = document.createElement('tr');
         var rHref = 'https://github.com/packetqc/knowledge/issues/' + ri.number;
         var riTitle = ri.title || '\u2014';
         var riEmoji = '\ud83d\udd17'; // 🔗 default (related issue)
-        if (parentIssues.indexOf(ri.number) !== -1) {
+        if (parentTasks.indexOf(ri.number) !== -1) {
           riEmoji = '\ud83d\udcac'; // 💬 parent session
-        } else if (childrenIssues.indexOf(ri.number) !== -1) {
+        } else if (childrenTasks.indexOf(ri.number) !== -1) {
           riEmoji = '\ud83d\udd01'; // 🔁 child/continuation session
         }
-        var riSessionId = 'issue-' + ri.number;
+        var riSessionId = 'task-' + ri.number;
         var riSession = findSession(riSessionId);
         var riSessionCell = '';
         if (riSession) {
@@ -1782,19 +1782,19 @@
         } else {
           riSessionCell = '<span style="opacity:0.5">\u2014</span>';
         }
-        rr.innerHTML = '<td><strong>' + issueIdx + '</strong></td>' +
+        rr.innerHTML = '<td><strong>' + taskIdx + '</strong></td>' +
                        '<td><a href="' + rHref + '" target="_blank">#' + ri.number + '</a></td>' +
-                       '<td>' + issueLabelBadge(ri.number, t.issueTypeRelated) + '</td>' +
+                       '<td>' + taskLabelBadge(ri.number, t.taskTypeRelated) + '</td>' +
                        '<td>' + riEmoji + ' ' + esc(riTitle) + '</td>' +
                        '<td>' + riSessionCell + '</td>';
         iBody.appendChild(rr);
       });
       // Totals footer row
-      if (totalIssueCount > 1) {
+      if (totalTaskCount > 1) {
         var ifoot = document.createElement('tr');
         ifoot.style.cssText = 'font-weight:bold;border-top:2px solid var(--border, #93c5fd)';
         ifoot.innerHTML = '<td colspan="3" style="text-align:right">' + t.totals + '</td>' +
-                         '<td>' + totalIssueCount + ' issues</td>' +
+                         '<td>' + totalTaskCount + ' issues</td>' +
                          '<td></td>';
         iBody.appendChild(ifoot);
       }
@@ -1863,7 +1863,7 @@
         var metaLines = '';
         if (cs.date) metaLines += '<div>Date: ' + cs.date + '</div>';
         if (cs.branch) metaLines += '<div>Branch: <code>' + cs.branch + '</code></div>';
-        if (cs.issue_number) metaLines += '<div>Issue: #' + cs.issue_number + '</div>';
+        if (cs.task_number) metaLines += '<div>Task: #' + cs.task_number + '</div>';
         var prCount = cs.prs ? cs.prs.length : 0;
         var commentCount = cs.comments ? cs.comments.length : 0;
         metaLines += '<div>' + prCount + ' PRs \u00b7 ' + commentCount + ' comments</div>';

@@ -212,7 +212,7 @@ def compile_tasks(output_path=None):
             "session_id": session_id,
             "branch": "main",
             "repo": "packetqc/K_DOCS",
-            "issue_number": None,
+            "task_number": None,
             "source": "mindmap",
             "children": node["children"],
             "near_memory_ids": [s["id"] for s in summaries],

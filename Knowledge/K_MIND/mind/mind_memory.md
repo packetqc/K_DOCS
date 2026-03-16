@@ -11,10 +11,18 @@ mindmap
       far memory
     work
       en cours
+        issue to task rename across interfaces and compilation
+          all interfaces display task not issue
+          compilation scripts output task_number related_tasks
+          session-review task-workflow project-viewer aligned
         site independent redirects no hardcoded baseurl
         interface CSS harmonization all 3 aligned
         PR stats fix compile script field name and totals
         README updated for production repo context
+        relative link resolution for in-panel navigation
+          resolveRelativeToDoc resolves against current doc path
+          fixes 404 on complete documentation links
+          fixes viewer-in-viewer nesting in 3rd panel
       validation
         modules imports
           K_PROJECTS imported with skills scripts methodology
@@ -221,6 +229,8 @@ mindmap
           redirect stubs use relative URLs not absolute
           PRODUCTION_BASEURL auto detected from VIEWER_PATH
           rewriteContentLinks viewer url format for export
+          relative links resolved against current doc path not viewer URL
+          interceptInternalLinks catches relative and absolute hrefs
           page conventions
             unified chrome bar for all panels
               non collapsible actual page permalink link

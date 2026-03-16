@@ -120,7 +120,7 @@ def enrich_tasks(tasks_path, prs_by_branch, dry_run=False):
         task["metrics_compilation"] = new_metrics
         enriched += 1
 
-        issue = task.get("issue_number", "?")
+        issue = task.get("task_number", "?")
         print(f"  Task #{issue} ({branch}): {len(prs)} PRs, +{total_additions}/-{total_deletions}, {total_files} files")
 
     if not dry_run and enriched > 0:

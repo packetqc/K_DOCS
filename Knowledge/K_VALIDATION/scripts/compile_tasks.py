@@ -355,7 +355,7 @@ def extract_task_from_cache(filename, cache):
     task = {
         "id": f"task-{issue_number}" if issue_number else f"task-{session_id}",
         "user_session_id": user_session_id,
-        "issue_number": issue_number,
+        "task_number": issue_number,
         "title": issue_title,
         "description": workflow.get("description", ""),
         "branch": branch,
@@ -388,27 +388,27 @@ def extract_task_from_cache(filename, cache):
 
 
 def deduplicate_tasks(tasks):
-    """Deduplicate tasks by issue_number, keeping the most recent.
+    """Deduplicate tasks by task_number, keeping the most recent.
 
-    Tasks with issue_number=0 are kept as-is (session-only tasks).
+    Tasks with task_number=0 are kept as-is (session-only tasks).
     """
-    by_issue = {}
-    no_issue = []
+    by_task = {}
+    no_task = []
 
     for task in tasks:
-        issue = task.get("issue_number", 0)
-        if not issue:
-            no_issue.append(task)
+        num = task.get("task_number", 0)
+        if not num:
+            no_task.append(task)
             continue
-        existing = by_issue.get(issue)
+        existing = by_task.get(num)
         if not existing:
-            by_issue[issue] = task
+            by_task[num] = task
         else:
             # Keep the one with the most recent updated_at
             if (task.get("updated_at") or "") > (existing.get("updated_at") or ""):
-                by_issue[issue] = task
+                by_task[num] = task
 
-    return list(by_issue.values()) + no_issue
+    return list(by_task.values()) + no_task
 
 
 def compile_tasks(notes_dir, output_path):
@@ -472,7 +472,7 @@ def compile_tasks(notes_dir, output_path):
     meta = {
         "generated_at": now,
         "total_tasks": len(tasks),
-        "with_issue": sum(1 for t in tasks if t.get("issue_number")),
+        "with_task": sum(1 for t in tasks if t.get("task_number")),
         "with_validation": sum(1 for t in tasks if t.get("validation_summary")),
         "stages": [
             "initial", "plan", "analyze", "implement",
@@ -552,7 +552,7 @@ def compile_tasks_incremental(notes_dir, output_path, cache_files):
     meta = existing_data.get("meta", {})
     meta["generated_at"] = now
     meta["total_tasks"] = len(all_tasks)
-    meta["with_issue"] = sum(1 for t in all_tasks if t.get("issue_number"))
+    meta["with_task"] = sum(1 for t in all_tasks if t.get("task_number"))
     meta["with_validation"] = sum(1 for t in all_tasks if t.get("validation_summary"))
 
     output = {"meta": meta, "tasks": all_tasks}

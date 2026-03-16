@@ -215,7 +215,7 @@
   };
 
   // ── Section 6: Issues ──
-  SV.renderIssues = function(s) {
+  SV.renderTasks = function(s) {
     var iSection = document.getElementById('sv-section-related-tasks');
     var iBody = document.getElementById('sv-related-tasks-body');
     var hasSessionTask = s.task_number && s.task_number !== null;

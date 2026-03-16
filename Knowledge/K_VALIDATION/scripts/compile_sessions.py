@@ -76,12 +76,12 @@ def extract_prs(content):
     return prs
 
 
-def extract_issues(content):
-    """Extract issue numbers mentioned."""
-    issues = set()
-    for match in re.finditer(r'[Ii]ssue\s+#(\d+)', content):
-        issues.add(int(match.group(1)))
-    return sorted(list(issues))
+def extract_tasks(content):
+    """Extract task/issue numbers mentioned in session notes."""
+    tasks = set()
+    for match in re.finditer(r'(?:[Ii]ssue|[Tt]ask)\s+#(\d+)', content):
+        tasks.add(int(match.group(1)))
+    return sorted(list(tasks))
 
 
 def classify_session(content, title):
@@ -159,7 +159,7 @@ def parse_session_file(filepath):
     title = extract_title(content, filename)
     branch = extract_branch(content)
     prs = extract_prs(content)
-    issues = extract_issues(content)
+    issues = extract_tasks(content)
     session_type = classify_session(content, title)
     summary = extract_summary(content)
     lessons = extract_lessons(content)
@@ -175,7 +175,7 @@ def parse_session_file(filepath):
         "type": session_type,
         "summary": summary,
         "prs": prs,
-        "issues": issues,
+        "related_tasks": issues,
         "lessons": lessons,
         "pr_count": len(prs),
         "source_file": f"notes/{filename}"
@@ -231,17 +231,17 @@ def load_tasks_by_branch(notes_dir):
         stage_index = all_stages.index(current_stage) if current_stage in all_stages else 0
 
         task_summary = {
-            "issue_number": issue_number,
+            "task_number": issue_number,
             "title": workflow.get("title") or cache.get("issue_title", ""),
             "current_stage": current_stage,
             "current_stage_index": stage_index,
             "task_id": f"task-{issue_number}" if issue_number else None,
         }
 
-        # Index by branch — deduplicate by issue_number within same branch
+        # Index by branch — deduplicate by task_number within same branch
         if branch not in tasks_by_branch:
             tasks_by_branch[branch] = []
-        existing_issues = {t["issue_number"] for t in tasks_by_branch[branch]}
+        existing_issues = {t["task_number"] for t in tasks_by_branch[branch]}
         if issue_number not in existing_issues:
             tasks_by_branch[branch].append(task_summary)
 

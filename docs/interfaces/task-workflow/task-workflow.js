@@ -259,7 +259,7 @@
       opt.value = task.id;
       var timeRaw = task.started_at || '';
       var time = timeRaw ? shortTime(timeRaw).substring(0, 5) : '';
-      var prefix = task.issue_number ? '#' + task.issue_number + ' ' : '';
+      var prefix = task.task_number ? '#' + task.task_number + ' ' : '';
       opt.textContent = (time ? time + ' ' : '') + prefix + (task.title || 'Untitled') + ' [' + task.current_stage + ']';
       if (currentGroup) {
         currentGroup.appendChild(opt);
@@ -367,7 +367,7 @@
       meta.innerHTML =
         '<span class="tw-prog-badge">' + esc(stageName(task.current_stage)) + '</span>' +
         '<span>' + pct + '% (' + visited + '/8 stages)</span>' +
-        (task.issue_number ? '<span>#' + task.issue_number + '</span>' : '') +
+        (task.task_number ? '<span>#' + task.task_number + '</span>' : '') +
         '<span>' + shortDate(task.started_at) + '</span>';
     }
   }
@@ -404,8 +404,8 @@
 
     document.getElementById('tw-title').textContent = task.title || 'Untitled';
     document.getElementById('tw-current-stage').textContent = task.current_stage;
-    document.getElementById('tw-task-badge').textContent = task.issue_number ? '#' + task.issue_number : '';
-    document.getElementById('tw-task-badge').style.display = task.issue_number ? '' : 'none';
+    document.getElementById('tw-task-badge').textContent = task.task_number ? '#' + task.task_number : '';
+    document.getElementById('tw-task-badge').style.display = task.task_number ? '' : 'none';
     document.getElementById('tw-date').textContent = shortDate(task.started_at);
     document.getElementById('tw-branch').textContent = task.branch || '';
     document.getElementById('tw-description').textContent = task.description || '';
@@ -604,7 +604,7 @@
         '<div class="tw-stat-card"><div class="tw-stat-value">' + esc(stageName(task.current_stage)) + '</div><div class="tw-stat-label">' + t.stage + '</div></div>' +
         '<div class="tw-stat-card"><div class="tw-stat-value">' + pct + '%</div><div class="tw-stat-label">' + t.progress + '</div></div>' +
         '<div class="tw-stat-card"><div class="tw-stat-value">' + (task.message_count || 0) + '</div><div class="tw-stat-label">' + (lang === 'fr' ? 'Messages' : 'Messages') + '</div></div>' +
-        '<div class="tw-stat-card"><div class="tw-stat-value">' + (mc.prs || (task.issue_number ? '#' + task.issue_number : '—')) + '</div><div class="tw-stat-label">' + (mc.prs ? t.prs : 'Task') + '</div></div>';
+        '<div class="tw-stat-card"><div class="tw-stat-value">' + (mc.prs || (task.task_number ? '#' + task.task_number : '—')) + '</div><div class="tw-stat-label">' + (mc.prs ? t.prs : 'Task') + '</div></div>';
     }
 
     // ── Knowledge Grid ──
@@ -829,7 +829,7 @@
       var title = esc(tk.title || 'Untitled');
       if (title.length > 60) title = title.substring(0, 57) + '...';
       var date = shortDate(tk.started_at || tk.updated_at || '');
-      var taskTag = tk.issue_number ? '#' + tk.issue_number + ' ' : '';
+      var taskTag = tk.task_number ? '#' + tk.task_number + ' ' : '';
       var visited = (tk.current_stage_index || 0) + 1;
       var pct = ((visited / 8) * 100).toFixed(0);
       var mc = tk.metrics_compilation || {};

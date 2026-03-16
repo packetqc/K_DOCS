@@ -409,7 +409,7 @@
     if (SV.renderMetrics) SV.renderMetrics(s);
     if (SV.renderTime) SV.renderTime(s);
     if (SV.renderDeliveries) SV.renderDeliveries(s);
-    if (SV.renderIssues) SV.renderIssues(s);
+    if (SV.renderTasks) SV.renderTasks(s);
     if (SV.renderLessons) SV.renderLessons(s);
     if (SV.renderCollateral) SV.renderCollateral(s);
     if (SV.renderTasks) SV.renderTasks(s);
