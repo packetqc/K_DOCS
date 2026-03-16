@@ -168,12 +168,12 @@ body > .container {
     <option value="daltonism-light">Daltonism Light</option>
     <option value="daltonism-dark">Daltonism Dark</option>
   </select>
-  <button onclick="loadMindmap()">Reload</button>
+  <button id="btn-reload" onclick="loadMindmap()">Reload</button>
   <span class="sep"></span>
-  <button onclick="if(mindInstance)mindInstance.toCenter()">Center</button>
-  <button onclick="if(mindInstance)mindInstance.scaleFit()">Fit</button>
+  <button id="btn-center" onclick="if(mindInstance)mindInstance.toCenter()">Center</button>
+  <button id="btn-fit" onclick="if(mindInstance)mindInstance.scaleFit()">Fit</button>
   <span class="sep"></span>
-  <button onclick="toggleFullscreen()">Fullscreen</button>
+  <button id="btn-fullscreen" onclick="toggleFullscreen()">Fullscreen</button>
   <span class="mindmap-status" id="mindmap-status">Loading...</span>
   <button class="help-btn" id="help-toggle" onclick="toggleHelp()" title="Help">?</button>
 </div>
@@ -597,10 +597,8 @@ body > .container {
     if (vs) { var opts = vs.querySelectorAll('option'); for (var i = 0; i < opts.length; i++) { if (opts[i].value === 'full') opts[i].textContent = il.full; } }
     var ts = document.getElementById('mindmap-theme');
     if (ts) { var to = ts.querySelectorAll('option'); var tm = { auto: il.themeAuto, 'daltonism-light': il.dalLight, 'daltonism-dark': il.dalDark }; for (var i = 0; i < to.length; i++) { if (tm[to[i].value]) to[i].textContent = tm[to[i].value]; } }
-    var btns = document.querySelectorAll('.mindmap-controls button');
-    var bl = [il.reload, il.center, il.fit, il.fullscreen];
-    var bi = 0;
-    btns.forEach(function(b) { if (!b.classList.contains('help-btn') && !b.classList.contains('sep')) { if (bl[bi]) b.textContent = bl[bi]; bi++; } });
+    var bm = {'btn-reload': il.reload, 'btn-center': il.center, 'btn-fit': il.fit, 'btn-fullscreen': il.fullscreen};
+    Object.keys(bm).forEach(function(id) { var b = document.getElementById(id); if (b) b.textContent = bm[id]; });
     var st = document.getElementById('mindmap-status'); if (st) st.textContent = il.loading;
     var ht = document.getElementById('help-toggle'); if (ht) ht.title = il.helpTitle;
     var ld = document.querySelector('#mindmap-container .loading'); if (ld) ld.textContent = il.loadingMsg;
