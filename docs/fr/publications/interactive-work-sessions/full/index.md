@@ -64,7 +64,7 @@ mindmap
       Commits progressifs
       Push comme sauvegarde
       Persistance trois canaux
-      Filet de sécurité recall
+      Filet de sécurité memory_recall
     Ancrage billet GitHub
       Persistance externe
       Décisions capturées
@@ -78,11 +78,11 @@ mindmap
       Arrêter immédiatement
       Adapter l'approche
       Capturer le pattern
-    Héritage universel
-      Vérification fichiers essentiels
-      NEWS/PLAN/LINKS
-      CLAUDE.md/STORIES.md
-      publications/README.md
+    Continuité mémoire K_MIND
+      mind_memory.md grille de directives
+      near_memory.json résumés
+      far_memory.json verbatim
+      JSONs de domaine par module
     Budget de contexte
       Se concentrer sur l'essentiel
       Éviter les analyses non bornées
@@ -158,8 +158,8 @@ flowchart LR
         D --> E["Survit à tout"]
     end
 
-    subgraph CH3["Canal 3 : Fichiers essentiels"]
-        F["NEWS.md\nPLAN.md\nLINKS.md\nCLAUDE.md\nSTORIES.md"] --> M["Fusion PR → wakeup les lit"]
+    subgraph CH3["Canal 3 : Mémoire K_MIND"]
+        F["mind_memory.md\nnear_memory.json\nfar_memory.json\nJSONs de domaine"] --> M["/mind-context charge au démarrage"]
     end
 
     W --> C

@@ -46,7 +46,7 @@ mindmap
       Progressive commits
       Push as savepoint
       Three-channel persistence
-      Recall safety net
+      memory_recall safety net
     GitHub Issue Anchor
       External persistence
       Decisions captured
@@ -60,11 +60,11 @@ mindmap
       Stop immediately
       Adapt approach
       Capture pattern
-    Universal Inheritance
-      Essential files check
-      NEWS/PLAN/LINKS
-      CLAUDE.md/STORIES.md
-      publications/README.md
+    K_MIND Memory Continuity
+      mind_memory.md directive grid
+      near_memory.json summaries
+      far_memory.json verbatim
+      Domain JSONs per module
     Context Budget
       Focus on essentials
       Avoid unbounded scans
