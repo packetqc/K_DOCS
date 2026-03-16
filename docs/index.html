@@ -718,6 +718,7 @@
     // ===== PDF export with cover page + page size + running headers =====
     var PAGE_SIZES = { letter: '8.5in 11in', legal: '8.5in 14in' };
     var currentMeta = {};
+    var currentDocPath = ''; // tracks loaded doc path for relative link resolution
 
     function printAs(format) {
       var size = PAGE_SIZES[format] || PAGE_SIZES.letter;
@@ -997,8 +998,11 @@
       var docParam = params.get('doc');
       var langParam = params.get('lang');
       if (docParam) {
-        var idx = DOCS.findIndex(function(d) { return d.path === docParam; });
-        if (idx >= 0) select.value = idx;
+        var idx = DOCS.findIndex(function(d) { return d.path === docParam || d.path_fr === docParam; });
+        if (idx >= 0) {
+          select.value = idx;
+          if (DOCS[idx].path_fr === docParam) currentLang = 'fr';
+        }
       }
       if (langParam === 'fr') currentLang = 'fr';
 
@@ -1549,6 +1553,26 @@
     }
 
     // ===== Internal link interceptor =====
+
+    // Resolve a relative href against the currently loaded document's directory.
+    // e.g., href="full/" with currentDocPath="publications/knowledge-system/index.md"
+    //   → "publications/knowledge-system/full/"
+    function resolveRelativeToDoc(href) {
+      if (!currentDocPath) return null;
+      // Skip absolute URLs, anchors, and paths already starting with baseurl
+      if (/^(https?:|\/|#)/.test(href)) return null;
+      // Get directory of current doc
+      var dir = currentDocPath.replace(/[^/]*$/, ''); // "publications/knowledge-system/"
+      // Resolve ../ and ./ segments
+      var parts = (dir + href).split('/');
+      var resolved = [];
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i] === '..') { resolved.pop(); }
+        else if (parts[i] !== '.' && parts[i] !== '') { resolved.push(parts[i]); }
+      }
+      return resolved.join('/');
+    }
+
     // Maps both viewer URLs and production URLs to viewer doc entries
     function resolveInternalPath(href) {
       var path = null;
@@ -1609,7 +1633,39 @@
           return;
         }
 
+        // Try direct match first (absolute/baseurl paths)
         var match = resolveInternalPath(href);
+
+        // If no match, resolve relative links against the current document's directory
+        if (!match) {
+          var resolved = resolveRelativeToDoc(href);
+          if (resolved) {
+            // Try matching the resolved path against DOCS entries
+            var candidate = resolved.replace(/\/$/, '').replace(/(^|\/)index\.(md|html)$/, '');
+            for (var i = 0; i < DOCS.length; i++) {
+              var docPath = DOCS[i].path.replace(/\/$/, '').replace(/(^|\/)index\.md$/, '');
+              if (candidate === docPath || candidate + '/index.md' === DOCS[i].path || candidate === DOCS[i].path) {
+                // Detect FR
+                var lang = 'en';
+                if (resolved.indexOf('fr/') === 0) lang = 'fr';
+                match = { index: i, lang: lang };
+                break;
+              }
+            }
+            // Also try with fr/ stripped
+            if (!match && resolved.indexOf('fr/') === 0) {
+              var stripped = resolved.substring(3).replace(/\/$/, '').replace(/(^|\/)index\.(md|html)$/, '');
+              for (var j = 0; j < DOCS.length; j++) {
+                var dp = DOCS[j].path.replace(/\/$/, '').replace(/(^|\/)index\.md$/, '');
+                if (stripped === dp || stripped + '/index.md' === DOCS[j].path || stripped === DOCS[j].path) {
+                  match = { index: j, lang: 'fr' };
+                  break;
+                }
+              }
+            }
+          }
+        }
+
         if (match) {
           e.preventDefault();
 
@@ -1649,7 +1705,27 @@
       for (var i = 0; i < links.length; i++) {
         var href = links[i].getAttribute('href');
         if (!href || href.charAt(0) === '#') continue;
+
+        // Try direct match first
         var match = resolveInternalPath(href);
+
+        // Try resolving relative links against current document path
+        if (!match) {
+          var resolved = resolveRelativeToDoc(href);
+          if (resolved) {
+            var candidate = resolved.replace(/\/$/, '').replace(/(^|\/)index\.(md|html)$/, '');
+            var lang = (resolved.indexOf('fr/') === 0) ? 'fr' : 'en';
+            var search = (lang === 'fr') ? candidate.substring(3) : candidate;
+            for (var j = 0; j < DOCS.length; j++) {
+              var dp = DOCS[j].path.replace(/\/$/, '').replace(/(^|\/)index\.md$/, '');
+              if (search === dp || search + '/index.md' === DOCS[j].path || search === DOCS[j].path || candidate === dp) {
+                match = { index: j, lang: lang };
+                break;
+              }
+            }
+          }
+        }
+
         if (match) {
           var doc = DOCS[match.index];
           var docPath = (match.lang === 'fr' && doc.path_fr) ? doc.path_fr : doc.path;
@@ -1840,6 +1916,7 @@
     // ===== Document loader =====
     function loadDocument(path) {
       exitInterfaceMode();
+      currentDocPath = path; // track for relative link resolution
       var content = document.getElementById('content');
       content.className = 'loading';
       content.textContent = 'Loading document...';
