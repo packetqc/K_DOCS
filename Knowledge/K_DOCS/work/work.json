@@ -34,6 +34,19 @@
       ]
     },
     {
+      "name": "mermaid-diagrams-k2-update",
+      "description": "Update all 100 mermaid diagrams across 47 publication pages to reflect Knowledge 2.0 architecture. Legacy diagrams reference old monolithic structure (CLAUDE.md 3000+ lines, patterns/, lessons/, minds/, notes/, Jekyll build). Must update to multi-module reality (K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION), static JS viewer, skills system, 3-file memory architecture, 8-stage task workflow. Start with architecture-diagrams test pages (EN/FR), then review each publication's content against approved conventions and audience fit.",
+      "status": "in_progress",
+      "session": "3b8c9ba9-10d3-4dc2-b0f9-d1e4853d3cf6",
+      "scope": {
+        "total_mermaid_blocks": 100,
+        "total_files": 47,
+        "priority_1": "architecture-diagrams (EN/FR summary + full) — 36 blocks, 4 files",
+        "priority_2": "all other publications with mermaid — review content + audience fit"
+      },
+      "files_modified": []
+    },
+    {
       "name": "K_DOCS-module-sync",
       "description": "Ensure K_DOCS implementation stays in Knowledge/K_DOCS. When K_MIND fixes are made during integration in K_DOCS repo, push changes back to packetqc/K_MIND via k_mind remote. Module sync script to diff and push integration fixes upstream.",
       "status": "in_progress",

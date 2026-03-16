@@ -1,16 +1,16 @@
 ---
 layout: publication
-title: "Knowledge Architecture Diagrams — Complete Documentation"
-description: "Complete visual architecture: 14 Mermaid diagrams covering system overview, knowledge layers, components, session lifecycle, distributed flow, publication pipeline, security boundaries, deployment tiers, quality dependencies, recovery ladder, and GitHub integration."
+title: "Knowledge 2.0 Architecture Diagrams — Complete Documentation"
+description: "Complete visual architecture: 14 Mermaid diagrams covering multi-module system overview, mind-first memory architecture, K_ module structure, session lifecycle, module interaction flow, publication pipeline, security boundaries, web architecture, quality dependencies, recovery paths, and GitHub integration."
 pub_id: "Publication #15 — Full"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/architecture-diagrams/full/
 og_image: /assets/og/knowledge-system-en-cayman.gif
-keywords: "architecture, diagrams, mermaid, knowledge, distributed, security"
+keywords: "architecture, diagrams, mermaid, knowledge 2.0, multi-module, mind-first, security"
 ---
 
-# Knowledge Architecture Diagrams — Complete Documentation
+# Knowledge 2.0 Architecture Diagrams — Complete Documentation
 {: #pub-title}
 
 **Contents**
@@ -18,24 +18,24 @@ keywords: "architecture, diagrams, mermaid, knowledge, distributed, security"
 | | |
 |---|---|
 | [Authors](#authors) | Publication authors |
-| [Abstract](#abstract) | Visual companion to the architecture analysis |
+| [Abstract](#abstract) | Visual companion to the Knowledge 2.0 architecture |
 | [Diagram Conventions](#diagram-conventions) | Color coding, notation, Mermaid syntax |
-| [1. System Overview](#1-system-overview--c4-context) | C4 context — Knowledge at center |
-| [2. Knowledge Layers](#2-knowledge-layers) | 4-layer stack: Core → Proven → Harvested → Session |
-| [3. Component Architecture](#3-component-architecture) | All folders, scripts, and relationships |
-| [4. Session Lifecycle](#4-session-lifecycle) | Wakeup → work → checkpoint → save → PR → merge |
-| [5. Distributed Flow](#5-distributed-flow--push-and-pull) | Push (wakeup) and pull (harvest) with promotion |
-| [6. Publication Pipeline](#6-publication-pipeline) | Source → EN/FR summary/complete with sync flows |
+| [1. System Overview](#1-system-overview--c4-context) | C4 context — Multi-module system at center |
+| [2. Mind-First Memory Architecture](#2-mind-first-memory-architecture) | 4-tier memory: Mindmap → Domain JSONs → Near → Far |
+| [3. Multi-Module Architecture](#3-multi-module-architecture) | 5 K_ modules, scripts, and relationships |
+| [4. Session Lifecycle](#4-session-lifecycle) | session_init → /mind-context → memory_append → archive |
+| [5. Module Interaction Flow](#5-module-interaction-flow) | K_MIND central hub, compilation pipelines, skill invocations |
+| [6. Publication Pipeline](#6-publication-pipeline) | Source → static viewer → EN/FR × summary/full × 4 themes |
 | [7. Security Boundaries](#7-security-boundaries) | Proxy model — allowed vs blocked operations |
-| [8. Deployment Tiers](#8-deployment-tiers) | Production/development dual-role of satellites |
+| [8. Web Architecture](#8-web-architecture) | Static JS viewer, 4 themes, 5 interfaces, .nojekyll |
 | [9. Quality Dependencies](#9-quality-dependency-graph) | 13 qualities dependency graph |
-| [10. Recovery Ladder](#10-recovery-ladder) | 5 recovery paths by failure mode |
-| [11. GitHub Integration](#11-github-integration) | Issues, PRs, Project boards lifecycle |
+| [10. Recovery Paths](#10-recovery-paths) | K_MIND recovery: compaction, recall, session init |
+| [11. GitHub Integration](#11-github-integration) | K_GITHUB module, sync scripts, board lifecycle |
 | [Related Publications](#related-publications) | Sibling and parent publications |
 
 ## Authors
 
-**Martin Paquet** — Network security analyst programmer, network and system security administrator, and embedded software designer and programmer. Architect of the Knowledge system — a self-evolving AI engineering intelligence built on 30 years of embedded systems, network security, and software development experience. Designed the visual architecture documented in these diagrams.
+**Martin Paquet** — Network security analyst programmer, network and system security administrator, and embedded software designer and programmer. Architect of the Knowledge system — a self-evolving AI engineering intelligence built on 30 years of embedded systems, network security, and software development experience. Designed the multi-module architecture documented in these diagrams.
 
 **Claude** (Anthropic, Opus 4.6) — AI development partner. Co-created the architectural diagrams, rendering system structure into Mermaid notation for interactive web visualization. Operates within the system these diagrams describe.
 
@@ -43,41 +43,35 @@ keywords: "architecture, diagrams, mermaid, knowledge, distributed, security"
 
 ## Abstract
 
-Publication #14 (Architecture Analysis) examines the system's architecture through analytical narrative. This publication is the **visual companion** — 14 Mermaid diagrams that render the Knowledge system's structure, flows, boundaries, and dependencies into interactive, browsable visualizations.
+Knowledge 2.0 is a **multi-module AI engineering intelligence system** structured around a central memory grid (K_MIND) with specialized satellite modules (K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION). This publication is the **visual companion** — 14 Mermaid diagrams that render the system's structure, flows, boundaries, and dependencies into interactive visualizations.
 
-These diagrams cover the full architectural surface: from the high-level C4 context (Knowledge at center, surrounded by satellites, GitHub, and users) down to the granular security boundaries (proxy layers, API channels, branch scoping). Each diagram is self-contained but cross-referenced — together they form a complete visual map of the system.
+These diagrams cover the full architectural surface: from the high-level C4 context (5 K_ modules at center, GitHub platform, static web viewer) down to the granular security boundaries (proxy layers, API channels) and the mind-first memory architecture (mindmap → domain JSONs → near/far memory → archives).
 
-All diagrams use [Mermaid](https://mermaid.js.org/) syntax, rendered natively by GitHub Pages via CDN.
-
-Closes #317
+All diagrams use [Mermaid](https://mermaid.js.org/) syntax, rendered client-side by the static JS viewer via CDN.
 
 ---
 
 ## Target Audience
 
-This publication is intended for work teams involved in the Knowledge system's ecosystem:
-
 | Audience | What to focus on |
 |----------|-----------------|
-| **Network Administrators** | Distributed flow (#5), security boundaries (#7), deployment tiers (#8) |
-| **System Administrators** | Deployment tiers (#8), GitHub integration (#11), publication pipeline (#6) |
-| **Programmers** | Component architecture (#3), session lifecycle (#4), recovery ladder (#10) |
-| **Managers** | System overview (#1), knowledge layers (#2), quality dependencies (#9) |
-
-Each diagram is self-contained with annotations. Start with the System Overview (#1) for high-level context, then navigate to domain-specific diagrams. The companion publication #14 (Architecture Analysis) provides the written analysis for each diagram's domain.
+| **Network Administrators** | Module interaction (#5), security boundaries (#7), web architecture (#8) |
+| **System Administrators** | Web architecture (#8), GitHub integration (#11), publication pipeline (#6) |
+| **Programmers** | Multi-module architecture (#3), session lifecycle (#4), recovery paths (#10) |
+| **Managers** | System overview (#1), mind-first memory (#2), quality dependencies (#9) |
 
 ## Diagram Conventions
 
-All diagrams use **Mermaid** notation — a markdown-based diagramming language rendered client-side by the GitHub Pages layout.
+All diagrams use **Mermaid** notation — a markdown-based diagramming language rendered client-side by the static JS viewer.
 
 **Color coding**:
 
 | Color | Meaning | Used for |
 |-------|---------|----------|
-| Teal / Green | Core / Stable / Healthy | Core knowledge, proven patterns, healthy status |
+| Teal / Green | Core / Stable / Mandatory | K_MIND, mind_memory, stable conventions |
 | Blue | Active / In-progress | Sessions, active flows, current operations |
 | Orange / Amber | Warning / Drift | Version drift, stale content, minor issues |
-| Red | Critical / Blocked | Security boundaries, proxy blocks, critical drift |
+| Red | Critical / Blocked | Security boundaries, proxy blocks |
 | Purple | External / Platform | GitHub, GitHub Pages, external services |
 | Gray | Inactive / Pending | Unused paths, pending items |
 
@@ -87,346 +81,380 @@ All diagrams use **Mermaid** notation — a markdown-based diagramming language 
 |--------|---------|
 | Solid arrow (`-->`) | Direct data flow or dependency |
 | Dashed arrow (`-.->`) | Indirect or periodic flow |
-| Thick arrow (`-->`) | Primary / critical path |
+| Thick arrow (`==>`) | Primary / critical path |
 | Subgraph | Logical grouping or boundary |
 
 ---
 
 ## 1. System Overview — C4 Context
 
-The Knowledge system (P0) sits at the center of a constellation of actors: satellite projects, GitHub platform services, GitHub Pages for publishing, Claude Code for AI sessions, and the human developer.
+The Knowledge 2.0 system sits at the center of a constellation of actors: 5 internal K_ modules, GitHub platform services, GitHub Pages for static web publishing, Claude Code as the AI session engine, and the human developer.
 
 ```mermaid
 graph TB
     subgraph External["External Actors"]
         User["👤 Martin Paquet<br/>Developer & Architect"]
         GitHub["🐙 GitHub Platform<br/>Repos, Issues, PRs, Projects v2"]
-        Pages["📄 GitHub Pages<br/>packetqc.github.io/*"]
-        ClaudeCode["🤖 Claude Code<br/>AI Session Container"]
+        Pages["📄 GitHub Pages<br/>.nojekyll static hosting"]
+        ClaudeCode["🤖 Claude Code<br/>AI Session Engine"]
     end
 
-    subgraph Core["Knowledge System (P0)"]
-        CLAUDE["CLAUDE.md<br/>3000+ lines<br/>Core methodology"]
-        Patterns["patterns/<br/>Proven approaches"]
-        Lessons["lessons/<br/>Known pitfalls"]
-        Methodology["methodology/<br/>How we work"]
-        Minds["minds/<br/>Harvested intel"]
-        Notes["notes/<br/>Session memory"]
-        Pubs["publications/<br/>13 publications"]
-        Scripts["scripts/<br/>gh_helper, generate_og"]
-        Docs["docs/<br/>GitHub Pages source"]
+    subgraph System["Knowledge 2.0 — Multi-Module System"]
+        subgraph KMIND["K_MIND — Core Memory"]
+            MindMap["mind_memory.md<br/>Mermaid mindmap<br/>Operating directive grid"]
+            Sessions["sessions/<br/>near_memory + far_memory<br/>+ 16 topic archives"]
+            DomainJSON["Domain JSONs<br/>conventions, work,<br/>architecture, constraints"]
+            ScriptsM["10 Python scripts<br/>memory_append, recall,<br/>gh_helper, mindmap_filter"]
+        end
+
+        subgraph KDOCS["K_DOCS — Documentation Pipeline"]
+            Viewer["docs/index.html<br/>Static JS viewer<br/>4 themes"]
+            Interfaces["5 Interfaces<br/>navigator, session, task,<br/>project, live-mindmap"]
+            Pubs["25+ Publications<br/>EN/FR × summary/full"]
+            ScriptsD["7 scripts<br/>capture, stitch,<br/>webcard pipeline"]
+        end
+
+        subgraph KGITHUB["K_GITHUB — GitHub Integration"]
+            SyncGH["sync_github.py<br/>Issue/PR sync + enrich"]
+        end
+
+        subgraph KPROJECTS["K_PROJECTS — Project Management"]
+            ProjReg["projects.json<br/>P# registry + 2 skills"]
+        end
+
+        subgraph KVALIDATION["K_VALIDATION — QA"]
+            TaskWF["8-stage task workflow<br/>5 QA skills + 5 scripts"]
+        end
     end
 
-    subgraph Satellites["Satellite Projects"]
-        P1["P1 — MPLIB<br/>Storage Pipeline"]
-        P2["P2 — STM32 PoC<br/>Embedded System"]
-        P3["P3 — knowledge-live<br/>Live Streaming"]
-        P4["P4 — MPLIB Dev<br/>Staging"]
-        P5["P5 — PQC<br/>Post-Quantum Crypto"]
-    end
-
-    User -->|"commands<br/>wakeup, save, harvest"| ClaudeCode
-    ClaudeCode -->|"reads on wakeup"| CLAUDE
-    ClaudeCode -->|"push to task branch"| GitHub
+    User -->|"skill invocations<br/>/mind-context, /docs-create"| ClaudeCode
+    ClaudeCode -->|"reads mindmap<br/>+ domain JSONs"| KMIND
+    ClaudeCode -->|"memory_append.py<br/>every turn"| Sessions
+    ClaudeCode -->|"git push main"| GitHub
     ClaudeCode -->|"API via gh_helper.py"| GitHub
-    GitHub -->|"PR merge → deploy"| Pages
-    CLAUDE -.->|"push methodology<br/>(wakeup)"| Satellites
-    Satellites -.->|"pull insights<br/>(harvest)"| Minds
-    Docs -->|"Jekyll build"| Pages
-    Notes -->|"session persistence"| ClaudeCode
-    Minds -->|"promote"| Patterns
-    Minds -->|"promote"| Lessons
+    GitHub -->|"push → deploy"| Pages
+    Viewer -->|"client-side render<br/>markdown + mermaid"| Pages
+    SyncGH -.->|"fetch issues/PRs"| GitHub
+    KVALIDATION -.->|"compile tasks/sessions<br/>→ docs/data/"| Viewer
+    KPROJECTS -.->|"compile projects<br/>→ docs/data/"| Viewer
 ```
 
 
-**Legend**: The core knowledge repo contains all methodology, publications, and tooling. Satellites inherit methodology on `wakeup` (push) and contribute insights back via `harvest` (pull). GitHub acts as the persistence and collaboration layer. GitHub Pages publishes the web presence. Claude Code is the execution environment — ephemeral containers that become aware via the `wakeup` protocol.
+**Legend**: The system is organized as 5 K_ modules under a `Knowledge/` directory. K_MIND is the mandatory core — always loaded, always maintained. Other modules (K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION) provide specialized capabilities. Claude Code is the execution environment, reading the mindmap on every session start and maintaining memory via scripts every turn. GitHub Pages serves the static web viewer with client-side markdown and mermaid rendering.
 
 ---
 
-## 2. Knowledge Layers
+## 2. Mind-First Memory Architecture
 
-The system organizes knowledge into 4 layers of decreasing stability and increasing currency. Core is the DNA — rarely changing, maximum authority. Session is the heartbeat — ephemeral, maximum currency.
+The system organizes knowledge into 4 tiers of decreasing stability and increasing granularity. The mindmap is the operating directive grid — always loaded first. Domain JSONs provide structured references. Near memory tracks the session in real time. Far memory preserves full verbatim history.
 
 ```mermaid
 graph TB
-    subgraph Layer1["Layer 1 — Core (Stable)"]
-        style Layer1 fill:#ecfdf5,stroke:#0f766e
-        CM["CLAUDE.md<br/>Identity, methodology,<br/>evolution log<br/>3000+ lines"]
+    subgraph Tier1["Tier 1 — Mind Memory (Directive Grid)"]
+        style Tier1 fill:#ecfdf5,stroke:#0f766e
+        MM["mind_memory.md<br/>Mermaid mindmap<br/>264 nodes, 7 groups<br/>Always loaded first"]
     end
 
-    subgraph Layer2["Layer 2 — Proven (Validated)"]
-        style Layer2 fill:#dbeafe,stroke:#2563eb
-        PAT["patterns/<br/>Battle-tested<br/>approaches"]
-        LES["lessons/<br/>Known pitfalls<br/>(20 entries)"]
-        MET["methodology/<br/>Workflow specs<br/>& templates"]
+    subgraph Tier2["Tier 2 — Domain JSONs (Structured References)"]
+        style Tier2 fill:#dbeafe,stroke:#2563eb
+        CONV["conventions.json<br/>Reusable patterns<br/>(per module)"]
+        WORK["work.json<br/>Accomplished/staged<br/>results (per module)"]
+        ARCH["architecture.json<br/>System design<br/>references"]
+        CONST["constraints.json<br/>Known limitations<br/>& boundaries"]
     end
 
-    subgraph Layer3["Layer 3 — Harvested (Evolving)"]
-        style Layer3 fill:#fef3c7,stroke:#d97706
-        MIN["minds/<br/>Fresh insights<br/>from satellites"]
+    subgraph Tier3["Tier 3 — Near Memory (Session Summaries)"]
+        style Tier3 fill:#fef3c7,stroke:#d97706
+        NEAR["near_memory.json<br/>One-line summaries<br/>+ far_memory pointers<br/>+ mind_memory refs"]
     end
 
-    subgraph Layer4["Layer 4 — Session (Ephemeral)"]
-        style Layer4 fill:#fce7f3,stroke:#db2777
-        NOT["notes/<br/>Per-session<br/>working memory"]
+    subgraph Tier4["Tier 4 — Far Memory (Verbatim + Archives)"]
+        style Tier4 fill:#fce7f3,stroke:#db2777
+        FAR["far_memory.json<br/>Full verbatim<br/>conversation history"]
+        ARCHIVES["archives/<br/>16 topic-based<br/>archived sessions"]
     end
 
-    NOT -->|"remember harvest:"| MIN
-    MIN -->|"harvest --promote"| PAT
-    MIN -->|"harvest --promote"| LES
-    MIN -->|"harvest --stage evolution"| CM
-    PAT -->|"inherited on wakeup"| NOT
-    CM -->|"read on wakeup<br/>(step 0)"| NOT
+    MM -->|"directives govern<br/>all behavior"| CONV
+    MM -->|"work nodes track<br/>accomplished state"| WORK
+    NEAR -->|"pointers to<br/>message indices"| FAR
+    FAR -->|"far_memory_split.py<br/>by subject"| ARCHIVES
+    CONV -->|"staged conventions<br/>from session"| NEAR
+    WORK -->|"staged results<br/>from session"| NEAR
 
-    subgraph ReadOrder["Reading Order"]
-        R1["1. CLAUDE.md"] --> R2["2. methodology/"]
-        R2 --> R3["3. patterns/"]
-        R3 --> R4["4. lessons/"]
-        R4 --> R5["5. minds/"]
+    subgraph ReadOrder["Loading Order (session start)"]
+        R1["1. mind_memory.md"] --> R2["2. depth_config.json"]
+        R2 --> R3["3. near_memory.json"]
+        R3 --> R4["4. Domain JSONs<br/>(on demand)"]
+        R4 --> R5["5. memory_recall.py<br/>(archived topics)"]
+    end
+
+    subgraph Scripts["Deterministic Scripts"]
+        S1["memory_append.py<br/>Every turn"]
+        S2["far_memory_split.py<br/>Archive by topic"]
+        S3["memory_recall.py<br/>Search archives"]
+        S4["mindmap_filter.py<br/>Depth-filtered render"]
+        S5["memory_stats.py<br/>Context occupancy"]
     end
 ```
 
 
-**Legend**: Knowledge flows upward (session → harvested → proven → core) through the promotion pipeline. It flows downward (core → session) through the wakeup protocol. The reading order for new Claude instances follows the stability gradient: most stable first, most current last.
+**Legend**: Knowledge flows upward (far memory → near memory → domain JSONs → mindmap) through the staging pipeline. It flows downward (mindmap → session behavior) as operational directives. The loading order follows stability: most stable first (mindmap), most granular last (archived far memory). All mechanical operations use deterministic Python scripts — Claude provides intelligence (summaries, topic names) as arguments.
 
 ---
 
-## 3. Component Architecture
+## 3. Multi-Module Architecture
 
-The major folders, scripts, and their relationships within the knowledge repository.
+The 5 K_ modules, their internal structure, scripts, and relationships within the Knowledge 2.0 repository.
 
 ```mermaid
 graph LR
     subgraph Root["Repository Root"]
-        CM["CLAUDE.md<br/>Core brain"]
-        PLAN["PLAN.md<br/>Roadmap"]
-        NEWS["NEWS.md<br/>Changelog"]
-        LINKS["LINKS.md<br/>URL directory"]
+        CLAUDE["CLAUDE.md<br/>K_MIND instructions"]
+        ModJSON["modules.json<br/>Module registry"]
+        Skills[".claude/skills/<br/>5 root skills"]
     end
 
-    subgraph Knowledge["Knowledge Folders"]
-        patterns["patterns/<br/>Proven patterns"]
-        lessons["lessons/<br/>Pitfalls"]
-        methodology["methodology/<br/>Specifications"]
-        minds["minds/<br/>Harvested"]
-        notes["notes/<br/>Sessions"]
-        projects["projects/<br/>P# registry"]
+    subgraph KMIND["K_MIND — Core Memory (mandatory)"]
+        mind["mind/<br/>mind_memory.md"]
+        sessions["sessions/<br/>near + far + archives"]
+        km_conv["conventions/<br/>conventions.json<br/>depth_config.json"]
+        km_work["work/<br/>work.json"]
+        km_arch["architecture/<br/>architecture.json"]
+        km_const["constraints/<br/>constraints.json"]
+        km_scripts["scripts/ (10)<br/>memory_append, recall,<br/>session_init, gh_helper,<br/>mindmap_filter, set_depth,<br/>memory_stats, install"]
     end
 
-    subgraph Content["Content Folders"]
-        pubs["publications/<br/>Source docs"]
-        docs["docs/<br/>Web pages"]
-        assets["docs/assets/<br/>OG images"]
-        layouts["docs/_layouts/<br/>HTML layouts"]
-        refs["references/<br/>Source assets"]
+    subgraph KDOCS["K_DOCS — Documentation Pipeline"]
+        kd_scripts["scripts/ (7)<br/>capture_mindmap.js,<br/>stitch_webcard.py,<br/>generate_webcard.py"]
+        kd_method["methodology/ (7)<br/>web-production-pipeline,<br/>documentation-generation,<br/>webcard-generation"]
+        kd_conv["conventions/<br/>sessions/ + web/"]
+        kd_work["work/<br/>work.json"]
     end
 
-    subgraph Tooling["Scripts & Tools"]
-        gh["scripts/<br/>gh_helper.py"]
-        og["scripts/<br/>generate_og_gifs.py"]
-        pqc["scripts/<br/>pqc_envelope.py"]
-        sync["scripts/<br/>sync_roadmap.py"]
+    subgraph KGITHUB["K_GITHUB — GitHub Integration"]
+        kg_scripts["scripts/ (3)<br/>sync_github.py,<br/>sync_roadmap.py,<br/>enrich_from_github.py"]
+        kg_method["methodology/<br/>github-project-integration"]
     end
 
-    subgraph Live["Live Infrastructure"]
-        beacon["live/<br/>knowledge_beacon.py"]
-        scanner["live/<br/>knowledge_scanner.py"]
-        capture["live/<br/>stream_capture.py"]
+    subgraph KPROJECTS["K_PROJECTS — Project Management"]
+        kp_data["data/<br/>projects.json<br/>+ project files"]
+        kp_scripts["scripts/ (2)<br/>compile_projects.py"]
+        kp_skills["skills/ (2)<br/>project-create,<br/>project-manage"]
     end
 
-    CM -->|"references"| Knowledge
-    CM -->|"documents"| Content
-    pubs -->|"pub sync"| docs
-    docs -->|"Jekyll build"| assets
-    og -->|"generates"| assets
-    gh -->|"API calls"| GitHub["GitHub API"]
-    refs -->|"source images"| og
-    minds -->|"harvest --promote"| patterns
-    minds -->|"harvest --promote"| lessons
-    beacon -->|"port 21337"| scanner
+    subgraph KVALIDATION["K_VALIDATION — QA & Validation"]
+        kv_scripts["scripts/ (5)<br/>compile_tasks.py,<br/>compile_sessions.py,<br/>documentation_validation.py"]
+        kv_skills["skills/ (5)<br/>task-received, work-cycle,<br/>integrity-check, normalize,<br/>knowledge-validation"]
+        kv_method["methodology/ (4)<br/>task-workflow,<br/>session-protocol,<br/>checkpoint-resume"]
+    end
+
+    subgraph WebOutput["docs/ — Web Presence"]
+        viewer["index.html<br/>Static JS viewer"]
+        interfaces["interfaces/ (5)<br/>navigator, session,<br/>task, project, mindmap"]
+        pubs["publications/ (25+)<br/>EN + FR mirrors"]
+        data["data/<br/>projects.json,<br/>sessions.json,<br/>tasks.json"]
+        assets["assets/og/<br/>Webcard GIFs"]
+    end
+
+    CLAUDE -->|"loads"| KMIND
+    ModJSON -->|"declares"| KDOCS
+    ModJSON -->|"declares"| KGITHUB
+    ModJSON -->|"declares"| KPROJECTS
+    ModJSON -->|"declares"| KVALIDATION
+    km_scripts -->|"gh_helper.py<br/>shared API"| KGITHUB
+    kv_scripts -->|"compile →"| data
+    kp_scripts -->|"compile →"| data
+    kd_scripts -->|"capture →"| assets
+    pubs -->|"rendered by"| viewer
 ```
 
 
-**Legend**: The repository is organized into five major groups: root files (entry points), knowledge folders (the intelligence layers), content folders (publications and web pages), scripts (automation tooling), and live infrastructure (inter-instance communication). Arrows show data flow between components.
+**Legend**: The repository is organized into 5 K_ modules under `Knowledge/`. Each module owns its conventions, work state, and scripts. K_MIND is mandatory (always loaded). Other modules are declared in `modules.json` and loaded on demand. The `docs/` directory is the web output — served by GitHub Pages with .nojekyll (no build step). Compilation scripts in K_VALIDATION and K_PROJECTS produce JSON data consumed by the static viewer's interfaces.
 
 ---
 
 ## 4. Session Lifecycle
 
-Every Claude Code session follows a deterministic lifecycle. This flowchart shows the complete path from session start to session end, including crash recovery and context loss paths.
+Every Claude Code session follows a deterministic lifecycle managed by K_MIND scripts. The mindmap is loaded first, memory is maintained every turn, and topics are archived when complete.
 
 ```mermaid
 flowchart TD
-    Start([Session Start]) ==> AutoWakeup["Auto-wakeup<br/>⏳ Wakeup starting..."]
-    AutoWakeup --> CheckSkip{{"User says<br/>skip?"}}
-    CheckSkip -->|"Yes"| RawSession["Raw Session<br/>(no sunglasses — NPC)"]
-    CheckSkip -->|"No"| Step0
+    Start([Session Start]) ==> Init["session_init.py<br/>--session-id UUID"]
+    Init --> CheckResume{{"--preserve-active<br/>flag?"}}
+    CheckResume -->|"Yes (resume)"| LoadContext
+    CheckResume -->|"No (fresh)"| ArchivePrev["Archive previous session<br/>carry forward last_session"]
+    ArchivePrev --> LoadContext
 
-    Step0["Step 0: Read knowledge<br/>git clone packetqc/knowledge"] --> Step03["Step 0.3: Token detection<br/>GH_TOKEN env? /tmp/.gh_token?"]
-    Step03 --> Step05["Step 0.5: Bootstrap scaffold<br/>Create missing files"]
-    Step05 --> Step055["Step 0.55: Self-heal<br/>Update stale CLAUDE.md"]
-    Step055 --> Step056["Step 0.56: Merge self-heal PR<br/>(if elevated)"]
-    Step056 --> Step07["Step 0.7: Sync upstream<br/>git fetch + merge default"]
-    Step07 --> Step09{{"Checkpoint<br/>detected?"}}
-    Step09 -->|"Yes"| Resume["resume<br/>Restart from checkpoint"]
-    Step09 -->|"No"| Steps1to8["Steps 1-8: Read evolution,<br/>minds/, notes/, plan,<br/>sync assets, git log,<br/>branches, summarize"]
-    Resume --> Work
-    Steps1to8 --> Step9["Step 9: Print help table"]
-    Step9 --> Step10{{"Core repo +<br/>healthcheck > 24h?"}}
-    Step10 -->|"Yes"| HarvestPrompt["Prompt: Run<br/>harvest --healthcheck?"]
-    Step10 -->|"No"| AddressMsg["Step 11: Address<br/>user's entry message"]
-    HarvestPrompt --> AddressMsg
-    AddressMsg --> Work
+    LoadContext["/mind-context skill"] --> ReadMind["1. mindmap_filter.py<br/>Render depth-filtered mindmap"]
+    ReadMind --> ReadStats["2. memory_stats.py<br/>Context occupancy table"]
+    ReadStats --> ReadNear["3. Display near_memory<br/>Last 5 summaries"]
+    ReadNear --> DisplayAll["Output mindmap +<br/>context + stats<br/>to conversation"]
+    DisplayAll --> Ready(["✅ Session Ready"])
 
-    Work(["💻 Work Phase"]) --> Save
+    Ready --> Work
 
-    Save["save protocol"] --> WriteNotes["1. Write session notes"]
-    WriteNotes --> Commit["2. Commit on task branch"]
-    Commit --> Push["3. Push to origin"]
-    Push --> CreatePR["4. Create PR → default branch"]
-    CreatePR --> CheckElevated{{"Elevated?"}}
-    CheckElevated -->|"Yes"| AutoMerge["5. Auto-merge via API"]
-    CheckElevated -->|"No"| ManualMerge["5. ⏸ User merges PR"]
-    AutoMerge --> SyncBack["6. Sync default branch"]
-    ManualMerge --> SyncBack
-    SyncBack --> Done([Session End])
+    subgraph Work["💻 Work Phase — Every Turn"]
+        direction TB
+        UserMsg["User message"] --> DoWork["Claude processes task"]
+        DoWork --> Append["memory_append.py<br/>--role user --content ...<br/>--role2 assistant --content2 ...<br/>--summary ... --mind-refs ..."]
+        Append --> UpdateMind["Update mind_memory.md<br/>nodes if needed"]
+        UpdateMind --> UpdateJSON["Update domain JSONs<br/>if relevant"]
+    end
 
-    Work -->|"Crash!"| Checkpoint["Auto-checkpoint<br/>notes/checkpoint.json"]
-    Checkpoint -->|"Next session"| Start
+    Work --> TopicDone{{"Topic<br/>complete?"}}
+    TopicDone -->|"Yes"| Split["far_memory_split.py<br/>--topic 'Name'<br/>--start-msg N --end-msg N"]
+    TopicDone -->|"No"| Work
+    Split --> Work
 
-    Work -->|"Compaction"| Refresh["refresh<br/>Re-read CLAUDE.md<br/>+ git status + help"]
-    Refresh --> Work
+    Work -->|"Compaction!"| Recovery["Compaction Recovery"]
+    Recovery --> ReloadContext["/mind-context<br/>Re-read mindmap + near_memory"]
+    ReloadContext --> NeedRecall{{"Need details?"}}
+    NeedRecall -->|"Yes"| Recall["memory_recall.py<br/>--subject 'topic'"]
+    NeedRecall -->|"No"| Work
+    Recall --> Work
+
+    Work --> SessionEnd(["Session End"])
 ```
 
 
-**Legend**: The session lifecycle has three phases: boot (wakeup), work, and delivery (save). Crash recovery uses checkpoints. Context loss recovery uses `refresh`. The elevated path (with token) is fully autonomous; the semi-automatic path requires one user click to merge the PR.
+**Legend**: The session lifecycle has three phases: boot (/mind-context), work (memory_append every turn), and recovery (compaction handling). The mind-first principle means the mindmap is always loaded first — it contains all behavioral directives. Far memory stores full verbatim conversation; near memory stores one-line summaries with pointers. Topic archiving keeps far_memory.json manageable. Compaction recovery re-reads the mindmap and near memory, with optional deep recall from archives.
 
 ---
 
-## 5. Distributed Flow — Push and Pull
+## 5. Module Interaction Flow
 
-The bidirectional knowledge flow between the master mind (P0) and satellite projects. Push delivers methodology outward; harvest pulls insights inward. The promotion pipeline advances insights from raw to core.
+How the 5 K_ modules interact: K_MIND as central hub, compilation pipelines feeding the web viewer, and skill invocations across modules.
 
 ```mermaid
 flowchart TB
-    subgraph Master["Master Mind (P0 — Knowledge)"]
+    subgraph KMIND["K_MIND — Central Hub"]
         direction TB
-        CoreCM["CLAUDE.md<br/>v48"]
-        CorePat["patterns/"]
-        CoreLes["lessons/"]
-        CoreMet["methodology/"]
-        CoreMinds["minds/"]
-        Dashboard["Dashboard<br/>(Publication #4a)"]
+        MindMap["mind_memory.md<br/>264 nodes"]
+        GHHelper["gh_helper.py<br/>GitHub API wrapper"]
+        MemScripts["Memory scripts<br/>append, recall, split"]
+        DomainJSONs["Domain JSONs<br/>per module"]
     end
 
-    subgraph SatA["P1 — MPLIB"]
-        SatA_CM["CLAUDE.md<br/>← knowledge-version: vN →"]
-        SatA_Notes["notes/"]
-        SatA_Pubs["publications/"]
+    subgraph KDOCS["K_DOCS — Documentation"]
+        direction TB
+        Methodology["7 methodologies<br/>web pipeline, audience,<br/>webcard generation"]
+        WebConv["Web conventions<br/>diagram, CSS theme,<br/>render, OG images"]
+        DocScripts["7 scripts<br/>capture, stitch, webcard"]
     end
 
-    subgraph SatB["P2 — STM32 PoC"]
-        SatB_CM["CLAUDE.md"]
-        SatB_Notes["notes/"]
+    subgraph KGITHUB["K_GITHUB"]
+        direction TB
+        SyncScripts["3 sync scripts<br/>issues, roadmap, enrich"]
     end
 
-    subgraph SatC["P3 — knowledge-live"]
-        SatC_CM["CLAUDE.md"]
-        SatC_Notes["notes/"]
-        SatC_Pubs["publications/"]
+    subgraph KPROJECTS["K_PROJECTS"]
+        direction TB
+        CompileP["compile_projects.py<br/>+ compile_from_mind.py"]
+        ProjSkills["Skills:<br/>project-create,<br/>project-manage"]
     end
 
-    CoreCM ==>|"Push on wakeup<br/>(methodology, commands)"| SatA_CM
-    CoreCM ==>|"Push"| SatB_CM
-    CoreCM ==>|"Push"| SatC_CM
-
-    SatA_Notes -.->|"harvest MPLIB<br/>(pull insights)"| CoreMinds
-    SatA_Pubs -.->|"publication<br/>detection"| CoreMinds
-    SatB_Notes -.->|"harvest STM32"| CoreMinds
-    SatC_Notes -.->|"harvest knowledge-live"| CoreMinds
-    SatC_Pubs -.->|"publication<br/>detection"| CoreMinds
-
-    subgraph Promotion["Promotion Pipeline"]
-        direction LR
-        Review["🔍 Review"] --> Stage["📦 Stage"]
-        Stage --> Promote["✅ Promote"]
-        Promote --> Auto["🔄 Auto"]
+    subgraph KVALIDATION["K_VALIDATION"]
+        direction TB
+        CompileV["compile_tasks.py<br/>+ compile_sessions.py"]
+        ValSkills["Skills:<br/>task-received, work-cycle,<br/>integrity-check, normalize"]
     end
 
-    CoreMinds --> Review
-    Promote -->|"lesson"| CoreLes
-    Promote -->|"pattern"| CorePat
-    Promote -->|"methodology"| CoreMet
-    Promote -->|"evolution"| CoreCM
+    subgraph WebViewer["docs/ — Static Web Viewer"]
+        direction TB
+        DataJSON["data/<br/>projects.json<br/>sessions.json<br/>tasks.json"]
+        I1["I1: Main Navigator"]
+        I2["I2: Session Review"]
+        I3["I3: Task Workflow"]
+        I4["I4: Project Viewer"]
+        I5["I5: Live Mindmap"]
+    end
 
-    CoreMinds -->|"healthcheck"| Dashboard
+    MindMap ==>|"directives"| KDOCS
+    MindMap ==>|"directives"| KGITHUB
+    MindMap ==>|"directives"| KPROJECTS
+    MindMap ==>|"directives"| KVALIDATION
+
+    GHHelper -->|"shared API"| SyncScripts
+    GHHelper -->|"shared API"| ProjSkills
+
+    CompileP -->|"projects.json"| DataJSON
+    CompileV -->|"tasks.json<br/>sessions.json"| DataJSON
+
+    SyncScripts -.->|"fetch from<br/>GitHub API"| GHHelper
+
+    DataJSON -->|"consumed by"| I1
+    DataJSON -->|"consumed by"| I2
+    DataJSON -->|"consumed by"| I3
+    DataJSON -->|"consumed by"| I4
+    MindMap -->|"mermaid source"| I5
 ```
 
 
-**Legend**: Thick solid arrows represent the push flow (wakeup). Dashed arrows represent the pull flow (harvest). The promotion pipeline advances insights through four stages: review (human validated), stage (typed and targeted), promote (written to core), auto (queued for next healthcheck). The dashboard is updated on every harvest.
+**Legend**: K_MIND is the hub — its mindmap provides directives to all modules, and gh_helper.py is the shared GitHub API wrapper. K_PROJECTS and K_VALIDATION compile structured data into `docs/data/` JSON files consumed by the 5 web interfaces. K_GITHUB syncs external GitHub state. K_DOCS owns the web pipeline methodology and conventions. The live mindmap (I5) reads directly from mind_memory.md.
 
 ---
 
 ## 6. Publication Pipeline
 
-Each publication exists at three tiers: source (canonical), summary (web), and complete (web). Each tier is bilingual (EN + FR). This diagram shows the sync and review flows.
+Each publication exists at two web tiers (summary + full), in two languages (EN + FR), rendered by the static JS viewer with 4 theme variants.
 
 ```mermaid
 flowchart LR
-    subgraph Source["Source (Canonical)"]
-        SRC["publications/<slug>/v1/<br/>README.md"]
-        SRC_Assets["assets/"]
-        SRC_Media["media/"]
+    subgraph Source["Source (K_DOCS methodology)"]
+        Method["methodology/<br/>documentation-generation.md"]
+        Audience["methodology/<br/>documentation-audience.md<br/>19 segments"]
     end
 
     subgraph EN_Web["EN Web Pages"]
-        EN_Sum["docs/publications/<slug>/<br/>index.md<br/>(Summary)"]
-        EN_Full["docs/publications/<slug>/full/<br/>index.md<br/>(Complete)"]
+        EN_Sum["docs/publications/slug/<br/>index.md<br/>(Summary)"]
+        EN_Full["docs/publications/slug/full/<br/>index.md<br/>(Complete)"]
     end
 
     subgraph FR_Web["FR Web Pages"]
-        FR_Sum["docs/fr/publications/<slug>/<br/>index.md<br/>(Résumé)"]
-        FR_Full["docs/fr/publications/<slug>/full/<br/>index.md<br/>(Complet)"]
+        FR_Sum["docs/fr/publications/slug/<br/>index.md<br/>(Résumé)"]
+        FR_Full["docs/fr/publications/slug/full/<br/>index.md<br/>(Complet)"]
     end
 
-    subgraph Validation["Validation & Review"]
-        PubCheck["pub check #N<br/>Structure validation"]
-        PubSync["pub sync #N<br/>Source → docs sync"]
-        DocReview["doc review #N<br/>Freshness check"]
-        DocsCheck["docs check<br/>Page validation"]
+    subgraph Viewer["Static JS Viewer"]
+        ViewerHTML["docs/index.html<br/>2065 lines<br/>Client-side render"]
+        Mermaid["Mermaid CDN<br/>Diagram rendering"]
+        Themes["4 Themes<br/>cayman, midnight,<br/>daltonism-light,<br/>daltonism-dark"]
     end
 
-    subgraph Assets_Web["Web Assets"]
-        OG_EN["assets/og/<br/><card>-en-cayman.gif"]
-        OG_FR["assets/og/<br/><card>-fr-cayman.gif"]
+    subgraph Validation["Validation Skills"]
+        Normalize["/normalize<br/>EN/FR concordance"]
+        IntCheck["/integrity-check<br/>Structure validation"]
     end
 
-    SRC ==>|"pub sync"| EN_Sum
-    SRC ==>|"pub sync"| EN_Full
-    EN_Sum -->|"translate"| FR_Sum
-    EN_Full -->|"translate"| FR_Full
-    EN_Sum <-->|"language bar"| FR_Sum
-    EN_Full <-->|"language bar"| FR_Full
+    subgraph Social["Social & Export"]
+        OG["assets/og/<br/>Animated GIFs<br/>4 per publication"]
+        PDF["CSS @page<br/>PDF export"]
+        DOCX["MSO elements<br/>DOCX export"]
+    end
+
+    Method -->|"/docs-create"| EN_Sum
+    Method -->|"/docs-create"| EN_Full
+    EN_Sum -->|"identical body<br/>JS translateStatic()"| FR_Sum
+    EN_Full -->|"identical body<br/>JS translateStatic()"| FR_Full
     EN_Sum -->|"link to full"| EN_Full
     FR_Sum -->|"link to full"| FR_Full
-    SRC_Assets -->|"copy"| EN_Full
-    SRC_Media -->|"copy"| EN_Full
 
-    PubCheck -->|"validates"| SRC
-    PubCheck -->|"validates"| EN_Web
-    PubCheck -->|"validates"| FR_Web
-    PubSync -->|"compares"| SRC
-    PubSync -->|"syncs to"| EN_Web
-    DocReview -->|"freshness"| SRC
-    DocsCheck -->|"pages"| EN_Web
-    DocsCheck -->|"pages"| FR_Web
+    EN_Web -->|"rendered by"| ViewerHTML
+    FR_Web -->|"rendered by"| ViewerHTML
+    ViewerHTML --> Mermaid
+    ViewerHTML --> Themes
 
-    EN_Sum --- OG_EN
-    FR_Sum --- OG_FR
+    Normalize -->|"validates"| EN_Web
+    Normalize -->|"validates"| FR_Web
+    IntCheck -->|"validates"| EN_Web
+
+    EN_Sum --- OG
+    ViewerHTML --> PDF
+    ViewerHTML --> DOCX
 ```
 
 
-**Legend**: The source README.md is the single source of truth. `pub sync` propagates changes from source to EN web pages. Translation produces FR mirrors. Each web page links to its language mirror (EN ↔ FR) and to its depth variant (summary ↔ complete). Four validation commands ensure structural integrity, source-docs concordance, content freshness, and page-level correctness.
+**Legend**: Publications follow K_DOCS methodology. EN and FR pages share identical `{::nomarkdown}` bodies — language is a runtime parameter via JS `translateStatic()` (convention conv-020: never duplicate templates). The static viewer renders markdown + mermaid client-side with 4 theme variants. Export to PDF uses CSS @page media; DOCX uses MSO elements. Validation skills ensure EN/FR concordance and structural integrity.
 
 ---
 
@@ -438,7 +466,7 @@ The proxy model governing what Claude Code sessions can and cannot do. The conta
 flowchart TB
     subgraph Container["Claude Code Container"]
         Session["Claude Session<br/>claude/task-id-xxx"]
-        GHHelper["gh_helper.py<br/>(Python urllib)"]
+        GHHelper["K_MIND/scripts/<br/>gh_helper.py<br/>(Python urllib)"]
         GitCLI["git CLI"]
         CurlCLI["curl"]
     end
@@ -489,54 +517,74 @@ flowchart TB
 ```
 
 
-**Legend**: The container proxy is the primary security boundary. Git operations are restricted to the assigned task branch of the current repo. Python `urllib` (used by `gh_helper.py`) bypasses the proxy entirely, enabling full GitHub API access with a valid token. `curl` is intercepted by the proxy and auth headers are stripped. The two-channel model: git proxy (restricted) + urllib (unrestricted with token).
+**Legend**: The container proxy is the primary security boundary. Git operations are restricted to the assigned task branch. `gh_helper.py` (located in K_MIND/scripts/) bypasses the proxy via Python `urllib`, enabling full GitHub API access with a valid token. `curl` is intercepted and auth headers stripped. The two-channel model: git proxy (restricted) + urllib (unrestricted with token). Token is never exposed in commands or URLs — gh_helper.py manages token retrieval internally.
 
 ---
 
-## 8. Deployment Tiers
+## 8. Web Architecture
 
-The multi-tier deployment model where each satellite is simultaneously development (relative to core) and production (at its own level). Every node publishes independently via GitHub Pages.
+The static web viewer architecture: .nojekyll GitHub Pages, client-side rendering, 4-theme system, 5 interactive interfaces, and the BroadcastChannel theme sync.
 
 ```mermaid
 graph TB
-    subgraph Production["SYSTEM PRODUCTION — Core"]
-        Core["P0 — Knowledge<br/>packetqc.github.io/knowledge/<br/>Canonical methodology<br/>13 publications"]
+    subgraph GitHubPages["GitHub Pages — .nojekyll"]
+        direction TB
+        NoJekyll[".nojekyll<br/>No build step<br/>Raw file serving"]
     end
 
-    subgraph PreProd["DEV/PRE-PROD relative to Core<br/>PRODUCTION at repo level"]
-        S1["P1 — MPLIB<br/>packetqc.github.io/MPLIB/<br/>Own publications<br/>Own project board (#5)"]
-        S2["P2 — STM32 PoC<br/>packetqc.github.io/STM32.../<br/>Own publications<br/>Own project board (#6)"]
-        S3["P3 — knowledge-live<br/>packetqc.github.io/knowledge-live/<br/>Own publications<br/>Own project board (#7)"]
-        S4["P4 — MPLIB Dev<br/>packetqc.github.io/MPLIB_DEV.../<br/>Staging environment<br/>Own project board (#8)"]
+    subgraph Viewer["Static JS Viewer (index.html)"]
+        direction TB
+        Parser["Markdown parser<br/>+ Liquid resolver"]
+        MermaidCDN["Mermaid CDN<br/>Diagram rendering"]
+        ThemeEngine["Theme engine<br/>CSS custom properties"]
+        LinkInterceptor["Link interceptor<br/>viewer URL rewriting"]
+        DocHeader["Doc header<br/>nav-back, link, version,<br/>collapsible metadata"]
+        TOC["TOC generator<br/>Two-column 8+ items"]
+        Export["Export engine<br/>PDF (@page) + DOCX (MSO)"]
     end
 
-    Core ==>|"wakeup push<br/>(methodology)"| S1
-    Core ==>|"wakeup push"| S2
-    Core ==>|"wakeup push"| S3
-    Core ==>|"wakeup push"| S4
-
-    S1 -.->|"harvest pull<br/>(insights)"| Core
-    S2 -.->|"harvest pull"| Core
-    S3 -.->|"harvest pull"| Core
-    S4 -.->|"harvest pull"| Core
-
-    subgraph Lifecycle["Lifecycle"]
-        direction LR
-        Idea["💡 Idea"] --> SatTest["Satellite testing<br/>(dev)"]
-        SatTest --> SatPages["Satellite Pages<br/>(repo-production)"]
-        SatPages --> Harvest["harvest to core"]
-        Harvest --> CorePromo["Core promotion<br/>(system-production)"]
-        CorePromo --> Inherit["All satellites<br/>inherit on wakeup"]
+    subgraph Themes["4-Theme System"]
+        T1["☀️ Cayman<br/>Blue accent, light bg"]
+        T2["🌙 Midnight<br/>Soft blue, dark bg"]
+        T3["♿ Daltonism Light<br/>Color-blind safe, light"]
+        T4["♿ Daltonism Dark<br/>Color-blind safe, dark"]
     end
 
-    subgraph DualOrigin["Dual-Origin Links"]
-        CoreLink["**core** badge<br/>knowledge/publications/.../<br/>Canonical / approved"]
-        SatLink["*satellite* badge<br/><repo>/publications/.../<br/>Development / staging"]
+    subgraph Interfaces["5 Interactive Interfaces"]
+        I1["I1: Main Navigator<br/>3-panel layout<br/>draggable dividers"]
+        I2["I2: Session Review<br/>Timeline, metrics,<br/>task breakdown"]
+        I3["I3: Task Workflow<br/>8-stage progress<br/>related issues"]
+        I4["I4: Project Viewer<br/>Board display<br/>issue tracking"]
+        I5["I5: Live Mindmap<br/>MindElixir v5.9.3<br/>4 themes synced"]
     end
+
+    subgraph DataLayer["Compiled Data (docs/data/)"]
+        DJ1["projects.json"]
+        DJ2["sessions.json"]
+        DJ3["tasks.json"]
+        DJ4["board-N.json"]
+    end
+
+    NoJekyll --> Viewer
+    Viewer --> Themes
+    ThemeEngine -->|"BroadcastChannel<br/>kdocs-theme-sync"| Interfaces
+    I1 -->|"iframe src"| I2
+    I1 -->|"iframe src"| I3
+    I1 -->|"iframe src"| I4
+    I1 -->|"iframe src"| I5
+    DataLayer -->|"fetch()"| Interfaces
+
+    subgraph Social["Social Preview"]
+        WebcardGIF["Animated GIF webcards<br/>1200×630, 4 themes<br/>MindElixir capture pipeline"]
+        OGTags["og:image meta injection<br/>per-document"]
+    end
+
+    Viewer --> OGTags
+    WebcardGIF --> OGTags
 ```
 
 
-**Legend**: The deployment model is multi-tier. Core is system-production — the canonical brain. Each satellite is simultaneously development relative to core (testing ground for new capabilities) and production at its own level (independent GitHub Pages, project boards, publications). Ideas flow: satellite testing → satellite pages → harvest → core promotion → all satellites inherit.
+**Legend**: The web presence uses .nojekyll GitHub Pages — no server-side build. The static JS viewer (2065 lines) handles markdown parsing, mermaid rendering, link rewriting, theme switching, and export. The 4-theme system uses CSS custom properties injected via a theme engine. Interfaces run as iframes within the main navigator, receiving theme broadcasts via BroadcastChannel. Compiled JSON data from K_VALIDATION and K_PROJECTS feeds the interfaces. MindElixir v5.9.3 powers the live mindmap with the same 4 themes.
 
 ---
 
@@ -552,19 +600,19 @@ graph TB
     Auto --> Concordant["3. Concordant<br/>(Structural integrity)"]
     Auto --> Concis["4. Concis<br/>(Critical-subset)"]
 
-    Autonome --> Distribue["7. Distribué<br/>(Bidirectional flow)"]
+    Autonome --> Distribue["7. Distribué<br/>(Multi-module flow)"]
     Autonome --> Persistant["8. Persistant<br/>(Session → permanent)"]
 
-    Concordant --> Interactif["5. Interactif<br/>(Operable dashboard)"]
+    Concordant --> Interactif["5. Interactif<br/>(5 web interfaces)"]
     Concis --> Evolutif["6. Évolutif<br/>(Self-growing)"]
 
     Interactif --> Recursif["9. Récursif<br/>(Self-documenting)"]
     Evolutif --> Recursif
 
     Distribue --> Securitaire["10. Sécuritaire<br/>(Security by architecture)"]
-    Persistant --> Resilient["11. Résilient<br/>(Crash recovery)"]
+    Persistant --> Resilient["11. Résilient<br/>(K_MIND recovery)"]
 
-    Securitaire --> Structure["12. Structuré<br/>(Project hierarchy)"]
+    Securitaire --> Structure["12. Structuré<br/>(K_ module hierarchy)"]
     Resilient --> Structure
 
     Structure --> Integre["13. Intégré<br/>(GitHub platform)"]
@@ -585,68 +633,62 @@ graph TB
 ```
 
 
-**Legend**: The dependency graph flows from foundation (autosuffisant — plain text in Git) through enabling qualities (autonome, concordant, concis) to operational qualities (interactif, evolutif) to network qualities (distribue, persistant) to meta-qualities (recursif, securitaire, resilient) to organizational qualities (structure, integre). Each quality reinforces the ones that depend on it.
+**Legend**: The dependency graph flows from foundation (autosuffisant — plain text in Git) through enabling qualities to operational qualities to organizational qualities. Updated for Knowledge 2.0: Interactif now references 5 web interfaces, Distribué references multi-module flow, Résilient references K_MIND recovery, and Structuré references the K_ module hierarchy.
 
 ---
 
-## 10. Recovery Ladder
+## 10. Recovery Paths
 
-The five recovery paths, ordered from lightest to heaviest. Each path addresses a different failure mode.
+The K_MIND recovery mechanisms, ordered from lightest to heaviest. Each path addresses a different failure mode.
 
 ```mermaid
 stateDiagram-v2
     [*] --> Working: Session active
 
-    Working --> Disconnected: Client disconnect
-    Working --> Compacted: Context window limit
-    Working --> Crashed: API 400/500 / container restart
-    Working --> StaleUpstream: Other sessions merged PRs
+    Working --> Compacted: Context compaction
+    Working --> Crashed: Container restart / API error
+    Working --> StaleContext: Long gap between turns
+    Working --> NewSession: Fresh start needed
 
-    Disconnected --> BrowserRefresh: Path A — Instant
-    BrowserRefresh --> Working: Session may still be alive
+    Compacted --> MindContext: /mind-context
+    MindContext --> ReadMindmap: Re-read mindmap + near_memory
+    ReadMindmap --> NeedDetails: Need specific details?
+    NeedDetails --> MemoryRecall: memory_recall.py --subject "topic"
+    NeedDetails --> Working: No — resume with mindmap context
+    MemoryRecall --> Working: Archived topic loaded
 
-    Disconnected --> ManualPR: Path B — Minutes
-    ManualPR --> Working: Work was pushed, create PR manually
+    Crashed --> CheckFar: Check far_memory.json
+    CheckFar --> HasMessages: Messages preserved?
+    HasMessages --> SessionInit: session_init.py --preserve-active
+    CheckFar --> NoMessages: Messages lost
+    NoMessages --> FreshInit: session_init.py (fresh)
+    SessionInit --> MindContext
+    FreshInit --> MindContext
 
-    Crashed --> ResumeCheck: Check checkpoint
-    ResumeCheck --> Resume: notes/checkpoint.json exists
-    ResumeCheck --> RecallCheck: No checkpoint
-    Resume --> Working: ~10s — restart from last step
+    StaleContext --> NearCheck: Read near_memory summaries
+    NearCheck --> Working: Context restored from summaries
 
-    RecallCheck --> Recall: Commits on dead branch
-    RecallCheck --> NewSession: No commits found
-    Recall --> Working: ~15s — cherry-pick stranded work
-
-    Compacted --> Refresh: Re-read CLAUDE.md + git status
-    Refresh --> Working: ~5s — formatting restored
-
-    StaleUpstream --> Wakeup: Full protocol re-run
-    Wakeup --> Working: ~30-60s — deep re-sync
-
-    NewSession --> Wakeup: Start fresh
+    NewSession --> FreshInit
 ```
 
 
-**Legend**: The recovery ladder matches failure modes to recovery paths. Client disconnect: browser refresh (instant) or manual PR (minutes). Crash with checkpoint: `resume` (~10s). Crash without checkpoint: `recover` (~15s). Context compaction: `refresh` (~5s). Stale upstream: `wakeup` (~30-60s). Each path is the lightest possible response to its failure mode.
+**Legend**: K_MIND provides 4 recovery paths. **Compaction** (most common): `/mind-context` reloads the mindmap and near memory — sufficient for most cases. **Deep recall**: `memory_recall.py` searches archived topics when specific details are needed. **Crash recovery**: `session_init.py --preserve-active` preserves existing messages. **Fresh start**: new session inherits last_session summaries for continuity.
 
 **Recovery summary**:
 
 | Recovery | Trigger | Speed | What it restores |
 |----------|---------|-------|------------------|
-| Browser refresh | Client disconnect | Instant | Session may still be alive server-side |
-| Manual PR | Push succeeded, PR interrupted | Minutes | Work on remote branch gets a PR |
-| `resume` | Crash with checkpoint | ~10s | Protocol progress + todo state |
-| `recover` | Crash, no checkpoint | ~15s | Committed code from dead branch |
-| `recall` | Deep memory search | ~10s | Session history and past decisions |
-| `refresh` | Context compaction | ~5s | CLAUDE.md formatting + rules |
-| `wakeup` | Stale upstream | ~30-60s | Full deep re-sync |
-| New session | Severe compaction | ~60s | Complete fresh start |
+| `/mind-context` | Context compaction | ~5s | Mindmap directives + recent summaries |
+| `memory_recall.py` | Need archived details | ~10s | Specific topic from archives |
+| `session_init --preserve-active` | Crash with messages | ~10s | Full session continuity |
+| `session_init` (fresh) | New session | ~15s | Clean start + last_session context |
+| Near memory check | Stale context | ~3s | Recent activity summaries |
 
 ---
 
 ## 11. GitHub Integration
 
-The lifecycle of GitHub entities (Issues, PRs, Project board items) within the Knowledge system. Each entity type has a well-defined lifecycle managed by `gh_helper.py`.
+The K_GITHUB module manages GitHub entity synchronization. `gh_helper.py` (in K_MIND/scripts/) is the shared API wrapper used across modules.
 
 ```mermaid
 sequenceDiagram
@@ -654,193 +696,189 @@ sequenceDiagram
     participant Claude as 🤖 Claude Code
     participant GH as 🐙 GitHub API
     participant Board as 📋 Project Board
-    participant Pages as 📄 GitHub Pages
+    participant Viewer as 📄 Static Viewer
 
-    Note over User,Pages: Issue Lifecycle
-    User->>GH: Create issue (#N)
-    GH->>Board: Link to project board (Todo)
-    Claude->>GH: Comment with branch reference
-    Claude->>Board: Move to In Progress
-    Claude->>Claude: Work on claude/task-branch
-    Claude->>GH: Push + Create PR (Closes #N)
-    Claude->>GH: Merge PR (if elevated)
-    GH->>GH: Auto-close issue #N
-    GH->>Board: Auto-move to Done
-    GH->>Pages: Deploy from default branch
+    Note over User,Viewer: Task Lifecycle (K_VALIDATION)
+    User->>Claude: /task-received (skill)
+    Claude->>Claude: 9-step initial assessment
+    Claude->>GH: Comment via gh_helper.py
+    Claude->>Board: Update status field
+    Claude->>Claude: Work (memory_append every turn)
+    Claude->>GH: git push main
+    GH->>Viewer: Auto-deploy (.nojekyll)
 
-    Note over User,Pages: Harvest Cycle
-    Claude->>GH: Clone satellite (HTTPS)
-    Claude->>Claude: Extract insights → minds/
-    Claude->>Claude: Update dashboard files
-    Claude->>GH: Push + PR + Merge
-    GH->>Pages: Deploy updated dashboard
+    Note over User,Viewer: Data Compilation
+    Claude->>Claude: compile_tasks.py → tasks.json
+    Claude->>Claude: compile_sessions.py → sessions.json
+    Claude->>Claude: compile_projects.py → projects.json
+    Claude->>GH: Push compiled data
+    GH->>Viewer: Deploy → interfaces consume JSON
 
-    Note over User,Pages: Project Creation
-    User->>Claude: project create "Name"
+    Note over User,Viewer: GitHub Sync (K_GITHUB)
+    Claude->>GH: sync_github.py (fetch issues/PRs)
+    Claude->>Claude: enrich_from_github.py (add fields)
+    Claude->>Claude: Store in docs/data/board-N.json
+    Claude->>GH: Push synced data
+    GH->>Viewer: Interfaces display board data
+
+    Note over User,Viewer: Project Creation (K_PROJECTS)
+    User->>Claude: /project-create "Name"
     Claude->>GH: createProjectV2 (GraphQL)
     Claude->>GH: linkProjectV2ToRepository
-    Claude->>Claude: Register P# + scaffold docs/
-    Claude->>GH: Push + PR + Merge
-    GH->>Pages: Deploy project pages
+    Claude->>Claude: Register P# in projects.json
+    Claude->>GH: Push + deploy
 ```
 
 
-**Legend**: Three key workflows. **Issue lifecycle**: issue created → linked to board → work (In Progress) → PR with "Closes #N" → merge → auto-close → auto-Done. **Harvest cycle**: clone satellite → extract → update dashboard → push → deploy. **Project creation**: create board → link to repo → scaffold web presence → deploy. All API calls go through `gh_helper.py` (Python urllib).
-
-**GitHub entity lifecycle summary**:
-
-| Entity | Created by | Managed by | Closed by |
-|--------|-----------|------------|-----------|
-| Issue | User (GitHub UI) | Claude (comments, labels) | Auto-close on PR merge (`Closes #N`) |
-| PR | Claude (`gh_helper.py`) | Claude (push, create) | Claude merge (elevated) or user (semi-auto) |
-| Board item | User or Claude (draft/linked) | Claude (`project_item_update`) | Auto-Done on issue close |
-| Project board | Claude (`createProjectV2`) | Claude (fields, items) | Never (persistent) |
+**Legend**: Three key workflows. **Task lifecycle**: skill-driven assessment → work with real-time memory → push to main → auto-deploy. **Data compilation**: K_VALIDATION and K_PROJECTS scripts compile JSON consumed by web interfaces. **GitHub sync**: K_GITHUB scripts fetch external state into local data files. All API calls go through `gh_helper.py` (Python urllib, bypasses container proxy).
 
 ---
 
 ## 12. System Architecture Mindmap
 
-High-level navigation map of the Knowledge system with its 9 architectural pillars. This mindmap provides a bird's-eye view complementing the detailed flowcharts above.
+High-level navigation map of the Knowledge 2.0 system with its architectural pillars.
 
 ```mermaid
 mindmap
-  root((Knowledge System))
-    Identity
-      13 qualities
-      Free Guy analogy
-      48 evolutions
-      Martin 30 years XP
-    Distributed Architecture
-      Bidirectional flow
-      4 knowledge layers
-      Satellites P1-P5
-      Proxy protocol
-    Session Lifecycle
-      wakeup
-      work
-      save
-      recovery
-    Projects
-      3 core/child
-      3 managed
-      1 pre-bootstrap
-    Publications
-      15 pubs
-      3 tiers
-      2 languages
-    Security
-      Ephemeral tokens
-      Proxy-aware
-      Fork-safe
+  root((Knowledge 2.0))
+    Multi-Module Core
+      K_MIND mandatory
+      K_DOCS documentation
+      K_GITHUB integration
+      K_PROJECTS management
+      K_VALIDATION QA
+      modules.json registry
+    Mind-First Memory
+      mind_memory.md grid
+      264 nodes 7 groups
+      Domain JSONs per module
+      Near + far memory
+      16 topic archives
+      Deterministic scripts
+    Session System
+      session_init.py
+      memory_append every turn
+      far_memory_split by topic
+      Compaction recovery
+      memory_recall archives
     Web Presence
-      GitHub Pages
-      Dual-theme
-      40 webcards
-    Tools
-      7 Python scripts
-      Deployed everywhere
-    Proven Knowledge
-      4 patterns
-      20 pitfalls
+      Static JS viewer
+      .nojekyll Pages
+      4 themes system
+      25+ publications
+      EN/FR bilingual
+      Animated webcards
+    5 Interfaces
+      Main navigator
+      Session review
+      Task workflow
+      Project viewer
+      Live mindmap MindElixir
+    Skills System
+      /mind-context
+      /docs-create
+      /github
+      /project-create
+      /task-received
+      /work-cycle
+    Security
+      Container proxy
+      gh_helper.py bypass
+      Token management
+      Fork-safe
+    Quality Framework
+      13 qualities
+      Autosuffisant foundation
+      Self-documenting
       30 years distilled
 ```
 
 
-**The 9 architectural pillars**:
+**The architectural pillars**:
 
 | # | Pillar | Essence | Key elements |
 |---|--------|---------|--------------|
-| 1 | **Identity** | The system's DNA | 13 qualities, Free Guy analogy, 48 evolutions, Martin 30 years XP |
-| 2 | **Distributed architecture** | The living network | Bidirectional flow, 4 layers, satellites, proxy protocol |
-| 3 | **Session lifecycle** | The work rhythm | wakeup → work → save → recovery |
-| 4 | **Projects** | The P0-P9 entities | 3 core/child, 3 managed, 1 pre-bootstrap |
-| 5 | **Publications** | The public face | 15 pubs × 3 tiers × 2 languages |
-| 6 | **Security** | Trust by design | Ephemeral tokens, proxy-aware, fork-safe |
-| 7 | **Web presence** | The constellation of sites | GitHub Pages, dual-theme, 40 webcards |
-| 8 | **Tools** | The toolbox | 7 Python scripts deployed everywhere |
-| 9 | **Proven knowledge** | The long memory | 4 patterns + 20 pitfalls = 30 years distilled |
-
-**Source**: [Issue #317](https://github.com/packetqc/knowledge/issues/317) — Interactive voice-to-text architecture exploration session.
+| 1 | **Multi-module core** | The K_ organization | 5 modules + registry, each with own conventions/work/scripts |
+| 2 | **Mind-first memory** | The operating memory | Mindmap → domain JSONs → near/far → archives |
+| 3 | **Session system** | The work rhythm | init → append → split → recover |
+| 4 | **Web presence** | The public face | Static viewer, .nojekyll, 4 themes, 25+ pubs |
+| 5 | **5 interfaces** | The interactive layer | Navigator, session, task, project, mindmap |
+| 6 | **Skills system** | The command surface | Module-specific skills invoked by Claude |
+| 7 | **Security** | Trust by design | Proxy model, token management, fork-safe |
+| 8 | **Quality framework** | The quality contract | 13 qualities, dependency graph, 30 years distilled |
 
 ---
 
-## 13. Core Nucleus Mindmap
+## 13. Module Structure Mindmap
 
-The Knowledge system's file-level structure — every folder and its weight, role, and contents. The entire system fits in < 1 MB of Markdown + Python.
+The Knowledge 2.0 file-level structure — every module and its components.
 
 ```mermaid
 mindmap
-  root((Core Nucleus<br/>~930 KB))
-    Brain — 31%
-      CLAUDE.md 293 KB
-      Identity + methodology
-      Evolution log
-    Knowledge — 23%
-      methodology/ 194 KB
-      patterns/ 14 KB
-      lessons/ 10 KB
-    Intelligence — 13%
-      minds/ 71 KB
-      projects/ 50 KB
-    Tools — 26%
-      scripts/ 242 KB
-      gh_helper.py
-      generate_og_gifs.py
-    Infrastructure — 6%
-      live/ 53 KB
-      beacon + scanner
-    Ephemeral
-      docs/ 100+ pages
-      notes/ 80 KB
-      publications/ variable
+  root((Knowledge 2.0<br/>Repository))
+    Knowledge/K_MIND
+      mind/mind_memory.md
+      sessions/near+far+archives
+      conventions/depth_config
+      architecture.json
+      constraints.json
+      work.json
+      scripts 10 programs
+    Knowledge/K_DOCS
+      scripts 7 programs
+      methodology 7 files
+      conventions sessions+web
+      work.json
+    Knowledge/K_GITHUB
+      scripts 3 sync programs
+      methodology
+      conventions.json
+    Knowledge/K_PROJECTS
+      data/projects.json
+      scripts 2 compilers
+      skills 2
+      methodology 2 files
+    Knowledge/K_VALIDATION
+      scripts 5 compilers
+      skills 5
+      methodology 4 files
+    docs Web Output
+      index.html viewer
+      interfaces 5 panels
+      publications 25+
+      data compiled JSON
+      assets/og webcards
+      fr/ bilingual mirror
+    .claude
+      skills 5 root
+      settings.json
+      launch.json
+    CLAUDE.md
+      K_MIND instructions
+      Mind-first principle
 ```
 
 
-**Nucleus weight by role**:
+**Module roles**:
 
-| Role | Components | Weight | Proportion |
-|------|-----------|--------|------------|
-| **Brain** | CLAUDE.md | 293 KB | 31% |
-| **Knowledge** | methodology + patterns + lessons | 218 KB | 23% |
-| **Intelligence** | minds + projects | 121 KB | 13% |
-| **Tools** | scripts | 242 KB | 26% |
-| **Infrastructure** | live | 53 KB | 6% |
-| **Ephemeral** | docs + notes + publications | Variable | — |
-| **Total nucleus** | **~930 KB** | **100%** | |
-
-**Reading priority for Claude instances**:
-
-| Priority | Folder / File | Size | Authority | Survives compaction? | Role |
-|----------|---------------|------|----------|---------------------|------|
-| **P0** | `CLAUDE.md` | 293 KB | System (project instructions) | Yes | **The nucleus** — identity, methodology, commands, evolution, pitfalls |
-| **P1** | `methodology/` | 194 KB | Conversation (read at wakeup) | No | Implementation blueprints — bootstrap, checkpoint, projects, export |
-| **P2** | `patterns/` | 14 KB | Conversation | No | Proven knowledge — embedded debugging, RTOS, SQLite, UI/backend |
-| **P3** | `lessons/` | 10 KB | Conversation | No | Mistakes to avoid — 20 documented pitfalls |
-| **P4** | `minds/` | 71 KB | Conversation | No | Harvested intelligence from satellites — newest, least validated |
-| **P5** | `notes/` | 80 KB (latest 3) | Conversation | No | Ephemeral memory — previous session context |
-| **P6** | `projects/` | 50 KB | Conversation | No | Entity registry P0-P9 with metadata |
-| **P7** | `scripts/` | 242 KB | Executable | N/A | Deployed tools — not read, executed (gh_helper, webcards, beacon) |
-| **P8** | `publications/` | Variable | Conversation | No | Source for 15 publications — read on demand, not at wakeup |
-| **P9** | `docs/` | 100+ pages | Web | N/A | Web presence — GitHub Pages, not read by Claude |
-| **P10** | `live/` | 53 KB | Executable | N/A | Live infrastructure — beacon, scanner, capture |
-
-**Key insight — The authority gap**: CLAUDE.md (293 KB) has **system authority** — survives compaction, loaded as "project instructions". Everything else (~640 KB) has **conversation authority** — read at wakeup step 0, lost on first compaction. This is why the **critical-subset** (v31) is vital: the satellite CLAUDE.md (~180 lines) carries enough behavioral DNA to survive post-compaction.
-
-**Source**: [Issue #317](https://github.com/packetqc/knowledge/issues/317) — Detailed architecture exploration.
+| Module | Files | Primary Role |
+|--------|-------|-------------|
+| **K_MIND** | 38 | Core memory: mindmap, sessions, domain JSONs, 10 scripts |
+| **K_DOCS** | 4,374 | Documentation pipeline: web viewer, publications, interfaces |
+| **K_PROJECTS** | 13 | Project management: P# registry, compilation, skills |
+| **K_VALIDATION** | 19 | QA: task workflow, session protocol, integrity checks |
+| **K_GITHUB** | 9 | GitHub sync: issues, PRs, boards, enrichment |
+| **docs/** | 100+ | Web output: static viewer, 25+ pubs, 5 interfaces |
 
 ---
 
 ## 14. Publication Structure Mindmap
 
-The anatomy of a single Publication — all its components, tiers, assets, metadata, and integration points.
+The anatomy of a single Knowledge 2.0 publication — components, tiers, assets, and integration.
 
 ```mermaid
 mindmap
   root((Publication))
-    Source
-      publications/slug/v1/README.md
-      assets/
-      media/
     Web Pages EN
       Summary index.md
       Complete full/index.md
@@ -849,61 +887,46 @@ mindmap
       Complet full/index.md
     Front Matter
       8 required fields
-      Jekyll metadata
+      Static viewer metadata
     Webcards OG
       2 languages
-      2 themes
-      4 GIFs per pub
-    Layout
-      Version banner
-      Language bar
-      Export + printing
-      Cross-refs
+      4 themes
+      Animated GIFs 1200x630
+    Static Viewer Rendering
+      Client-side markdown
+      Mermaid CDN diagrams
+      4 theme variants
+      PDF + DOCX export
+    Bilingual Convention
+      Identical body conv-020
+      JS translateStatic
+      Runtime language detection
     System Integration
-      Indexes
-      Profiles
-      CLAUDE.md
-      Dashboard
+      Publication indexes
+      Profile pages
+      docs/data/ compiled
+      Webcard pipeline
     Identifiers
       Pub number
       Slug
-      Tiers
-      Origin
+      2 tiers summary+full
+      EN/FR mirrors
     Validation
-      pub check
-      pub sync
-      doc review
-      docs check
-      normalize
+      /normalize concordance
+      /integrity-check structure
+      /docs-create lifecycle
 ```
 
 
 **Publication lifecycle**:
 
 ```
-pub new → Source created → EN/FR pages scaffolded → Webcards generated
-    → Content written in Source
-    → pub sync → Web pages updated
-    → doc review → Freshness verified
-    → pub check → Structure validated
-    → normalize → Global concordance
+/docs-create → EN/FR pages scaffolded → Webcards generated
+    → Content written (identical EN/FR body)
+    → /normalize → EN/FR concordance verified
+    → /integrity-check → Structure validated
+    → Push → .nojekyll deploy → Live on GitHub Pages
 ```
-
-**Publication branches**:
-
-| Branch | Role | Files |
-|--------|------|-------|
-| **Source** | Canonical truth, versioned | `publications/<slug>/v1/README.md` + `assets/` + `media/` |
-| **Web pages EN** | English web presence, 2 tiers | Summary (`index.md`) + Complete (`full/index.md`) |
-| **Web pages FR** | French mirror | Same structure under `docs/fr/` |
-| **Front matter** | Jekyll metadata | 8 required fields per page |
-| **Webcards OG** | Animated social preview | 4 GIFs per publication (2 languages × 2 themes) |
-| **Layout** | Rendering engine | Version banner, language bar, export, printing, cross-refs |
-| **System integration** | Connection points | Indexes, profiles, CLAUDE.md, dashboard |
-| **Identifiers** | Naming system | #N, slug, tiers, origin, cross-project |
-| **Validation** | Quality control | 5 verification commands |
-
-**Source**: [Issue #318](https://github.com/packetqc/knowledge/issues/318) — Publication structure exploration.
 
 ---
 
@@ -912,13 +935,13 @@ pub new → Source created → EN/FR pages scaffolded → Webcards generated
 | # | Publication | Relationship |
 |---|-------------|-------------|
 | 0 | [Knowledge System]({{ '/publications/knowledge-system/' | relative_url }}) | Parent — the system these diagrams visualize |
-| 4 | [Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }}) | Architecture — push/pull flow (Diagram 5) |
-| 7 | [Harvest Protocol]({{ '/publications/harvest-protocol/' | relative_url }}) | Protocol — harvest flow (Diagrams 5, 11) |
-| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle — session flow (Diagram 4) |
+| 4 | [Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }}) | Architecture — multi-module flow (Diagram 5) |
+| 7 | [Harvest Protocol]({{ '/publications/harvest-protocol/' | relative_url }}) | Protocol — data flow (Diagrams 5, 11) |
+| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle — K_MIND session system (Diagram 4) |
 | 9 | [Security by Design]({{ '/publications/security-by-design/' | relative_url }}) | Security — proxy boundaries (Diagram 7) |
-| 12 | [Project Management]({{ '/publications/project-management/' | relative_url }}) | Projects — P# hierarchy (Diagrams 1, 8) |
+| 12 | [Project Management]({{ '/publications/project-management/' | relative_url }}) | Projects — K_PROJECTS module (Diagrams 1, 8) |
 
 ---
 
 *Authors: Martin Paquet & Claude (Anthropic, Opus 4.6)*
-*Knowledge: [packetqc/knowledge](https://github.com/packetqc/knowledge)*
+*Knowledge 2.0: [packetqc/knowledge](https://github.com/packetqc/knowledge)*
