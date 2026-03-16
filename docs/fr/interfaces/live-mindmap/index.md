@@ -497,17 +497,19 @@ body > .container {
           allowUndo: false
         });
 
-        // Collapse deep nodes before init — MindElixir respects expanded during render
-        (function collapseDeep(node, depth) {
-          if (!node.children || !node.children.length) return;
-          for (var i = 0; i < node.children.length; i++) {
-            var child = node.children[i];
-            if (child.children && child.children.length > 0) {
-              if (depth >= 2) child.expanded = false;
+        // Normal mode: collapse deep nodes before init. Full mode: all expanded.
+        if (mode !== 'full') {
+          (function collapseDeep(node, depth) {
+            if (!node.children || !node.children.length) return;
+            for (var i = 0; i < node.children.length; i++) {
+              var child = node.children[i];
+              if (child.children && child.children.length > 0) {
+                if (depth >= 2) child.expanded = false;
+              }
+              collapseDeep(child, depth + 1);
             }
-            collapseDeep(child, depth + 1);
-          }
-        })(data.nodeData, 0);
+          })(data.nodeData, 0);
+        }
 
         mind.init(data);
         window.mindInstance = mind;
