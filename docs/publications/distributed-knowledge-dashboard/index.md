@@ -1,10 +1,10 @@
 ---
 layout: publication
 title: "Distributed Knowledge Dashboard — Master Mind and Satellite Network Status"
-description: "Living dashboard tracking the distributed knowledge network: master mind version, satellite project status, version drift, harvested insights, and discovered publications. Updated on every harvest run."
+description: "Living dashboard tracking the distributed knowledge network: master mind version, satellite project status, version drift, harvested insights, and discovered publications. Updated on every K_GITHUB sync."
 pub_id: "Publication #4a"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /publications/distributed-knowledge-dashboard/
 og_image: /assets/og/knowledge-dashboard-en-cayman.gif
 keywords: "dashboard, satellites, healthcheck, drift, severity, network status"
@@ -13,7 +13,7 @@ keywords: "dashboard, satellites, healthcheck, drift, severity, network status"
 # Distributed Knowledge Dashboard — Master Mind and Satellite Network Status
 {: #pub-title}
 
-> **Parent publication**: [#4 — Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }}) — the architecture this dashboard visualizes
+> **Parent publication**: [#4 — Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }}) — the architecture this dashboard visualizes | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -30,13 +30,13 @@ keywords: "dashboard, satellites, healthcheck, drift, severity, network status"
 
 ## Abstract
 
-AI coding assistants gain persistent memory through `CLAUDE.md` and `notes/` — but each project evolves independently. The **distributed knowledge system** connects them: a master mind pushes methodology to satellites on wakeup, and `harvest` pulls evolved knowledge back.
+AI coding assistants gain persistent memory through `mind_memory.md` and `sessions/` — but each project evolves independently. The **distributed knowledge system** connects them: a master mind pushes the K_MIND module to satellites on session start, and K_GITHUB `sync_github.py` syncs evolved knowledge back.
 
-This publication is a **living dashboard** — updated on every `harvest` run. It is the network's self-awareness.
+This publication is a **living dashboard** — updated on every K_GITHUB sync. It is the network's self-awareness.
 
 ## Satellite Network
 
-> Updated on every `harvest` run. Only includes repositories that the user owns and that Claude Code has been granted access to — no external or third-party repos.
+> Updated on every K_GITHUB sync. Only includes repositories that the user owns and that Claude Code has been granted access to — no external or third-party repos.
 
 <div class="table-wrap" markdown="1">
 
@@ -57,7 +57,7 @@ This publication is a **living dashboard** — updated on every `harvest` run. I
 
 > Click any command to copy it — paste into Claude Code to advance the insight.
 >
-> **Workflow**: `harvested` → 🔍 review → 📦 stage → ✅ promote → or 🔄 auto-promote on next healthcheck
+> **Workflow**: `synced` → 🔍 review in `far_memory archives/` → 📦 assign type → ✅ promote to `conventions.json` or `work.json`
 
 | # | Insight | Source | Status | Actions |
 |---|---------|--------|--------|---------|
@@ -109,28 +109,28 @@ Publications detected in satellite repos:
 
 | Component | Role |
 |-----------|------|
-| **Master mind** (`packetqc/knowledge`) | Central repository: methodology, patterns, lessons, publications |
+| **Master mind** (`packetqc/knowledge`) | Central repository: K_MIND module, domain JSONs, publications |
 | **Satellites** (project repos) | Independent projects that inherit and evolve knowledge |
-| **Push** (wakeup) | Satellites read master on startup — "put on the sunglasses" |
-| **Harvest** (inbound) | Master crawls satellite branches, extracts evolved knowledge |
+| **Push** (session start) | Satellites load K_MIND module on session start — "put on the sunglasses" |
+| **Sync** (inbound) | K_GITHUB `sync_github.py` syncs satellite knowledge bidirectionally |
 | **Versioning** (v1–v47) | Each evolution entry is a version. Drift = satellite behind core. |
 
 ## Knowledge Layers
 
 | Layer | Stability | Content |
 |-------|-----------|---------|
-| **Core** (CLAUDE.md) | Stable | Identity, methodology, evolution |
-| **Proven** (patterns/, lessons/) | Validated | Battle-tested across projects |
-| **Harvested** (minds/) | Evolving | Fresh from satellite experiments |
-| **Session** (notes/) | Ephemeral | Per-session working memory |
+| **Core** (mind_memory.md) | Stable | 264-node directive grid — identity, methodology |
+| **Proven** (conventions.json, work.json) | Validated | Battle-tested across projects, per module |
+| **Harvested** (far_memory archives/) | Evolving | Fresh from satellite experiments |
+| **Session** (sessions/) | Ephemeral | near_memory + far_memory per session |
 
 ## Lifecycle of an Insight
 
 ```
-Session note → harvest flag → minds/<project>.md → validated across projects → core knowledge
+Session note → K_GITHUB sync → far_memory archives/ → validated across projects → conventions.json/work.json → mind_memory.md
 ```
 
-Insights migrate upward through the layers as they prove their worth across multiple projects. The dashboard tracks this progression in real time.
+Insights migrate upward through the layers as they prove their worth across multiple projects. The dashboard tracks this progression — updated on every K_GITHUB sync.
 
 ---
 
@@ -140,4 +140,4 @@ Insights migrate upward through the layers as they prove their worth across mult
 
 *Authors: Martin Paquet & Claude (Anthropic, Opus 4.6)*
 *Knowledge: [packetqc/knowledge](https://github.com/packetqc/knowledge)*
-*This is a living document — updated on every `harvest` run.*
+*This is a living document — updated on every K_GITHUB sync.*

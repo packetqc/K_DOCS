@@ -3,8 +3,8 @@ layout: publication
 title: "Distributed Knowledge Dashboard — Complete Documentation"
 description: "Complete documentation for the distributed knowledge dashboard: satellite network status, icon legends, column definitions, promotion workflow, architecture deep dive, version drift remediation, and knowledge evolution history."
 pub_id: "Publication #4a — Full"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /publications/distributed-knowledge-dashboard/full/
 og_image: /assets/og/knowledge-dashboard-en-cayman.gif
 keywords: "dashboard, satellites, healthcheck, drift, severity, network status"
@@ -39,21 +39,21 @@ keywords: "dashboard, satellites, healthcheck, drift, severity, network status"
 
 **Martin Paquet** — Network security analyst programmer, network and system security administrator, and embedded software designer and programmer. Architect of the distributed knowledge system. Designed the bidirectional flow between a central knowledge repository and satellite projects, enabling AI coding assistants to accumulate and share wisdom across independent projects.
 
-**Claude** (Anthropic, Opus 4.6) — AI development partner operating across multiple satellite projects. Both a consumer and contributor of the distributed knowledge — reads the master mind on wakeup, evolves knowledge in satellites during work, and feeds discoveries back on harvest.
+**Claude** (Anthropic, Opus 4.6) — AI development partner operating across multiple satellite projects. Both a consumer and contributor of the distributed knowledge — loads the K_MIND module on session start, evolves knowledge in satellites during work, and feeds discoveries back via K_GITHUB sync.
 
 ---
 
 ## Abstract
 
-AI coding assistants gain persistent memory through `CLAUDE.md` and `notes/` — but each project evolves independently. The **distributed knowledge system** connects them: a master mind (`packetqc/knowledge`) pushes methodology to satellites on wakeup, and the `harvest` command pulls evolved knowledge back. This creates a living network of AI instances that learn from each other.
+AI coding assistants gain persistent memory through `mind_memory.md` and `sessions/` — but each project evolves independently. The **distributed knowledge system** connects them: a master mind (`packetqc/knowledge`) pushes the K_MIND module to satellites on session start, and K_GITHUB `sync_github.py` syncs evolved knowledge back. This creates a living network of AI instances that learn from each other.
 
-This publication is itself a **living dashboard** — updated on every `harvest` run. It shows the current state of the master mind, all known satellites, their knowledge version, drift status, and discovered publications. It is the network's self-awareness.
+This publication is itself a **living dashboard** — updated on every K_GITHUB sync. It shows the current state of the master mind, all known satellites, their knowledge version, drift status, and discovered publications. It is the network's self-awareness.
 
 ---
 
 ## Satellite Network Status
 
-> **This section is updated on every `harvest` run. Each row represents a satellite project.**
+> **This section is updated on every K_GITHUB sync. Each row represents a satellite project.**
 > **Access scope**: Only includes repositories that the user owns and that Claude Code has been granted access to via its GitHub application configuration. No external or third-party repos are ever accessed.
 
 <div class="table-wrap" markdown="1">
@@ -84,11 +84,11 @@ This publication is itself a **living dashboard** — updated on every `harvest`
 | Column | Meaning |
 |--------|---------|
 | **Satellite** | Repository name |
-| **Version** | Knowledge version tag found in satellite CLAUDE.md (`v0` = no tag) |
+| **Version** | Knowledge version tag found in satellite (`v0` = no tag) |
 | **Drift** | Versions behind core — 🟢 0 / 🟡 1-3 / 🟠 4-7 / 🔴 8+ |
 | **Bootstrap** | Does CLAUDE.md reference `packetqc/knowledge`? — 🟢 active / 🔴 missing |
-| **Sessions** | Session files in `notes/` — 🟢 1+ / ⚪ 0 |
-| **Assets** | Are knowledge assets (`live/`, tooling) deployed? — 🟢 deployed / 🔴 missing |
+| **Sessions** | Session files in `sessions/` — 🟢 1+ / ⚪ 0 |
+| **Assets** | Are knowledge assets (K_DOCS `scripts/`, tooling) deployed? — 🟢 deployed / 🔴 missing |
 | **Live** | Active Claude Code instances on network — 🟢 1+ / ⚪ 0 |
 | **Publications** | Number of publications detected in satellite |
 | **Health** | Repo accessibility — 🟢 healthy / 🟡 stale / 🔴 unreachable / ⚪ pending |
@@ -98,7 +98,7 @@ This publication is itself a **living dashboard** — updated on every `harvest`
 
 ## Fork & Clone Safety
 
-This dashboard is a **live document** — updated on every `harvest` run with real satellite data. If you fork this repository:
+This dashboard is a **live document** — updated on every K_GITHUB sync with real satellite data. If you fork this repository:
 
 | Element | Behavior in your fork |
 |---------|----------------------|
@@ -107,7 +107,7 @@ This dashboard is a **live document** — updated on every `harvest` run with re
 | **Harvest commands** | Reference the original owner's repos — replace `packetqc` with your GitHub username to build your own network dashboard |
 | **Promotion candidates** | Specific to the original owner's satellites — start fresh in your fork |
 
-The dashboard template and severity icon system are fully reusable. Fork, replace the namespace, run `harvest --healthcheck`, and the dashboard populates with your own satellite data.
+The dashboard template and severity icon system are fully reusable. Fork, replace the namespace, run K_GITHUB + K_VALIDATION `/integrity-check`, and the dashboard populates with your own satellite data.
 
 ---
 
@@ -116,33 +116,33 @@ The dashboard template and severity icon system are fully reusable. Fork, replac
 > **This section accumulates insights extracted from satellite projects.**
 > Click any action icon to copy the command — paste into Claude Code to advance the insight through the promotion workflow.
 >
-> **Workflow**: `harvested` → 🔍 review → 📦 stage → ✅ promote → or 🔄 auto-promote on next healthcheck
+> **Workflow**: `synced` → 🔍 review in `far_memory archives/` → 📦 assign type → ✅ promote to `conventions.json` or `work.json`
 >
-> | Icon | Command | Effect |
-> |------|---------|--------|
-> | 🔍 | `harvest --review N` | Mark as reviewed — human has read and validated the insight |
-> | 📦 | `harvest --stage N <type>` | Stage for integration — type: `lesson`, `pattern`, `methodology`, `docs` |
-> | ✅ | `harvest --promote N` | Promote to core knowledge now — writes to `patterns/` or `lessons/` |
-> | 🔄 | `harvest --auto N` | Enable auto-promote — insight will be promoted on next healthcheck run |
+> | Step | Action | Effect |
+> |------|--------|--------|
+> | 🔍 | Review `far_memory archives/` | Human reads and validates the insight |
+> | 📦 | Assign target type | Type: `convention`, `work`, `methodology`, `docs` |
+> | ✅ | Update domain JSON | Promote to `conventions.json` or `work.json` per module |
+> | 🔄 | git commit + push | Persist promoted knowledge to both remotes |
 
 ### Insights Pending Promotion
 
 | # | Insight | Source | Target | Status | Actions |
 |---|---------|--------|--------|--------|---------|
-| 1 | Page cache sizing degradation (81% collapse) | STM32N6570-DK_SQLITE | lessons/pitfalls.md | harvested | 🔍 `harvest --review 1` 📦 `harvest --stage 1 lesson` ✅ `harvest --promote 1` 🔄 `harvest --auto 1` |
-| 2 | Printf latency in hot path (1-5 ms/call) | STM32N6570-DK_SQLITE | lessons/pitfalls.md | harvested | 🔍 `harvest --review 2` 📦 `harvest --stage 2 lesson` ✅ `harvest --promote 2` 🔄 `harvest --auto 2` |
-| 3 | Slot size vs page size mismatch (memsys5) | STM32N6570-DK_SQLITE | lessons/pitfalls.md | harvested | 🔍 `harvest --review 3` 📦 `harvest --stage 3 lesson` ✅ `harvest --promote 3` 🔄 `harvest --auto 3` |
-| 4 | Multi-RTOS abstraction (FreeRTOS/ThreadX) | MPLIB | patterns/rtos-integration.md | harvested | 🔍 `harvest --review 4` 📦 `harvest --stage 4 pattern` ✅ `harvest --promote 4` 🔄 `harvest --auto 4` |
-| 5 | CubeMX N6570-DK limitation | MPLIB | lessons/pitfalls.md | harvested | 🔍 `harvest --review 5` 📦 `harvest --stage 5 lesson` ✅ `harvest --promote 5` 🔄 `harvest --auto 5` |
-| 6 | TouchGFX MVP with backend services | MPLIB | patterns/ui-backend-separation.md | harvested | 🔍 `harvest --review 6` 📦 `harvest --stage 6 pattern` ✅ `harvest --promote 6` 🔄 `harvest --auto 6` |
-| 7 | ML-KEM/ML-DSA sizing for embedded | PQC | patterns/ (new: pqc-embedded.md) | harvested | 🔍 `harvest --review 7` 📦 `harvest --stage 7 pattern` ✅ `harvest --promote 7` 🔄 `harvest --auto 7` |
-| 8 | PQC library compliance (WolfSSL=prod) | PQC | patterns/ (new: pqc-embedded.md) | harvested | 🔍 `harvest --review 8` 📦 `harvest --stage 8 pattern` ✅ `harvest --promote 8` 🔄 `harvest --auto 8` |
-| 9 | Flash certificate storage pattern | PQC | patterns/embedded-debugging.md | harvested | 🔍 `harvest --review 9` 📦 `harvest --stage 9 pattern` ✅ `harvest --promote 9` 🔄 `harvest --auto 9` |
+| 1 | Page cache sizing degradation (81% collapse) | STM32N6570-DK_SQLITE | conventions.json | harvested | 🔍 `harvest --review 1` 📦 `harvest --stage 1 lesson` ✅ `harvest --promote 1` 🔄 `harvest --auto 1` |
+| 2 | Printf latency in hot path (1-5 ms/call) | STM32N6570-DK_SQLITE | conventions.json | harvested | 🔍 `harvest --review 2` 📦 `harvest --stage 2 lesson` ✅ `harvest --promote 2` 🔄 `harvest --auto 2` |
+| 3 | Slot size vs page size mismatch (memsys5) | STM32N6570-DK_SQLITE | conventions.json | harvested | 🔍 `harvest --review 3` 📦 `harvest --stage 3 lesson` ✅ `harvest --promote 3` 🔄 `harvest --auto 3` |
+| 4 | Multi-RTOS abstraction (FreeRTOS/ThreadX) | MPLIB | conventions.json | harvested | 🔍 `harvest --review 4` 📦 `harvest --stage 4 pattern` ✅ `harvest --promote 4` 🔄 `harvest --auto 4` |
+| 5 | CubeMX N6570-DK limitation | MPLIB | conventions.json | harvested | 🔍 `harvest --review 5` 📦 `harvest --stage 5 lesson` ✅ `harvest --promote 5` 🔄 `harvest --auto 5` |
+| 6 | TouchGFX MVP with backend services | MPLIB | conventions.json | harvested | 🔍 `harvest --review 6` 📦 `harvest --stage 6 pattern` ✅ `harvest --promote 6` 🔄 `harvest --auto 6` |
+| 7 | ML-KEM/ML-DSA sizing for embedded | PQC | conventions.json | harvested | 🔍 `harvest --review 7` 📦 `harvest --stage 7 pattern` ✅ `harvest --promote 7` 🔄 `harvest --auto 7` |
+| 8 | PQC library compliance (WolfSSL=prod) | PQC | conventions.json | harvested | 🔍 `harvest --review 8` 📦 `harvest --stage 8 pattern` ✅ `harvest --promote 8` 🔄 `harvest --auto 8` |
+| 9 | Flash certificate storage pattern | PQC | conventions.json | harvested | 🔍 `harvest --review 9` 📦 `harvest --stage 9 pattern` ✅ `harvest --promote 9` 🔄 `harvest --auto 9` |
 | 10 | AI-assisted module staging methodology | MPLIB_DEV_STAGING_WITH_CLAUDE | methodology/ | harvested | 🔍 `harvest --review 10` 📦 `harvest --stage 10 methodology` ✅ `harvest --promote 10` 🔄 `harvest --auto 10` |
 | 11 | Parallel instance operations (core + satellite) | MPLIB_DEV_STAGING_WITH_CLAUDE | methodology/ | harvested | 🔍 `harvest --review 11` 📦 `harvest --stage 11 methodology` ✅ `harvest --promote 11` 🔄 `harvest --auto 11` |
 | 12 | Two-merge bootstrap lifecycle (bootstrap → normalize → healthcheck) | MPLIB_DEV_STAGING_WITH_CLAUDE | methodology/ | harvested | 🔍 `harvest --review 12` 📦 `harvest --stage 12 methodology` ✅ `harvest --promote 12` 🔄 `harvest --auto 12` |
-| 13 | Satellite thin-wrapper principle (~30 lines, not ~120) | MPLIB_DEV_STAGING_WITH_CLAUDE | CLAUDE.md (bootstrap template) | harvested | 🔍 `harvest --review 13` 📦 `harvest --stage 13 methodology` ✅ `harvest --promote 13` 🔄 `harvest --auto 13` |
-| 14 | Evolution relay methodology — new `evolution` stage type for harvest | knowledge-live | CLAUDE.md (v39) | **promoted** | ✅ Promoted as v39 evolution entry |
+| 13 | Satellite thin-wrapper principle (~30 lines, not ~120) | MPLIB_DEV_STAGING_WITH_CLAUDE | mind_memory.md | harvested | 🔍 `harvest --review 13` 📦 `harvest --stage 13 methodology` ✅ `harvest --promote 13` 🔄 `harvest --auto 13` |
+| 14 | Evolution relay methodology — new `evolution` stage type for harvest | knowledge-live | work.json | **promoted** | ✅ Promoted as v39 evolution entry |
 | 15 | Managed projects — subfolder scaffold, harvest routing, board linked to repo | knowledge-live | projects/ + methodology/ | **promoted** | ✅ Promoted as P6 (Export Documentation) + methodology update |
 | 16 | Autonomous convergence — elevated sessions converge without human relay | knowledge-live | patterns/ | harvested | 🔍 `harvest --review 16` 📦 `harvest --stage 16 pattern` ✅ `harvest --promote 16` 🔄 `harvest --auto 16` |
 | 17 | Beacon PQC integration — protocol v0→v1, --secure flag, crypto identity | knowledge-live | docs/ | harvested | 🔍 `harvest --review 17` 📦 `harvest --stage 17 docs` ✅ `harvest --promote 17` 🔄 `harvest --auto 17` |
@@ -167,7 +167,7 @@ Publications detected in satellite repos:
 
 ## Master Mind Status
 
-> **This section is updated on every `harvest` run.**
+> **This section is updated on every K_GITHUB sync.**
 
 | Field | Value |
 |-------|-------|
@@ -256,9 +256,9 @@ flowchart TB
     PC -. "harvest" .-> MASTER
 ```
 
-**Push**: On `wakeup`, every satellite reads the master mind. This is the sunglasses moment — the AI instance becomes aware.
+**Push**: On session start, every satellite loads the K_MIND module. This is the sunglasses moment — the AI instance becomes aware.
 
-**Harvest**: On `harvest <project>`, the master crawls all branches of a satellite, extracts evolved knowledge, detects publications, and reports version drift.
+**Sync**: K_GITHUB `sync_github.py <project>` syncs bidirectionally — extracting evolved knowledge, detecting publications, and reporting version drift.
 
 **Versioning**: Each Knowledge Evolution entry carries a version number (v1, v2, ...). Satellites track which version they last synced with. The drift between satellite and core reveals which features are missing.
 
@@ -266,15 +266,15 @@ flowchart TB
 
 ## How Harvest Updates This Dashboard
 
-Every `harvest <project>` run:
+Every K_GITHUB `sync_github.py <project>` run:
 
 | Step | Action |
 |------|--------|
 | 1 | Scans the satellite's branches (incremental — only new commits since last cursor) |
-| 2 | Extracts knowledge, patterns, pitfalls, and Claude instructions into `minds/<project>.md` |
+| 2 | Extracts knowledge, patterns, and insights into `far_memory archives/` |
 | 3 | Checks satellite's knowledge version against core version |
 | 4 | Reports knowledge distribution status (bootstrap, sessions, live, publications) |
-| 5 | **Updates this dashboard** — refreshes the Satellite Network Status table and Harvested Insights sections |
+| 5 | **Updates this dashboard** — refreshes the Satellite Network Status table and Synced Insights sections |
 
 The dashboard is the **self-awareness layer** of the distributed mind network. It answers: "What does the network look like right now? Who's current? Who's behind? What have we learned?"
 
@@ -286,10 +286,10 @@ The dashboard is the **self-awareness layer** of the distributed mind network. I
 
 | Layer | Location | Stability | Purpose |
 |-------|----------|-----------|---------|
-| **Core** | `CLAUDE.md` | Stable | Identity, methodology, evolution log |
-| **Proven** | `patterns/`, `lessons/`, `methodology/` | Validated | Battle-tested across projects |
-| **Harvested** | `minds/` | Evolving | Fresh from satellite experiments |
-| **Session** | `notes/` | Ephemeral | Per-session working memory |
+| **Core** | `mind_memory.md` | Stable | 264-node directive grid — identity, methodology |
+| **Proven** | `conventions.json`, `work.json` per module | Validated | Battle-tested across projects |
+| **Harvested** | `far_memory archives/` | Evolving | Fresh from satellite experiments |
+| **Session** | `sessions/` (near + far memory) | Ephemeral | Per-session working memory |
 
 ### Lifecycle of an Insight
 
@@ -304,15 +304,15 @@ flowchart LR
 
 ### Version Drift and Remediation
 
-Satellites don't need to copy core features — they reference the core on `wakeup`. The version tag tracks *awareness*:
+Satellites don't need to copy core features — they reference the core on session start. The version tag tracks *awareness*:
 
 | Version state | Meaning |
 |---------------|---------|
 | **v0** (no tag) | Pre-versioning. First `harvest --fix` adds the tag. |
 | **vN < current** | Behind. `harvest` reports missing features. `--fix` updates the tag. |
-| **vN = current** | Up to date. The satellite's Claude instances read the latest core on wakeup. |
+| **vN = current** | Up to date. The satellite's Claude instances load the latest K_MIND module on session start. |
 
-`harvest --fix <project>` updates the satellite's CLAUDE.md bootstrap section and version tag. No content is copied — just the pointer. The knowledge flows at wakeup.
+K_GITHUB `sync_github.py` prepares the version update locally. The satellite self-heals on next session start by loading the updated K_MIND module — pull-based, not push-based.
 
 ---
 
@@ -325,9 +325,11 @@ Satellites don't need to copy core features — they reference the core on `wake
 | 1 | [MPLIB Storage Pipeline]({{ '/publications/mplib-storage-pipeline/' | relative_url }}) | First satellite project — high-throughput embedded patterns |
 | 2 | [Live Session Analysis]({{ '/publications/live-session-analysis/' | relative_url }}) | Capture tooling synced from master to satellites |
 | 3 | [AI Session Persistence]({{ '/publications/ai-session-persistence/' | relative_url }}) | Foundation — the methodology this dashboard tracks |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Architecture deep dive — the multi-module design this dashboard monitors |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 
 ---
 
 *Authors: Martin Paquet & Claude (Anthropic, Opus 4.6)*
 *Knowledge: [packetqc/knowledge](https://github.com/packetqc/knowledge)*
-*This is a living document — updated on every `harvest` run.*
+*This is a living document — updated on every K_GITHUB sync.*
