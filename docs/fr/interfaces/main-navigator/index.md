@@ -573,23 +573,11 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     det.appendChild(body); panel.appendChild(det);
   });
 
-  /* ─── Language-neutral URL helpers ─── */
-  function stripLang(url) {
-    // Remove /fr/ prefix after BASE so saved URLs are language-neutral
-    if (!url) return url;
-    return url.replace(BASE + '/fr/', BASE + '/');
-  }
-  function applyLang(url) {
-    // Re-apply current language prefix
-    if (!url || LP === '') return url;
-    return url.replace(BASE + '/', BASE + LP + '/');
-  }
-
   /* ─── Restore last viewed pages (or set defaults) ─── */
   var savedCenter = localStorage.getItem(CENTER_KEY);
-  if (centerIframe) { centerIframe.src = savedCenter ? applyLang(savedCenter) : (BASE + LP + '/interfaces/task-workflow/'); }
+  if (centerIframe) { centerIframe.src = savedCenter || (BASE + LP + '/interfaces/task-workflow/'); }
   var savedRight = localStorage.getItem(RCONTENT_KEY);
-  if (rightIframe) { rightIframe.src = savedRight ? applyLang(savedRight) : (BASE + LP + '/'); }
+  if (rightIframe) { rightIframe.src = savedRight || (BASE + LP + '/'); }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
@@ -606,10 +594,10 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     a.classList.add('active');
     localStorage.setItem(ACTIVE_KEY, a.dataset.navId || a.href);
     /* Save center URL if targeting center (language-neutral) */
-    if (a.target === 'center-frame') { localStorage.setItem(CENTER_KEY, stripLang(a.href)); }
+    if (a.target === 'center-frame') { localStorage.setItem(CENTER_KEY, a.href); }
     /* Save right URL + extend panel if collapsed (language-neutral) */
     if (a.target === 'content-frame') {
-      localStorage.setItem(RCONTENT_KEY, stripLang(a.href));
+      localStorage.setItem(RCONTENT_KEY, a.href);
       if (rightW < 100) { rightW = Math.round(grid.offsetWidth * 0.5); applyGrid(true); }
     }
   });
@@ -634,7 +622,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     centerIframe.addEventListener('load', function() {
       try {
         var loc = centerIframe.contentWindow.location.href;
-        if (loc && loc !== 'about:blank') localStorage.setItem(CENTER_KEY, stripLang(loc));
+        if (loc && loc !== 'about:blank') localStorage.setItem(CENTER_KEY, loc);
       } catch(e) {}
       syncThemeToIframes();
     });
