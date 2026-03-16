@@ -76,7 +76,7 @@ mindmap
       Suivi du contexte
     Corrections utilisateur
       Arrêter immédiatement
-      Adapter l'approche
+      Adapter approche
       Capturer le pattern
     Continuité mémoire K_MIND
       mind_memory.md grille de directives
@@ -84,7 +84,7 @@ mindmap
       far_memory.json verbatim
       JSONs de domaine par module
     Budget de contexte
-      Se concentrer sur l'essentiel
+      Se concentrer sur essentiel
       Éviter les analyses non bornées
       Commiter souvent
 ```

@@ -29,13 +29,13 @@ mindmap
   root((Mindmap vivant))
     Mermaid vers MindElixir
       Parseur et convertisseur
-      Transformation à l'exécution
+      Transformation en temps réel
       Détection de forme des nœuds
     Filtrage par profondeur
       depth_config.json
       Mode Normal vs Complet
       Surcharges par branche
-      Liste d'omission
+      Liste omission
     Trois déploiements
       Interface I5 complète
       Webcard vivant K2.0
