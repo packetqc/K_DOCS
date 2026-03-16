@@ -497,22 +497,22 @@ body > .container {
           allowUndo: false
         });
 
-        // Normal mode: collapse deep nodes before init. Full mode: all expanded.
-        if (mode !== 'full') {
-          (function collapseDeep(node, depth) {
-            if (!node.children || !node.children.length) return;
-            for (var i = 0; i < node.children.length; i++) {
-              var child = node.children[i];
-              if (child.children && child.children.length > 0) {
-                if (depth >= 2) child.expanded = false;
-              }
-              collapseDeep(child, depth + 1);
-            }
-          })(data.nodeData, 0);
-        }
-
         mind.init(data);
         window.mindInstance = mind;
+
+        // Collapse children of top-level groups using MindElixir API (both views)
+        (function collapseDeep(node, depth) {
+          if (!node.children || !node.children.length) return;
+          for (var i = 0; i < node.children.length; i++) {
+            var child = node.children[i];
+            if (child.children && child.children.length > 0 && depth >= 1) {
+              var el = mind.findEle(child.id);
+              if (el) mind.expandNode(el, false);
+            } else {
+              collapseDeep(child, depth + 1);
+            }
+          }
+        })(mind.nodeData, 0);
         document.documentElement.setAttribute('data-theme', themeKey);
 
         // Fix Ctrl+click expand all: reset descendant state before MindElixir handles it
