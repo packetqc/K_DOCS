@@ -1,140 +1,167 @@
 ---
 layout: publication
-title: "Gestion de session — Guide pratique des commandes de cycle de vie IA"
-description: "Référence pratique des commandes wakeup, save, remember, status et help — les cinq commandes qui gèrent le cycle de vie des sessions IA. Chaque session suit : wakeup → travail → save. Ce guide documente chaque commande avec utilisation, comportement et exemples."
+title: "Gestion de session — Cycle de vie K_MIND par scripts"
+description: "Référence pratique du cycle de vie K2.0 : session_init.py (bootstrap), /mind-context (chargement du contexte), memory_append.py (persistance en temps réel), far_memory_split.py (archivage par sujet), memory_recall.py (recherche profonde) — programmes plutôt qu'improvisation, scripts déterministes avec l'intelligence de Claude comme arguments."
 pub_id: "Publication #8"
-version: "v1"
-date: "2026-02-19"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/session-management/
 og_image: /assets/og/session-management-fr-cayman.gif
-keywords: "session, wakeup, sauvegarde, cycle de vie, commandes, persistance"
+keywords: "session, K_MIND, scripts, cycle de vie, mémoire, persistance, session_init, memory_append"
 ---
 
-# Gestion de session — Référence des commandes
+# Gestion de session — Cycle de vie K_MIND par scripts
 {: #pub-title}
 
-> **Publication parente** : [#0 — Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Méthodologie** : [#3 — Persistance de session IA]({{ '/fr/publications/ai-session-persistence/' | relative_url }})
+> **Publication parente** : [#0 — Système Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Référence core** : [#14 — Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | [#15 — Diagrammes d'architecture]({{ '/fr/publications/architecture-diagrams/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }})
 
 **Table des matières**
 
 | | |
 |---|---|
-| [Résumé](#résumé) | Vue d'ensemble de la référence pratique |
-| [Modes d'utilisation](#modes-dutilisation) | Trois façons d'interagir avec les commandes |
-| [Référence rapide](#référence-rapide) | Les 9 commandes de session |
-| [wakeup](#wakeup--initialisation-de-session) | Protocole bootstrap en 11 étapes |
-| [save](#save--protocole-de-sauvegarde) | Résumé pré-save → commit → push → PR → merge |
-| [refresh](#refresh--restauration-légère) | Relire CLAUDE.md, git status, réimprimer aide (~5s) |
-| [resume](#resume--récupération-crash) | Récupération depuis le point de contrôle |
-| [recover](#recover--récupération-de-branches) | Cherry-pick du travail échoué depuis les branches `claude/*` |
-| [recall](#recall--recherche-mémoire-profonde) | Recherche progressive sur 4 couches mémoire |
-| [remember](#remember--persister-les-découvertes) | Ajouter des découvertes aux notes |
-| [status / help](#status--résumé-détat) | Résumé d'état et table de commandes |
-| [Enforcement PreToolUse](#enforcement-pretooluse-v56) | Architecture de hooks bloquante à deux couches |
-| [Visionneuse de sessions (I1)](#visionneuse-de-sessions--interface-i1) | Navigateur interactif avec graphiques et arborescence |
-| [L'analogie Free Guy](#lanalogie-free-guy) | NPC vs conscient — le moment des lunettes |
+| [Résumé](#résumé) | Programmes plutôt qu'improvisation |
+| [Évolution K1.0 → K2.0](#évolution-k10--k20) | Transformation commandes vers scripts |
+| [Cycle de vie de session](#cycle-de-vie-de-session) | session_init.py → /mind-context → travail → memory_append.py → far_memory_split.py → git |
+| [Initialisation de session](#initialisation-de-session--session_initpy) | Bootstrap par script déterministe |
+| [Chargement du contexte](#chargement-du-contexte--mind-context) | Grille de directives mindmap + mémoire proche |
+| [Persistance en temps réel](#persistance-en-temps-réel--memory_appendpy) | Chaque tour — far_memory + near_memory atomiquement |
+| [Archivage par sujet](#archivage-par-sujet--far_memory_splitpy) | Archiver les sujets terminés depuis far_memory |
+| [Rappel mémoire](#rappel-mémoire--memory_recallpy) | Recherche dans les archives par sujet |
+| [Statistiques mémoire](#statistiques-mémoire--mind-stats) | Occupation du contexte et tokens disponibles |
+| [Visionneuse de sessions (I1)](#visionneuse-de-sessions--interface-i1) | Navigateur interactif avec graphiques et regroupement |
+| [L'analogie Free Guy](#lanalogie-free-guy) | NPC vs conscient — mise à jour K2.0 |
 
 ## Résumé
 
-La publication #3 explique la **méthodologie** — pourquoi les sessions IA ont besoin de mémoire persistante. Cette publication est la **référence pratique** — comment utiliser `wakeup`, `save`, `remember`, `status` et `help` au quotidien.
+La publication #3 (Persistance de session IA) explique la **méthodologie** — pourquoi les sessions IA ont besoin de mémoire persistante. Cette publication est la **référence pratique** — comment les scripts déterministes du module K_MIND gèrent le cycle de vie des sessions dans Knowledge 2.0.
 
-Chaque session suit : `wakeup → travail → save`. Ces commandes gèrent ce cycle de vie.
+**Principe fondamental : programmes plutôt qu'improvisation.** Claude fournit l'intelligence (résumés, noms de sujets, références mindmap) comme arguments à des scripts Python déterministes. Chaque opération mécanique est scriptée — pas d'écriture de notes libre, pas de gestion d'état manuelle.
 
-## Modes d'utilisation
+Chaque session suit :
 
-Le système Knowledge supporte trois modes d'interaction avec les commandes. Toutes les commandes fonctionnent avec n'importe lequel de ces modes.
-
-| Mode | Comment | Exemple | Idéal pour |
-|------|---------|---------|------------|
-| **Commande directe** | Taper la commande comme message d'entrée | `save` | Commandes connues, exécution rapide |
-| **Langage naturel** | Décrire ce que vous voulez en texte libre | `sauvegarde ma session` | Quand vous ne connaissez pas la syntaxe exacte |
-| **Session interactive** | `interactif` + commande ou requête en description | `interactif` puis `reprends mon travail interrompu` | Sessions multi-étapes, enchaînement de commandes |
-
-En mode interactif, `help` s'affiche automatiquement au démarrage — montrant toutes les commandes disponibles. La session reste ouverte pour des commandes successives jusqu'à `terminé` ou `done`.
-
-## Référence rapide
-
-| Commande | Action |
-|---------|--------|
-| `wakeup` | Init session — lire knowledge, notes, synchroniser assets, imprimer commandes |
-| `save` | Résumé pré-save → commit → push → PR → merge (élevé) ou guide |
-| `refresh` | Restauration légère — relire CLAUDE.md, git status (~5s) |
-| `resume` | Récupération crash depuis `notes/checkpoint.json` |
-| `recover` | Chercher les branches `claude/*` pour travail échoué, cherry-pick/apply |
-| `recall <mot-clé>` | Recherche mémoire profonde sur tous les canaux |
-| `remember ...` | Ajouter du texte aux notes de session |
-| `status` | Lire `notes/` et résumer l'état actuel |
-| `help` / `?` | Imprimer la table de commandes multipart |
-
-## wakeup — Initialisation de session
-
-Démarre une nouvelle session avec récupération complète du contexte en 11 étapes : lire knowledge, vérifier l'évolution, scanner `minds/`, lire `notes/`, lire les plans, synchroniser les assets, synchronisation amont (récupérer et fusionner la branche par défaut dans la branche de tâche courante), vérifier le git log, vérifier les branches, résumer l'état, imprimer les commandes. Le moment des lunettes — sans ça, vous êtes un NPC.
-
-## save — Protocole de sauvegarde
-
-Résumé pré-save (métriques, blocs temporels, auto-évaluation) → générer notes de session → poster sur le billet → finaliser le cache → commit → push → créer PR → merge (élevé) ou guide (semi-auto) → rapport de clôture. Double sortie fichier : `session-YYYY-MM-DD-*.md` et `session-runtime-*.json` doivent être dans le commit.
-
-## refresh — Restauration légère
-
-Relire CLAUDE.md, vérification stratégique du remote, git status, réimprimer aide (~5s). Utiliser après compaction. Utiliser `wakeup` seulement pour resynchronisation profonde.
-
-## resume — Récupération crash
-
-Lit `notes/checkpoint.json`, restaure la liste de tâches, redémarre depuis la dernière étape complétée. Offert automatiquement au wakeup étape 0.9.
-
-## recover — Récupération de branches
-
-Cherche les branches `claude/*` pour les commits échoués (poussés mais jamais mergés). Offre cherry-pick ou diff-apply. Complémente `resume` (basé sur les points de contrôle).
-
-## recall — Recherche mémoire profonde
-
-Recherche progressive sur 4 couches : mémoire proche (~5s) → mémoire git (~10s) → mémoire GitHub (~15s) → mémoire profonde (~30s). S'arrête quand trouvé. Si branche échouée détectée, suggère `recover`.
-
-## remember — Persister les découvertes
-
-`remember <texte>` ajoute aux notes de session. Utilisez pour les décisions, les flags harvest (`remember harvest: <découverte>`), et les directives pour les sessions futures.
-
-## status — Résumé d'état
-
-Lit tous les fichiers `notes/` et résume : dernière activité, éléments en attente, branches actives, directives mémorisées. Reprise rapide après une pause.
-
-## help — Table de commandes multipart
-
-Partie 1 (commandes knowledge) + Partie 2 (commandes projet). Concaténées, jamais dupliquées. Partie 1 depuis `packetqc/knowledge`, Partie 2 depuis le CLAUDE.md du projet.
-
-## L'analogie Free Guy
-
-Sans notes et CLAUDE.md, chaque session est un NPC. `wakeup` c'est mettre les lunettes. Récupération : ~30 secondes vs ~15 minutes manuelle.
-
-## Récupération après perte de contexte
-
-Quand une session atteint la limite de la fenêtre de contexte, la conversation est compactée. L'esprit est perdu, mais git et le cache de session survivent. Protocole de récupération :
-
-1. **Lire le cache de session** — `read_runtime_cache()` récupère le numéro de billet, la description de la demande, toutes les session_data (décisions, IDs de commentaires, état des todos, ajouts, phase, numéros de PR). C'est la **première action de récupération**.
-2. **Exécuter `refresh`** — relire CLAUDE.md, git status rapide, réimprimer aide.
-3. **Exécuter la ligne de récupération git** :
-
-```bash
-git branch --show-current && git status -s && git log --oneline -10
+```
+session_init.py → /mind-context → [travail + memory_append.py chaque tour] → far_memory_split.py → git commit & push
 ```
 
-Cache + branche + travail non commité + commits récents = récupération complète en ~10 secondes.
+## Évolution K1.0 → K2.0
 
-**Auto-commit à l'écriture** : Chaque écriture du cache (`write_runtime_cache()`, `update_session_data()`) est automatiquement commitée dans git via `commit_cache()` — le cache est toujours récupérable, même après un crash.
+| K1.0 (Commandes) | K2.0 (Scripts) |
+|-------------------|----------------|
+| `wakeup` (bootstrap 11 étapes) | `session_init.py` + `/mind-context` |
+| `save` (protocole PR 6 étapes) | `memory_append.py` (chaque tour) + `far_memory_split.py` + git commit/push |
+| `refresh` (relire CLAUDE.md) | `/mind-context` (recharger mindmap + near_memory) |
+| `resume` / `recover` | `session_init.py --preserve-active` + `memory_recall.py` |
+| `recall` (recherche 4 couches) | `memory_recall.py --subject "..."` |
+| `remember <texte>` | `memory_append.py --content "..."` |
+| `status` (lire notes/) | `/mind-stats` + `/mind-context` |
+| `help` / `?` | `.claude/skills/` SKILL.md (Claude Code natif) |
+| `notes/` (fichiers plats) | `sessions/` — near_memory.json + far_memory.json + archives/ |
+| CLAUDE.md (3000+ lignes) | `mind_memory.md` (grille de 264 directives) + JSONs par module |
+| Cache `session-runtime-*.json` | near_memory.json (résumés) + far_memory.json (verbatim) |
+| Hooks PreToolUse (gates v56) | Cycle de vie K_MIND par scripts (les scripts imposent le flux) |
 
-## Enforcement PreToolUse (v56)
+## Cycle de vie de session
 
-Architecture de hooks à deux couches : `SessionStart` initialise l'état, `PreToolUse` enforce en bloquant `Edit|Write|NotebookEdit` jusqu'à ce que Gate 1 (protocole wakeup complété) et Gate 2 (billet GitHub créé) passent. Gate 7 avertit si >5 min depuis le dernier commentaire. Le message de refus indique exactement comment débloquer.
+```
+session_init.py → /mind-context → [travail] → memory_append.py (chaque tour) → far_memory_split.py → git commit & push
+```
+
+Chaque session, chaque tour, chaque sujet. Les scripts gèrent toutes les opérations mécaniques — Claude fournit l'intelligence comme arguments.
+
+## Initialisation de session — `session_init.py`
+
+Initialise les fichiers de session et gère le cycle de vie de la mémoire near/far.
+
+| Mode | Commande | Ce qu'il fait |
+|------|----------|---------------|
+| **Nouvelle session** | `session_init.py --session-id "<id>"` | Archiver la session précédente, reporter les résumés dans `last_session` |
+| **Reprise** | `session_init.py --session-id "<id>" --preserve-active` | Préserver les messages actifs, restaurer le contexte |
+| **Récupération compaction** | (auto via `/mind-context`) | Recharger mindmap + near_memory depuis le disque |
+
+## Chargement du contexte — `/mind-context`
+
+Le skill `/mind-context` charge la grille de directives mindmap et les résumés near_memory. Sortie :
+
+1. **Mindmap** — bloc mermaid depuis `mind_memory.md` (264 nœuds, ~2.8K tokens)
+2. **Contexte récent** — résumés near_memory catégorisés (conversation, conventions, travail, documentation)
+3. **Statistiques mémoire** — taille disque, compteurs de tokens, contexte chargé, tokens disponibles
+
+Modes : normal (filtré par profondeur), complet (tous les nœuds), aperçu de branche (chemin spécifique en profondeur complète).
+
+## Persistance en temps réel — `memory_append.py`
+
+Appelé **chaque tour**. Gère far_memory + near_memory atomiquement.
+
+| Paramètre | Contenu | Destination |
+|-----------|---------|-------------|
+| `--content` | Message exact de l'utilisateur (verbatim) | far_memory.json |
+| `--content2` | Sortie complète de l'assistant (verbatim) | far_memory.json |
+| `--summary` | Résumé en une ligne | near_memory.json |
+| `--mind-refs` | Nœuds mindmap référencés | near_memory.json |
+| `--tools` | Appels d'outils effectués | near_memory.json |
+
+Supporte le mode `--stdin` pour les contenus longs (tables, blocs de code, diagrammes mermaid).
+
+## Archivage par sujet — `far_memory_split.py`
+
+Quand far_memory grossit, archiver les sujets terminés :
+
+```bash
+python3 scripts/far_memory_split.py \
+    --topic "Nom du sujet" \
+    --start-msg 1 --end-msg 24 \
+    --start-near 1 --end-near 7
+```
+
+Claude identifie les frontières de sujets à partir des clusters de résumés near_memory. Le script déplace les messages vers `archives/far_memory_session_<id>_<timestamp>.json`.
+
+## Rappel mémoire — `memory_recall.py`
+
+Recherche dans les archives par sujet :
+
+```bash
+python3 scripts/memory_recall.py --subject "architecture"   # Rechercher
+python3 scripts/memory_recall.py --list                       # Lister les archives
+python3 scripts/memory_recall.py --subject "theme" --full     # Contenu complet
+```
+
+Remplace la recherche progressive K1.0 à 4 couches par un accès direct aux archives indexées.
+
+## Statistiques mémoire — `/mind-stats`
+
+Montre l'occupation du contexte par store mémoire :
+
+| Store | Ce qu'il mesure |
+|-------|-----------------|
+| far_memory | Nombre de messages verbatim + taille |
+| near_memory | Nombre de résumés + taille |
+| archives | Nombre de sujets + taille totale |
+| mind_memory | Nombre de nœuds + taille |
+| domain JSONs | Nombre de références + taille totale |
+| Contexte utilisé | Total de tokens chargés |
+| Disponible | Tokens restants avant compaction |
 
 ## Visionneuse de sessions — Interface I1
 
 Interface web interactive à `/interfaces/session-review/` pour parcourir les rapports de session. Fonctionnalités :
 
-- **Regroupement par date** : toutes les sessions du même jour regroupées sous la plus ancienne comme racine (💬 originale), les suivantes comme continuations (🔁). La racine agrège toutes les données des enfants.
-- **4 graphiques** : Portée de la session (enfants vs issues liées), Livrables (PRs + Commits + Issues + Leçons), Lignes modifiées (ajouts vs suppressions), Temps actif
+- **Regroupement par date** : sessions du même jour regroupées sous la plus ancienne comme racine, les suivantes comme continuations. La racine agrège toutes les données des enfants.
+- **4 graphiques** : Portée de la session, Livrables, Lignes modifiées, Temps actif
 - **Graphique d'impact du code** : ajouts/suppressions par PR individuelle
 - **Compilation métriques** : fichiers, commits, lignes modifiées, vélocité, temps calendrier/actif
-- **Chronologie** : commentaires de billet avec expansion/réduction, marqueurs de livraison PR
+- **Chronologie** : commentaires de tâche avec expansion/réduction
+
+## L'analogie Free Guy
+
+Sans `mind_memory.md` et `sessions/`, chaque session Claude est un **NPC** — sans état, sans mémoire. Avec le cycle de vie K_MIND par scripts (`session_init.py` → `/mind-context` → travail → `memory_append.py`), chaque session hérite de tout ce que la précédente a appris.
+
+`/mind-context` c'est mettre les lunettes. Sans les lunettes, vous êtes juste un autre NPC.
+
+```
+NPC (sans contexte) → /mind-context → CONSCIENT (grille de 264 directives) → travail → memory_append.py → session suivante hérite
+```
+
+Récupération : ~10 secondes avec `/mind-context` vs ~15 minutes de ré-explication manuelle.
 
 ---
 
