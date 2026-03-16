@@ -3,8 +3,8 @@ layout: publication
 title: "Project Management — First-Class Entities, Hierarchical Indexing, and Satellite Lifecycle"
 description: "Projects as first-class entities in Knowledge: hierarchical indexing (P#/S#/D#), three-level entity model, satellite bootstrap protocol, web presence scaffolding, tagged input for scoped knowledge, dual-origin publishing, and GitHub Project integration."
 pub_id: "Publication #12"
-version: "v1"
-date: "2026-02-22"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/project-management/
 og_image: /assets/og/project-management-en-cayman.gif
 keywords: "project, management, indexing, satellite, bootstrap, hierarchy"
@@ -13,7 +13,7 @@ keywords: "project, management, indexing, satellite, bootstrap, hierarchy"
 # Project Management — First-Class Entities
 {: #pub-title}
 
-> **Parent publication**: [#0 — Knowledge]({{ '/publications/knowledge-system/' | relative_url }}) | **Architecture**: [#4 — Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }})
+> **Parent publication**: [#0 — Knowledge]({{ '/publications/knowledge-system/' | relative_url }}) | **Architecture**: [#4 — Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -30,7 +30,7 @@ keywords: "project, management, indexing, satellite, bootstrap, hierarchy"
 
 ## Abstract
 
-As the knowledge network grew from 1 repo to 6+ projects with multiple satellites, a structural gap emerged: projects had no formal identity. Publication #12 documents the v35 project entity model — hierarchical indexing (P#/S#/D#), three-level entities (logical, physical, platform), satellite lifecycle management, and the commands that operate on them. Consolidates four methodology documents: project management, satellite bootstrap, project create, and tagged input.
+As the knowledge network grew from 1 repo to 6+ projects with multiple satellites, a structural gap emerged: projects had no formal identity. Publication #12 documents the v35→K2.0 project entity model — hierarchical indexing (P#/S#/D#), three-level entities (logical, physical, platform), satellite lifecycle management, and the commands that operate on them. Consolidates four methodology documents: project management, satellite bootstrap, project create, and tagged input.
 
 ## Project Entity Model
 
@@ -63,7 +63,7 @@ Single-session iterative staging: Round 1 (bootstrap scaffold) -> Round 2 (norma
 
 ## Tagged Input (`#` Call Alias)
 
-`#N:` routes content to publication/project N. `#N:methodology:<topic>` and `#N:principle:<topic>` flag for harvesting. `#N:info` shows accumulated knowledge. Raw dump mode — user provides intelligence, Claude classifies. Multi-satellite convergence: same project documented from any repo, harvest unifies.
+`#N:` routes content to publication/project N. `#N:methodology:<topic>` and `#N:principle:<topic>` flag for K_GITHUB sync. `#N:info` shows accumulated knowledge. Raw dump mode — user provides intelligence, Claude classifies. Multi-satellite convergence: same project documented from any repo, K_GITHUB sync unifies.
 
 ## Dual-Origin Link System
 

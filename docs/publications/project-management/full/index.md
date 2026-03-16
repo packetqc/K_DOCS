@@ -3,8 +3,8 @@ layout: publication
 title: "Project Management — Complete Documentation"
 description: "Complete documentation for project management in Knowledge: entity model, hierarchical indexing (P#/S#/D#), project commands, satellite bootstrap protocol, web presence scaffolding, tagged input for scoped knowledge, dual-origin publishing, GitHub Project integration, and multi-instance convergence."
 pub_id: "Publication #12 — Full"
-version: "v1"
-date: "2026-02-22"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/project-management/full/
 og_image: /assets/og/project-management-en-cayman.gif
 keywords: "project, management, indexing, satellite, bootstrap, hierarchy"
@@ -30,7 +30,7 @@ keywords: "project, management, indexing, satellite, bootstrap, hierarchy"
 | [Project Commands](#3-project-commands) | CLI commands for project management |
 | [Satellite Bootstrap Protocol](#4-satellite-bootstrap-protocol) | Multi-round satellite installation |
 | &nbsp;&nbsp;[Console Guidance](#console-guidance-human-bridge) | Human bridge UX for bootstrap steps |
-| &nbsp;&nbsp;[Round 1 — Bootstrap](#round-1--bootstrap) | Essential files and CLAUDE.md scaffold |
+| &nbsp;&nbsp;[Round 1 — Bootstrap](#round-1--bootstrap) | Essential files and mind_memory.md scaffold |
 | &nbsp;&nbsp;[Round 2 — Normalize](#round-2--normalize) | Structure concordance enforcement |
 | &nbsp;&nbsp;[Round 3 — Project Create](#round-3--project-create-optional) | Web presence and GitHub board setup |
 | &nbsp;&nbsp;[Critical-Subset Principle](#critical-subset-principle) | Behavioral DNA that survives compaction |
@@ -45,11 +45,11 @@ keywords: "project, management, indexing, satellite, bootstrap, hierarchy"
 | &nbsp;&nbsp;[Subconscious Detection](#subconscious-detection) | Automatic insight-to-publication matching |
 | [Dual-Origin Link System](#7-dual-origin-link-system) | Core vs satellite origin badges |
 | [GitHub Project Integration](#8-github-project-integration) | Projects v2 board creation and linking |
-| [Integration with Existing Commands](#9-integration-with-existing-commands) | How project commands extend harvest, normalize, pub |
+| [Integration with Existing Commands](#9-integration-with-existing-commands) | How project commands extend K_GITHUB sync, K_VALIDATION /normalize, pub |
 | [URL Preservation](#10-url-preservation) | Backward-compatible URL scheme |
 | [Multi-Instance Concurrent Updates](#11-multi-instance-concurrent-updates) | Append-only concurrent project editing |
 | [Project Required Assets](#12-project-required-assets) | Mandatory files and assets per project |
-| [Project Lifecycle](#13-project-lifecycle) | Register to create to publish to harvest to evolve |
+| [Project Lifecycle](#13-project-lifecycle) | Register to create to publish to K_GITHUB sync to evolve |
 
 ## Authors
 
@@ -81,11 +81,13 @@ This publication consolidates four methodology documents into a single reference
 | # | Publication | Relationship |
 |---|------------|--------------|
 | 0 | [Knowledge]({{ '/publications/knowledge-system/' | relative_url }}) | Parent — project management extends the core system |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 | 4 | [Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }}) | Architecture — projects organize the distributed network |
 | 4a | [Knowledge Dashboard]({{ '/publications/distributed-knowledge-dashboard/' | relative_url }}) | Dashboard — project status displayed in network view |
-| 7 | [Harvest Protocol]({{ '/publications/harvest-protocol/' | relative_url }}) | Collection — harvest operates on project-indexed content |
+| 7 | [Harvest Protocol]({{ '/publications/harvest-protocol/' | relative_url }}) | Collection — K_GITHUB sync operates on project-indexed content |
 | 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle — sessions operate within project context |
 | 11 | [Success Stories]({{ '/publications/success-stories/' | relative_url }}) | Validation — project milestones become stories |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Multi-module architecture design |
 
 ---
 
@@ -111,7 +113,7 @@ Projects have four relationship types to repositories:
 | **child-of** | A sub-project of a parent project | P1 (MPLIB) is child-of P0 |
 | **managed** | No dedicated repository — lives in host repo or core | Documentation, processes, cross-cutting initiatives — board always links to a repo |
 
-**Managed projects** may live as subfolders in a host repo or purely in knowledge core. They get their own P# ID. On `harvest`, their content is routed to the correct project, not the host's. Their GitHub Project board always links to a repo: child projects link to their own repo, managed projects link to the host repo (or core repo as fallback). Every project links to a repo — no exceptions.
+**Managed projects** may live as subfolders in a host repo or purely in knowledge core. They get their own P# ID. On K_GITHUB sync, their content is routed to the correct project, not the host's. Their GitHub Project board always links to a repo: child projects link to their own repo, managed projects link to the host repo (or core repo as fallback). Every project links to a repo — no exceptions.
 
 ### Promotion-Based Import
 
@@ -119,13 +121,13 @@ When a managed project or new asset matures, the **promotion cycle** handles imp
 
 | Phase | Action |
 |-------|--------|
-| **Discover** | `harvest` detects content belonging to a different project |
-| **Route** | Content routed to the correct project's `minds/` entry |
+| **Discover** | K_GITHUB sync detects content belonging to a different project |
+| **Route** | Content routed to the correct project's far_memory archives |
 | **Register** | If the project doesn't exist, `project register` assigns a P# ID |
-| **Review** | `harvest --review` validates the content |
-| **Stage** | `harvest --stage N <type>` prepares for integration (type: lesson, pattern, methodology, evolution, docs, project) |
-| **Promote** | `harvest --promote N` writes to project's core assets |
-| **Normalize** | `normalize` ensures promoted content follows conventions |
+| **Review** | K_GITHUB sync validates the content |
+| **Stage** | Stage in work.json prepares for integration |
+| **Promote** | Manual: promote to conventions.json writes to project's core assets |
+| **Normalize** | K_VALIDATION /normalize ensures promoted content follows conventions |
 
 ### Current Registry
 
@@ -236,9 +238,9 @@ Audits a project against the required assets checklist:
 === Project Review: P1 (MPLIB) ===
 
   Identity:      registered (projects/mplib.md)
-  CLAUDE.md:     active (v31, critical-subset)
-  notes/:        present (2 sessions in P1/S1, 5 sessions in P1/S2)
-  live/:         deployed
+  mind_memory.md: active (264-node directive grid)
+  sessions/:     present (2 sessions in P1/S1, 5 sessions in P1/S2)
+  K_DOCS scripts/: deployed
   Publications:  1 in core (P0/#1), 0 local
   Docs:          web presence not created
   GitHub Project: not created
@@ -252,16 +254,16 @@ Audits a project against the required assets checklist:
 1. Register project:      Assign P# ID, create projects/<slug>.md
 2. Create GitHub Project:  If elevated, create board via API (gh_helper.py / urllib)
 3. Link project to repo:  If elevated, link board to repository via API
-4. Bootstrap satellite:   wakeup step 0.5
+4. Bootstrap satellite:   session start step
 5. Scaffold web presence: docs/, layouts, hubs, publications/
 6. Register in core:     Update projects/README.md
-7. Update dashboard:     Add satellite to harvest dashboard
+7. Update dashboard:     Add satellite to K_GITHUB sync dashboard
 8. Commit & deliver:     Commit, push, PR
 ```
 
 ### `project register` — Lightweight
 
-Just creates the project metadata file. Used when the repo already exists or when registering a discovered project from harvest. Auto-populates from `minds/<slug>.md` and git history if available.
+Just creates the project metadata file. Used when the repo already exists or when registering a discovered project from K_GITHUB sync. Auto-populates from far_memory archives and git history if available.
 
 ---
 
@@ -270,16 +272,16 @@ Just creates the project metadata file. Used when the repo already exists or whe
 Single-session iterative staging — one session does everything, user merges between rounds, no restarts.
 
 ```
-Round 1: wakeup -> bootstrap scaffold -> commit -> push -> PR
-         user merges -> refresh -> verify stage 1
+Round 1: session start -> bootstrap scaffold -> commit -> push -> PR
+         user merges -> /mind-context reload -> verify stage 1
 
-Round 2: normalize -> trim to critical-subset -> commit -> push -> PR
-         user merges -> refresh -> verify stage 2
+Round 2: K_VALIDATION /normalize -> trim to critical-subset -> commit -> push -> PR
+         user merges -> /mind-context reload -> verify stage 2
 
 Round 3: project create (optional) -> commit -> push -> PR
-         user merges -> refresh -> verify stage 3
+         user merges -> /mind-context reload -> verify stage 3
 
-Final:   "Installation complete. Any new session will auto-wakeup."
+Final:   "Installation complete. Any new session will auto session start."
 ```
 
 ### Console Guidance (Human Bridge)
@@ -310,21 +312,21 @@ After user says "merged":
 
 ### Round 1 — Bootstrap
 
-Wakeup step 0.5 creates missing essential files (non-destructive):
+Session start step creates missing essential files (non-destructive):
 
 | File | Content |
 |------|---------|
-| `CLAUDE.md` | Critical-subset (~180 lines): knowledge pointer + behavioral DNA + commands |
+| `mind_memory.md` | 264-node directive grid: knowledge pointer + behavioral DNA + commands |
 | `README.md` | Repo name, description, link to knowledge |
 | `LICENSE` | MIT with current year |
 | `.gitignore` | Standard ignores (`.env`, `*.pem`, `node_modules/`, `__pycache__/`, `.mp4`) |
-| `notes/.gitkeep` | Session persistence folder |
+| `sessions/.gitkeep` | Session persistence folder |
 
-Autonomous change detection triggers the staging flow automatically — no need for the user to type `save`.
+Autonomous change detection triggers the staging flow automatically — no need for the user to trigger commit+push.
 
 ### Round 2 — Normalize
 
-Trim the satellite CLAUDE.md to critical-subset form (~180 lines). Remove deep implementation content that was over-synced in Round 1. Keep: knowledge pointer, session protocol, save protocol, branch protocol, human bridge, full 7-group commands reference, project overview.
+Trim the satellite mind_memory.md to critical-subset form (~180 lines). Remove deep implementation content that was over-synced in Round 1. Keep: knowledge pointer, session protocol, commit+push protocol, branch protocol, human bridge, full 7-group commands reference, project overview.
 
 ### Round 3 — Project Create (Optional)
 
@@ -332,22 +334,22 @@ Scaffold web presence with `project create <name>`. Only needed if the satellite
 
 ### Critical-Subset Principle
 
-The satellite CLAUDE.md carries enough DNA to drive correct behavior even after context compaction:
+The satellite mind_memory.md carries enough DNA to drive correct behavior even after context compaction:
 
 ```
-Core CLAUDE.md (2600+ lines)    Full methodology, implementations    <- source of truth
+mind_memory.md (264-node directive grid) Full methodology, implementations <- source of truth
          |
-         | read on wakeup (Step 0)
+         | loaded on session start
          |
-Satellite CLAUDE.md (~180 lines) Knowledge pointer                   <- critical-subset
-                                  Session + save + branch protocol       (survives compaction)
-                                  Full 7-group commands reference
-                                  Project overview + commands
+Satellite mind_memory.md (~180 lines)   Knowledge pointer                  <- critical-subset
+                                         Session + commit+push + branch protocol      (survives compaction)
+                                         Full 7-group commands reference
+                                         Project overview + commands
 ```
 
 **Why not thin-wrapper (~30 lines)**: After compaction, satellites lost all behavioral rules. The critical-subset includes essential operational rules that survive.
 
-**Why not full mirror (2600+ lines)**: Duplicating core creates massive version drift. The critical-subset carries behavioral rules (stable) but NOT implementation details (evolve frequently).
+**Why not full mirror**: Duplicating core creates massive version drift. The critical-subset carries behavioral rules (stable) but NOT implementation details (evolve frequently).
 
 ### Final Confirmation
 
@@ -356,14 +358,14 @@ Satellite CLAUDE.md (~180 lines) Knowledge pointer                   <- critical
 
   Satellite: <repo-name>
   Knowledge version: v36
-  CLAUDE.md: critical-subset (~200 lines)
+  mind_memory.md: critical-subset (~200 lines)
   Default branch: <main|master>
 
   Any new Claude Code session on this repo will:
-  1. Auto-wakeup (step 0: read packetqc/knowledge)
+  1. Auto session start (session_init.py + /mind-context: read packetqc/knowledge)
   2. Inherit all methodology, commands, patterns
-  3. Have session persistence (notes/)
-  4. Be discoverable by harvest --healthcheck
+  3. Have session persistence (sessions/)
+  4. Be discoverable by K_GITHUB sync + /integrity-check
 ```
 
 ---
@@ -433,8 +435,8 @@ The `#` prefix at the beginning of a prompt triggers scoped knowledge input mode
 | Command | Action |
 |---------|--------|
 | `#N: <content>` | Scoped note for publication/project #N |
-| `#N:methodology:<topic> <content>` | Methodology insight — flagged for doc harvesting |
-| `#N:principle:<topic> <content>` | Design principle — flagged for doc harvesting |
+| `#N:methodology:<topic> <content>` | Methodology insight — flagged for K_GITHUB sync |
+| `#N:principle:<topic> <content>` | Design principle — flagged for K_GITHUB sync |
 | `#N:info` | Show all accumulated knowledge for #N |
 | `#N:info:<topic>` | Show specific topic within #N |
 | `#N:done` | End documentation focus, compile summary |
@@ -452,17 +454,17 @@ Use `#N:` explicitly only when the content is for a *different* project.
 
 ### Raw Dump Mode
 
-`#N:` accepts unstructured raw input. Claude uses acquired knowledge (CLAUDE.md, publications, methodology) + universal knowledge to classify, route, and store. The user says whatever they have; Claude organizes it.
+`#N:` accepts unstructured raw input. Claude uses acquired knowledge (mind_memory.md, publications, methodology) + universal knowledge to classify, route, and store. The user says whatever they have; Claude organizes it.
 
 ### Multi-Satellite Convergence
 
 The same project can be documented from multiple satellites. `#N:` is the routing key, not the repo — the insight goes where it belongs regardless of where it was discovered.
 
 ```
-Satellite A --> harvest --> minds/ --> promotion --> core knowledge
-Satellite B --> harvest --/
-Satellite C --> harvest --/
-Core direct ---------------------------------> notes/ --> core knowledge
+Satellite A --> K_GITHUB sync --> far_memory archives --> domain JSON update --> core knowledge
+Satellite B --> K_GITHUB sync --/
+Satellite C --> K_GITHUB sync --/
+Core direct --------------------------------------------> sessions/ --> core knowledge
 ```
 
 ### Subconscious Detection
@@ -487,7 +489,7 @@ Light touch — only when obvious, not on every message.
   - pull-based: satellites self-heal by reading core
 
   General (2 notes)
-  - dashboard should update all 5 files on every harvest
+  - dashboard should update all 5 files on every K_GITHUB sync
   - healthcheck should report unreachable satellites
 
   Sources: knowledge (2), STM32N6570-DK_SQLITE (3), MPLIB (1)
@@ -512,13 +514,13 @@ Cross-referencing: core publications reference satellite docs for "latest develo
 
 ## 8. GitHub Project Integration
 
-When elevated (PAT with project scope), `project create` creates a GitHub Project board — the **human interface layer**. Two entry points: `project create` (new project scaffolding) and `harvest --promote` (promoted insights create or update board items).
+When elevated (PAT with project scope), `project create` creates a GitHub Project board — the **human interface layer**. Two entry points: `project create` (new project scaffolding) and domain JSON update (promoted insights create or update board items).
 
 | Knowledge system (AI-native) | GitHub Project (human-native) |
 |------------------------------|-------------------------------|
 | `projects/<slug>.md` metadata | Project board with cards |
 | Evolution entries (v#) | Milestones |
-| Harvest insights | Issues (auto-created from promotion candidates) |
+| K_GITHUB sync insights | Issues (auto-created from promotion candidates) |
 | Project stories | Discussion threads |
 | `project review` findings | Issue labels (stale, missing, drift) |
 | Session notes | Activity timeline |
@@ -529,10 +531,10 @@ When elevated (PAT with project scope), `project create` creates a GitHub Projec
 
 | Command | Board effect |
 |---------|-------------|
-| `harvest --healthcheck` | Creates issues for critical findings |
+| `K_GITHUB sync + /integrity-check` | Creates issues for critical findings |
 | `project review` | Creates issues for missing assets |
 | `doc review --apply` | Updates milestone progress |
-| `harvest --promote` | Moves board cards from "Backlog" to "Done" |
+| Domain JSON update | Moves board cards from "Backlog" to "Done" |
 
 ---
 
@@ -540,8 +542,8 @@ When elevated (PAT with project scope), `project create` creates a GitHub Projec
 
 | Command | What project management adds |
 |---------|------------------------------|
-| `harvest --healthcheck` | Project status table — counts, satellite health, publication distribution |
-| `normalize` | Project concordance — registry consistency, unique P# assignments, valid cross-refs |
+| `K_GITHUB sync + /integrity-check` | Project status table — counts, satellite health, publication distribution |
+| `K_VALIDATION /normalize` | Project concordance — registry consistency, unique P# assignments, valid cross-refs |
 | `pub list` | Project index column — `P0/#1` with `->P1` cross-references |
 | `doc review --list` | Project index in freshness inventory |
 
@@ -571,7 +573,7 @@ Multiple Claude Code instances can update the same project's content:
 |-----------|--------|
 | **Append-only indexing** | Each instance appends, never overwrites |
 | **Provenance tracking** | `<!-- last-updated-by -->` marker on each document |
-| **Harvest concatenation** | `harvest --healthcheck` merges indexes from all satellites |
+| **Sync concatenation** | `K_GITHUB sync + /integrity-check` merges indexes from all satellites |
 | **Conflict resolution** | Most recent `last-updated` timestamp wins |
 
 ---
@@ -580,31 +582,31 @@ Multiple Claude Code instances can update the same project's content:
 
 | Asset | Core (P0) | Child (P1+) | Purpose |
 |-------|-----------|-------------|---------|
-| `CLAUDE.md` | Full (~2600 lines) | Critical-subset (~180 lines) | Behavioral DNA |
-| `notes/` | Session notes | Session notes | Ephemeral memory |
+| `mind_memory.md` | 264-node directive grid | Critical-subset (~180 lines) | Behavioral DNA |
+| `sessions/` | Session notes | Session notes | Ephemeral memory |
 | `projects/<name>.md` | In core repo | Registered in core | Project metadata |
 | Publications source | `publications/<slug>/v1/` | Optional | Canonical content |
 | Docs web pages | `docs/publications/<slug>/` | Optional | GitHub Pages |
 | GitHub Project | Not yet created | Not yet created | Platform tracking |
-| `minds/<name>.md` | N/A (self) | In core repo | Harvested knowledge |
-| `live/` | Knowledge assets | Synced from core | Tooling |
+| far_memory archives | N/A (self) | In core repo | Harvested knowledge |
+| `K_DOCS scripts/` | Knowledge assets | Synced from core | Tooling |
 
 ---
 
 ## 13. Project Lifecycle
 
 ```
-discover -> register -> bootstrap -> create (platform) -> publish -> harvest -> evolve
+discover -> register -> bootstrap -> create (platform) -> publish -> K_GITHUB sync -> evolve
 ```
 
 | Phase | What happens | Command |
 |-------|-------------|---------|
-| **Discover** | New satellite or project conceived | Manual or `harvest --healthcheck` |
+| **Discover** | New satellite or project conceived | Manual or `K_GITHUB sync + /integrity-check` |
 | **Register** | P# ID assigned, `projects/<name>.md` created | `project register <name>` |
-| **Bootstrap** | CLAUDE.md, notes/, live/, knowledge pointer | `wakeup` step 0.5 |
+| **Bootstrap** | mind_memory.md, sessions/, K_DOCS scripts/, knowledge pointer | session start (session_init.py + /mind-context) |
 | **Create** | GitHub Project board + web presence | `project create <name>` |
 | **Publish** | Publications created and indexed | `pub new <slug>` |
-| **Harvest** | Knowledge flows back to core | `harvest <project>` |
+| **K_GITHUB sync** | Knowledge flows back to core | `K_GITHUB sync` (sync_github.py) |
 | **Evolve** | Evolution log grows, stories accumulate | Continuous |
 
 ---
@@ -614,6 +616,7 @@ discover -> register -> bootstrap -> create (platform) -> publish -> harvest -> 
 | Version | Date | Changes |
 |---------|------|---------|
 | v1 | 2026-02-22 | Initial publication — project entity model, indexing, commands, bootstrap, web presence, tagged input |
+| v2 | 2026-03-16 | K2.0 terminology update — harvest → K_GITHUB sync, wakeup → session start, CLAUDE.md → mind_memory.md, notes/ → sessions/, minds/ → far_memory archives, normalize → K_VALIDATION /normalize |
 
 ---
 

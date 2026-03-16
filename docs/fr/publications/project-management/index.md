@@ -3,8 +3,8 @@ layout: publication
 title: "Gestion de projet — Entités de premier ordre, indexation hiérarchique et cycle de vie satellite"
 description: "Les projets comme entités de premier ordre dans Knowledge : indexation hiérarchique (P#/S#/D#), modèle d'entité à trois niveaux, protocole de bootstrap satellite, création de présence web, entrée ciblée pour connaissances scopées, publication à double origine et intégration GitHub Project."
 pub_id: "Publication #12"
-version: "v1"
-date: "2026-02-22"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/project-management/
 og_image: /assets/og/project-management-fr-cayman.gif
 keywords: "projet, gestion, indexation, satellite, bootstrap, hiérarchie"
@@ -13,7 +13,7 @@ keywords: "projet, gestion, indexation, satellite, bootstrap, hiérarchie"
 # Gestion de projet — Entités de premier ordre
 {: #pub-title}
 
-> **Publication parente** : [#0 — Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Architecture** : [#4 — Connaissances distribuées]({{ '/fr/publications/distributed-minds/' | relative_url }})
+> **Publication parente** : [#0 — Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Architecture** : [#4 — Connaissances distribuées]({{ '/fr/publications/distributed-minds/' | relative_url }}) | **Référence core** : [#14 — Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }})
 
 **Table des matières**
 
@@ -55,7 +55,7 @@ Trois niveaux : `P<n>` (projet), `P<n>/S<m>` (satellite), `P<n>/#<pub>` ou `P<n>
 
 ## Protocole de bootstrap satellite
 
-Staging itératif en session unique : Étape 1 (scaffold bootstrap) -> Étape 2 (normaliser vers critical-subset) -> Étape 3 (présence web, optionnel). Une seule action manuelle par étape : fusionner la PR. Le guidage console (pont humain) imprime ce qui s'est passé, ce que l'utilisateur doit faire et ce qui se passe ensuite à chaque étape.
+Staging itératif en session unique : Étape 1 (scaffold bootstrap) -> Étape 2 (K_VALIDATION /normalize vers critical-subset) -> Étape 3 (présence web, optionnel). Une seule action manuelle par étape : commit+push. Le guidage console (pont humain) imprime ce qui s'est passé, ce que l'utilisateur doit faire et ce qui se passe ensuite à chaque étape.
 
 ## Création de présence web
 
@@ -63,7 +63,7 @@ Staging itératif en session unique : Étape 1 (scaffold bootstrap) -> Étape 2 
 
 ## Entrée ciblée (alias d'appel `#`)
 
-`#N:` route le contenu vers la publication/projet N. `#N:methodology:<sujet>` et `#N:principle:<sujet>` marquent pour la récolte. `#N:info` affiche les connaissances accumulées. Mode dump brut — l'utilisateur fournit l'intelligence, Claude classifie. Convergence multi-satellites : même projet documenté depuis n'importe quel dépôt, harvest unifie.
+`#N:` route le contenu vers la publication/projet N. `#N:methodology:<sujet>` et `#N:principle:<sujet>` marquent pour la synchronisation K_GITHUB. `#N:info` affiche les connaissances accumulées. Mode dump brut — l'utilisateur fournit l'intelligence, Claude classifie. Convergence multi-satellites : même projet documenté depuis n'importe quel dépôt, K_GITHUB sync unifie.
 
 ## Système de liens à double origine
 
@@ -77,3 +77,4 @@ Les liens core (`knowledge/`) sont canoniques. Les liens satellite (`<repo>/`) s
 
 *Auteurs : Martin Paquet & Claude (Anthropic, Opus 4.6)*
 *Connaissances : [packetqc/knowledge](https://github.com/packetqc/knowledge)*
+*Version v2 — terminologie K2.0 (mind_memory.md, sessions/, archives far_memory, K_GITHUB sync, K_VALIDATION /normalize, commit+push)*
