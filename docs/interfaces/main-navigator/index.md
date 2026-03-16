@@ -266,25 +266,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .iface-pub-btn:hover, .doc-btn:hover {
   opacity: 1; color: var(--accent, #1d4ed8);
 }
-/* ═══ Documentation row — label + summary/full buttons ═══ */
-.doc-row {
-  display: flex; align-items: center;
-  background: var(--code-bg, #f6f8fa);
-  border-radius: 4px;
-  border-left: 2px solid transparent;
-  transition: background 0.15s, border-color 0.15s, transform 0.12s, box-shadow 0.15s;
-}
-.doc-row:hover {
-  background: var(--col-alt, #e8eef4);
-  border-left-color: var(--accent, #1d4ed8);
-  transform: translateX(3px);
-  box-shadow: -2px 0 0 var(--accent, #1d4ed8);
-}
-.doc-row > a:first-child {
-  flex: 1; background: transparent !important;
-  border-left: none !important; border-radius: 0 !important;
-}
-.doc-row > a:first-child:hover { background: transparent !important; border-left: none !important; }
+/* ═══ Documentation buttons — reuses .iface-row container ═══ */
 .doc-btn {
   flex-shrink: 0; padding: 0.2rem 0.4rem;
   font-size: 0.62rem; font-weight: 600; text-decoration: none;
@@ -601,7 +583,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
             if (!item.has_full) {
               body.appendChild(makeLink(label(item), sumUrl, 'content-frame'));
             } else {
-              var row = document.createElement('div'); row.className = 'doc-row';
+              var row = document.createElement('div'); row.className = 'iface-row';
               row.appendChild(makeLink(label(item), sumUrl, 'content-frame'));
               var sb = document.createElement('a'); sb.className = 'doc-btn';
               sb.textContent = 'S'; sb.title = dSumTip;
