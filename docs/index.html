@@ -547,6 +547,14 @@
   <!-- Embed mode: hide chrome when loaded in iframe -->
   <script>
     var IS_EMBED = new URLSearchParams(window.location.search).has('embed');
+    // Auto-detect iframe context: if loaded inside an iframe, always enable embed mode
+    if (!IS_EMBED && window !== window.top) {
+      IS_EMBED = true;
+      // Add &embed to URL so subsequent navigation preserves embed mode
+      var url = new URL(window.location.href);
+      url.searchParams.set('embed', '');
+      history.replaceState(null, '', url.toString());
+    }
     if (IS_EMBED) {
       document.querySelectorAll('.toolbar-top, .toolbar-bottom').forEach(function(el) { el.style.display = 'none'; });
       document.body.classList.add('embed-mode');
