@@ -255,7 +255,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   /* ─── Language auto-detection from URL path ─── */
   var LANG = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') >= 0) ? 'fr' : 'en';
   var LP = LANG === 'fr' ? '/fr' : '';  // language path prefix
-  var LS = LANG === 'fr' ? '-fr' : '';  // localStorage suffix
+  // localStorage keys are language-neutral (shared across EN/FR)
 
   var T = {
     en: {
@@ -314,13 +314,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   var t = T[LANG];
 
   var BASE = '{{ "" | relative_url }}';
-  var CENTER_KEY  = 'navigator-center-url' + LS;
-  var WIDGET_KEY  = 'navigator-widgets' + LS;
+  var CENTER_KEY  = 'navigator-center-url';
+  var WIDGET_KEY  = 'navigator-widgets';
   var LPANEL_KEY  = 'navigator-left-state';
   var RPANEL_KEY  = 'navigator-right-state';
-  var RCONTENT_KEY = 'navigator-right-url' + LS;
-  var ACTIVE_KEY  = 'navigator-active-href' + LS;
-  var SUBDET_KEY  = 'navigator-subdetails' + LS;
+  var RCONTENT_KEY = 'navigator-right-url';
+  var ACTIVE_KEY  = 'navigator-active-href';
+  var SUBDET_KEY  = 'navigator-subdetails';
 
   /* Set default iframe sources based on language */
   var centerIframe = document.getElementById('center-frame-el');
@@ -575,11 +575,23 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     det.appendChild(body); panel.appendChild(det);
   });
 
+  /* ─── Language-neutral URL helpers ─── */
+  function stripLang(url) {
+    // Remove /fr/ prefix after BASE so saved URLs are language-neutral
+    if (!url) return url;
+    return url.replace(BASE + '/fr/', BASE + '/');
+  }
+  function applyLang(url) {
+    // Re-apply current language prefix
+    if (!url || LP === '') return url;
+    return url.replace(BASE + '/', BASE + LP + '/');
+  }
+
   /* ─── Restore last viewed pages ─── */
   var savedCenter = localStorage.getItem(CENTER_KEY);
-  if (savedCenter && centerIframe) { centerIframe.src = savedCenter; }
+  if (savedCenter && centerIframe) { centerIframe.src = applyLang(savedCenter); }
   var savedRight = localStorage.getItem(RCONTENT_KEY);
-  if (savedRight && rightIframe) { rightIframe.src = savedRight; }
+  if (savedRight && rightIframe) { rightIframe.src = applyLang(savedRight); }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
@@ -595,11 +607,11 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     panel.querySelectorAll('a.active').forEach(function(el) { el.classList.remove('active'); });
     a.classList.add('active');
     localStorage.setItem(ACTIVE_KEY, a.dataset.navId || a.href);
-    /* Save center URL if targeting center */
-    if (a.target === 'center-frame') { localStorage.setItem(CENTER_KEY, a.href); }
-    /* Save right URL + extend panel if collapsed */
+    /* Save center URL if targeting center (language-neutral) */
+    if (a.target === 'center-frame') { localStorage.setItem(CENTER_KEY, stripLang(a.href)); }
+    /* Save right URL + extend panel if collapsed (language-neutral) */
     if (a.target === 'content-frame') {
-      localStorage.setItem(RCONTENT_KEY, a.href);
+      localStorage.setItem(RCONTENT_KEY, stripLang(a.href));
       if (rightW < 100) { rightW = Math.round(grid.offsetWidth * 0.5); applyGrid(true); }
     }
   });
@@ -624,7 +636,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     centerIframe.addEventListener('load', function() {
       try {
         var loc = centerIframe.contentWindow.location.href;
-        if (loc && loc !== 'about:blank') localStorage.setItem(CENTER_KEY, loc);
+        if (loc && loc !== 'about:blank') localStorage.setItem(CENTER_KEY, stripLang(loc));
       } catch(e) {}
       syncThemeToIframes();
     });
