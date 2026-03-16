@@ -209,8 +209,10 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .tab-bar {
   flex-shrink: 0;
   display: flex; align-items: stretch; flex-wrap: wrap;
+  max-height: 3.2rem; overflow-y: auto;
   background: var(--code-bg, #f6f8fa);
   border-bottom: 1px solid var(--border, #d0d7de);
+  scrollbar-width: thin;
 }
 .tab-bar:empty { display: none; }
 .tab-item {
