@@ -52,9 +52,10 @@ Each section has a JSON file at `docs/data/<section>.json`:
 | `module` | string | methodologies, configurations | Grouping key for collapsible sub-details |
 | `path` | string | methodologies, configurations | Raw GitHub URL for viewer `?doc=` |
 | `slug` | string | publications, documentation | Publication directory slug |
+| `has_full` | boolean | documentation | Whether full doc exists (controls icon display in future) |
 | `number` | string | publications | Publication number (e.g. `"#24"`) |
 | `extra` | array | publications | Additional sub-links `[{title, title_fr, href}]` |
-| `group` / `group_fr` | string | commands, documentation | Group label EN/FR |
+| `group` / `group_fr` | string | commands | Group label EN/FR |
 | `pub` | string | commands | Publication path for command links |
 | `cmds` | array | commands | Command strings to display |
 
@@ -63,7 +64,7 @@ Each section has a JSON file at `docs/data/<section>.json`:
 | Type | Rendering | Grouping | Composite View |
 |------|-----------|----------|----------------|
 | `interfaces` | Links with target routing + ℹ guide button | — | — |
-| `documentation` | Groups with summary + full sub-links per guide | By `groups[]` | — |
+| `documentation` | Flat card links to publication summaries (like essentials) | Flattened from `groups[]` | — |
 | `essentials` | Simple links | — | — |
 | `commands` | Grouped commands with pub link + cmd spans | By `group` | — |
 | `methodologies` | Links via viewer `?doc=` | By `module` | — |
@@ -187,7 +188,7 @@ The default center-frame URL is resolved dynamically from the first center-targe
 | # | Section | JSON File | Build Script | Items |
 |---|---------|-----------|-------------|-------|
 | 1 | Interfaces | `interfaces.json` | manual | 5 |
-| 2 | Documentation | `documentation.json` | manual | 3 groups (6 guides) |
+| 2 | Documentation | `documentation.json` | manual | 6 guides (flat links) |
 | 3 | Essentials | `essentials.json` | manual | 6 |
 | 4 | Commands | `commands.json` | manual | 7 groups |
 | 5 | Methodologies | `methodologies.json` | `build_methodologies.py` | 16 |
