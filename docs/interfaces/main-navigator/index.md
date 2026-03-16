@@ -170,7 +170,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-widget .pub-group { margin: 0; padding: 0; }
 .nav-widget .pub-group summary {
   font-size: 0.76rem; font-weight: 600;
-  text-transform: none; letter-spacing: 0;
+  text-transform: uppercase; letter-spacing: 0;
   padding: 0.2rem 0.55rem;
   background: none; border-bottom: none;
   color: var(--fg, #24292f);

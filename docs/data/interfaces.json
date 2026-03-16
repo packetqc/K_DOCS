@@ -45,7 +45,7 @@
 		"href": "/interfaces/live-mindmap/", "target": "center",
 		"pub": "guide-live-mindmap",
 		"priority": 1
-	},
+	}
   ],
   "removed": []
 }
