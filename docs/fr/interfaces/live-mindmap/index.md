@@ -338,6 +338,42 @@ body > .container {
     return headerLines.join('\n') + '\n' + out.join('\n');
   }
 
+  // === Omit-only filter: remove omitted branches, keep all other nodes ===
+  function filterMindmapOmitOnly(mermaidCode, config) {
+    var lines = mermaidCode.split('\n');
+    var headerLines = [], bodyLines = [], inHeader = true;
+    for (var i = 0; i < lines.length; i++) {
+      var s = lines[i].trim();
+      if (inHeader && (s.indexOf('%%{') === 0 || s === 'mindmap' || s.indexOf('root(') !== -1)) headerLines.push(lines[i]);
+      else { inHeader = false; bodyLines.push(lines[i]); }
+    }
+    var omit = (config && config.omit) || [];
+    if (!omit.length) return mermaidCode;
+    var nodes = [];
+    for (var i = 0; i < bodyLines.length; i++) {
+      if (!bodyLines[i].trim()) continue;
+      var content = bodyLines[i].replace(/^\s+/, '');
+      var indent = bodyLines[i].length - content.length;
+      nodes.push({ level: Math.floor(indent / 2), text: content, line: bodyLines[i] });
+    }
+    var rootIndent = nodes.length ? nodes[0].level : 0;
+    var out = [], skipLevel = -1;
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i], depth = n.level - rootIndent + 1;
+      if (skipLevel >= 0) {
+        if (n.level > skipLevel) continue;
+        skipLevel = -1;
+      }
+      if (depth === 1) {
+        var skip = false;
+        for (var k = 0; k < omit.length; k++) if (n.text === omit[k]) { skip = true; break; }
+        if (skip) { skipLevel = n.level; continue; }
+      }
+      out.push(n.line);
+    }
+    return headerLines.join('\n') + '\n' + out.join('\n');
+  }
+
   // === Mermaid → MindElixir data converter ===
   function mermaidToMindElixir(mermaidCode) {
     var lines = mermaidCode.split('\n');
@@ -427,7 +463,9 @@ body > .container {
       .then(function(results) {
         var mermaidCode = results[0];
         var config = results[1];
-        var displayCode = (mode === 'full') ? mermaidCode : filterMindmap(mermaidCode, config);
+        // Normal mode: load ALL nodes but collapse per config. Full mode: same data, deeper initial expand.
+        // filterMindmap only used for omit list (architecture/constraints hidden in normal mode)
+        var displayCode = (mode === 'full') ? mermaidCode : filterMindmapOmitOnly(mermaidCode, config);
 
         // Convert to MindElixir data
         var data = mermaidToMindElixir(displayCode);
@@ -459,16 +497,33 @@ body > .container {
           allowUndo: false
         });
 
-        // Collapse branches beyond default depth (same visual as normal mode)
-        var configDepth = (config && config.default_depth) ? config.default_depth : 3;
-        var defaultDepth = configDepth - 1;
-        function collapseDeep(node, depth) {
-          if (node.children && node.children.length > 0) {
-            if (depth >= defaultDepth) node.expanded = false;
-            node.children.forEach(function(child) { collapseDeep(child, depth + 1); });
-          }
+        // Collapse branches beyond configured depth (respects per-branch overrides)
+        var cfgDepth = (config && config.default_depth) ? config.default_depth : 3;
+        var cfgOverrides = (config && config.overrides) ? config.overrides : {};
+        function collapseDeep(node, depth, pathParts) {
+          if (!node.children || !node.children.length) return;
+          node.children.forEach(function(child) {
+            var parts = pathParts.concat(child.topic);
+            // Find best matching override for this branch path
+            var maxD = cfgDepth, bestLen = 0;
+            for (var op in cfgOverrides) {
+              var opParts = op.split('/');
+              if (opParts.length <= parts.length) {
+                var match = true;
+                for (var k = 0; k < opParts.length; k++) {
+                  if (opParts[k] !== parts[k]) { match = false; break; }
+                }
+                if (match && op.length > bestLen) { bestLen = op.length; maxD = cfgOverrides[op]; }
+              }
+            }
+            var childDepth = depth + 1;
+            if (child.children && child.children.length > 0) {
+              if (childDepth >= maxD) child.expanded = false;
+              collapseDeep(child, childDepth, parts);
+            }
+          });
         }
-        collapseDeep(data.nodeData, 0);
+        collapseDeep(data.nodeData, 0, []);
 
         mind.init(data);
         window.mindInstance = mind;
