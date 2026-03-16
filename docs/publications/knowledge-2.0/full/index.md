@@ -106,12 +106,12 @@ flowchart LR
 
     subgraph V2["Knowledge 2.0"]
         direction TB
-        Q1["Session Questionnaire"]
-        Q2["Command Router"]
-        Q3["Skill Architecture"]
-        Q4["Methodology Resolution"]
-        Q5["Deduplication Engine"]
-        Q6["Interactive Modes"]
+        Q1["Multi-Module Architecture<br/>K_MIND · K_DOCS · K_GITHUB<br/>K_PROJECTS · K_VALIDATION"]
+        Q2["Mind-First Memory<br/>mindmap → JSONs → near → far"]
+        Q3["Skill-Based Routing<br/>.claude/skills/ SKILL.md"]
+        Q4["Deterministic Scripts<br/>memory_append, recall, split"]
+        Q5["Static Web Viewer<br/>.nojekyll + 5 interfaces"]
+        Q6["8-Stage QA Workflow<br/>INITIAL → APPROVED"]
     end
 
     V1 -->|"builds on"| V2
@@ -419,11 +419,33 @@ flowchart LR
 ## 8. Complete Architecture
 
 ```mermaid
-flowchart LR
-    BOOT["Boot<br/>CLAUDE.md + checkpoints"] --> Q["Questionnaire<br/>A·B·C·D validation"]
-    Q --> ENGINE["Engine<br/>Router → Skills → Executor"]
-    ENGINE --> METH["Methodologies<br/>6 families · dedup"]
-    METH --> MODES["Modes<br/>Conception · Docs · Diagnostic"]
+flowchart TB
+    subgraph BOOT["Session Boot"]
+        MINDMAP["mind_memory.md<br/>Directive grid (264 nodes)"]
+        NEAR["near_memory.json<br/>Session summaries"]
+        INIT["session_init.py<br/>+ mindmap_filter.py"]
+    end
+
+    subgraph MODULES["Multi-Module System"]
+        KMIND["K_MIND — Core Memory<br/>10 scripts · domain JSONs"]
+        KDOCS["K_DOCS — Documentation<br/>static viewer · 25+ pubs"]
+        KOTHER["K_GITHUB · K_PROJECTS · K_VALIDATION<br/>sync · projects · 8-stage QA"]
+    end
+
+    subgraph SKILLS["Skill Architecture"]
+        SKILLMD[".claude/skills/<br/>SKILL.md files"]
+        METHODOLOGY["methodology/<br/>per module"]
+    end
+
+    subgraph OUTPUT["Documentation Output"]
+        VIEWER["Static JS viewer<br/>5 interfaces · 4 themes"]
+        PAGES["GitHub Pages<br/>.nojekyll hosting"]
+    end
+
+    BOOT --> MODULES
+    MODULES --> SKILLS
+    SKILLS --> OUTPUT
+    VIEWER --> PAGES
 ```
 
 ---

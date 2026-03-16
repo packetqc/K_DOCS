@@ -105,12 +105,12 @@ flowchart LR
 
     subgraph V2["Knowledge 2.0"]
         direction TB
-        Q1["Questionnaire de session"]
-        Q2["Routeur de commandes"]
-        Q3["Architecture de skills"]
-        Q4["Résolution de méthodologie"]
-        Q5["Moteur de déduplication"]
-        Q6["Modes interactifs"]
+        Q1["Architecture multi-module<br/>K_MIND · K_DOCS · K_GITHUB<br/>K_PROJECTS · K_VALIDATION"]
+        Q2["Mémoire Mind-First<br/>mindmap → JSONs → near → far"]
+        Q3["Routage par skills<br/>.claude/skills/ SKILL.md"]
+        Q4["Scripts déterministes<br/>memory_append, recall, split"]
+        Q5["Viewer web statique<br/>.nojekyll + 5 interfaces"]
+        Q6["Workflow QA 8 étapes<br/>INITIAL → APPROVED"]
     end
 
     V1 -->|"s'appuie sur"| V2
@@ -247,41 +247,31 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph BOOT["Démarrage de session"]
-        CLAUDE_MD["CLAUDE.md (survit à la compaction)"]
-        KNOWLEDGE["knowledge_resultats.json"]
-        CHECKPOINT["checkpoint_execution.json"]
+        MINDMAP["mind_memory.md<br/>Grille de directives (264 nœuds)"]
+        NEAR["near_memory.json<br/>Résumés de session"]
+        INIT["session_init.py<br/>+ mindmap_filter.py"]
     end
 
-    subgraph QUESTIONNAIRE["Questionnaire de Knowledge"]
-        A["A: Validation de la demande (A1-A4)"]
-        B["B: Contexte (B1-B3)"]
-        C["C: Validation (C1-C3)"]
-        D["D: Documentation (D1-D3)"]
+    subgraph MODULES["Système multi-module"]
+        KMIND["K_MIND — Mémoire centrale<br/>10 scripts · JSONs de domaine"]
+        KDOCS["K_DOCS — Documentation<br/>viewer statique · 25+ publications"]
+        KOTHER["K_GITHUB · K_PROJECTS · K_VALIDATION<br/>sync · projets · workflow QA 8 étapes"]
     end
 
-    subgraph ENGINE["Moteur d'exécution"]
-        ROUTER["routes.json — Routeur de commandes"]
-        SKILLS["SkillRegistry — Skills composables"]
-        EXEC["executer_demande.py — Exécuteur"]
+    subgraph SKILLS["Architecture de skills"]
+        SKILLMD[".claude/skills/<br/>fichiers SKILL.md"]
+        METHODOLOGY["methodology/<br/>par module"]
     end
 
-    subgraph METHODOLOGY_LAYER["Couche de méthodologie"]
-        RESOLVE["resolve_methodologies(family)"]
-        DEDUP["filter_unread / mark_read"]
-        STANDARDS["Standards de style de travail"]
-        FILES["28 fichiers de méthodologie — 6 familles"]
+    subgraph OUTPUT["Sortie documentation"]
+        VIEWER["Viewer JS statique<br/>5 interfaces · 4 thèmes"]
+        PAGES["GitHub Pages<br/>hébergement .nojekyll"]
     end
 
-    subgraph INTERACTIVE["Modes interactifs"]
-        IC["Conception"]
-        ID2["Documentation"]
-        IDI["Diagnostic"]
-    end
-
-    BOOT --> QUESTIONNAIRE
-    QUESTIONNAIRE --> ENGINE
-    ENGINE --> METHODOLOGY_LAYER
-    METHODOLOGY_LAYER --> INTERACTIVE
+    BOOT --> MODULES
+    MODULES --> SKILLS
+    SKILLS --> OUTPUT
+    VIEWER --> PAGES
 ```
 
 ---
