@@ -154,33 +154,33 @@ body > .container {
 }
 </style>
 
-<h2>K_MIND — Graphe de connaissances vivant</h2>
+<h2>K_MIND — Live Knowledge Graph</h2>
 
 <div class="mindmap-controls">
   <select id="mindmap-view" onchange="loadMindmap()">
     <option value="normal">Normal</option>
-    <option value="full">Complet</option>
+    <option value="full">Full</option>
   </select>
   <select id="mindmap-theme" onchange="applyMindTheme()">
-    <option value="auto">Thème : Auto</option>
+    <option value="auto">Theme: Auto</option>
     <option value="cayman">Cayman</option>
     <option value="midnight">Midnight</option>
-    <option value="daltonism-light">Daltonisme clair</option>
-    <option value="daltonism-dark">Daltonisme sombre</option>
+    <option value="daltonism-light">Daltonism Light</option>
+    <option value="daltonism-dark">Daltonism Dark</option>
   </select>
-  <button onclick="loadMindmap()">Recharger</button>
+  <button onclick="loadMindmap()">Reload</button>
   <span class="sep"></span>
-  <button onclick="if(mindInstance)mindInstance.toCenter()">Centrer</button>
-  <button onclick="if(mindInstance)mindInstance.scaleFit()">Ajuster</button>
+  <button onclick="if(mindInstance)mindInstance.toCenter()">Center</button>
+  <button onclick="if(mindInstance)mindInstance.scaleFit()">Fit</button>
   <span class="sep"></span>
-  <button onclick="toggleFullscreen()">Plein écran</button>
-  <span class="mindmap-status" id="mindmap-status">Chargement...</span>
-  <button class="help-btn" id="help-toggle" onclick="toggleHelp()" title="Aide">?</button>
+  <button onclick="toggleFullscreen()">Fullscreen</button>
+  <span class="mindmap-status" id="mindmap-status">Loading...</span>
+  <button class="help-btn" id="help-toggle" onclick="toggleHelp()" title="Help">?</button>
 </div>
 
 <div class="mindmap-area">
   <div id="mindmap-container">
-    <div class="loading" style="padding:2rem;text-align:center;">Chargement du mindmap...</div>
+    <div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>
   </div>
   <div class="help-panel" id="help-panel"></div>
 </div>
@@ -414,8 +414,8 @@ body > .container {
     var viewSelect = document.getElementById('mindmap-view');
     var mode = viewSelect ? viewSelect.value : 'normal';
 
-    container.innerHTML = '<div class="loading" style="padding:2rem;text-align:center;">Chargement du mindmap...</div>';
-    status.textContent = 'Récupération depuis GitHub...';
+    container.innerHTML = '<div class="loading" style="padding:2rem;text-align:center;">' + il.loadingMsg + '</div>';
+    status.textContent = il.fetching;
 
     // Destroy previous instance
     if (window.mindInstance) {
@@ -461,7 +461,7 @@ body > .container {
 
         // Collapse branches beyond default depth (same visual as normal mode)
         var configDepth = (config && config.default_depth) ? config.default_depth : 3;
-        var defaultDepth = (mode === 'full') ? configDepth - 1 : configDepth;
+        var defaultDepth = configDepth - 1;
         function collapseDeep(node, depth) {
           if (node.children && node.children.length > 0) {
             if (depth >= defaultDepth) node.expanded = false;
@@ -488,13 +488,13 @@ body > .container {
         // Fit after render
         setTimeout(function() { mind.scaleFit(); }, 200);
 
-        var modeLabel = mode === 'full' ? 'Complet' : 'Normal';
+        var modeLabel = (mode === 'full') ? il.full : 'Normal';
         status.textContent = modeLabel + ' — ' +
-          nodeCount + ' nœuds — ' + new Date().toLocaleTimeString();
+          nodeCount + ' ' + il.nodes + ' — ' + new Date().toLocaleTimeString();
       })
       .catch(function(err) {
-        container.innerHTML = '<div class="mindmap-error"><p>Erreur : ' + err.message + '</p></div>';
-        status.textContent = 'Erreur';
+        container.innerHTML = '<div class="mindmap-error"><p>' + il.error + ': ' + err.message + '</p></div>';
+        status.textContent = il.error;
       });
   };
 
@@ -534,8 +534,36 @@ body > .container {
     };
   }
 
-  // === Help panel — bilingual ===
-  var LANG = 'fr';
+  // === Bilingual i18n ===
+  var LANG = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') >= 0) ? 'fr' : 'en';
+  var I = {
+    en: { title: 'K_MIND — Live Knowledge Graph', full: 'Full', themeAuto: 'Theme: Auto',
+      dalLight: 'Daltonism Light', dalDark: 'Daltonism Dark', reload: 'Reload',
+      center: 'Center', fit: 'Fit', fullscreen: 'Fullscreen', loading: 'Loading...',
+      loadingMsg: 'Loading mindmap...', fetching: 'Fetching from GitHub...', error: 'Error',
+      helpTitle: 'Help', nodes: 'nodes' },
+    fr: { title: 'K_MIND \u2014 Graphe de connaissances vivant', full: 'Complet', themeAuto: 'Th\u00e8me : Auto',
+      dalLight: 'Daltonisme clair', dalDark: 'Daltonisme sombre', reload: 'Recharger',
+      center: 'Centrer', fit: 'Ajuster', fullscreen: 'Plein \u00e9cran', loading: 'Chargement...',
+      loadingMsg: 'Chargement du mindmap...', fetching: 'R\u00e9cup\u00e9ration depuis GitHub...', error: 'Erreur',
+      helpTitle: 'Aide', nodes: 'n\u0153uds' }
+  };
+  var il = I[LANG];
+  // Translate static HTML controls
+  (function() {
+    var h2 = document.querySelector('h2'); if (h2) h2.textContent = il.title;
+    var vs = document.getElementById('mindmap-view');
+    if (vs) { var opts = vs.querySelectorAll('option'); for (var i = 0; i < opts.length; i++) { if (opts[i].value === 'full') opts[i].textContent = il.full; } }
+    var ts = document.getElementById('mindmap-theme');
+    if (ts) { var to = ts.querySelectorAll('option'); var tm = { auto: il.themeAuto, 'daltonism-light': il.dalLight, 'daltonism-dark': il.dalDark }; for (var i = 0; i < to.length; i++) { if (tm[to[i].value]) to[i].textContent = tm[to[i].value]; } }
+    var btns = document.querySelectorAll('.mindmap-controls button');
+    var bl = [il.reload, null, il.center, il.fit, null, il.fullscreen];
+    var bi = 0;
+    btns.forEach(function(b) { if (!b.classList.contains('help-btn') && !b.classList.contains('sep')) { if (bl[bi]) b.textContent = bl[bi]; bi++; } });
+    var st = document.getElementById('mindmap-status'); if (st) st.textContent = il.loading;
+    var ht = document.getElementById('help-toggle'); if (ht) ht.title = il.helpTitle;
+    var ld = document.querySelector('#mindmap-container .loading'); if (ld) ld.textContent = il.loadingMsg;
+  })();
   var helpContent = {
     en: '<h3>Live Mindmap Help</h3>' +
       '<h4>Navigation</h4>' +
@@ -558,21 +586,21 @@ body > .container {
     fr: '<h3>Aide — Mindmap vivant</h3>' +
       '<h4>Navigation</h4>' +
       '<p><kbd>Molette</kbd> pour zoomer<br>' +
-      '<kbd>Clic + Glisser</kbd> sur le fond pour se déplacer</p>' +
-      '<h4>Déplier / Replier</h4>' +
-      '<p><kbd>+</kbd> / <kbd>-</kbd> — déplier ou replier <b>un niveau</b> à la fois<br>' +
-      '<kbd>Ctrl + Clic</kbd> sur <kbd>+</kbd> — déplier <b>tous</b> les niveaux d\'un coup</p>' +
+      '<kbd>Clic + Glisser</kbd> sur le fond pour se deplacer</p>' +
+      '<h4>Deplier / Replier</h4>' +
+      '<p><kbd>+</kbd> / <kbd>-</kbd> — deplier ou replier <b>un niveau</b> a la fois<br>' +
+      '<kbd>Ctrl + Clic</kbd> sur <kbd>+</kbd> — deplier <b>tous</b> les niveaux d\'un coup</p>' +
       '<h4>Barre d\'outils</h4>' +
-      '<p><b>Normal</b> — vue filtrée (profondeur limitée, architecture/contraintes masquées)<br>' +
-      '<b>Complet</b> — tous les nœuds à profondeur maximale<br>' +
-      '<b>Recharger</b> — récupérer à nouveau depuis GitHub<br>' +
-      '<b>Centrer</b> — centrer sans redimensionner<br>' +
-      '<b>Ajuster</b> — ajuster la carte à la vue<br>' +
-      '<b>Plein écran</b> — basculer en plein écran</p>' +
+      '<p><b>Normal</b> — vue filtree (profondeur limitee, architecture/contraintes masquees)<br>' +
+      '<b>Full</b> — tous les noeuds a profondeur maximale<br>' +
+      '<b>Reload</b> — re-charger depuis GitHub<br>' +
+      '<b>Center</b> — centrer sans redimensionner<br>' +
+      '<b>Fit</b> — ajuster la carte a la vue<br>' +
+      '<b>Fullscreen</b> — basculer en plein ecran</p>' +
       '<h4>Qu\'est-ce que c\'est ?</h4>' +
-      '<p>Ce mindmap est la <b>grille mémoire K_MIND</b> — le graphe de connaissances vivant du système. ' +
-      'Chaque nœud représente une directive : règles d\'architecture, conventions, état du travail ou contexte de session. ' +
-      'Il se met à jour en temps réel au fil des conversations.</p>'
+      '<p>Ce mindmap est la <b>grille memoire K_MIND</b> — le graphe de connaissances vivant du systeme. ' +
+      'Chaque noeud represente une directive : regles d\'architecture, conventions, etat du travail ou contexte de session. ' +
+      'Il se met a jour en temps reel au fil des conversations.</p>'
   };
 
   var helpPanel = document.getElementById('help-panel');

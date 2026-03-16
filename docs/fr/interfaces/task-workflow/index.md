@@ -21,16 +21,16 @@ lang: fr
 
 <div class="tw-toolbar">
   <div class="tw-select-group">
-    <label for="tw-task-select">Tâche</label>
+    <label for="tw-task-select">Task</label>
     <select id="tw-task-select">
-      <option value="">— Sélectionner une tâche —</option>
+      <option value="">— All Tasks —</option>
     </select>
   </div>
   <div class="tw-select-group">
-    <label for="tw-view-select">Vue</label>
+    <label for="tw-view-select">View</label>
     <select id="tw-view-select">
-      <option value="dashboard">Tableau de bord</option>
-      <option value="detail">Détail</option>
+      <option value="dashboard">Dashboard</option>
+      <option value="detail">Detail</option>
       <option value="validation">Validation</option>
     </select>
   </div>
@@ -39,42 +39,68 @@ lang: fr
 <div id="tw-data-mode" class="tw-data-mode">
   <span class="tw-data-mode-icon">📋</span>
   <span class="tw-data-mode-text">
-    <strong>Mode statique</strong> — Les données sont compilées à partir des caches de session.
+    <strong>Static mode</strong> — Task data is compiled from session runtime caches.
   </span>
 </div>
 
-<!-- ═══ Progression de la tâche (toujours visible quand une tâche est sélectionnée) ═══ -->
+<!-- Print-only cover page — hidden on screen, page 1 in PDF -->
+<div id="tw-cover-page" aria-hidden="true">
+  <div class="cover-body">
+    <div class="cover-title" id="tw-cover-title">Tasks Workflow</div>
+    <div class="cover-desc" id="tw-cover-desc"></div>
+    <div class="cover-rule"></div>
+    <div class="cover-meta" id="tw-cover-meta"></div>
+  </div>
+</div>
+
+<!-- ═══ Task Progression (always visible when task selected) ═══ -->
 <div id="tw-task-progression" class="tw-section" style="display:none;">
-  <h2>Progression de la tâche</h2>
+  <h2>Task Progression</h2>
   <div class="tw-progression-bar" id="tw-progression-bar"></div>
   <div class="tw-progression-meta" id="tw-progression-meta"></div>
 </div>
 
 <div id="tw-empty-state" class="tw-empty">
-  <p>Sélectionnez une tâche dans le menu ci-dessus pour voir son rapport de flux de travail.</p>
-  <p class="tw-muted"><span id="tw-task-count">0</span> tâches disponibles.</p>
+  <p>Select a task from the dropdown above to view its workflow report.</p>
+  <p class="tw-muted"><span id="tw-task-count">0</span> tasks available.</p>
 </div>
 
-<!-- ═══ VUE: Tableau de bord — Grille Knowledge + Métriques + Temps ═══ -->
+<!-- ═══ VIEW: Overview (all tasks) ═══ -->
+<div id="tw-view-overview" style="display:none;">
+  <div class="tw-section">
+    <h2 id="tw-overview-title">All Tasks</h2>
+    <div class="tw-stats-grid" id="tw-overview-stats"></div>
+  </div>
+  <div class="tw-section">
+    <h3 id="tw-overview-stage-title">Stage Distribution</h3>
+    <div class="tw-stage-bar-overview" id="tw-overview-stage-bar"></div>
+    <div id="tw-overview-stage-legend"></div>
+  </div>
+  <div class="tw-section">
+    <div class="tw-cards" id="tw-task-cards"></div>
+  </div>
+</div>
+
+<!-- ═══ VIEW: Dashboard — Knowledge grid + Metrics + Time ═══ -->
 <div id="tw-view-dashboard" class="tw-view" style="display:none;">
 
   <div class="tw-section">
-    <h2>Tableau de bord de session</h2>
+    <h2>Session Dashboard</h2>
     <div class="tw-stats-grid" id="tw-dashboard-stats"></div>
   </div>
 
   <div class="tw-section">
-    <h3>Grille de validation Knowledge</h3>
+    <h3>Knowledge Validation Grid</h3>
     <div id="tw-knowledge-grid" class="tw-knowledge-grid"></div>
   </div>
 
   <div class="tw-section">
-    <h3>Métriques</h3>
+    <h3>Metrics</h3>
     <div class="tw-stats-grid" id="tw-metrics-stats"></div>
   </div>
 
   <div class="tw-section">
-    <h3>Compilation temporelle</h3>
+    <h3>Time Compilation</h3>
     <div class="tw-stats-grid" id="tw-time-stats"></div>
     <div class="tw-chart-row">
       <div class="tw-chart-wrap" id="tw-chart-time-wrap">
@@ -87,11 +113,11 @@ lang: fr
   </div>
 
   <div class="tw-section">
-    <h3>Durées par étape</h3>
+    <h3>Stage Duration Breakdown</h3>
     <div class="table-wrap">
       <table class="tw-table">
         <thead>
-          <tr><th>Étape</th><th>Durée</th><th>% du actif</th></tr>
+          <tr><th>Stage</th><th>Duration</th><th>% of Active</th></tr>
         </thead>
         <tbody id="tw-stage-duration-body"></tbody>
       </table>
@@ -100,8 +126,11 @@ lang: fr
 
 </div>
 
-<!-- ═══ VUE: Détail ═══ -->
+
+<!-- ═══ VIEW: Detail — Full task report ═══ -->
 <div id="tw-view-detail" class="tw-view" style="display:none;">
+
+  <!-- Section 1: Task Summary -->
   <div class="tw-section" id="tw-section-summary">
     <div class="tw-section-header">
       <h2 id="tw-title"></h2>
@@ -115,63 +144,75 @@ lang: fr
     <p id="tw-description" class="tw-description"></p>
     <div class="tw-stats-grid" id="tw-detail-stats"></div>
   </div>
+
+  <!-- Section 2: Stage Timeline -->
   <div class="tw-section" id="tw-section-timeline">
-    <h3>Chronologie des étapes</h3>
+    <h3>Stage Timeline</h3>
     <div class="tw-timeline" id="tw-timeline"></div>
   </div>
+
+  <!-- Section 3: Stage History -->
   <div class="tw-section" id="tw-section-history">
-    <h3>Historique des étapes</h3>
+    <h3>Stage History</h3>
     <div class="table-wrap">
       <table class="tw-table">
         <thead>
-          <tr><th>#</th><th>Étape</th><th>Direction</th><th>Raison</th><th>Début</th><th>Durée</th></tr>
+          <tr><th>#</th><th>Stage</th><th>Direction</th><th>Reason</th><th>Entered</th><th>Duration</th></tr>
         </thead>
         <tbody id="tw-history-body"></tbody>
       </table>
     </div>
   </div>
+
+  <!-- Section 4: Step History (for stages with steps) -->
   <div class="tw-section" id="tw-section-steps" style="display:none;">
-    <h3>Historique des sous-étapes</h3>
+    <h3>Step History</h3>
     <div class="table-wrap">
       <table class="tw-table">
         <thead>
-          <tr><th>#</th><th>Étape</th><th>Sous-étape</th><th>Début</th><th>Durée</th></tr>
+          <tr><th>#</th><th>Stage</th><th>Step</th><th>Entered</th><th>Duration</th></tr>
         </thead>
         <tbody id="tw-steps-body"></tbody>
       </table>
     </div>
   </div>
+
 </div>
 
-<!-- ═══ VUE: Validation ═══ -->
+<!-- ═══ VIEW: Validation — Validation results ═══ -->
 <div id="tw-view-validation" class="tw-view" style="display:none;">
+
   <div class="tw-section" id="tw-section-validation">
-    <h3>Résultats de validation</h3>
+    <h3>Validation Results</h3>
     <div class="tw-validation-grid" id="tw-validation-grid"></div>
   </div>
+
   <div class="tw-section" id="tw-section-checks" style="display:none;">
-    <h3>Vérifications</h3>
+    <h3>Validation Checks</h3>
     <div class="table-wrap">
       <table class="tw-table">
         <thead>
-          <tr><th>Étape</th><th>Vérification</th><th>Résultat</th><th>Heure</th></tr>
+          <tr><th>Stage</th><th>Check</th><th>Result</th><th>Time</th></tr>
         </thead>
         <tbody id="tw-checks-body"></tbody>
       </table>
     </div>
   </div>
+
   <div class="tw-section" id="tw-section-tests" style="display:none;">
-    <h3>Tests unitaires</h3>
+    <h3>Unit Tests</h3>
     <div class="table-wrap">
       <table class="tw-table">
         <thead>
-          <tr><th>ID</th><th>Étape</th><th>Description</th><th>Source</th><th>Résultat</th></tr>
+          <tr><th>ID</th><th>Stage</th><th>Description</th><th>Source</th><th>Result</th></tr>
         </thead>
         <tbody id="tw-tests-body"></tbody>
       </table>
     </div>
   </div>
+
 </div>
+
 
 </div>
 
@@ -180,6 +221,7 @@ lang: fr
 <link rel="stylesheet" href="{{ '/interfaces/task-workflow/task-workflow.css' | relative_url }}">
 
 <script src="{{ '/interfaces/task-workflow/task-workflow.js' | relative_url }}"></script>
+<script src="{{ '/interfaces/task-workflow/task-print.js' | relative_url }}"></script>
 {:/nomarkdown}
 
 <div class="pub-crossrefs">
@@ -188,6 +230,6 @@ lang: fr
 <a href="{{ '/fr/interfaces/' | relative_url }}">Index des interfaces</a>
 <a href="{{ '/fr/interfaces/session-review/' | relative_url }}">I1 Revue de session</a>
 <a href="{{ '/fr/interfaces/main-navigator/' | relative_url }}">I2 Navigateur principal</a>
-<a href="{{ '/fr/publications/session-management/' | relative_url }}">#8 Gestion de session</a>
+<a href="{{ '/fr/publications/' | relative_url }}">Index des publications</a>
 </div>
 </div>

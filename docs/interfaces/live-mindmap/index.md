@@ -414,8 +414,8 @@ body > .container {
     var viewSelect = document.getElementById('mindmap-view');
     var mode = viewSelect ? viewSelect.value : 'normal';
 
-    container.innerHTML = '<div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>';
-    status.textContent = 'Fetching from GitHub...';
+    container.innerHTML = '<div class="loading" style="padding:2rem;text-align:center;">' + il.loadingMsg + '</div>';
+    status.textContent = il.fetching;
 
     // Destroy previous instance
     if (window.mindInstance) {
@@ -488,12 +488,13 @@ body > .container {
         // Fit after render
         setTimeout(function() { mind.scaleFit(); }, 200);
 
-        status.textContent = mode.charAt(0).toUpperCase() + mode.slice(1) + ' — ' +
-          nodeCount + ' nodes — ' + new Date().toLocaleTimeString();
+        var modeLabel = (mode === 'full') ? il.full : 'Normal';
+        status.textContent = modeLabel + ' — ' +
+          nodeCount + ' ' + il.nodes + ' — ' + new Date().toLocaleTimeString();
       })
       .catch(function(err) {
-        container.innerHTML = '<div class="mindmap-error"><p>Error: ' + err.message + '</p></div>';
-        status.textContent = 'Error';
+        container.innerHTML = '<div class="mindmap-error"><p>' + il.error + ': ' + err.message + '</p></div>';
+        status.textContent = il.error;
       });
   };
 
@@ -533,8 +534,36 @@ body > .container {
     };
   }
 
-  // === Help panel — bilingual ===
+  // === Bilingual i18n ===
   var LANG = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') >= 0) ? 'fr' : 'en';
+  var I = {
+    en: { title: 'K_MIND — Live Knowledge Graph', full: 'Full', themeAuto: 'Theme: Auto',
+      dalLight: 'Daltonism Light', dalDark: 'Daltonism Dark', reload: 'Reload',
+      center: 'Center', fit: 'Fit', fullscreen: 'Fullscreen', loading: 'Loading...',
+      loadingMsg: 'Loading mindmap...', fetching: 'Fetching from GitHub...', error: 'Error',
+      helpTitle: 'Help', nodes: 'nodes' },
+    fr: { title: 'K_MIND \u2014 Graphe de connaissances vivant', full: 'Complet', themeAuto: 'Th\u00e8me : Auto',
+      dalLight: 'Daltonisme clair', dalDark: 'Daltonisme sombre', reload: 'Recharger',
+      center: 'Centrer', fit: 'Ajuster', fullscreen: 'Plein \u00e9cran', loading: 'Chargement...',
+      loadingMsg: 'Chargement du mindmap...', fetching: 'R\u00e9cup\u00e9ration depuis GitHub...', error: 'Erreur',
+      helpTitle: 'Aide', nodes: 'n\u0153uds' }
+  };
+  var il = I[LANG];
+  // Translate static HTML controls
+  (function() {
+    var h2 = document.querySelector('h2'); if (h2) h2.textContent = il.title;
+    var vs = document.getElementById('mindmap-view');
+    if (vs) { var opts = vs.querySelectorAll('option'); for (var i = 0; i < opts.length; i++) { if (opts[i].value === 'full') opts[i].textContent = il.full; } }
+    var ts = document.getElementById('mindmap-theme');
+    if (ts) { var to = ts.querySelectorAll('option'); var tm = { auto: il.themeAuto, 'daltonism-light': il.dalLight, 'daltonism-dark': il.dalDark }; for (var i = 0; i < to.length; i++) { if (tm[to[i].value]) to[i].textContent = tm[to[i].value]; } }
+    var btns = document.querySelectorAll('.mindmap-controls button');
+    var bl = [il.reload, null, il.center, il.fit, null, il.fullscreen];
+    var bi = 0;
+    btns.forEach(function(b) { if (!b.classList.contains('help-btn') && !b.classList.contains('sep')) { if (bl[bi]) b.textContent = bl[bi]; bi++; } });
+    var st = document.getElementById('mindmap-status'); if (st) st.textContent = il.loading;
+    var ht = document.getElementById('help-toggle'); if (ht) ht.title = il.helpTitle;
+    var ld = document.querySelector('#mindmap-container .loading'); if (ld) ld.textContent = il.loadingMsg;
+  })();
   var helpContent = {
     en: '<h3>Live Mindmap Help</h3>' +
       '<h4>Navigation</h4>' +

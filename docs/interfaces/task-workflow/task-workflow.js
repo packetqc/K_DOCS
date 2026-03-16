@@ -53,6 +53,21 @@
         documentation: 'Documentation', approval: 'Approval',
         completion: 'Completion'
       },
+      // Static HTML
+      taskLabel: 'Task', viewLabel: 'View', dashboardOpt: 'Dashboard',
+      detailOpt: 'Detail', validationOpt: 'Validation',
+      staticMode: 'Static mode', staticModeDesc: 'Task data is compiled from session runtime caches.',
+      coverTitle: 'Tasks Workflow', taskProgressionTitle: 'Task Progression',
+      selectPrompt: 'Select a task from the dropdown above to view its workflow report.',
+      tasksAvailable: 'tasks available.',
+      allTasksTitle: 'All Tasks', sessionDashboard: 'Session Dashboard',
+      knowledgeValidationGrid: 'Knowledge Validation Grid',
+      stageTimeline: 'Stage Timeline', stageHistory: 'Stage History',
+      stepHistory: 'Step History', stepTh: 'Step',
+      validationChecks: 'Validation Checks',
+      checkTh: 'Check', resultTh: 'Result', timeTh: 'Time',
+      idTh: 'ID', descriptionTh: 'Description', sourceTh: 'Source',
+      taskSummary: 'Task Summary',
     },
     fr: {
       selectTask: '— Sélectionner une tâche —',
@@ -90,12 +105,81 @@
         documentation: 'Documentation', approval: 'Approbation',
         completion: 'Complétion'
       },
+      taskLabel: 'T\u00e2che', viewLabel: 'Vue', dashboardOpt: 'Tableau de bord',
+      detailOpt: 'D\u00e9tail', validationOpt: 'Validation',
+      staticMode: 'Mode statique', staticModeDesc: 'Les donn\u00e9es sont compil\u00e9es \u00e0 partir des caches de session.',
+      coverTitle: 'Flux de travail des t\u00e2ches', taskProgressionTitle: 'Progression de la t\u00e2che',
+      selectPrompt: 'S\u00e9lectionnez une t\u00e2che dans le menu ci-dessus pour voir son rapport.',
+      tasksAvailable: 't\u00e2ches disponibles.',
+      allTasksTitle: 'Toutes les t\u00e2ches', sessionDashboard: 'Tableau de bord de session',
+      knowledgeValidationGrid: 'Grille de validation Knowledge',
+      stageTimeline: 'Chronologie des \u00e9tapes', stageHistory: 'Historique des \u00e9tapes',
+      stepHistory: 'Historique des sous-\u00e9tapes', stepTh: 'Sous-\u00e9tape',
+      validationChecks: 'V\u00e9rifications',
+      checkTh: 'V\u00e9rification', resultTh: 'R\u00e9sultat', timeTh: 'Heure',
+      idTh: 'ID', descriptionTh: 'Description', sourceTh: 'Source',
+      taskSummary: 'R\u00e9sum\u00e9 de la t\u00e2che',
     }
   };
   var t = L[lang] || L.en;
 
   // Helper: translate a stage identifier to display name
   function stageName(s) { return (t.stageNames && t.stageNames[s]) || s; }
+
+  // ── Translate static HTML ──
+  (function translateStatic() {
+    // Toolbar
+    var lbl1 = document.querySelector('label[for="tw-task-select"]'); if (lbl1) lbl1.textContent = t.taskLabel;
+    var lbl2 = document.querySelector('label[for="tw-view-select"]'); if (lbl2) lbl2.textContent = t.viewLabel;
+    var opts = document.querySelectorAll('#tw-view-select option');
+    var om = { dashboard: t.dashboardOpt, detail: t.detailOpt, validation: t.validationOpt };
+    for (var i = 0; i < opts.length; i++) { if (om[opts[i].value]) opts[i].textContent = om[opts[i].value]; }
+    // Data mode
+    var dm = document.querySelector('#tw-data-mode .tw-data-mode-text');
+    if (dm) dm.innerHTML = '<strong>' + t.staticMode + '</strong> \u2014 ' + t.staticModeDesc;
+    // Cover title
+    var ct = document.getElementById('tw-cover-title'); if (ct) ct.textContent = t.coverTitle;
+    // Task Progression
+    var tp = document.querySelector('#tw-task-progression h2'); if (tp) tp.textContent = t.taskProgressionTitle;
+    // Empty state
+    var es = document.getElementById('tw-empty-state');
+    if (es) { var ps = es.querySelectorAll('p'); if (ps[0]) ps[0].textContent = t.selectPrompt; }
+    // Overview
+    var ot = document.getElementById('tw-overview-title'); if (ot) ot.textContent = t.allTasksTitle;
+    var sd = document.getElementById('tw-overview-stage-title'); if (sd) sd.textContent = t.stageDistribution;
+    // Dashboard sections
+    var dh = document.querySelector('#tw-view-dashboard > .tw-section:first-child h2'); if (dh) dh.textContent = t.sessionDashboard;
+    var secH3s = {
+      'tw-knowledge-grid': t.knowledgeValidationGrid,
+      'tw-metrics-stats': t.metrics,
+      'tw-time-stats': t.timeCompilation,
+      'tw-stage-duration-body': t.stageDuration
+    };
+    for (var sid in secH3s) {
+      var el = document.getElementById(sid);
+      if (el) { var sec = el.closest('.tw-section'); if (sec) { var h3 = sec.querySelector('h3'); if (h3) h3.textContent = secH3s[sid]; } }
+    }
+    // Stage Duration table headers
+    var sdt = document.querySelector('#tw-stage-duration-body'); if (sdt) {
+      var thead = sdt.closest('table'); if (thead) { var tr = thead.querySelector('thead tr'); if (tr) tr.innerHTML = '<th>' + t.stage + '</th><th>' + t.duration + '</th><th>' + t.ofActive + '</th>'; }
+    }
+    // Detail view
+    var dtitle = document.querySelector('#tw-section-timeline h3'); if (dtitle) dtitle.textContent = t.stageTimeline;
+    var dhist = document.querySelector('#tw-section-history h3'); if (dhist) dhist.textContent = t.stageHistory;
+    var histTr = document.querySelector('#tw-section-history thead tr');
+    if (histTr) histTr.innerHTML = '<th>#</th><th>' + t.stage + '</th><th>' + t.direction + '</th><th>' + t.reason + '</th><th>' + t.entered + '</th><th>' + t.duration + '</th>';
+    var dstep = document.querySelector('#tw-section-steps h3'); if (dstep) dstep.textContent = t.stepHistory;
+    var stepTr = document.querySelector('#tw-section-steps thead tr');
+    if (stepTr) stepTr.innerHTML = '<th>#</th><th>' + t.stage + '</th><th>' + t.stepTh + '</th><th>' + t.entered + '</th><th>' + t.duration + '</th>';
+    // Validation view
+    var vr = document.querySelector('#tw-section-validation h3'); if (vr) vr.textContent = t.validationResults;
+    var vc = document.querySelector('#tw-section-checks h3'); if (vc) vc.textContent = t.validationChecks;
+    var vcTr = document.querySelector('#tw-section-checks thead tr');
+    if (vcTr) vcTr.innerHTML = '<th>' + t.stage + '</th><th>' + t.checkTh + '</th><th>' + t.resultTh + '</th><th>' + t.timeTh + '</th>';
+    var vt = document.querySelector('#tw-section-tests h3'); if (vt) vt.textContent = t.unitTests;
+    var vtTr = document.querySelector('#tw-section-tests thead tr');
+    if (vtTr) vtTr.innerHTML = '<th>' + t.idTh + '</th><th>' + t.stage + '</th><th>' + t.descriptionTh + '</th><th>' + t.sourceTh + '</th><th>' + t.resultTh + '</th>';
+  })();
 
   // ── Selectors ──
   var taskSelect = document.getElementById('tw-task-select');

@@ -71,7 +71,7 @@
     {
       "id": "conv-020",
       "name": "bilingual_single_codebase",
-      "description": "Interfaces with identical EN/FR logic use a single shared {::nomarkdown} block. JS auto-detects language from URL path (indexOf('/fr/') >= 0). Translations object T.en/T.fr drives all text. localStorage keys use language suffix (LS = '-fr' or ''). URL paths use language prefix (LP = '/fr' or ''). Only YAML front matter and h1 title differ between EN and FR files.",
+      "description": "HARD RULE: All interfaces and web programs MUST have identical {::nomarkdown} body in both EN and FR index.md files. Only YAML front matter, h1 title, and cross-references section may differ. JS auto-detects language from document.documentElement.lang (set by viewer srcdoc) or URL path indexOf('/fr/'). All visible text translated at runtime via L.en/L.fr objects and translateStatic() function. No hardcoded language anywhere — never var LANG='fr'. When editing any interface, always verify both EN and FR bodies remain identical. This applies to all web pages: interfaces, publications, any program with language variants.",
       "mind_memory_refs": ["knowledge::conventions::documentation::bilingual_en_fr"]
     }
     ,{

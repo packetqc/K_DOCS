@@ -119,7 +119,20 @@
       progressCompleted: 'Completed',
       progressInProgress: 'In Progress',
       progressPending: 'Pending',
-      noProgression: 'No progression data available.'
+      noProgression: 'No progression data available.',
+      // Static HTML translations
+      viewLabel: 'View', allSectionsOpt: 'All sections', tasksOverviewOpt: 'Tasks Overview',
+      metricsDashboardOpt: 'Metrics Dashboard', timelineOpt: 'Timeline',
+      staticMode: 'Static mode', staticModeDesc: 'Data is refreshed at the end of each work session.',
+      oauthHint: 'Connect with GitHub OAuth2 for real-time session data.',
+      integrityNote: 'All sessions with GitHub integrity are listed.',
+      metricsCompilation: 'Metrics Compilation', timeCompilation: 'Time Compilation',
+      deliveriesTitle: 'Deliveries', pullRequestTh: 'Pull Requests', filesTh: 'Files',
+      linkTh: 'Link', relatedTasksTitle: 'Related Tasks',
+      lessonsDecisions: 'Lessons & Decisions', noLessonsStatic: 'No lessons recorded for this session.',
+      sessionTasksTitle: 'Session Tasks', stageTh: 'Stage', progressTh: 'Progress',
+      selectPromptStatic: 'Select a session from the dropdown above to view its full report.',
+      overviewTitle: 'All Sessions'
     },
     fr: {
       selectSession: '\u2014 Choisir une session \u2014',
@@ -215,7 +228,19 @@
       progressCompleted: 'Termin\u00e9',
       progressInProgress: 'En cours',
       progressPending: 'En attente',
-      noProgression: 'Aucune donn\u00e9e de progression disponible.'
+      noProgression: 'Aucune donn\u00e9e de progression disponible.',
+      viewLabel: 'Vue', allSectionsOpt: 'Toutes les sections', tasksOverviewOpt: 'Vue des t\u00e2ches',
+      metricsDashboardOpt: 'Tableau de bord m\u00e9triques', timelineOpt: 'Chronologie',
+      staticMode: 'Mode statique', staticModeDesc: 'Les donn\u00e9es sont mises \u00e0 jour \u00e0 la fin de chaque session de travail.',
+      oauthHint: 'Connectez-vous avec GitHub OAuth2 pour des donn\u00e9es de session en temps r\u00e9el.',
+      integrityNote: 'Toutes les sessions avec int\u00e9grit\u00e9 GitHub sont list\u00e9es.',
+      metricsCompilation: 'Compilation des m\u00e9triques', timeCompilation: 'Compilation des temps',
+      deliveriesTitle: 'Livraisons', pullRequestTh: 'Pull Requests', filesTh: 'Fichiers',
+      linkTh: 'Lien', relatedTasksTitle: 'T\u00e2ches li\u00e9es',
+      lessonsDecisions: 'Le\u00e7ons et d\u00e9cisions', noLessonsStatic: 'Aucune le\u00e7on enregistr\u00e9e pour cette session.',
+      sessionTasksTitle: 'T\u00e2ches de session', stageTh: '\u00c9tape', progressTh: 'Progr\u00e8s',
+      selectPromptStatic: 'S\u00e9lectionnez une session ci-dessus pour afficher son rapport complet.',
+      overviewTitle: 'Toutes les sessions'
     }
   };
   SV.t = L[SV.lang] || L.en;
@@ -327,6 +352,48 @@
   var emptyEl = document.getElementById('sv-empty-state');
   var contentEl = document.getElementById('sv-content');
   var countEl = document.getElementById('sv-session-count');
+
+  // ── Translate static HTML for bilingual support ──
+  (function translateStatic() {
+    var s = SV.t;
+    // Toolbar
+    var lbl = document.querySelector('label[for="sv-refine-select"]');
+    if (lbl) lbl.textContent = s.viewLabel;
+    var opts = document.querySelectorAll('#sv-refine-select option');
+    var optMap = { all: s.allSectionsOpt, tasks: s.tasksOverviewOpt, metrics: s.metricsDashboardOpt, timeline: s.timelineOpt };
+    for (var i = 0; i < opts.length; i++) { if (optMap[opts[i].value]) opts[i].textContent = optMap[opts[i].value]; }
+    // Data mode
+    var dm = document.querySelector('#sv-data-mode .sv-data-mode-text');
+    if (dm) { dm.innerHTML = '<strong>' + s.staticMode + '</strong> \u2014 ' + s.staticModeDesc + ' <span class="sv-data-mode-hint">' + s.oauthHint + '</span>'; }
+    // Empty state
+    var es = document.getElementById('sv-empty-state');
+    if (es) { var ps = es.querySelectorAll('p'); if (ps[0]) ps[0].textContent = s.selectPromptStatic; if (ps[2]) ps[2].textContent = s.integrityNote; }
+    // Section headers
+    var hmap = {
+      'sv-section-metrics': s.metricsCompilation, 'sv-section-time': s.timeCompilation,
+      'sv-section-deliveries': s.deliveriesTitle, 'sv-section-related-tasks': s.relatedTasksTitle,
+      'sv-section-lessons': s.lessonsDecisions, 'sv-section-collateral': s.collateralTasks,
+      'sv-section-tasks': s.sessionTasksTitle, 'sv-section-progression': s.taskProgression,
+      'sv-section-velocity': s.velocityTitle
+    };
+    for (var id in hmap) { var el = document.getElementById(id); if (el) { var h = el.querySelector('h3'); if (h) h.innerHTML = hmap[id]; } }
+    // Overview title
+    var ot = document.getElementById('sv-overview-title'); if (ot) ot.textContent = s.overviewTitle;
+    // Table headers — metrics
+    var mt = document.querySelector('#sv-section-metrics thead tr');
+    if (mt) mt.innerHTML = '<th>#</th><th>' + s.category + '</th><th>' + s.pullRequestTh + '</th><th>+/-</th><th>' + s.filesTh + '</th><th>' + s.commits + '</th><th>' + s.taskCount + '</th><th>' + s.lessonCount + '</th>';
+    // Table headers — deliveries
+    var dt = document.querySelector('#sv-section-deliveries thead tr');
+    if (dt) dt.innerHTML = '<th>#</th><th>Pull Request</th><th>+/-</th><th>' + s.filesTh + '</th><th>' + s.commits + '</th><th>' + s.linkTh + '</th>';
+    // Table headers — related tasks
+    var rt = document.querySelector('#sv-section-related-tasks thead tr');
+    if (rt) rt.innerHTML = '<th>#</th><th>' + s.taskCol + '</th><th>' + s.typeCol + '</th><th>' + s.titleCol + '</th>';
+    // Table headers — session tasks
+    var st = document.querySelector('#sv-section-tasks thead tr');
+    if (st) st.innerHTML = '<th>#</th><th>' + s.taskCol + '</th><th>' + s.stageTh + '</th><th>' + s.progressTh + '</th><th></th>';
+    // No-lessons
+    var nl = document.getElementById('sv-no-lessons'); if (nl) nl.textContent = s.noLessonsStatic;
+  })();
 
   // ── All Sessions label ──
   var allSessionsLabel = SV.lang === 'fr' ? '\u2014 Toutes les sessions \u2014' : '\u2014 All Sessions \u2014';

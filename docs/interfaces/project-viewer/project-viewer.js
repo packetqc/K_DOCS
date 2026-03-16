@@ -20,6 +20,9 @@
       projectTasks: 'Project Tasks', board: 'Board', overview: 'Overview',
       allProjects: 'All Projects', dashboard: 'Dashboard', detail: 'Detail',
       started: 'Started', updated: 'Updated',
+      projectLabel: 'Project', coverTitleStatic: 'Project Viewer',
+      selectPromptStatic: 'Select a project to view details, or browse the overview below.',
+      projectsAvailableStatic: 'projects available.', changesTh: 'Changes', gridTh: 'Grid',
     },
     fr: {
       projects: 'Projets', tasks: 'Tâches', prs: 'PRs',
@@ -34,6 +37,9 @@
       projectTasks: 'Tâches du projet', board: 'Board', overview: 'Vue d\'ensemble',
       allProjects: 'Tous les projets', dashboard: 'Tableau de bord', detail: 'Détail',
       started: 'Début', updated: 'Mis à jour',
+      projectLabel: 'Projet', coverTitleStatic: 'Visualiseur de projets',
+      selectPromptStatic: 'S\u00e9lectionnez un projet pour voir les d\u00e9tails, ou parcourez la vue d\u2019ensemble ci-dessous.',
+      projectsAvailableStatic: 'projets disponibles.', changesTh: 'Changements', gridTh: 'Grille',
     }
   };
   var t = L[lang] || L.en;
@@ -52,6 +58,24 @@
   };
 
   var stageOrder = ['initial', 'plan', 'analyze', 'implement', 'validation', 'documentation', 'approval', 'completion'];
+
+  // ── Translate static HTML ──
+  (function translateStatic() {
+    var lbl = document.querySelector('label[for="pv-project-select"]'); if (lbl) lbl.textContent = t.projectLabel;
+    var es = document.getElementById('pv-empty-state');
+    if (es) { var ps = es.querySelectorAll('p'); if (ps[0]) ps[0].textContent = t.selectPromptStatic; }
+    var ct = document.getElementById('pv-cover-title'); if (ct) ct.textContent = t.coverTitleStatic;
+    var ov = document.querySelector('#pv-view-overview h2'); if (ov) ov.textContent = t.overview;
+    // Dashboard section headers
+    var secs = document.querySelectorAll('#pv-view-dashboard .pv-section h3');
+    var labels = [t.stageDistribution, t.gridSummary, t.projectTasks];
+    for (var i = 0; i < secs.length && i < labels.length; i++) secs[i].textContent = labels[i];
+    // Project Tasks table headers
+    var th = document.querySelector('#pv-tasks-body');
+    if (th) { var tr = th.closest('table').querySelector('thead tr');
+      if (tr) tr.innerHTML = '<th>#</th><th>' + t.task + '</th><th>' + t.stage + '</th><th>' + t.progress + '</th><th>' + t.changesTh + '</th><th>' + t.gridTh + '</th><th></th>';
+    }
+  })();
 
   var allData = null;
   var currentProject = null;

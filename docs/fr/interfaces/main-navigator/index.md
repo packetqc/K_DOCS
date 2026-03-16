@@ -179,6 +179,31 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-widget .pub-group a { padding-left: 1.3rem; font-size: 0.74rem; }
 .cmd-link { font-family: monospace; font-size: 0.72rem; color: var(--muted, #656d76); }
 
+/* ═══ Dark theme overrides for widgets ═══ */
+[data-theme="midnight"],
+[data-theme="daltonism-dark"],
+[data-color-mode="dark"],
+.theme-dark {
+  --fg: #c9d1d9;
+  --bg: #0d1117;
+  --code-bg: #161b22;
+  --border: #30363d;
+  --muted: #8b949e;
+  --accent: #58a6ff;
+  --col-alt: #1c2128;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #c9d1d9;
+    --bg: #0d1117;
+    --code-bg: #161b22;
+    --border: #30363d;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --col-alt: #1c2128;
+  }
+}
+
 /* ═══ Mobile — shrink dividers for touch screens ═══ */
 @media (max-width: 768px) {
   .nav-divider-left, .nav-divider-right { min-width: 8px; }
@@ -228,7 +253,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 <script>
 (function() {
   /* ─── Language auto-detection from URL path ─── */
-  var LANG = 'fr'; // Hardcoded: srcdoc iframe has no /fr/ in pathname
+  var LANG = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') >= 0) ? 'fr' : 'en';
   var LP = LANG === 'fr' ? '/fr' : '';  // language path prefix
   var LS = LANG === 'fr' ? '-fr' : '';  // localStorage suffix
 

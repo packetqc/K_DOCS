@@ -21,32 +21,32 @@ lang: fr
 
 <div class="pv-toolbar">
   <div class="pv-select-group">
-    <label for="pv-project-select">Projet</label>
+    <label for="pv-project-select">Project</label>
     <select id="pv-project-select">
-      <option value="">— Tous les projets —</option>
+      <option value="">— All Projects —</option>
     </select>
   </div>
 </div>
 
 <div id="pv-empty-state" class="pv-empty">
-  <p>Sélectionnez un projet pour voir les détails, ou parcourez la vue d'ensemble ci-dessous.</p>
-  <p class="pv-muted"><span id="pv-project-count">0</span> projets disponibles.</p>
+  <p>Select a project to view details, or browse the overview below.</p>
+  <p class="pv-muted"><span id="pv-project-count">0</span> projects available.</p>
 </div>
 
-<!-- Page de couverture (impression uniquement) — masquée à l'écran, page 1 en PDF -->
+<!-- Print-only cover page — hidden on screen, page 1 in PDF -->
 <div id="pv-cover-page" aria-hidden="true">
   <div class="cover-body">
-    <div class="cover-title" id="pv-cover-title">Visualiseur de projets</div>
+    <div class="cover-title" id="pv-cover-title">Project Viewer</div>
     <div class="cover-desc" id="pv-cover-desc"></div>
     <div class="cover-rule"></div>
     <div class="cover-meta" id="pv-cover-meta"></div>
   </div>
 </div>
 
-<!-- ═══ VUE: Vue d'ensemble (tous les projets) ═══ -->
+<!-- ═══ VIEW: Overview (all projects) ═══ -->
 <div id="pv-view-overview" class="pv-view" style="display:none;">
   <div class="pv-section">
-    <h2>Vue d'ensemble</h2>
+    <h2>Overview</h2>
     <div class="pv-stats-grid" id="pv-overview-stats"></div>
   </div>
   <div class="pv-section">
@@ -54,7 +54,7 @@ lang: fr
   </div>
 </div>
 
-<!-- ═══ VUE: Tableau de bord (projet unique) ═══ -->
+<!-- ═══ VIEW: Dashboard (single project) ═══ -->
 <div id="pv-view-dashboard" class="pv-view" style="display:none;">
 
   <div class="pv-section">
@@ -67,29 +67,29 @@ lang: fr
   </div>
 
   <div class="pv-section">
-    <h3>Distribution des étapes</h3>
+    <h3>Stage Distribution</h3>
     <div class="pv-stage-bar" id="pv-stage-bar"></div>
     <div id="pv-stage-legend"></div>
   </div>
 
   <div class="pv-section">
-    <h3>Résumé grille Knowledge</h3>
+    <h3>Knowledge Grid Summary</h3>
     <div class="pv-grid-summary" id="pv-grid-summary"></div>
     <div class="pv-muted" id="pv-grid-score" style="margin-top:0.5rem;"></div>
   </div>
 
   <div class="pv-section">
-    <h3>Tâches du projet</h3>
+    <h3>Project Tasks</h3>
     <div class="table-wrap">
       <table class="pv-table">
         <thead>
           <tr>
             <th>#</th>
-            <th>Tâche</th>
-            <th>Étape</th>
-            <th>Progrès</th>
-            <th>Changements</th>
-            <th>Grille</th>
+            <th>Task</th>
+            <th>Stage</th>
+            <th>Progress</th>
+            <th>Changes</th>
+            <th>Grid</th>
             <th></th>
           </tr>
         </thead>
@@ -105,6 +105,7 @@ lang: fr
 <link rel="stylesheet" href="{{ '/interfaces/project-viewer/project-viewer.css' | relative_url }}">
 
 <script src="{{ '/interfaces/project-viewer/project-viewer.js' | relative_url }}"></script>
+<script src="{{ '/interfaces/project-viewer/project-print.js' | relative_url }}"></script>
 {:/nomarkdown}
 
 <div class="pub-crossrefs">

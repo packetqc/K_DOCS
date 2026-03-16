@@ -17,22 +17,22 @@ lang: fr
 
 {::nomarkdown}
 
-<div id="session-viewer" data-baseurl="{{ site.baseurl }}">
+<div id="session-viewer" data-baseurl="{{ site.baseurl }}" data-repo="{{ site.github_repo | default: 'packetqc/knowledge' }}">
 
 <div class="sv-toolbar">
   <div class="sv-select-group">
     <label for="sv-session-select">Session</label>
     <select id="sv-session-select">
-      <option value="">— Choisir une session —</option>
+      <option value="">— All Sessions —</option>
     </select>
   </div>
   <div class="sv-select-group">
-    <label for="sv-refine-select">Vue</label>
+    <label for="sv-refine-select">View</label>
     <select id="sv-refine-select">
-      <option value="all">Toutes les sections</option>
-      <option value="tasks">Vue des tâches</option>
-      <option value="metrics">Tableau de bord métriques</option>
-      <option value="timeline">Chronologie</option>
+      <option value="all">All sections</option>
+      <option value="tasks">Tasks Overview</option>
+      <option value="metrics">Metrics Dashboard</option>
+      <option value="timeline">Timeline</option>
     </select>
   </div>
 </div>
@@ -40,20 +40,31 @@ lang: fr
 <div id="sv-data-mode" class="sv-data-mode">
   <span class="sv-data-mode-icon">📊</span>
   <span class="sv-data-mode-text">
-    <strong>Mode statique</strong> — Les données sont mises à jour à la fin de chaque session de travail.
-    <span class="sv-data-mode-hint">Connectez-vous avec GitHub OAuth2 pour des données de session en temps réel.</span>
+    <strong>Static mode</strong> — Data is refreshed at the end of each work session.
+    <span class="sv-data-mode-hint">Connect with GitHub OAuth2 for real-time session data.</span>
   </span>
 </div>
 
 <div id="sv-empty-state" class="sv-empty">
-  <p>Sélectionnez une session ci-dessus pour afficher son rapport complet.</p>
-  <p class="sv-muted"><span id="sv-session-count">0</span> sessions disponibles.</p>
-  <p class="sv-muted sv-version-note">Seules les sessions <strong>v51+</strong> (avec suivi de tâches) sont listées — la convention de protocole structuré appliquée depuis le 2026-02-27.</p>
+  <p>Select a session from the dropdown above to view its full report.</p>
+  <p class="sv-muted"><span id="sv-session-count">0</span> sessions available.</p>
+  <p class="sv-muted sv-version-note">All sessions with GitHub integrity are listed.</p>
+</div>
+
+<!-- ═══ VIEW: Overview (all sessions) ═══ -->
+<div id="sv-view-overview" style="display:none;">
+  <div class="sv-section">
+    <h2 id="sv-overview-title">All Sessions</h2>
+    <div class="sv-stats-grid" id="sv-overview-stats"></div>
+  </div>
+  <div class="sv-section">
+    <div class="sv-cards" id="sv-session-cards"></div>
+  </div>
 </div>
 
 <div id="sv-content" style="display:none;">
 
-<!-- Page couverture pour impression — cachée à l'écran, page 1 en PDF -->
+<!-- Print-only cover page — hidden on screen, page 1 in PDF -->
 <div id="sv-cover-page" aria-hidden="true">
   <div class="cover-body">
     <div class="cover-title" id="sv-cover-title"></div>
@@ -63,10 +74,10 @@ lang: fr
   </div>
 </div>
 
-<!-- Avis de source de données -->
+<!-- Data source notice -->
 <div id="sv-notice" class="sv-notice" style="display:none;"></div>
 
-<!-- Section 1: Résumé + 8 blocs métriques -->
+<!-- Section 1: Summary + 8 metric blocs -->
 <div class="sv-section" id="sv-section-summary">
   <div class="sv-section-header">
     <h2 id="sv-title"></h2>
@@ -77,27 +88,28 @@ lang: fr
       <span class="sv-date" id="sv-date"></span>
       <span class="sv-branch" id="sv-branch"></span>
       <span class="sv-source-badges" id="sv-source-badges"></span>
+      <span class="sv-badge sv-badge-usid" id="sv-user-session-id" style="display:none;" title="Internal session ID"></span>
     </div>
   </div>
   <p id="sv-summary" class="sv-summary"></p>
   <div class="sv-stats-grid" id="sv-stats-grid"></div>
 </div>
 
-<!-- Section 2: Compilation des métriques -->
+<!-- Section 2: Metrics Compilation -->
 <div class="sv-section" id="sv-section-metrics">
-  <h3>Compilation des métriques</h3>
+  <h3>Metrics Compilation</h3>
   <p id="sv-metrics-totals" class="sv-totals-line"></p>
   <div class="table-wrap sv-metrics-table">
     <table class="sv-table">
       <thead>
-        <tr><th>#</th><th>Catégorie</th><th>PRs</th><th>+/-</th><th>Fichiers</th><th>Commits</th><th>Tâches</th><th>Leçons</th></tr>
+        <tr><th>#</th><th>Category</th><th>Pull Requests</th><th>+/-</th><th>Files</th><th>Commits</th><th>Tasks</th><th>Lessons</th></tr>
       </thead>
       <tbody id="sv-metrics-body"></tbody>
     </table>
   </div>
 </div>
 
-<!-- Section 3: Graphiques circulaires -->
+<!-- Section 3: Pie Charts -->
 <div class="sv-section" id="sv-section-pies">
   <div class="sv-pies-row">
     <div class="sv-chart-wrap" id="sv-chart-scope-wrap" style="display:none;">
@@ -115,49 +127,74 @@ lang: fr
   </div>
 </div>
 
-<!-- Section 4: Compilation des temps -->
+<!-- Section 4: Time Compilation -->
 <div class="sv-section" id="sv-section-time">
-  <h3>Compilation des temps</h3>
+  <h3>Time Compilation</h3>
   <p id="sv-time-totals" class="sv-totals-line"></p>
   <div class="table-wrap sv-time-table" id="sv-time-content"></div>
 </div>
 
-<!-- Section 5: Livraisons (PRs) -->
+<!-- Section 5: Deliveries (PRs) -->
 <div class="sv-section" id="sv-section-deliveries">
-  <h3>Livraisons</h3>
+  <h3>Deliveries</h3>
   <div class="table-wrap">
     <table class="sv-table">
       <thead>
-        <tr><th>#</th><th>Pull Request</th><th>+/-</th><th>Fichiers</th><th>Commits</th><th>Lien</th></tr>
+        <tr><th>#</th><th>Pull Request</th><th>+/-</th><th>Files</th><th>Commits</th><th>Link</th></tr>
       </thead>
       <tbody id="sv-prs-body"></tbody>
     </table>
   </div>
 </div>
 
-<!-- Section 6: Tâches liées -->
+<!-- Section 6: Related Tasks -->
 <div class="sv-section" id="sv-section-related-tasks" style="display:none;">
-  <h3>Tâches liées</h3>
+  <h3>Related Tasks</h3>
   <div class="sv-table-wrap">
-    <table class="sv-table sv-tasks-table">
+    <table class="sv-table sv-related-tasks-table">
       <thead>
-        <tr><th>#</th><th>Tâche</th><th>Type</th><th>Titre</th></tr>
+        <tr><th>#</th><th>Task</th><th>Type</th><th>Title</th></tr>
+      </thead>
+      <tbody id="sv-related-tasks-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Section 7: Lessons & Decisions -->
+<div class="sv-section" id="sv-section-lessons">
+  <h3>Lessons &amp; Decisions</h3>
+  <ul id="sv-lessons-list"></ul>
+  <p id="sv-no-lessons" class="sv-muted" style="display:none;">No lessons recorded for this session.</p>
+</div>
+
+<!-- Section 7b: Collateral Tasks (v2.0) -->
+<div class="sv-section" id="sv-section-collateral" style="display:none;">
+  <h3>Collateral Tasks</h3>
+  <div class="table-wrap" id="sv-collateral-body"></div>
+</div>
+
+<!-- Section 7c: Session Tasks -->
+<div class="sv-section" id="sv-section-tasks" style="display:none;">
+  <h3>Session Tasks</h3>
+  <div class="table-wrap">
+    <table class="sv-table">
+      <thead>
+        <tr><th>#</th><th>Task</th><th>Stage</th><th>Progress</th><th></th></tr>
       </thead>
       <tbody id="sv-tasks-body"></tbody>
     </table>
   </div>
 </div>
 
-<!-- Section 7: Leçons et décisions -->
-<div class="sv-section" id="sv-section-lessons">
-  <h3>Leçons et décisions</h3>
-  <ul id="sv-lessons-list"></ul>
-  <p id="sv-no-lessons" class="sv-muted" style="display:none;">Aucune leçon enregistrée pour cette session.</p>
+<!-- Section 9: Task Progression (v2.0) -->
+<div class="sv-section" id="sv-section-progression" style="display:none;">
+  <h3>Task Progression</h3>
+  <div id="sv-progression-body"></div>
 </div>
 
-<!-- Section 8: Vélocité & Impact du code -->
+<!-- Section 8: Velocity & Code Impact -->
 <div class="sv-section" id="sv-section-velocity" style="display:none;">
-  <h3>Vélocité &amp; Impact du code</h3>
+  <h3>Velocity &amp; Code Impact</h3>
   <div class="sv-velocity-row">
     <div class="sv-velocity-gauges" id="sv-velocity-gauges"></div>
     <div class="sv-chart-wrap sv-chart-wide" id="sv-chart-impact-wrap" style="display:none;">
@@ -173,17 +210,20 @@ lang: fr
 
 <link rel="stylesheet" href="{{ '/interfaces/session-review/session-review.css' | relative_url }}">
 
-<script src="{{ '/interfaces/session-review/session-review.js' | relative_url }}"></script>
+<!-- Session Review v2 — modular JS -->
+<script src="{{ '/interfaces/session-review/session-core.js' | relative_url }}"></script>
+<script src="{{ '/interfaces/session-review/session-charts.js' | relative_url }}"></script>
+<script src="{{ '/interfaces/session-review/session-render.js' | relative_url }}"></script>
+<script src="{{ '/interfaces/session-review/session-time.js' | relative_url }}"></script>
+<script src="{{ '/interfaces/session-review/session-print.js' | relative_url }}"></script>
 {:/nomarkdown}
 
 <div class="pub-crossrefs">
 <h3>Références croisées</h3>
 <div class="pub-crossrefs-list">
 <a href="{{ '/fr/publications/' | relative_url }}">Index des publications</a>
-<a href="{{ '/fr/publications/session-management/' | relative_url }}">#8 Gestion des sessions</a>
-<a href="{{ '/fr/publications/session-metrics-time/' | relative_url }}">#20 Métriques et temps de session</a>
-<a href="{{ '/fr/publications/interactive-work-sessions/' | relative_url }}">#19 Sessions de travail interactives</a>
-<a href="{{ '/fr/publications/distributed-knowledge-dashboard/' | relative_url }}">#4a Tableau de bord des connaissances</a>
+<a href="{{ '/fr/interfaces/' | relative_url }}">Index des interfaces</a>
 <a href="{{ '/fr/interfaces/main-navigator/' | relative_url }}">I2 Navigateur principal</a>
+<a href="{{ '/fr/interfaces/task-workflow/' | relative_url }}">I3 Flux de travail</a>
 </div>
 </div>
