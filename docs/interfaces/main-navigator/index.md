@@ -268,23 +268,6 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
       g_publications: 'Publications', g_project: 'Project', g_live_session: 'Live Session', g_live_network: 'Live Network',
       methodologies: 'Methodologies',
-      m_k_docs: 'K_DOCS', m_k_github: 'K_GITHUB', m_k_mind: 'K_MIND', m_k_projects: 'K_PROJECTS', m_k_validation: 'K_VALIDATION',
-      m_documentation_audience: 'Documentation Audience',
-      m_documentation_generation: 'Documentation Generation',
-      m_interactive_documentation: 'Interactive Documentation',
-      m_web_page_visualization: 'Web Page Visualization',
-      m_web_pagination_export: 'Web Pagination & Export',
-      m_web_production_pipeline: 'Web Production Pipeline',
-      m_webcard_generation: 'Webcard Generation',
-      m_github_board_item_alias: 'Board Item Alias',
-      m_github_project_integration: 'GitHub Project Integration',
-      m_methodology_import_system: 'Import System',
-      m_project_create: 'Project Create',
-      m_project_management: 'Project Management',
-      m_checkpoint_resume: 'Checkpoint/Resume',
-      m_metrics_compilation: 'Metrics Compilation',
-      m_session_protocol: 'Session Protocol',
-      m_task_workflow: 'Task Workflow',
       hubs: 'Hubs', landing: 'Landing', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projects',
       profile: 'Profile', hub: 'Hub', resume: 'Resume', full: 'Full',
       summary: 'Summary',
@@ -312,23 +295,6 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
       g_publications: 'Publications', g_project: 'Projet', g_live_session: 'Session live', g_live_network: 'Réseau live',
       methodologies: 'Méthodologies',
-      m_k_docs: 'K_DOCS', m_k_github: 'K_GITHUB', m_k_mind: 'K_MIND', m_k_projects: 'K_PROJECTS', m_k_validation: 'K_VALIDATION',
-      m_documentation_audience: 'Audience documentaire',
-      m_documentation_generation: 'Génération documentaire',
-      m_interactive_documentation: 'Documentation interactive',
-      m_web_page_visualization: 'Visualisation de pages web',
-      m_web_pagination_export: 'Pagination et export',
-      m_web_production_pipeline: 'Pipeline de production web',
-      m_webcard_generation: 'Génération de webcards',
-      m_github_board_item_alias: 'Alias d\'items board',
-      m_github_project_integration: 'Intégration projets GitHub',
-      m_methodology_import_system: 'Système d\'import',
-      m_project_create: 'Création de projet',
-      m_project_management: 'Gestion de projet',
-      m_checkpoint_resume: 'Checkpoint/Reprise',
-      m_metrics_compilation: 'Compilation de métriques',
-      m_session_protocol: 'Protocole de session',
-      m_task_workflow: 'Flux de travail',
       hubs: 'Hubs', landing: 'Accueil', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projets',
       profile: 'Profil', hub: 'Hub', resume: 'Résumé', full: 'Complet',
       summary: 'Résumé',
@@ -478,34 +444,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
       { g: t.g_live_session, pub:LP+'/publications/live-session-analysis/full/#pub-title', cmds:["I'm live",'multi-live','deep','analyze','recipe'] },
       { g: t.g_live_network, pub:LP+'/publications/live-knowledge-network/full/#pub-title', cmds:['beacon'] }
     ]},
-    { id:'methodologies', title: t.methodologies, open:false, methods:[
-      { g: t.m_k_docs, items:[
-        {t: t.m_documentation_audience, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/documentation-audience.md'},
-        {t: t.m_documentation_generation, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/documentation-generation.md'},
-        {t: t.m_interactive_documentation, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/interactive-documentation.md'},
-        {t: t.m_web_page_visualization, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-page-visualization.md'},
-        {t: t.m_web_pagination_export, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-pagination-export.md'},
-        {t: t.m_web_production_pipeline, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-production-pipeline.md'},
-        {t: t.m_webcard_generation, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/webcard-generation.md'}
-      ]},
-      { g: t.m_k_github, items:[
-        {t: t.m_github_board_item_alias, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/methodology/github-board-item-alias.md'},
-        {t: t.m_github_project_integration, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/methodology/github-project-integration.md'}
-      ]},
-      { g: t.m_k_mind, items:[
-        {t: t.m_methodology_import_system, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/methodology/methodology-import-system.md'}
-      ]},
-      { g: t.m_k_projects, items:[
-        {t: t.m_project_create, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-create.md'},
-        {t: t.m_project_management, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-management.md'}
-      ]},
-      { g: t.m_k_validation, items:[
-        {t: t.m_checkpoint_resume, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/checkpoint-resume.md'},
-        {t: t.m_metrics_compilation, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/metrics-compilation.md'},
-        {t: t.m_session_protocol, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/session-protocol.md'},
-        {t: t.m_task_workflow, p:'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/task-workflow.md'}
-      ]}
-    ]},
+    { id:'methodologies', title: t.methodologies, open:false, json:'data/methodologies.json' },
     { id:'hubs', title: t.hubs, open:false, links:[
       {t: t.landing,        h:BASE+LP+'/'},
       {t: t.publications,   h:BASE+LP+'/publications/'},
@@ -636,22 +575,37 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         body.appendChild(pg);
       });
     }
-    if (w.methods) {
-      w.methods.forEach(function(mg) {
-        var idx = subDetIndex++;
-        var pg = document.createElement('details'); pg.className = 'pub-group';
-        if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
-        pg.addEventListener('toggle', saveSubDetState);
-        var pgsm = document.createElement('summary'); pgsm.textContent = mg.g; pg.appendChild(pgsm);
-        mg.items.forEach(function(item) {
-          var a = document.createElement('a');
-          a.href = vru(BASE + '/index.html?doc=' + encodeURIComponent(item.p) + '&embed');
-          a.dataset.navId = 'nav-' + (navLinkId++);
-          a.target = 'content-frame'; a.textContent = item.t;
-          pg.appendChild(a);
-        });
-        body.appendChild(pg);
-      });
+    if (w.json) {
+      (function(jsonUrl, container) {
+        fetch(vru(BASE + '/' + jsonUrl))
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            var items = (data.items || []).slice().sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+            // Group by module
+            var groups = {};
+            items.forEach(function(item) {
+              if (!groups[item.module]) groups[item.module] = [];
+              groups[item.module].push(item);
+            });
+            Object.keys(groups).forEach(function(mod) {
+              var idx = subDetIndex++;
+              var pg = document.createElement('details'); pg.className = 'pub-group';
+              if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
+              pg.addEventListener('toggle', saveSubDetState);
+              var pgsm = document.createElement('summary'); pgsm.textContent = mod; pg.appendChild(pgsm);
+              groups[mod].forEach(function(item) {
+                var a = document.createElement('a');
+                a.href = vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed');
+                a.dataset.navId = 'nav-' + (navLinkId++);
+                a.target = 'content-frame';
+                a.textContent = (LANG === 'fr' && item.title_fr) ? item.title_fr : item.title;
+                pg.appendChild(a);
+              });
+              container.appendChild(pg);
+            });
+          })
+          .catch(function(e) { console.warn('Failed to load ' + jsonUrl, e); });
+      })(w.json, body);
     }
     det.appendChild(body); panel.appendChild(det);
   });

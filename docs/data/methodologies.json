@@ -1,0 +1,133 @@
+{
+  "generated_by": "Knowledge/K_DOCS/scripts/build_methodologies.py",
+  "items": [
+    {
+      "title": "Documentation Audience",
+      "title_fr": "Audience documentaire",
+      "file": "documentation-audience.md",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/documentation-audience.md",
+      "priority": 1
+    },
+    {
+      "title": "Documentation Generation",
+      "title_fr": "Génération documentaire",
+      "file": "documentation-generation.md",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/documentation-generation.md",
+      "priority": 2
+    },
+    {
+      "title": "Interactive Documentation",
+      "title_fr": "Documentation interactive",
+      "file": "interactive-documentation.md",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/interactive-documentation.md",
+      "priority": 3
+    },
+    {
+      "title": "Web Page Visualization",
+      "title_fr": "Visualisation de pages web",
+      "file": "web-page-visualization.md",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-page-visualization.md",
+      "priority": 4
+    },
+    {
+      "title": "Web Pagination & Export",
+      "title_fr": "Pagination et export",
+      "file": "web-pagination-export.md",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-pagination-export.md",
+      "priority": 5
+    },
+    {
+      "title": "Web Production Pipeline",
+      "title_fr": "Pipeline de production web",
+      "file": "web-production-pipeline.md",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-production-pipeline.md",
+      "priority": 6
+    },
+    {
+      "title": "Webcard Generation",
+      "title_fr": "Génération de webcards",
+      "file": "webcard-generation.md",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/webcard-generation.md",
+      "priority": 7
+    },
+    {
+      "title": "Board Item Alias",
+      "title_fr": "Alias d'items board",
+      "file": "github-board-item-alias.md",
+      "module": "K_GITHUB",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/methodology/github-board-item-alias.md",
+      "priority": 8
+    },
+    {
+      "title": "GitHub Project Integration",
+      "title_fr": "Intégration projets GitHub",
+      "file": "github-project-integration.md",
+      "module": "K_GITHUB",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/methodology/github-project-integration.md",
+      "priority": 9
+    },
+    {
+      "title": "Import System",
+      "title_fr": "Système d'import",
+      "file": "methodology-import-system.md",
+      "module": "K_MIND",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/methodology/methodology-import-system.md",
+      "priority": 10
+    },
+    {
+      "title": "Project Create",
+      "title_fr": "Création de projet",
+      "file": "project-create.md",
+      "module": "K_PROJECTS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-create.md",
+      "priority": 11
+    },
+    {
+      "title": "Project Management",
+      "title_fr": "Gestion de projet",
+      "file": "project-management.md",
+      "module": "K_PROJECTS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-management.md",
+      "priority": 12
+    },
+    {
+      "title": "Checkpoint/Resume",
+      "title_fr": "Checkpoint/Reprise",
+      "file": "checkpoint-resume.md",
+      "module": "K_VALIDATION",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/checkpoint-resume.md",
+      "priority": 13
+    },
+    {
+      "title": "Metrics Compilation",
+      "title_fr": "Compilation de métriques",
+      "file": "metrics-compilation.md",
+      "module": "K_VALIDATION",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/metrics-compilation.md",
+      "priority": 14
+    },
+    {
+      "title": "Session Protocol",
+      "title_fr": "Protocole de session",
+      "file": "session-protocol.md",
+      "module": "K_VALIDATION",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/session-protocol.md",
+      "priority": 15
+    },
+    {
+      "title": "Task Workflow",
+      "title_fr": "Flux de travail",
+      "file": "task-workflow.md",
+      "module": "K_VALIDATION",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/task-workflow.md",
+      "priority": 16
+    }
+  ]
+}
