@@ -573,24 +573,31 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     det.appendChild(body); panel.appendChild(det);
   });
 
-  /* ─── Adapt saved URL to current language ─── */
-  function adaptLang(url) {
-    if (!url) return url;
-    // Viewer URLs (index.html?doc=...): toggle &lang=fr
-    if (url.indexOf('index.html?doc=') !== -1) {
-      var cleaned = url.replace(/[&?]lang=fr/g, '').replace(/\?&/, '?').replace(/\?$/, '');
-      return LANG === 'fr' ? (cleaned + (cleaned.indexOf('?') !== -1 ? '&' : '?') + 'lang=fr') : cleaned;
+  /* ─── Rebuild saved URL for current language ─── */
+  function rebuildForLang(url) {
+    if (!url) return null;
+    // Extract doc path from viewer embed URL: index.html?doc=X
+    var m = url.match(/[?&]doc=([^&]+)/);
+    if (m) {
+      var docPath = decodeURIComponent(m[1]);
+      // Rebuild via vru using the doc path (language-neutral) + current LP
+      var pagePath = docPath.replace(/\/?index\.md$/, '').replace(/^\//, '');
+      return vru(BASE + LP + '/' + pagePath + '/');
     }
-    // Direct page URLs: toggle /fr/ prefix
-    var stripped = url.replace(BASE + '/fr/', BASE + '/');
-    return LANG === 'fr' ? stripped.replace(BASE + '/', BASE + '/fr/') : stripped;
+    // Direct page URL: extract path, strip /fr/, rebuild with current LP
+    var path = url.replace(/^https?:\/\/[^/]+/, '');  // strip origin
+    path = path.replace(BASE + '/fr/', BASE + '/').replace(BASE + '/', '');  // strip base+lang
+    path = path.replace(/^\//, '');
+    return vru(BASE + LP + '/' + path);
   }
 
   /* ─── Restore last viewed pages (or set defaults) ─── */
   var savedCenter = localStorage.getItem(CENTER_KEY);
-  if (centerIframe) { centerIframe.src = savedCenter ? adaptLang(savedCenter) : (BASE + LP + '/interfaces/task-workflow/'); }
+  var defaultCenter = vru(BASE + LP + '/interfaces/task-workflow/');
+  if (centerIframe) { centerIframe.src = (savedCenter && rebuildForLang(savedCenter)) || defaultCenter; }
   var savedRight = localStorage.getItem(RCONTENT_KEY);
-  if (rightIframe) { rightIframe.src = savedRight ? adaptLang(savedRight) : (BASE + LP + '/'); }
+  var defaultRight = vru(BASE + LP + '/');
+  if (rightIframe) { rightIframe.src = (savedRight && rebuildForLang(savedRight)) || defaultRight; }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
