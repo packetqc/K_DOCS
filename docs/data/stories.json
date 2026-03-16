@@ -2,16 +2,18 @@
   "section": "stories",
   "title": "Success Stories",
   "title_fr": "Histoires de succès",
+  "description": "Milestone achievements documenting breakthrough moments — from cross-session recall to unified viewers and live mindmap memory.",
+  "description_fr": "Jalons documentant les moments clés — du rappel inter-session aux visualiseurs unifiés et à la mémoire mindmap vivante.",
   "open": false,
   "items": [
-    { "title": "#26 One Viewer to Rule Them All", "title_fr": "#26 Un seul visualiseur pour tous", "href": "/publications/success-stories/story-26/", "priority": 1 },
-    { "title": "#25 Live Mindmap Memory", "title_fr": "#25 Mémoire mindmap vivante", "href": "/publications/success-stories/story-25/", "priority": 2 },
-    { "title": "#24 The Toggle", "title_fr": "#24 Le Toggle", "href": "/publications/success-stories/story-24/", "priority": 3 },
-    { "title": "#23 Knowledge v2.0 Platform", "title_fr": "#23 Plateforme Knowledge v2.0", "href": "/publications/success-stories/story-23/", "priority": 4 },
-    { "title": "#22 Visual Documentation Engine", "title_fr": "#22 Moteur de documentation visuelle", "href": "/publications/success-stories/story-22/", "priority": 5 },
-    { "title": "#21 Task Workflow State Machine", "title_fr": "#21 Machine à états", "href": "/publications/success-stories/story-21/", "priority": 6 },
-    { "title": "#19 Board-Driven Protocol", "title_fr": "#19 Protocole par tableau", "href": "/publications/success-stories/story-19/", "priority": 7 },
-    { "title": "#17 Satellite Bootstrap", "title_fr": "#17 Bootstrap satellite", "href": "/publications/success-stories/story-17/", "priority": 8 },
-    { "title": "#16 Cross-Session Recall", "title_fr": "#16 Rappel inter-session", "href": "/publications/success-stories/story-16/", "priority": 9 }
+    { "title": "#26 One Viewer to Rule Them All", "title_fr": "#26 Un seul visualiseur pour tous", "description": "Unified web documentation viewer replacing fragmented page-per-document approach.", "description_fr": "Visualiseur de documentation web unifié remplaçant l'approche page-par-document fragmentée.", "href": "/publications/success-stories/story-26/", "priority": 1 },
+    { "title": "#25 Live Mindmap Memory", "title_fr": "#25 Mémoire mindmap vivante", "description": "Real-time interactive mindmap visualization of the Knowledge memory system.", "description_fr": "Visualisation mindmap interactive en temps réel du système de mémoire Knowledge.", "href": "/publications/success-stories/story-25/", "priority": 2 },
+    { "title": "#24 The Toggle", "title_fr": "#24 Le Toggle", "description": "Theme-aware toggle system with persistent dark/light mode across all interfaces.", "description_fr": "Système de bascule thème avec mode sombre/clair persistant sur toutes les interfaces.", "href": "/publications/success-stories/story-24/", "priority": 3 },
+    { "title": "#23 Knowledge v2.0 Platform", "title_fr": "#23 Plateforme Knowledge v2.0", "description": "Major platform rewrite — modular architecture, multi-module system, production deployment.", "description_fr": "Réécriture majeure de la plateforme — architecture modulaire, système multi-module, déploiement production.", "href": "/publications/success-stories/story-23/", "priority": 4 },
+    { "title": "#22 Visual Documentation Engine", "title_fr": "#22 Moteur de documentation visuelle", "description": "Automated visual evidence extraction from video streams with OpenCV pipeline.", "description_fr": "Extraction automatique de preuves visuelles à partir de flux vidéo avec pipeline OpenCV.", "href": "/publications/success-stories/story-22/", "priority": 5 },
+    { "title": "#21 Task Workflow State Machine", "title_fr": "#21 Machine à états", "description": "Formal task lifecycle with state transitions, validation gates, and workflow enforcement.", "description_fr": "Cycle de vie formel des tâches avec transitions d'état, portes de validation et application du flux.", "href": "/publications/success-stories/story-21/", "priority": 6 },
+    { "title": "#19 Board-Driven Protocol", "title_fr": "#19 Protocole par tableau", "description": "GitHub Project board integration driving task execution and status synchronization.", "description_fr": "Intégration du board GitHub Project pilotant l'exécution des tâches et la synchronisation des statuts.", "href": "/publications/success-stories/story-19/", "priority": 7 },
+    { "title": "#17 Satellite Bootstrap", "title_fr": "#17 Bootstrap satellite", "description": "First successful satellite repository bootstrapping with knowledge network synchronization.", "description_fr": "Premier bootstrap réussi d'un dépôt satellite avec synchronisation du réseau de connaissances.", "href": "/publications/success-stories/story-17/", "priority": 8 },
+    { "title": "#16 Cross-Session Recall", "title_fr": "#16 Rappel inter-session", "description": "Persistent memory recall across AI sessions — the foundation of Knowledge continuity.", "description_fr": "Rappel de mémoire persistant entre sessions IA — la fondation de la continuité Knowledge.", "href": "/publications/success-stories/story-16/", "priority": 9 }
   ]
 }

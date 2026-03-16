@@ -90,8 +90,23 @@ def main():
                     item["priority"] = prev.get("priority", item["priority"])
                     if prev.get("title_fr"):
                         item["title_fr"] = prev["title_fr"]
+                    if prev.get("description"):
+                        item["description"] = prev["description"]
+                    if prev.get("description_fr"):
+                        item["description_fr"] = prev["description_fr"]
             # Filter out items that were manually moved to removed
             items = [i for i in items if i["path"] not in removed_paths]
+        except Exception:
+            pass
+
+    # Preserve section-level descriptions from existing file
+    sec_desc = ""
+    sec_desc_fr = ""
+    if OUTPUT_FILE.exists():
+        try:
+            existing = json.loads(OUTPUT_FILE.read_text(encoding="utf-8"))
+            sec_desc = existing.get("description", "")
+            sec_desc_fr = existing.get("description_fr", "")
         except Exception:
             pass
 
@@ -100,6 +115,8 @@ def main():
         "section": "methodologies",
         "title": "Methodologies",
         "title_fr": "Méthodologies",
+        "description": sec_desc,
+        "description_fr": sec_desc_fr,
         "open": False,
         "items": items,
         "removed": removed,

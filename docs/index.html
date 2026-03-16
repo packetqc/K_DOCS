@@ -1392,14 +1392,24 @@
     // ===== JSON document rendering =====
     function renderJsonDocument(json, path) {
       var html = '<div class="json-document">';
-      // Title from filename
-      var fname = path.split('/').pop().split('?')[0];
-      html += '<h1>' + escapeHtml(fname) + '</h1>';
+      var lang = (typeof LANG !== 'undefined') ? LANG : 'en';
 
-      // Top-level string fields as key-value pairs
+      // Smart title: use title/title_fr if available, else filename
+      var docTitle = (lang === 'fr' && json.title_fr) ? json.title_fr : (json.title || path.split('/').pop().split('?')[0]);
+      html += '<h1>' + escapeHtml(docTitle) + '</h1>';
+
+      // Description as page companion paragraph
+      var desc = (lang === 'fr' && json.description_fr) ? json.description_fr : json.description;
+      if (desc) {
+        html += '<p class="json-description" style="font-size:1.1em;color:var(--text-secondary,#555);margin:0.5em 0 1.5em;line-height:1.5">' + escapeHtml(desc) + '</p>';
+      }
+
+      // Top-level string fields as key-value pairs (skip title/description already rendered)
+      var skipFields = ['title', 'title_fr', 'description', 'description_fr'];
       var topFields = [];
       Object.keys(json).forEach(function(k) {
         var v = json[k];
+        if (skipFields.indexOf(k) !== -1) return;
         if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
           topFields.push({key: k, value: v});
         }

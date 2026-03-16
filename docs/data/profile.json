@@ -2,10 +2,12 @@
   "section": "profile",
   "title": "Profile",
   "title_fr": "Profil",
+  "description": "Professional profile pages — hub overview, concise resume, and comprehensive portfolio with full project history.",
+  "description_fr": "Pages de profil professionnel — vue d'ensemble hub, résumé concis et portfolio complet avec historique de projets.",
   "open": false,
   "items": [
-    { "title": "Hub", "title_fr": "Hub", "href": "/profile/", "priority": 1 },
-    { "title": "Resume", "title_fr": "Résumé", "href": "/profile/resume/", "priority": 2 },
-    { "title": "Full", "title_fr": "Complet", "href": "/profile/full/", "priority": 3 }
+    { "title": "Hub", "title_fr": "Hub", "description": "Profile overview with key stats, active projects, and quick links.", "description_fr": "Vue d'ensemble du profil avec statistiques clés, projets actifs et liens rapides.", "href": "/profile/", "priority": 1 },
+    { "title": "Resume", "title_fr": "Résumé", "description": "Concise professional resume — experience, skills, and highlights.", "description_fr": "Résumé professionnel concis — expérience, compétences et faits marquants.", "href": "/profile/resume/", "priority": 2 },
+    { "title": "Full", "title_fr": "Complet", "description": "Comprehensive profile with complete project history, publications, and technical depth.", "description_fr": "Profil complet avec historique de projets, publications et profondeur technique.", "href": "/profile/full/", "priority": 3 }
   ]
 }

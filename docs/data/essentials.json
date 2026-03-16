@@ -2,13 +2,15 @@
   "section": "essentials",
   "title": "Essentials",
   "title_fr": "Essentiels",
+  "description": "Core reference documents — success stories, project roadmap, external links, news feed, and changelog.",
+  "description_fr": "Documents de référence essentiels — histoires de succès, feuille de route, liens externes, fil d'actualités et journal des modifications.",
   "open": false,
   "items": [
-    { "title": "STORIES", "title_fr": "HISTOIRES", "href": "/publications/success-stories/", "priority": 1 },
-    { "title": "README", "title_fr": "README", "href": "/", "priority": 2 },
-    { "title": "PLAN", "title_fr": "PLAN", "href": "/plan/", "priority": 3 },
-    { "title": "LINKS", "title_fr": "LIENS", "href": "/links/", "priority": 4 },
-    { "title": "NEWS", "title_fr": "NOUVELLES", "href": "/news/", "priority": 5 },
-    { "title": "CHANGELOG", "title_fr": "CHANGELOG", "href": "/changelog/", "priority": 6 }
+    { "title": "STORIES", "title_fr": "HISTOIRES", "description": "Milestone achievements and breakthrough moments in the Knowledge system journey.", "description_fr": "Jalons et moments clés dans l'évolution du système Knowledge.", "href": "/publications/success-stories/", "priority": 1 },
+    { "title": "README", "title_fr": "README", "description": "Project introduction, quick start guide, and repository structure overview.", "description_fr": "Introduction au projet, guide de démarrage rapide et vue d'ensemble de la structure.", "href": "/", "priority": 2 },
+    { "title": "PLAN", "title_fr": "PLAN", "description": "Current development roadmap, priorities, and upcoming milestones.", "description_fr": "Feuille de route actuelle, priorités et jalons à venir.", "href": "/plan/", "priority": 3 },
+    { "title": "LINKS", "title_fr": "LIENS", "description": "External resources, references, and related project links.", "description_fr": "Ressources externes, références et liens vers les projets associés.", "href": "/links/", "priority": 4 },
+    { "title": "NEWS", "title_fr": "NOUVELLES", "description": "Latest updates, announcements, and notable changes.", "description_fr": "Dernières mises à jour, annonces et changements notables.", "href": "/news/", "priority": 5 },
+    { "title": "CHANGELOG", "title_fr": "CHANGELOG", "description": "Version history with detailed change records for each release.", "description_fr": "Historique des versions avec détail des changements pour chaque publication.", "href": "/changelog/", "priority": 6 }
   ]
 }

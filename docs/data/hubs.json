@@ -2,11 +2,13 @@
   "section": "hubs",
   "title": "Hubs",
   "title_fr": "Hubs",
+  "description": "Main entry points to the Knowledge platform — landing page, publications catalog, interactive interfaces, and project portfolio.",
+  "description_fr": "Points d'entrée principaux de la plateforme Knowledge — page d'accueil, catalogue de publications, interfaces interactives et portfolio de projets.",
   "open": false,
   "items": [
-    { "title": "Landing", "title_fr": "Accueil", "href": "/", "priority": 1 },
-    { "title": "Publications", "title_fr": "Publications", "href": "/publications/", "priority": 2 },
-    { "title": "Interfaces", "title_fr": "Interfaces", "href": "/interfaces/", "priority": 3 },
-    { "title": "Projects", "title_fr": "Projets", "href": "/projects/", "priority": 4 }
+    { "title": "Landing", "title_fr": "Accueil", "description": "Knowledge platform home page with system overview and quick navigation.", "description_fr": "Page d'accueil de la plateforme Knowledge avec vue d'ensemble et navigation rapide.", "href": "/", "priority": 1 },
+    { "title": "Publications", "title_fr": "Publications", "description": "Complete catalog of technical publications documenting the Knowledge system evolution.", "description_fr": "Catalogue complet des publications techniques documentant l'évolution du système Knowledge.", "href": "/publications/", "priority": 2 },
+    { "title": "Interfaces", "title_fr": "Interfaces", "description": "Interactive web interfaces — session review, task workflow, project viewer, live mindmap.", "description_fr": "Interfaces web interactives — revue de session, flux de travail, visualiseur projets, mindmap vivant.", "href": "/interfaces/", "priority": 3 },
+    { "title": "Projects", "title_fr": "Projets", "description": "Active and archived project portfolio with board integration and status tracking.", "description_fr": "Portfolio de projets actifs et archivés avec intégration board et suivi de statut.", "href": "/projects/", "priority": 4 }
   ]
 }

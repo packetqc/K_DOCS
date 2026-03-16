@@ -3,11 +3,15 @@
   "section": "methodologies",
   "title": "Methodologies",
   "title_fr": "Méthodologies",
+  "description": "Operational methodology files across all Knowledge modules — documentation pipelines, GitHub integration, memory systems, project management, and validation protocols.",
+  "description_fr": "Fichiers de méthodologie opérationnelle de tous les modules Knowledge — pipelines documentaires, intégration GitHub, systèmes de mémoire, gestion de projet et protocoles de validation.",
   "open": false,
   "items": [
     {
       "title": "Documentation Audience",
       "title_fr": "Audience documentaire",
+      "description": "Target audience definition and content adaptation rules for documentation output.",
+      "description_fr": "Définition de l'audience cible et règles d'adaptation du contenu pour la production documentaire.",
       "file": "documentation-audience.md",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/documentation-audience.md",
@@ -16,6 +20,8 @@
     {
       "title": "Documentation Generation",
       "title_fr": "Génération documentaire",
+      "description": "Automated documentation generation pipeline — source scanning, template rendering, and output validation.",
+      "description_fr": "Pipeline automatisé de génération documentaire — scan des sources, rendu de gabarits et validation de sortie.",
       "file": "documentation-generation.md",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/documentation-generation.md",
@@ -24,6 +30,8 @@
     {
       "title": "Interactive Documentation",
       "title_fr": "Documentation interactive",
+      "description": "Interactive documentation methodology — conception, diagnostic, and visual documentation protocols.",
+      "description_fr": "Méthodologie de documentation interactive — conception, diagnostic et protocoles de documentation visuelle.",
       "file": "interactive-documentation.md",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/interactive-documentation.md",
@@ -32,6 +40,8 @@
     {
       "title": "Web Page Visualization",
       "title_fr": "Visualisation de pages web",
+      "description": "Web page rendering methodology — layout conventions, theme integration, and responsive design.",
+      "description_fr": "Méthodologie de rendu de pages web — conventions de mise en page, intégration thème et design réactif.",
       "file": "web-page-visualization.md",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-page-visualization.md",
@@ -40,6 +50,8 @@
     {
       "title": "Web Pagination & Export",
       "title_fr": "Pagination et export",
+      "description": "Multi-page document pagination and PDF/DOCX export using CSS Paged Media.",
+      "description_fr": "Pagination de documents multi-pages et export PDF/DOCX via CSS Paged Media.",
       "file": "web-pagination-export.md",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-pagination-export.md",
@@ -48,6 +60,8 @@
     {
       "title": "Web Production Pipeline",
       "title_fr": "Pipeline de production web",
+      "description": "End-to-end web production workflow — build, validate, deploy to GitHub Pages.",
+      "description_fr": "Flux de production web de bout en bout — construction, validation, déploiement sur GitHub Pages.",
       "file": "web-production-pipeline.md",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/web-production-pipeline.md",
@@ -56,6 +70,8 @@
     {
       "title": "Webcard Generation",
       "title_fr": "Génération de webcards",
+      "description": "Animated OG social preview card generation — theme-aware, multi-language, GIF output.",
+      "description_fr": "Génération de cartes de prévisualisation sociale OG animées — adaptées au thème, multi-langue, sortie GIF.",
       "file": "webcard-generation.md",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/methodology/webcard-generation.md",
@@ -64,6 +80,8 @@
     {
       "title": "Board Item Alias",
       "title_fr": "Alias d'items board",
+      "description": "GitHub Project board item aliasing — shorthand notation for cross-referencing board items.",
+      "description_fr": "Aliasing d'items du board GitHub Project — notation abrégée pour le référencement croisé des items.",
       "file": "github-board-item-alias.md",
       "module": "K_GITHUB",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/methodology/github-board-item-alias.md",
@@ -72,6 +90,8 @@
     {
       "title": "GitHub Project Integration",
       "title_fr": "Intégration projets GitHub",
+      "description": "GitHub Project board integration — issue sync, status tracking, and automation hooks.",
+      "description_fr": "Intégration du board GitHub Project — synchronisation d'issues, suivi de statut et hooks d'automatisation.",
       "file": "github-project-integration.md",
       "module": "K_GITHUB",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/methodology/github-project-integration.md",
@@ -80,6 +100,8 @@
     {
       "title": "Import System",
       "title_fr": "Système d'import",
+      "description": "K_MIND module import system — dependency resolution, load order, and activation management.",
+      "description_fr": "Système d'import du module K_MIND — résolution de dépendances, ordre de chargement et gestion d'activation.",
       "file": "methodology-import-system.md",
       "module": "K_MIND",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/methodology/methodology-import-system.md",
@@ -88,6 +110,8 @@
     {
       "title": "Project Create",
       "title_fr": "Création de projet",
+      "description": "Project creation methodology — P# registration, GitHub board setup, and web presence initialization.",
+      "description_fr": "Méthodologie de création de projet — enregistrement P#, création du board GitHub et initialisation de la présence web.",
       "file": "project-create.md",
       "module": "K_PROJECTS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-create.md",
@@ -96,6 +120,8 @@
     {
       "title": "Project Management",
       "title_fr": "Gestion de projet",
+      "description": "Project lifecycle management — list, info, register, review operations and board synchronization.",
+      "description_fr": "Gestion du cycle de vie projet — opérations list, info, register, review et synchronisation board.",
       "file": "project-management.md",
       "module": "K_PROJECTS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-management.md",
@@ -104,6 +130,8 @@
     {
       "title": "Checkpoint/Resume",
       "title_fr": "Checkpoint/Reprise",
+      "description": "Session checkpoint and resume protocol — state persistence, recovery, and continuation mechanics.",
+      "description_fr": "Protocole de checkpoint et reprise de session — persistance d'état, récupération et mécanique de continuation.",
       "file": "checkpoint-resume.md",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/checkpoint-resume.md",
@@ -112,6 +140,8 @@
     {
       "title": "Metrics Compilation",
       "title_fr": "Compilation de métriques",
+      "description": "Session metrics compilation — time tracking, message counts, tool usage, and productivity indicators.",
+      "description_fr": "Compilation de métriques de session — suivi temporel, comptage de messages, utilisation d'outils et indicateurs de productivité.",
       "file": "metrics-compilation.md",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/metrics-compilation.md",
@@ -120,6 +150,8 @@
     {
       "title": "Session Protocol",
       "title_fr": "Protocole de session",
+      "description": "Session validation protocol — initialization, maintenance, and closing procedures.",
+      "description_fr": "Protocole de validation de session — procédures d'initialisation, maintenance et clôture.",
       "file": "session-protocol.md",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/session-protocol.md",
@@ -128,10 +160,13 @@
     {
       "title": "Task Workflow",
       "title_fr": "Flux de travail",
+      "description": "Task workflow state machine — 9 stages from INITIAL to DONE with validation gates and transitions.",
+      "description_fr": "Machine à états du flux de travail — 9 étapes de INITIAL à DONE avec portes de validation et transitions.",
       "file": "task-workflow.md",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/task-workflow.md",
       "priority": 16
     }
-  ]
+  ],
+  "removed": []
 }
