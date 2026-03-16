@@ -14,8 +14,7 @@ dev_banner: "Interface en développement — les fonctionnalités et la mise en 
 lang: fr
 ---
 
-# Navigateur principal
-
+# Main Navigator
 
 {::nomarkdown}
 <style>
@@ -152,33 +151,126 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 }
 .nav-widget[open] > summary::before { transform: rotate(90deg); }
 .nav-widget[open] > summary { border-bottom-color: var(--accent, #1d4ed8); }
-.nav-widget .widget-body { padding: 0.2rem 0; }
+.nav-widget .widget-body { padding: 0.25rem 0.3rem; display: flex; flex-direction: column; gap: 0.15rem; }
 .nav-widget .widget-body a {
-  display: block; font-size: 0.78rem;
-  padding: 0.18rem 0.55rem;
+  display: block; font-size: 0.72rem; font-weight: 500;
+  padding: 0.3rem 0.5rem;
   color: var(--fg, #24292f);
-  text-decoration: none; border-radius: 3px;
+  text-decoration: none; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  background: var(--code-bg, #f6f8fa);
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.12s, box-shadow 0.15s;
 }
 .nav-widget .widget-body a:hover {
-  background: var(--col-alt, #f0f0f0); color: var(--accent, #1d4ed8);
+  background: var(--col-alt, #e8eef4);
+  color: var(--accent, #1d4ed8);
+  border-left-color: var(--accent, #1d4ed8);
+  transform: translateX(3px);
+  box-shadow: -2px 0 0 var(--accent, #1d4ed8);
 }
 .nav-widget .widget-body a.active {
-  background: var(--accent, #1d4ed8); color: var(--bg, #fff);
+  background: var(--col-alt, #e8eef4); color: var(--accent, #1d4ed8);
+  border-left-color: var(--accent, #1d4ed8);
+  box-shadow: -2px 0 0 var(--accent, #1d4ed8);
 }
 
-/* Sub-groups */
-.nav-widget .pub-group { margin: 0; padding: 0; }
-.nav-widget .pub-group summary {
-  font-size: 0.76rem; font-weight: 600;
-  text-transform: none; letter-spacing: 0;
-  padding: 0.2rem 0.55rem;
-  background: none; border-bottom: none;
-  color: var(--fg, #24292f);
+/* Sub-groups — same card style as iface-row */
+.nav-widget .pub-group {
+  margin: 0.3rem 0; padding: 0;
+  background: transparent; border: none; border-radius: 4px;
 }
-.nav-widget .pub-group summary::before { content: '›'; font-size: 0.8rem; }
-.nav-widget .pub-group[open] > summary::before { content: '⌄'; }
-.nav-widget .pub-group a { padding-left: 1.3rem; font-size: 0.74rem; }
-.cmd-link { font-family: monospace; font-size: 0.72rem; color: var(--muted, #656d76); }
+.nav-widget .pub-group summary {
+  font-size: 0.72rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  padding: 0.3rem 0.5rem;
+  background: var(--code-bg, #f6f8fa);
+  color: var(--fg, #24292f);
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+.nav-widget .pub-group summary:hover {
+  background: var(--col-alt, #e8eef4);
+  border-left-color: var(--accent, #1d4ed8);
+  transform: translateX(3px);
+  box-shadow: -2px 0 0 var(--accent, #1d4ed8);
+}
+.nav-widget .pub-group summary { cursor: pointer; list-style: none; text-decoration: none; }
+.nav-widget .pub-group summary::-webkit-details-marker { display: none; }
+.nav-widget .pub-group summary::before { content: ''; }
+.nav-widget .pub-group[open] > summary::before { content: ''; }
+.nav-widget .pub-group[open] > summary { border-radius: 4px; margin-bottom: 0.25rem; }
+.nav-widget .pub-group .iface-row { margin-left: 0.6rem; margin-top: 0.2rem; }
+.nav-widget a, .nav-widget summary { text-decoration: none !important; }
+.cmd-link { font-family: monospace; font-size: 0.68rem; color: var(--muted, #656d76); letter-spacing: 0; }
+
+/* ═══ Tab bar — horizontal strip above content-frame ═══ */
+.tab-bar {
+  flex-shrink: 0;
+  display: flex; align-items: stretch;
+  overflow-x: auto; overflow-y: hidden;
+  background: var(--code-bg, #f6f8fa);
+  border-bottom: 1px solid var(--border, #d0d7de);
+  scrollbar-width: thin;
+}
+.tab-bar:empty { display: none; }
+.tab-item {
+  display: flex; align-items: center; gap: 0.15rem;
+  padding: 0.2rem 0.25rem 0.2rem 0.5rem;
+  font-size: 0.72rem; white-space: nowrap;
+  border-right: 1px solid var(--border, #d0d7de);
+  cursor: pointer; user-select: none;
+  color: var(--muted, #656d76);
+  max-width: 180px;
+  transition: background 0.15s;
+}
+.tab-item:hover { background: var(--col-alt, #f0f0f0); color: var(--fg, #24292f); }
+.tab-item.tab-active {
+  background: var(--bg, #fff); color: var(--fg, #24292f);
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent, #1d4ed8);
+}
+.tab-label {
+  overflow: hidden; text-overflow: ellipsis;
+  max-width: 140px; display: inline-block;
+}
+.tab-close {
+  font-size: 0.6rem; padding: 0.1rem 0.25rem;
+  color: var(--muted, #656d76); border-radius: 3px;
+  line-height: 1; cursor: pointer;
+}
+.tab-close:hover { background: #e5534b; color: #fff; }
+
+/* ═══ Interface row — link + ℹ button ═══ */
+.iface-row {
+  display: flex; align-items: center;
+  background: var(--code-bg, #f6f8fa);
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+.iface-row:hover {
+  background: var(--col-alt, #e8eef4);
+  border-left-color: var(--accent, #1d4ed8);
+  transform: translateX(3px);
+  box-shadow: -2px 0 0 var(--accent, #1d4ed8);
+}
+.iface-row > a:first-child {
+  flex: 1; background: transparent !important;
+  border-left: none !important; border-radius: 0 !important;
+}
+.iface-row > a:first-child:hover { background: transparent !important; border-left: none !important; }
+.iface-pub-btn {
+  flex-shrink: 0; padding: 0.2rem 0.4rem;
+  font-size: 0.7rem; text-decoration: none;
+  color: var(--muted, #656d76); border-radius: 3px;
+  cursor: pointer; opacity: 0.4;
+  transition: opacity 0.15s, color 0.15s;
+}
+.iface-pub-btn:hover {
+  opacity: 1; color: var(--accent, #1d4ed8);
+}
 
 /* ═══ Dark theme overrides for widgets ═══ */
 [data-theme="midnight"],
@@ -246,7 +338,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     <iframe name="center-frame" id="center-frame-el"></iframe>
   </div>
   <div class="nav-divider-right" id="right-toggle"></div>
-  <div class="nav-viewer">
+  <div class="nav-viewer" id="right-viewer">
+    <div class="tab-bar" id="tab-bar"></div>
     <iframe name="content-frame" id="right-frame-el"></iframe>
   </div>
 </div>
@@ -258,61 +351,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   var LP = LANG === 'fr' ? '/fr' : '';  // language path prefix
   // localStorage keys are language-neutral (shared across EN/FR)
 
-  var T = {
-    en: {
-      interfaces: 'Interfaces',
-      i1: 'I1 Session Review', i2: 'I2 Main Navigator', i3: 'I3 Tasks Workflow',
-      i4: 'I4 Project Viewer', i5: 'I5 Live Mindmap', i_doc: '#21 Documentation',
-      essentials: 'Essentials',
-      stories: 'STORIES', readme: 'README', plan: 'PLAN', links: 'LINKS', news: 'NEWS', changelog: 'CHANGELOG',
-      commands: 'Commands',
-      g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
-      g_publications: 'Publications', g_project: 'Project', g_live_session: 'Live Session', g_live_network: 'Live Network',
-      hubs: 'Hubs', landing: 'Landing', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projects',
-      profile: 'Profile', hub: 'Hub', resume: 'Resume', full: 'Full',
-      summary: 'Summary',
-      p0: 'Knowledge System', p1: 'Knowledge 2.0', p2: 'Live Session', p3: 'AI Persistence',
-      p4: 'Distributed Minds', p4a: 'Dashboard', p5: 'Webcards', p6: 'Normalize',
-      p7: 'Harvest', p8: 'Session Mgmt', p9: 'Security', p9a: '#9a Compliance',
-      p10: 'Live Network', p11: 'Success Stories', p12: 'Project Mgmt', p13: 'Pagination',
-      p14: 'Architecture', p15: 'Diagrams', p16: 'Visualization', p17: 'Pipeline',
-      p18: 'Doc Generation', p19: 'Interactive', p20: 'Session Metrics',
-      p21: 'Main Interface', p22: 'Session Review', p22b: 'Visual Documentation', p23: 'Web Viewer', p24: 'Live Mindmap',
-      stories_title: 'Success Stories',
-      s26: '#26 One Viewer to Rule Them All', s25: '#25 Live Mindmap Memory',
-      s24: '#24 The Toggle', s23: '#23 Knowledge v2.0 Platform',
-      s22: '#22 Visual Documentation Engine', s21: '#21 Task Workflow State Machine',
-      s19: '#19 Board-Driven Protocol', s17: '#17 Satellite Bootstrap',
-      s16: '#16 Cross-Session Recall'
-    },
-    fr: {
-      interfaces: 'Interfaces',
-      i1: 'I1 Revue de session', i2: 'I2 Navigateur principal', i3: 'I3 Flux de travail',
-      i4: 'I4 Visualiseur projets', i5: 'I5 Mindmap vivant', i_doc: '#21 Documentation',
-      essentials: 'Essentiels',
-      stories: 'HISTOIRES', readme: 'README', plan: 'PLAN', links: 'LIENS', news: 'NOUVELLES', changelog: 'CHANGELOG',
-      commands: 'Commandes',
-      g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
-      g_publications: 'Publications', g_project: 'Projet', g_live_session: 'Session live', g_live_network: 'Réseau live',
-      hubs: 'Hubs', landing: 'Accueil', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projets',
-      profile: 'Profil', hub: 'Hub', resume: 'Résumé', full: 'Complet',
-      summary: 'Résumé',
-      p0: 'Système de connaissances', p1: 'Knowledge 2.0', p2: 'Session live', p3: 'Persistance IA',
-      p4: 'Esprits distribués', p4a: 'Tableau de bord', p5: 'Webcards', p6: 'Normalize',
-      p7: 'Harvest', p8: 'Gestion de session', p9: 'Sécurité', p9a: '#9a Conformité',
-      p10: 'Réseau live', p11: 'Histoires de succès', p12: 'Gestion de projet', p13: 'Pagination',
-      p14: 'Architecture', p15: 'Diagrammes', p16: 'Visualisation', p17: 'Pipeline',
-      p18: 'Génération doc', p19: 'Interactif', p20: 'Métriques de session',
-      p21: 'Interface principale', p22: 'Revue de session', p22b: 'Documentation visuelle', p23: 'Visualiseur Web', p24: 'Mindmap vivant',
-      stories_title: 'Histoires de succès',
-      s26: '#26 Un seul visualiseur pour tous', s25: '#25 Mémoire mindmap vivante',
-      s24: '#24 Le Toggle', s23: '#23 Plateforme Knowledge v2.0',
-      s22: '#22 Moteur de documentation visuelle', s21: '#21 Machine à états',
-      s19: '#19 Protocole par tableau', s17: '#17 Bootstrap satellite',
-      s16: '#16 Rappel inter-session'
-    }
-  };
-  var t = T[LANG];
+  /* All translations are now in docs/data/<section>.json — no hardcoded T block needed */
 
   var BASE = '{{ "" | relative_url }}';
   var CENTER_KEY  = 'navigator-center-url';
@@ -326,7 +365,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   /* Set default iframe sources based on language */
   var centerIframe = document.getElementById('center-frame-el');
   var rightIframe  = document.getElementById('right-frame-el');
-  centerIframe.src = BASE + LP + '/interfaces/task-workflow/';
+  /* Center default resolved dynamically from interfaces.json first-priority item */
+  var defaultCenterResolved = false;
   rightIframe.src  = BASE + LP + '/';
 
   var panel  = document.getElementById('left-panel');
@@ -417,84 +457,21 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   });
 
   /* ─── Widget definitions — bilingual, driven by LANG ─── */
-  var widgets = [
-    { id:'interfaces', title: t.interfaces, open:true, links:[
-      {t: t.i1,  h:BASE+LP+'/interfaces/session-review/', center:true},
-      {t: t.i2,  h:BASE+LP+'/interfaces/main-navigator/', top:true},
-      {t: t.i3,  h:BASE+LP+'/interfaces/task-workflow/', center:true},
-      {t: t.i4,  h:BASE+LP+'/interfaces/project-viewer/', center:true},
-      {t: t.i5,  h:BASE+LP+'/interfaces/live-mindmap/', center:true},
-      {t: t.i_doc, h:BASE+LP+'/publications/main-interface/'}
-    ]},
-    { id:'essentials', title: t.essentials, open:false, links:[
-      {t: t.stories,   h:BASE+LP+'/publications/success-stories/'},
-      {t: t.readme,    h:BASE+LP+'/'},
-      {t: t.plan,      h:BASE+LP+'/plan/'},
-      {t: t.links,     h:BASE+LP+'/links/'},
-      {t: t.news,      h:BASE+LP+'/news/'},
-      {t: t.changelog, h:BASE+LP+'/changelog/'}
-    ]},
-    { id:'commands', title: t.commands, open:false, groups:[
-      { g: t.g_session,      pub:LP+'/publications/session-management/full/#pub-title', cmds:['wakeup','refresh','help / aide','status','save','remember','resume','recover','recall','checkpoint','elevate'] },
-      { g: t.g_normalize,    pub:LP+'/publications/normalize-structure-concordance/full/#pub-title', cmds:['normalize','normalize --fix','normalize --check'] },
-      { g: t.g_harvest,      pub:LP+'/publications/harvest-protocol/full/#pub-title', cmds:['harvest','harvest --list','harvest --procedure','harvest --healthcheck','harvest --review','harvest --stage','harvest --promote','harvest --auto','harvest --fix'] },
-      { g: t.g_publications, pub:LP+'/publications/webcards-social-sharing/full/#pub-title', cmds:['pub list','pub check','pub new','pub sync','doc review','docs check','webcard','weblinks','pub export'] },
-      { g: t.g_project,      pub:LP+'/publications/knowledge-system/full/#pub-title', cmds:['project list','project info','project create','project register','project review','#N: note','g:board:item'] },
-      { g: t.g_live_session, pub:LP+'/publications/live-session-analysis/full/#pub-title', cmds:["I'm live",'multi-live','deep','analyze','recipe'] },
-      { g: t.g_live_network, pub:LP+'/publications/live-knowledge-network/full/#pub-title', cmds:['beacon'] }
-    ]},
-    { id:'hubs', title: t.hubs, open:false, links:[
-      {t: t.landing,        h:BASE+LP+'/'},
-      {t: t.publications,   h:BASE+LP+'/publications/'},
-      {t: t.interfaces_hub, h:BASE+LP+'/interfaces/'},
-      {t: t.projects,       h:BASE+LP+'/projects/'}
-    ]},
-    { id:'profile', title: t.profile, open:false, links:[
-      {t: t.hub,    h:BASE+LP+'/profile/'},
-      {t: t.resume, h:BASE+LP+'/profile/resume/'},
-      {t: t.full,   h:BASE+LP+'/profile/full/'}
-    ]},
-    { id:'publications', title: t.publications, open:false, pubs:[
-      {n:'#24', t: t.p24,  s:'live-mindmap'},
-      {n:'#23', t: t.p23,  s:'web-documentation-viewer'},
-      {n:'#22', t: t.p22b, s:'visual-documentation'},
-      {n:'#22', t: t.p22,  s:'session-review'},
-      {n:'#21', t: t.p21,  s:'main-interface'},
-      {n:'#20', t: t.p20,  s:'session-metrics-time'},
-      {n:'#19', t: t.p19,  s:'interactive-work-sessions'},
-      {n:'#18', t: t.p18,  s:'documentation-generation'},
-      {n:'#17', t: t.p17,  s:'web-production-pipeline'},
-      {n:'#16', t: t.p16,  s:'web-page-visualization'},
-      {n:'#15', t: t.p15,  s:'architecture-diagrams'},
-      {n:'#14', t: t.p14,  s:'architecture-analysis'},
-      {n:'#13', t: t.p13,  s:'web-pagination-export'},
-      {n:'#12', t: t.p12,  s:'project-management'},
-      {n:'#11', t: t.p11,  s:'success-stories'},
-      {n:'#10', t: t.p10,  s:'live-knowledge-network'},
-      {n:'#9',  t: t.p9,   s:'security-by-design',
-        extra:[{t: t.p9a, p:LP+'/publications/security-by-design/compliance/'}]},
-      {n:'#8',  t: t.p8,   s:'session-management'},
-      {n:'#7',  t: t.p7,   s:'harvest-protocol'},
-      {n:'#6',  t: t.p6,   s:'normalize-structure-concordance'},
-      {n:'#5',  t: t.p5,   s:'webcards-social-sharing'},
-      {n:'#4a', t: t.p4a,  s:'distributed-knowledge-dashboard'},
-      {n:'#4',  t: t.p4,   s:'distributed-minds'},
-      {n:'#3',  t: t.p3,   s:'ai-session-persistence'},
-      {n:'#2',  t: t.p2,   s:'live-session-analysis'},
-      {n:'#1',  t: t.p1,   s:'knowledge-2.0'},
-      {n:'#0',  t: t.p0,   s:'knowledge-system'}
-    ]},
-    { id:'stories', title: t.stories_title, open:false, links:[
-      {t: t.s26, h:BASE+LP+'/publications/success-stories/story-26/'},
-      {t: t.s25, h:BASE+LP+'/publications/success-stories/story-25/'},
-      {t: t.s24, h:BASE+LP+'/publications/success-stories/story-24/'},
-      {t: t.s23, h:BASE+LP+'/publications/success-stories/story-23/'},
-      {t: t.s22, h:BASE+LP+'/publications/success-stories/story-22/'},
-      {t: t.s21, h:BASE+LP+'/publications/success-stories/story-21/'},
-      {t: t.s19, h:BASE+LP+'/publications/success-stories/story-19/'},
-      {t: t.s17, h:BASE+LP+'/publications/success-stories/story-17/'},
-      {t: t.s16, h:BASE+LP+'/publications/success-stories/story-16/'}
-    ]}
+  /* Section registry — fetched from Knowledge/sections.json (priority descending: higher = first).
+     Fallback to hardcoded list if fetch fails.
+     See Knowledge/K_DOCS/conventions/web/json-driven-panels.md */
+  var SECTIONS_URL = 'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/sections.json';
+  var FALLBACK_WIDGETS = [
+    { id:'interfaces',json:'data/interfaces.json',priority:1 },
+    { id:'documentation',json:'data/documentation.json',priority:2 },
+    { id:'essentials',json:'data/essentials.json',priority:3 },
+    { id:'commands',json:'data/commands.json',priority:4 },
+    { id:'methodologies',json:'data/methodologies.json',priority:5 },
+    { id:'hubs',json:'data/hubs.json',priority:6 },
+    { id:'profile',json:'data/profile.json',priority:7 },
+    { id:'publications',json:'data/publications.json',priority:8 },
+    { id:'stories',json:'data/stories.json',priority:9 },
+    { id:'configurations',json:'data/configurations.json',priority:10 }
   ];
 
   /* ─── Restore + build widgets ─── */
@@ -517,64 +494,197 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   var subDetIndex = 0;
   var navLinkId = 0;
 
-  widgets.forEach(function(w) {
+  /* JSON-driven panel sections — see Knowledge/K_DOCS/conventions/web/json-driven-panels.md
+     All widgets are fetched from docs/data/<section>.json at runtime. */
+  var vru = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
+
+  function label(item) { return (LANG === 'fr' && item.title_fr) ? item.title_fr : item.title; }
+
+  function makeSubDet(summaryText) {
+    var idx = subDetIndex++;
+    var pg = document.createElement('details'); pg.className = 'pub-group';
+    if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
+    pg.addEventListener('toggle', saveSubDetState);
+    var pgsm = document.createElement('summary'); pgsm.textContent = summaryText; pg.appendChild(pgsm);
+    return pg;
+  }
+
+  function makeLink(text, href, target) {
+    var a = document.createElement('a');
+    a.href = href; a.dataset.navId = 'nav-' + (navLinkId++);
+    a.target = target || 'content-frame'; a.textContent = text;
+    return a;
+  }
+
+  function buildWidgets(widgets) {
+    /* Sort by priority ascending (lower = first) */
+    widgets.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+    widgets.forEach(function(w) {
     var det = document.createElement('details');
     det.className = 'nav-widget'; det.dataset.wid = w.id;
-    det.open = (savedState[w.id] !== undefined) ? savedState[w.id] : w.open;
+    det.open = (savedState[w.id] !== undefined) ? savedState[w.id] : false;
     det.addEventListener('toggle', saveWidgetState);
-    var sm = document.createElement('summary'); sm.textContent = w.title; det.appendChild(sm);
+    var sm = document.createElement('summary'); sm.textContent = w.id; det.appendChild(sm);
     var body = document.createElement('div'); body.className = 'widget-body';
-
-    // Rewrite link href if viewerRewriteUrl is available (running inside viewer srcdoc)
-    var vru = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
-
-    if (w.links) {
-      w.links.forEach(function(lk) {
-        var a = document.createElement('a'); a.href = lk.top ? vru(lk.h, false) : vru(lk.h);
-        a.dataset.navId = 'nav-' + (navLinkId++);
-        a.target = lk.top ? '_top' : (lk.center ? 'center-frame' : 'content-frame'); a.textContent = lk.t;
-        body.appendChild(a);
-      });
-    }
-    if (w.groups) {
-      w.groups.forEach(function(cg) {
-        var idx = subDetIndex++;
-        var pg = document.createElement('details'); pg.className = 'pub-group';
-        if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
-        pg.addEventListener('toggle', saveSubDetState);
-        var pgsm = document.createElement('summary'); pgsm.textContent = cg.g; pg.appendChild(pgsm);
-        cg.cmds.forEach(function(cmd) {
-          var a = document.createElement('a'); a.href = vru(BASE + cg.pub); a.target = 'content-frame';
-          a.dataset.navId = 'nav-' + (navLinkId++);
-          var sp = document.createElement('span'); sp.className = 'cmd-link'; sp.textContent = cmd;
-          a.appendChild(sp); pg.appendChild(a);
-        });
-        body.appendChild(pg);
-      });
-    }
-    if (w.pubs) {
-      w.pubs.forEach(function(p) {
-        var idx = subDetIndex++;
-        var pg = document.createElement('details'); pg.className = 'pub-group';
-        if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
-        pg.addEventListener('toggle', saveSubDetState);
-        var pgsm = document.createElement('summary'); pgsm.textContent = p.n + ' ' + p.t; pg.appendChild(pgsm);
-        var a1 = document.createElement('a'); a1.href = vru(BASE+LP+'/publications/'+p.s+'/');
-        a1.dataset.navId = 'nav-' + (navLinkId++);
-        a1.target = 'content-frame'; a1.textContent = t.summary; pg.appendChild(a1);
-        var a2 = document.createElement('a'); a2.href = vru(BASE+LP+'/publications/'+p.s+'/full/');
-        a2.dataset.navId = 'nav-' + (navLinkId++);
-        a2.target = 'content-frame'; a2.textContent = t.full; pg.appendChild(a2);
-        if (p.extra) { p.extra.forEach(function(e) {
-          var ax = document.createElement('a'); ax.href = vru(BASE+e.p);
-          ax.dataset.navId = 'nav-' + (navLinkId++);
-          ax.target = 'content-frame'; ax.textContent = e.t; pg.appendChild(ax);
-        }); }
-        body.appendChild(pg);
-      });
-    }
     det.appendChild(body); panel.appendChild(det);
-  });
+
+    fetch(vru(BASE + '/' + w.json))
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        /* Section-level metadata */
+        sm.textContent = (LANG === 'fr' && data.title_fr) ? data.title_fr : data.title;
+        if (data.open && savedState[w.id] === undefined) det.open = true;
+
+        var items = (data.items || []).slice().sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+        var section = data.section;
+
+        /* ── Helper: viewer URL for a publication slug ── */
+        function pubUrl(slug, full) {
+          var lp = LP ? LP.substr(1) + '/' : '';
+          var path = lp + 'publications/' + slug + '/' + (full ? 'full/' : '') + 'index.md';
+          return vru(BASE + '/index.html?doc=' + encodeURIComponent(path) + '&embed');
+        }
+
+        /* ── Interfaces: links with target routing + ℹ guide button ── */
+        if (section === 'interfaces') {
+          /* Resolve default center from first center-target interface */
+          if (!defaultCenterResolved && !localStorage.getItem(CENTER_KEY)) {
+            var firstCenter = items.find(function(i) { return i.target === 'center'; });
+            if (firstCenter && centerIframe) {
+              centerIframe.src = vru(BASE + LP + firstCenter.href);
+              defaultCenterResolved = true;
+            }
+          }
+          items.forEach(function(item) {
+            var target = item.target === 'top' ? '_top' : (item.target === 'center' ? 'center-frame' : 'content-frame');
+            var href = item.target === 'top' ? vru(BASE + LP + item.href, false) : vru(BASE + LP + item.href);
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(label(item), href, target));
+            if (item.pub) {
+              var ib = document.createElement('a'); ib.className = 'iface-pub-btn';
+              ib.textContent = 'ℹ'; ib.title = LANG === 'fr' ? 'Guide utilisateur' : 'User Guide';
+              ib.href = pubUrl(item.pub, true);
+              ib.target = 'content-frame'; row.appendChild(ib);
+            }
+            body.appendChild(row);
+          });
+        }
+
+        /* ── Documentation: iface-row with S/F icons ── */
+        else if (section === 'documentation') {
+          var allItems = [];
+          (data.groups || []).forEach(function(g) { if (g.items) allItems = allItems.concat(g.items); });
+          if (data.items) allItems = allItems.concat(data.items);
+          allItems.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+          allItems.forEach(function(item) {
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(label(item), pubUrl(item.slug, false), 'content-frame'));
+            if (item.slug) {
+              var sBtn = document.createElement('a'); sBtn.className = 'iface-pub-btn';
+              sBtn.textContent = 'S'; sBtn.title = LANG === 'fr' ? 'Résumé' : 'Summary';
+              sBtn.href = pubUrl(item.slug, false);
+              sBtn.target = 'content-frame'; row.appendChild(sBtn);
+            }
+            if (item.has_full) {
+              var fBtn = document.createElement('a'); fBtn.className = 'iface-pub-btn';
+              fBtn.textContent = 'F'; fBtn.title = LANG === 'fr' ? 'Complet' : 'Full';
+              fBtn.href = pubUrl(item.slug, true);
+              fBtn.target = 'content-frame'; row.appendChild(fBtn);
+            }
+            body.appendChild(row);
+          });
+        }
+
+        /* ── Simple link lists: essentials, hubs, profile, stories ── */
+        else if (section === 'essentials' || section === 'hubs' || section === 'profile' || section === 'stories') {
+          items.forEach(function(item) {
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(label(item), vru(BASE + LP + item.href), 'content-frame'));
+            body.appendChild(row);
+          });
+        }
+
+        /* ── Commands: collapsible groups with iface-row items ── */
+        else if (section === 'commands') {
+          items.forEach(function(cg) {
+            var gLabel = (LANG === 'fr' && cg.group_fr) ? cg.group_fr : cg.group;
+            var pg = makeSubDet(gLabel);
+            cg.cmds.forEach(function(cmd) {
+              var row = document.createElement('div'); row.className = 'iface-row';
+              row.appendChild(makeLink(cmd, vru(BASE + LP + cg.pub), 'content-frame'));
+              pg.appendChild(row);
+            });
+            body.appendChild(pg);
+          });
+        }
+
+        /* ── Publications: iface-row with S/F icons ── */
+        else if (section === 'publications') {
+          items.forEach(function(p) {
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(p.number + ' ' + label(p), pubUrl(p.slug, false), 'content-frame'));
+            if (p.slug) {
+              var sBtn = document.createElement('a'); sBtn.className = 'iface-pub-btn';
+              sBtn.textContent = 'S'; sBtn.title = LANG === 'fr' ? 'Résumé' : 'Summary';
+              sBtn.href = pubUrl(p.slug, false);
+              sBtn.target = 'content-frame'; row.appendChild(sBtn);
+            }
+            if (p.slug) {
+              var fBtn = document.createElement('a'); fBtn.className = 'iface-pub-btn';
+              fBtn.textContent = 'F'; fBtn.title = LANG === 'fr' ? 'Complet' : 'Full';
+              fBtn.href = pubUrl(p.slug, true);
+              fBtn.target = 'content-frame'; row.appendChild(fBtn);
+            }
+            if (p.extra) { p.extra.forEach(function(e) {
+              var eLabel = (LANG === 'fr' && e.title_fr) ? e.title_fr : e.title;
+              var eBtn = document.createElement('a'); eBtn.className = 'iface-pub-btn';
+              eBtn.textContent = eLabel.charAt(0); eBtn.title = eLabel;
+              eBtn.href = vru(BASE + LP + e.href);
+              eBtn.target = 'content-frame'; row.appendChild(eBtn);
+            }); }
+            body.appendChild(row);
+          });
+        }
+
+        /* ── Module-grouped sections (methodologies, configurations): collapsible groups with iface-row items ── */
+        else if (section === 'methodologies' || section === 'configurations' || (items[0] && items[0].module)) {
+          var groups = {};
+          items.forEach(function(item) {
+            var mod = item.module || 'General';
+            if (!groups[mod]) groups[mod] = [];
+            groups[mod].push(item);
+          });
+          Object.keys(groups).forEach(function(mod) {
+            var pg = makeSubDet(mod);
+            groups[mod].sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+            groups[mod].forEach(function(item) {
+              var row = document.createElement('div'); row.className = 'iface-row';
+              row.appendChild(makeLink(label(item), vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed'), 'content-frame'));
+              pg.appendChild(row);
+            });
+            body.appendChild(pg);
+          });
+        }
+
+        /* ── Fallback: flat rows ── */
+        else {
+          items.forEach(function(item) {
+            var href = item.href ? vru(BASE + LP + item.href) : (item.path ? vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed') : '#');
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(label(item), href, 'content-frame'));
+            body.appendChild(row);
+          });
+        }
+      })
+      .catch(function(e) { console.warn('Failed to load ' + w.json, e); });
+    });
+  }
+
+  /* Fetch sections.json then build, fallback to hardcoded */
+  fetch(SECTIONS_URL)
+    .then(function(r) { return r.json(); })
+    .then(function(data) { buildWidgets(data.sections || []); })
+    .catch(function() { buildWidgets(FALLBACK_WIDGETS); });
 
   /* ─── Language-neutral URL helpers ─── */
   function stripLang(url) {
@@ -596,15 +706,139 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     return url.replace(BASE + '/', BASE + '/fr/');
   }
 
+  /* ─── Tab bar manager ─── */
+  var TAB_KEY = 'navigator-tabs';
+  var TAB_MAX = 12;
+  var tabBar = document.getElementById('tab-bar');
+  var tabs = [];
+  var activeTabId = null;
+  var tabCounter = 0;
+  var tabNavigating = false; /* flag to suppress iframe-load tab creation during programmatic nav */
+
+  function normUrl(u) {
+    try { var p = new URL(u, location.origin); return p.origin + p.pathname.replace(/\/+$/, ''); }
+    catch(e) { return u.split('#')[0].replace(/\/+$/, ''); }
+  }
+
+  function renderTabs() {
+    if (!tabBar) return;
+    tabBar.innerHTML = '';
+    tabs.forEach(function(t) {
+      var el = document.createElement('span');
+      el.className = 'tab-item' + (t.id === activeTabId ? ' tab-active' : '');
+      el.dataset.tabId = t.id;
+      var lbl = document.createElement('span');
+      lbl.className = 'tab-label'; lbl.textContent = t.title || 'Document';
+      lbl.title = t.title || '';
+      el.appendChild(lbl);
+      var cls = document.createElement('span');
+      cls.className = 'tab-close'; cls.textContent = '×'; cls.dataset.tabId = t.id;
+      el.appendChild(cls);
+      tabBar.appendChild(el);
+    });
+  }
+
+  function saveTabState() {
+    try {
+      localStorage.setItem(TAB_KEY, JSON.stringify({ tabs: tabs, activeTabId: activeTabId, counter: tabCounter }));
+    } catch(e) {}
+  }
+
+  function activateTab(id) {
+    var t = tabs.find(function(x) { return x.id === id; });
+    if (!t) return;
+    activeTabId = id;
+    tabNavigating = true;
+    if (rightIframe) rightIframe.src = applyLang(t.url);
+    localStorage.setItem(RCONTENT_KEY, stripLang(t.url));
+    /* Auto-extend right panel if collapsed */
+    if (rightW < 100) { rightW = Math.round(grid.offsetWidth * 0.5); applyGrid(true); }
+    renderTabs();
+    saveTabState();
+  }
+
+  function addTab(url, title) {
+    var norm = normUrl(url);
+    var existing = tabs.find(function(t) { return normUrl(t.url) === norm; });
+    if (existing) {
+      if (title && title !== 'Document') existing.title = title;
+      activateTab(existing.id);
+      return;
+    }
+    /* Soft cap — close oldest non-active */
+    if (tabs.length >= TAB_MAX) {
+      var oldest = tabs.find(function(t) { return t.id !== activeTabId; });
+      if (oldest) tabs = tabs.filter(function(t) { return t.id !== oldest.id; });
+    }
+    var id = 'tab-' + (++tabCounter);
+    tabs.push({ id: id, title: title || 'Document', url: stripLang(url) });
+    activateTab(id);
+  }
+
+  function closeTab(id) {
+    var idx = tabs.findIndex(function(t) { return t.id === id; });
+    if (idx < 0) return;
+    tabs.splice(idx, 1);
+    if (activeTabId === id) {
+      if (tabs.length > 0) {
+        var next = tabs[Math.min(idx, tabs.length - 1)];
+        activateTab(next.id);
+      } else {
+        activeTabId = null;
+        renderTabs();
+        saveTabState();
+      }
+    } else {
+      renderTabs();
+      saveTabState();
+    }
+  }
+
+  /* Tab bar click delegation */
+  if (tabBar) {
+    tabBar.addEventListener('click', function(e) {
+      var cls = e.target.closest('.tab-close');
+      if (cls) { closeTab(cls.dataset.tabId); return; }
+      var item = e.target.closest('.tab-item');
+      if (item) activateTab(item.dataset.tabId);
+    });
+  }
+
   /* ─── Restore last viewed pages ─── */
   var vruFn = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
   var savedCenter = localStorage.getItem(CENTER_KEY);
-  var defaultCenter = vruFn(BASE + LP + '/interfaces/task-workflow/');
-  if (centerIframe) { centerIframe.src = savedCenter ? applyLang(savedCenter) : defaultCenter; }
-  var savedRight = localStorage.getItem(RCONTENT_KEY);
-  if (savedRight) { savedRight = stripLang(savedRight); localStorage.setItem(RCONTENT_KEY, savedRight); }
-  var defaultRight = vruFn(BASE + LP + '/');
-  if (rightIframe) { rightIframe.src = savedRight ? applyLang(savedRight) : defaultRight; }
+  /* If saved center exists, restore it; otherwise let buildWidgets resolve from interfaces.json first-priority */
+  if (savedCenter && centerIframe) {
+    centerIframe.src = applyLang(savedCenter);
+    defaultCenterResolved = true;
+  }
+
+  /* Restore tabs or fall back to single URL */
+  try {
+    var tabData = JSON.parse(localStorage.getItem(TAB_KEY) || 'null');
+    if (tabData && tabData.tabs && tabData.tabs.length > 0) {
+      tabs = tabData.tabs;
+      tabCounter = tabData.counter || tabs.length;
+      activeTabId = tabData.activeTabId;
+      var activeTab = tabs.find(function(t) { return t.id === activeTabId; });
+      if (activeTab && rightIframe) {
+        tabNavigating = true;
+        rightIframe.src = applyLang(activeTab.url);
+        localStorage.setItem(RCONTENT_KEY, stripLang(activeTab.url));
+      }
+      renderTabs();
+    } else {
+      /* No tabs saved — load default and create first tab on iframe load */
+      var savedRight = localStorage.getItem(RCONTENT_KEY);
+      if (savedRight) { savedRight = stripLang(savedRight); localStorage.setItem(RCONTENT_KEY, savedRight); }
+      var defaultRight = vruFn(BASE + LP + '/');
+      if (rightIframe) { rightIframe.src = savedRight ? applyLang(savedRight) : defaultRight; }
+    }
+  } catch(e) {
+    var savedRight2 = localStorage.getItem(RCONTENT_KEY);
+    var defaultRight2 = vruFn(BASE + LP + '/');
+    if (rightIframe) { rightIframe.src = savedRight2 ? applyLang(savedRight2) : defaultRight2; }
+  }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
@@ -613,7 +847,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     if (found) found.classList.add('active');
   }
 
-  /* ─── Active link highlight + save URLs ─── */
+  /* ─── Active link highlight + save URLs + tab creation ─── */
   panel.addEventListener('click', function(e) {
     var a = e.target.closest('a[target="content-frame"]') || e.target.closest('a[target="center-frame"]');
     if (!a) return;
@@ -622,10 +856,18 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     localStorage.setItem(ACTIVE_KEY, a.dataset.navId || a.href);
     /* Save center URL if targeting center (language-neutral) */
     if (a.target === 'center-frame') { localStorage.setItem(CENTER_KEY, stripLang(a.href)); }
-    /* Save right URL + extend panel if collapsed (language-neutral) */
+    /* Content-frame: create tab + extend panel */
     if (a.target === 'content-frame') {
-      localStorage.setItem(RCONTENT_KEY, stripLang(a.href));
-      if (rightW < 100) { rightW = Math.round(grid.offsetWidth * 0.5); applyGrid(true); }
+      e.preventDefault();
+      var tabTitle = a.textContent.trim() || 'Document';
+      addTab(a.href, tabTitle);
+    }
+  });
+
+  /* ─── postMessage from center-frame interfaces (ℹ button) ─── */
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'open-pub') {
+      addTab(e.data.url, e.data.title || 'Guide');
     }
   });
 
@@ -658,7 +900,22 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     rightIframe.addEventListener('load', function() {
       try {
         var loc = rightIframe.contentWindow.location.href;
-        if (loc && loc !== 'about:blank') localStorage.setItem(RCONTENT_KEY, stripLang(loc));
+        if (loc && loc !== 'about:blank') {
+          localStorage.setItem(RCONTENT_KEY, stripLang(loc));
+          var title = 'Document';
+          try { title = rightIframe.contentDocument.title || title; } catch(e2) {}
+          /* If navigating programmatically (tab click), just update title */
+          if (tabNavigating) {
+            tabNavigating = false;
+            if (activeTabId) {
+              var at = tabs.find(function(t) { return t.id === activeTabId; });
+              if (at && title !== 'Document') { at.title = title; at.url = stripLang(loc); renderTabs(); saveTabState(); }
+            }
+          } else {
+            /* In-iframe navigation — create or update tab */
+            addTab(loc, title);
+          }
+        }
       } catch(e) {}
       syncThemeToIframes();
     });
