@@ -76,23 +76,29 @@ def main():
         print("No methodology files found.", file=sys.stderr)
         sys.exit(1)
 
-    # Merge with existing data (preserve manual edits to priority and title_fr)
+    # Merge with existing data (preserve manual edits + respect removed items)
+    removed = []
     if OUTPUT_FILE.exists():
         try:
             existing = json.loads(OUTPUT_FILE.read_text(encoding="utf-8"))
             edit_map = {e["path"]: e for e in existing.get("items", [])}
+            removed = existing.get("removed", [])
+            removed_paths = {r["path"] for r in removed}
             for item in items:
                 if item["path"] in edit_map:
                     prev = edit_map[item["path"]]
                     item["priority"] = prev.get("priority", item["priority"])
                     if prev.get("title_fr"):
                         item["title_fr"] = prev["title_fr"]
+            # Filter out items that were manually moved to removed
+            items = [i for i in items if i["path"] not in removed_paths]
         except Exception:
             pass
 
     data = {
         "generated_by": "Knowledge/K_DOCS/scripts/build_methodologies.py",
         "items": items,
+        "removed": removed,
     }
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
