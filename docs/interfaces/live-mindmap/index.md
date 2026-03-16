@@ -497,8 +497,10 @@ body > .container {
           allowUndo: false
         });
 
-        // Collapse nodes beyond depth 2 initially (user can expand any branch)
-        // depth_config.json is for Claude Desktop mermaid rendering only — not used here
+        mind.init(data);
+        window.mindInstance = mind;
+
+        // Collapse nodes beyond depth 2 AFTER init (MindElixir ignores expanded in pre-init data)
         (function collapseInitial(node, depth) {
           if (!node.children || !node.children.length) return;
           node.children.forEach(function(child) {
@@ -507,10 +509,8 @@ body > .container {
               collapseInitial(child, depth + 1);
             }
           });
-        })(data.nodeData, 0);
-
-        mind.init(data);
-        window.mindInstance = mind;
+        })(mind.nodeData, 0);
+        mind.refresh();
         document.documentElement.setAttribute('data-theme', themeKey);
 
         // Fix Ctrl+click expand all: reset descendant state before MindElixir handles it
