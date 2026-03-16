@@ -54,9 +54,9 @@ TYPE_NAMES = {
 def scan_configs():
     """Scan all K_* modules for configuration files."""
     items = []
-    priority = 0
 
     # System-level configs (Knowledge/sections.json, Knowledge/modules.json)
+    sys_priority = 0
     sections_json = KNOWLEDGE_DIR / "sections.json"
     if sections_json.exists():
         rel_path = str(sections_json.relative_to(REPO_ROOT)).replace("\\", "/")
@@ -66,8 +66,9 @@ def scan_configs():
             "file": "sections.json",
             "module": "SYSTEM",
             "path": f"{RAW_BASE}/{rel_path}",
-            "priority": 0,
+            "priority": sys_priority,
         })
+        sys_priority += 1
     modules_json = KNOWLEDGE_DIR / "modules.json"
     if modules_json.exists():
         rel_path = str(modules_json.relative_to(REPO_ROOT)).replace("\\", "/")
@@ -77,8 +78,9 @@ def scan_configs():
             "file": "modules.json",
             "module": "SYSTEM",
             "path": f"{RAW_BASE}/{rel_path}",
-            "priority": 1,
+            "priority": sys_priority,
         })
+        sys_priority += 1
     for mod_dir in sorted(KNOWLEDGE_DIR.glob("K_*")):
         mod_name = mod_dir.name
         mod_priority = 0
