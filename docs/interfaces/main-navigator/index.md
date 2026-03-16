@@ -562,7 +562,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
               var ib = document.createElement('a'); ib.className = 'iface-pub-btn';
               ib.textContent = 'ℹ'; ib.title = LANG === 'fr' ? 'Guide utilisateur' : 'User Guide';
               ib.href = pubUrl(item.pub, true);
-              ib.setAttribute('data-target', 'content-frame'); row.appendChild(ib);
+              ib.target = 'content-frame'; row.appendChild(ib);
             }
             body.appendChild(row);
           });
@@ -581,13 +581,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
               var sBtn = document.createElement('a'); sBtn.className = 'iface-pub-btn';
               sBtn.textContent = 'S'; sBtn.title = LANG === 'fr' ? 'Résumé' : 'Summary';
               sBtn.href = pubUrl(item.slug, false);
-              sBtn.setAttribute('data-target', 'content-frame'); row.appendChild(sBtn);
+              sBtn.target = 'content-frame'; row.appendChild(sBtn);
             }
             if (item.has_full) {
               var fBtn = document.createElement('a'); fBtn.className = 'iface-pub-btn';
               fBtn.textContent = 'F'; fBtn.title = LANG === 'fr' ? 'Complet' : 'Full';
               fBtn.href = pubUrl(item.slug, true);
-              fBtn.setAttribute('data-target', 'content-frame'); row.appendChild(fBtn);
+              fBtn.target = 'content-frame'; row.appendChild(fBtn);
             }
             body.appendChild(row);
           });
@@ -625,20 +625,20 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
               var sBtn = document.createElement('a'); sBtn.className = 'iface-pub-btn';
               sBtn.textContent = 'S'; sBtn.title = LANG === 'fr' ? 'Résumé' : 'Summary';
               sBtn.href = pubUrl(p.slug, false);
-              sBtn.setAttribute('data-target', 'content-frame'); row.appendChild(sBtn);
+              sBtn.target = 'content-frame'; row.appendChild(sBtn);
             }
             if (p.slug) {
               var fBtn = document.createElement('a'); fBtn.className = 'iface-pub-btn';
               fBtn.textContent = 'F'; fBtn.title = LANG === 'fr' ? 'Complet' : 'Full';
               fBtn.href = pubUrl(p.slug, true);
-              fBtn.setAttribute('data-target', 'content-frame'); row.appendChild(fBtn);
+              fBtn.target = 'content-frame'; row.appendChild(fBtn);
             }
             if (p.extra) { p.extra.forEach(function(e) {
               var eLabel = (LANG === 'fr' && e.title_fr) ? e.title_fr : e.title;
               var eBtn = document.createElement('a'); eBtn.className = 'iface-pub-btn';
               eBtn.textContent = eLabel.charAt(0); eBtn.title = eLabel;
               eBtn.href = vru(BASE + LP + e.href);
-              eBtn.setAttribute('data-target', 'content-frame'); row.appendChild(eBtn);
+              eBtn.target = 'content-frame'; row.appendChild(eBtn);
             }); }
             body.appendChild(row);
           });
