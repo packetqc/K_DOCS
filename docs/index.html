@@ -265,14 +265,11 @@
       width: calc(100% - 1rem); border: none; background: var(--bg);
       flex: 1; min-height: 0; margin: 0.25rem 0.5rem;
     }
-    /* When in interface mode, body becomes flex column, content fills remaining space */
-    body.interface-mode {
-      display: flex; flex-direction: column; height: 100vh; overflow: hidden;
-    }
-    body.interface-mode .container { flex: 1; min-height: 0; padding-bottom: 0; }
+    /* When in interface mode, content fills remaining viewport as flex column */
+    body.interface-mode { overflow: hidden; }
     #content[data-interface-mode="1"] {
       display: flex !important; flex-direction: column !important;
-      flex: 1 !important; min-height: 0 !important; overflow: hidden !important;
+      height: calc(100vh - 5.5rem) !important; overflow: hidden !important;
     }
 
     /* ===== Toolbar (shared) ===== */
@@ -1965,6 +1962,17 @@
 
       // Init chrome toggle
       initChromeToggle('ifaceChrome', 'kdocs-ifaceChrome');
+
+      // Measure actual toolbar heights and set precise content height (eliminates bottom gap)
+      setTimeout(function() {
+        var topBar = document.querySelector('.toolbar-top');
+        var botBar = document.querySelector('.toolbar-bottom');
+        var topH = topBar ? topBar.offsetHeight : 0;
+        var botH = botBar ? botBar.offsetHeight : 0;
+        if (topH || botH) {
+          container.style.height = 'calc(100vh - ' + (topH + botH) + 'px)';
+        }
+      }, 0);
 
       window.scrollTo(0, 0);
     }
