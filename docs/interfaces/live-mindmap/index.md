@@ -598,7 +598,7 @@ body > .container {
     var ts = document.getElementById('mindmap-theme');
     if (ts) { var to = ts.querySelectorAll('option'); var tm = { auto: il.themeAuto, 'daltonism-light': il.dalLight, 'daltonism-dark': il.dalDark }; for (var i = 0; i < to.length; i++) { if (tm[to[i].value]) to[i].textContent = tm[to[i].value]; } }
     var btns = document.querySelectorAll('.mindmap-controls button');
-    var bl = [il.reload, null, il.center, il.fit, null, il.fullscreen];
+    var bl = [il.reload, il.center, il.fit, il.fullscreen];
     var bi = 0;
     btns.forEach(function(b) { if (!b.classList.contains('help-btn') && !b.classList.contains('sep')) { if (bl[bi]) b.textContent = bl[bi]; bi++; } });
     var st = document.getElementById('mindmap-status'); if (st) st.textContent = il.loading;
