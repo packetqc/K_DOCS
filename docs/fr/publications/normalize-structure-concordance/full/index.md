@@ -3,8 +3,8 @@ layout: publication
 title: "Normalize & Concordance structurelle — Documentation complète"
 description: "Documentation complète de la commande normalize : 7 catégories de concordance, règles détaillées pour structure/layout/webcard/liens/assets/mindset/branche, format de sortie, comportement auto-fix, intégration avec les autres commandes et quand l'exécuter."
 pub_id: "Publication #6 — Complet"
-version: "v1"
-date: "2026-02-19"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/normalize-structure-concordance/full/
 og_image: /assets/og/normalize-fr-cayman.gif
 keywords: "normaliser, concordance, structure, validation, bilingue, audit"
@@ -27,7 +27,7 @@ keywords: "normaliser, concordance, structure, validation, bilingue, audit"
 | &nbsp;&nbsp;[3. Concordance webcard](#3-concordance-webcard) | Existence des GIF OG, balises méta, convention de nommage |
 | &nbsp;&nbsp;[4. Concordance des liens](#4-concordance-des-liens) | Références croisées, bascule de langue, chemins codés |
 | &nbsp;&nbsp;[5. Concordance des assets](#5-concordance-des-assets) | Fichiers requis et formats |
-| &nbsp;&nbsp;[6. Concordance de mindset](#6-concordance-de-mindset) | Vérifications d'actualité du CLAUDE.md |
+| &nbsp;&nbsp;[6. Concordance de mindset](#6-concordance-de-mindset) | Vérifications d'actualité du mind_memory.md |
 | &nbsp;&nbsp;[7. Concordance de branche](#7-concordance-de-branche) | Détection de branche par défaut et config GitHub Pages |
 | [Format de sortie](#format-de-sortie) | Exemple de rapport normalize |
 | [Comment les corrections sont appliquées](#comment-les-corrections-sont-appliquées) | Problèmes auto-corrigeables vs manuels |
@@ -60,7 +60,7 @@ La commande `normalize` est la **couche d'auto-réparation** de l'architecture d
 | 3 | **Webcard** | Chaque page a un GIF OG animé et un `og_image` correct. |
 | 4 | **Liens** | Références croisées cohérentes — landing, index, profils. |
 | 5 | **Assets** | Les assets requis existent (aperçu social, GIFs, portraits). |
-| 6 | **Mindset** | CLAUDE.md reflète l'état actuel. |
+| 6 | **Mindset** | mind_memory.md reflète l'état actuel. |
 | 7 | **Branche** | Branche par défaut détectée, GitHub Pages configuré. |
 
 ---
@@ -141,7 +141,7 @@ Chaque page doit avoir son miroir bilingue :
 | Index → profils | L'index des publications lie vers le profil de l'auteur |
 | Profils → pubs | Les pages de profil listent toutes les publications |
 | Référence knowledge | `packetqc/knowledge` référencé dans les tables de contact |
-| Liens CLAUDE.md | Les liens web correspondent aux permalinks réels |
+| Liens mind_memory.md | Les liens web correspondent aux permalinks réels |
 | Bascule de langue | Chaque page lie vers son miroir |
 | Résumé → complet | Les résumés lient vers leur page `/full/` |
 | Complet → résumé | Les pages complètes lient en retour |
@@ -161,10 +161,9 @@ Chaque page doit avoir son miroir bilingue :
 
 | Vérification | Ce qui est validé |
 |-------|-----------------|
-| Tableau des publications | Correspond aux publications réelles |
-| Registre webcard | Correspond aux noms de cartes réels |
+| Grille de directives | Correspond aux publications et à la structure des modules |
+| JSONs de domaine | conventions.json et work.json correspondent à l'état réel |
 | Tableau d'évolution | A des entrées récentes |
-| Tableau des commandes | Inclut toutes les commandes actives |
 | Références de version | `knowledge-version: vN` correspond à la version actuelle |
 
 ### 7. Concordance de branche
@@ -224,7 +223,7 @@ Avec `--fix` :
 | Page miroir FR manquante | Non | Rapporté — la traduction nécessite une révision humaine |
 | Entrée d'index manquante | Oui | Ajout suivant le pattern existant |
 | Entrée de profil manquante | Oui | Ajout de ligne au tableau |
-| Tableau CLAUDE.md obsolète | Oui | Ajout des entrées manquantes |
+| Mindmap/JSONs obsolètes | Oui | Ajout des entrées manquantes |
 
 **Livraison semi-automatique** : Comme toutes les opérations d'écriture, les corrections sont commitées sur la branche de tâche avec une PR ciblant la branche par défaut.
 
@@ -237,8 +236,8 @@ Avec `--fix` :
 | Après l'ajout de pages | Assurer les miroirs EN/FR, front matter, images OG |
 | Après l'ajout de publications | Assurer la structure 3 niveaux, entrées d'index |
 | Avant de créer une PR | Détecter les problèmes avant main |
-| Au `wakeup` (dépôt knowledge) | Auto-vérification au démarrage de session |
-| Après `harvest --promote` | Nouvaux fichiers patterns/lessons |
+| Au démarrage de session (dépôt knowledge) | Auto-vérification via `/mind-context` |
+| Après promotion vers les JSONs de domaine | Nouvelles entrées conventions.json/work.json |
 | Après génération `webcard` | Vérifier les GIFs et références |
 | Après `pub new` | Vérifier que le scaffold est complet |
 
@@ -248,11 +247,11 @@ Avec `--fix` :
 
 | Commande | Comment elle utilise normalize |
 |---------|----------------------|
-| `wakeup` | Vérification implicite quand le dépôt knowledge est actif |
+| Démarrage de session | Vérification implicite quand le dépôt knowledge est actif |
 | `pub check` | Utilise les règles de validation pour les publications |
 | `docs check` | Utilise la logique de validation de page |
-| `save` | Normalize recommandé avant le commit |
-| `harvest` | Vérifie la cohérence des mises à jour du tableau de bord |
+| commit+push | Normalize recommandé avant le commit |
+| K_GITHUB sync | Vérifie la cohérence des mises à jour du tableau de bord |
 | `webcard` | Vérifie les références après génération |
 
 ---
@@ -265,6 +264,8 @@ Avec `--fix` :
 | 5 | [Webcards & Partage social]({{ '/fr/publications/webcards-social-sharing/' | relative_url }}) | Normalize vérifie la concordance webcard |
 | 4a | [Tableau de bord]({{ '/fr/publications/distributed-knowledge-dashboard/' | relative_url }}) | Normalize vérifie la cohérence du tableau de bord |
 | 4 | [Connaissances distribuées]({{ '/fr/publications/distributed-minds/' | relative_url }}) | Normalize vérifie les références satellites |
+| 14 | [Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | Conception architecture multi-module |
+| 0v2 | [Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | Référence architecture multi-module K2.0 |
 
 ---
 

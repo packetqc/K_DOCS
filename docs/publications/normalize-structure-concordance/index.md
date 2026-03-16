@@ -1,10 +1,10 @@
 ---
 layout: publication
 title: "Normalize & Structure Concordance — Self-Healing Knowledge Architecture"
-description: "The normalize command audits and enforces concordance across Knowledge: bilingual mirrors, front matter validation, webcard references, link integrity, asset synchronization, and CLAUDE.md currency. A linter for knowledge architecture."
+description: "The normalize command audits and enforces concordance across Knowledge: bilingual mirrors, front matter validation, webcard references, link integrity, asset synchronization, and mind_memory.md currency. A linter for knowledge architecture."
 pub_id: "Publication #6"
-version: "v1"
-date: "2026-02-19"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/normalize-structure-concordance/
 og_image: /assets/og/normalize-en-cayman.gif
 keywords: "normalize, concordance, structure, validation, bilingual, audit"
@@ -13,7 +13,7 @@ keywords: "normalize, concordance, structure, validation, bilingual, audit"
 # Normalize & Structure Concordance
 {: #pub-title}
 
-> **Parent publication**: [#0 — Knowledge]({{ '/publications/knowledge-system/' | relative_url }})
+> **Parent publication**: [#0 — Knowledge]({{ '/publications/knowledge-system/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -42,7 +42,7 @@ The `normalize` command is the **self-healing layer** of the knowledge architect
 | 3 | **Webcard** | Every page has an animated OG GIF and correct `og_image` front matter. |
 | 4 | **Link** | Cross-references are consistent — landing pages, indexes, profiles interlinked. |
 | 5 | **Asset** | Required assets exist (social preview, OG GIFs, portraits). |
-| 6 | **Mindset** | CLAUDE.md reflects current state — publications, evolution entries, commands. |
+| 6 | **Mindset** | mind_memory.md reflects current state — publications, evolution entries, module structure. |
 | 7 | **Branch** | Default branch detected, GitHub Pages configured, PRs target correctly. |
 
 ## Usage
@@ -62,7 +62,7 @@ normalize --fix        # Apply fixes automatically
 | **Webcard** | Every page's `og_image` must point to an existing `.gif` in `docs/assets/og/`. Both EN and FR variants must exist. Layouts must emit `og:image`, `twitter:image`, and `<link rel="canonical">` meta tags. |
 | **Link** | No hardcoded paths — all internal links use `relative_url` filter. Language toggles present on every page. Cross-references between index, profile, and publication pages are consistent. |
 | **Asset** | Social preview PNG, OG GIFs, portrait photo, and Vicky avatar all exist at expected paths. |
-| **Mindset** | CLAUDE.md publications table, webcard registry, and evolution table match actual repo state. |
+| **Mindset** | mind_memory.md directive grid, domain JSONs, and evolution entries match actual repo state. |
 | **Branch** | Default branch detected via `git remote show origin`. PRs target it. GitHub Pages publishes from it. |
 
 ## When to Run
@@ -71,8 +71,8 @@ normalize --fix        # Apply fixes automatically
 |---------|-----|
 | After adding new pages or publications | Ensure EN/FR mirrors, front matter, OG images |
 | Before creating a PR | Catch issues before they reach the default branch |
-| On `wakeup` (knowledge repo) | Self-check on session start |
-| After `harvest --promote` | New patterns/lessons files may need cross-refs |
+| On session start (knowledge repo) | Self-check via `/mind-context` |
+| After promoting to domain JSONs | New conventions.json/work.json entries may need cross-refs |
 | After `webcard` generation | Verify GIFs exist and front matter references them |
 
 ## How Fixes Are Applied
@@ -81,7 +81,7 @@ With `--fix`: missing front matter fields get sensible defaults, hardcoded paths
 
 ## Integration with Other Commands
 
-`pub check` and `docs check` use normalize's validation rules. `wakeup` runs an implicit check when the knowledge repo is active. `save` benefits from a normalize run before committing.
+`pub check` and `docs check` use normalize's validation rules. Session start runs an implicit check when the knowledge repo is active. Commit+push benefits from a normalize run before committing.
 
 ---
 

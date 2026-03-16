@@ -3,8 +3,8 @@ layout: publication
 title: "Normalize & Structure Concordance — Complete Documentation"
 description: "Complete documentation for the normalize command: 7 concordance categories, detailed rules for structure/layout/webcard/link/asset/mindset/branch checks, output format, auto-fix behavior, integration with other knowledge commands, and when to run."
 pub_id: "Publication #6 — Full"
-version: "v1"
-date: "2026-02-19"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/normalize-structure-concordance/full/
 og_image: /assets/og/normalize-en-cayman.gif
 keywords: "normalize, concordance, structure, validation, bilingual, audit"
@@ -27,7 +27,7 @@ keywords: "normalize, concordance, structure, validation, bilingual, audit"
 | &nbsp;&nbsp;[3. Webcard Concordance](#3-webcard-concordance) | OG GIF existence, meta tags, naming convention |
 | &nbsp;&nbsp;[4. Link Concordance](#4-link-concordance) | Cross-references, language toggles, hardcoded paths |
 | &nbsp;&nbsp;[5. Asset Concordance](#5-asset-concordance) | Required files and formats |
-| &nbsp;&nbsp;[6. Mindset Concordance](#6-mindset-concordance) | CLAUDE.md currency checks |
+| &nbsp;&nbsp;[6. Mindset Concordance](#6-mindset-concordance) | mind_memory.md and domain JSON currency checks |
 | &nbsp;&nbsp;[7. Branch Concordance](#7-branch-concordance) | Default branch detection and GitHub Pages config |
 | [Output Format](#output-format) | Example normalize report output |
 | [How Fixes Are Applied](#how-fixes-are-applied) | Auto-fixable vs manual issues |
@@ -60,7 +60,7 @@ The `normalize` command is the **self-healing layer** of the knowledge architect
 | 3 | **Webcard** | Every page has an animated OG GIF and correct `og_image` front matter. |
 | 4 | **Link** | Cross-references are consistent — landing pages, indexes, profiles interlinked. |
 | 5 | **Asset** | Required assets exist (social preview, OG GIFs, portraits). |
-| 6 | **Mindset** | CLAUDE.md reflects current state — publications, evolution entries, commands. |
+| 6 | **Mindset** | mind_memory.md reflects current state — publications, evolution entries, module structure. |
 | 7 | **Branch** | Default branch detected, GitHub Pages configured, PRs target correctly. |
 
 ---
@@ -189,7 +189,7 @@ Cross-references must be consistent across the entire site:
 | Index → profiles | Publications index links to author profile |
 | Profiles → pubs | Profile pages link to all publications |
 | Knowledge ref | `packetqc/knowledge` referenced in contact tables and footers |
-| CLAUDE.md links | Web links in CLAUDE.md match actual permalinks |
+| mind_memory.md links | Web links in mind_memory.md match actual permalinks |
 | Language toggle | Every page links to its mirror language |
 | Summary → complete | Summary pages link to their `/full/` page |
 | Complete → summary | Complete pages link back to summary |
@@ -213,14 +213,13 @@ Required assets exist and are in correct format:
 
 ### 6. Mindset Concordance
 
-CLAUDE.md must reflect the current state:
+mind_memory.md and domain JSONs must reflect the current state:
 
 | Check | What it verifies |
 |-------|-----------------|
-| Publications table | Matches actual publications (count, titles, links) |
-| Webcard registry | Matches actual card names and publication numbers |
+| Directive grid | Matches actual publications and module structure |
+| Domain JSONs | Module conventions.json and work.json match actual state |
 | Evolution table | Has recent entries (warns if last entry > 7 days old) |
-| Commands table | Includes all active commands |
 | Version references | `knowledge-version: vN` matches current version |
 | Profile links | Web profile and resume links are valid |
 | `pub list` example | Output example matches actual publication count |
@@ -263,8 +262,8 @@ Asset concordance:
   ✓  All reference assets present
 
 Mindset concordance:
-  ✓  CLAUDE.md publications table up to date
-  ✗  CLAUDE.md webcard registry missing #6
+  ✓  mind_memory.md publications nodes up to date
+  ✗  mind_memory.md webcard registry missing #6
 
 Branch concordance:
   ✓  Default branch: main
@@ -288,7 +287,7 @@ When run with `--fix`:
 | Missing FR mirror page | No | Reports — translation needs human review |
 | Missing publication index entry | Yes | Add entry following existing pattern |
 | Missing profile entry | Yes | Add row to publication table |
-| CLAUDE.md table out of date | Yes | Add missing entries |
+| mind_memory.md/domain JSONs out of date | Yes | Add missing entries |
 | Missing back-link | Yes | Add link following existing pattern |
 | Missing summary-to-complete link | Yes | Add link at bottom of summary page |
 
@@ -303,8 +302,8 @@ When run with `--fix`:
 | After adding new pages | Ensure EN/FR mirrors, front matter, OG images |
 | After adding publications | Ensure 3-tier structure, index entries, profile entries |
 | Before creating a PR | Catch issues before they reach main |
-| On `wakeup` (knowledge repo) | Self-check on session start |
-| After `harvest --promote` | Promoted insights may add new patterns/lessons files |
+| On session start (knowledge repo) | Self-check via `/mind-context` |
+| After promoting to domain JSONs | New conventions.json/work.json entries may need cross-refs |
 | After `webcard` generation | Verify GIFs exist and front matter references them |
 | After `pub new` | Verify scaffolded publication is complete |
 | Periodically | Detect drift from manual edits or external changes |
@@ -315,12 +314,12 @@ When run with `--fix`:
 
 | Command | How it uses normalize |
 |---------|----------------------|
-| `wakeup` | Runs implicit check when knowledge repo is active project |
+| Session start | Runs implicit check when knowledge repo is active project |
 | `pub check` | Uses normalize's validation rules for publication-specific checks |
 | `docs check` | Uses normalize's page validation logic |
-| `save` | Normalize recommended before save to catch issues early |
-| `harvest` | Normalize verifies dashboard updates are structurally consistent |
-| `harvest --promote` | After writing to patterns/lessons, normalize ensures cross-refs |
+| `commit+push` | Normalize recommended before committing to catch issues early |
+| K_GITHUB sync | Normalize verifies dashboard updates are structurally consistent |
+| Domain JSON update | After updating conventions.json or work.json, normalize ensures cross-refs |
 | `webcard` | After GIF generation, normalize verifies references |
 | `pub new` | After scaffolding, normalize verifies completeness |
 
@@ -334,6 +333,8 @@ When run with `--fix`:
 | 5 | [Webcards & Social Sharing]({{ '/publications/webcards-social-sharing/' | relative_url }}) | Normalize verifies webcard concordance |
 | 4a | [Knowledge Dashboard]({{ '/publications/distributed-knowledge-dashboard/' | relative_url }}) | Normalize verifies dashboard consistency |
 | 4 | [Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }}) | Normalize checks satellite-related references |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Multi-module architecture design |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 
 ---
 
