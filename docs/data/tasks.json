@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated_at": "2026-03-15T17:24:23Z",
-    "total_tasks": 7,
+    "generated_at": "2026-03-16T08:47:27Z",
+    "total_tasks": 15,
     "source": "K_MIND mindmap + near_memory + far_memory",
     "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
     "stages": [
@@ -18,6 +18,157 @@
   "tasks": [
     {
       "id": "task-1",
+      "title": "issue to task rename across interfaces and compilation",
+      "description": "Committed+pushed issue→task rename across 10 files to both remotes (2e5a7f8)",
+      "current_stage": "implement",
+      "current_stage_index": 3,
+      "project": "Knowledge",
+      "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "branch": "main",
+      "repo": "packetqc/K_DOCS",
+      "task_number": null,
+      "source": "mindmap",
+      "children": [
+        "all interfaces display task not issue",
+        "compilation scripts output task_number related_tasks",
+        "session-review task-workflow project-viewer aligned"
+      ],
+      "near_memory_ids": [
+        79
+      ],
+      "far_memory_ids": [
+        157,
+        158
+      ],
+      "message_count": 2,
+      "started_at": "2026-03-16T08:46:17Z",
+      "updated_at": "2026-03-16T08:46:17Z",
+      "stages_visited": [
+        "implement"
+      ],
+      "stage_count": 1
+    },
+    {
+      "id": "task-2",
+      "title": "site independent redirects no hardcoded baseurl",
+      "description": "site independent redirects no hardcoded baseurl",
+      "current_stage": "implement",
+      "current_stage_index": 3,
+      "project": "Knowledge",
+      "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "branch": "main",
+      "repo": "packetqc/K_DOCS",
+      "task_number": null,
+      "source": "mindmap",
+      "children": [],
+      "near_memory_ids": [],
+      "far_memory_ids": [],
+      "message_count": 0,
+      "started_at": "2026-03-14T18:27:44Z",
+      "updated_at": "2026-03-14T18:27:44Z",
+      "stages_visited": [
+        "implement"
+      ],
+      "stage_count": 1
+    },
+    {
+      "id": "task-3",
+      "title": "interface CSS harmonization all 3 aligned",
+      "description": "interface CSS harmonization all 3 aligned",
+      "current_stage": "implement",
+      "current_stage_index": 3,
+      "project": "Knowledge",
+      "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "branch": "main",
+      "repo": "packetqc/K_DOCS",
+      "task_number": null,
+      "source": "mindmap",
+      "children": [],
+      "near_memory_ids": [],
+      "far_memory_ids": [],
+      "message_count": 0,
+      "started_at": "2026-03-14T18:27:44Z",
+      "updated_at": "2026-03-14T18:27:44Z",
+      "stages_visited": [
+        "implement"
+      ],
+      "stage_count": 1
+    },
+    {
+      "id": "task-4",
+      "title": "PR stats fix compile script field name and totals",
+      "description": "PR stats fix compile script field name and totals",
+      "current_stage": "implement",
+      "current_stage_index": 3,
+      "project": "Knowledge",
+      "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "branch": "main",
+      "repo": "packetqc/K_DOCS",
+      "task_number": null,
+      "source": "mindmap",
+      "children": [],
+      "near_memory_ids": [],
+      "far_memory_ids": [],
+      "message_count": 0,
+      "started_at": "2026-03-14T18:27:44Z",
+      "updated_at": "2026-03-14T18:27:44Z",
+      "stages_visited": [
+        "implement"
+      ],
+      "stage_count": 1
+    },
+    {
+      "id": "task-5",
+      "title": "README updated for production repo context",
+      "description": "README updated for production repo context",
+      "current_stage": "implement",
+      "current_stage_index": 3,
+      "project": "Knowledge",
+      "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "branch": "main",
+      "repo": "packetqc/K_DOCS",
+      "task_number": null,
+      "source": "mindmap",
+      "children": [],
+      "near_memory_ids": [],
+      "far_memory_ids": [],
+      "message_count": 0,
+      "started_at": "2026-03-14T18:27:44Z",
+      "updated_at": "2026-03-14T18:27:44Z",
+      "stages_visited": [
+        "implement"
+      ],
+      "stage_count": 1
+    },
+    {
+      "id": "task-6",
+      "title": "relative link resolution for in-panel navigation",
+      "description": "resolveRelativeToDoc resolves against current doc path | fixes 404 on complete documentation links | fixes viewer-in-viewer nesting in 3rd panel",
+      "current_stage": "implement",
+      "current_stage_index": 3,
+      "project": "Knowledge",
+      "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "branch": "main",
+      "repo": "packetqc/K_DOCS",
+      "task_number": null,
+      "source": "mindmap",
+      "children": [
+        "resolveRelativeToDoc resolves against current doc path",
+        "fixes 404 on complete documentation links",
+        "fixes viewer-in-viewer nesting in 3rd panel"
+      ],
+      "near_memory_ids": [],
+      "far_memory_ids": [],
+      "message_count": 0,
+      "started_at": "2026-03-14T18:27:44Z",
+      "updated_at": "2026-03-14T18:27:44Z",
+      "stages_visited": [
+        "implement"
+      ],
+      "stage_count": 1
+    },
+    {
+      "id": "task-7",
       "title": "modules imports",
       "description": "Imported 3 modules from production, created project data model, built mind-to-tasks bridge script",
       "current_stage": "validation",
@@ -26,7 +177,7 @@
       "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
       "branch": "main",
       "repo": "packetqc/K_DOCS",
-      "issue_number": null,
+      "task_number": null,
       "source": "mindmap",
       "children": [
         "K_PROJECTS imported with skills scripts methodology",
@@ -34,22 +185,31 @@
         "K_GITHUB imported with sync scripts methodology"
       ],
       "near_memory_ids": [
-        68
+        68,
+        70,
+        71,
+        73
       ],
       "far_memory_ids": [
         135,
-        136
+        136,
+        139,
+        140,
+        141,
+        142,
+        145,
+        146
       ],
-      "message_count": 2,
+      "message_count": 8,
       "started_at": "2026-03-15T16:45:55Z",
-      "updated_at": "2026-03-15T16:45:55Z",
+      "updated_at": "2026-03-15T18:46:38Z",
       "stages_visited": [
         "validation"
       ],
       "stage_count": 1
     },
     {
-      "id": "task-2",
+      "id": "task-8",
       "title": "documentation web viewer system",
       "description": "ÉTAPE 1 COMPLÈTE: docs/ créé, mindmap+install.sh+documentation.json mis à jour. Publication pilote Knowledge 2.0 choisie.",
       "current_stage": "validation",
@@ -58,7 +218,7 @@
       "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
       "branch": "main",
       "repo": "packetqc/K_DOCS",
-      "issue_number": null,
+      "task_number": null,
       "source": "mindmap",
       "children": [],
       "near_memory_ids": [
@@ -119,7 +279,7 @@
       "stage_count": 1
     },
     {
-      "id": "task-3",
+      "id": "task-9",
       "title": "live mindmap MindElixir v5",
       "description": "Added webcards viewer support (og:image + header), live mindmap standalone page + embedded in k2.0, K_DOCS module sync work item, updated all system files",
       "current_stage": "validation",
@@ -128,9 +288,12 @@
       "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
       "branch": "main",
       "repo": "packetqc/K_DOCS",
-      "issue_number": null,
+      "task_number": null,
       "source": "mindmap",
-      "children": [],
+      "children": [
+        "normal mode collapse depth fixed",
+        "depth config documentation override 2"
+      ],
       "near_memory_ids": [
         40,
         47,
@@ -153,7 +316,7 @@
       "stage_count": 1
     },
     {
-      "id": "task-4",
+      "id": "task-10",
       "title": "webcards theme aware",
       "description": "Added webcards viewer support (og:image + header), live mindmap standalone page + embedded in k2.0, K_DOCS module sync work item, updated all system files",
       "current_stage": "validation",
@@ -162,7 +325,7 @@
       "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
       "branch": "main",
       "repo": "packetqc/K_DOCS",
-      "issue_number": null,
+      "task_number": null,
       "source": "mindmap",
       "children": [],
       "near_memory_ids": [
@@ -190,7 +353,62 @@
       "stage_count": 1
     },
     {
-      "id": "task-5",
+      "id": "task-11",
+      "title": "interface CSS theme convention",
+      "description": "wrapper variables injected by viewer | interface specific prefixed variables only | stat cards use code-bg not bg",
+      "current_stage": "validation",
+      "current_stage_index": 4,
+      "project": "Knowledge",
+      "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "branch": "main",
+      "repo": "packetqc/K_DOCS",
+      "task_number": null,
+      "source": "mindmap",
+      "children": [
+        "wrapper variables injected by viewer",
+        "interface specific prefixed variables only",
+        "stat cards use code-bg not bg",
+        "table headers and hover use code-bg",
+        "chart wraps styled with border and background"
+      ],
+      "near_memory_ids": [],
+      "far_memory_ids": [],
+      "message_count": 0,
+      "started_at": "2026-03-14T18:27:44Z",
+      "updated_at": "2026-03-14T18:27:44Z",
+      "stages_visited": [
+        "validation"
+      ],
+      "stage_count": 1
+    },
+    {
+      "id": "task-12",
+      "title": "git recovery after WSL bluescreen",
+      "description": "fresh clone dot git replacement | all 15 commits preserved",
+      "current_stage": "validation",
+      "current_stage_index": 4,
+      "project": "Knowledge",
+      "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "branch": "main",
+      "repo": "packetqc/K_DOCS",
+      "task_number": null,
+      "source": "mindmap",
+      "children": [
+        "fresh clone dot git replacement",
+        "all 15 commits preserved"
+      ],
+      "near_memory_ids": [],
+      "far_memory_ids": [],
+      "message_count": 0,
+      "started_at": "2026-03-14T18:27:44Z",
+      "updated_at": "2026-03-14T18:27:44Z",
+      "stages_visited": [
+        "validation"
+      ],
+      "stage_count": 1
+    },
+    {
+      "id": "task-13",
       "title": "k_mind import system",
       "description": "repo restructure to Knowledge K_MIND | install.sh creates Knowledge modules | gh_helper.py and github skill imported",
       "current_stage": "validation",
@@ -199,7 +417,7 @@
       "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
       "branch": "main",
       "repo": "packetqc/K_DOCS",
-      "issue_number": null,
+      "task_number": null,
       "source": "mindmap",
       "children": [
         "repo restructure to Knowledge K_MIND",
@@ -219,7 +437,7 @@
       "stage_count": 1
     },
     {
-      "id": "task-6",
+      "id": "task-14",
       "title": "multi module architecture",
       "description": "Committed multi-module architecture: K_MIND core + K_DOCS module split with mindmap nodes updated",
       "current_stage": "validation",
@@ -228,7 +446,7 @@
       "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
       "branch": "main",
       "repo": "packetqc/K_DOCS",
-      "issue_number": null,
+      "task_number": null,
       "source": "mindmap",
       "children": [
         "Knowledge folder holds all modules",
@@ -260,7 +478,7 @@
       "stage_count": 1
     },
     {
-      "id": "task-7",
+      "id": "task-15",
       "title": "K_DOCS designation approved",
       "description": "K_DOCS designation approved",
       "current_stage": "completion",
@@ -269,7 +487,7 @@
       "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
       "branch": "main",
       "repo": "packetqc/K_DOCS",
-      "issue_number": null,
+      "task_number": null,
       "source": "mindmap",
       "children": [],
       "near_memory_ids": [],
@@ -291,13 +509,13 @@
       "branch": "main",
       "repo": "packetqc/K_DOCS",
       "started_at": "2026-03-14T18:27:44Z",
-      "updated_at": "2026-03-15T17:09:47Z",
-      "message_count": 138,
-      "summary_count": 69,
-      "task_count": 7,
+      "updated_at": "2026-03-16T08:46:17Z",
+      "message_count": 158,
+      "summary_count": 79,
+      "task_count": 15,
       "stages": {
-        "implement": 0,
-        "validation": 6,
+        "implement": 6,
+        "validation": 8,
         "completion": 1
       }
     }

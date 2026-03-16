@@ -100,13 +100,10 @@
       ],
       "pr_count": 16,
       "has_notes": true,
-      "has_issue": false,
       "total_additions": 1135603,
       "total_deletions": 819094,
       "total_files_changed": 10751,
       "total_commits": 240,
-      "issue_number": null,
-      "issue_labels": [],
       "first_activity_time": "2026-03-14T18:27:44Z",
       "last_activity_time": "2026-03-16T06:13:08Z",
       "message_count": 152,
@@ -201,7 +198,10 @@
           "description": "K_DOCS designation approved"
         }
       ],
-      "lessons": []
+      "lessons": [],
+      "task_number": null,
+      "has_task": false,
+      "task_labels": []
     }
   ]
 }
