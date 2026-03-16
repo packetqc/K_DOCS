@@ -1,5 +1,9 @@
 {
   "generated_by": "Knowledge/K_DOCS/scripts/build_methodologies.py",
+  "section": "methodologies",
+  "title": "Methodologies",
+  "title_fr": "Méthodologies",
+  "open": false,
   "items": [
     {
       "title": "Documentation Audience",

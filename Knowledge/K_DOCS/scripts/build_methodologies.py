@@ -97,6 +97,10 @@ def main():
 
     data = {
         "generated_by": "Knowledge/K_DOCS/scripts/build_methodologies.py",
+        "section": "methodologies",
+        "title": "Methodologies",
+        "title_fr": "Méthodologies",
+        "open": False,
         "items": items,
         "removed": removed,
     }
