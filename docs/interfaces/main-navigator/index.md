@@ -160,12 +160,14 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   text-transform: uppercase; letter-spacing: 0.02em;
   background: var(--code-bg, #f6f8fa);
   border-left: 2px solid transparent;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.12s, box-shadow 0.15s;
 }
 .nav-widget .widget-body a:hover {
   background: var(--col-alt, #e8eef4);
   color: var(--accent, #1d4ed8);
   border-left-color: var(--accent, #1d4ed8);
+  transform: translateX(3px);
+  box-shadow: -2px 0 0 var(--accent, #1d4ed8);
 }
 .nav-widget .widget-body a.active {
   background: var(--accent, #1d4ed8); color: var(--bg, #fff);
@@ -187,7 +189,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   border-radius: 4px;
   transition: background 0.15s;
 }
-.nav-widget .pub-group summary:hover { background: var(--col-alt, #e8eef4); }
+.nav-widget .pub-group summary:hover { background: var(--col-alt, #e8eef4); transform: translateX(2px); }
 .nav-widget .pub-group summary::before { content: '›'; font-size: 0.8rem; }
 .nav-widget .pub-group[open] > summary::before { content: '⌄'; }
 .nav-widget .pub-group[open] > summary { border-bottom: 1px solid var(--border, #d0d7de); border-radius: 4px 4px 0 0; }
@@ -195,7 +197,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   padding-left: 1.1rem; font-size: 0.7rem;
   background: transparent; border-left: none;
 }
-.nav-widget .pub-group a:hover { background: var(--col-alt, #e8eef4); border-left: none; }
+.nav-widget .pub-group a:hover { background: var(--col-alt, #e8eef4); border-left: none; transform: translateX(2px); box-shadow: none; }
 .cmd-link { font-family: monospace; font-size: 0.68rem; color: var(--muted, #656d76); letter-spacing: 0; }
 
 /* ═══ Tab bar — horizontal strip above content-frame ═══ */
@@ -241,11 +243,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   background: var(--code-bg, #f6f8fa);
   border-radius: 4px;
   border-left: 2px solid transparent;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, transform 0.12s, box-shadow 0.15s;
 }
 .iface-row:hover {
   background: var(--col-alt, #e8eef4);
   border-left-color: var(--accent, #1d4ed8);
+  transform: translateX(3px);
+  box-shadow: -2px 0 0 var(--accent, #1d4ed8);
 }
 .iface-row > a:first-child {
   flex: 1; background: transparent !important;
