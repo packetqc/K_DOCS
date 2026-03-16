@@ -3,8 +3,8 @@ layout: publication
 title: "Connaissances distribuées — Documentation complète"
 description: "Documentation complète du flux bidirectionnel de connaissances : architecture push/harvest, couches de connaissances, versionnage et dérive, résultats du premier harvest, flux de promotion interactif, icônes de sévérité, healthcheck et principes d'architecture."
 pub_id: "Publication #4 — Full"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /fr/publications/distributed-minds/full/
 og_image: /assets/og/distributed-minds-fr-cayman.gif
 keywords: "connaissances distribuées, récolte, satellites, bidirectionnel, flux de connaissances, promotion"
@@ -49,14 +49,14 @@ keywords: "connaissances distribuées, récolte, satellites, bidirectionnel, flu
 
 ## Résumé
 
-Les assistants de codage IA acquièrent une mémoire persistante via `CLAUDE.md` et `notes/` — mais en travaillant sur plusieurs projets, chaque instance IA évolue indépendamment. L'intelligence est générée partout mais consolidée nulle part.
+Les assistants de codage IA acquièrent une mémoire persistante via `mind_memory.md` et `sessions/` — mais en travaillant sur plusieurs projets, chaque instance IA évolue indépendamment. L'intelligence est générée partout mais consolidée nulle part.
 
 **Connaissances distribuées** crée un **réseau vivant** avec flux bidirectionnel :
 
 | Direction | Mécanisme |
 |-----------|-----------|
-| **Push** (sortant) | Le dépôt central pousse la méthodologie, commandes, patterns et outillage vers les satellites à chaque `wakeup`. |
-| **Harvest** (entrant) | La commande `harvest` parcourt les projets satellites, extrait les connaissances évoluées, détecte la dérive de version et découvre les publications. |
+| **Push** (sortant) | Le module K_MIND est poussé via git vers les satellites — livrant la grille de directives `mind_memory.md`, les JSONs de domaine, la méthodologie et les scripts. |
+| **Harvest** (entrant) | K_GITHUB `sync_github.py` gère la synchronisation bidirectionnelle — extrayant les connaissances évoluées, détectant la dérive de version et découvrant les publications. |
 
 Le résultat est un **réseau d'intelligence distribuée auto-réparateur et conscient des versions**.
 
@@ -72,9 +72,9 @@ Ce dépôt est public et conçu pour être forké. L'architecture des connaissan
 |--------|-----------|
 | **Identifiants / jetons** | Aucun stocké — pas de clés API, pas de jetons GitHub, aucun secret dans les fichiers ou l'historique git |
 | **Accès en écriture** | Limité par session — le Claude Code d'un forkeur ne pousse que vers son propre fork, jamais vers le dépôt original |
-| **URLs de harvest** | Référencent les satellites du propriétaire original (`packetqc/<repo>`) — lecture seule pour un forkeur. La commande harvest ne peut accéder aux dépôts sans autorisation |
-| **Contenu de `minds/`** | Décrit le réseau satellite du propriétaire original — sans signification dans un fork, repart à zéro pour un nouveau propriétaire |
-| **Notes de session** | Éphémères — vierges pour chaque nouvel utilisateur |
+| **URLs de sync** | Référencent les satellites du propriétaire original (`packetqc/<repo>`) — lecture seule pour un forkeur. Le sync ne peut accéder aux dépôts sans autorisation |
+| **Contenu des archives** | Décrit le réseau satellite du propriétaire original — sans signification dans un fork, repart à zéro pour un nouveau propriétaire |
+| **Fichiers session** | Éphémères — `sessions/` vierge pour chaque nouvel utilisateur |
 
 Ce que vous obtenez en forkant : **l'architecture de flux bidirectionnel, le protocole harvest, le flux de promotion et le modèle de tableau de bord** — tout intentionnellement public. Pour construire votre propre réseau de connaissances distribuées, remplacez `packetqc` par votre nom d'utilisateur GitHub dans CLAUDE.md.
 
@@ -115,22 +115,22 @@ flowchart TB
 
 ### Push : Le moment des lunettes
 
-Au `wakeup`, chaque satellite lit le CLAUDE.md core. L'instance IA reçoit : méthodologie complète, patterns prouvés, écueils connus, commandes, historique d'évolution.
+Au démarrage de session (`session_init.py` + `/mind-context`), chaque satellite charge le module K_MIND — la grille de directives `mind_memory.md`. L'instance IA reçoit : grille de 264 directives, JSONs de domaine, patterns prouvés, scripts K_MIND, skills `.claude/skills/`.
 
 ### Harvest : Le flux inverse
 
-La commande `harvest` parcourt toutes les branches d'un satellite, suit les curseurs de commits (incrémental), vérifie la version, inventorie la distribution, extrait les connaissances, détecte les publications, met à jour le tableau de bord et rapporte la dérive.
+K_GITHUB `sync_github.py` gère le flux entrant (remplaçant la commande `harvest` de K1.0) : parcourt toutes les branches d'un satellite, suit les curseurs de commits (incrémental), vérifie la version, inventorie la distribution, extrait les connaissances, détecte les publications, met à jour le tableau de bord et rapporte la dérive.
 
 ---
 
 ## Couches de connaissances
 
-| Couche | Emplacement | Stabilité | Cycle de vie |
-|--------|-------------|-----------|-------------|
-| **Core** | `CLAUDE.md` | Stable | Change rarement. Identité, méthodologie, log d'évolution. |
-| **Prouvé** | `patterns/`, `lessons/`, `methodology/` | Validé | Grandit quand des découvertes sont promues de minds/. |
-| **Récolté** | `minds/` | En évolution | Frais des expériences satellites. L'incubateur. |
-| **Session** | `notes/` | Éphémère | Mémoire de travail par session. Réécrit quotidiennement. |
+| Couche | Emplacement K2.0 | Stabilité | Cycle de vie |
+|--------|-------------------|-----------|-------------|
+| **Core** | `mind_memory.md` (grille de 264 directives) | Stable | Change rarement. Conception système, identité, méthodologie. |
+| **Prouvé** | `conventions.json`, `work.json` par module | Validé | Grandit quand des découvertes sont promues des archives. |
+| **Récolté** | `far_memory archives/` (découpé par sujet) | En évolution | Frais des expériences satellites. L'incubateur. |
+| **Session** | `sessions/` (near_memory + far_memory) | Éphémère | Mémoire à paliers par session. Persisté chaque tour par `memory_append.py`. |
 
 ### Cycle de vie d'une découverte
 
@@ -147,7 +147,7 @@ flowchart LR
 
 ## Alias d'appel `#` — Routage de connaissances indépendant de l'emplacement
 
-Le préfixe `#` au début d'un prompt est un **alias d'appel** — il active le mode d'entrée de connaissances ciblées. `#N:` route le contenu vers la publication/projet N quel que soit le dépôt dans lequel l'utilisateur travaille.
+Le préfixe `#` au début d'un prompt est un **alias d'appel** — il active le mode d'entrée de connaissances ciblées via le skill K_GITHUB tagged-input. `#N:` route le contenu vers la publication/projet N quel que soit le dépôt dans lequel l'utilisateur travaille.
 
 ### Fonctionnement
 
@@ -412,7 +412,7 @@ Quand deux sessions Claude modifient le même fichier :
 | **Fusionner souvent** | Ne pas laisser les PRs s'accumuler — chacun est petit et ciblé |
 | **Supprimer les branches après fusion** | Garde le dépôt propre |
 | **Une session = un PR** | Chaque session Claude Code crée une branche et un PR |
-| **Protocole save = création de PR** | Chaque `save` se termine par un PR. Pas de PR = travail bloqué |
+| **Git commit/push = livraison** | Chaque unité de travail complétée se termine par un commit et push. Pas de push = travail bloqué |
 
 ---
 
@@ -424,7 +424,7 @@ Quand deux sessions Claude modifient le même fichier :
 | **La version suit la conscience, pas le contenu** | Un satellite à v11 ne contient pas toutes les fonctionnalités localement. Il sait juste où les lire. |
 | **Le harvest est incrémental** | Les curseurs de branche font que le second harvest ne scanne que les nouveaux commits. |
 | **Les publications restent dans leur source** | Le harvest copie la **référence**, pas le contenu. |
-| **La promotion requiert une validation inter-projets** | Une découverte dans `minds/` est une hypothèse. Validée sur 2+ projets, elle est promue. |
+| **La promotion requiert une validation inter-projets** | Une découverte dans les archives est une hypothèse. Validée sur 2+ projets, elle est promue vers `conventions.json` ou `work.json`. |
 | **Dépôts de l'utilisateur avec accès Claude Code uniquement** | Le système n'opère que sur les dépôts que l'utilisateur possède et auxquels Claude Code a reçu accès. Aucun dépôt externe ou tiers n'est jamais accédé — frontière de sécurité et de confidentialité délibérée. |
 
 ---
@@ -441,7 +441,9 @@ Quand deux sessions Claude modifient le même fichier :
 | 5 | [Webcards et partage social]({{ '/fr/publications/webcards-social-sharing/' | relative_url }}) | Identité visuelle — aperçus animés dual-thème pour le réseau |
 | 6 | [Normalize et concordance structurelle]({{ '/fr/publications/normalize-structure-concordance/' | relative_url }}) | Auto-guérison — intégrité structurelle à travers les docs |
 | 7 | [Protocole Harvest]({{ '/fr/publications/harvest-protocol/' | relative_url }}) | Guide pratique — spécification de la commande harvest |
-| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Guide pratique — cycle de vie wakeup/save/refresh |
+| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Guide pratique — cycle de vie K_MIND par scripts |
+| 14 | [Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | Référence core — architecture 5 modules, 13 qualités |
+| 15 | [Diagrammes d'architecture]({{ '/fr/publications/architecture-diagrams/' | relative_url }}) | Référence visuelle — flux d'architecture distribuée |
 | 9 | [Sécurité par conception]({{ '/fr/publications/security-by-design/' | relative_url }}) | Architecture de sécurité — portée d'accès, sûreté fork, modèle proxy |
 | 9a | [Conformité du cycle de vie des jetons]({{ '/fr/publications/security-by-design/compliance/' | relative_url }}) | Conformité — évaluation OWASP, NIST, FIPS |
 | 10 | [Réseau de connaissances live]({{ '/fr/publications/live-knowledge-network/' | relative_url }}) | Prochaine évolution — communication inter-instances PQC-sécurisée |

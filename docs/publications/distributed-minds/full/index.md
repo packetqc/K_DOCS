@@ -3,8 +3,8 @@ layout: publication
 title: "Distributed Minds — Complete Documentation"
 description: "Complete documentation for bidirectional knowledge flow: push/harvest architecture, knowledge layers, versioning and drift, first harvest results (5 satellites, 12 promotion candidates), interactive promotion workflow, severity icons, healthcheck, core principles, and design principles."
 pub_id: "Publication #4 — Full"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /publications/distributed-minds/full/
 og_image: /assets/og/distributed-minds-en-cayman.gif
 keywords: "distributed minds, harvest, satellites, bidirectional, knowledge flow, promotion"
@@ -52,14 +52,14 @@ keywords: "distributed minds, harvest, satellites, bidirectional, knowledge flow
 
 ## Abstract
 
-AI coding assistants gain persistent memory through `CLAUDE.md` and `notes/` — but when an engineer works across multiple projects, each AI instance evolves independently. Patterns discovered in one project are invisible to another. Pitfalls hit in project A get hit again in project B. The collective intelligence is generated but never consolidated.
+AI coding assistants gain persistent memory through `mind_memory.md` and `sessions/` — but when an engineer works across multiple projects, each AI instance evolves independently. Patterns discovered in one project are invisible to another. Pitfalls hit in project A get hit again in project B. The collective intelligence is generated but never consolidated.
 
 **Distributed Minds** solves this by treating Knowledge as a **living network** with bidirectional flow:
 
 | Direction | Mechanism |
 |-----------|-----------|
-| **Push** (outbound) | A central knowledge repository (`packetqc/knowledge`) pushes methodology, commands, patterns, and tooling to satellite projects on every `wakeup`. |
-| **Harvest** (inbound) | A new `harvest` command crawls satellite projects across all branches, extracts evolved knowledge, detects version drift, inventories knowledge distribution status, and discovers publications. |
+| **Push** (outbound) | The K_MIND module is pushed via git to satellite projects — delivering the `mind_memory.md` directive grid, domain JSONs, methodology, and scripts. |
+| **Harvest** (inbound) | K_GITHUB `sync_github.py` handles bidirectional sync — extracting evolved knowledge, detecting version drift, inventorying distribution status, and discovering publications. |
 
 The result is a **self-healing, version-aware, distributed intelligence network** where satellite projects are experiments and the master mind grows from all of them.
 
@@ -76,8 +76,8 @@ This repository is public and designed to be forked. The distributed minds archi
 | **Credentials / tokens** | None stored anywhere — no API keys, no GitHub tokens, no secrets in files or git history |
 | **Push access** | Proxy-scoped per session — a forker's Claude Code pushes only to their own fork, never to the original repo |
 | **Harvest URLs** | Reference the original owner's satellites (`packetqc/<repo>`) — read-only for a forker. The harvest command cannot access repos it has no grants for |
-| **`minds/` content** | Describes the original owner's satellite network — meaningless in a fork, starts fresh for a new owner |
-| **Session notes** | Per-session and ephemeral — blank for every new user |
+| **Archives content** | Describes the original owner's satellite network — meaningless in a fork, starts fresh for a new owner |
+| **Session files** | Per-session and ephemeral — `sessions/` starts blank for every new user |
 
 What you get by forking: **the bidirectional flow architecture, harvest protocol, promotion workflow, and dashboard template** — all intentionally public. To build your own distributed mind network, replace `packetqc` with your GitHub username in CLAUDE.md.
 
@@ -132,27 +132,27 @@ flowchart TB
 
 ### Push: The Sunglasses Moment
 
-On `wakeup`, every satellite project reads `packetqc/knowledge` CLAUDE.md first. This gives the AI instance:
+On session start (`session_init.py` + `/mind-context`), every satellite project loads the K_MIND module — the `mind_memory.md` directive grid. This gives the AI instance:
 
 | Content | Description |
 |---------|-------------|
-| **Methodology** | How to work with the developer |
+| **Directive grid** | 264-node mindmap — the operating memory |
+| **Domain JSONs** | `conventions.json`, `work.json` per module — structured knowledge |
 | **Proven patterns** | Embedded debugging, RTOS, SQLite, UI/backend |
-| **Known pitfalls** | 12 documented failure modes |
-| **Commands** | Session management, live analysis, harvest |
-| **Evolution history** | What Knowledge itself has learned |
+| **K_MIND scripts** | `session_init.py`, `memory_append.py`, `memory_recall.py` — deterministic lifecycle |
+| **Skills** | `.claude/skills/` SKILL.md files — Claude Code native routing |
 
 ### Harvest: The Reverse Flow
 
-The `harvest` command is the **inbound pull**:
+K_GITHUB `sync_github.py` handles the **inbound pull** (replacing K1.0's `harvest` command):
 
 | Step | Action |
 |------|--------|
 | **Crawl branches** | Enumerates all branches of a satellite repo |
 | **Track cursors** | Uses per-branch commit SHA cursors (incremental) |
 | **Check version** | Reads `<!-- knowledge-version: vN -->` tag |
-| **Inventory distribution** | Is the satellite bootstrapped? Has notes/? Has live/? |
-| **Extract knowledge** | Patterns, pitfalls, methodology, Claude instructions |
+| **Inventory distribution** | Is the satellite bootstrapped? Has sessions/? Has scripts/? |
+| **Extract knowledge** | Conventions, work results, methodology, Claude instructions |
 | **Detect publications** | Finds technical content worth surfacing |
 | **Update dashboard** | Refreshes the living status publication |
 | **Report drift** | Which features the satellite is missing |
@@ -161,12 +161,12 @@ The `harvest` command is the **inbound pull**:
 
 ## Knowledge Layers
 
-| Layer | Location | Stability | Lifecycle |
-|-------|----------|-----------|-----------|
-| **Core** | `CLAUDE.md` | Stable | Rarely changes. Identity, methodology, evolution log. |
-| **Proven** | `patterns/`, `lessons/`, `methodology/` | Validated | Grows when insights are promoted from minds/. |
-| **Harvested** | `minds/` | Evolving | Fresh from satellite experiments. The incubator. |
-| **Session** | `notes/` | Ephemeral | Per-session working memory. Rewritten daily. |
+| Layer | K2.0 Location | Stability | Lifecycle |
+|-------|---------------|-----------|-----------|
+| **Core** | `mind_memory.md` (264-node directive grid) | Stable | Rarely changes. System design, identity, methodology. |
+| **Proven** | `conventions.json`, `work.json` per module | Validated | Grows when insights are promoted from archives. |
+| **Harvested** | `far_memory archives/` (topic-split) | Evolving | Fresh from satellite experiments. The incubator. |
+| **Session** | `sessions/` (near_memory + far_memory) | Ephemeral | Per-session tiered memory. Persisted every turn by `memory_append.py`. |
 
 ### The Insight Lifecycle
 
@@ -179,13 +179,13 @@ flowchart LR
     E --> F["mind_memory.md\n(core directive grid)"]
 ```
 
-Each layer is a **filter**: session notes are raw, minds/ is curated per-project, proven/ is validated cross-project, core is the permanent record.
+Each layer is a **filter**: session memory is raw, archives are curated per-topic, domain JSONs are validated cross-project, the mindmap directive grid is the permanent record.
 
 ---
 
 ## The `#` Call Alias — Location-Independent Knowledge Routing
 
-The `#` prefix at the beginning of a prompt is a **call alias** — it triggers scoped knowledge input mode. `#N:` routes content to publication/project N regardless of which repo the user is working in.
+The `#` prefix at the beginning of a prompt is a **call alias** — it triggers scoped knowledge input mode via the K_GITHUB tagged-input skill. `#N:` routes content to publication/project N regardless of which repo the user is working in.
 
 ### How It Works
 
@@ -345,7 +345,7 @@ Each promotion candidate carries 4 action commands:
 |-------|------|---------|--------|
 | Review | 🔍 | `harvest --review N` | Human validates — marks as reviewed |
 | Stage | 📦 | `harvest --stage N <type>` | Staged for integration (lesson, pattern, methodology, docs) |
-| Promote | ✅ | `harvest --promote N` | Written to core `patterns/` or `lessons/` now |
+| Promote | ✅ | `harvest --promote N` | Written to `conventions.json` or `work.json` now |
 | Auto | 🔄 | `harvest --auto N` | Queued for auto-promote on next healthcheck |
 
 On GitHub Pages, clicking an action icon copies the command to clipboard. The user pastes it into Claude Code to execute.
@@ -514,7 +514,7 @@ When two Claude sessions modify the same file:
 | **Merge often** | Don't let PRs accumulate — each is small and focused |
 | **Delete branches after merge** | Keeps the repo clean |
 | **One session = one PR** | Each Claude Code session creates one task branch and one PR |
-| **Save protocol = PR creation** | Every `save` ends with a PR. No PR = stranded work |
+| **Git commit/push = delivery** | Every completed unit of work ends with a commit and push. No push = stranded work |
 
 ---
 
@@ -533,16 +533,16 @@ When two Claude sessions modify the same file:
 
 ## Core Principles in Publication #4
 
-Knowledge embodies 12 core qualities. Publication #4 primarily manifests four:
+Knowledge embodies 13 core qualities (see [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }})). Publication #4 primarily manifests four:
 
 | Principle | How #4 embodies it |
 |-----------|-------------------|
-| **Distributed** | The entire architecture — push/harvest bidirectional flow between master and satellites — is distribution by design. Intelligence flows outward on wakeup, inward on harvest. |
+| **Distributed** | The entire architecture — push/sync bidirectional flow between master and satellites — is distribution by design. Intelligence flows outward via K_MIND push, inward via K_GITHUB sync. |
 | **Evolutionary** | 35 versions in 7 days. The knowledge versioning system, drift detection, and promotion pipeline ensure the network evolves continuously. Each harvest grows the master mind. |
 | **Recursive** | The system documents itself by consuming its own output. This publication was harvested from the very methodology it describes. The dashboard updates itself on every harvest run. |
 | **Concise** | The `#` call alias convention — 1 character to invoke, 3 characters to scope (`#N:`), 0 characters for implicit main project. Maximum signal, minimum friction. See [Publication #0 — The `#` Call Alias Convention]({{ '/publications/knowledge-system/full/#the--call-alias-convention' | relative_url }}). |
 
-The remaining 8 qualities (*self-sufficient*, *autonomous*, *concordant*, *interactive*, *persistent*, *secure*, *resilient*, *structured*) are present throughout — but *distributed*, *evolutionary*, *recursive*, and *concise* are the DNA of Distributed Minds.
+The remaining 9 qualities (*self-sufficient*, *autonomous*, *concordant*, *interactive*, *persistent*, *secure*, *resilient*, *structured*, *integrated*) are present throughout — but *distributed*, *evolutionary*, *recursive*, and *concise* are the DNA of Distributed Minds.
 
 ---
 
@@ -558,7 +558,9 @@ The remaining 8 qualities (*self-sufficient*, *autonomous*, *concordant*, *inter
 | 5 | [Webcards & Social Sharing]({{ '/publications/webcards-social-sharing/' | relative_url }}) | Visual identity — dual-theme animated previews for the network |
 | 6 | [Normalize & Structure Concordance]({{ '/publications/normalize-structure-concordance/' | relative_url }}) | Self-healing — structural integrity enforcement across docs |
 | 7 | [Harvest Protocol]({{ '/publications/harvest-protocol/' | relative_url }}) | Practical companion — the harvest command specification |
-| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Practical companion — wakeup/save/refresh lifecycle |
+| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Practical companion — K_MIND scripts lifecycle |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Core reference — 5-module architecture, 13 qualities |
+| 15 | [Architecture Diagrams]({{ '/publications/architecture-diagrams/' | relative_url }}) | Visual reference — distributed architecture flows |
 | 9 | [Security by Design]({{ '/publications/security-by-design/' | relative_url }}) | Security architecture — access scope, fork safety, proxy model |
 | 9a | [Token Lifecycle Compliance]({{ '/publications/security-by-design/compliance/' | relative_url }}) | Compliance — OWASP, NIST, FIPS assessment |
 | 10 | [Live Knowledge Network]({{ '/publications/live-knowledge-network/' | relative_url }}) | Next evolution — PQC-secured inter-instance communication |

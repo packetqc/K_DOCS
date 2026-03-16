@@ -3,8 +3,8 @@ layout: publication
 title: "Connaissances distribuées — Flux bidirectionnel de connaissances pour l'ingénierie multi-projets assistée par IA"
 description: "Architecture pour les connaissances IA distribuées : un cerveau maître central pousse la méthodologie vers les projets satellites, harvest ramène les découvertes évoluées. Conscient des versions, incrémental, auto-réparateur. Premier harvest : 15 dépôts, 9 candidats à promotion, 3 satellites clés."
 pub_id: "Publication #4"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /fr/publications/distributed-minds/
 og_image: /assets/og/distributed-minds-fr-cayman.gif
 keywords: "connaissances distribuées, récolte, satellites, bidirectionnel, flux de connaissances, promotion"
@@ -12,6 +12,8 @@ keywords: "connaissances distribuées, récolte, satellites, bidirectionnel, flu
 
 # Connaissances distribuées — Flux bidirectionnel de connaissances pour l'ingénierie multi-projets assistée par IA
 {: #pub-title}
+
+> **Publication parente** : [#0 — Système Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Référence core** : [#14 — Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | [#15 — Diagrammes d'architecture]({{ '/fr/publications/architecture-diagrams/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }})
 
 **Table des matières**
 
@@ -27,9 +29,9 @@ keywords: "connaissances distribuées, récolte, satellites, bidirectionnel, flu
 
 ## Résumé
 
-Les assistants de codage IA acquièrent une mémoire persistante via `CLAUDE.md` et `notes/` — mais en travaillant sur plusieurs projets, chaque instance évolue indépendamment. L'intelligence est générée partout mais consolidée nulle part.
+Les assistants de codage IA acquièrent une mémoire persistante via `mind_memory.md` et `sessions/` — mais en travaillant sur plusieurs projets, chaque instance évolue indépendamment. L'intelligence est générée partout mais consolidée nulle part.
 
-**Connaissances distribuées** crée un réseau vivant : un cerveau maître pousse la méthodologie vers les satellites au démarrage, et `harvest` ramène les connaissances évoluées. Le résultat est une intelligence distribuée auto-réparatrice et consciente des versions.
+**Connaissances distribuées** crée un réseau vivant : le module K_MIND est poussé via git vers les satellites, et K_GITHUB `sync_github.py` ramène les connaissances évoluées. Le résultat est une intelligence distribuée auto-réparatrice et consciente des versions.
 
 **Par conception**, le système n'opère que sur les dépôts que l'utilisateur possède et auxquels Claude Code a reçu accès via sa configuration d'application GitHub. Aucun dépôt externe ou tiers n'est jamais accédé.
 
@@ -54,17 +56,17 @@ flowchart TB
 
 | Direction | Mécanisme | Contenu |
 |-----------|-----------|---------|
-| **Push** (sortant) | `wakeup` lit le CLAUDE.md core | Méthodologie, patterns, écueils, commandes |
-| **Harvest** (entrant) | `harvest <projet>` parcourt les branches | Patterns évolués, nouveaux écueils, publications |
+| **Push** (sortant) | Module K_MIND poussé via git vers les satellites | Grille de directives `mind_memory.md`, JSONs de domaine, méthodologie |
+| **Harvest** (entrant) | K_GITHUB `sync_github.py` synchronise bidirectionnellement | Conventions évoluées, nouveaux patterns, publications |
 
 ## Couches de connaissances
 
-| Couche | Stabilité | Rôle |
-|--------|-----------|------|
-| **Core** (CLAUDE.md) | Stable | Identité, méthodologie, log d'évolution |
-| **Prouvé** (patterns/, lessons/) | Validé | Éprouvé sur 2+ projets |
-| **Récolté** (minds/) | En évolution | Frais des expériences satellites |
-| **Session** (notes/) | Éphémère | Mémoire de travail par session |
+| Couche | Emplacement K2.0 | Stabilité | Rôle |
+|--------|-------------------|-----------|------|
+| **Core** | `mind_memory.md` (grille de 264 directives) | Stable | Identité, méthodologie, conception système |
+| **Prouvé** | `conventions.json`, `work.json` par module | Validé | Éprouvé sur 2+ projets |
+| **Récolté** | `far_memory archives/` (découpé par sujet) | En évolution | Frais des expériences satellites |
+| **Session** | `sessions/` (near_memory + far_memory) | Éphémère | Mémoire de travail par session |
 
 ## Résultats du premier harvest
 

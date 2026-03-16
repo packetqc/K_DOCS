@@ -3,8 +3,8 @@ layout: publication
 title: "Distributed Minds — Bidirectional Knowledge Flow for AI-Assisted Multi-Project Engineering"
 description: "Architecture for distributed AI knowledge: a central master mind pushes methodology to satellite projects, harvest pulls evolved insights back. Version-aware, incremental, self-healing. 25 versions in 5 days, 5 satellites, 12 promotion candidates."
 pub_id: "Publication #4"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /publications/distributed-minds/
 og_image: /assets/og/distributed-minds-en-cayman.gif
 keywords: "distributed minds, harvest, satellites, bidirectional, knowledge flow, promotion"
@@ -12,6 +12,8 @@ keywords: "distributed minds, harvest, satellites, bidirectional, knowledge flow
 
 # Distributed Minds — Bidirectional Knowledge Flow for AI-Assisted Multi-Project Engineering
 {: #pub-title}
+
+> **Parent publication**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#15 — Architecture Diagrams]({{ '/publications/architecture-diagrams/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -27,9 +29,9 @@ keywords: "distributed minds, harvest, satellites, bidirectional, knowledge flow
 
 ## Abstract
 
-AI coding assistants gain persistent memory through `CLAUDE.md` and `notes/` — but when working across multiple projects, each instance evolves independently. Intelligence is generated everywhere but consolidated nowhere.
+AI coding assistants gain persistent memory through `mind_memory.md` and `sessions/` — but when working across multiple projects, each instance evolves independently. Intelligence is generated everywhere but consolidated nowhere.
 
-**Distributed Minds** creates a living network: a master mind pushes methodology to satellites on wakeup, and `harvest` pulls evolved knowledge back. The result is a self-healing, version-aware distributed intelligence.
+**Distributed Minds** creates a living network: a master mind pushes methodology to satellites via K_MIND module push, and K_GITHUB `sync_github.py` pulls evolved knowledge back. The result is a self-healing, version-aware distributed intelligence.
 
 **By design**, the system only operates on repositories that the user owns and that Claude Code has been granted access to via its GitHub application configuration. No external or third-party repositories are ever accessed.
 
@@ -58,17 +60,17 @@ flowchart TB
 
 | Direction | Mechanism | Content |
 |-----------|-----------|---------|
-| **Push** (outbound) | `wakeup` reads core CLAUDE.md | Methodology, patterns, pitfalls, commands |
-| **Harvest** (inbound) | `harvest <project>` crawls branches | Evolved patterns, new pitfalls, publications |
+| **Push** (outbound) | K_MIND module pushed via git to satellites | `mind_memory.md` directive grid, domain JSONs, methodology |
+| **Harvest** (inbound) | K_GITHUB `sync_github.py` syncs bidirectionally | Evolved patterns, new conventions, publications |
 
 ## Knowledge Layers
 
-| Layer | Stability | Purpose |
-|-------|-----------|---------|
-| **Core** (CLAUDE.md) | Stable | Identity, methodology, evolution log |
-| **Proven** (patterns/, lessons/) | Validated | Battle-tested across 2+ projects |
-| **Harvested** (minds/) | Evolving | Fresh from satellite experiments |
-| **Session** (notes/) | Ephemeral | Per-session working memory |
+| Layer | K2.0 Location | Stability | Purpose |
+|-------|---------------|-----------|---------|
+| **Core** | `mind_memory.md` (264-node directive grid) | Stable | Identity, methodology, system design |
+| **Proven** | `conventions.json`, `work.json` per module | Validated | Battle-tested across 2+ projects |
+| **Harvested** | `far_memory archives/` (topic-split) | Evolving | Fresh from satellite experiments |
+| **Session** | `sessions/` (near_memory + far_memory) | Ephemeral | Per-session working memory |
 
 ## First Harvest Results
 
