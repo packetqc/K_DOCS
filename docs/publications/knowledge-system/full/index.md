@@ -100,33 +100,33 @@ What you get by forking: **methodology, commands, publication templates, and too
 
 ## The System
 
-Knowledge is a central repository (`packetqc/knowledge`) that acts as the master mind for a network of satellite projects. The architecture is bidirectional: methodology flows outward on wakeup, discoveries flow inward through harvest.
+Knowledge 2.0 is a multi-module AI engineering intelligence system structured around a central memory grid (K_MIND) with specialized satellite modules (K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION). The mindmap is the operating directive grid — always loaded first.
 
 ```mermaid
 flowchart TB
-    subgraph KNOWLEDGE["packetqc/knowledge — The Master Mind"]
+    subgraph KNOWLEDGE["Knowledge 2.0 — Multi-Module System"]
         direction TB
-        CLAUDE["CLAUDE.md — Core identity, methodology, v1–v47 evolution"]
-        PATTERNS["patterns/ — Proven: embedded, RTOS, SQLite, UI/backend"]
-        LESSONS["lessons/ — 18 documented pitfalls"]
-        MINDS["minds/ — Harvested satellite knowledge (incubator)"]
-        NOTES["notes/ — Session working memory"]
-        PUBS["publications/ — 15 publications (including this one)"]
+        subgraph KMIND["K_MIND — Core Memory"]
+            MINDMAP["mind_memory.md — Operating directive grid (264 nodes)"]
+            SESSIONS["sessions/ — near + far memory + 16 topic archives"]
+            DOMAIN["Domain JSONs — conventions, work, architecture, constraints"]
+            SCRIPTS_M["scripts/ — 10 programs (memory_append, recall, gh_helper)"]
+        end
+        subgraph KDOCS["K_DOCS — Documentation Pipeline"]
+            VIEWER["docs/ — Static JS viewer, 5 interfaces, 25+ publications"]
+            SCRIPTS_D["scripts/ — capture, stitch, webcard pipeline"]
+        end
+        subgraph KOTHER["K_GITHUB · K_PROJECTS · K_VALIDATION"]
+            MODULES["GitHub sync + Project management + 8-stage QA workflow"]
+        end
         PRINCIPLES["Core Principles — 13 qualities (the DNA)"]
-        PROJECTS["projects/ — 9 projects (P0–P9) with hierarchical indexing"]
     end
 
-    KNOWLEDGE -- "push (wakeup)" --> SAT1["STM32N6570-DK_SQLITE\nv22 · 🟢"]
-    KNOWLEDGE -- "push (wakeup)" --> SAT2["MPLIB\nv0 · 🔴"]
-    KNOWLEDGE -- "push (wakeup)" --> SAT3["PQC\nv0 · 🔴"]
-    KNOWLEDGE -- "push (wakeup)" --> SAT4["knowledge-live\nv25 · 🟢"]
-    KNOWLEDGE -- "push (wakeup)" --> SAT5["MPLIB_DEV_STAGING\nv22 · 🔴"]
-
-    SAT1 -. "harvest" .-> KNOWLEDGE
-    SAT2 -. "harvest" .-> KNOWLEDGE
-    SAT3 -. "harvest" .-> KNOWLEDGE
-    SAT4 -. "harvest" .-> KNOWLEDGE
-    SAT5 -. "harvest" .-> KNOWLEDGE
+    KNOWLEDGE -- "skill invocations" --> CLAUDE["🤖 Claude Code\nAI Session Engine"]
+    CLAUDE -- "memory_append.py\nevery turn" --> SESSIONS
+    CLAUDE -- "git push main" --> GH["🐙 GitHub"]
+    GH -- "deploy (.nojekyll)" --> PAGES["📄 GitHub Pages\nStatic hosting"]
+    VIEWER -- "client-side render\nmarkdown + mermaid" --> PAGES
 ```
 
 ### What It Contains

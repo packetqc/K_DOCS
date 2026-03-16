@@ -96,32 +96,33 @@ Ce que vous obtenez en forkant : **méthodologie, commandes, modèles de publica
 
 ## Le système
 
-Knowledge est un cerveau maître central qui pousse sa méthodologie vers les projets satellites au démarrage et récolte leurs découvertes en retour. Le diagramme ci-dessous illustre cette architecture bidirectionnelle.
+Knowledge 2.0 est un système d'intelligence d'ingénierie IA multi-module structuré autour d'une grille mémoire centrale (K_MIND) avec des modules satellites spécialisés (K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION). La mindmap est la grille de directives opérationnelles — toujours chargée en premier.
 
 ```mermaid
 flowchart TB
-    subgraph KNOWLEDGE["packetqc/knowledge — Le cerveau maître"]
+    subgraph KNOWLEDGE["Knowledge 2.0 — Multi-Module System"]
         direction TB
-        CLAUDE["CLAUDE.md — Identité, méthodologie, évolution v1–v47"]
-        PATTERNS["patterns/ — Prouvés : embarqué, RTOS, SQLite, UI/backend"]
-        LESSONS["lessons/ — 18 écueils documentés"]
-        MINDS["minds/ — Connaissances satellites récoltées (incubateur)"]
-        PUBS["publications/ — 15 publications (celle-ci incluse)"]
-        PRINCIPLES["Principes fondamentaux — 13 qualités (l'ADN)"]
-        PROJECTS["projects/ — 9 projets (P0–P9) avec indexation hiérarchique"]
+        subgraph KMIND["K_MIND — Core Memory"]
+            MINDMAP["mind_memory.md — Operating directive grid (264 nodes)"]
+            SESSIONS["sessions/ — near + far memory + 16 topic archives"]
+            DOMAIN["Domain JSONs — conventions, work, architecture, constraints"]
+            SCRIPTS_M["scripts/ — 10 programs (memory_append, recall, gh_helper)"]
+        end
+        subgraph KDOCS["K_DOCS — Documentation Pipeline"]
+            VIEWER["docs/ — Static JS viewer, 5 interfaces, 25+ publications"]
+            SCRIPTS_D["scripts/ — capture, stitch, webcard pipeline"]
+        end
+        subgraph KOTHER["K_GITHUB · K_PROJECTS · K_VALIDATION"]
+            MODULES["GitHub sync + Project management + 8-stage QA workflow"]
+        end
+        PRINCIPLES["Core Principles — 13 qualities (the DNA)"]
     end
 
-    KNOWLEDGE -- "push (wakeup)" --> SAT1["STM32N6570-DK_SQLITE"]
-    KNOWLEDGE -- "push (wakeup)" --> SAT2["MPLIB"]
-    KNOWLEDGE -- "push (wakeup)" --> SAT3["PQC"]
-    KNOWLEDGE -- "push (wakeup)" --> SAT4["knowledge-live"]
-    KNOWLEDGE -- "push (wakeup)" --> SAT5["MPLIB_DEV_STAGING"]
-
-    SAT1 -. "harvest" .-> KNOWLEDGE
-    SAT2 -. "harvest" .-> KNOWLEDGE
-    SAT3 -. "harvest" .-> KNOWLEDGE
-    SAT4 -. "harvest" .-> KNOWLEDGE
-    SAT5 -. "harvest" .-> KNOWLEDGE
+    KNOWLEDGE -- "skill invocations" --> CLAUDE["🤖 Claude Code\nAI Session Engine"]
+    CLAUDE -- "memory_append.py\nevery turn" --> SESSIONS
+    CLAUDE -- "git push main" --> GH["🐙 GitHub"]
+    GH -- "deploy (.nojekyll)" --> PAGES["📄 GitHub Pages\nStatic hosting"]
+    VIEWER -- "client-side render\nmarkdown + mermaid" --> PAGES
 ```
 
 ### Contenu
