@@ -151,34 +151,52 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 }
 .nav-widget[open] > summary::before { transform: rotate(90deg); }
 .nav-widget[open] > summary { border-bottom-color: var(--accent, #1d4ed8); }
-.nav-widget .widget-body { padding: 0.2rem 0; }
+.nav-widget .widget-body { padding: 0.25rem 0.3rem; display: flex; flex-direction: column; gap: 0.15rem; }
 .nav-widget .widget-body a {
-  display: block; font-size: 0.78rem;
-  padding: 0.18rem 0.55rem;
+  display: block; font-size: 0.72rem; font-weight: 500;
+  padding: 0.3rem 0.5rem;
   color: var(--fg, #24292f);
-  text-decoration: none; border-radius: 3px;
-  text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  background: var(--code-bg, #f6f8fa);
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .nav-widget .widget-body a:hover {
-  background: var(--col-alt, #f0f0f0); color: var(--accent, #1d4ed8);
+  background: var(--col-alt, #e8eef4);
+  color: var(--accent, #1d4ed8);
+  border-left-color: var(--accent, #1d4ed8);
 }
 .nav-widget .widget-body a.active {
   background: var(--accent, #1d4ed8); color: var(--bg, #fff);
+  border-left-color: var(--bg, #fff);
 }
 
 /* Sub-groups */
-.nav-widget .pub-group { margin: 0; padding: 0; }
+.nav-widget .pub-group {
+  margin: 0.1rem 0; padding: 0;
+  background: var(--code-bg, #f6f8fa);
+  border-radius: 4px; border: 1px solid var(--border, #d0d7de);
+}
 .nav-widget .pub-group summary {
-  font-size: 0.76rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0;
-  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  padding: 0.3rem 0.5rem;
   background: none; border-bottom: none;
   color: var(--fg, #24292f);
+  border-radius: 4px;
+  transition: background 0.15s;
 }
+.nav-widget .pub-group summary:hover { background: var(--col-alt, #e8eef4); }
 .nav-widget .pub-group summary::before { content: '›'; font-size: 0.8rem; }
 .nav-widget .pub-group[open] > summary::before { content: '⌄'; }
-.nav-widget .pub-group a { padding-left: 1.3rem; font-size: 0.74rem; }
-.cmd-link { font-family: monospace; font-size: 0.72rem; color: var(--muted, #656d76); }
+.nav-widget .pub-group[open] > summary { border-bottom: 1px solid var(--border, #d0d7de); border-radius: 4px 4px 0 0; }
+.nav-widget .pub-group a {
+  padding-left: 1.1rem; font-size: 0.7rem;
+  background: transparent; border-left: none;
+}
+.nav-widget .pub-group a:hover { background: var(--col-alt, #e8eef4); border-left: none; }
+.cmd-link { font-family: monospace; font-size: 0.68rem; color: var(--muted, #656d76); letter-spacing: 0; }
 
 /* ═══ Tab bar — horizontal strip above content-frame ═══ */
 .tab-bar {
@@ -218,18 +236,31 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .tab-close:hover { background: #e5534b; color: #fff; }
 
 /* ═══ Interface row — link + ℹ button ═══ */
-.iface-row { display: flex; align-items: center; }
-.iface-row > a:first-child { flex: 1; }
+.iface-row {
+  display: flex; align-items: center;
+  background: var(--code-bg, #f6f8fa);
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.iface-row:hover {
+  background: var(--col-alt, #e8eef4);
+  border-left-color: var(--accent, #1d4ed8);
+}
+.iface-row > a:first-child {
+  flex: 1; background: transparent !important;
+  border-left: none !important; border-radius: 0 !important;
+}
+.iface-row > a:first-child:hover { background: transparent !important; border-left: none !important; }
 .iface-pub-btn {
-  flex-shrink: 0; padding: 0.15rem 0.35rem;
+  flex-shrink: 0; padding: 0.2rem 0.4rem;
   font-size: 0.7rem; text-decoration: none;
   color: var(--muted, #656d76); border-radius: 3px;
-  cursor: pointer; opacity: 0.5;
-  transition: opacity 0.15s;
+  cursor: pointer; opacity: 0.4;
+  transition: opacity 0.15s, color 0.15s;
 }
 .iface-pub-btn:hover {
-  opacity: 1; background: var(--col-alt, #f0f0f0);
-  color: var(--accent, #1d4ed8);
+  opacity: 1; color: var(--accent, #1d4ed8);
 }
 
 /* ═══ Dark theme overrides for widgets ═══ */
