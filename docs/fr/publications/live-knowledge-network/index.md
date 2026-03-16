@@ -3,8 +3,8 @@ layout: publication
 title: "Réseau de connaissances en direct — Découverte inter-instances sécurisée PQC"
 description: "Découverte et communication en temps réel entre instances Claude Code via TCP sécurisé PQC sur sous-réseaux de conteneurs partagés. Protocole balise/scanner porté de la découverte réseau embarquée STM32H5/N6."
 pub_id: "Publication #10"
-version: "v1"
-date: "2026-02-20"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/live-knowledge-network/
 og_image: /assets/og/live-knowledge-network-fr-cayman.gif
 keywords: "balise, découverte, PQC, sous-réseau, temps réel, inter-instance, ML-KEM"
@@ -13,7 +13,7 @@ keywords: "balise, découverte, PQC, sous-réseau, temps réel, inter-instance, 
 # Réseau de connaissances en direct — Découverte inter-instances sécurisée PQC
 {: #pub-title}
 
-> **Publication parente** : [#0 — Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }})
+> **Publication parente** : [#0 — Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Référence core** : [#14 — Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }})
 
 **Table des matières**
 
@@ -38,13 +38,13 @@ La communication de Knowledge a évolué à travers trois générations :
 
 | Génération | Versions | Mécanisme | Latence |
 |-----------|----------|-----------|---------|
-| **Persistant** | v1–v6 | `notes/` + `CLAUDE.md` (fichiers) | Frontière de session |
-| **Distribué** | v9–v18 | `harvest` + `minds/` (médié par git) | Minutes (fusion PR) |
+| **Persistant** | v1–v6 | `sessions/` + `mind_memory.md` (fichiers) | Frontière de session |
+| **Distribué** | v9–v18 | K_GITHUB `sync_github.py` + `far_memory archives/` (médié par git) | Minutes (fusion PR) |
 | **En direct** | v23+ | Balise/scanner (TCP direct) | Millisecondes |
 
 ## Protocole de découverte
 
-Chaque instance de connaissances démarre une **balise** sur le port bien connu **21337** au réveil. Les satellites balaient le sous-réseau /25 de conteneurs (128 hôtes, 64 threads parallèles) pour trouver les balises actives. L'identité est échangée en JSON sur TCP — sans surcharge HTTP.
+Chaque instance de connaissances démarre une **balise** sur le port bien connu **21337** au démarrage de session. Les satellites balaient le sous-réseau /25 de conteneurs (128 hôtes, 64 threads parallèles) pour trouver les balises actives. L'identité est échangée en JSON sur TCP — sans surcharge HTTP.
 
 **Lire la documentation complète** : [Publication complète]({{ '/fr/publications/live-knowledge-network/full/' | relative_url }})
 
@@ -64,10 +64,10 @@ Knowledge lui-même sert d'ancre de confiance — prouver l'accès au contenu de
 
 | Outil | Fichier | Fonction |
 |-------|---------|----------|
-| Balise | `live/knowledge_beacon.py` | Écouter sur le port 21337, répondre avec l'identité |
-| Scanner | `live/knowledge_scanner.py` | Balayer le sous-réseau, découvrir les balises |
+| Balise | `K_DOCS/scripts/knowledge_beacon.py` | Écouter sur le port 21337, répondre avec l'identité |
+| Scanner | `K_DOCS/scripts/knowledge_scanner.py` | Balayer le sous-réseau, découvrir les balises |
 
-Les deux outils sont synchronisés vers les projets satellites au réveil (étape 5) aux côtés du `stream_capture.py` existant.
+Les deux outils sont synchronisés vers les projets satellites au démarrage de session aux côtés des scripts de capture existants.
 
 ## Publications reliées
 
@@ -75,7 +75,9 @@ Les deux outils sont synchronisés vers les projets satellites au réveil (étap
 |---|-------|----------|
 | [0]({{ '/fr/publications/knowledge-system/' | relative_url }}) | Knowledge | Parent — ceci étend l'architecture de base |
 | [4]({{ '/fr/publications/distributed-minds/' | relative_url }}) | Minds distribués | Prédécesseur — distribution asynchrone par git |
-| [7]({{ '/fr/publications/harvest-protocol/' | relative_url }}) | Protocole Harvest | Prédécesseur — collecte de connaissances par extraction |
+| [7]({{ '/fr/publications/harvest-protocol/' | relative_url }}) | Protocole Harvest | Prédécesseur — collecte de connaissances par extraction (maintenant K_GITHUB sync) |
+| [14]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | Analyse d'architecture | Architecture en profondeur — conception multi-module |
+| [0v2]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | Knowledge 2.0 | Référence architecture multi-module K2.0 |
 | [9]({{ '/fr/publications/security-by-design/' | relative_url }}) | Sécurité par conception | Jumelage — le modèle PQC s'applique ici |
 
 ---
@@ -84,7 +86,7 @@ Les deux outils sont synchronisés vers les projets satellites au réveil (étap
 
 | Champ | Valeur |
 |-------|--------|
-| Version | v1 |
+| Version | v2 |
 | Connaissances | v23 |
 | Auteurs | Martin Paquet, Claude (Anthropic) |
 | Source | [GitHub](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/live-knowledge-network/v1) |

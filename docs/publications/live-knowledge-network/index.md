@@ -3,8 +3,8 @@ layout: publication
 title: "Live Knowledge Network — PQC-Secured Inter-Instance Discovery"
 description: "Real-time discovery and communication between Claude Code instances via PQC-secured TCP on shared container subnets. Beacon/scanner protocol ported from STM32H5/N6 embedded network discovery."
 pub_id: "Publication #10"
-version: "v1"
-date: "2026-02-20"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/live-knowledge-network/
 og_image: /assets/og/live-knowledge-network-en-cayman.gif
 keywords: "beacon, discovery, PQC, subnet, real-time, inter-instance, ML-KEM"
@@ -13,7 +13,7 @@ keywords: "beacon, discovery, PQC, subnet, real-time, inter-instance, ML-KEM"
 # Live Knowledge Network — PQC-Secured Inter-Instance Discovery
 {: #pub-title}
 
-> **Parent publication**: [#0 — Knowledge]({{ '/publications/knowledge-system/' | relative_url }})
+> **Parent publication**: [#0 — Knowledge]({{ '/publications/knowledge-system/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -38,13 +38,13 @@ Knowledge's communication has evolved through three generations:
 
 | Generation | Versions | Mechanism | Latency |
 |-----------|----------|-----------|---------|
-| **Persistent** | v1–v6 | `notes/` + `CLAUDE.md` (file-based) | Session boundary |
-| **Distributed** | v9–v18 | `harvest` + `minds/` (git-mediated) | Minutes (PR merge) |
+| **Persistent** | v1–v6 | `sessions/` + `mind_memory.md` (file-based) | Session boundary |
+| **Distributed** | v9–v18 | K_GITHUB `sync_github.py` + `far_memory archives/` (git-mediated) | Minutes (PR merge) |
 | **Live** | v23+ | Beacon/scanner (direct TCP) | Milliseconds |
 
 ## Discovery Protocol
 
-Every knowledge instance starts a **beacon** on well-known port **21337** at wakeup. Satellites scan the /25 container subnet (128 hosts, 64 parallel threads) to find active beacons. Identity is exchanged as JSON over TCP — no HTTP overhead.
+Every knowledge instance starts a **beacon** on well-known port **21337** on session start. Satellites scan the /25 container subnet (128 hosts, 64 parallel threads) to find active beacons. Identity is exchanged as JSON over TCP — no HTTP overhead.
 
 **Read the complete documentation**: [Full publication]({{ '/publications/live-knowledge-network/full/' | relative_url }})
 
@@ -64,10 +64,10 @@ Knowledge itself serves as the trust anchor — proving access to `packetqc/know
 
 | Tool | File | Purpose |
 |------|------|---------|
-| Beacon | `live/knowledge_beacon.py` | Listen on port 21337, respond with identity |
-| Scanner | `live/knowledge_scanner.py` | Scan subnet, discover beacons, exchange identity |
+| Beacon | `K_DOCS/scripts/knowledge_beacon.py` | Listen on port 21337, respond with identity |
+| Scanner | `K_DOCS/scripts/knowledge_scanner.py` | Scan subnet, discover beacons, exchange identity |
 
-Both tools are synced to satellite projects on wakeup (step 5) alongside the existing `stream_capture.py`.
+Both tools are synced to satellite projects on session start alongside the existing capture scripts.
 
 ## Related Publications
 
@@ -75,7 +75,9 @@ Both tools are synced to satellite projects on wakeup (step 5) alongside the exi
 |---|-------|-------------|
 | [0]({{ '/publications/knowledge-system/' | relative_url }}) | Knowledge | Parent — this extends the core architecture |
 | [4]({{ '/publications/distributed-minds/' | relative_url }}) | Distributed Minds | Predecessor — async git-mediated distribution |
-| [7]({{ '/publications/harvest-protocol/' | relative_url }}) | Harvest Protocol | Predecessor — pull-based knowledge collection |
+| [7]({{ '/publications/harvest-protocol/' | relative_url }}) | Harvest Protocol | Predecessor — pull-based knowledge collection (now K_GITHUB sync) |
+| [14]({{ '/publications/architecture-analysis/' | relative_url }}) | Architecture Analysis | Architecture deep dive — multi-module design |
+| [0v2]({{ '/publications/knowledge-2.0/' | relative_url }}) | Knowledge 2.0 | K2.0 multi-module architecture reference |
 | [9]({{ '/publications/security-by-design/' | relative_url }}) | Security by Design | Sibling — PQC security model applies here |
 
 ---
@@ -84,7 +86,7 @@ Both tools are synced to satellite projects on wakeup (step 5) alongside the exi
 
 | Field | Value |
 |-------|-------|
-| Version | v1 |
+| Version | v2 |
 | Knowledge | v23 |
 | Authors | Martin Paquet, Claude (Anthropic) |
 | Source | [GitHub](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/live-knowledge-network/v1) |

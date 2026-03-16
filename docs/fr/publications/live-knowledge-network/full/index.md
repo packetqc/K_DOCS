@@ -3,8 +3,8 @@ layout: publication
 title: "Réseau de connaissances en direct — Documentation complète"
 description: "Documentation complète du protocole de découverte et communication inter-instances sécurisé PQC pour conteneurs Claude Code. Conception du protocole, reconnaissance réseau, implémentation balise/scanner, architecture de sécurité."
 pub_id: "Publication #10"
-version: "v1"
-date: "2026-02-20"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/live-knowledge-network/full/
 og_image: /assets/og/live-knowledge-network-fr-cayman.gif
 keywords: "balise, découverte, PQC, sous-réseau, temps réel, inter-instance, ML-KEM"
@@ -23,7 +23,7 @@ keywords: "balise, découverte, PQC, sous-réseau, temps réel, inter-instance, 
 
 | Champ | Valeur |
 |-------|--------|
-| Version | v1 |
+| Version | v2 |
 | Connaissances | v23 |
 | Auteurs | Martin Paquet, Claude (Anthropic) |
 | Source | [GitHub](https://github.com/packetqc/knowledge/tree/main/knowledge/data/publications/live-knowledge-network/v1) |
