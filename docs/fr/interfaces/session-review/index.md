@@ -13,7 +13,7 @@ dev_banner: "Interface en developpement — les fonctionnalites et la mise en pa
 lang: fr
 ---
 
-# Revu de session
+# Session Review
 
 {::nomarkdown}
 
@@ -35,7 +35,27 @@ lang: fr
       <option value="timeline">Timeline</option>
     </select>
   </div>
+  <a class="iface-info-btn" data-pub="guide-session-review" title="User Guide">ℹ</a>
 </div>
+<style>.iface-info-btn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--accent,#1d4ed8);color:#fff;font-size:0.85rem;font-weight:700;text-decoration:none;cursor:pointer;flex-shrink:0;margin-left:auto;}.iface-info-btn:hover{opacity:0.85;}</style>
+<script>
+(function(){
+  var btn = document.querySelector('.iface-info-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var slug = this.dataset.pub;
+    var lp = (document.documentElement.lang === 'fr' || location.pathname.indexOf('/fr/') >= 0) ? '/fr' : '';
+    var base = (typeof viewerRewriteUrl === 'function') ? '' : '{{ "" | relative_url }}';
+    var pubUrl = base + lp + '/publications/' + slug + '/full/';
+    if (window.parent !== window && window.name === 'center-frame') {
+      window.parent.postMessage({ type: 'open-pub', url: pubUrl, title: 'Session Review Guide' }, '*');
+    } else {
+      window.open(pubUrl, '_blank');
+    }
+  });
+})();
+</script>
 
 <div id="sv-data-mode" class="sv-data-mode">
   <span class="sv-data-mode-icon">📊</span>
@@ -219,11 +239,11 @@ lang: fr
 {:/nomarkdown}
 
 <div class="pub-crossrefs">
-<h3>Références croisées</h3>
+<h3>Cross-references</h3>
 <div class="pub-crossrefs-list">
-<a href="{{ '/fr/publications/' | relative_url }}">Index des publications</a>
-<a href="{{ '/fr/interfaces/' | relative_url }}">Index des interfaces</a>
-<a href="{{ '/fr/interfaces/main-navigator/' | relative_url }}">I2 Navigateur principal</a>
-<a href="{{ '/fr/interfaces/task-workflow/' | relative_url }}">I3 Flux de travail</a>
+<a href="{{ '/publications/' | relative_url }}">Publications Index</a>
+<a href="{{ '/interfaces/' | relative_url }}">Interfaces Index</a>
+<a href="{{ '/interfaces/main-navigator/' | relative_url }}">I2 Main Navigator</a>
+<a href="{{ '/interfaces/task-workflow/' | relative_url }}">I3 Tasks Workflow</a>
 </div>
 </div>
