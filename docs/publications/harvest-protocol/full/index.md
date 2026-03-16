@@ -3,8 +3,8 @@ layout: publication
 title: "Harvest Protocol — Complete Documentation"
 description: "Complete documentation for the harvest protocol: all commands with examples, promotion pipeline step-by-step, network healthcheck, satellite remediation, contextual help, error handling, common workflows, and knowledge inventory."
 pub_id: "Publication #7 — Full"
-version: "v1"
-date: "2026-02-19"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/harvest-protocol/full/
 og_image: /assets/og/harvest-protocol-en-cayman.gif
 keywords: "harvest, promotion, healthcheck, satellites, insights, version drift"
@@ -42,7 +42,7 @@ keywords: "harvest, promotion, healthcheck, satellites, insights, version drift"
 
 ## Abstract
 
-Publication #4 (Distributed Minds) documents the **architecture** of bidirectional knowledge flow. This publication is the **practical guide** — how to use `harvest` commands day-to-day: pulling knowledge from satellites, reviewing and promoting insights, running network sweeps, and fixing version drift.
+Publication #4 (Distributed Minds) documents the **architecture** of bidirectional knowledge flow. This publication is the **practical guide** — how K_GITHUB `sync_github.py` replaces K1.0's `harvest` commands: syncing knowledge from satellites, managing the promotion pipeline, running network sweeps, and tracking version drift.
 
 ---
 
@@ -50,15 +50,15 @@ Publication #4 (Distributed Minds) documents the **architecture** of bidirection
 
 | Command | Action |
 |---------|--------|
-| `harvest <project>` | Pull knowledge from a satellite into `minds/` |
-| `harvest --list` | List all harvested projects with version + drift |
+| `sync_github.py <project>` | Sync knowledge from satellite |
+| `harvest --list` *(K1.0)* | K_GITHUB project inventory (see K_GITHUB module) |
 | `harvest --procedure` | Guided promotion walkthrough |
-| `harvest --healthcheck` | Full network sweep + auto-promote queue |
+| K_GITHUB + K_VALIDATION `/integrity-check` | Full network sweep + auto-promote queue (replaces `harvest --healthcheck`) |
 | `harvest --review <N>` | Mark insight #N as human-reviewed |
 | `harvest --stage <N> <type>` | Stage insight for integration |
-| `harvest --promote <N>` | Promote to core knowledge now |
+| Manual: update `conventions.json` or `work.json` | Promote to core knowledge now (replaces `harvest --promote <N>`) |
 | `harvest --auto <N>` | Queue for auto-promote on next healthcheck |
-| `harvest --fix <project>` | Update satellite CLAUDE.md to latest version |
+| K_GITHUB sync to satellite | Update satellite to latest version (replaces `harvest --fix <project>`) |
 | `harvest <cmd> ?` | Contextual help for any subcommand |
 
 ---
@@ -69,11 +69,11 @@ Knowledge has **bidirectional flow**:
 
 | Direction | Description |
 |-----------|-------------|
-| **Push (outbound)** | On `wakeup`, satellites read the master mind and inherit methodology. |
-| **Harvest (inbound)** | The master crawls satellite branches, extracts evolved knowledge, and stages it in `minds/`. |
+| **Push (outbound)** | On session start, satellites load the K_MIND module (`mind_memory.md` directive grid + domain JSONs). |
+| **Harvest (inbound)** | K_GITHUB `sync_github.py` handles bidirectional sync — extracting evolved knowledge and staging it in `far_memory archives/`. |
 
 ```
-Satellite project → harvest → minds/<project>.md → review → promote → core knowledge
+Satellite project → sync_github.py → far_memory archives/ → review → promote → core knowledge
 ```
 
 **Access scope**: Harvest only operates on repositories that the user owns and that Claude Code has been granted access to via its GitHub application configuration. No external or third-party repos are ever crawled. This is a deliberate security and privacy boundary.
@@ -89,7 +89,7 @@ If you fork or clone this repository, the harvest protocol is **owner-scoped** a
 | **No credentials or tokens** | Harvest uses public HTTPS URLs only — nothing stored |
 | **Satellite URLs** | Reference the original owner's repos — a forker's harvest reads public data (read-only) or fails gracefully (403/404 → marked `unreachable`) |
 | **Push access** | Proxy-scoped — `harvest --fix` can only push to the current session's assigned branch in the current repo |
-| **`minds/` data** | Specific to the original owner's satellites — starts fresh when you run your own harvests |
+| **archives data** | Specific to the original owner's satellites — starts fresh when you run your own harvests |
 
 To use harvest for your own projects: replace `packetqc` with your GitHub username in CLAUDE.md. The protocol adapts — your satellites, your namespace, your data.
 
@@ -98,7 +98,7 @@ To use harvest for your own projects: replace `packetqc` with your GitHub userna
 ## Harvesting a Satellite
 
 ```
-harvest STM32N6570-DK_SQLITE
+sync_github.py STM32N6570-DK_SQLITE
 ```
 
 **Protocol (10 steps):**
@@ -106,12 +106,12 @@ harvest STM32N6570-DK_SQLITE
 | Step | Action |
 |------|--------|
 | 1. Enumerate branches | `git ls-remote https://github.com/packetqc/<project>` |
-| 2. Check cursors | Compare each branch HEAD against last-harvested SHA in `minds/<project>.md` |
-| 3. Scan new content | For changed branches: `CLAUDE.md`, `notes/`, `publications/`, `remember harvest:` flags |
-| 4. Knowledge inventory | Does the satellite reference `packetqc/knowledge`? Has `notes/`? Has `live/`? |
+| 2. Check cursors | Compare each branch HEAD against last-harvested SHA in archives |
+| 3. Scan new content | For changed branches: `CLAUDE.md`, `sessions/`, conventions, `remember harvest:` flags |
+| 4. Knowledge inventory | Does the satellite reference `packetqc/knowledge`? Has `sessions/`? Has `scripts/`? |
 | 5. Version check | Read `<!-- knowledge-version: vN -->` from satellite CLAUDE.md |
 | 6. Extract | Pull methodology, patterns, pitfalls, Claude instructions, publication references |
-| 7. Update | Write to `minds/<project-slug>.md` with updated branch cursors |
+| 7. Update | Write to archives with updated branch cursors |
 | 8. Report | What was harvested, what's new, version drift, promotion candidates |
 | 9. Update dashboard | Refresh satellite table in `publications/distributed-knowledge-dashboard/v1/README.md` |
 | 10. Regenerate webcards | If dashboard data changed: `python3 scripts/generate_og_gifs.py knowledge-dashboard` |
@@ -144,10 +144,10 @@ Insights advance through 4 stages:
 
 | Type | Target file | For what |
 |------|------------|----------|
-| `lesson` | `lessons/pitfalls.md` | Things that broke |
-| `pattern` | `patterns/<topic>.md` | Proven approaches |
+| `lesson` | `conventions.json (pitfalls)` | Things that broke |
+| `pattern` | `conventions.json (patterns)` | Proven approaches |
 | `methodology` | `methodology/` | Workflow improvements |
-| `evolution` | CLAUDE.md Knowledge Evolution table | Architectural discoveries about the system itself |
+| `evolution` | `mind_memory.md` nodes or `work.json` | Architectural discoveries about the system itself |
 | `docs` | Publications or docs pages | Documentation |
 
 **Guided walkthrough**: `harvest --procedure` shows the full pipeline with current state — what's reviewable, what's staged, what's promoted.
@@ -181,7 +181,7 @@ Full sweep of all known satellites:
 | 🔴 | Critical / Missing | Drift 8+, Bootstrap missing |
 | ⚪ | Inactive | Sessions 0, Health pending |
 
-**When to run**: On-demand. Auto-suggested on `wakeup` when the last healthcheck was > 24h ago.
+**When to run**: On-demand. Auto-suggested on session start when the last healthcheck was > 24h ago.
 
 ---
 
@@ -194,12 +194,12 @@ harvest --fix STM32N6570-DK_SQLITE
 | Step | Action |
 |------|--------|
 | 1 | Read satellite's `<!-- knowledge-version: vN -->` tag |
-| 2 | Generate updated CLAUDE.md bootstrap section |
-| 3 | Record remediation in `minds/` on the task branch |
+| 2 | Generate updated K_MIND module push |
+| 3 | Record remediation in archives on the task branch |
 | 4 | Fix reaches `main` when user approves the PR |
-| 5 | Satellite self-heals on next `wakeup` by reading updated core |
+| 5 | Satellite self-heals on next session start by loading the updated K_MIND module |
 
-**Why pull-based?** Claude Code's push access is proxy-scoped: per-repo and per-branch. Cannot push to satellite repos. The satellite reads the updated core on its next wakeup — self-healing.
+**Why pull-based?** Claude Code's push access is proxy-scoped: per-repo and per-branch. Cannot push to satellite repos. The satellite reads the updated K_MIND module on its next session start — self-healing.
 
 ---
 
@@ -274,8 +274,8 @@ harvest --procedure            # Full walkthrough with current state
 |----------|----------|
 | **Claude instructions** | Project-specific directives that may generalize |
 | **Evolved patterns** | New patterns discovered during the project |
-| **New pitfalls** | Things that broke, not yet in master `lessons/` |
-| **Methodology progress** | Workflow improvements, new commands |
+| **New pitfalls** | Things that broke, not yet in `conventions.json` |
+| **Methodology progress** | Workflow improvements, new scripts and skills |
 | **Publications** | Technical writeups in satellite repos |
 | **Harvest flags** | Notes marked with `remember harvest: <insight>` |
 
@@ -287,10 +287,10 @@ Every harvest reports the satellite's knowledge status:
 
 | Check | What it means |
 |-------|---------------|
-| CLAUDE.md references `packetqc/knowledge` | Sunglasses active |
-| `notes/` exists | Session persistence active |
-| `live/` synced | Live tooling deployed |
-| Own `patterns/` or `methodology/` | Evolved own knowledge layer |
+| `mind_memory.md` + K_MIND scripts present | K_MIND module active |
+| `sessions/` exists | Tiered session memory active |
+| K_DOCS `scripts/` present | Documentation tooling deployed |
+| Own `conventions.json` or module-specific `work.json` | Evolved own knowledge layer |
 | `publications/` with content | Has publishable material |
 | Repo accessible | Harvest can reach the satellite |
 
@@ -304,6 +304,8 @@ Every harvest reports the satellite's knowledge status:
 | 4 | [Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }}) | Architecture — the system harvest operates within |
 | 4a | [Knowledge Dashboard]({{ '/publications/distributed-knowledge-dashboard/' | relative_url }}) | Output — harvest updates the dashboard |
 | 3 | [AI Session Persistence]({{ '/publications/ai-session-persistence/' | relative_url }}) | Foundation — session notes are harvest's input data |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Core reference — K_MIND module, memory architecture |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | Architecture — multi-module design |
 
 ---
 

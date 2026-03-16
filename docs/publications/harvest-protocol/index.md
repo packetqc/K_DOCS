@@ -3,8 +3,8 @@ layout: publication
 title: "Harvest Protocol — Practical Guide to Distributed Knowledge Collection"
 description: "Practical how-to guide for the harvest commands: pulling knowledge from satellite projects, the promotion pipeline (review → stage → promote), network healthcheck, satellite remediation, and common daily workflows."
 pub_id: "Publication #7"
-version: "v1"
-date: "2026-02-19"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/harvest-protocol/
 og_image: /assets/og/harvest-protocol-en-cayman.gif
 keywords: "harvest, promotion, healthcheck, satellites, insights, version drift"
@@ -13,7 +13,7 @@ keywords: "harvest, promotion, healthcheck, satellites, insights, version drift"
 # Harvest Protocol — Practical Guide
 {: #pub-title}
 
-> **Parent publication**: [#0 — Knowledge]({{ '/publications/knowledge-system/' | relative_url }}) | **Architecture**: [#4 — Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }})
+> **Parent publication**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | **Architecture**: [#4 — Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }})
 
 **Contents**
 
@@ -29,25 +29,21 @@ keywords: "harvest, promotion, healthcheck, satellites, insights, version drift"
 
 ## Abstract
 
-Publication #4 (Distributed Minds) documents the **architecture** of bidirectional knowledge flow. This publication is the **practical guide** — how to actually use `harvest` day-to-day: pulling knowledge from satellites, reviewing insights, promoting to core, running network sweeps, and fixing version drift.
+Publication #4 (Distributed Minds) documents the **architecture** of bidirectional knowledge flow. This publication is the **practical guide** — how K_GITHUB `sync_github.py` replaces K1.0's `harvest` commands: syncing knowledge from satellites, managing the promotion pipeline, and tracking version drift.
 
 ## Quick Reference
 
 | Command | Action |
 |---------|--------|
-| `harvest <project>` | Pull knowledge from a satellite into `minds/` |
-| `harvest --list` | List all projects with version + drift status |
-| `harvest --procedure` | Guided promotion walkthrough |
-| `harvest --healthcheck` | Full network sweep + auto-promote |
-| `harvest --review <N>` | Mark insight as human-reviewed |
-| `harvest --stage <N> <type>` | Stage for integration (lesson, pattern, methodology, evolution, docs) |
-| `harvest --promote <N>` | Promote to core knowledge now |
-| `harvest --auto <N>` | Queue for auto-promote on next healthcheck |
-| `harvest --fix <project>` | Update satellite CLAUDE.md to latest version |
+| K_GITHUB `sync_github.py <project>` | Sync knowledge from satellite |
+| K_GITHUB project inventory | List satellites with version + drift |
+| K_GITHUB + K_VALIDATION `/integrity-check` | Full network sweep |
+| Manual: update `conventions.json` or `work.json` | Promote to domain files |
+| K_GITHUB sync to satellite | Push updates to satellite |
 
 ## Core Concept
 
-**Push** (outbound): On `wakeup`, satellites read the master mind. **Harvest** (inbound): The master crawls satellites, extracts evolved knowledge, stages it in `minds/` for review.
+**Push** (outbound): On session start, satellites load the K_MIND module (`mind_memory.md` + domain JSONs). **Sync** (inbound): K_GITHUB `sync_github.py` syncs bidirectionally — extracting evolved knowledge and staging it in `far_memory archives/` for review.
 
 **Access scope**: Harvest only operates on repositories that the user owns and that Claude Code has been granted access to via its GitHub application configuration. No external or third-party repos are ever crawled.
 
@@ -61,26 +57,26 @@ harvested → 🔍 review → 📦 stage → ✅ promote (or 🔄 auto)
 
 | Stage | Action |
 |-------|--------|
-| **Harvest** | `harvest <project>` pulls insights into `minds/` |
-| **Review** | `harvest --review N` marks as human-validated (quality gate) |
-| **Stage** | `harvest --stage N lesson` assigns target type (lesson, pattern, methodology, evolution, docs) |
-| **Promote** | `harvest --promote N` writes to core now, or `harvest --auto N` queues for next healthcheck |
+| **Sync** | K_GITHUB `sync_github.py` pulls insights from satellite |
+| **Review** | Human review of staged content in `far_memory archives/` (quality gate) |
+| **Stage** | Assign target type (lesson, pattern, methodology, evolution, docs) |
+| **Promote** | Manual: update `conventions.json` or `work.json` with promoted knowledge |
 
 ## Network Healthcheck
 
-`harvest --healthcheck` sweeps all known satellites, updates severity icons (🟢🟡🟠🔴⚪), processes auto-promote queue, and regenerates dashboard webcards.
+K_GITHUB + K_VALIDATION `/integrity-check` sweeps all known satellites, updates severity icons (🟢🟡🟠🔴⚪), and regenerates dashboard webcards.
 
 ## Satellite Remediation
 
-`harvest --fix <project>` prepares a version update locally. The satellite self-heals on next `wakeup` by reading the updated core — pull-based, not push-based (Claude Code cannot push cross-repo).
+K_GITHUB `sync_github.py` prepares a version update locally. The satellite self-heals on next session start by loading the updated K_MIND module — pull-based, not push-based (Claude Code cannot push cross-repo).
 
 ## Common Workflows
 
-**Daily check**: `harvest --list` → `harvest --healthcheck`
+**Daily check**: K_GITHUB project inventory → K_GITHUB + K_VALIDATION `/integrity-check`
 
-**New insight**: `harvest <project>` → `harvest --review N` → `harvest --stage N lesson` → `harvest --promote N`
+**New insight**: K_GITHUB `sync_github.py <project>` → human review of `far_memory archives/` → assign type → promote to `conventions.json` or `work.json`
 
-**Guided**: `harvest --procedure` for step-by-step walkthrough with current state.
+**Guided**: K_VALIDATION `/work-cycle` for step-by-step walkthrough with current state.
 
 ---
 

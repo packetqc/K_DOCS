@@ -3,8 +3,8 @@ layout: publication
 title: "Protocole Harvest — Guide pratique de collecte de connaissances distribuées"
 description: "Guide pratique des commandes harvest : extraire les connaissances des projets satellites, le pipeline de promotion (réviser → préparer → promouvoir), healthcheck réseau, remédiation des satellites, et flux de travail quotidiens."
 pub_id: "Publication #7"
-version: "v1"
-date: "2026-02-19"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/harvest-protocol/
 og_image: /assets/og/harvest-protocol-fr-cayman.gif
 keywords: "récolte, promotion, bilan de santé, satellites, perspectives, dérive de version"
@@ -13,7 +13,7 @@ keywords: "récolte, promotion, bilan de santé, satellites, perspectives, déri
 # Protocole Harvest — Guide pratique
 {: #pub-title}
 
-> **Publication parente** : [#0 — Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Architecture** : [#4 — Connaissances distribuées]({{ '/fr/publications/distributed-minds/' | relative_url }})
+> **Publication parente** : [#0 — Système Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Référence core** : [#14 — Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | **Architecture** : [#4 — Connaissances distribuées]({{ '/fr/publications/distributed-minds/' | relative_url }})
 
 **Table des matières**
 
@@ -29,25 +29,21 @@ keywords: "récolte, promotion, bilan de santé, satellites, perspectives, déri
 
 ## Résumé
 
-La publication #4 (Connaissances distribuées) documente l'**architecture** du flux bidirectionnel de connaissances. Cette publication est le **guide pratique** — comment utiliser `harvest` au quotidien : extraire les connaissances des satellites, réviser les découvertes, promouvoir vers le core, exécuter des balayages réseau et corriger la dérive de version.
+La publication #4 (Connaissances distribuées) documente l'**architecture** du flux bidirectionnel de connaissances. Cette publication est le **guide pratique** — comment K_GITHUB `sync_github.py` remplace les commandes `harvest` de K1.0 : synchroniser les connaissances depuis les satellites, gérer le pipeline de promotion, exécuter des balayages réseau et suivre la dérive de version.
 
 ## Référence rapide
 
 | Commande | Action |
 |---------|--------|
-| `harvest <projet>` | Extraire les connaissances d'un satellite dans `minds/` |
-| `harvest --list` | Lister tous les projets avec version + dérive |
-| `harvest --procedure` | Procédure guidée de promotion |
-| `harvest --healthcheck` | Balayage réseau complet + auto-promotion |
-| `harvest --review <N>` | Marquer comme révisé par l'humain |
-| `harvest --stage <N> <type>` | Préparer pour intégration (lesson, pattern, methodology, evolution, docs) |
-| `harvest --promote <N>` | Promouvoir vers le core maintenant |
-| `harvest --auto <N>` | Mettre en file pour auto-promotion au prochain healthcheck |
-| `harvest --fix <projet>` | Mettre à jour le CLAUDE.md du satellite |
+| K_GITHUB `sync_github.py <projet>` | Synchroniser depuis un satellite |
+| Inventaire K_GITHUB | Lister les satellites avec version + dérive |
+| K_GITHUB + K_VALIDATION `/integrity-check` | Balayage réseau |
+| Manuel : mettre à jour `conventions.json` ou `work.json` | Promouvoir vers le core |
+| K_GITHUB sync vers satellite | Corriger la dérive d'un satellite |
 
 ## Concept fondamental
 
-**Push** (sortant) : Au `wakeup`, les satellites lisent le cerveau maître. **Harvest** (entrant) : Le maître parcourt les satellites, extrait les connaissances évoluées, les place dans `minds/` pour révision.
+**Push** (sortant) : au démarrage de session, les satellites lisent le module K_MIND. **Harvest** (entrant) : Le module parcourt les satellites, extrait les connaissances évoluées, les place dans `far_memory archives/` pour révision.
 
 **Portée d'accès** : Harvest n'opère que sur les dépôts que l'utilisateur possède et auxquels Claude Code a reçu accès via sa configuration d'application GitHub. Aucun dépôt externe ou tiers n'est jamais parcouru.
 
@@ -61,26 +57,26 @@ récolté → 🔍 réviser → 📦 préparer → ✅ promouvoir (ou 🔄 auto)
 
 | Étape | Action |
 |-------|--------|
-| **Harvest** | `harvest <projet>` extrait les découvertes dans `minds/` |
-| **Réviser** | `harvest --review N` marque comme validé par l'humain (porte de qualité) |
-| **Préparer** | `harvest --stage N lesson` assigne le type cible |
-| **Promouvoir** | `harvest --promote N` écrit dans le core maintenant, ou `harvest --auto N` met en file |
+| **Harvest** | `sync_github.py <projet>` extrait les découvertes dans `far_memory archives/` |
+| **Réviser** | Révision manuelle — valider les connaissances extraites (porte de qualité) |
+| **Préparer** | Identifier le type cible (lesson, pattern, methodology, evolution, docs) |
+| **Promouvoir** | Mettre à jour manuellement `conventions.json` ou `work.json` dans K_MIND |
 
 ## Healthcheck réseau
 
-`harvest --healthcheck` balaye tous les satellites connus, met à jour les icônes de sévérité (🟢🟡🟠🔴⚪), traite la file d'auto-promotion et regénère les webcards du tableau de bord.
+K_GITHUB `sync_github.py` + K_VALIDATION `/integrity-check` balayent tous les satellites connus, mettent à jour les icônes de sévérité (🟢🟡🟠🔴⚪) et regénèrent les webcards du tableau de bord.
 
 ## Remédiation des satellites
 
-`harvest --fix <projet>` prépare une mise à jour de version localement. Le satellite s'auto-répare au prochain `wakeup` en lisant le core mis à jour — basé sur le pull, pas le push (Claude Code ne peut pas pousser en cross-repo).
+K_GITHUB `sync_github.py` prépare une mise à jour de version localement. Le satellite s'auto-répare au prochain démarrage de session en lisant le module K_MIND mis à jour — basé sur le pull, pas le push (Claude Code ne peut pas pousser en cross-repo).
 
 ## Flux de travail courants
 
-**Vérification quotidienne** : `harvest --list` → `harvest --healthcheck`
+**Vérification quotidienne** : Inventaire K_GITHUB → K_GITHUB `sync_github.py` + K_VALIDATION `/integrity-check`
 
-**Nouvelle découverte** : `harvest <projet>` → `harvest --review N` → `harvest --stage N lesson` → `harvest --promote N`
+**Nouvelle découverte** : `sync_github.py <projet>` → révision manuelle → identifier le type cible → mettre à jour `conventions.json` ou `work.json`
 
-**Guidé** : `harvest --procedure` pour une procédure étape par étape avec l'état actuel.
+**Balayage réseau** : K_GITHUB `sync_github.py` + K_VALIDATION `/integrity-check` pour un balayage complet avec icônes de sévérité.
 
 ---
 
