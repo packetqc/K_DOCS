@@ -70,33 +70,33 @@ Résultat : l'ingénieur passe les 10–15 premières minutes de chaque session 
 ```mermaid
 %%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '14px'}}}%%
 flowchart TB
-    subgraph CLAUDE_MD["CLAUDE.md — Identité projet"]
+    subgraph MIND["mind_memory.md — Grille directive"]
         direction TB
-        ID["Nom du projet, dépôt, plateforme"]
-        CONV["Conventions de code"]
-        CMDS["Commandes rapides"]
-        RULES["Règles opérationnelles"]
+        NODES["Mindmap mermaid 264 nœuds<br/>architecture · contraintes · conventions"]
+        WORK_J["work.json — résultats accomplis"]
+        CONV_J["conventions.json — patrons réutilisables"]
+        ARCH_J["architecture.json — conception système"]
     end
 
-    subgraph NOTES["notes/ — Mémoire de session"]
+    subgraph SESSIONS["sessions/ — Mémoire hiérarchisée"]
         direction TB
-        S1["session-2026-02-15.md"]
-        S2["session-2026-02-16.md"]
-        SN["session-YYYY-MM-DD.md"]
+        NEAR["near_memory.json<br/>Résumés temps réel avec pointeurs"]
+        FAR["far_memory.json<br/>Historique verbatim complet"]
+        ARCHIVES["archives/<br/>Fichiers far_memory par sujet"]
     end
 
-    subgraph LIFECYCLE["Protocole de cycle de vie"]
+    subgraph SCRIPTS["Scripts K_MIND"]
         direction LR
-        INIT["INIT<br/>Lire toutes les notes/<br/>Récupérer le contexte"]
-        WORK["TRAVAIL<br/>Ajouter les événements"]
-        SAVE["SAVE<br/>Écrire l'état final<br/>Commit + Push"]
-        INIT --> WORK --> SAVE
+        INIT["session_init.py<br/>/mind-context charge la grille"]
+        APPEND["memory_append.py<br/>Chaque tour — atomique"]
+        SPLIT["far_memory_split.py<br/>Archiver par sujet"]
+        INIT --> APPEND --> SPLIT
     end
 
-    CLAUDE_MD --> INIT
-    NOTES --> INIT
-    WORK --> NOTES
-    SAVE --> NOTES
+    MIND --> INIT
+    SESSIONS --> INIT
+    APPEND --> SESSIONS
+    SPLIT --> SESSIONS
 ```
 
 ### Sécurité : Fork & Clone

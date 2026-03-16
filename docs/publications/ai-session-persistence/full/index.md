@@ -76,34 +76,33 @@ The result: the engineer spends the first 10–15 minutes of every session re-ex
 ```mermaid
 %%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '14px'}}}%%
 flowchart TB
-    subgraph CLAUDE_MD["CLAUDE.md — Project Identity"]
+    subgraph MIND["mind_memory.md — Directive Grid"]
         direction TB
-        ID["Project name, repo, platform"]
-        COLLAB["Collaborator profile<br/>language, style, expertise"]
-        CONV["Code conventions<br/>patterns, rules, practices"]
-        CMDS["Quick commands<br/>wakeup, save, live, vanilla"]
-        RULES["Operating rules<br/>do's and don'ts"]
+        NODES["264-node mermaid mindmap<br/>architecture · constraints · conventions"]
+        WORK_J["work.json — accomplished results"]
+        CONV_J["conventions.json — reusable patterns"]
+        ARCH_J["architecture.json — system design"]
     end
 
-    subgraph NOTES["notes/ — Session Memory"]
+    subgraph SESSIONS["sessions/ — Tiered Memory"]
         direction TB
-        S1["session-2026-02-15.md<br/>Initial setup, methodology"]
-        S2["session-2026-02-16.md<br/>10 sessions: encryption,<br/>adaptive flush, config"]
-        SN["session-YYYY-MM-DD.md<br/>Future sessions..."]
+        NEAR["near_memory.json<br/>Real-time summaries with pointers"]
+        FAR["far_memory.json<br/>Full verbatim conversation history"]
+        ARCHIVES["archives/<br/>Topic-split far_memory files"]
     end
 
-    subgraph LIFECYCLE["Lifecycle Protocol"]
+    subgraph SCRIPTS["K_MIND Scripts"]
         direction LR
-        INIT["INIT<br/>Read all notes/<br/>Recover full context"]
-        WORK["WORK<br/>Append events<br/>to current session file"]
-        SAVE["SAVE<br/>Write final state<br/>Commit + Push"]
-        INIT --> WORK --> SAVE
+        INIT["session_init.py<br/>/mind-context loads grid"]
+        APPEND["memory_append.py<br/>Every turn — atomic"]
+        SPLIT["far_memory_split.py<br/>Archive by topic"]
+        INIT --> APPEND --> SPLIT
     end
 
-    CLAUDE_MD --> INIT
-    NOTES --> INIT
-    WORK --> NOTES
-    SAVE --> NOTES
+    MIND --> INIT
+    SESSIONS --> INIT
+    APPEND --> SESSIONS
+    SPLIT --> SESSIONS
 ```
 
 ### Fork & Clone Safety
