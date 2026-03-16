@@ -1842,6 +1842,33 @@
         '      if (frame) frame.src = rewritten;\n' +
         '    }\n' +
         '  });\n' +
+        '  /* Intercept content area links to prevent viewer-in-viewer nesting */\n' +
+        '  document.body.addEventListener("click", function(e) {\n' +
+        '    var a = e.target.closest("a");\n' +
+        '    if (!a) return;\n' +
+        '    /* Skip if already handled by left-panel handler */\n' +
+        '    if (panel && panel.contains(a)) return;\n' +
+        '    var href = a.getAttribute("href");\n' +
+        '    if (!href || href.charAt(0) === "#") return;\n' +
+        '    /* External links open in new tab */\n' +
+        '    if (/^https?:\\/\\//.test(href) && href.indexOf(window.location.origin) !== 0) {\n' +
+        '      e.preventDefault();\n' +
+        '      window.open(href, "_blank", "noopener");\n' +
+        '      return;\n' +
+        '    }\n' +
+        '    /* Try to resolve as internal doc */\n' +
+        '    var rewritten = viewerRewriteUrl(href, false);\n' +
+        '    if (rewritten !== href) {\n' +
+        '      e.preventDefault();\n' +
+        '      window.top.location.href = rewritten;\n' +
+        '      return;\n' +
+        '    }\n' +
+        '    /* Catch redirect-stub URLs (paths ending in / or /index.html) */\n' +
+        '    if (/\\.(html?)$/i.test(href) || /\\/$/.test(href)) {\n' +
+        '      e.preventDefault();\n' +
+        '      window.top.location.href = href;\n' +
+        '    }\n' +
+        '  });\n' +
         '}, 50);\n' +
         '</' + 'script>\n';
 
