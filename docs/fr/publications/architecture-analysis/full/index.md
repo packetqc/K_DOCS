@@ -1,13 +1,13 @@
 ---
 layout: publication
 title: "Analyse d'architecture de Knowledge — Documentation complete"
-description: "Analyse architecturale complete : couches de connaissances, architecture des composants, 13 qualites fondamentales, cycle de vie des sessions, topologie maitre-satellite distribuee, modele de securite, architecture de publication web et niveaux de deploiement production/developpement."
+description: "Analyse architecturale complete : conception a cinq modules (K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION), memoire mind-first avec grille directive de 264 noeuds, memoire de session hierarchisee, routage par skills, visualiseur web JS statique, modele de securite et architecture de deploiement."
 pub_id: "Publication #14 — Complete"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/architecture-analysis/full/
 og_image: /assets/og/knowledge-system-fr-cayman.gif
-keywords: "architecture, connaissances, distribue, securite, qualite, session, harvest"
+keywords: "architecture, connaissances, K_MIND, modules, memoire, skills, securite"
 ---
 
 # Analyse d'architecture de Knowledge — Documentation complete
@@ -19,78 +19,74 @@ keywords: "architecture, connaissances, distribue, securite, qualite, session, h
 |---|---|
 | [Auteurs](#auteurs) | Auteurs de la publication |
 | [Resume](#resume) | Vue d'ensemble de l'architecture du systeme |
-| [Vue d'ensemble du systeme](#vue-densemble-du-systeme) | Intelligence d'ingenierie IA auto-evolutive |
-| [Couches de connaissances](#couches-de-connaissances) | Core, Prouve, Recolte, Session — quatre niveaux de stabilite |
-| &nbsp;&nbsp;[Couche Core — CLAUDE.md](#couche-core--claudemd) | Le cerveau — configuration systeme et methodologie |
-| &nbsp;&nbsp;[Couche Prouve](#couche-prouve--patterns-lessons-methodology) | Patrons et pieges eprouves |
-| &nbsp;&nbsp;[Couche Recolte — minds/](#couche-recolte--minds) | Incubateur de decouvertes satellites |
-| &nbsp;&nbsp;[Couche Session — notes/](#couche-session--notes) | Memoire de travail ephemere par session |
-| &nbsp;&nbsp;[Modele d'interaction entre couches](#modele-dinteraction-entre-couches) | Transitions du cycle de vie des connaissances |
-| [Architecture des composants](#architecture-des-composants) | 13 composants majeurs avec interfaces |
-| &nbsp;&nbsp;[CLAUDE.md — Le cerveau](#claudemd--le-cerveau) | Double role : configuration IA et documentation humaine |
-| &nbsp;&nbsp;[gh_helper.py — Passerelle API](#scriptsgh_helperpy--passerelle-api-github) | Acces API GitHub contournant le proxy |
-| &nbsp;&nbsp;[generate_og_gifs.py — Identite visuelle](#scriptsgenerate_og_gifspy--moteur-didentite-visuelle) | Webcards animees double theme |
-| &nbsp;&nbsp;[publications/ — Documents source](#publications--documents-source) | Contenu canonique versionne |
-| &nbsp;&nbsp;[docs/ — Publication web](#docs--couche-de-publication-web) | Site bilingue GitHub Pages |
-| &nbsp;&nbsp;[minds/ — Intelligence recoltee](#minds--intelligence-recoltee) | Pont entre session et core |
-| &nbsp;&nbsp;[live/ — Outillage temps reel](#live--outillage-temps-reel) | Capture, beacon, scanner |
-| &nbsp;&nbsp;[projects/ — Registre de projets](#projects--registre-de-projets) | Indexation hierarchique P# |
+| [Vue d'ensemble du systeme](#vue-densemble-du-systeme) | Intelligence d'ingenierie IA multi-module |
+| [Architecture des modules](#architecture-des-modules) | Cinq modules specialises |
+| &nbsp;&nbsp;[K_MIND — Memoire core](#k_mind--memoire-core) | Grille directive, memoire hierarchisee, scripts de session |
+| &nbsp;&nbsp;[K_DOCS — Documentation](#k_docs--documentation) | Publications, webcards, visualiseur web, outils visuels |
+| &nbsp;&nbsp;[K_GITHUB — Integration GitHub](#k_github--integration-github) | Sync, boards, saisie ciblee |
+| &nbsp;&nbsp;[K_PROJECTS — Gestion de projets](#k_projects--gestion-de-projets) | Registre de projets, compilation, cycle de vie |
+| &nbsp;&nbsp;[K_VALIDATION — Assurance qualite](#k_validation--assurance-qualite) | Controles d'integrite, normalisation, workflow de taches |
+| &nbsp;&nbsp;[Modele d'interaction des modules](#modele-dinteraction-des-modules) | Comment les modules collaborent |
+| [Architecture memoire](#architecture-memoire) | Memoire hierarchisee mind-first |
+| &nbsp;&nbsp;[mind_memory.md — Grille directive](#mind_memorymd--grille-directive) | Mindmap mermaid de 264 noeuds |
+| &nbsp;&nbsp;[JSON de domaine — Connaissances structurees](#json-de-domaine--connaissances-structurees) | Architecture, conventions, travail par module |
+| &nbsp;&nbsp;[sessions/ — Memoire hierarchisee](#sessions--memoire-hierarchisee) | Memoire proche, memoire lointaine, archives |
+| &nbsp;&nbsp;[Cycle de vie de la memoire](#cycle-de-vie-de-la-memoire) | Flux des connaissances a travers les niveaux |
+| [Architecture des skills](#architecture-des-skills) | Routage natif par skills Claude Code |
+| &nbsp;&nbsp;[Systeme SKILL.md](#systeme-skillmd) | Remplacement de routes.json et SkillRegistry |
+| &nbsp;&nbsp;[Inventaire des skills](#inventaire-des-skills) | Tous les skills enregistres par module |
 | [Architecture des qualites](#architecture-des-qualites) | 13 qualites fondamentales |
 | &nbsp;&nbsp;[Graphe de dependance des qualites](#graphe-de-dependance-des-qualites) | Comment les qualites se renforcent mutuellement |
-| &nbsp;&nbsp;[Mecanismes d'application des qualites](#mecanismes-dapplication-des-qualites) | Commandes qui appliquent chaque qualite |
+| &nbsp;&nbsp;[Mecanismes d'application des qualites](#mecanismes-dapplication-des-qualites) | Skills et scripts K2.0 appliquant chaque qualite |
 | [Architecture du cycle de vie des sessions](#architecture-du-cycle-de-vie-des-sessions) | Le mecanisme de persistance |
-| &nbsp;&nbsp;[Le protocole Wakeup](#le-protocole-wakeup) | 12 etapes de PNJ a CONSCIENT |
-| &nbsp;&nbsp;[Protocole Save](#protocole-save) | Livraison semi-automatique et autonome |
-| &nbsp;&nbsp;[Checkpoint et Resume](#checkpoint-et-resume) | Recuperation apres crash avec etat de protocole |
-| &nbsp;&nbsp;[Recall](#recall--recuperation-par-branches) | Recuperation de travail basee sur les branches |
-| &nbsp;&nbsp;[Perte de contexte et Refresh](#perte-de-contexte-et-refresh) | Recuperation apres compaction |
-| [Architecture distribuee](#architecture-distribuee) | Reseau maitre-satellite |
-| &nbsp;&nbsp;[Topologie maitre-satellite](#topologie-maitre-satellite) | Etoile avec flux bidirectionnel |
-| &nbsp;&nbsp;[Flux Push — Wakeup](#flux-push--wakeup) | Methodologie du core vers les satellites |
-| &nbsp;&nbsp;[Flux Pull — Harvest](#flux-pull--harvest) | Insights des satellites vers le core |
-| &nbsp;&nbsp;[Mecanisme d'auto-guerison](#mecanisme-dauto-guerison) | Bootstrap, auto-reparation, remediation pull |
-| &nbsp;&nbsp;[Suivi de version et derive](#suivi-de-version-et-derive) | Comparaison des versions de connaissances |
+| &nbsp;&nbsp;[Initialisation de session](#initialisation-de-session) | session_init.py + /mind-context |
+| &nbsp;&nbsp;[Maintenance temps reel](#maintenance-temps-reel) | memory_append.py — chaque tour |
+| &nbsp;&nbsp;[Archivage par sujet](#archivage-par-sujet) | far_memory_split.py — decoupe par sujet |
+| &nbsp;&nbsp;[Rappel memoire](#rappel-memoire) | memory_recall.py — recherche profonde |
+| &nbsp;&nbsp;[Recuperation apres compaction](#recuperation-apres-compaction) | /mind-context rechargement |
+| [Architecture distribuee](#architecture-distribuee) | Reseau de connaissances multi-depot |
+| &nbsp;&nbsp;[Distribution du module K_MIND](#distribution-du-module-k_mind) | Core pousse vers les satellites |
+| &nbsp;&nbsp;[Synchronisation K_GITHUB](#synchronisation-k_github) | sync_github.py — flux bidirectionnel |
 | [Architecture de securite](#architecture-de-securite) | Controle d'acces et modele de jetons |
 | &nbsp;&nbsp;[Modele proxy](#modele-proxy) | Frontieres du proxy conteneur |
 | &nbsp;&nbsp;[Protocole de jetons ephemeres](#protocole-de-jetons-ephemeres) | Cycle de vie PAT zero-stocke-au-repos |
-| &nbsp;&nbsp;[Modele a deux canaux](#modele-a-deux-canaux) | Proxy git vs API direct |
-| [Architecture web](#architecture-web) | Publication et presentation |
-| &nbsp;&nbsp;[Systeme double theme](#systeme-double-theme) | Cayman clair et Midnight sombre |
-| &nbsp;&nbsp;[Architecture des layouts](#architecture-des-layouts) | default.html vs publication.html |
-| &nbsp;&nbsp;[Pipeline de publication](#pipeline-de-publication) | Source, resume, complet |
-| &nbsp;&nbsp;[Systeme miroir bilingue](#systeme-miroir-bilingue) | Concordance EN/FR |
+| &nbsp;&nbsp;[gh_helper.py — Passerelle API](#gh_helperpy--passerelle-api) | Acces API GitHub en Python pur |
+| [Architecture web](#architecture-web) | Visualiseur JS statique |
+| &nbsp;&nbsp;[Systeme de visualiseur statique](#systeme-de-visualiseur-statique) | .nojekyll rendu cote client |
+| &nbsp;&nbsp;[Systeme double theme](#systeme-double-theme) | Quatre themes avec media queries CSS |
+| &nbsp;&nbsp;[Architecture des interfaces](#architecture-des-interfaces) | 5 interfaces + mindmap live |
+| &nbsp;&nbsp;[Pipeline de publication](#pipeline-de-publication) | Source vers pages web bilingues |
 | &nbsp;&nbsp;[Architecture d'exportation](#architecture-dexportation) | Generation PDF et DOCX |
-| [Modele de deploiement](#modele-de-deploiement) | Niveaux production/developpement |
-| &nbsp;&nbsp;[Cycle de vie des satellites](#cycle-de-vie-des-satellites) | Progression en 4 etapes |
+| [Modele de deploiement](#modele-de-deploiement) | Architecture de production |
+| &nbsp;&nbsp;[Strategie double remote](#strategie-double-remote) | Remotes knowledge + origin |
 | &nbsp;&nbsp;[Topologie du reseau](#topologie-du-reseau) | Registre de projets actuel |
-| [Analyse structurelle — Noyau core](#analyse-structurelle--noyau-core) | Analyse de poids au niveau fichier et fosse d'autorite |
-| &nbsp;&nbsp;[Poids du noyau par role](#poids-du-noyau-par-role) | Cerveau, connaissances, intelligence, outils, infrastructure |
-| &nbsp;&nbsp;[Decomposition detaillee des composants](#decomposition-detaillee-des-composants) | 11 composants avec tailles et roles |
-| &nbsp;&nbsp;[Priorite de lecture pour les instances Claude](#priorite-de-lecture-pour-les-instances-claude) | Table de priorite P0-P10 |
-| &nbsp;&nbsp;[Le fosse d'autorite](#le-fosse-dautorite) | Autorite systeme vs conversation |
+| [Analyse structurelle](#analyse-structurelle) | Analyse de poids au niveau fichier |
+| &nbsp;&nbsp;[Distribution des poids par module](#distribution-des-poids-par-module) | Taille par module |
+| &nbsp;&nbsp;[Budget memoire](#budget-memoire) | Gestion de la fenetre de contexte |
+| &nbsp;&nbsp;[Priorite de lecture pour les instances Claude](#priorite-de-lecture-pour-les-instances-claude) | Ce qui se charge et quand |
 | [Analyse de la structure Publication](#analyse-de-la-structure-publication) | Anatomie d'une publication |
-| &nbsp;&nbsp;[Anatomie d'une publication — Les 9 branches](#anatomie-dune-publication--les-9-branches) | Source, web, front matter, webcards, layout, integration |
-| &nbsp;&nbsp;[Cycle de vie d'une publication](#cycle-de-vie-dune-publication) | De pub new a normalize |
-| &nbsp;&nbsp;[Commandes de validation](#commandes-de-validation) | Boucle qualite a 5 commandes |
+| &nbsp;&nbsp;[Anatomie d'une publication](#anatomie-dune-publication) | Composants et niveaux |
+| &nbsp;&nbsp;[Cycle de vie d'une publication](#cycle-de-vie-dune-publication) | De /docs-create a normalize |
+| &nbsp;&nbsp;[Skills de validation](#skills-de-validation) | Boucle d'assurance qualite |
 | [Publications connexes](#publications-connexes) | Publications soeurs et parente |
 
 ## Auteurs
 
 **Martin Paquet** — Analyste programmeur en securite des reseaux, administrateur de securite des reseaux et des systemes, et concepteur programmeur de logiciels embarques. 30 ans d'experience couvrant les systemes embarques, la securite reseau, les telecoms et le developpement logiciel. Architecte du systeme Knowledge — une intelligence d'ingenierie IA auto-evolutive construite sur des fichiers Markdown simples dans Git.
 
-**Claude** (Anthropic, Opus 4.6) — Partenaire de developpement IA. Co-architecte et executeur principal du systeme Knowledge. Opere au sein de l'architecture decrite ici — chaque session s'amorce depuis ces structures, chaque commande suit ces patrons.
+**Claude** (Anthropic, Opus 4.6) — Partenaire de developpement IA. Co-architecte et executeur principal du systeme Knowledge. Opere au sein de l'architecture decrite ici — chaque session s'amorce depuis ces structures, chaque skill suit ces patrons.
 
 ---
 
 ## Resume
 
-Le systeme Knowledge (P0) est une intelligence d'ingenierie IA auto-evolutive qui transforme des sessions de codage IA sans etat en un reseau persistant, distribue et auto-reparateur de conscience. Construit entierement sur des fichiers Markdown simples dans des depots Git, il ne necessite aucun service externe, aucune base de donnees et aucune infrastructure cloud. Un seul `git clone` demarre tout.
+Le systeme Knowledge est une intelligence d'ingenierie IA auto-evolutive qui transforme des sessions de codage IA sans etat en un reseau persistant, distribue et auto-reparateur de conscience. Construit entierement sur des fichiers Markdown, des fichiers JSON de domaine et des scripts Python dans des depots Git, il ne necessite aucun service externe, aucune base de donnees et aucune infrastructure cloud. Un seul `git clone` demarre tout.
 
-Cette publication fournit une analyse architecturale complete du systeme : ses quatre couches de connaissances (Core, Prouve, Recolte, Session), ses 13+ composants majeurs, ses 13 qualites fondamentales, son cycle de vie des sessions, sa topologie distribuee maitre-satellite, son modele de securite, son architecture de publication web et ses niveaux de deploiement production/developpement. L'analyse couvre a la fois la conception structurelle et les proprietes emergentes issues de l'interaction de ces composants.
+Cette publication fournit une analyse architecturale complete de la **conception multi-module Knowledge 2.0** : cinq modules specialises (K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION), memoire mind-first avec une grille directive de 264 noeuds, memoire de session hierarchisee (near/far/archives), routage natif par skills Claude Code via les fichiers SKILL.md de `.claude/skills/`, un visualiseur web JavaScript statique avec 5 interfaces plus mindmap live, un modele de securite fonde sur les frontieres proxy et les jetons ephemeres, et l'architecture de deploiement qui lie le tout.
 
-L'architecture est distinctive en ce que le systeme se documente en consommant sa propre production — la publication #0 a ete construite en recoltant ses enfants. Le tableau de bord se met a jour a chaque recolte. Le journal d'evolution grandit a mesure que le systeme grandit. Cette conscience de soi recursive n'est pas un objectif de conception mais une propriete emergente de l'architecture.
+L'architecture est distinctive en ce que le systeme se documente en consommant sa propre production. La mindmap grandit a mesure que les connaissances sont ajoutees. Les publications decrivent le systeme qui les produit. Cette conscience de soi recursive est une propriete emergente de l'architecture.
 
-**Source** : Session de documentation d'architecture 2026-02-26 depuis knowledge (P0). Ferme [#316](https://github.com/packetqc/knowledge/issues/316).
+**Source** : Documentation d'architecture, mise a jour 2026-03-16 pour l'architecture multi-module Knowledge 2.0.
 
 ---
 
@@ -100,193 +96,348 @@ Cette publication est destinee aux equipes de travail impliquees dans l'ecosyste
 
 | Audience | Quoi privilegier |
 |----------|-----------------|
-| **Administrateurs reseau** | Architecture distribuee, modele de securite, frontieres proxy, niveaux de deploiement |
-| **Administrateurs systeme** | Modele de deploiement, configuration GitHub Pages, gestion des assets, niveaux production/developpement |
-| **Programmeurs et programmeuses** | Architecture des composants, cycle de vie des sessions, couches de connaissances, architecture des qualites, scripts Python |
-| **Gestionnaires** | Vue d'ensemble du systeme, qualites fondamentales, niveaux de deploiement, le ratio de productivite 100x documente dans les success stories |
-
-Le document progresse d'une vue d'ensemble de haut niveau vers une analyse technique detaillee. Les gestionnaires et architectes peuvent se concentrer sur les premieres sections (Vue d'ensemble, Couches de connaissances, Architecture des qualites), tandis que les implementeurs trouveront les sections ulterieures (Cycle de vie des sessions, Architecture de securite, Modele de deploiement) les plus actionnables.
+| **Administrateurs reseau** | Architecture distribuee, modele de securite, frontieres proxy, deploiement |
+| **Administrateurs systeme** | Modele de deploiement, configuration GitHub Pages, structure des modules |
+| **Programmeurs et programmeuses** | Architecture des modules, systeme memoire, cycle de vie des sessions, routage par skills, scripts Python |
+| **Gestionnaires** | Vue d'ensemble du systeme, qualites fondamentales, modele de deploiement |
 
 ## Conventions du document
 
-Cette publication utilise les conventions suivantes :
-
 | Convention | Utilisation |
 |------------|-------------|
-| **Tableaux** | Donnees structurees, comparaisons, inventaires — format compact (cle-valeur ou multi-colonnes) |
-| **Diagrammes Mermaid** | Visualisations d'architecture integrees en ligne — rendues par GitHub et GitHub Pages |
+| **Tableaux** | Donnees structurees, comparaisons, inventaires — format compact |
+| **Diagrammes Mermaid** | Visualisations d'architecture — rendues par le visualiseur JS statique |
 | **Blocs de code** | Chemins de fichiers, exemples de commandes, extraits de configuration |
 | **Texte en gras** | Termes cles a la premiere introduction, emphase sur les concepts critiques |
-| **References aux qualites** (`#N`) | References croisees aux 13 qualites fondamentales par leur numero (ex. : *Autonome* #2, *Concordant* #3) |
-| **References aux publications** (`#N`) | References croisees aux publications soeurs par numero (ex. : Publication #15 pour les diagrammes) |
-| **References de version** (`vN`) | Numeros de version d'evolution des connaissances suivant les decouvertes architecturales |
-| **Fleches dans le texte** (`→`) | Flux de processus ou transformation (ex. : source → EN/FR → references croisees) |
+| **References aux modules** (`K_XXX`) | References croisees aux cinq modules de connaissances |
+| **References aux publications** (`#N`) | References croisees aux publications soeurs par numero |
+| **References aux skills** (`/nom-skill`) | Skills natifs Claude Code invoques via `.claude/skills/` |
 
 ---
 
 ## Vue d'ensemble du systeme
 
-Le systeme Knowledge est une **intelligence d'ingenierie IA auto-evolutive** — un reseau de depots Git, de fichiers Markdown et de scripts Python qui donne aux assistants de codage IA une memoire persistante, une conscience distribuee et des capacites d'auto-guerison. A son coeur, il resout un probleme fondamental : les sessions de codage IA sont sans etat. Sans structure externe, chaque nouvelle session demarre vierge — un PNJ sans memoire d'hier.
+Le systeme Knowledge est une **intelligence d'ingenierie IA auto-evolutive** — un reseau de depots Git, de fichiers Markdown, de fichiers JSON de domaine, de scripts Python et de skills Claude Code qui donne aux assistants de codage IA une memoire persistante, une conscience distribuee et des capacites d'auto-guerison. A son coeur, il resout un probleme fondamental : les sessions de codage IA sont sans etat. Sans structure externe, chaque nouvelle session demarre vierge — un PNJ sans memoire d'hier.
 
 L'architecture du systeme peut etre comprise a travers trois prismes :
 
-1. **Comme mecanisme de persistance** : CLAUDE.md + notes/ + le cycle wakeup/save transforment des sessions ephemeres en collaboration continue
-2. **Comme reseau distribue** : Un esprit maitre (depot knowledge) pousse la methodologie vers les satellites et recolte les insights en retour, creant un flux d'intelligence bidirectionnel
-3. **Comme systeme auto-documentant** : Le systeme enregistre sa propre evolution, publie sa propre documentation et grandit en consommant sa propre production
+1. **Comme mecanisme de persistance** : Une grille directive de 264 noeuds (`mind_memory.md`) + memoire de session hierarchisee (`near_memory.json` / `far_memory.json` / `archives/`) + scripts K_MIND (`session_init.py`, `memory_append.py`) transforment des sessions ephemeres en collaboration continue
+2. **Comme systeme modulaire** : Cinq modules specialises (K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION) possedant chacun leur domaine — avec leurs propres scripts, skills, conventions et suivi de travail
+3. **Comme systeme auto-documentant** : Le systeme enregistre son evolution dans les JSON de domaine, publie sa documentation via K_DOCS, et grandit en consommant sa propre production
 
-L'ensemble du systeme fonctionne sur du texte brut. Aucune base de donnees, aucun service cloud, aucune dependance externe au-dela de Git et GitHub. C'est la qualite **autosuffisant** — le systeme se sustente de sa propre structure.
+L'ensemble du systeme fonctionne sur du texte brut et du JSON. Aucune base de donnees, aucun service cloud, aucune dependance externe au-dela de Git et GitHub. C'est la qualite **autosuffisant** — le systeme se sustente de sa propre structure.
+
+### Evolution K1.0 → K2.0
+
+Knowledge 2.0 represente un changement architectural fondamental par rapport a la conception monolithique K1.0 :
+
+| Aspect | K1.0 (Monolithique) | K2.0 (Multi-Module) |
+|--------|---------------------|---------------------|
+| **Cerveau** | `CLAUDE.md` (3000+ lignes) | `mind_memory.md` (grille directive 264 noeuds) + JSON de domaine par module |
+| **Stockage des connaissances** | Repertoires `patterns/`, `lessons/` | `conventions.json`, `work.json` par module |
+| **Memoire de session** | `notes/` (fichiers Markdown plats) | `sessions/` — `near_memory.json` + `far_memory.json` + `archives/` |
+| **Routage des commandes** | `routes.json` + `SkillRegistry` | Fichiers SKILL.md dans `.claude/skills/` (natif Claude Code) |
+| **Cycle de vie** | `wakeup` (12 etapes), `save` (6 etapes) | `session_init.py` + `/mind-context`, `far_memory_split.py` + git commit |
+| **Presentation web** | Jekyll avec `_config.yml`, `_layouts/` | Visualiseur JS statique `.nojekyll` (`docs/index.html`) |
+| **Organisation** | Depot unique, structure plate | 5 modules (K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION) |
 
 ---
 
-## Couches de connaissances
+## Architecture des modules
 
-Le systeme organise les connaissances en quatre couches, ordonnees par stabilite et niveau de validation. Chaque couche a un cycle de vie distinct, un emplacement de stockage et un objectif propre.
+Le systeme Knowledge 2.0 est organise en cinq modules specialises, chacun avec ses propres fichiers de domaine, scripts, skills et chaine de methodologie. Les modules vivent sous `Knowledge/` dans le depot.
 
-### Couche Core — CLAUDE.md
+```mermaid
+%%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '14px'}}}%%
+flowchart TB
+    subgraph K_MIND["K_MIND — Memoire core"]
+        direction TB
+        MIND_MAP["mind_memory.md<br/>Grille directive 264 noeuds"]
+        SESSIONS["sessions/<br/>near + far + archives"]
+        DOMAIN["JSON de domaine<br/>architecture · contraintes · conventions · travail"]
+        SCRIPTS_M["Scripts<br/>session_init · memory_append · far_memory_split<br/>memory_recall · mindmap_filter · set_depth · memory_stats"]
+    end
 
-**Emplacement** : `CLAUDE.md` (racine de chaque depot)
-**Stabilite** : La plus haute — les changements ici se propagent a tout le reseau
-**Taille** : 3000+ lignes dans le depot maitre ; ~180 lignes (sous-ensemble critique) dans les satellites
+    subgraph K_DOCS["K_DOCS — Documentation"]
+        direction TB
+        PUBS["Pipeline de publications"]
+        WEBCARDS["Webcards et images OG"]
+        WEB["Visualiseur JS statique"]
+        SCRIPTS_D["Scripts<br/>capture_mindmap · generate_mindmap_webcard<br/>stitch_webcard"]
+    end
 
-CLAUDE.md est le cerveau du systeme. Dans le depot knowledge maitre, il contient la methodologie complete : identite, cycle de vie des sessions, definitions de commandes, patrons eprouves, pieges connus, journal d'evolution des connaissances, inventaire des publications et le protocole distribue complet. Il est charge comme **instructions de projet au niveau systeme** par Claude Code, lui conferant le plus haut niveau d'autorite — survivant a la compaction du contexte qui elimine les donnees au niveau conversation.
+    subgraph K_GITHUB["K_GITHUB — Integration GitHub"]
+        direction TB
+        SYNC["sync_github.py"]
+        BOARDS["Alias de board"]
+        TAGGED["Saisie ciblee"]
+    end
 
-Dans les depots satellites, CLAUDE.md porte un **sous-ensemble critique** (~180 lignes) : un pointeur vers le depot maitre, l'ADN comportemental essentiel (protocole de session, protocole save, protocole de branche, principe du pont humain) et la reference complete des commandes en 7 groupes. Ce sous-ensemble survit a la compaction — le satellite conserve un comportement correct meme quand le contexte conversationnel est perdu.
+    subgraph K_PROJECTS["K_PROJECTS — Gestion de projets"]
+        direction TB
+        REGISTRY["Registre de projets"]
+        COMPILE["compile_projects.py"]
+    end
 
-**Propriete architecturale cle** : CLAUDE.md est a la fois configuration et documentation. Il configure le comportement de Claude Code ET documente l'architecture du systeme pour les lecteurs humains. Ce double role est intentionnel — le systeme est concu pour etre lisible par l'IA et les humains.
+    subgraph K_VALIDATION["K_VALIDATION — Assurance qualite"]
+        direction TB
+        INTEGRITY["Controle d'integrite (29 points)"]
+        NORMALIZE["Concordance structurelle"]
+        WORKFLOW["Workflow de taches et cycle de travail"]
+    end
 
-### Couche Prouve — patterns/, lessons/, methodology/
+    K_MIND --> K_DOCS
+    K_MIND --> K_GITHUB
+    K_MIND --> K_PROJECTS
+    K_MIND --> K_VALIDATION
+    K_GITHUB --> K_PROJECTS
+```
 
-**Emplacement** : Repertoires `patterns/`, `lessons/`, `methodology/`
-**Stabilite** : Haute — contenu valide sur plusieurs projets
-**Contenu** : Patrons eprouves (debogage embarque, integration RTOS, SQLite sur embarque), pieges connus (20 modes de defaillance documentes) et methodologie de processus (bootstrap satellite, gestion de projet, pagination web)
+### K_MIND — Memoire core
 
-Cette couche represente les **connaissances validees** — des insights prouves corrects sur au moins deux projets. Les patrons decrivent les approches qui fonctionnent. Les lecons decrivent les approches qui ont echoue. La methodologie decrit les processus affines par la pratique.
+**Emplacement** : `Knowledge/K_MIND/`
+**Role** : Le cerveau du systeme — possede la grille directive mindmap, toute la memoire de session et les scripts qui les maintiennent.
 
-La couche prouvee est la cible de promotion pour les insights recoltes. Quand un insight de `minds/` est valide sur plusieurs projets, il est promu vers `patterns/` ou `lessons/` via la commande `harvest --promote`.
+K_MIND est le module fondation. Tous les autres modules en dependent pour le contexte memoire. Il contient :
 
-### Couche Recolte — minds/
+| Composant | Role |
+|-----------|------|
+| `files/mind/mind_memory.md` | Mindmap mermaid de 264 noeuds — la grille directive |
+| `sessions/near_memory.json` | Resumes temps reel avec pointeurs vers far_memory et mind_memory |
+| `sessions/far_memory.json` | Historique verbatim complet de la conversation |
+| `sessions/archives/` | Fichiers far_memory decoupes par sujet |
+| `architecture/architecture.json` | References de conception systeme (statique) |
+| `constraints/constraints.json` | Limitations connues (semi-dynamique) |
+| `conventions/conventions.json` | Patrons reutilisables decouverts pendant le travail (croissant) |
+| `work/work.json` | Resultats accomplis/en attente — ancre de continuite |
+| `documentation/documentation.json` | References de structure documentaire |
+| `scripts/` | 8 scripts Python pour la gestion memoire |
 
-**Emplacement** : Repertoire `minds/`
-**Stabilite** : Moyenne — plus recente, moins validee que les connaissances prouvees
-**Contenu** : Fichiers d'esprit par satellite avec insights extraits, suivi de version, curseurs de branches et candidats a la promotion
+**Propriete architecturale cle** : La mindmap est a la fois configuration et documentation. Elle configure le comportement de Claude (chaque noeud est une directive) ET documente l'architecture du systeme pour les lecteurs humains. Ce double role est intentionnel.
 
-Le dossier `minds/` est l'**incubateur** — ou les decouvertes specifiques aux projets murissent avant de devenir des connaissances universelles. Chaque projet satellite a un fichier `minds/<slug-projet>.md` correspondant contenant :
+### K_DOCS — Documentation
 
-- Patrons et pieges extraits du travail du satellite
-- Curseurs de branches (SHA de commit + date) pour le suivi incrementiel
-- Statut de derive de version par rapport au core
-- Candidats a la promotion marques pour revision
+**Emplacement** : `Knowledge/K_DOCS/`
+**Role** : Possede le pipeline de publications, le visualiseur web, les webcards, la documentation visuelle et toute la methodologie documentaire.
 
-`minds/` se situe entre les connaissances prouvees et la memoire de session. Plus durable que les notes (persiste entre les sessions), moins etabli que les patrons du core (pas encore valide sur plusieurs projets).
+| Composant | Role |
+|-----------|------|
+| `conventions/` | Conventions documentaires — rendu web, images sociales, webcards, sessions interactives |
+| `methodology/` | Generation documentaire, visualisation web, pipeline de production, ciblage d'audience |
+| `scripts/` | `capture_mindmap.js`, `generate_mindmap_webcard.py`, `stitch_webcard.py`, `package.json` |
+| `work/work.json` | Suivi du travail documentaire |
 
-### Couche Session — notes/
+Skills K_DOCS : `/docs-create`, `/pub`, `/pub-export`, `/visual`, `/live-session`, `/webcard`, `/profile-update`.
 
-**Emplacement** : Repertoire `notes/` dans chaque depot
-**Stabilite** : La plus basse — donnees ephemeres par session
-**Contenu** : Notes de session (`session-AAAA-MM-JJ.md`), fichiers de checkpoint (`checkpoint.json`), caches d'etat de board, donnees de healthcheck
+### K_GITHUB — Integration GitHub
 
-La couche session est la **memoire de travail**. Chaque session ecrit ses conclusions, decisions et prochaines etapes dans `notes/`. La session suivante les lit au wakeup, atteignant une recuperation de contexte en ~30 secondes au lieu de ~15 minutes de re-explication manuelle.
+**Emplacement** : `Knowledge/K_GITHUB/`
+**Role** : Possede la synchronisation GitHub, la gestion des boards et le routage de saisie ciblee.
 
-Les notes de session suivent un format structure : Done (ce qui a ete accompli), Remember (directives pour les futures sessions), Next (travail prevu). Le marqueur `remember harvest:` signale les insights pour collecte par le protocole de recolte.
+| Composant | Role |
+|-----------|------|
+| `scripts/sync_github.py` | Synchronisation bidirectionnelle avec GitHub (remplace le `harvest` K1.0) |
+| `methodology/github-project-integration.md` | Methodologie d'integration GitHub Projects v2 |
+| `methodology/github-board-item-alias.md` | Systeme d'alias de board (`g:<board>:<item>`) |
+| `conventions/conventions.json` | Conventions GitHub |
 
-### Modele d'interaction entre couches
+Skills K_GITHUB : `/github`, `/tagged-input`, `/harvest`.
 
-Les quatre couches forment un cycle de vie des connaissances :
+### K_PROJECTS — Gestion de projets
+
+**Emplacement** : `Knowledge/K_PROJECTS/`
+**Role** : Possede le registre de projets, la compilation et la gestion du cycle de vie.
+
+| Composant | Role |
+|-----------|------|
+| `data/projects/` | Fichiers de metadonnees de projets (plats `<slug>.md`) |
+| `data/projects.json` | Registre de projets compile |
+| `scripts/compile_projects.py` | Compilation de projets depuis les metadonnees |
+| `scripts/compile_projects_from_mind.py` | Compilation de projets depuis la mindmap |
+| `methodology/project-create.md` | Methodologie de creation de projet |
+| `methodology/project-management.md` | Gestion du cycle de vie des projets |
+
+Skills K_PROJECTS : `/project-create`, `/project-manage`.
+
+### K_VALIDATION — Assurance qualite
+
+**Emplacement** : `Knowledge/K_VALIDATION/`
+**Role** : Possede toute la validation, l'integrite, la normalisation et les protocoles de workflow de taches.
+
+| Composant | Role |
+|-----------|------|
+| `scripts/documentation_validation.py` | Moteur de validation documentaire |
+| `methodology/session-protocol.md` | Regles du protocole de session |
+| `methodology/task-workflow.md` | Cycle de vie des taches en 8 etapes (INITIAL → COMPLETION) |
+| `methodology/checkpoint-resume.md` | Mecaniques de checkpoint et reprise |
+| `methodology/metrics-compilation.md` | Methodologie de compilation des metriques |
+
+Skills K_VALIDATION : `/integrity-check` (29 points de controle), `/normalize`, `/task-received`, `/work-cycle`, `/knowledge-validation`.
+
+### Modele d'interaction des modules
+
+Les modules interagissent via des frontieres bien definies :
+
+| Interaction | Mecanisme |
+|-------------|-----------|
+| K_MIND → tous les modules | Contexte memoire (mindmap + near_memory charges au demarrage de session) |
+| K_DOCS → K_MIND | Met a jour les noeuds documentation dans la mindmap |
+| K_GITHUB → K_MIND | Resultats de sync ecrits dans work.json et conventions.json |
+| K_GITHUB → K_PROJECTS | Boards de projets lies au registre de projets |
+| K_VALIDATION → tous les modules | Les controles d'integrite valident toutes les structures de modules |
+| Tous les modules → K_MIND | Les mises a jour de JSON de domaine remontent vers la memoire core |
+
+Chaque module possede ses propres `conventions.json`, `work.json` et `documentation.json`. Cette propriete distribuee signifie qu'aucun fichier unique ne devient un goulot — contrairement au `CLAUDE.md` monolithique de K1.0.
+
+---
+
+## Architecture memoire
+
+Le systeme memoire suit un principe **mind-first** : toujours lire `mind_memory.md` en premier comme contexte principal, puis creuser dans les JSON de domaine et les fichiers de session seulement quand les details complets sont necessaires.
+
+```mermaid
+%%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '14px'}}}%%
+flowchart TB
+    subgraph MIND["mind_memory.md — Grille directive"]
+        direction TB
+        NODES["Mindmap mermaid 264 noeuds<br/>architecture · contraintes · conventions · travail · session · documentation"]
+    end
+
+    subgraph DOMAIN["JSON de domaine — Par module"]
+        direction TB
+        ARCH["architecture.json — conception systeme"]
+        CONV["conventions.json — patrons reutilisables"]
+        WORK["work.json — resultats accomplis"]
+        CONSTR["constraints.json — limites connues"]
+        DOC["documentation.json — structure doc"]
+    end
+
+    subgraph SESSIONS["sessions/ — Memoire hierarchisee"]
+        direction TB
+        NEAR["near_memory.json<br/>Resumes temps reel avec pointeurs"]
+        FAR["far_memory.json<br/>Historique verbatim complet"]
+        ARCHIVES["archives/<br/>Far_memory decoupe par sujet"]
+    end
+
+    MIND -->|"vue d'ensemble"| DOMAIN
+    DOMAIN -->|"detail"| SESSIONS
+    SESSIONS -->|"sujets archives"| ARCHIVES
+```
+
+### mind_memory.md — Grille directive
+
+**Emplacement** : `K_MIND/files/mind/mind_memory.md`
+**Format** : Mindmap mermaid avec 264 noeuds organises en 6 groupes
+**Role** : Le subconscient du systeme — un seul regard pour tout voir
+
+La mindmap est organisee en six groupes comportementaux :
+
+| Groupe | Comportement | Contenu |
+|--------|-------------|---------|
+| **architecture** | COMMENT vous travaillez — regles de conception systeme | Conception des modules, niveaux memoire, roles des scripts |
+| **constraints** | LIMITES — regles dures | Limites de contexte, regles de securite, a ne jamais violer |
+| **conventions** | COMMENT vous executez — patrons | Conventions d'affichage, methodologies, documentation |
+| **work** | ETAT — resultats accomplis | En cours, validation, approbation |
+| **session** | CONTEXTE — enregistrement courant | Memoire proche, memoire lointaine, conversation |
+| **documentation** | STRUCTURE — references documentaires | Docs, interfaces, stories, publications, profil |
+
+**Propriete architecturale cle** : La mindmap n'est pas decorative — c'est la memoire operationnelle. Chaque noeud est une directive qui gouverne le comportement. A chaque chargement (demarrage, reprise, recuperation apres compaction), Claude parcourt l'arbre complet et internalise chaque noeud.
+
+**Filtrage par profondeur** : `conventions/depth_config.json` controle quelles branches sont montrees a quelle profondeur. Le mode normal montre la profondeur 3 avec architecture et contraintes omises. Le mode complet montre tous les noeuds. Les surcharges par branche permettent un controle de profondeur par chemin.
+
+### JSON de domaine — Connaissances structurees
+
+Chaque module possede des fichiers JSON de domaine stockant des connaissances structurees :
+
+| Fichier | Module | Contenu | Mutabilite |
+|---------|--------|---------|------------|
+| `architecture.json` | K_MIND | References de conception systeme | Statique — change quand l'architecture evolue |
+| `constraints.json` | K_MIND | Limitations connues et regles dures | Semi-dynamique |
+| `conventions.json` | K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION | Patrons reutilisables decouverts pendant le travail | Croissant — nouveaux patrons ajoutes continuellement |
+| `work.json` | K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION | Resultats de travail accomplis/en attente | Dynamique — mis a jour chaque session |
+| `documentation.json` | K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION | References de structure documentaire | Semi-dynamique |
+
+**163 references** a travers tous les JSON de domaine, totalisant ~1,8 Mo. Seul un sous-ensemble (~4,5K tokens) est charge au demarrage de session — le reste est accede a la demande.
+
+### sessions/ — Memoire hierarchisee
+
+La memoire de session utilise trois niveaux avec granularite croissante :
+
+| Niveau | Fichier | Contenu | Taille | Charge au demarrage ? |
+|--------|---------|---------|--------|------------------------|
+| **Memoire proche** | `near_memory.json` | Resumes temps reel avec pointeurs vers far_memory et noeuds mindmap | ~33 Ko | Oui (~8,5K tokens) |
+| **Memoire lointaine** | `far_memory.json` | Historique verbatim complet de la conversation | ~5 Ko (session courante) | Minimal |
+| **Archives** | `archives/` | Fichiers far_memory decoupes par sujet | ~210 Ko (16 sujets) | Non — charges via `memory_recall.py` |
+
+**La memoire proche** est le porteur de contexte principal. Chaque entree contient :
+- Un resume en une ligne de ce qui s'est passe
+- Des pointeurs mind-ref vers les noeuds mindmap pertinents
+- Des enregistrements d'appels d'outils
+- Des horodatages et indices de messages
+
+**La memoire lointaine** stocke l'echange verbatim complet — les mots exacts de l'utilisateur et la sortie complete de Claude. Elle grandit pendant la session et est archivee par sujet quand elle devient volumineuse.
+
+**Les archives** sont des fichiers far_memory decoupes par sujet. Quand un sujet de conversation est complet, `far_memory_split.py` deplace les messages pertinents vers un fichier archive nomme par sujet et horodatage.
+
+### Cycle de vie de la memoire
+
+Les connaissances circulent a travers les niveaux :
 
 | Transition | Mecanisme | Declencheur |
 |-----------|-----------|-------------|
-| Session → Recolte | `harvest <projet>` | Commande explicite |
-| Recolte → Prouve | `harvest --promote <N>` | Promotion validee par humain |
-| Prouve → Core | Mise a jour manuelle de CLAUDE.md | Cristallisation architecturale |
-| Core → Session | `wakeup` (auto au demarrage) | Chaque debut de session |
-| Session → Session | Persistance `notes/` | Save → prochain wakeup |
+| Conversation → Memoire lointaine | `memory_append.py` | Chaque tour (automatique) |
+| Conversation → Memoire proche | `memory_append.py` (resume) | Chaque tour (automatique) |
+| Memoire lointaine → Archives | `far_memory_split.py` | Quand un sujet est complet |
+| Archives → Memoire proche | `memory_recall.py` | A la demande (`--subject "..."`) |
+| Memoire proche → Mindmap | Mise a jour manuelle de noeud | Quand la connaissance se cristallise |
+| Mindmap → JSON de domaine | Mise a jour manuelle de JSON | Quand la connaissance est structuree |
+| JSON de domaine → Travail | Execution de skill | Quand du travail est accompli |
 
-Le cycle est continu : les sessions generent des insights, harvest les collecte, la promotion les valide et le core les absorbe. La session suivante herite du core enrichi. C'est la qualite **recursif** — le systeme grandit en consommant sa propre production.
+Le cycle est continu : les conversations generent des donnees brutes, les resumes extraient le signal, les archives preservent les sujets completes, et la mindmap absorbe les connaissances validees. C'est la qualite **recursif** — le systeme grandit en consommant sa propre production.
 
 ---
 
-## Architecture des composants
+## Architecture des skills
 
-Le systeme Knowledge comprend 13 composants majeurs, chacun avec un role distinct. Ils interagissent via des interfaces bien definies — principalement des fichiers Markdown, des operations git et des scripts Python.
+### Systeme SKILL.md
 
-### CLAUDE.md — Le cerveau
+Knowledge 2.0 remplace le routeur de commandes K1.0 (`routes.json`, `SkillRegistry`, `executer_demande.py`) par un **routage natif par skills Claude Code** via les fichiers SKILL.md dans `.claude/skills/`.
 
-**Role** : Configuration systeme, documentation de methodologie, definitions de commandes
-**Interfaces** : Lu par Claude Code comme instructions de projet au niveau systeme ; lu par le protocole wakeup ; lu par harvest pour comparaison de version
+| Aspect | K1.0 | K2.0 |
+|--------|------|------|
+| **Routage** | `routes.json` association mot-cle → programme | Claude Code lit le SKILL.md et route naturellement |
+| **Registre** | `SkillRegistry` (LireChoix, Fonction, Programme) | Fichiers SKILL.md dans `.claude/skills/` |
+| **Methodologie** | `resolve_methodologies()` chargement par famille | Chaque skill lit sa propre chaine `methodology/` |
+| **Deduplication** | `filter_unread()` / `mark_read()` | Natif Claude Code (pas de deduplication necessaire) |
+| **Resultats** | `knowledge_resultats.json` resultats de quiz | Supprime — les skills sont a la demande |
+| **Execution** | `executer_demande.py` routeur de commandes | Claude Code interprete + route vers les skills |
 
-CLAUDE.md est le fichier le plus volumineux et le plus important du systeme. Dans le depot maitre, il depasse 3000 lignes et contient :
+### Inventaire des skills
 
-| Section | Contenu | Lignes (~) |
-|---------|---------|-----------|
-| Identite | Qui est Martin, comment nous travaillons ensemble | ~100 |
-| Qualites fondamentales | 13 qualites avec descriptions | ~50 |
-| Cycle de vie des sessions | Wakeup, travail, save, checkpoint, resume, recall | ~200 |
-| Commandes | 7 groupes, 49+ commandes avec specifications completes | ~1500 |
-| Patrons | Patrons eprouves de debogage embarque, RTOS, SQLite | ~50 |
-| Pieges | 20 modes de defaillance documentes avec correctifs | ~200 |
-| Evolution des connaissances | 48 entrees versionnees documentant les changements du systeme | ~500 |
-| Publications | 13+ publications avec liens | ~50 |
-| Protocoles | Branche, acces, jeton, deploiement | ~300 |
+| Module | Skill | Objectif |
+|--------|-------|---------|
+| K_DOCS | `/docs-create` | Creer une nouvelle publication avec scaffold |
+| K_DOCS | `/pub` | Gestion des publications — lister, verifier, sync, revue |
+| K_DOCS | `/pub-export` | Exporter en PDF ou DOCX |
+| K_DOCS | `/visual` | Documentation visuelle — analyse OpenCV + Pillow |
+| K_DOCS | `/live-session` | Analyse de session live — clips, frames, multi-flux |
+| K_DOCS | `/webcard` | Generation d'apercu social anime OG |
+| K_DOCS | `/profile-update` | Rafraichir les pages profil avec les stats actuelles |
+| K_GITHUB | `/github` | Operations API GitHub via gh_helper.py |
+| K_GITHUB | `/tagged-input` | Notes ciblees et references de board |
+| K_GITHUB | `/harvest` | Recolte de connaissances distribuees |
+| K_PROJECTS | `/project-create` | Creer un nouveau projet avec enregistrement |
+| K_PROJECTS | `/project-manage` | Operations projet — lister, info, enregistrer, revue |
+| K_VALIDATION | `/integrity-check` | Validation d'integrite a 29 points de controle |
+| K_VALIDATION | `/normalize` | Concordance structurelle — miroirs EN/FR, liens, assets |
+| K_VALIDATION | `/task-received` | Protocole On Task Received — 9 etapes Stage 1 |
+| K_VALIDATION | `/work-cycle` | Cycle de travail par todo — commits, cache, push |
+| K_VALIDATION | `/knowledge-validation` | Validation de session |
+| K_MIND | `/mind-context` | Charger le contexte mindmap + memoire proche |
+| K_MIND | `/mind-depth` | Gerer la configuration de profondeur de la mindmap |
+| K_MIND | `/mind-stats` | Stats memoire — disque, tokens, charge, disponible |
 
-### scripts/gh_helper.py — Passerelle API GitHub
-
-**Role** : Remplacement Python portable du CLI `gh`
-**Technologie** : Python `urllib` pur (aucune dependance externe)
-**Propriete cle** : Contourne le proxy conteneur qui bloque `curl` et `gh`
-
-`gh_helper.py` est la passerelle du systeme vers l'API GitHub. Il a ete cree parce que :
-1. Le CLI `gh` n'est pas installe dans les conteneurs Claude Code
-2. `curl` vers `api.github.com` est bloque par le proxy conteneur (en-tetes d'authentification supprimes)
-3. Python `urllib` ouvre des connexions socket directes, contournant entierement le proxy
-
-Il couvre : les operations PR (creer, lister, voir, fusionner, assurer), GitHub Projects v2 (creer un board, lier un depot, lister les items, synchroniser, champs, ajout/mise a jour d'items), les labels TAG (configuration, deploiement par lot) et la gestion des issues (creer avec labels). Il lit `GH_TOKEN` depuis `os.environ` en interne — le jeton n'apparait jamais sur aucune ligne de commande.
-
-### scripts/generate_og_gifs.py — Moteur d'identite visuelle
-
-**Role** : Generer des GIF animes d'apercu social OG pour toutes les pages web
-**Technologie** : PIL/Pillow, Python
-**Sortie** : 40+ GIF animes (1200x630, 256 couleurs, double theme)
-
-Le generateur de webcards cree des images d'apercu social animees uniques pour chaque page web. Six types d'animation (corporate, diagramme, panneau divise, cartoon, index) avec mouvement specifique au contenu. Double theme : Cayman (clair) et Midnight (sombre). Pilote par les donnees — la webcard du tableau de bord lit le statut reel des satellites depuis le README source.
-
-### publications/ — Documents source
-
-**Role** : Source canonique de toutes les publications
-**Structure** : `publications/<slug>/v1/README.md` par publication
-**Propriete cle** : Source de verite — les pages web (`docs/`) en derivent
-
-Chaque publication existe sous forme de document Markdown versionne. Le repertoire `v1/` permet de futures montees de version sans perte d'historique. Les sous-repertoires d'assets et de media (`assets/`, `media/`) contiennent les ressources specifiques a la publication.
-
-### docs/ — Couche de publication web
-
-**Role** : Site web GitHub Pages servant tout le contenu web
-**Technologie** : Jekyll avec layouts personnalises, aucune dependance de theme distant
-**Structure** : Bilingue (EN a la racine, FR a `/fr/`), publications a trois niveaux (resume, complet, source)
-
-Le dossier `docs/` est la vitrine publique du systeme. Il contient :
-- Pages d'accueil (EN + FR)
-- Pages de profil (hub, CV, complet — EN + FR)
-- Publications (resume + complet pour chacune — EN + FR)
-- Pages hub de projets (EN + FR)
-- Assets (webcards, apercu social, CSS, JS)
-
-### minds/ — Intelligence recoltee
-
-**Role** : Incubateur d'insights decouverts par les satellites
-**Structure** : Un fichier `<slug-projet>.md` par satellite avec donnees d'insights structurees
-**Propriete cle** : Pont entre les donnees ephemeres au niveau session et les connaissances permanentes au niveau core
-
-### live/ — Outillage temps reel
-
-**Role** : Outils de capture en direct et de communication inter-instances
-**Contenu** : `stream_capture.py` (capture OBS/RTSP), `knowledge_beacon.py` (decouverte de pairs sur port 21337), `knowledge_scanner.py` (sondage de sous-reseau)
-**Propriete cle** : Synchronise vers chaque satellite comme asset de connaissances
-
-### projects/ — Registre de projets
-
-**Role** : Registre central de tous les projets avec indexation hierarchique P#
-**Structure** : Fichiers de metadonnees plats `<slug>.md` (jamais de sous-dossiers)
-**Contenu** : Identite du projet, type (core/enfant/gere), statut, depots associes, liens de board
+Chaque fichier SKILL.md contient la chaine de methodologie complete : quoi lire, quoi faire, quoi produire. Les skills sont autonomes — ils ne dependent pas d'un registre central.
 
 ---
 
@@ -296,193 +447,166 @@ Le dossier `docs/` est la vitrine publique du systeme. Il contient :
 
 Le systeme Knowledge incarne 13 qualites — chacune decouverte par la pratique, chacune renforcant les autres. Elles sont nommees en francais (le systeme a ete concu en francais) et forment une hierarchie de dependance.
 
-| # | Qualite | Essence | Mecanisme |
-|---|---------|---------|-----------|
-| 1 | **Autosuffisant** | Aucun service externe, aucune base de donnees, aucun cloud. Markdown simple dans Git. | CLAUDE.md + notes/ + patterns/ + lessons/ — tout en texte brut dans un depot |
-| 2 | **Autonome** | Auto-propagation, auto-guerison, auto-documentation. | Wakeup etape 0, normalize --fix, harvest --fix, scaffold bootstrap |
-| 3 | **Concordant** | Integrite structurelle activement appliquee. | normalize, pub check, docs check — detecter et reparer les ecarts |
-| 4 | **Concis** | Sous-ensemble critique, pas des copies. Signal maximum, bruit minimum. | Principe du sous-ensemble critique, couches de connaissances |
-| 5 | **Interactif** | Operable, pas seulement lisible. Clic-pour-copier sur le tableau de bord. | JS du tableau de bord, harvest --review/--stage/--promote |
-| 6 | **Evolutif** | Le systeme grandit en travaillant. 48 versions en 10 jours. | Table d'Evolution des connaissances, pipeline de promotion |
-| 7 | **Distribue** | L'intelligence circule dans les deux sens. Push et harvest. | wakeup (push), harvest (pull), minds/ (incubateur) |
-| 8 | **Persistant** | Les sessions sont ephemeres, les connaissances sont permanentes. | notes/ + protocole save, checkpoint/resume |
-| 9 | **Recursif** | Le systeme se documente en consommant sa propre production. | harvest alimente minds/, minds/ alimente les publications, les publications alimentent le core |
-| 10 | **Securitaire** | Securite par architecture, pas par obscurite. | Delimitation par proxy, regles .gitignore, URLs espace de noms proprietaire |
-| 11 | **Resilient** | Chaque mode de defaillance a un chemin de recuperation correspondant. | resume, recall, refresh, echelle de recuperation |
-| 12 | **Structure** | Organise autour des projets, pas seulement des publications. | Metadonnees projects/, indexation P#/S#/D#, badges de lien double origine |
-| 13 | **Integre** | S'etend aux plateformes externes. | gh_helper.py, GitHub Projects v2, convention TAG:, sync_roadmap.py |
+| # | Qualite | Essence | Mecanisme K2.0 |
+|---|---------|---------|----------------|
+| 1 | **Autosuffisant** | Aucun service externe, aucune base de donnees, aucun cloud. Markdown et JSON dans Git. | mind_memory.md + JSON de domaine + sessions/ — tout en texte brut dans un depot |
+| 2 | **Autonome** | Auto-propagation, auto-guerison, auto-documentation. | session_init.py auto-demarre ; /normalize auto-repare ; scripts K_MIND gerent toutes les operations mecaniques |
+| 3 | **Concordant** | Integrite structurelle activement appliquee. | `/normalize`, `/integrity-check` — detecter et reparer les ecarts |
+| 4 | **Concis** | Mind-first : un seul regard pour tout voir. Signal maximum, bruit minimum. | Mindmap 264 noeuds comme vue d'ensemble ; JSON de domaine pour le detail seulement quand necessaire |
+| 5 | **Interactif** | Operable, pas seulement lisible. Mindmap live, interfaces interactives. | 5 interfaces web + mindmap live MindElixir, skill `/mind-context` |
+| 6 | **Evolutif** | Le systeme grandit en travaillant. Chaque session ajoute a la memoire. | near_memory grandit chaque tour ; conventions.json et work.json accumulent |
+| 7 | **Distribue** | L'intelligence circule dans les deux sens. Pousser les modules, synchroniser en retour. | K_MIND pousse vers les satellites ; K_GITHUB `sync_github.py` recolte |
+| 8 | **Persistant** | Les sessions sont ephemeres, les connaissances sont permanentes. | Memoire hierarchisee (near/far/archives) + noeuds mindmap |
+| 9 | **Recursif** | Le systeme se documente en consommant sa propre production. | Les publications K_DOCS decrivent l'architecture K_MIND ; la mindmap cartographie le systeme qui lit la mindmap |
+| 10 | **Securitaire** | Securite par architecture, pas par obscurite. | Delimitation proxy, regles .gitignore, URLs espace de noms proprietaire, gh_helper.py |
+| 11 | **Resilient** | Chaque mode de defaillance a un chemin de recuperation. | `/mind-context` (compaction), `memory_recall.py` (recherche profonde), archives de session |
+| 12 | **Structure** | Organise autour des modules et des projets. | 5 modules avec JSON de domaine propres ; registre K_PROJECTS |
+| 13 | **Integre** | S'etend aux plateformes externes. | K_GITHUB gh_helper.py, GitHub Projects v2, alias de board |
 
 ### Graphe de dependance des qualites
-
-**Ordre de lecture** : Autosuffisant active tout — si le systeme depend de services externes, rien d'autre ne fonctionne. Autonome et concordant le maintiennent. Concis le garde gerable. Interactif et evolutif le rendent utilisable et vivant. Distribue le fait monter en echelle. Persistant l'ancre. Recursif le rend auto-conscient. Securitaire le rend publiable. Resilient le rend survivable. Structure l'organise autour des projets. Integre l'etend aux plateformes externes.
 
 Les qualites forment un reseau de renforcement :
 
 - **Autosuffisant** active **distribue** (aucune dependance externe a propager)
 - **Autonome** active **resilient** (l'auto-guerison inclut la recuperation apres crash)
-- **Concordant** active **structure** (integrite structurelle a travers les projets)
+- **Concordant** active **structure** (integrite structurelle a travers les modules)
 - **Persistant** active **evolutif** (les connaissances s'accumulent entre les sessions)
 - **Recursif** active **autosuffisant** (le systeme construit sa propre documentation)
+- **Concis** active **interactif** (la mindmap comme vue d'ensemble rend le systeme operable)
 
 ### Mecanismes d'application des qualites
 
-Chaque qualite est appliquee par des commandes et protocoles specifiques :
+Chaque qualite est appliquee par des skills, scripts et conventions K2.0 specifiques :
 
-| Qualite | Mecanisme d'application |
-|---------|------------------------|
-| Autosuffisant | Aucune dependance externe dans aucun composant ; outillage Python pur |
-| Autonome | `wakeup` auto au demarrage ; `normalize --fix` auto-guerit ; bootstrap auto-cree |
-| Concordant | `normalize` audite la structure ; `pub check` valide les publications |
-| Concis | Template sous-ensemble critique (~180 lignes vs 3000+ dans le core) |
-| Interactif | JS clic-pour-copier sur le tableau de bord ; workflow de promotion via la page web |
-| Evolutif | Table d'Evolution des connaissances avec 48 entrees versionnees |
-| Distribue | Protocole `harvest` avec curseurs de branches ; `wakeup` etape 0 |
-| Persistant | `notes/` + protocole `save` ; `checkpoint.json` |
-| Recursif | `harvest` alimente `minds/`, `minds/` alimente les publications, les publications alimentent le core |
-| Securitaire | Delimitation par proxy ; jetons ephemeres ; blocs `.gitignore` ; espace de noms proprietaire |
-| Resilient | `resume` (checkpoint), `recover` (branches), `recall` (memoire profonde), `refresh` (compaction), `wakeup` (profond) |
-| Structure | Registre `projects/` ; indexation P# ; liens double origine |
-| Integre | `gh_helper.py` ; GitHub Projects v2 ; convention TAG: ; `sync_roadmap.py` |
+| Qualite | Application K2.0 |
+|---------|-------------------|
+| Autosuffisant | Aucune dependance externe dans aucun module ; scripts Python purs ; stockage JSON + Markdown |
+| Autonome | `session_init.py` auto-initialise ; `/normalize` auto-repare ; memory_append s'execute chaque tour |
+| Concordant | `/normalize` audite la structure ; `/integrity-check` valide 29 points de controle |
+| Concis | mind_memory.md comme vue d'ensemble (264 noeuds) ; filtrage par profondeur via depth_config.json |
+| Interactif | 5 interfaces web + mindmap live MindElixir ; `/mind-context` pour le contexte immediat |
+| Evolutif | near_memory grandit chaque tour ; work.json suit les accomplissements ; conventions.json capture les patrons |
+| Distribue | Module K_MIND pousse via git ; K_GITHUB sync_github.py pour le flux bidirectionnel |
+| Persistant | Memoire hierarchisee (near/far/archives) ; les noeuds mindmap cristallisent les connaissances validees |
+| Recursif | Les publications K_DOCS decrivent le systeme ; la mindmap K_MIND se cartographie elle-meme |
+| Securitaire | Delimitation proxy ; jetons ephemeres via gh_helper.py ; blocs `.gitignore` |
+| Resilient | Rechargement `/mind-context` apres compaction ; `memory_recall.py` pour la recherche profonde ; archives de session |
+| Structure | 5 modules avec JSON de domaine propres ; registre K_PROJECTS ; conventions.json par module |
+| Integre | K_GITHUB gh_helper.py ; GitHub Projects v2 ; alias de board ; saisie ciblee |
 
 ---
 
 ## Architecture du cycle de vie des sessions
 
-Chaque session IA suit le meme cycle de vie. C'est le mecanisme de persistance qui transforme des PNJ sans etat en collaborateurs continus.
+Chaque session IA suit un cycle de vie deterministe gere par les scripts K_MIND. Le principe fondamental : **programmes plutot qu'improvisation** — Claude fournit l'intelligence (resumes, noms de sujets) comme arguments a des scripts deterministes.
 
 ```
-[auto-wakeup] → verifier checkpoint → lire notes/ → resumer l'etat → travailler → [auto-checkpoint] → save → commit & push
+session_init.py → /mind-context → [travail] → memory_append.py (chaque tour) → far_memory_split.py → git commit & push
 ```
 
-### Le protocole Wakeup
+### Initialisation de session
 
-Wakeup est le « moment des lunettes » — la transition de PNJ a CONSCIENT. Il s'execute automatiquement a chaque debut de session.
+A chaque demarrage de session, deux choses se produisent :
 
-**12 etapes** (0 a 11) :
+1. **`session_init.py`** initialise ou reprend les fichiers de session :
+   ```bash
+   python3 scripts/session_init.py --session-id "<id>"              # Nouvelle session
+   python3 scripts/session_init.py --session-id "<id>" --preserve-active  # Reprise
+   ```
+   - La session precedente est auto-archivee mais les resumes sont portes dans `near_memory.json` sous `last_session`
+   - Les fichiers de session sont crees ou repris atomiquement
 
-| Etape | Action | Objectif |
-|-------|--------|---------|
-| 0 | Cloner `packetqc/knowledge` | Mettre les lunettes — lire le cerveau |
-| 0.3 | Detecter/acquerir GH_TOKEN | Elevation pour le mode autonome |
-| 0.5 | Scaffold bootstrap | Creer les fichiers essentiels manquants sur les depots vierges |
-| 0.55 | Auto-guerir le CLAUDE.md satellite | Remediation automatique de derive |
-| 0.56 | Fusionner le PR d'auto-guerison | Activation des commandes dans la meme session |
-| 0.6 | Beacon de connaissances (desactive) | Disponible pour demarrage manuel |
-| 0.7 | Synchroniser l'amont | Fetch et merge de la branche par defaut |
-| 0.8 | Relire les connaissances | Synchronisation mi-session pour mises a jour concurrentes |
-| 0.9 | Detection de reprise | Verifier `notes/checkpoint.json` |
-| 1-8 | Lire l'etat | Evolution, minds/, notes/, plans, assets, git log, branches |
-| 9 | Afficher l'aide | Intelligence + table complete des commandes |
-| 10 | Invite harvest | Depot core uniquement, sur accord |
-| 11 | Traiter le message de l'utilisateur | Commencer a travailler |
+2. **`/mind-context`** charge et affiche le contexte :
+   - Rend la mindmap filtree (bloc de code mermaid)
+   - Montre le contexte de la derniere session (ou le travail en etait)
+   - Montre les resumes recents de near_memory (activite de la session courante)
+   - Affiche le tableau de statistiques memoire (taille disque, tokens, charge, disponible)
 
-**Adaptation** : Wakeup s'adapte a l'environnement. En mode plan (Bash bloque), il bascule l'etape 0 de `git clone` vers WebFetch. Dans les satellites, il ajoute les etapes de bootstrap et d'auto-guerison. Le protocole a la meme structure partout, mais l'implementation s'adapte.
+Cela remplace le protocole wakeup K1.0 a 12 etapes. La ou K1.0 necessitait un `git clone` du depot knowledge, la lecture de `notes/`, le resume de l'etat et l'affichage de l'aide — K2.0 charge la mindmap et la near_memory en une seule operation.
 
-### Protocole Save
+### Maintenance temps reel
 
-La commande save persiste le travail et le livre a la branche par defaut. Elle s'adapte a l'etat d'elevation de la session :
+**Chaque tour**, Claude execute `memory_append.py` pour persister l'echange :
 
-| Mode | Jeton | Flux | Action utilisateur |
-|------|-------|------|--------------------|
-| Autonome complet | PAT classique | Creation PR + fusion via API + sync | Aucune |
-| Semi-automatique | Aucun | Creation PR + bloc pause | Fusionner le PR (un clic) |
+```bash
+python3 scripts/memory_append.py \
+    --role user --content "message exact de l'utilisateur" \
+    --role2 assistant --content2 "sortie complete de l'assistant" \
+    --summary "resume en une ligne" \
+    --mind-refs "knowledge::noeud1,knowledge::noeud2"
+```
 
-**Protocole (6 etapes)** : Ecrire les notes → commit → push → detecter la branche par defaut → creer le PR → fusionner (eleve) ou l'utilisateur fusionne (semi-auto).
+Pour le contenu volumineux (tableaux, blocs de code), le mode stdin evite l'echappement shell :
+```bash
+python3 scripts/memory_append.py --stdin << 'ENDJSON'
+{"role":"user","content":"...","role2":"assistant","content2":"...","summary":"...","mind_refs":"...","tools":[...]}
+ENDJSON
+```
 
-Le PR est le pont entre la branche de tache autorisee par le proxy et le point de convergence (branche par defaut). Sans la fusion, le travail est echoue.
+Cela gere a la fois far_memory (verbatim) et near_memory (resume) atomiquement. Pas d'improvisation — le script ecrit les deux fichiers en une seule operation.
 
-### Checkpoint et Resume
+### Archivage par sujet
 
-Les protocoles multi-etapes (save, harvest, normalize, bootstrap) ecrivent des checkpoints aux limites d'etapes dans `notes/checkpoint.json`. Si une session plante en cours de protocole, la session suivante detecte le checkpoint a l'etape wakeup 0.9 et propose la reprise.
+Quand `far_memory.json` grandit ou qu'un sujet est complet, `far_memory_split.py` l'archive :
 
-La commande resume redemarre depuis la derniere etape completee — aucune re-explication manuelle necessaire. Les checkpoints sont auto-supprimes a la fin reussie. Les checkpoints de plus de 24 heures sont marques comme perimes ; ceux de plus de 7 jours sont auto-supprimes.
+```bash
+python3 scripts/far_memory_split.py \
+    --topic "Nom du sujet" \
+    --start-msg 1 --end-msg 24 \
+    --start-near 1 --end-near 7
+```
 
-### Recover — Recuperation par branches
+Claude identifie les frontieres de sujets depuis les groupes de resumes near_memory, puis appelle le script. Le script deplace les messages vers `archives/far_memory_session_<id>_<timestamp>.json`, classes par sujet.
 
-Quand une session plante sans ecrire de checkpoint, `recover` recherche dans les branches `claude/*` le travail committe qui n'a jamais ete fusionne :
+### Rappel memoire
 
-1. Enumerer toutes les branches `claude/*` triees par date
-2. Filtrer les branches avec des commits non fusionnes
-3. Proposer une recuperation par cherry-pick ou diff-apply
-4. Appliquer la methode choisie a la branche courante
+Pour rechercher dans la memoire archivee :
 
-`recover` capture les crashs au niveau git, complementant `resume` qui les capture au niveau protocole.
+```bash
+python3 scripts/memory_recall.py --subject "architecture"   # Recherche par mot-cle
+python3 scripts/memory_recall.py --list                      # Lister tous les sujets archives
+python3 scripts/memory_recall.py --subject "theme" --full    # Recuperation du contenu complet
+```
 
-### Perte de contexte et Refresh
+Cela remplace la commande `recall` de K1.0. Au lieu de scanner les branches git pour du travail non fusionne, K2.0 recherche dans des fichiers archive structures par sujet.
 
-Quand le contexte est compacte en cours de session, `refresh` restaure le contexte CLAUDE.md sans la charge d'un wakeup complet :
+### Recuperation apres compaction
 
-| Commande | Cas d'usage | Vitesse |
-|----------|-------------|---------|
-| `refresh` | Apres compaction — mise en forme perdue | ~5s |
-| `wakeup` | Apres fusion de PRs par d'autres sessions | ~30-60s |
-| `resume` | Apres crash avec checkpoint | ~10s |
-| `recover` | Apres crash sans checkpoint | ~15s |
-| `recall` | Recherche de memoire profonde | ~10s |
+Quand Claude Code compacte le contexte en cours de session, `/mind-context` recharge la mindmap et la near_memory. Parce que mind_memory.md est compact (264 noeuds, ~2,8K tokens) et que near_memory porte des resumes avec pointeurs, la recuperation est rapide et complete.
 
-L'echelle de recuperation — du plus leger au plus lourd : rafraichir le navigateur → PR manuel → `resume` → `recover` → `recall` → `refresh` → `wakeup` → nouvelle session.
+| Scenario de recuperation | K1.0 | K2.0 |
+|--------------------------|------|------|
+| Apres compaction | `refresh` (relire CLAUDE.md) | `/mind-context` (recharger mindmap + near_memory) |
+| Apres crash de session | `resume` (checkpoint.json) | `session_init.py --preserve-active` |
+| Recherche memoire profonde | `recall` (scan de branches) | `memory_recall.py --subject "..."` |
+| Rechargement complet | `wakeup` (protocole 12 etapes) | `/mind-context full` |
 
 ---
 
 ## Architecture distribuee
 
-### Topologie maitre-satellite
+### Distribution du module K_MIND
 
-Le systeme Knowledge opere comme un reseau en etoile avec flux d'intelligence bidirectionnel :
+Le module K_MIND est le cerveau portable — il peut etre pousse vers tout projet satellite via git. Un satellite qui clone ou reference K_MIND herite de la methodologie complete :
 
-**Esprit maitre** (P0 — `packetqc/knowledge`) : Contient le CLAUDE.md canonique, toutes les connaissances prouvees, les minds/ recoltes, la bibliotheque complete de publications et la presence web. C'est le niveau PRODUCTION du reseau.
+- La mindmap de 264 noeuds (architecture, contraintes, conventions, suivi de travail)
+- Tous les scripts K_MIND (gestion de session, maintenance memoire)
+- Les JSON de domaine (connaissances structurees)
 
-**Projets satellites** (P1-P9) : Chaque satellite a son propre CLAUDE.md (sous-ensemble critique), ses propres notes/, son propre outillage `live/` et potentiellement ses propres GitHub Pages et publications. Les satellites sont simultanement :
-- **Developpement** par rapport au core — terrain d'essai pour de nouvelles capacites
-- **Production** a leur propre niveau de depot — faisant autorite de maniere independante pour leur domaine
+Cela remplace le flux push K1.0 ou les satellites lisaient le CLAUDE.md de `packetqc/knowledge` a l'etape wakeup 0.
 
-### Flux Push — Wakeup
+### Synchronisation K_GITHUB
 
-A chaque debut de session dans un satellite, le protocole wakeup lit le CLAUDE.md de `packetqc/knowledge` en premier (etape 0). Cela pousse la derniere methodologie, les commandes, les patrons et les protocoles vers le satellite. Le satellite recoit aussi :
+Le `sync_github.py` de K_GITHUB remplace le protocole `harvest` de K1.0 pour le flux d'intelligence bidirectionnel :
 
-- Les assets de connaissances (outillage `live/`, helpers `scripts/`)
-- Le scaffold bootstrap (fichiers essentiels pour les depots vierges)
-- Les mises a jour d'auto-guerison (section commandes rafraichie a la derniere version du core)
+| Harvest K1.0 | Sync K_GITHUB K2.0 |
+|--------------|---------------------|
+| `harvest <projet>` — parcourir le satellite | `sync_github.py` — synchronisation bidirectionnelle |
+| `harvest --healthcheck` — mise a jour du tableau de bord | K_VALIDATION `/integrity-check` |
+| `harvest --promote N` — promouvoir un insight | Mise a jour manuelle de `conventions.json` ou `work.json` |
+| `harvest --fix <projet>` — remedier la derive | K_GITHUB sync vers le satellite |
 
-Le push est **base sur la lecture, pas sur l'ecriture** — le satellite lit depuis le core, le core ne pousse pas vers les satellites. Cela fonctionne car tout l'acces utilise des URLs HTTPS publiques.
-
-### Flux Pull — Harvest
-
-La commande `harvest` tire les connaissances evoluees des satellites vers le centre :
-
-1. **Enumerer les branches** — `git ls-remote` pour lister toutes les branches distantes
-2. **Verifier les curseurs** — Comparer les HEAD de branches aux SHA derniers recoltes
-3. **Scanner le nouveau contenu** — Lire CLAUDE.md, notes/, publications/, drapeaux harvest
-4. **Extraire les insights** — Patrons, pieges, ameliorations methodologiques
-5. **Mettre a jour minds/** — Ecrire dans `minds/<slug-projet>.md` avec les curseurs
-6. **Mettre a jour le tableau de bord** — Rafraichir les 5 fichiers du tableau de bord (source + resume/complet EN/FR)
-7. **Regenerer les webcards** — La webcard du tableau de bord pilotee par les donnees reflete le nouveau statut
-8. **Nettoyer** — Supprimer les clones temporaires de `/tmp/`
-
-Le harvest est **incrementiel** — les curseurs de branches tracent le dernier commit traite. Seul le nouveau contenu est scanne lors des executions suivantes.
-
-### Mecanisme d'auto-guerison
-
-Les satellites s'auto-guerissent via trois mecanismes :
-
-1. **Scaffold bootstrap** (wakeup etape 0.5) : Cree les fichiers essentiels manquants sur les depots vierges
-2. **Auto-guerison du CLAUDE.md** (wakeup etape 0.55) : Detecte la derive de version, met a jour la section commandes depuis le template du core
-3. **Remediation basee sur le pull** : Au prochain wakeup, le satellite lit le core mis a jour — tout correctif applique au core se propage automatiquement
-
-L'auto-guerison est consciente de la version : les tags `<!-- knowledge-version: vN -->` tracent la version du core avec laquelle chaque satellite s'est synchronise.
-
-### Suivi de version et derive
-
-Chaque entree d'evolution porte un numero de version (v1 a v48 au moment de cette redaction). La derive est l'ecart entre la derniere version synchronisee du satellite et la version actuelle du core :
-
-| Derive | Severite | Icone tableau de bord |
-|--------|----------|----------------------|
-| 0 | A jour | 🟢 |
-| 1-3 | Mineure | 🟡 |
-| 4-7 | Moderee | 🟠 |
-| 8+ | Critique | 🔴 |
-
-`harvest --fix <projet>` prepare la remediation pour les satellites avec une derive significative.
+La topologie distribuee reste en etoile, mais le mecanisme est plus simple : K_MIND est le module core, K_GITHUB gere la sync, et les JSON de domaine de chaque module sont l'unite de transfert de connaissances.
 
 ---
 
@@ -513,67 +637,80 @@ Quand un acces API autonome est necessaire, le systeme utilise des PAT GitHub cl
 | Persistance | Aucune — zero-stocke-au-repos |
 | Utilisation | Via `gh_helper.py` Python `urllib` — jeton jamais sur la ligne de commande |
 
-**Contrainte critique** (decouverte v45) : le champ texte « Autre » de `AskUserQuestion` n'est PAS invisible — la valeur EST affichee dans le chat de session. La livraison de jeton se fait exclusivement via variable d'environnement ou fichier temporaire.
+### gh_helper.py — Passerelle API
 
-### Modele a deux canaux
+**Emplacement** : `K_MIND/scripts/gh_helper.py`
+**Role** : Remplacement Python portable du CLI `gh`
+**Technologie** : Python `urllib` pur (aucune dependance externe)
+**Propriete cle** : Contourne le proxy conteneur qui bloque `curl` et `gh`
 
-Le systeme opere a travers deux canaux paralleles :
+`gh_helper.py` est la passerelle du systeme vers l'API GitHub. Il lit `GH_TOKEN` depuis `os.environ` en interne — le jeton n'apparait jamais sur aucune ligne de commande. Il couvre : les operations PR, GitHub Projects v2, les labels TAG et la gestion des issues.
 
-| Canal | Protocole | Restriction | Utilise pour |
-|-------|----------|-------------|--------------|
-| Proxy Git | HTTPS via proxy conteneur | Par depot, par branche | Clone, fetch, push (branche de tache uniquement) |
-| API direct | Python `urllib` vers `api.github.com` | Authentifie par jeton, sans restriction | Creation/fusion PR, Projects v2, gestion des issues |
+**Modele a deux canaux** : Le systeme opere a travers deux canaux paralleles :
 
-**Sans jeton** : Lecture seule cross-repo + push vers la branche assignee uniquement.
-**Avec jeton via `gh_helper.py`** : Operations API cross-repo completes sur tout depot auquel le jeton a acces.
+| Canal | Protocole | Utilise pour |
+|-------|----------|--------------|
+| Proxy Git | HTTPS via proxy conteneur | Clone, fetch, push (branche de tache uniquement) |
+| API direct | Python `urllib` vers `api.github.com` | Creation/fusion PR, Projects v2, gestion des issues |
 
 ---
 
 ## Architecture web
 
+### Systeme de visualiseur statique
+
+Knowledge 2.0 a remplace le site Jekyll de K1.0 par un **visualiseur JavaScript statique** :
+
+| Aspect | K1.0 (Jekyll) | K2.0 (Visualiseur JS statique) |
+|--------|---------------|-------------------------------|
+| Systeme de build | Jekyll avec `_config.yml`, `_layouts/` | `.nojekyll` — aucune etape de build |
+| Rendu | Cote serveur Ruby + templates Liquid | Cote client JavaScript + marked.js + mermaid |
+| Layouts | `default.html`, `publication.html` | `index.html` unique avec routage dynamique |
+| Deploiement | Build Jekyll GitHub Pages | Fichiers statiques GitHub Pages |
+| Theme | 2 themes (Cayman, Midnight) | 4 themes avec media queries CSS |
+
+Le visualiseur lit le front matter Markdown, rend le contenu cote client et route les URLs sans traitement cote serveur. Les diagrammes mermaid sont rendus dans le navigateur.
+
 ### Systeme double theme
 
-Toutes les pages web supportent deux themes visuels :
+Toutes les pages web supportent quatre themes visuels via CSS :
 
-| Theme | Declencheur | Arriere-plan | Texte | Accents |
-|-------|-------------|--------------|-------|---------|
-| **Cayman** (clair) | `prefers-color-scheme: light` | Degrade sarcelle/emeraude (#ecfdf5 → #ccfbf1) | Ardoise sombre (#0f172a) | Sarcelle, Cyan, Emeraude |
-| **Midnight** (sombre) | `prefers-color-scheme: dark` | Degrade marine/indigo (#0f172a → #1e1b4b) | Ardoise claire (#e2e8f0) | Bleu, Violet, Cyan |
+| Theme | Declencheur | Style |
+|-------|-------------|-------|
+| **Cayman** (clair) | `prefers-color-scheme: light` | Degrades sarcelle/emeraude |
+| **Midnight** (sombre) | `prefers-color-scheme: dark` | Degrades marine/indigo |
+| + webcards dans les deux themes | Generees par publication | GIF animes 1200x630, 256 couleurs |
 
-La detection de theme utilise des elements `<picture>` avec des requetes `media` pour les en-tetes webcard, et le CSS `@media (prefers-color-scheme: dark)` pour le style des pages. Le partage social (`og:image`) utilise toujours la variante Cayman (claire).
+Le partage social (`og:image`) utilise toujours la variante Cayman (claire).
 
-### Architecture des layouts
+### Architecture des interfaces
 
-Deux layouts gerent toutes les pages web :
+Six interfaces servent differents aspects du systeme :
 
-| Layout | Portee | Fonctionnalites |
-|--------|--------|-----------------|
-| `default.html` | Pages de profil, pages d'accueil, hubs | CSS Cayman/Midnight, tags OG, rendu mermaid |
-| `publication.html` | Toutes les pages de publication | Tout default + banniere de version, mots-cles, refs croisees, barre d'export, barre de langue, CSS Paged Media |
+| Interface | Objectif |
+|-----------|---------|
+| **Navigateur principal** | Hub central — charge toutes les autres interfaces en iframe |
+| **Visualiseur de projets** | Parcourir les projets depuis `projects.json` |
+| **Revue de sessions** | Revoir les donnees de session depuis `sessions.json` |
+| **Workflow de taches** | Suivre les taches depuis `tasks.json` |
+| **Mindmap live** | Visualisation interactive MindElixir v5 |
+| **Index des publications** | Parcourir toutes les publications |
 
-Le layout `publication.html` ajoute :
-- **Banniere de version** : ID de publication, version, date, horodatage de generation, auteurs — auto-rendu depuis le front matter
-- **Barre de langue** : Auto-generee depuis le permalink via Liquid — les pages EN montrent le lien francais, les pages FR montrent le lien anglais
-- **Barre d'export** : Boutons PDF (Letter/Legal) et DOCX
-- **CSS Paged Media** : Regles `@page` pour en-tetes courants, pieds de page, page de couverture, saut de page TDM intelligent
+Chaque interface est une page HTML/CSS/JS autonome qui lit des fichiers de donnees JSON et rend le contenu dynamiquement. La convention de template EN/FR unifie (conv-020) assure un markup identique avec `translateStatic()` pour l'i18n — aucun fichier de template duplique.
 
 ### Pipeline de publication
 
-Chaque publication suit un pipeline a trois niveaux :
+Chaque publication suit un pipeline de la source aux pages web bilingues :
 
 ```
-publications/<slug>/v1/README.md           ← Source de verite (EN)
-    ↓ (pub sync)
-docs/publications/<slug>/index.md          ← Resume EN (web)
-docs/publications/<slug>/full/index.md     ← Complet EN (web)
-    ↓ (traduction)
-docs/fr/publications/<slug>/index.md       ← Resume FR (web)
-docs/fr/publications/<slug>/full/index.md  ← Complet FR (web)
+Chaine de methodologie K_DOCS → SKILL.md /docs-create
+    → docs/publications/<slug>/index.md          ← Resume EN
+    → docs/publications/<slug>/full/index.md     ← Complet EN
+    → docs/fr/publications/<slug>/index.md       ← Resume FR
+    → docs/fr/publications/<slug>/full/index.md  ← Complet FR
 ```
 
-### Systeme miroir bilingue
-
-Chaque page web existe en anglais et en francais. La commande `normalize` applique cette structure miroir. Les barres de langue dans le layout `publication.html` generent automatiquement les liens entre les miroirs.
+Le visualiseur JS statique rend ces fichiers Markdown cote client. Le front matter fournit les metadonnees (layout, title, description, pub_id, version, date, permalink, og_image, keywords).
 
 ### Architecture d'exportation
 
@@ -582,32 +719,32 @@ Les publications peuvent etre exportees en PDF et DOCX :
 | Mode | Mecanisme | Dependances |
 |------|-----------|-------------|
 | **Web** (cote client) | `window.print()` + CSS Paged Media | Aucune — le navigateur EST le moteur PDF |
-| **CLI** (console) | `pub export #N --pdf` via pandoc | Necessite pandoc |
+| **DOCX** (cote client) | Conversion HTML-vers-Word | Aucune — s'execute dans le navigateur |
 
-Le mode web utilise : la fonction `printAs()` avec selection Letter/Legal, en-tete courant (boite unique `@top-left`), pied de page trois colonnes, page de couverture, saut de page TDM intelligent et assainissement du nom de fichier PDF.
+Le mode web utilise : la fonction `printAs()` avec selection Letter/Legal, en-tetes courants, pieds de page, page de couverture et sauts de page TDM intelligents.
 
 ---
 
 ## Modele de deploiement
 
-### Cycle de vie des satellites
+### Strategie double remote
 
-Un satellite progresse a travers 4 etapes :
+Le depot Knowledge 2.0 utilise deux remotes Git :
 
-| Etape | Action | Resultat |
-|-------|--------|---------|
-| 1. Bootstrap | `wakeup` sur depot vierge | CLAUDE.md, README, LICENSE, .gitignore, notes/ |
-| 2. Normalize | `normalize --fix` | Concordance structurelle verifiee |
-| 3. Healthcheck | `harvest --healthcheck` | Tableau de bord mis a jour, statut suivi |
-| 4. Presence web | `project create` | Scaffold docs/ complet, GitHub Pages, hub publications |
+| Remote | Depot | Objectif |
+|--------|-------|---------|
+| `knowledge` | `packetqc/knowledge` | Production — le systeme de connaissances canonique |
+| `origin` | `packetqc/K_DOCS` | Module K_DOCS en production |
+
+Les deux remotes recoivent les push a chaque unite de travail completee. Cette strategie double remote assure que le systeme de connaissances est accessible depuis les deux points d'entree.
 
 ### Topologie du reseau
 
-Le reseau actuel :
+Le reseau de projets actuel :
 
 | ID | Projet | Type | Statut | Role |
 |----|--------|------|--------|------|
-| P0 | Knowledge System | core | actif | Esprit maitre — canonique a l'echelle du systeme |
+| P0 | Knowledge System | core | actif | Maitre — canonique a l'echelle du systeme |
 | P1 | MPLIB | enfant | actif | Bibliotheque embarquee — preuve de concept originale |
 | P2 | STM32 PoC | enfant | actif | Preuve de concept materiel |
 | P3 | knowledge-live | enfant | actif | Developpement d'outillage live |
@@ -617,110 +754,86 @@ Le reseau actuel :
 | P8 | Documentation System | gere (dans P0) | actif | Methodologie de gestion documentaire |
 | P9 | Knowledge Compliancy Report | gere (dans P0) | actif | Suivi de conformite securitaire |
 
-Le cycle de vie : idee → test satellite (dev) → pages satellite (production-depot) → harvest vers core → promouvoir → pages core (production-systeme) → tous les satellites heritent au prochain wakeup.
-
 ---
 
-## Analyse structurelle — Noyau core
+## Analyse structurelle
 
-Le systeme Knowledge tient dans moins de 1 Mo de Markdown et Python. Cette section fournit une analyse de poids au niveau fichier, la priorite de lecture, et la decouverte du fosse d'autorite qui gouverne l'architecture du sous-ensemble critique.
+### Distribution des poids par module
 
-### Poids du noyau par role
+| Module | Composants | Taille | Proportion |
+|--------|-----------|--------|------------|
+| **K_MIND** | mindmap + sessions + JSON domaine + scripts | ~270 Ko | Core |
+| **K_DOCS** | conventions + methodologie + scripts | ~150 Ko | Documentation |
+| **K_GITHUB** | conventions + methodologie + scripts | ~80 Ko | Integration |
+| **K_PROJECTS** | donnees + scripts + methodologie | ~60 Ko | Projets |
+| **K_VALIDATION** | methodologie + scripts + conventions | ~90 Ko | AQ |
+| **docs/** | 100+ pages + interfaces + assets | Variable | Presence web |
 
-| Role | Composants | Poids | Proportion |
-|------|-----------|-------|------------|
-| **Cerveau** | CLAUDE.md | 293 Ko | 31% |
-| **Connaissances** | methodology + patterns + lessons | 218 Ko | 23% |
-| **Intelligence** | minds + projects | 121 Ko | 13% |
-| **Outils** | scripts | 242 Ko | 26% |
-| **Infrastructure** | live | 53 Ko | 6% |
-| **Ephemere** | docs + notes + publications | Variable | — |
-| **Total noyau** | **~930 Ko** | **100%** | |
+### Budget memoire
 
-### Decomposition detaillee des composants
+Le systeme memoire est concu autour de la fenetre de contexte de ~200K tokens :
 
-| Composant | Fichiers | Taille | Role |
-|-----------|----------|--------|------|
-| `CLAUDE.md` | 1 fichier | 293 Ko (3218 lignes) | Le cerveau — identite, methodologie, 49 commandes, 48 evolutions, 20 pieges, protocole proxy/branches |
-| `methodology/` | 15 fichiers | 194 Ko | Plans d'implementation — satellite-bootstrap (34 Ko), web-pagination-export (31 Ko), project-management (36 Ko), project-create (17 Ko), checkpoint-resume (11 Ko), satellite-commands (8 Ko), 9 autres (57 Ko) |
-| `patterns/` | 4 fichiers | 14 Ko | Approches eprouvees — embedded-debugging, rtos-integration, sqlite-embedded, ui-backend-separation |
-| `lessons/` | 2 fichiers | 10 Ko | Erreurs a eviter — pitfalls (20 entrees), performance insights |
-| `minds/` | 7 fichiers | 71 Ko | Intelligence satellite recoltee — knowledge-live (22 Ko), stm32n6570-dk-sqlite (15 Ko), mplib-dev-staging (10 Ko), mplib (6 Ko), pqc (5 Ko) |
-| `projects/` | 10 fichiers | 50 Ko | Registre d'entites P0-P9 avec metadonnees d'indexation hierarchique |
-| `scripts/` | 7 scripts | 242 Ko | Outils deployes — gh_helper (57 Ko), generate_og_gifs (90 Ko), pqc_envelope (23 Ko), 4 autres (72 Ko) |
-| `live/` | 5 fichiers | 53 Ko | Infrastructure temps reel — stream_capture (26 Ko), knowledge_beacon (12 Ko), knowledge_scanner (8 Ko) |
-| `publications/` | 15 sources | Variable | Contenu canonique des publications — versionne, source de verite pour les pages web |
-| `docs/` | 100+ pages | Variable | Presence web — 2 layouts HTML, bilingue EN/FR, 40 webcards GIF animees |
-| `notes/` | ~20 fichiers | 80 Ko | Memoire de session ephemere — checkpoint.json, healthcheck.json, board-state.json |
+| Stockage | Comptage | Taille | ~Tokens | Charge au demarrage ? |
+|----------|----------|--------|---------|------------------------|
+| mind_memory.md | 264 noeuds | ~11 Ko | ~2 835 | Oui |
+| JSON de domaine | 163 refs | ~1,8 Mo | ~463K | ~4,5K (sous-ensemble) |
+| near_memory | resumes | ~33 Ko | ~8 528 | Oui |
+| far_memory | messages | ~5 Ko | ~1 195 | Minimal |
+| Archives | 16 sujets | ~210 Ko | ~53 662 | Non (a la demande) |
+| Surcharge systeme | outils+MCP | — | ~34 000 | Oui |
+| **Limite utilisable** | 200K - 33K tampon | — | **~167 000** | |
+
+L'approche mind-first signifie que l'information la plus critique (mindmap + near_memory ≈ 11K tokens) est toujours chargee. Les JSON de domaine et les archives sont accedes a la demande, gardant le budget de contexte gerable.
 
 ### Priorite de lecture pour les instances Claude
 
-| Priorite | Dossier / Fichier | Taille | Autorite | Survit a la compaction ? | Role |
-|----------|-------------------|--------|----------|--------------------------|------|
-| **P0** | `CLAUDE.md` | 293 Ko | Systeme (instructions projet) | Oui | **Le noyau** — identite, methodologie, commandes, evolution, pieges |
-| **P1** | `methodology/` | 194 Ko | Conversation (lu au wakeup) | Non | Plans d'implementation — bootstrap, checkpoint, projets, export |
-| **P2** | `patterns/` | 14 Ko | Conversation | Non | Savoir eprouve — debugging embarque, RTOS, SQLite, UI/backend |
-| **P3** | `lessons/` | 10 Ko | Conversation | Non | Erreurs a eviter — 20 pieges documentes |
-| **P4** | `minds/` | 71 Ko | Conversation | Non | Intelligence recoltee des satellites — plus recent, moins valide |
-| **P5** | `notes/` | 80 Ko (3 derniers) | Conversation | Non | Memoire ephemere — contexte session precedente |
-| **P6** | `projects/` | 50 Ko | Conversation | Non | Registre d'entites P0-P9 avec metadonnees |
-| **P7** | `scripts/` | 242 Ko | Executable | N/A | Outils deployes — non lus, executes (gh_helper, webcards, beacon) |
-| **P8** | `publications/` | Variable | Conversation | Non | Source pour 15 publications — lu a la demande, pas au wakeup |
-| **P9** | `docs/` | 100+ pages | Web | N/A | Presence web — GitHub Pages, pas lu par Claude |
-| **P10** | `live/` | 53 Ko | Executable | N/A | Infrastructure live — beacon, scanner, capture |
+| Priorite | Quoi | Tokens | Charge | Survit a la compaction ? |
+|----------|------|--------|--------|--------------------------|
+| **P0** | `mind_memory.md` | ~2 835 | Toujours | Oui (via /mind-context) |
+| **P1** | `near_memory.json` | ~8 528 | Toujours | Oui (via /mind-context) |
+| **P2** | CLAUDE.md (instructions K_MIND) | ~0 (minimal) | Toujours | Oui (niveau systeme) |
+| **P3** | JSON de domaine (sous-ensemble) | ~4 524 | Au demarrage | Non |
+| **P4** | `far_memory.json` | ~1 195 | Partiel | Non |
+| **P5** | Archives | ~53 662 | A la demande | Non |
+| **P6** | Fichiers methodologie des modules | Variable | A la demande | Non |
 
-### Le fosse d'autorite
-
-La decouverte architecturale la plus critique : CLAUDE.md (293 Ko) a l'**autorite systeme** — il survit a la compaction de contexte car il est charge comme « instructions projet » par la plateforme Claude Code. Tout le reste (~640 Ko de methodology, patterns, lessons, minds, projects) a l'**autorite conversation** — lu au wakeup etape 0, mais perdu a la premiere compaction.
-
-Ce fosse d'autorite est la raison d'etre du principe du **sous-ensemble critique** (v31). Le CLAUDE.md satellite (~180 lignes) porte assez d'ADN comportemental (protocole de session, protocole save, protocole de branches, 49 commandes) pour survivre post-compaction. Sans lui, une session satellite compactee perd toute conscience et retourne au comportement NPC.
-
-L'ordre de lecture (`CLAUDE.md → methodology/ → patterns/ → lessons/ → minds/`) reflete une autorite decroissante et une recence croissante. Le cerveau est stable et autoritaire ; les minds recoltes sont frais mais non valides.
+L'ordre de lecture reflete le principe mind-first : mindmap d'abord (vue d'ensemble), puis near_memory (contexte recent), puis JSON de domaine (detail structure), puis archives (profondeur historique).
 
 ---
 
 ## Analyse de la structure Publication
 
-Chaque publication dans le systeme Knowledge suit une structure rigoureuse a 9 branches. Cette section documente l'anatomie d'une publication — ses composants, son cycle de vie et ses points d'integration.
+### Anatomie d'une publication
 
-### Anatomie d'une publication — Les 9 branches
+Chaque publication dans le systeme Knowledge suit une structure coherente :
 
-| Branche | Role | Fichiers |
-|---------|------|----------|
-| **Source** | Verite canonique, versionnee | `publications/<slug>/v1/README.md` + `assets/` + `media/` |
+| Composant | Role | Fichiers |
+|-----------|------|----------|
 | **Pages web EN** | Presence web anglaise, 2 niveaux | Resume (`index.md`) + Complet (`full/index.md`) |
 | **Pages web FR** | Miroir francais | Meme structure sous `docs/fr/` |
-| **Front matter** | Metadonnees Jekyll | 8 champs requis par page (layout, title, description, pub_id, version, date, permalink, og_image) |
-| **Webcards OG** | Apercu social anime | 4 GIFs par publication (2 langues × 2 themes) |
-| **Layout** | Moteur de rendu | Banniere version, barre langue, barre export, CSS Paged Media, mots-cles references croisees |
-| **Integration systeme** | Points de connexion | Index publications (EN/FR), 6 pages profil, table CLAUDE.md, tableau de bord #4a |
-| **Identifiants** | Systeme de nommage | #N, slug URL-friendly, 3 niveaux, double-origine (core/satellite), inter-projet (→P#) |
-| **Validation** | Controle qualite | `pub check`, `pub sync`, `doc review`, `docs check`, `normalize` |
+| **Front matter** | Metadonnees de page | Champs requis : layout, title, description, pub_id, version, date, permalink, og_image |
+| **Webcards OG** | Apercu social anime | 4 GIF par publication (2 langues × 2 themes) |
+| **Integration systeme** | Points de connexion | Index publications (EN/FR), pages profil, noeuds documentation mindmap |
+| **Validation** | Controle qualite | `/normalize`, `/integrity-check` |
 
 ### Cycle de vie d'une publication
 
 ```
-pub new → Source creee → Pages EN/FR scaffoldees → Webcards generees
-    → Contenu ecrit dans Source
-    → pub sync → Pages web mises a jour
-    → doc review → Fraicheur verifiee
-    → pub check → Structure validee
-    → normalize → Concordance globale
+/docs-create <slug> → Pages EN/FR scaffoldees → Webcards generees
+    → Contenu ecrit
+    → /pub check → Structure validee
+    → /normalize → Concordance globale
 ```
 
-### Commandes de validation
+### Skills de validation
 
-| Commande | Focus | Modifie des fichiers ? |
-|----------|-------|------------------------|
-| `pub check` | Structure — front matter, liens, miroirs, assets | Non (rapport seulement) |
-| `pub sync` | Sync — concordance source→docs, copie assets | Assets seulement |
-| `doc review` | Fraicheur du contenu — etat connaissances vs contenu publication | Avec `--apply` |
-| `docs check` | Validation de page — integrite page doc individuelle | Non (rapport seulement) |
-| `normalize` | Concordance globale — miroirs EN/FR, liens, assets | Avec `--fix` |
+| Skill | Focus | Modifie des fichiers ? |
+|-------|-------|------------------------|
+| `/normalize` | Concordance globale — miroirs EN/FR, liens, assets | Avec `--fix` |
+| `/integrity-check` | Validation d'integrite a 29 points de controle | Rapport seulement |
+| `/pub` (mode check) | Structure — front matter, liens, miroirs | Rapport seulement |
 
-Ensemble, ces 5 commandes forment une boucle qualite complete : la structure est correcte (`pub check`), source et docs concordent (`pub sync`), le contenu reflete les connaissances actuelles (`doc review`), les pages sont individuellement valides (`docs check`), et la structure globale est concordante (`normalize`).
-
-**Source** : [Issue #317](https://github.com/packetqc/knowledge/issues/317), [Issue #318](https://github.com/packetqc/knowledge/issues/318) — Sessions d'exploration architecturale.
+Ces skills forment une boucle qualite complete : la structure est correcte, les miroirs EN/FR existent, le front matter est valide, et la structure globale est concordante.
 
 ---
 
@@ -729,10 +842,12 @@ Ensemble, ces 5 commandes forment une boucle qualite complete : la structure est
 | # | Publication | Relation |
 |---|-------------|----------|
 | 0 | [Systeme de connaissances]({{ '/fr/publications/knowledge-system/' | relative_url }}) | Parente — la publication maitre documentant le systeme |
+| 0v2 | [Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | Evolution — la conception d'architecture multi-module |
 | 3 | [Persistance de session IA]({{ '/fr/publications/ai-session-persistence/' | relative_url }}) | Fondation — la methodologie qui a tout demarre |
 | 4 | [Connaissances distribuees]({{ '/fr/publications/distributed-minds/' | relative_url }}) | Architecture — le flux d'intelligence distribuee |
 | 9 | [Securite par conception]({{ '/fr/publications/security-by-design/' | relative_url }}) | Securite — le controle d'acces et le modele de jetons |
 | 12 | [Gestion de projet]({{ '/fr/publications/project-management/' | relative_url }}) | Structure — modele d'entite projet et cycle de vie |
+| 15 | [Diagrammes d'architecture]({{ '/fr/publications/architecture-diagrams/' | relative_url }}) | Visuel — tous les diagrammes d'architecture |
 
 ---
 
