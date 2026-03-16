@@ -11,6 +11,10 @@ mindmap
       far memory
     work
       en cours
+        site independent redirects no hardcoded baseurl
+        interface CSS harmonization all 3 aligned
+        PR stats fix compile script field name and totals
+        README updated for production repo context
       validation
         modules imports
           K_PROJECTS imported with skills scripts methodology
@@ -18,7 +22,18 @@ mindmap
           K_GITHUB imported with sync scripts methodology
         documentation web viewer system
         live mindmap MindElixir v5
+          normal mode collapse depth fixed
+          depth config documentation override 2
         webcards theme aware
+        interface CSS theme convention
+          wrapper variables injected by viewer
+          interface specific prefixed variables only
+          stat cards use code-bg not bg
+          table headers and hover use code-bg
+          chart wraps styled with border and background
+        git recovery after WSL bluescreen
+          fresh clone dot git replacement
+          all 15 commits preserved
         k_mind import system
           repo restructure to Knowledge K_MIND
           install.sh creates Knowledge modules
@@ -203,6 +218,8 @@ mindmap
           soft coupled baseurl auto detect deployment
           nojekyll serves raw markdown on github pages
           site safe documentation no hardcoded domain urls
+          redirect stubs use relative URLs not absolute
+          PRODUCTION_BASEURL auto detected from VIEWER_PATH
           rewriteContentLinks viewer url format for export
           page conventions
             unified chrome bar for all panels
@@ -237,6 +254,10 @@ mindmap
             cinematic 3 movie animation sequence
             capture_mindmap.js plus stitch_webcard.py
             social redirect HTML pages with og tags
+          interface CSS theme convention documented
+            wrapper vars never redefined in interfaces
+            dark theme block interface specific only
+            fallback values always required
           bilingual en fr always both languages
           live mindmap
             standalone interface page

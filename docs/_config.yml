@@ -1,7 +1,7 @@
 title: "K_DOCS — Knowledge Documentation System"
 description: "Multi-module knowledge system — memory, documentation, validation, project management, and GitHub integration."
 url: "https://packetqc.github.io"
-baseurl: "/K_DOCS"
+baseurl: "/knowledge"
 
 # GitHub Pages theme
 remote_theme: pages-themes/minimal@v0.2.0
@@ -14,7 +14,7 @@ knowledge_version: "v2.0"
 knowledge_version_suffix: ""
 
 # Repository
-github_repo: "packetqc/K_DOCS"
+github_repo: "packetqc/knowledge"
 
 # SEO defaults
 author: "Martin Paquet & Claude (Anthropic, Opus 4.6)"

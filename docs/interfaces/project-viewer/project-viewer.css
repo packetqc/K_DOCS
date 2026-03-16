@@ -110,7 +110,7 @@
   border: 1px solid var(--border, #d0d7de);
   border-radius: 6px;
   text-align: center;
-  background: var(--bg, #fff);
+  background: var(--code-bg, #f6f8fa);
 }
 .pv-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--fg, #1f2328); }
 .pv-stat-label { font-size: 0.75rem; color: var(--muted, #57606a); margin-top: 0.25rem; }
@@ -155,9 +155,9 @@
 .pv-badge {
   display: inline-block;
   padding: 0.15rem 0.5rem;
-  border-radius: 2rem;
+  border-radius: 12px;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 .pv-badge-stage { background: var(--pv-badge-stage-bg, #ddf4ff); color: var(--pv-badge-stage-color, #0969da); }
 .pv-badge-completion { background: var(--pv-badge-complete-bg, #dafbe1); color: var(--pv-badge-complete-color, #1a7f37); }
@@ -172,9 +172,10 @@
   font-weight: 600;
   color: var(--muted, #57606a);
   font-size: 0.8rem;
+  background: var(--code-bg, #f6f8fa);
 }
 .pv-table td { padding: 0.5rem; border-bottom: 1px solid var(--pv-border-light, #e1e4e8); color: var(--fg, #1f2328); }
-.pv-table tr:hover td { background: var(--pv-hover, #f6f8fa); }
+.pv-table tr:hover td { background: var(--code-bg, #f6f8fa); }
 
 .table-wrap { overflow-x: auto; }
 
@@ -223,7 +224,15 @@
 
 /* ── Charts ── */
 .pv-chart-row { display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.75rem 0; }
-.pv-chart-wrap { flex: 1; min-width: 280px; max-width: 420px; }
+.pv-chart-wrap {
+  flex: 1;
+  min-width: 280px;
+  max-width: 420px;
+  padding: 0.5rem;
+  background: var(--code-bg, #f6f8fa);
+  border: 1px solid var(--border, #d0d7de);
+  border-radius: 6px;
+}
 
 /* ── Portrait / narrow screens ── */
 @media (max-width: 768px) and (orientation: portrait) {

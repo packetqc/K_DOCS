@@ -291,7 +291,7 @@
   border: 1px solid var(--border, #e1e4e8);
   border-radius: var(--tw-radius);
   text-align: center;
-  background: var(--bg, #fff);
+  background: var(--code-bg, #f6f8fa);
 }
 .tw-stat-card .tw-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--fg, #24292e); }
 .tw-stat-card .tw-stat-label { font-size: 0.75rem; color: var(--muted, #586069); margin-top: 0.25rem; }
@@ -311,6 +311,7 @@
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--muted, #586069);
+  background: var(--code-bg, #f6f8fa);
 }
 
 .tw-table td {
@@ -319,7 +320,7 @@
 }
 
 .tw-table tr:hover td {
-  background: var(--tw-hover, #f1f3f5);
+  background: var(--code-bg, #f6f8fa);
 }
 
 .tw-table tr.tw-clickable {
@@ -463,6 +464,10 @@
   flex: 1;
   min-width: 300px;
   max-width: 500px;
+  padding: 0.5rem;
+  background: var(--code-bg, #f6f8fa);
+  border: 1px solid var(--border, #e1e4e8);
+  border-radius: var(--tw-radius);
 }
 
 /* ── Knowledge Grid (Dashboard view) ── */

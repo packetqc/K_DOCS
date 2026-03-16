@@ -894,6 +894,95 @@
         "work::validation::modules imports"
       ],
       "timestamp": "2026-03-15T18:21:42Z"
+    },
+    {
+      "id": 71,
+      "summary": "Imported Tier 3+4 legacy conventions to K_DOCS, created sessions/interactive + web + validation dirs, committed and pushed with legacy",
+      "far_memory_refs": [
+        141,
+        142
+      ],
+      "mind_memory_refs": [
+        "work::validation::modules imports",
+        "conventions"
+      ],
+      "timestamp": "2026-03-15T18:32:30Z"
+    },
+    {
+      "id": 72,
+      "summary": "Fixed .nojekyll removal (broke all pages) + session-review dark theme CSS variables, pushed both fixes",
+      "far_memory_refs": [
+        143,
+        144
+      ],
+      "mind_memory_refs": [
+        "documentation::interfaces::session review"
+      ],
+      "timestamp": "2026-03-15T18:44:42Z"
+    },
+    {
+      "id": 73,
+      "summary": "Force pushed K_DOCS content to packetqc/knowledge main — production repo now mirrors K_DOCS",
+      "far_memory_refs": [
+        145,
+        146
+      ],
+      "mind_memory_refs": [
+        "work::validation::modules imports"
+      ],
+      "timestamp": "2026-03-15T18:46:38Z"
+    },
+    {
+      "id": 74,
+      "summary": "Production confirmed live at packetqc.github.io/knowledge — auto-detecting viewer works on both deployments",
+      "far_memory_refs": [
+        147,
+        148
+      ],
+      "mind_memory_refs": [
+        "work::approbation",
+        "documentation::docs"
+      ],
+      "timestamp": "2026-03-15T18:49:54Z"
+    },
+    {
+      "id": 75,
+      "summary": "Fix project-viewer theme override bug (dark media query scoped to auto-theme), lower documentation mindmap depth to 2, push to both repos",
+      "far_memory_refs": [
+        149,
+        150
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation",
+        "knowledge::conventions"
+      ],
+      "timestamp": "2026-03-15T19:04:23Z"
+    },
+    {
+      "id": 76,
+      "summary": "Committed and pushed README.md update to both remotes — production repo now has correct multi-module description",
+      "far_memory_refs": [
+        151,
+        152
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation"
+      ],
+      "timestamp": "2026-03-16T06:13:08Z"
+    },
+    {
+      "id": 77,
+      "summary": "Fixed 404s (site-independent redirects), harmonized 3 interface CSS files, restored PR stats (16 PRs), updated mindmap with all recent work",
+      "far_memory_refs": [
+        153,
+        154
+      ],
+      "mind_memory_refs": [
+        "knowledge::work::en_cours",
+        "knowledge::conventions::documentation::web_docs",
+        "knowledge::documentation::interfaces"
+      ],
+      "timestamp": "2026-03-16T06:29:31Z"
     }
   ],
   "last_session": {

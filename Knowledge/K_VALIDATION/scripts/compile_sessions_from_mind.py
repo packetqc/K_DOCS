@@ -115,7 +115,7 @@ def compile_sessions(output_path=None):
         "repo": "packetqc/K_DOCS",
         "project": "Knowledge",
         "prs": prs,
-        "total_prs": len(prs),
+        "pr_count": len(prs),
         "has_notes": True,
         "has_issue": False,
         "total_additions": total_additions,
@@ -156,7 +156,7 @@ def compile_sessions(output_path=None):
                 },
             ],
             "totals": {
-                "prs": 0,
+                "prs": len(prs),
                 "additions": total_additions,
                 "deletions": total_deletions,
                 "files": total_files_changed,

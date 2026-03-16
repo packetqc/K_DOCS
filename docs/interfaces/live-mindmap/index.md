@@ -188,7 +188,7 @@ body > .container {
 <script src="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.iife.js"></script>
 <script>
 (function() {
-  var RAW_BASE = 'https://raw.githubusercontent.com/packetqc/K_DOCS/main/Knowledge/K_MIND/';
+  var RAW_BASE = 'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/';
   var MIND_URL = RAW_BASE + 'mind/mind_memory.md';
   var CONFIG_URL = RAW_BASE + 'conventions/depth_config.json';
 

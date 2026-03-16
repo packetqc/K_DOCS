@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-03-15T17:25:32Z",
+    "generated_at": "2026-03-16T06:28:20Z",
     "total_sessions": 1,
     "source": "K_MIND near_memory + far_memory + tasks.json"
   },
@@ -98,19 +98,19 @@
           "url": "https://github.com/packetqc/K_DOCS/pull/1"
         }
       ],
-      "total_prs": 16,
+      "pr_count": 16,
       "has_notes": true,
       "has_issue": false,
-      "total_additions": 900852,
-      "total_deletions": 818737,
-      "total_files_changed": 9818,
-      "total_commits": 229,
+      "total_additions": 1135603,
+      "total_deletions": 819094,
+      "total_files_changed": 10751,
+      "total_commits": 240,
       "issue_number": null,
       "issue_labels": [],
       "first_activity_time": "2026-03-14T18:27:44Z",
-      "last_activity_time": "2026-03-15T17:09:47Z",
-      "message_count": 138,
-      "summary_count": 69,
+      "last_activity_time": "2026-03-16T06:13:08Z",
+      "message_count": 152,
+      "summary_count": 76,
       "archive_count": 15,
       "task_count": 7,
       "stage_distribution": {
@@ -123,9 +123,9 @@
         "tasks_completed": 1,
         "tasks_in_progress": 0,
         "tasks_in_validation": 6,
-        "files_changed": 9818,
-        "additions": 900852,
-        "deletions": 818737,
+        "files_changed": 10751,
+        "additions": 1135603,
+        "deletions": 819094,
         "deliverables": [
           "modules imports",
           "documentation web viewer system",
@@ -141,20 +141,20 @@
           {
             "name": "Documentation",
             "prs": 16,
-            "additions": 900852,
-            "deletions": 818737,
-            "files": 9818,
-            "commits": 229,
+            "additions": 1135603,
+            "deletions": 819094,
+            "files": 10751,
+            "commits": 240,
             "issues": 0,
             "lessons": 0
           }
         ],
         "totals": {
-          "prs": 0,
-          "additions": 900852,
-          "deletions": 818737,
-          "files": 9818,
-          "commits": 229
+          "prs": 16,
+          "additions": 1135603,
+          "deletions": 819094,
+          "files": 10751,
+          "commits": 240
         }
       },
       "tasks": [
