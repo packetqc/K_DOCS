@@ -176,7 +176,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 /* Sub-groups — same card style as iface-row */
 .nav-widget .pub-group {
-  margin: 0.25rem 0; padding: 0;
+  margin: 0.3rem 0; padding: 0;
   background: transparent; border: none; border-radius: 4px;
 }
 .nav-widget .pub-group summary {
@@ -195,12 +195,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   transform: translateX(3px);
   box-shadow: -2px 0 0 var(--accent, #1d4ed8);
 }
-.nav-widget .pub-group summary { cursor: pointer; list-style: none; }
+.nav-widget .pub-group summary { cursor: pointer; list-style: none; text-decoration: none; }
 .nav-widget .pub-group summary::-webkit-details-marker { display: none; }
 .nav-widget .pub-group summary::before { content: '› '; font-size: 0.8rem; }
 .nav-widget .pub-group[open] > summary::before { content: '⌄ '; }
-.nav-widget .pub-group[open] > summary { border-radius: 4px; margin-bottom: 0.2rem; }
-.nav-widget .pub-group .iface-row { margin-left: 0.6rem; margin-top: 0.15rem; }
+.nav-widget .pub-group[open] > summary { border-radius: 4px; margin-bottom: 0.25rem; }
+.nav-widget .pub-group .iface-row { margin-left: 0.6rem; margin-top: 0.2rem; }
+.nav-widget a, .nav-widget summary { text-decoration: none !important; }
 .cmd-link { font-family: monospace; font-size: 0.68rem; color: var(--muted, #656d76); letter-spacing: 0; }
 
 /* ═══ Tab bar — horizontal strip above content-frame ═══ */
