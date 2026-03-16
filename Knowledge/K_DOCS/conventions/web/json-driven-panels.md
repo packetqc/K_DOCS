@@ -163,7 +163,9 @@ All left-panel items use a widget-card look — not flat text lists:
 - **UPPERCASE**: All text (section titles, sub-group summaries, item links) rendered via `text-transform: uppercase`
 - **Card items**: Each item has `background: var(--code-bg)`, `border-radius: 4px`, `border-left: 2px solid transparent`
 - **Hover feedback**: Items shift 3px right (`translateX(3px)`) with accent left border + box-shadow on hover
-- **Sub-groups (`.pub-group`)**: Collapsible `<details>` — summary matches `.iface-row` card style (same background, hover shift, accent border). No outline border. `›` / `⌄` markers via CSS `::before`. Sub-items indented `0.6rem` left.
+- **Sub-groups (`.pub-group`)**: Collapsible `<details>` — summary matches `.iface-row` card style (same background, hover shift, accent border). No outline border, no arrows, no underlines. Sub-items indented `0.6rem` left with `0.2rem` vertical spacing.
+- **Active state**: Selected rows use `color: var(--accent)` with `background: var(--col-alt)` and accent left border — same blue accent in both light and dark themes (not inverted bg/fg)
+- **No underlines**: Global rule `text-decoration: none !important` on all nav links and summaries
 - **Interface rows**: `.iface-row` flex container wraps link + icon buttons, inherits card style with row-level hover
 - **Transitions**: `0.12s` transform, `0.15s` background/color/border — smooth but responsive
 
