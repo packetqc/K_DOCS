@@ -1692,8 +1692,8 @@
               } catch(ex) {}
             }
 
-            // All other docs → navigate top-level viewer (no nesting)
-            window.top.location.href = viewerBase + '?doc=' + encodeURIComponent(docPath) +
+            // All other docs → reload self with &embed (no chrome, like navigator links)
+            window.location.href = viewerBase + '?doc=' + encodeURIComponent(docPath) + '&embed' +
               (match.lang === 'fr' ? '&lang=fr' : '');
             return;
           }
@@ -1701,10 +1701,15 @@
           document.getElementById('docSelect').value = match.index;
           loadWithLang(match.index, match.lang);
         } else if (IS_EMBED && href && !/^#/.test(href)) {
-          // Embed mode: unmatched internal links → route to top to prevent nesting
+          // Embed mode: unmatched internal links → add &embed to prevent chrome nesting
           if (/^https?:\/\//.test(href) && href.indexOf(window.location.origin) !== 0) return; // external: let default handle
           e.preventDefault();
-          window.top.location.href = href;
+          // If it's a viewer URL, ensure &embed is present
+          if (href.indexOf('index.html?doc=') !== -1 && href.indexOf('&embed') === -1) {
+            window.location.href = href + '&embed';
+          } else {
+            window.location.href = href;
+          }
         }
       });
     }
