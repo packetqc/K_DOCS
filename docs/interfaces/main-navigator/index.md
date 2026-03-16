@@ -280,12 +280,11 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   transform: translateX(3px);
   box-shadow: -2px 0 0 var(--accent, #1d4ed8);
 }
-.doc-row > span {
-  flex: 1; padding: 0.3rem 0.5rem;
-  font-size: 0.72rem; font-weight: 500;
-  text-transform: uppercase; letter-spacing: 0.02em;
-  color: var(--fg, #1f2328);
+.doc-row > a:first-child {
+  flex: 1; background: transparent !important;
+  border-left: none !important; border-radius: 0 !important;
 }
+.doc-row > a:first-child:hover { background: transparent !important; border-left: none !important; }
 .doc-btn {
   flex-shrink: 0; padding: 0.2rem 0.4rem;
   font-size: 0.62rem; font-weight: 600; text-decoration: none;
@@ -599,8 +598,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           allItems.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
           allItems.forEach(function(item) {
             var row = document.createElement('div'); row.className = 'doc-row';
-            var lbl = document.createElement('span'); lbl.textContent = label(item);
-            row.appendChild(lbl);
+            var sumUrl = vru(BASE + LP + '/publications/' + item.slug + '/');
+            row.appendChild(makeLink(label(item), sumUrl, 'content-frame'));
             var sb = document.createElement('a'); sb.className = 'doc-btn';
             sb.textContent = '§'; sb.title = dSumTip;
             sb.href = vru(BASE + LP + '/publications/' + item.slug + '/');
