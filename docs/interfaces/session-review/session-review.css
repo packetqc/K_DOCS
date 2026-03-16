@@ -227,16 +227,16 @@
   padding-left: 1.5rem !important;
   border-top: none !important;
 }
-/* Issue-level rows (level 0 in tree) */
-.sv-row-issue { background: var(--code-bg, #f0f4ff) !important; font-weight: bold; }
-.sv-row-issue:hover { background: var(--code-bg, #dbeafe) !important; opacity: 0.9; }
-.sv-row-issue td:first-child::after { content: '\25b6' !important; } /* ▶ collapsed by default */
-.sv-row-issue.sv-expanded td:first-child::after { content: '\25bc' !important; transform: none !important; }
-.sv-row-issue:not(.sv-expanded) td:first-child::after { content: '\25b6' !important; transform: none !important; }
-/* Issue child comments — indented */
-.sv-issue-child-0, .sv-issue-child-1, .sv-issue-child-2, .sv-issue-child-3 { /* multi-issue comment rows */ }
-.sv-issue-child-0 td:nth-child(2), .sv-issue-child-1 td:nth-child(2),
-.sv-issue-child-2 td:nth-child(2), .sv-issue-child-3 td:nth-child(2) { padding-left: 1.2rem !important; }
+/* Task-level rows (level 0 in tree) */
+.sv-row-task { background: var(--code-bg, #f0f4ff) !important; font-weight: bold; }
+.sv-row-task:hover { background: var(--code-bg, #dbeafe) !important; opacity: 0.9; }
+.sv-row-task td:first-child::after { content: '\25b6' !important; } /* ▶ collapsed by default */
+.sv-row-task.sv-expanded td:first-child::after { content: '\25bc' !important; transform: none !important; }
+.sv-row-task:not(.sv-expanded) td:first-child::after { content: '\25b6' !important; transform: none !important; }
+/* Task child comments — indented */
+.sv-task-child-0, .sv-task-child-1, .sv-task-child-2, .sv-task-child-3 { /* multi-task comment rows */ }
+.sv-task-child-0 td:nth-child(2), .sv-task-child-1 td:nth-child(2),
+.sv-task-child-2 td:nth-child(2), .sv-task-child-3 td:nth-child(2) { padding-left: 1.2rem !important; }
 /* Run group rows — consecutive same-type comments */
 .sv-row-run { cursor: pointer; }
 .sv-row-run td:first-child::after { content: '\25b6'; font-size: 0.6rem; vertical-align: middle; margin-left: 2px; }
@@ -277,7 +277,7 @@
 /* Shared column sizing — all tables in the group use the same widths */
 .sv-table td:first-child, .sv-table th:first-child { text-align: center; width: 3.5rem; min-width: 3.5rem; padding: 0.2rem 0.3rem; vertical-align: middle; }
 .sv-table td:nth-child(2), .sv-table th:nth-child(2) { min-width: 10rem; }
-.sv-issue-type {
+.sv-task-type {
   display: inline-block;
   padding: 0.15rem 0.5rem;
   border-radius: 4px;
@@ -286,32 +286,32 @@
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
-.sv-issue-type-session, .sv-issue-label-session {
+.sv-task-type-session, .sv-task-label-session {
   background: var(--accent, #1d4ed8);
   color: #fff;
 }
-.sv-issue-type-related {
+.sv-task-type-related {
   background: var(--code-bg, #dbeafe);
   color: var(--fg, #0f172a);
   border: 1px solid var(--border, #93c5fd);
 }
-.sv-issue-label-enhancement {
+.sv-task-label-enhancement {
   background: #a2eeef;
   color: #0c5478;
 }
-.sv-issue-label-bug {
+.sv-task-label-bug {
   background: #d73a4a;
   color: #fff;
 }
-.sv-issue-label-feature {
+.sv-task-label-feature {
   background: #a2eeef;
   color: #0c5478;
 }
-.sv-issue-label-design {
+.sv-task-label-design {
   background: #d4c5f9;
   color: #3d2b6b;
 }
-.sv-issue-label-review {
+.sv-task-label-review {
   background: #fbca04;
   color: #4a3d00;
 }
@@ -398,14 +398,14 @@
   background: #dcfce7;
   color: #166534;
 }
-.sv-src-badge.sv-src-issue {
+.sv-src-badge.sv-src-task {
   background: #fef3c7;
   color: #92400e;
 }
 @media (prefers-color-scheme: dark) {
   .sv-src-badge.sv-src-pr { background: #1e3a5f; color: #93c5fd; }
   .sv-src-badge.sv-src-notes { background: #14532d; color: #86efac; }
-  .sv-src-badge.sv-src-issue { background: #451a03; color: #fde68a; }
+  .sv-src-badge.sv-src-task { background: #451a03; color: #fde68a; }
 }
 /* Pie charts — centered row below metric tables */
 .sv-pies-row {

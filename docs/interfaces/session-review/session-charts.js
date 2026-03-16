@@ -67,7 +67,7 @@
 
     var eff = SV.effectiveData(s);
     var hasComments = s.comments && s.comments.length > 0;
-    var hasAggComments = eff.agg && eff.agg.comments_by_issue && eff.agg.comments_by_issue.length > 0;
+    var hasAggComments = eff.agg && eff.agg.comments_by_task && eff.agg.comments_by_task.length > 0;
     var hasPrs = eff.prs.length > 0;
 
     // --- Time pie chart: Active vs Inactive ---
@@ -154,8 +154,8 @@
       'documentation': 'Documentation'
     };
     var scopeByType = {};
-    (s.related_issues || []).forEach(function(ri) {
-      if (ri.number === s.issue_number) return;
+    (s.related_tasks || []).forEach(function(ri) {
+      if (ri.number === s.task_number) return;
       var labels = ri.labels || [];
       var typeLabel = null;
       for (var li = 0; li < labels.length; li++) {
@@ -164,7 +164,7 @@
       if (!typeLabel) typeLabel = '_other';
       if (!scopeByType[typeLabel]) scopeByType[typeLabel] = { count: 0, lines: 0 };
       scopeByType[typeLabel].count++;
-      var cs = SV.findSession('issue-' + ri.number);
+      var cs = SV.findSession('task-' + ri.number);
       if (cs) scopeByType[typeLabel].lines += (cs.total_additions || 0) + (cs.total_deletions || 0);
     });
     var scopeTypeKeys = Object.keys(scopeByType);
@@ -184,7 +184,7 @@
       });
       chartScope = makeDoughnut('sv-chart-scope', 'sv-chart-scope-wrap',
         scLabels, scData, scBg, scBorder,
-        t.scopeTitle + ' (' + scopeTotal + ' issues)'
+        t.scopeTitle + ' (' + scopeTotal + ' tasks)'
       );
     }
 
@@ -193,15 +193,15 @@
     if (eff.prs.length > 0) {
       eff.prs.forEach(function(p) { mCommits += (p.commits || 0); mFiles += (p.changed_files || 0); });
     }
-    var mIssues = (s.issues && s.issues.length) || 0;
+    var mTasks = (s.tasks && s.tasks.length) || 0;
     var mLessons = (s.lessons && s.lessons.length) || 0;
-    var mTotal = mPrs + mCommits + mFiles + mIssues + mLessons;
+    var mTotal = mPrs + mCommits + mFiles + mTasks + mLessons;
     if (mTotal > 0) {
       var mLabels = [], mData = [], mBg = [], mBorder = [];
       if (mPrs > 0) { mLabels.push(t.prCount + ' (' + mPrs + ')'); mData.push(mPrs); mBg.push(chartColors.cats[0].bg); mBorder.push(chartColors.cats[0].border); }
       if (mCommits > 0) { mLabels.push(t.commits + ' (' + mCommits + ')'); mData.push(mCommits); mBg.push(chartColors.cats[3].bg); mBorder.push(chartColors.cats[3].border); }
       if (mFiles > 0) { mLabels.push(t.filesChanged + ' (' + mFiles + ')'); mData.push(mFiles); mBg.push(chartColors.cats[4].bg); mBorder.push(chartColors.cats[4].border); }
-      if (mIssues > 0) { mLabels.push(t.issueCount + ' (' + mIssues + ')'); mData.push(mIssues); mBg.push(chartColors.cats[1].bg); mBorder.push(chartColors.cats[1].border); }
+      if (mTasks > 0) { mLabels.push(t.taskCount + ' (' + mTasks + ')'); mData.push(mTasks); mBg.push(chartColors.cats[1].bg); mBorder.push(chartColors.cats[1].border); }
       if (mLessons > 0) { mLabels.push(t.lessonCount + ' (' + mLessons + ')'); mData.push(mLessons); mBg.push(chartColors.cats[2].bg); mBorder.push(chartColors.cats[2].border); }
       chartMetrics = makeDoughnut('sv-chart-metrics', 'sv-chart-metrics-wrap',
         mLabels, mData, mBg, mBorder,

@@ -45,7 +45,7 @@
         var metaLines = '';
         if (cs.date) metaLines += '<div>Date: ' + cs.date + '</div>';
         if (cs.branch) metaLines += '<div>Branch: <code>' + cs.branch + '</code></div>';
-        if (cs.issue_number) metaLines += '<div>Issue: #' + cs.issue_number + '</div>';
+        if (cs.task_number) metaLines += '<div>Task: #' + cs.task_number + '</div>';
         metaLines += '<div>' + (cs.prs ? cs.prs.length : 0) + ' PRs \u00b7 ' + (cs.comments ? cs.comments.length : 0) + ' comments</div>';
         metaLines += '<div class="cover-gen-line">Generated: ' + ts + '</div>';
         metaLines += '<div style="margin-top:0.5cm;font-size:9pt;color:#555">Authors: Martin Paquet &amp; Claude (Anthropic, Opus 4.6)</div>';

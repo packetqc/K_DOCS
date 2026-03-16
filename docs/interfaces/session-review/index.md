@@ -101,7 +101,7 @@ dev_banner: "Interface in development — features and layout may change between
   <div class="table-wrap sv-metrics-table">
     <table class="sv-table">
       <thead>
-        <tr><th>#</th><th>Category</th><th>Pull Requests</th><th>+/-</th><th>Files</th><th>Commits</th><th>Issues</th><th>Lessons</th></tr>
+        <tr><th>#</th><th>Category</th><th>Pull Requests</th><th>+/-</th><th>Files</th><th>Commits</th><th>Tasks</th><th>Lessons</th></tr>
       </thead>
       <tbody id="sv-metrics-body"></tbody>
     </table>
@@ -146,15 +146,15 @@ dev_banner: "Interface in development — features and layout may change between
   </div>
 </div>
 
-<!-- Section 6: Related Issues -->
-<div class="sv-section" id="sv-section-issues" style="display:none;">
-  <h3>Related Issues</h3>
+<!-- Section 6: Related Tasks -->
+<div class="sv-section" id="sv-section-related-tasks" style="display:none;">
+  <h3>Related Tasks</h3>
   <div class="sv-table-wrap">
-    <table class="sv-table sv-issues-table">
+    <table class="sv-table sv-related-tasks-table">
       <thead>
-        <tr><th>#</th><th>Issue</th><th>Type</th><th>Title</th></tr>
+        <tr><th>#</th><th>Task</th><th>Type</th><th>Title</th></tr>
       </thead>
-      <tbody id="sv-issues-body"></tbody>
+      <tbody id="sv-related-tasks-body"></tbody>
     </table>
   </div>
 </div>

@@ -30,11 +30,11 @@
       sessionsAvailable: 'sessions available',
       selectPrompt: 'Select a session from the dropdown above to view its full report.',
       prCount: 'Pull Requests',
-      issueCount: 'Issues',
+      taskCount: 'Tasks',
       lessonCount: 'Lessons',
       noPRs: 'No pull requests recorded.',
       noLessons: 'No lessons recorded for this session.',
-      timeNote: 'Time data compiled from commit timestamps and issue creation times.',
+      timeNote: 'Time data compiled from commit timestamps and task creation times.',
       view: 'View',
       totals: 'Totals',
       error: 'Failed to load sessions data.',
@@ -44,9 +44,9 @@
       source: 'Source file',
       srcPR: 'PRs',
       srcNotes: 'Notes',
-      srcIssue: 'Issue',
+      srcTask: 'Task',
       noCompilation: 'This session predates the compilation feature (v50). Only PR delivery data is available \u2014 no detailed metrics or time blocks.',
-      prOnly: 'This session was reconstructed from Pull Request data. No session notes or GitHub issue were created at the time.',
+      prOnly: 'This session was reconstructed from Pull Request data. No session notes or GitHub task were created at the time.',
       generated: 'Generated from',
       start: 'Start',
       end: 'End',
@@ -94,17 +94,17 @@
       stImplementation: 'Implementation', stTesting: 'Testing', stValidation: 'Validation',
       stReview: 'Review', stDeployment: 'Deployment', stOperations: 'Operations',
       stImprovement: 'Improvement',
-      issueCol: 'Issue',
+      taskCol: 'Task',
       typeCol: 'Type',
       titleCol: 'Title',
-      issueTypeSession: 'Session',
-      issueTypeRelated: 'Related',
+      taskTypeSession: 'Session',
+      taskTypeRelated: 'Related',
       sessionCol: 'Session',
       openSession: 'Open',
       openTab: 'New tab',
       scopeTitle: 'Session Scope',
       scopeChildren: 'Child Sessions',
-      scopeRelated: 'Related Issues',
+      scopeRelated: 'Related Tasks',
       userSession: 'User Session',
       systemSessions: 'System Sessions',
       collateralTasks: 'Collateral Tasks',
@@ -126,11 +126,11 @@
       sessionsAvailable: 'sessions disponibles',
       selectPrompt: 'S\u00e9lectionnez une session ci-dessus pour afficher son rapport complet.',
       prCount: 'Pull Requests',
-      issueCount: 'Issues',
+      taskCount: 'T\u00e2ches',
       lessonCount: 'Le\u00e7ons',
       noPRs: 'Aucun pull request enregistr\u00e9.',
       noLessons: 'Aucune le\u00e7on enregistr\u00e9e pour cette session.',
-      timeNote: 'Donn\u00e9es de temps compil\u00e9es \u00e0 partir des timestamps de commits et de cr\u00e9ation des issues.',
+      timeNote: 'Donn\u00e9es de temps compil\u00e9es \u00e0 partir des timestamps de commits et de cr\u00e9ation des t\u00e2ches.',
       view: 'Voir',
       totals: 'Totaux',
       error: 'Erreur de chargement des donn\u00e9es de sessions.',
@@ -140,9 +140,9 @@
       source: 'Fichier source',
       srcPR: 'PRs',
       srcNotes: 'Notes',
-      srcIssue: 'Issue',
+      srcTask: 'T\u00e2che',
       noCompilation: 'Cette session pr\u00e9c\u00e8de la fonctionnalit\u00e9 de compilation (v50). Seules les donn\u00e9es de livraison PR sont disponibles \u2014 pas de m\u00e9triques ni de blocs temporels d\u00e9taill\u00e9s.',
-      prOnly: 'Cette session a \u00e9t\u00e9 reconstruite \u00e0 partir des donn\u00e9es de Pull Requests. Aucune note de session ni issue GitHub n\u2019a \u00e9t\u00e9 cr\u00e9\u00e9e \u00e0 l\u2019\u00e9poque.',
+      prOnly: 'Cette session a \u00e9t\u00e9 reconstruite \u00e0 partir des donn\u00e9es de Pull Requests. Aucune note de session ni t\u00e2che GitHub n\u2019a \u00e9t\u00e9 cr\u00e9\u00e9e \u00e0 l\u2019\u00e9poque.',
       generated: 'G\u00e9n\u00e9r\u00e9 \u00e0 partir de',
       start: 'D\u00e9but',
       end: 'Fin',
@@ -190,17 +190,17 @@
       stImplementation: 'Impl\u00e9mentation', stTesting: 'Test', stValidation: 'Validation',
       stReview: 'R\u00e9vision', stDeployment: 'D\u00e9ploiement', stOperations: 'Op\u00e9rations',
       stImprovement: 'Am\u00e9lioration',
-      issueCol: 'Issue',
+      taskCol: 'T\u00e2che',
       typeCol: 'Type',
       titleCol: 'Titre',
-      issueTypeSession: 'Session',
-      issueTypeRelated: 'Li\u00e9e',
+      taskTypeSession: 'Session',
+      taskTypeRelated: 'Li\u00e9e',
       sessionCol: 'Session',
       openSession: 'Ouvrir',
       openTab: 'Nouvel onglet',
       scopeTitle: 'Port\u00e9e de la session',
       scopeChildren: 'Sessions enfants',
-      scopeRelated: 'Issues li\u00e9es',
+      scopeRelated: 'T\u00e2ches li\u00e9es',
       userSession: 'Session utilisateur',
       systemSessions: 'Sessions syst\u00e8me',
       collateralTasks: 'T\u00e2ches collat\u00e9rales',
@@ -305,16 +305,16 @@
     }
     return null;
   };
-  SV.issueLabel = function(num) {
-    var map = (SV.sessionsData && SV.sessionsData.issue_labels) || {};
+  SV.taskLabel = function(num) {
+    var map = (SV.sessionsData && SV.sessionsData.task_labels) || {};
     var info = map[String(num)];
     return info ? info.label : null;
   };
-  SV.issueLabelBadge = function(num, fallback) {
-    var lbl = SV.issueLabel(num);
-    if (!lbl) return '<span class="sv-issue-type sv-issue-type-related">' + SV.esc(fallback) + '</span>';
-    var cls = 'sv-issue-label-' + lbl.toLowerCase().replace(/[^a-z]/g, '');
-    return '<span class="sv-issue-type ' + cls + '">' + SV.esc(lbl) + '</span>';
+  SV.taskLabelBadge = function(num, fallback) {
+    var lbl = SV.taskLabel(num);
+    if (!lbl) return '<span class="sv-task-type sv-task-type-related">' + SV.esc(fallback) + '</span>';
+    var cls = 'sv-task-label-' + lbl.toLowerCase().replace(/[^a-z]/g, '');
+    return '<span class="sv-task-type ' + cls + '">' + SV.esc(lbl) + '</span>';
   };
   SV.isDarkTheme = function() {
     var dt = document.documentElement.getAttribute('data-theme') || '';
@@ -359,13 +359,13 @@
         if (rtInfo) suffix += rtInfo.emoji;
         if (s.pr_count > 0) suffix += '\ud83d\udce6';
         if (s.has_notes) suffix += '\ud83d\udccb';
-        if (s.has_issue) suffix += '\ud83c\udfab';
+        if (s.has_task) suffix += '\ud83c\udfab';
         var timePrefix = SV.effectiveTime(s) ? SV.formatTime(SV.effectiveTime(s)) + ' ' : '';
         var label = s.title || t.noTitle;
         if (label.length > 50) label = label.substring(0, 47) + '...';
-        var issueTag = s.issue_number ? '#' + s.issue_number + ' ' : '';
+        var taskTag = s.task_number ? '#' + s.task_number + ' ' : '';
         var kindEmoji = s.session_kind === 'continuation' ? '\ud83d\udd01 ' : '\ud83d\udcac ';
-        opt.textContent = timePrefix + issueTag + kindEmoji + label + (suffix ? ' ' + suffix : '');
+        opt.textContent = timePrefix + taskTag + kindEmoji + label + (suffix ? ' ' + suffix : '');
         group.appendChild(opt);
       });
       selectEl.appendChild(group);
@@ -468,11 +468,11 @@
       if (title.length > 60) title = title.substring(0, 57) + '...';
       var date = SV.localDate(SV.effectiveTime(s)) || s.date || '';
       var time = SV.effectiveTime(s) ? SV.formatTime(SV.effectiveTime(s)) : '';
-      var issueTag = s.issue_number ? '#' + s.issue_number + ' ' : '';
+      var taskTag = s.task_number ? '#' + s.task_number + ' ' : '';
       var rtBadge = s.request_type ? SV.reqTypeBadge(s.request_type) + ' ' : '';
 
       html += '<div class="sv-card" data-session-id="' + SV.esc(s.id) + '">';
-      html += '<div class="sv-card-title">' + issueTag + title + '</div>';
+      html += '<div class="sv-card-title">' + taskTag + title + '</div>';
       html += '<div class="sv-card-meta">';
       html += '<span>' + date + (time ? ' ' + time : '') + '</span>';
       html += '<span>' + d.prCount + ' PRs</span>';
@@ -501,7 +501,7 @@
       populateDropdown(data.sessions);
       var urlParams = new URLSearchParams(window.location.search);
       var urlSession = urlParams.get('session');
-      var autoId = urlSession ? 'issue-' + urlSession : null;
+      var autoId = urlSession ? 'task-' + urlSession : null;
       if (autoId && selectEl.querySelector('option[value="' + autoId + '"]')) {
         selectEl.value = autoId;
         SV.showSession(autoId);
@@ -539,7 +539,7 @@
 
   var allSectionIds = [
     'sv-section-summary', 'sv-section-metrics', 'sv-section-pies',
-    'sv-section-time', 'sv-section-deliveries', 'sv-section-issues',
+    'sv-section-time', 'sv-section-deliveries', 'sv-section-related-tasks',
     'sv-section-lessons', 'sv-section-collateral', 'sv-section-tasks',
     'sv-section-progression', 'sv-section-velocity'
   ];
@@ -596,7 +596,7 @@
     return s.user_session_id || null;
   };
   SV.isUserSessionRoot = function(s) {
-    return s.session_kind === 'original' && (s.children_issues || []).length > 0;
+    return s.session_kind === 'original' && (s.children_tasks || []).length > 0;
   };
   SV.systemSessionCount = function(s) {
     var d = SV.effectiveData(s);

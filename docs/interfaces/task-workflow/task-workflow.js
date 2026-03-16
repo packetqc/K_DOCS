@@ -404,8 +404,8 @@
 
     document.getElementById('tw-title').textContent = task.title || 'Untitled';
     document.getElementById('tw-current-stage').textContent = task.current_stage;
-    document.getElementById('tw-issue-badge').textContent = task.issue_number ? '#' + task.issue_number : '';
-    document.getElementById('tw-issue-badge').style.display = task.issue_number ? '' : 'none';
+    document.getElementById('tw-task-badge').textContent = task.issue_number ? '#' + task.issue_number : '';
+    document.getElementById('tw-task-badge').style.display = task.issue_number ? '' : 'none';
     document.getElementById('tw-date').textContent = shortDate(task.started_at);
     document.getElementById('tw-branch').textContent = task.branch || '';
     document.getElementById('tw-description').textContent = task.description || '';
@@ -604,7 +604,7 @@
         '<div class="tw-stat-card"><div class="tw-stat-value">' + esc(stageName(task.current_stage)) + '</div><div class="tw-stat-label">' + t.stage + '</div></div>' +
         '<div class="tw-stat-card"><div class="tw-stat-value">' + pct + '%</div><div class="tw-stat-label">' + t.progress + '</div></div>' +
         '<div class="tw-stat-card"><div class="tw-stat-value">' + (task.message_count || 0) + '</div><div class="tw-stat-label">' + (lang === 'fr' ? 'Messages' : 'Messages') + '</div></div>' +
-        '<div class="tw-stat-card"><div class="tw-stat-value">' + (mc.prs || (task.issue_number ? '#' + task.issue_number : '—')) + '</div><div class="tw-stat-label">' + (mc.prs ? t.prs : 'Issue') + '</div></div>';
+        '<div class="tw-stat-card"><div class="tw-stat-value">' + (mc.prs || (task.issue_number ? '#' + task.issue_number : '—')) + '</div><div class="tw-stat-label">' + (mc.prs ? t.prs : 'Task') + '</div></div>';
     }
 
     // ── Knowledge Grid ──
@@ -829,13 +829,13 @@
       var title = esc(tk.title || 'Untitled');
       if (title.length > 60) title = title.substring(0, 57) + '...';
       var date = shortDate(tk.started_at || tk.updated_at || '');
-      var issueTag = tk.issue_number ? '#' + tk.issue_number + ' ' : '';
+      var taskTag = tk.issue_number ? '#' + tk.issue_number + ' ' : '';
       var visited = (tk.current_stage_index || 0) + 1;
       var pct = ((visited / 8) * 100).toFixed(0);
       var mc = tk.metrics_compilation || {};
 
       html += '<div class="tw-card" data-task-id="' + esc(tk.id) + '">';
-      html += '<div class="tw-card-title">' + issueTag + title + '</div>';
+      html += '<div class="tw-card-title">' + taskTag + title + '</div>';
       html += '<div class="tw-card-meta">';
       html += '<span class="tw-badge tw-badge-stage">' + esc(stageName(tk.current_stage)) + '</span>';
       html += '<span>' + date + '</span>';

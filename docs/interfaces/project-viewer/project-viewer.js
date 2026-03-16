@@ -14,7 +14,7 @@
       noData: 'No data available.', selectProject: 'Select a project to view details.',
       projectsAvailable: 'projects available.',
       taskCount: 'Tasks', completedTasks: 'Completed', branches: 'Branches',
-      stage: 'Stage', progress: 'Progress', issue: 'Issue', title: 'Title',
+      stage: 'Stage', progress: 'Progress', task: 'Task', title: 'Title',
       viewTask: 'View', stageDistribution: 'Stage Distribution',
       gridSummary: 'Knowledge Grid Summary', metrics: 'Metrics',
       projectTasks: 'Project Tasks', board: 'Board', overview: 'Overview',
@@ -28,7 +28,7 @@
       noData: 'Aucune donnée disponible.', selectProject: 'Sélectionnez un projet pour voir les détails.',
       projectsAvailable: 'projets disponibles.',
       taskCount: 'Tâches', completedTasks: 'Complétées', branches: 'Branches',
-      stage: 'Étape', progress: 'Progrès', issue: 'Issue', title: 'Titre',
+      stage: 'Étape', progress: 'Progrès', task: 'Tâche', title: 'Titre',
       viewTask: 'Voir', stageDistribution: 'Distribution des étapes',
       gridSummary: 'Résumé grille Knowledge', metrics: 'Métriques',
       projectTasks: 'Tâches du projet', board: 'Board', overview: 'Vue d\'ensemble',
@@ -220,7 +220,7 @@
     if (metaEl) {
       var metaHtml = '';
       if (p.board_url) metaHtml += '<a href="' + esc(p.board_url) + '" class="pv-link" target="_blank">GitHub Board #' + p.board_number + '</a> ';
-      if (p.issue_url) metaHtml += '<a href="' + esc(p.issue_url) + '" class="pv-link" target="_blank">Issue #' + p.issue_number + '</a> ';
+      if (p.task_url) metaHtml += '<a href="' + esc(p.task_url) + '" class="pv-link" target="_blank">Task #' + p.task_number + '</a> ';
       metaHtml += '<span class="pv-muted">' + p.branches.length + ' ' + t.branches.toLowerCase() + '</span>';
       metaEl.innerHTML = metaHtml;
     }
@@ -359,17 +359,17 @@
       if (stageIdx < 0) stageIdx = 0;
       var visited = stageIdx + 1;
       var pct = ((visited / 8) * 100).toFixed(0);
-      var issueLink = tk.issue_number ? '<a href="https://github.com/packetqc/knowledge/issues/' + tk.issue_number + '" class="pv-link" target="_blank">#' + tk.issue_number + '</a>' : '--';
-      var taskLink = '<a href="' + baseUrl + twPath + '?task=' + (tk.id || '') + '" class="pv-link" target="_top">' + t.viewTask + '</a>';
+      var taskNumLink = tk.task_number ? '<a href="https://github.com/packetqc/knowledge/issues/' + tk.task_number + '" class="pv-link" target="_blank">#' + tk.task_number + '</a>' : '--';
+      var taskViewLink = '<a href="' + baseUrl + twPath + '?task=' + (tk.id || '') + '" class="pv-link" target="_top">' + t.viewTask + '</a>';
 
       html += '<tr>';
-      html += '<td>' + issueLink + '</td>';
+      html += '<td>' + taskNumLink + '</td>';
       html += '<td>' + esc(tk.title).substring(0, 60) + '</td>';
       html += '<td>' + stageBadge + '</td>';
       html += '<td><div class="pv-progress-bar"><div class="pv-progress-fill pv-blue" style="width:' + pct + '%"></div></div><span class="pv-muted">' + pct + '%</span></td>';
       html += '<td>' + (tk.children_count || 0) + ' sub</td>';
       html += '<td>' + (tk.message_count || 0) + ' msg</td>';
-      html += '<td>' + taskLink + '</td>';
+      html += '<td>' + taskViewLink + '</td>';
       html += '</tr>';
     });
     tbody.innerHTML = html;

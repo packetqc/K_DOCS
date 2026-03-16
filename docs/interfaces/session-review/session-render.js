@@ -1,5 +1,5 @@
 // ═══ Session Review — Render (session-render.js) ═══
-// Summary, metrics, deliveries, issues, lessons, velocity sections.
+// Summary, metrics, deliveries, related tasks, lessons, velocity sections.
 
 (function() {
   'use strict';
@@ -13,15 +13,15 @@
     var eff = SV.effectiveData(s);
     var hasPRs = s.pr_count > 0;
     var hasNotes = s.has_notes;
-    var hasIssue = s.has_issue;
+    var hasTask = s.has_task;
 
     // Data source notice
     var noticeEl = document.getElementById('sv-notice');
-    if (!hasNotes && !hasIssue) {
+    if (!hasNotes && !hasTask) {
       noticeEl.className = 'sv-notice sv-notice-warn';
       noticeEl.innerHTML = '<strong>\u26a0\ufe0f</strong> ' + t.prOnly;
       noticeEl.style.display = '';
-    } else if (!hasNotes && hasIssue) {
+    } else if (!hasNotes && hasTask) {
       noticeEl.className = 'sv-notice sv-notice-info';
       noticeEl.innerHTML = '<strong>\u2139\ufe0f</strong> ' + t.noCompilation;
       noticeEl.style.display = '';
@@ -55,7 +55,7 @@
     var badges = '';
     if (hasPRs) badges += '<span class="sv-src-badge sv-src-pr">' + t.srcPR + '</span>';
     if (hasNotes) badges += '<span class="sv-src-badge sv-src-notes">' + t.srcNotes + '</span>';
-    if (hasIssue) badges += '<span class="sv-src-badge sv-src-issue">' + t.srcIssue + '</span>';
+    if (hasTask) badges += '<span class="sv-src-badge sv-src-task">' + t.srcTask + '</span>';
     badgesEl.innerHTML = badges;
 
     var sumEl = document.getElementById('sv-summary');
@@ -77,7 +77,7 @@
       { v: eff.files > 0 ? String(eff.files) : '\u2014', l: t.filesChanged },
       { v: activeStr, l: t.activeTime },
       { v: calendarStr, l: t.calendarTime },
-      { v: (s.issues || []).length, l: t.issueCount },
+      { v: (s.tasks || []).length, l: t.taskCount },
       { v: (s.lessons || []).length, l: t.lessonCount }
     ];
     // v2.0: show system session count if > 1
@@ -116,12 +116,12 @@
     var mTotals = document.getElementById('sv-metrics-totals');
     var mBody = document.getElementById('sv-metrics-body');
     var pc = eff.prCount, tf = eff.files, tc = eff.commits;
-    var ic = (s.issues||[]).length, lc = (s.lessons||[]).length;
+    var ic = (s.tasks||[]).length, lc = (s.lessons||[]).length;
 
     mTotals.innerHTML = '<strong>' + t.totals + ':</strong> ' + pc + ' PRs \u00b7 ' + tc + ' commits \u00b7 +' +
       eff.additions + ' \u2212' + eff.deletions + ' lines \u00b7 ' + tf + ' files' +
       (s.lines_per_hour ? ' \u00b7 <em>' + s.lines_per_hour + ' ' + t.linesPerHour + '</em>' : '') +
-      (eff.agg ? ' \u00b7 <em>' + (eff.agg.children_count || 0) + ' child issues</em>' : '');
+      (eff.agg ? ' \u00b7 <em>' + (eff.agg.children_count || 0) + ' child tasks</em>' : '');
 
     mBody.innerHTML = '';
     var subLabels = {
@@ -216,56 +216,56 @@
 
   // ── Section 6: Issues ──
   SV.renderIssues = function(s) {
-    var iSection = document.getElementById('sv-section-issues');
-    var iBody = document.getElementById('sv-issues-body');
-    var hasSessionIssue = s.issue_number && s.issue_number !== null;
-    var relatedIssues = s.related_issues || [];
-    if (relatedIssues.length === 0) {
-      (s.issues || []).filter(function(n) { return n !== s.issue_number; }).forEach(function(n) {
-        relatedIssues.push({ number: n, title: '', state: '', labels: [] });
+    var iSection = document.getElementById('sv-section-related-tasks');
+    var iBody = document.getElementById('sv-related-tasks-body');
+    var hasSessionTask = s.task_number && s.task_number !== null;
+    var relatedTasks = s.related_tasks || [];
+    if (relatedTasks.length === 0) {
+      (s.tasks || []).filter(function(n) { return n !== s.task_number; }).forEach(function(n) {
+        relatedTasks.push({ number: n, title: '', state: '', labels: [] });
       });
     }
-    var totalIssueCount = (hasSessionIssue ? 1 : 0) + relatedIssues.length;
-    if (!hasSessionIssue && relatedIssues.length === 0) { iSection.style.display = 'none'; return; }
+    var totalTaskCount = (hasSessionTask ? 1 : 0) + relatedTasks.length;
+    if (!hasSessionTask && relatedTasks.length === 0) { iSection.style.display = 'none'; return; }
     iSection.style.display = '';
     iBody.innerHTML = '';
     var thead = iBody.parentElement.querySelector('thead tr');
-    thead.innerHTML = '<th>#</th><th>' + t.issueCol + '</th><th>' + t.typeCol + '</th><th>' + t.titleCol + '</th><th>' + t.sessionCol + '</th>';
-    var issueIdx = 0;
-    if (hasSessionIssue) {
-      issueIdx++;
+    thead.innerHTML = '<th>#</th><th>' + t.taskCol + '</th><th>' + t.typeCol + '</th><th>' + t.titleCol + '</th><th>' + t.sessionCol + '</th>';
+    var taskIdx = 0;
+    if (hasSessionTask) {
+      taskIdx++;
       var sr = document.createElement('tr');
-      var sHref = 'https://github.com/' + SV.REPO + '/issues/' + s.issue_number;
+      var sHref = 'https://github.com/' + SV.REPO + '/issues/' + s.task_number;
       var sKindEmoji = s.session_kind === 'continuation' ? '\ud83d\udd01' : '\ud83d\udcac';
-      sr.innerHTML = '<td><strong>' + issueIdx + '</strong></td><td><a href="' + sHref + '" target="_blank">#' + s.issue_number + '</a></td>' +
-        '<td>' + SV.issueLabelBadge(s.issue_number, t.issueTypeSession) + '</td>' +
+      sr.innerHTML = '<td><strong>' + taskIdx + '</strong></td><td><a href="' + sHref + '" target="_blank">#' + s.task_number + '</a></td>' +
+        '<td>' + SV.taskLabelBadge(s.task_number, t.taskTypeSession) + '</td>' +
         '<td>' + sKindEmoji + ' ' + SV.esc(s.title || '') + '</td><td><span style="opacity:0.5">\u2014</span></td>';
       iBody.appendChild(sr);
     }
-    var parentIssues = s.parent_issues || [];
-    var childrenIssues = s.children_issues || [];
-    relatedIssues.forEach(function(ri) {
-      issueIdx++;
+    var parentTasks = s.parent_tasks || [];
+    var childrenTasks = s.children_tasks || [];
+    relatedTasks.forEach(function(ri) {
+      taskIdx++;
       var rr = document.createElement('tr');
       var rHref = 'https://github.com/' + SV.REPO + '/issues/' + ri.number;
       var riEmoji = '\ud83d\udd17';
-      if (parentIssues.indexOf(ri.number) !== -1) riEmoji = '\ud83d\udcac';
-      else if (childrenIssues.indexOf(ri.number) !== -1) riEmoji = '\ud83d\udd01';
-      var riSessionId = 'issue-' + ri.number;
+      if (parentTasks.indexOf(ri.number) !== -1) riEmoji = '\ud83d\udcac';
+      else if (childrenTasks.indexOf(ri.number) !== -1) riEmoji = '\ud83d\udd01';
+      var riSessionId = 'task-' + ri.number;
       var riSession = SV.findSession(riSessionId);
       var riSessionCell = riSession
         ? '<a href="javascript:void(0)" onclick="event.stopPropagation();document.getElementById(\'sv-session-select\').value=\'' + riSessionId + '\';document.getElementById(\'sv-session-select\').dispatchEvent(new Event(\'change\'))" title="' + SV.esc(t.openSession) + '" style="margin-right:0.4em">\ud83d\udd0d</a>' +
           '<a href="' + window.location.pathname + '?session=' + ri.number + '" target="_blank" title="' + SV.esc(t.openTab) + '">\ud83d\udd17</a>'
         : '<span style="opacity:0.5">\u2014</span>';
-      rr.innerHTML = '<td><strong>' + issueIdx + '</strong></td><td><a href="' + rHref + '" target="_blank">#' + ri.number + '</a></td>' +
-        '<td>' + SV.issueLabelBadge(ri.number, t.issueTypeRelated) + '</td>' +
+      rr.innerHTML = '<td><strong>' + taskIdx + '</strong></td><td><a href="' + rHref + '" target="_blank">#' + ri.number + '</a></td>' +
+        '<td>' + SV.taskLabelBadge(ri.number, t.taskTypeRelated) + '</td>' +
         '<td>' + riEmoji + ' ' + SV.esc(ri.title || '\u2014') + '</td><td>' + riSessionCell + '</td>';
       iBody.appendChild(rr);
     });
-    if (totalIssueCount > 1) {
+    if (totalTaskCount > 1) {
       var ifoot = document.createElement('tr');
       ifoot.style.cssText = 'font-weight:bold;border-top:2px solid var(--border, #93c5fd)';
-      ifoot.innerHTML = '<td colspan="3" style="text-align:right">' + t.totals + '</td><td>' + totalIssueCount + ' issues</td><td></td>';
+      ifoot.innerHTML = '<td colspan="3" style="text-align:right">' + t.totals + '</td><td>' + totalTaskCount + ' tasks</td><td></td>';
       iBody.appendChild(ifoot);
     }
   };
@@ -327,13 +327,13 @@
       var prLinks = (ct.pr_numbers || []).map(function(n) {
         return '<a href="https://github.com/' + SV.REPO + '/pull/' + n + '" target="_blank">#' + n + '</a>';
       }).join(' ');
-      var issueLink = ct.issue_number ?
-        '<a href="https://github.com/' + SV.REPO + '/issues/' + ct.issue_number + '" target="_blank">#' + ct.issue_number + '</a> ' : '';
-      // Task viewer link for collateral tasks with issue_number
-      var taskLink = ct.issue_number ?
-        '<a href="' + SV.baseurl + '/interfaces/task-workflow/?task=task-' + ct.issue_number + '" target="_blank" title="' + SV.esc(t.openTaskViewer) + '">\ud83d\udcca</a>' : '';
-      html += '<tr><td>' + emoji + '</td><td>' + issueLink + SV.esc(ct.title || '') + '</td>' +
-        '<td>' + tEmoji + ' ' + SV.esc(ct.type || '') + '</td><td>' + (prLinks || '\u2014') + '</td><td>' + taskLink + '</td></tr>';
+      var taskLink = ct.task_number ?
+        '<a href="https://github.com/' + SV.REPO + '/issues/' + ct.task_number + '" target="_blank">#' + ct.task_number + '</a> ' : '';
+      // Task viewer link for collateral tasks with task_number
+      var taskViewerLink = ct.task_number ?
+        '<a href="' + SV.baseurl + '/interfaces/task-workflow/?task=task-' + ct.task_number + '" target="_blank" title="' + SV.esc(t.openTaskViewer) + '">\ud83d\udcca</a>' : '';
+      html += '<tr><td>' + emoji + '</td><td>' + taskLink + SV.esc(ct.title || '') + '</td>' +
+        '<td>' + tEmoji + ' ' + SV.esc(ct.type || '') + '</td><td>' + (prLinks || '\u2014') + '</td><td>' + taskViewerLink + '</td></tr>';
     });
     html += '</tbody></table>';
     body.innerHTML = html;
@@ -373,13 +373,13 @@
       var stageIdx = task.current_stage_index || 0;
       var pct = Math.round(((stageIdx + 1) / 8) * 100);
       var stageName = stageLabels[task.current_stage] || task.current_stage;
-      var issueLink = task.issue_number ?
-        '<a href="https://github.com/' + SV.REPO + '/issues/' + task.issue_number + '" target="_blank">#' + task.issue_number + '</a>' : '';
+      var taskNumLink = task.task_number ?
+        '<a href="https://github.com/' + SV.REPO + '/issues/' + task.task_number + '" target="_blank">#' + task.task_number + '</a>' : '';
       var taskViewerLink = task.task_id ?
         '<a href="' + SV.baseurl + '/interfaces/task-workflow/?task=' + task.task_id + '" target="_blank" title="Open in Task Viewer">\ud83d\udcca</a>' : '';
 
       tr.innerHTML =
-        '<td>' + issueLink + '</td>' +
+        '<td>' + taskNumLink + '</td>' +
         '<td>' + SV.esc(task.title || '') + '</td>' +
         '<td><span class="sv-badge sv-badge-stage">' + SV.esc(stageName) + '</span></td>' +
         '<td><div style="display:flex;align-items:center;gap:6px;">' +
@@ -399,7 +399,7 @@
     if (!section) return;
 
     var engStage = s.engineering_stage;
-    var issueNum = s.issue_number;
+    var taskNum = s.task_number;
 
     // Engineering stages in order
     var stages = [
@@ -420,7 +420,7 @@
       }
     }
 
-    if (currentIdx < 0 && !issueNum) {
+    if (currentIdx < 0 && !taskNum) {
       section.style.display = 'none';
       return;
     }
@@ -446,8 +446,8 @@
     }
 
     // Task viewer link
-    if (issueNum) {
-      var taskId = 'task-' + issueNum;
+    if (taskNum) {
+      var taskId = 'task-' + taskNum;
       html += '<div class="sv-task-link">' +
         '<a href="' + SV.baseurl + '/interfaces/task-workflow/?task=' + taskId + '" target="_blank" class="sv-btn-task-viewer">' +
         '\ud83d\udcca ' + t.openTaskViewer + ' \u2192</a></div>';

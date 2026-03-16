@@ -1,5 +1,5 @@
 // ═══ Session Review — Time Compilation (session-time.js) ═══
-// 3-level tree: Issue → Comment → PR with expand/collapse state.
+// 3-level tree: Task → Comment → PR with expand/collapse state.
 
 (function() {
   'use strict';
@@ -19,28 +19,28 @@
   function buildCommentGroups(s, eff, tcPrs) {
     var commentGroups = [];
     var hasComments = s.comments && s.comments.length > 0;
-    var hasAggComments = eff.agg && eff.agg.comments_by_issue && eff.agg.comments_by_issue.length > 0;
-    var sessionWindowStart = s.issue_created_at || eff.firstTime || null;
+    var hasAggComments = eff.agg && eff.agg.comments_by_task && eff.agg.comments_by_task.length > 0;
+    var sessionWindowStart = s.task_created_at || eff.firstTime || null;
     var sessionWindowEnd = null;
     var isScoped = false;
 
-    if (s.session_kind === 'continuation' && s.parent_issues && s.parent_issues.length > 0) {
-      var parentNum = s.parent_issues[0];
+    if (s.session_kind === 'continuation' && s.parent_tasks && s.parent_tasks.length > 0) {
+      var parentNum = s.parent_tasks[0];
       var parentSession = null;
       for (var pi = 0; pi < SV.sessionsData.sessions.length; pi++) {
-        if (SV.sessionsData.sessions[pi].issue_number === parentNum) { parentSession = SV.sessionsData.sessions[pi]; break; }
+        if (SV.sessionsData.sessions[pi].task_number === parentNum) { parentSession = SV.sessionsData.sessions[pi]; break; }
       }
-      if (parentSession && parentSession.children_issues) {
+      if (parentSession && parentSession.children_tasks) {
         var siblings = [];
-        parentSession.children_issues.forEach(function(cNum) {
+        parentSession.children_tasks.forEach(function(cNum) {
           for (var ci = 0; ci < SV.sessionsData.sessions.length; ci++) {
-            if (SV.sessionsData.sessions[ci].issue_number === cNum) { siblings.push(SV.sessionsData.sessions[ci]); break; }
+            if (SV.sessionsData.sessions[ci].task_number === cNum) { siblings.push(SV.sessionsData.sessions[ci]); break; }
           }
         });
-        siblings.sort(function(a, b) { return (a.issue_created_at || '').localeCompare(b.issue_created_at || ''); });
+        siblings.sort(function(a, b) { return (a.task_created_at || '').localeCompare(b.task_created_at || ''); });
         for (var si = 0; si < siblings.length; si++) {
-          if (siblings[si].issue_number === s.issue_number) {
-            if (si + 1 < siblings.length) sessionWindowEnd = siblings[si + 1].issue_created_at;
+          if (siblings[si].task_number === s.task_number) {
+            if (si + 1 < siblings.length) sessionWindowEnd = siblings[si + 1].task_created_at;
             break;
           }
         }
@@ -49,9 +49,9 @@
         var sourceMap = {};
         allSources.forEach(function(src) {
           if (!src || !src.comments || src.comments.length === 0) return;
-          var num = src.issue_number;
+          var num = src.task_number;
           if (sourceMap[num]) return;
-          sourceMap[num] = { issue_number: num, issue_title: src.title || '', comments: [] };
+          sourceMap[num] = { task_number: num, task_title: src.title || '', comments: [] };
           src.comments.forEach(function(c) {
             var ct = c.created_at || '';
             if (ct >= sessionWindowStart && (!sessionWindowEnd || ct < sessionWindowEnd)) sourceMap[num].comments.push(c);
@@ -61,8 +61,8 @@
           if (sourceMap[k].comments.length > 0) commentGroups.push(sourceMap[k]);
         });
         commentGroups.sort(function(a, b) {
-          if (a.issue_number === s.issue_number) return -1;
-          if (b.issue_number === s.issue_number) return 1;
+          if (a.task_number === s.task_number) return -1;
+          if (b.task_number === s.task_number) return 1;
           var aT = a.comments.length > 0 ? a.comments[0].created_at : '';
           var bT = b.comments.length > 0 ? b.comments[0].created_at : '';
           return aT.localeCompare(bT);
@@ -78,17 +78,17 @@
 
     if (commentGroups.length === 0 && !isScoped) {
       if (hasAggComments) {
-        var sessionDate = (s.issue_created_at || s.date || '').substring(0, 10);
-        eff.agg.comments_by_issue.forEach(function(g) {
-          if (g.issue_number === s.issue_number) {
-            commentGroups.push({ issue_number: g.issue_number, issue_title: g.issue_title || '', comments: g.comments });
+        var sessionDate = (s.task_created_at || s.date || '').substring(0, 10);
+        eff.agg.comments_by_task.forEach(function(g) {
+          if (g.task_number === s.task_number) {
+            commentGroups.push({ task_number: g.task_number, task_title: g.task_title || '', comments: g.comments });
             return;
           }
           var scopedComments = g.comments.filter(function(c) { return (c.created_at || '').substring(0, 10) === sessionDate; });
-          if (scopedComments.length > 0) commentGroups.push({ issue_number: g.issue_number, issue_title: g.issue_title || '', comments: scopedComments });
+          if (scopedComments.length > 0) commentGroups.push({ task_number: g.task_number, task_title: g.task_title || '', comments: scopedComments });
         });
       } else if (hasComments) {
-        commentGroups = [{ issue_number: s.issue_number, issue_title: s.title || '', comments: s.comments }];
+        commentGroups = [{ task_number: s.task_number, task_title: s.title || '', comments: s.comments }];
       }
     }
 
@@ -100,12 +100,12 @@
     var tTotals = document.getElementById('sv-time-totals');
     var tContent = document.getElementById('sv-time-content');
     var hasComments = s.comments && s.comments.length > 0;
-    var hasAggComments = eff.agg && eff.agg.comments_by_issue && eff.agg.comments_by_issue.length > 0;
+    var hasAggComments = eff.agg && eff.agg.comments_by_task && eff.agg.comments_by_task.length > 0;
 
     // Scope PRs to session date
     var tcPrs = (eff.agg && eff.agg.prs && eff.agg.prs.length > 0) ? eff.agg.prs : (s.prs || []);
     if (eff.agg && tcPrs.length > 0) {
-      var prSessionDate = (s.issue_created_at || s.date || '').substring(0, 10);
+      var prSessionDate = (s.task_created_at || s.date || '').substring(0, 10);
       if (prSessionDate) tcPrs = tcPrs.filter(function(pr) { return (pr.created_at || '').substring(0, 10) === prSessionDate; });
     }
     var hasPrs = tcPrs.length > 0;
@@ -117,7 +117,7 @@
     }
 
     // Time spans
-    var tcFirstTime = (eff.agg ? eff.agg.first_activity_time : null) || s.first_pr_time || s.issue_created_at || eff.firstTime;
+    var tcFirstTime = (eff.agg ? eff.agg.first_activity_time : null) || s.first_pr_time || s.task_created_at || eff.firstTime;
     var tcLastTime = (eff.agg ? eff.agg.last_activity_time : null) || s.last_pr_time || eff.lastTime;
     if (hasComments && s.comments.length > 0) {
       var ownTimes = [];
@@ -149,7 +149,7 @@
 
     var scopeLabel = isScoped ? ' \u00b7 \ud83d\udd2c ' + (lang === 'fr' ? 'Fen\u00eatre de session' : 'Session window') : '';
     tTotals.textContent = t.totals + ': ' + itemCount + ' ' + t.tasks +
-      (commentGroups.length > 1 ? ' \u00b7 ' + commentGroups.length + ' issues' : '') +
+      (commentGroups.length > 1 ? ' \u00b7 ' + commentGroups.length + ' tasks' : '') +
       ' \u00b7 ' + t.calendarTime + ': ' + calStart + '\u2014' + calEnd +
       (calDur != null ? ' (' + SV.formatDuration(calDur) + ')' : '') +
       ' \u00b7 ' + block + scopeLabel;
@@ -168,24 +168,24 @@
       '</tr></thead><tbody>';
     var totalActiveMin = 0, totalInactiveMin = 0, totalCalMin = 0;
     var globalRowIdx = 0;
-    var isMultiIssue = commentGroups.length > 1;
+    var isMultiTask = commentGroups.length > 1;
     var assignedPrs = {};
 
     commentGroups.forEach(function(group, gIdx) {
       var groupComments = group.comments;
-      var issueNum = group.issue_number;
+      var taskNum = group.task_number;
       var gFirstTime = groupComments.length > 0 ? groupComments[0].created_at : null;
       var gLastTime = groupComments.length > 0 ? groupComments[groupComments.length - 1].created_at : null;
       var gCalMin = SV.calcDuration(gFirstTime, gLastTime);
       var gGroupActiveMin = 0;
 
-      var issueRowId = 'issue-' + gIdx;
-      var issueLnk = issueNum ? '<a href="https://github.com/' + SV.REPO + '/issues/' + issueNum + '" target="_blank" style="text-decoration:none">#' + issueNum + '</a>' : '';
-      var truncTitle = (group.issue_title || '').length > 55 ? group.issue_title.substring(0, 52) + '...' : (group.issue_title || '');
-      tbl += '<tr class="sv-row-parent sv-row-issue" data-issue="' + issueRowId + '" style="background:var(--code-bg, #f0f4ff);font-weight:bold;cursor:pointer">' +
-        '<td></td><td>' + (issueLnk ? issueLnk + ' ' : '') + '\ud83d\udccc ' + SV.esc(truncTitle) + ' <span style="font-weight:normal;opacity:0.6">(' + groupComments.length + ')</span></td>' +
+      var taskRowId = 'task-' + gIdx;
+      var taskLnk = taskNum ? '<a href="https://github.com/' + SV.REPO + '/issues/' + taskNum + '" target="_blank" style="text-decoration:none">#' + taskNum + '</a>' : '';
+      var truncTitle = (group.task_title || '').length > 55 ? group.task_title.substring(0, 52) + '...' : (group.task_title || '');
+      tbl += '<tr class="sv-row-parent sv-row-task" data-task="' + taskRowId + '" style="background:var(--code-bg, #f0f4ff);font-weight:bold;cursor:pointer">' +
+        '<td></td><td>' + (taskLnk ? taskLnk + ' ' : '') + '\ud83d\udccc ' + SV.esc(truncTitle) + ' <span style="font-weight:normal;opacity:0.6">(' + groupComments.length + ')</span></td>' +
         '<td>' + (gFirstTime ? SV.formatTime(gFirstTime) : '\u2014') + '</td><td>' + (gLastTime ? SV.formatTime(gLastTime) : '\u2014') + '</td>' +
-        '<td class="sv-issue-active-' + gIdx + '"></td><td></td><td>' + SV.formatDuration(gCalMin) + '</td><td></td></tr>';
+        '<td class="sv-task-active-' + gIdx + '"></td><td></td><td>' + SV.formatDuration(gCalMin) + '</td><td></td></tr>';
 
       // Map PRs to comments
       var prsByComment = {};
@@ -208,7 +208,7 @@
         var endIso = null, estimated = false;
         if (c.updated_at && c.updated_at !== c.created_at) { endIso = c.updated_at; }
         else if (i + 1 < groupComments.length) { endIso = groupComments[i + 1].created_at; estimated = true; }
-        else if (isMultiIssue) { endIso = gLastTime; estimated = true; }
+        else if (isMultiTask) { endIso = gLastTime; estimated = true; }
         else if (eff.lastTime) { endIso = eff.lastTime; estimated = true; }
         endTimes.push({ iso: endIso, estimated: estimated });
       });
@@ -253,9 +253,9 @@
         var hasBody = c.body_lines && c.body_lines.length > 0;
         var rowClass = c.type === 'user' ? 'sv-row-user' : 'sv-row-bot';
         if (!isChild && hasBody) rowClass += ' sv-row-parent';
-        rowClass += ' sv-row-child sv-issue-child-' + gIdx;
+        rowClass += ' sv-row-child sv-task-child-' + gIdx;
         if (isChild) rowClass += ' sv-row-run-child';
-        var html = '<tr class="' + rowClass + '" data-idx="' + rowId + '" data-issue="issue-' + gIdx + '"' +
+        var html = '<tr class="' + rowClass + '" data-idx="' + rowId + '" data-task="task-' + gIdx + '"' +
           (isChild ? ' data-parent="' + parentRowId + '"' : '') + '>' +
           '<td>' + (isChild ? '' : '<img src="' + avatarUrl + '" alt="' + avatarAlt + '" class="sv-avatar">') + '</td>' +
           '<td>' + SV.esc(preview) + '</td><td>' + cStart + '</td><td>' + cEnd + '</td>' +
@@ -263,7 +263,7 @@
           '<td>' + SV.formatDuration(calMin) + '</td><td>' + statusIcon + '</td></tr>';
         if (hasBody && !isChild) {
           var bodyHtml = c.body_lines.map(function(line) { return SV.esc(line); }).join('\n');
-          html += '<tr class="sv-row-body" data-parent="' + rowId + '" data-issue="issue-' + gIdx + '"><td></td><td colspan="7">' + bodyHtml + '</td></tr>';
+          html += '<tr class="sv-row-body" data-parent="' + rowId + '" data-task="task-' + gIdx + '"><td></td><td colspan="7">' + bodyHtml + '</td></tr>';
         }
         return html;
       }
@@ -274,7 +274,7 @@
           if (!prsByComment[ci] || prsByComment[ci].length === 0) return;
           prsByComment[ci].forEach(function(pr) {
             var prDur = SV.calcDuration(pr.created_at, pr.merged_at);
-            html += '<tr class="sv-row-child sv-row-pr sv-issue-child-' + gIdx + '" data-issue="issue-' + gIdx + '">' +
+            html += '<tr class="sv-row-child sv-row-pr sv-task-child-' + gIdx + '" data-task="task-' + gIdx + '">' +
               '<td><svg class="sv-avatar" width="20" height="20" viewBox="0 0 16 16" style="vertical-align:middle;border-radius:50%;background:#8b5cf6;padding:2px;box-sizing:border-box" fill="#ffffff"><path fill-rule="evenodd" d="M5 3.254V3.25v.005a.75.75 0 110-.005v.004zm.45 1.9a2.25 2.25 0 10-1.95.218v5.256a2.25 2.25 0 101.5 0V7.123A5.735 5.735 0 009.25 9h1.378a2.251 2.251 0 100-1.5H9.25a4.25 4.25 0 01-3.8-2.346zM12.75 9a.75.75 0 100-1.5.75.75 0 000 1.5zm-8.5 4.5a.75.75 0 100-1.5.75.75 0 000 1.5z"></path></svg></td>' +
               '<td>PR #' + pr.number + (pr.title ? ' \u2014 ' + SV.esc(pr.title) : '') + '</td>' +
               '<td>' + SV.formatTime(pr.created_at) + '</td><td>' + SV.formatTime(pr.merged_at) + '</td>' +
@@ -310,8 +310,8 @@
           }
           if (!lastStatus && firstC.type === 'user') lastStatus = '\ud83d\udcac';
           var rowClass = firstC.type === 'user' ? 'sv-row-user' : 'sv-row-bot';
-          rowClass += ' sv-row-parent sv-row-child sv-issue-child-' + gIdx + ' sv-row-run';
-          tbl += '<tr class="' + rowClass + '" data-idx="' + groupRowId + '" data-issue="issue-' + gIdx + '">' +
+          rowClass += ' sv-row-parent sv-row-child sv-task-child-' + gIdx + ' sv-row-run';
+          tbl += '<tr class="' + rowClass + '" data-idx="' + groupRowId + '" data-task="task-' + gIdx + '">' +
             '<td><img src="' + avatarUrl + '" alt="' + (firstC.type === 'user' ? 'Martin' : 'Claude') + '" class="sv-avatar"></td>' +
             '<td>' + SV.esc(getPreview(firstC)) + ' <span style="font-weight:normal;opacity:0.6">(' + run.indices.length + ')</span></td>' +
             '<td>' + runStart + '</td><td>' + runEnd + '</td><td></td><td></td>' +
@@ -324,10 +324,10 @@
         }
       });
 
-      // Fill issue active time
+      // Fill task active time
       (function(idx, am) {
         setTimeout(function() {
-          var cell = tContent.querySelector('.sv-issue-active-' + idx);
+          var cell = tContent.querySelector('.sv-task-active-' + idx);
           if (cell) cell.textContent = SV.formatDuration(am);
         }, 0);
       })(gIdx, gGroupActiveMin);
@@ -380,15 +380,15 @@
   }
 
   function bindExpandCollapse(s, tContent) {
-    var tcStateKey = 'sv-tc-state-' + (s.issue_number || s.id);
+    var tcStateKey = 'sv-tc-state-' + (s.task_number || s.id);
     function tcLoadState() { try { return JSON.parse(localStorage.getItem(tcStateKey)) || {}; } catch(e) { return {}; } }
     function tcSaveState(state) { try { localStorage.setItem(tcStateKey, JSON.stringify(state)); } catch(e) {} }
 
-    function tcSetIssue(row, expand, state, save) {
-      var issueId = row.getAttribute('data-issue');
-      var gKey = issueId.replace('issue-', '');
+    function tcSetTask(row, expand, state, save) {
+      var taskId = row.getAttribute('data-task');
+      var gKey = taskId.replace('task-', '');
       if (expand) row.classList.add('sv-expanded'); else row.classList.remove('sv-expanded');
-      tContent.querySelectorAll('.sv-issue-child-' + gKey).forEach(function(child) {
+      tContent.querySelectorAll('.sv-task-child-' + gKey).forEach(function(child) {
         if (expand) {
           if (child.classList.contains('sv-row-run-child') || child.classList.contains('sv-row-body')) return;
           child.classList.add('sv-visible');
@@ -428,13 +428,13 @@
       if (state) { state['c-' + idx] = expand; if (save) tcSaveState(state); }
     }
 
-    tContent.querySelectorAll('.sv-row-issue').forEach(function(row) {
+    tContent.querySelectorAll('.sv-row-task').forEach(function(row) {
       row.addEventListener('click', function() {
         var state = tcLoadState();
-        tcSetIssue(this, !this.classList.contains('sv-expanded'), state, true);
+        tcSetTask(this, !this.classList.contains('sv-expanded'), state, true);
       });
     });
-    tContent.querySelectorAll('.sv-row-parent:not(.sv-row-issue)').forEach(function(row) {
+    tContent.querySelectorAll('.sv-row-parent:not(.sv-row-task)').forEach(function(row) {
       row.addEventListener('click', function(e) {
         e.stopPropagation();
         var state = tcLoadState();
@@ -445,11 +445,11 @@
     // Restore saved state
     var tcState = tcLoadState();
     if (Object.keys(tcState).length > 0) {
-      tContent.querySelectorAll('.sv-row-issue').forEach(function(row) {
-        var gKey = row.getAttribute('data-issue').replace('issue-', '');
-        if (tcState['g-' + gKey]) tcSetIssue(row, true, null, false);
+      tContent.querySelectorAll('.sv-row-task').forEach(function(row) {
+        var gKey = row.getAttribute('data-task').replace('task-', '');
+        if (tcState['g-' + gKey]) tcSetTask(row, true, null, false);
       });
-      tContent.querySelectorAll('.sv-row-parent:not(.sv-row-issue)').forEach(function(row) {
+      tContent.querySelectorAll('.sv-row-parent:not(.sv-row-task)').forEach(function(row) {
         var idx = row.getAttribute('data-idx');
         if (tcState['c-' + idx]) tcSetComment(row, true, null, false);
       });

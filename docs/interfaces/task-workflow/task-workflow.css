@@ -240,7 +240,7 @@
   color: #fff;
 }
 
-.tw-badge-issue {
+.tw-badge-task {
   background: var(--code-bg, #f6f8fa);
   border: 1px solid var(--border, #e1e4e8);
   color: var(--fg, #24292e);
