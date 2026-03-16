@@ -597,10 +597,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   }
 
   /* ─── Restore last viewed pages ─── */
+  var vruFn = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
   var savedCenter = localStorage.getItem(CENTER_KEY);
-  if (savedCenter && centerIframe) { centerIframe.src = applyLang(savedCenter); }
+  var defaultCenter = vruFn(BASE + LP + '/interfaces/task-workflow/');
+  if (centerIframe) { centerIframe.src = savedCenter ? applyLang(savedCenter) : defaultCenter; }
   var savedRight = localStorage.getItem(RCONTENT_KEY);
-  if (savedRight && rightIframe) { rightIframe.src = applyLang(savedRight); }
+  var defaultRight = vruFn(BASE + LP + '/');
+  if (rightIframe) { rightIframe.src = savedRight ? applyLang(savedRight) : defaultRight; }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
