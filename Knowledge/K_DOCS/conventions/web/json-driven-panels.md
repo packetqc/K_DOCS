@@ -63,15 +63,15 @@ Each section has a JSON file at `docs/data/<section>.json`:
 
 | Type | Rendering | Grouping | Composite View |
 |------|-----------|----------|----------------|
-| `interfaces` | Links with target routing + ℹ guide button | — | — |
-| `documentation` | Flat rows with S/F icons (like interfaces row style) | Flattened from `groups[]` | — |
+| `interfaces` | `.iface-row` with target routing + ℹ guide button | — | — |
+| `documentation` | `.iface-row` with S/F icons | Flattened from `groups[]` | — |
 | `essentials` | Simple links | — | — |
-| `commands` | Grouped commands with pub link + cmd spans | By `group` | — |
-| `methodologies` | Links via viewer `?doc=` | By `module` | — |
-| `configurations` | Links via viewer `?doc=` (JSON rendered as tables) | By `module` | "View All" composite |
+| `commands` | Collapsible `.pub-group` categories with `.iface-row` items inside | By `group` | — |
+| `methodologies` | Collapsible `.pub-group` categories with `.iface-row` items via viewer `?doc=` | By `module` | — |
+| `configurations` | Collapsible `.pub-group` categories with `.iface-row` items via viewer `?doc=` | By `module` | "View All" composite |
 | `hubs` | Simple links | — | — |
 | `profile` | Simple links | — | — |
-| `publications` | Summary + Full sub-links per pub | By publication | — |
+| `publications` | `.iface-row` with S/F icons + extra sub-links as icon buttons | — | — |
 | `stories` | Simple links | — | — |
 
 ## Item Removal
@@ -163,8 +163,8 @@ All left-panel items use a widget-card look — not flat text lists:
 - **UPPERCASE**: All text (section titles, sub-group summaries, item links) rendered via `text-transform: uppercase`
 - **Card items**: Each item has `background: var(--code-bg)`, `border-radius: 4px`, `border-left: 2px solid transparent`
 - **Hover feedback**: Items shift 3px right (`translateX(3px)`) with accent left border + box-shadow on hover
-- **Sub-groups**: Wrapped in bordered cards (`border: 1px solid var(--border)`), summary hover shifts 2px
-- **Interface rows**: `.iface-row` flex container wraps link + ℹ button, inherits card style with row-level hover
+- **Sub-groups (`.pub-group`)**: Collapsible `<details>` — summary matches `.iface-row` card style (same background, hover shift, accent border). No outline border. `›` / `⌄` markers via CSS `::before`. Sub-items indented `0.6rem` left.
+- **Interface rows**: `.iface-row` flex container wraps link + icon buttons, inherits card style with row-level hover
 - **Transitions**: `0.12s` transform, `0.15s` background/color/border — smooth but responsive
 
 ### Row Icon System
@@ -173,14 +173,16 @@ All sections use the same `.iface-row` flex container for items that have right-
 
 | Icon | Meaning | Data field | Target |
 |------|---------|------------|--------|
-| **ℹ** | User guide | `pub` | Opens `/publications/<pub>/full/` in content panel |
-| **S** | Summary | `slug` | Opens `/publications/<slug>/` in content panel |
-| **F** | Full doc | `has_full` | Opens `/publications/<slug>/full/` in content panel |
+| **ℹ** | User guide | `pub` | Routes through viewer: `pubUrl(pub, true)` → `?doc=<lang>/publications/<pub>/full/index.md&embed` |
+| **S** | Summary | `slug` | Routes through viewer: `pubUrl(slug, false)` → `?doc=<lang>/publications/<slug>/index.md&embed` |
+| **F** | Full doc | `has_full` | Routes through viewer: `pubUrl(slug, true)` → `?doc=<lang>/publications/<slug>/full/index.md&embed` |
 
+- All S/F/ℹ buttons use `target="content-frame"` attribute (not `data-target`) so the navigator click handler intercepts them and opens in the tab bar
 - Icons are **conditional** — only rendered when the corresponding data field exists/is true
 - Row click (on label, not icon) opens the default target (summary for docs, center iframe for interfaces)
 - Icon styling: `.iface-pub-btn` — small muted text, hover accent color, same height as row
 - Sections without icons (essentials, hubs, profile, stories) use plain `makeLink()` rows
+- **pubUrl helper**: `pubUrl(slug, full)` builds viewer-routed URLs with language prefix, avoiding direct `.md` file access (`.nojekyll` sites don't serve `.md` as HTML)
 
 ### ℹ Guide Button
 
