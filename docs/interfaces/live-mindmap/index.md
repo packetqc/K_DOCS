@@ -503,7 +503,7 @@ body > .container {
           if (!node.children || !node.children.length) return;
           node.children.forEach(function(child) {
             if (child.children && child.children.length > 0) {
-              if (depth >= 3) child.expanded = false;
+              if (depth >= 2) child.expanded = false;
               collapseInitial(child, depth + 1);
             }
           });
