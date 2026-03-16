@@ -170,8 +170,9 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   box-shadow: -2px 0 0 var(--accent, #1d4ed8);
 }
 .nav-widget .widget-body a.active {
-  background: var(--accent, #1d4ed8); color: var(--bg, #fff);
-  border-left-color: var(--bg, #fff);
+  background: var(--col-alt, #e8eef4); color: var(--accent, #1d4ed8);
+  border-left-color: var(--accent, #1d4ed8);
+  box-shadow: -2px 0 0 var(--accent, #1d4ed8);
 }
 
 /* Sub-groups — same card style as iface-row */
@@ -197,8 +198,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 }
 .nav-widget .pub-group summary { cursor: pointer; list-style: none; text-decoration: none; }
 .nav-widget .pub-group summary::-webkit-details-marker { display: none; }
-.nav-widget .pub-group summary::before { content: '› '; font-size: 0.8rem; }
-.nav-widget .pub-group[open] > summary::before { content: '⌄ '; }
+.nav-widget .pub-group summary::before { content: ''; }
+.nav-widget .pub-group[open] > summary::before { content: ''; }
 .nav-widget .pub-group[open] > summary { border-radius: 4px; margin-bottom: 0.25rem; }
 .nav-widget .pub-group .iface-row { margin-left: 0.6rem; margin-top: 0.2rem; }
 .nav-widget a, .nav-widget summary { text-decoration: none !important; }
