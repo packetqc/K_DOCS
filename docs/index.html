@@ -1404,6 +1404,24 @@
         html += '<p class="json-description" style="font-size:1.1em;color:var(--text-secondary,#555);margin:0.5em 0 1.5em;line-height:1.5">' + escapeHtml(desc) + '</p>';
       }
 
+      // Helper: render a cell value — URLs to .json/.md become clickable viewer links
+      function cellHtml(val) {
+        if (typeof val !== 'string') return escapeHtml(String(val));
+        if (/^https?:\/\/.+\.(json|md)([?#]|$)/i.test(val)) {
+          var base = (typeof BASE !== 'undefined') ? BASE : '';
+          var linkUrl = base + '/index.html?doc=' + encodeURIComponent(val) + '&embed';
+          return '<a href="' + linkUrl + '" target="content-frame" style="word-break:break-all">' + escapeHtml(val.split('/').pop().split('?')[0]) + '</a>';
+        }
+        if (/^https?:\/\//.test(val)) {
+          return '<a href="' + escapeHtml(val) + '" target="_blank" style="word-break:break-all">' + escapeHtml(val) + '</a>';
+        }
+        if (/^\/[a-z]/.test(val)) {
+          var base2 = (typeof BASE !== 'undefined') ? BASE : '';
+          return '<a href="' + base2 + escapeHtml(val) + '" target="content-frame">' + escapeHtml(val) + '</a>';
+        }
+        return escapeHtml(val);
+      }
+
       // Top-level string fields as key-value pairs (skip title/description already rendered)
       var skipFields = ['title', 'title_fr', 'description', 'description_fr'];
       var topFields = [];
@@ -1417,7 +1435,7 @@
       if (topFields.length) {
         html += '<table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>';
         topFields.forEach(function(f) {
-          html += '<tr><td><strong>' + escapeHtml(f.key) + '</strong></td><td>' + escapeHtml(String(f.value)) + '</td></tr>';
+          html += '<tr><td><strong>' + escapeHtml(f.key) + '</strong></td><td>' + cellHtml(f.value) + '</td></tr>';
         });
         html += '</tbody></table>';
       }
@@ -1444,9 +1462,9 @@
             cols.forEach(function(c) {
               var cell = row[c];
               if (cell === undefined || cell === null) { html += '<td></td>'; }
-              else if (Array.isArray(cell)) { html += '<td>' + escapeHtml(cell.join(', ')) + '</td>'; }
+              else if (Array.isArray(cell)) { html += '<td>' + cell.map(function(x) { return (typeof x === 'object') ? '<code>' + escapeHtml(JSON.stringify(x)) + '</code>' : cellHtml(x); }).join(', ') + '</td>'; }
               else if (typeof cell === 'object') { html += '<td><code>' + escapeHtml(JSON.stringify(cell)) + '</code></td>'; }
-              else { html += '<td>' + escapeHtml(String(cell)) + '</td>'; }
+              else { html += '<td>' + cellHtml(cell) + '</td>'; }
             });
             html += '</tr>';
           });
