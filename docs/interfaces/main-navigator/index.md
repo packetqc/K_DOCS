@@ -322,11 +322,9 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   var ACTIVE_KEY  = 'navigator-active-href';
   var SUBDET_KEY  = 'navigator-subdetails';
 
-  /* Set default iframe sources based on language */
+  /* Iframe references — src set ONCE after localStorage check (avoid double-load race) */
   var centerIframe = document.getElementById('center-frame-el');
   var rightIframe  = document.getElementById('right-frame-el');
-  centerIframe.src = BASE + LP + '/interfaces/task-workflow/';
-  rightIframe.src  = BASE + LP + '/';
 
   var panel  = document.getElementById('left-panel');
   var grid   = document.getElementById('nav-grid');
@@ -587,11 +585,11 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     return url.replace(BASE + '/', BASE + LP + '/');
   }
 
-  /* ─── Restore last viewed pages ─── */
+  /* ─── Restore last viewed pages (or set defaults) ─── */
   var savedCenter = localStorage.getItem(CENTER_KEY);
-  if (savedCenter && centerIframe) { centerIframe.src = applyLang(savedCenter); }
+  if (centerIframe) { centerIframe.src = savedCenter ? applyLang(savedCenter) : (BASE + LP + '/interfaces/task-workflow/'); }
   var savedRight = localStorage.getItem(RCONTENT_KEY);
-  if (savedRight && rightIframe) { rightIframe.src = applyLang(savedRight); }
+  if (rightIframe) { rightIframe.src = savedRight ? applyLang(savedRight) : (BASE + LP + '/'); }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
