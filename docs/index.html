@@ -1626,6 +1626,9 @@
         // Handle anchor links (scroll within page)
         if (href.charAt(0) === '#') return;
 
+        // Respect explicit target="_blank" (e.g., "Actual Page" links)
+        if (link.target === '_blank') return;
+
         // External links → open in new browser tab (they can't load in iframes)
         if (/^https?:\/\//.test(href) && href.indexOf(window.location.origin) !== 0) {
           e.preventDefault();
@@ -1681,15 +1684,22 @@
                 window.top.location.reload();
                 return;
               }
-              // Other interfaces → route to center-frame
+              // Other interfaces → route to center-frame (try parent chain)
+              var embedUrl = viewerBase + '?doc=' + encodeURIComponent(doc.path) + '&embed' +
+                (match.lang === 'fr' ? '&lang=fr' : '');
               try {
+                // Direct parent (navigator srcdoc contains center-frame)
                 var centerFrame = window.parent.document.querySelector('iframe[name="center-frame"]');
-                if (centerFrame) {
-                  centerFrame.src = viewerBase + '?doc=' + encodeURIComponent(doc.path) + '&embed' +
-                    (match.lang === 'fr' ? '&lang=fr' : '');
-                  return;
-                }
+                if (centerFrame) { centerFrame.src = embedUrl; return; }
               } catch(ex) {}
+              try {
+                // Grandparent (if deeper nesting)
+                var centerFrame2 = window.parent.parent.document.querySelector('iframe[name="center-frame"]');
+                if (centerFrame2) { centerFrame2.src = embedUrl; return; }
+              } catch(ex2) {}
+              // Fallback: navigate top to the interface
+              window.top.location.href = viewerBase + '?doc=' + encodeURIComponent(doc.path);
+              return;
             }
 
             // All other docs → reload self with &embed (no chrome, like navigator links)
