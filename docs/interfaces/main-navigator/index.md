@@ -362,17 +362,20 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   });
 
   /* ─── Widget definitions — bilingual, driven by LANG ─── */
-  var widgets = [
-    /* JSON-driven panel sections — see Knowledge/K_DOCS/conventions/web/json-driven-panels.md */
-    { id:'interfaces',    json:'data/interfaces.json' },
-    { id:'essentials',    json:'data/essentials.json' },
-    { id:'commands',      json:'data/commands.json' },
-    { id:'methodologies', json:'data/methodologies.json' },
-    { id:'hubs',          json:'data/hubs.json' },
-    { id:'profile',       json:'data/profile.json' },
-    { id:'publications',  json:'data/publications.json' },
-    { id:'stories',        json:'data/stories.json' },
-    { id:'configurations', json:'data/configurations.json' }
+  /* Section registry — fetched from Knowledge/sections.json (priority descending: higher = first).
+     Fallback to hardcoded list if fetch fails.
+     See Knowledge/K_DOCS/conventions/web/json-driven-panels.md */
+  var SECTIONS_URL = 'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/sections.json';
+  var FALLBACK_WIDGETS = [
+    { id:'interfaces',json:'data/interfaces.json',priority:1 },
+    { id:'essentials',json:'data/essentials.json',priority:2 },
+    { id:'commands',json:'data/commands.json',priority:3 },
+    { id:'methodologies',json:'data/methodologies.json',priority:4 },
+    { id:'hubs',json:'data/hubs.json',priority:5 },
+    { id:'profile',json:'data/profile.json',priority:6 },
+    { id:'publications',json:'data/publications.json',priority:7 },
+    { id:'stories',json:'data/stories.json',priority:8 },
+    { id:'configurations',json:'data/configurations.json',priority:9 }
   ];
 
   /* ─── Restore + build widgets ─── */
@@ -417,7 +420,10 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     return a;
   }
 
-  widgets.forEach(function(w) {
+  function buildWidgets(widgets) {
+    /* Sort by priority ascending (lower = first) */
+    widgets.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+    widgets.forEach(function(w) {
     var det = document.createElement('details');
     det.className = 'nav-widget'; det.dataset.wid = w.id;
     det.open = (savedState[w.id] !== undefined) ? savedState[w.id] : false;
@@ -514,7 +520,14 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         }
       })
       .catch(function(e) { console.warn('Failed to load ' + w.json, e); });
-  });
+    });
+  }
+
+  /* Fetch sections.json then build, fallback to hardcoded */
+  fetch(SECTIONS_URL)
+    .then(function(r) { return r.json(); })
+    .then(function(data) { buildWidgets(data.sections || []); })
+    .catch(function() { buildWidgets(FALLBACK_WIDGETS); });
 
   /* ─── Language-neutral URL helpers ─── */
   function stripLang(url) {

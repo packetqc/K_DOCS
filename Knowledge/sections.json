@@ -1,0 +1,15 @@
+{
+  "description": "Navigator left-panel section registry — defines which sections appear and in what order.",
+  "description_fr": "Registre des sections du panneau gauche du navigateur — définit quelles sections apparaissent et dans quel ordre.",
+  "sections": [
+    { "id": "interfaces",     "json": "data/interfaces.json",     "priority": 1 },
+    { "id": "essentials",     "json": "data/essentials.json",     "priority": 2 },
+    { "id": "commands",       "json": "data/commands.json",       "priority": 3 },
+    { "id": "methodologies",  "json": "data/methodologies.json",  "priority": 4 },
+    { "id": "hubs",           "json": "data/hubs.json",           "priority": 5 },
+    { "id": "profile",        "json": "data/profile.json",        "priority": 6 },
+    { "id": "publications",   "json": "data/publications.json",   "priority": 7 },
+    { "id": "stories",        "json": "data/stories.json",        "priority": 8 },
+    { "id": "configurations", "json": "data/configurations.json", "priority": 9 }
+  ]
+}

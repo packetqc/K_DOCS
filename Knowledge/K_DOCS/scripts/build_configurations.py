@@ -56,7 +56,18 @@ def scan_configs():
     items = []
     priority = 0
 
-    # System-level config (Knowledge/modules.json)
+    # System-level configs (Knowledge/sections.json, Knowledge/modules.json)
+    sections_json = KNOWLEDGE_DIR / "sections.json"
+    if sections_json.exists():
+        rel_path = str(sections_json.relative_to(REPO_ROOT)).replace("\\", "/")
+        items.append({
+            "title": "Section Registry",
+            "title_fr": "Registre des sections",
+            "file": "sections.json",
+            "module": "SYSTEM",
+            "path": f"{RAW_BASE}/{rel_path}",
+            "priority": 0,
+        })
     modules_json = KNOWLEDGE_DIR / "modules.json"
     if modules_json.exists():
         rel_path = str(modules_json.relative_to(REPO_ROOT)).replace("\\", "/")
@@ -64,11 +75,11 @@ def scan_configs():
             "title": "Module Registry",
             "title_fr": "Registre des modules",
             "file": "modules.json",
-            "module": "System",
+            "module": "SYSTEM",
             "path": f"{RAW_BASE}/{rel_path}",
-            "priority": priority,
+            "priority": 1,
         })
-    priority = 1
+    priority = 2
 
     for mod_dir in sorted(KNOWLEDGE_DIR.glob("K_*")):
         mod_name = mod_dir.name

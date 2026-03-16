@@ -8,204 +8,214 @@
   "open": false,
   "items": [
     {
+      "title": "Section Registry",
+      "title_fr": "Registre des sections",
+      "file": "sections.json",
+      "module": "SYSTEM",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/sections.json",
+      "priority": 0,
+      "description": "Navigator left-panel section layout — defines which sections appear and in what order.",
+      "description_fr": "Disposition des sections du panneau gauche du navigateur — définit quelles sections apparaissent et dans quel ordre."
+    },
+    {
       "title": "Module Registry",
       "title_fr": "Registre des modules",
-      "description": "Central module activation and import configuration — defines which K_* modules are loaded and their dependencies.",
-      "description_fr": "Configuration centrale d'activation et d'importation des modules — définit quels modules K_* sont chargés et leurs dépendances.",
       "file": "modules.json",
-      "module": "System",
+      "module": "SYSTEM",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/modules.json",
-      "priority": 0
+      "priority": 1,
+      "description": "Central module activation and import configuration — defines which K_* modules are loaded and their dependencies.",
+      "description_fr": "Configuration centrale d'activation et d'importation des modules — définit quels modules K_* sont chargés et leurs dépendances."
     },
     {
       "title": "Conventions",
       "title_fr": "Conventions",
-      "description": "K_DOCS conventions — web documentation patterns, rendering rules, and publication standards.",
-      "description_fr": "Conventions K_DOCS — modèles de documentation web, règles de rendu et standards de publication.",
       "file": "conventions.json",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/conventions/conventions.json",
-      "priority": 1
+      "priority": 1,
+      "description": "K_DOCS conventions — web documentation patterns, rendering rules, and publication standards.",
+      "description_fr": "Conventions K_DOCS — modèles de documentation web, règles de rendu et standards de publication."
     },
     {
       "title": "Documentation",
       "title_fr": "Documentation",
-      "description": "K_DOCS documentation registry — publication structure, file mappings, and metadata references.",
-      "description_fr": "Registre de documentation K_DOCS — structure de publications, mappages de fichiers et références de métadonnées.",
       "file": "documentation.json",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/documentation/documentation.json",
-      "priority": 2
+      "priority": 2,
+      "description": "K_DOCS documentation registry — publication structure, file mappings, and metadata references.",
+      "description_fr": "Registre de documentation K_DOCS — structure de publications, mappages de fichiers et références de métadonnées."
     },
     {
       "title": "Work",
       "title_fr": "Travail",
-      "description": "K_DOCS work tracking — accomplished tasks, staged results, and pending items.",
-      "description_fr": "Suivi des travaux K_DOCS — tâches accomplies, résultats en staging et éléments en attente.",
       "file": "work.json",
       "module": "K_DOCS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/work/work.json",
-      "priority": 3
+      "priority": 3,
+      "description": "K_DOCS work tracking — accomplished tasks, staged results, and pending items.",
+      "description_fr": "Suivi des travaux K_DOCS — tâches accomplies, résultats en staging et éléments en attente."
     },
     {
       "title": "Conventions",
       "title_fr": "Conventions",
-      "description": "K_GITHUB conventions — GitHub API patterns, board integration rules, and sync protocols.",
-      "description_fr": "Conventions K_GITHUB — modèles API GitHub, règles d'intégration board et protocoles de synchronisation.",
       "file": "conventions.json",
       "module": "K_GITHUB",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/conventions/conventions.json",
-      "priority": 4
+      "priority": 4,
+      "description": "K_GITHUB conventions — GitHub API patterns, board integration rules, and sync protocols.",
+      "description_fr": "Conventions K_GITHUB — modèles API GitHub, règles d'intégration board et protocoles de synchronisation."
     },
     {
       "title": "Documentation",
       "title_fr": "Documentation",
-      "description": "K_GITHUB documentation registry — GitHub integration docs and methodology references.",
-      "description_fr": "Registre de documentation K_GITHUB — docs d'intégration GitHub et références méthodologiques.",
       "file": "documentation.json",
       "module": "K_GITHUB",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/documentation/documentation.json",
-      "priority": 5
+      "priority": 5,
+      "description": "K_GITHUB documentation registry — GitHub integration docs and methodology references.",
+      "description_fr": "Registre de documentation K_GITHUB — docs d'intégration GitHub et références méthodologiques."
     },
     {
       "title": "Work",
       "title_fr": "Travail",
-      "description": "K_GITHUB work tracking — GitHub-related accomplished and pending tasks.",
-      "description_fr": "Suivi des travaux K_GITHUB — tâches accomplies et en attente liées à GitHub.",
       "file": "work.json",
       "module": "K_GITHUB",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/work/work.json",
-      "priority": 6
+      "priority": 6,
+      "description": "K_GITHUB work tracking — GitHub-related accomplished and pending tasks.",
+      "description_fr": "Suivi des travaux K_GITHUB — tâches accomplies et en attente liées à GitHub."
     },
     {
       "title": "Architecture",
       "title_fr": "Architecture",
-      "description": "K_MIND architecture — memory system design, data flows, and component boundaries.",
-      "description_fr": "Architecture K_MIND — conception du système de mémoire, flux de données et frontières de composants.",
       "file": "architecture.json",
       "module": "K_MIND",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/architecture/architecture.json",
-      "priority": 7
+      "priority": 7,
+      "description": "K_MIND architecture — memory system design, data flows, and component boundaries.",
+      "description_fr": "Architecture K_MIND — conception du système de mémoire, flux de données et frontières de composants."
     },
     {
       "title": "Constraints",
       "title_fr": "Contraintes",
-      "description": "K_MIND constraints — known limitations, context window boundaries, and operational guardrails.",
-      "description_fr": "Contraintes K_MIND — limitations connues, frontières de fenêtre de contexte et garde-fous opérationnels.",
       "file": "constraints.json",
       "module": "K_MIND",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/constraints/constraints.json",
-      "priority": 8
+      "priority": 8,
+      "description": "K_MIND constraints — known limitations, context window boundaries, and operational guardrails.",
+      "description_fr": "Contraintes K_MIND — limitations connues, frontières de fenêtre de contexte et garde-fous opérationnels."
     },
     {
       "title": "Conventions",
       "title_fr": "Conventions",
-      "description": "K_MIND conventions — mindmap display rules, memory maintenance patterns, and depth config.",
-      "description_fr": "Conventions K_MIND — règles d'affichage mindmap, modèles de maintenance mémoire et config de profondeur.",
       "file": "conventions.json",
       "module": "K_MIND",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/conventions/conventions.json",
-      "priority": 9
+      "priority": 9,
+      "description": "K_MIND conventions — mindmap display rules, memory maintenance patterns, and depth config.",
+      "description_fr": "Conventions K_MIND — règles d'affichage mindmap, modèles de maintenance mémoire et config de profondeur."
     },
     {
       "title": "Depth Config",
       "title_fr": "Config profondeur",
-      "description": "Mindmap depth configuration — per-branch depth limits, overrides, and omission rules.",
-      "description_fr": "Configuration de profondeur du mindmap — limites de profondeur par branche, surcharges et règles d'omission.",
       "file": "depth_config.json",
       "module": "K_MIND",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/conventions/depth_config.json",
-      "priority": 10
+      "priority": 10,
+      "description": "Mindmap depth configuration — per-branch depth limits, overrides, and omission rules.",
+      "description_fr": "Configuration de profondeur du mindmap — limites de profondeur par branche, surcharges et règles d'omission."
     },
     {
       "title": "Documentation",
       "title_fr": "Documentation",
-      "description": "K_MIND documentation registry — memory system docs and methodology references.",
-      "description_fr": "Registre de documentation K_MIND — docs du système de mémoire et références méthodologiques.",
       "file": "documentation.json",
       "module": "K_MIND",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/documentation/documentation.json",
-      "priority": 11
+      "priority": 11,
+      "description": "K_MIND documentation registry — memory system docs and methodology references.",
+      "description_fr": "Registre de documentation K_MIND — docs du système de mémoire et références méthodologiques."
     },
     {
       "title": "Work",
       "title_fr": "Travail",
-      "description": "K_MIND work tracking — memory system accomplished and pending tasks.",
-      "description_fr": "Suivi des travaux K_MIND — tâches accomplies et en attente du système de mémoire.",
       "file": "work.json",
       "module": "K_MIND",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/work/work.json",
-      "priority": 12
+      "priority": 12,
+      "description": "K_MIND work tracking — memory system accomplished and pending tasks.",
+      "description_fr": "Suivi des travaux K_MIND — tâches accomplies et en attente du système de mémoire."
     },
     {
       "title": "Conventions",
       "title_fr": "Conventions",
-      "description": "K_PROJECTS conventions — project lifecycle rules, naming, and board integration patterns.",
-      "description_fr": "Conventions K_PROJECTS — règles de cycle de vie projet, nommage et modèles d'intégration board.",
       "file": "conventions.json",
       "module": "K_PROJECTS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/conventions/conventions.json",
-      "priority": 13
+      "priority": 13,
+      "description": "K_PROJECTS conventions — project lifecycle rules, naming, and board integration patterns.",
+      "description_fr": "Conventions K_PROJECTS — règles de cycle de vie projet, nommage et modèles d'intégration board."
     },
     {
       "title": "Documentation",
       "title_fr": "Documentation",
-      "description": "K_PROJECTS documentation registry — project management docs and methodology references.",
-      "description_fr": "Registre de documentation K_PROJECTS — docs de gestion de projet et références méthodologiques.",
       "file": "documentation.json",
       "module": "K_PROJECTS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/documentation/documentation.json",
-      "priority": 14
+      "priority": 14,
+      "description": "K_PROJECTS documentation registry — project management docs and methodology references.",
+      "description_fr": "Registre de documentation K_PROJECTS — docs de gestion de projet et références méthodologiques."
     },
     {
       "title": "Work",
       "title_fr": "Travail",
-      "description": "K_PROJECTS work tracking — project-related accomplished and pending tasks.",
-      "description_fr": "Suivi des travaux K_PROJECTS — tâches accomplies et en attente liées aux projets.",
       "file": "work.json",
       "module": "K_PROJECTS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/work/work.json",
-      "priority": 15
+      "priority": 15,
+      "description": "K_PROJECTS work tracking — project-related accomplished and pending tasks.",
+      "description_fr": "Suivi des travaux K_PROJECTS — tâches accomplies et en attente liées aux projets."
     },
     {
       "title": "Projects Data",
       "title_fr": "Données projets",
-      "description": "Compiled projects database — all registered projects with metadata, status, and board links.",
-      "description_fr": "Base de données compilée des projets — tous les projets enregistrés avec métadonnées, statut et liens board.",
       "file": "projects.json",
       "module": "K_PROJECTS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/data/projects.json",
-      "priority": 16
+      "priority": 16,
+      "description": "Compiled projects database — all registered projects with metadata, status, and board links.",
+      "description_fr": "Base de données compilée des projets — tous les projets enregistrés avec métadonnées, statut et liens board."
     },
     {
       "title": "Conventions",
       "title_fr": "Conventions",
-      "description": "K_VALIDATION conventions — validation rules, checkpoint mechanics, and workflow enforcement.",
-      "description_fr": "Conventions K_VALIDATION — règles de validation, mécanique de checkpoint et application du flux.",
       "file": "conventions.json",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/conventions/conventions.json",
-      "priority": 17
+      "priority": 17,
+      "description": "K_VALIDATION conventions — validation rules, checkpoint mechanics, and workflow enforcement.",
+      "description_fr": "Conventions K_VALIDATION — règles de validation, mécanique de checkpoint et application du flux."
     },
     {
       "title": "Documentation",
       "title_fr": "Documentation",
-      "description": "K_VALIDATION documentation registry — validation docs and methodology references.",
-      "description_fr": "Registre de documentation K_VALIDATION — docs de validation et références méthodologiques.",
       "file": "documentation.json",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/documentation/documentation.json",
-      "priority": 18
+      "priority": 18,
+      "description": "K_VALIDATION documentation registry — validation docs and methodology references.",
+      "description_fr": "Registre de documentation K_VALIDATION — docs de validation et références méthodologiques."
     },
     {
       "title": "Work",
       "title_fr": "Travail",
-      "description": "K_VALIDATION work tracking — validation-related accomplished and pending tasks.",
-      "description_fr": "Suivi des travaux K_VALIDATION — tâches accomplies et en attente liées à la validation.",
       "file": "work.json",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/work/work.json",
-      "priority": 19
+      "priority": 19,
+      "description": "K_VALIDATION work tracking — validation-related accomplished and pending tasks.",
+      "description_fr": "Suivi des travaux K_VALIDATION — tâches accomplies et en attente liées à la validation."
     }
   ],
   "removed": []
