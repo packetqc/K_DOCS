@@ -15,6 +15,8 @@ og_image: /assets/og/knowledge-2-en-cayman.gif
 live_webcard: mindmap
 ---
 
+> **Legacy notice** — This publication describes the Knowledge 2.0 architecture as initially designed. The system has since evolved to a multi-module architecture (K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION) with mind-first memory and `.claude/skills/` SKILL.md routing. See the [full documentation]({{ '/publications/knowledge-2.0/full/' | relative_url }}) sections 1 and 8 for the current state.
+
 ## Overview
 
 Knowledge 2.0 introduces an **Interactive Intelligence Framework** — a structured questionnaire that runs at the start of every session, validates context, routes commands programmatically, loads only the relevant methodology, and opens the right working mode.

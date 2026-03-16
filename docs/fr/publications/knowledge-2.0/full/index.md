@@ -20,6 +20,8 @@ citation: "Paquet, M. & Claude (2026). Knowledge 2.0 : Cadre d'Intelligence Inte
 # Knowledge 2.0 — Cadre d'Intelligence Interactive
 {: #pub-title}
 
+> **Avis legacy** — Les sections 2 à 7 de cette publication décrivent l'architecture Knowledge 2.0 telle que conçue initialement (questionnaire, routeur de commandes, SkillRegistry, déduplication de méthodologie). Le système a depuis évolué vers une **architecture multi-module** (K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION) avec mémoire mind-first et routage `.claude/skills/` SKILL.md. Voir [Section 1 : La mémoire mindmap](#1-le-questionnaire-de-session) et [Section 8 : Architecture complète](#8-architecture-complète) pour l'état actuel.
+
 **Table des matières**
 
 - [Auteurs](#auteurs)

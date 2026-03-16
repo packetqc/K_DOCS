@@ -20,6 +20,8 @@ citation: "Paquet, M. & Claude (2026). Knowledge 2.0: Interactive Intelligence F
 # Knowledge 2.0 — Interactive Intelligence Framework
 {: #pub-title}
 
+> **Legacy notice** — Sections 2–7 of this publication describe the Knowledge 2.0 architecture as initially designed (questionnaire, command router, SkillRegistry, methodology deduplication). The system has since evolved to a **multi-module architecture** (K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION) with mind-first memory and `.claude/skills/` SKILL.md routing. See [Section 1: The Mindmap Memory](#1-the-mindmap-memory-) and [Section 8: Complete Architecture](#8-complete-architecture) for the current state.
+
 **Contents**
 
 - [Authors](#authors)
