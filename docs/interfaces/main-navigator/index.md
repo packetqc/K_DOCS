@@ -573,31 +573,34 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     det.appendChild(body); panel.appendChild(det);
   });
 
-  /* ─── Rebuild saved URL for current language ─── */
-  function rebuildForLang(url) {
-    if (!url) return null;
-    // Extract doc path from viewer embed URL: index.html?doc=X
-    var m = url.match(/[?&]doc=([^&]+)/);
-    if (m) {
-      var docPath = decodeURIComponent(m[1]);
-      // Rebuild via vru using the doc path (language-neutral) + current LP
-      var pagePath = docPath.replace(/\/?index\.md$/, '').replace(/^\//, '');
-      return vru(BASE + LP + '/' + pagePath + '/');
+  /* ─── Adapt saved URL to current language ─── */
+  function adaptLang(url) {
+    if (!url) return url;
+    // Viewer URLs (index.html?doc=...): toggle &lang=fr
+    if (url.indexOf('index.html?doc=') !== -1) {
+      var cleaned = url.replace(/[&?]lang=fr/g, '').replace(/\?&/, '?').replace(/\?$/, '');
+      return LANG === 'fr' ? (cleaned + (cleaned.indexOf('?') !== -1 ? '&' : '?') + 'lang=fr') : cleaned;
     }
-    // Direct page URL: extract path, strip /fr/, rebuild with current LP
-    var path = url.replace(/^https?:\/\/[^/]+/, '');  // strip origin
-    path = path.replace(BASE + '/fr/', BASE + '/').replace(BASE + '/', '');  // strip base+lang
-    path = path.replace(/^\//, '');
-    return vru(BASE + LP + '/' + path);
+    // Direct page URLs: toggle /fr/ prefix
+    var stripped = url.replace(/\/fr\//, '/');
+    return LANG === 'fr' ? stripped.replace(BASE + '/', BASE + '/fr/') : stripped;
   }
 
   /* ─── Restore last viewed pages (or set defaults) ─── */
   var savedCenter = localStorage.getItem(CENTER_KEY);
   var defaultCenter = vru(BASE + LP + '/interfaces/task-workflow/');
-  if (centerIframe) { centerIframe.src = (savedCenter && rebuildForLang(savedCenter)) || defaultCenter; }
+  console.log('[NAV] LANG=' + LANG + ' LP=' + LP + ' BASE=' + BASE);
+  console.log('[NAV] savedCenter=' + savedCenter);
+  console.log('[NAV] defaultCenter=' + defaultCenter);
+  console.log('[NAV] adaptedCenter=' + (savedCenter ? adaptLang(savedCenter) : '(none)'));
+  var centerSrc = savedCenter ? adaptLang(savedCenter) : defaultCenter;
+  console.log('[NAV] centerIframe.src → ' + centerSrc);
+  if (centerIframe) { centerIframe.src = centerSrc; }
   var savedRight = localStorage.getItem(RCONTENT_KEY);
   var defaultRight = vru(BASE + LP + '/');
-  if (rightIframe) { rightIframe.src = (savedRight && rebuildForLang(savedRight)) || defaultRight; }
+  var rightSrc = savedRight ? adaptLang(savedRight) : defaultRight;
+  console.log('[NAV] savedRight=' + savedRight + ' → ' + rightSrc);
+  if (rightIframe) { rightIframe.src = rightSrc; }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
