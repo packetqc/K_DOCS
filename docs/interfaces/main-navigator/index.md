@@ -199,9 +199,6 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-widget .pub-group[open] > summary::before { content: '⌄ '; }
 .nav-widget .pub-group[open] > summary { border-radius: 4px; }
 .nav-widget .pub-group .iface-row { margin-left: 0.6rem; }
-.nav-widget .pub-group a:not(.iface-pub-btn) {
-  padding-left: 1.1rem; font-size: 0.7rem;
-}
 .cmd-link { font-family: monospace; font-size: 0.68rem; color: var(--muted, #656d76); letter-spacing: 0; }
 
 /* ═══ Tab bar — horizontal strip above content-frame ═══ */
