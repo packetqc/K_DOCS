@@ -1640,8 +1640,23 @@
           return;
         }
 
-        // Try direct match first (absolute/baseurl paths)
-        var match = resolveInternalPath(href);
+        // Parse ?doc= viewer URLs (rewritten links contain index.html?doc=path)
+        var match = null;
+        var docParamMatch = href.match(/index\.html\?doc=([^&]+)/);
+        if (docParamMatch) {
+          var dParam = decodeURIComponent(docParamMatch[1]);
+          var dLang = /[?&]lang=fr/.test(href) ? 'fr' : 'en';
+          for (var di = 0; di < DOCS.length; di++) {
+            if (DOCS[di].path === dParam || DOCS[di].path_fr === dParam) {
+              if (DOCS[di].path_fr === dParam) dLang = 'fr';
+              match = { index: di, lang: dLang };
+              break;
+            }
+          }
+        }
+
+        // Try direct match (absolute/baseurl paths)
+        if (!match) match = resolveInternalPath(href);
 
         // If no match, resolve relative links against the current document's directory
         if (!match) {
