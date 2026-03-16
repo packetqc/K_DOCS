@@ -121,6 +121,11 @@
       "id": "ext-008",
       "path": "conventions/sessions/validation/validation-protocol.md",
       "description": "Validation protocol convention — QA checklist for interfaces, data pipelines, publications, modules"
+    },
+    {
+      "id": "ext-009",
+      "path": "conventions/web/interface-css-theme.md",
+      "description": "Interface CSS theme convention — wrapper variables, dark theme selectors, fallback values, no variable redefinition"
     }
   ]
 }
