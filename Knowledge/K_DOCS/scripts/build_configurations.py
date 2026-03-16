@@ -54,7 +54,22 @@ TYPE_NAMES = {
 def scan_configs():
     """Scan all K_* modules for configuration files."""
     items = []
+    priority = 0
+
+    # System-level config (Knowledge/modules.json)
+    modules_json = KNOWLEDGE_DIR / "modules.json"
+    if modules_json.exists():
+        rel_path = str(modules_json.relative_to(REPO_ROOT)).replace("\\", "/")
+        items.append({
+            "title": "Module Registry",
+            "title_fr": "Registre des modules",
+            "file": "modules.json",
+            "module": "System",
+            "path": f"{RAW_BASE}/{rel_path}",
+            "priority": priority,
+        })
     priority = 1
+
     for mod_dir in sorted(KNOWLEDGE_DIR.glob("K_*")):
         mod_name = mod_dir.name
         for pattern in CONFIG_PATTERNS:
