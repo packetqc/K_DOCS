@@ -656,7 +656,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     rightIframe.addEventListener('load', function() {
       try {
         var loc = rightIframe.contentWindow.location.href;
-        if (loc && loc !== 'about:blank') localStorage.setItem(RCONTENT_KEY, loc);
+        if (loc && loc !== 'about:blank') localStorage.setItem(RCONTENT_KEY, stripLang(loc));
       } catch(e) {}
       syncThemeToIframes();
     });
