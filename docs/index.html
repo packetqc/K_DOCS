@@ -265,10 +265,14 @@
       width: calc(100% - 1rem); border: none; background: var(--bg);
       flex: 1; min-height: 0; margin: 0.25rem 0.5rem;
     }
-    /* When in interface mode, content fills remaining viewport as flex column */
+    /* When in interface mode, body becomes flex column, content fills remaining space */
+    body.interface-mode {
+      display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+    }
+    body.interface-mode .container { flex: 1; min-height: 0; padding-bottom: 0; }
     #content[data-interface-mode="1"] {
       display: flex !important; flex-direction: column !important;
-      height: calc(100vh - 5.5rem) !important; overflow: hidden !important;
+      flex: 1 !important; min-height: 0 !important; overflow: hidden !important;
     }
 
     /* ===== Toolbar (shared) ===== */
