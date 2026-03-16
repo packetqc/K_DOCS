@@ -1669,31 +1669,42 @@
         if (match) {
           e.preventDefault();
 
-          // Right-panel routing: when embed in content-frame, route interface links elsewhere
-          if (IS_EMBED && window.name === 'content-frame') {
+          // Embed mode: route all internal links to the parent viewer to prevent nesting
+          if (IS_EMBED) {
             var doc = DOCS[match.index];
+            var docPath = (match.lang === 'fr' && doc.path_fr) ? doc.path_fr : doc.path;
+            var viewerBase = window.location.pathname.replace(/[^/]*$/, '') + 'index.html';
+
             if (doc.group === 'Interfaces') {
-              // Main Navigator → reload full page
+              // Main Navigator → reload full page at top
               if (doc.path.indexOf('main-navigator') !== -1) {
                 window.top.location.reload();
                 return;
               }
-              // Other interfaces → route to center-frame, keep right panel unchanged
+              // Other interfaces → route to center-frame
               try {
                 var centerFrame = window.parent.document.querySelector('iframe[name="center-frame"]');
                 if (centerFrame) {
-                  var embedUrl = window.location.pathname.replace(/[^/]*$/, '') +
-                    'index.html?doc=' + encodeURIComponent(doc.path) + '&embed' +
+                  centerFrame.src = viewerBase + '?doc=' + encodeURIComponent(doc.path) + '&embed' +
                     (match.lang === 'fr' ? '&lang=fr' : '');
-                  centerFrame.src = embedUrl;
                   return;
                 }
               } catch(ex) {}
             }
+
+            // All other docs → navigate top-level viewer (no nesting)
+            window.top.location.href = viewerBase + '?doc=' + encodeURIComponent(docPath) +
+              (match.lang === 'fr' ? '&lang=fr' : '');
+            return;
           }
 
           document.getElementById('docSelect').value = match.index;
           loadWithLang(match.index, match.lang);
+        } else if (IS_EMBED && href && !/^#/.test(href)) {
+          // Embed mode: unmatched internal links → route to top to prevent nesting
+          if (/^https?:\/\//.test(href) && href.indexOf(window.location.origin) !== 0) return; // external: let default handle
+          e.preventDefault();
+          window.top.location.href = href;
         }
       });
     }
