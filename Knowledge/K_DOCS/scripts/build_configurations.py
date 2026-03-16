@@ -79,10 +79,9 @@ def scan_configs():
             "path": f"{RAW_BASE}/{rel_path}",
             "priority": 1,
         })
-    priority = 2
-
     for mod_dir in sorted(KNOWLEDGE_DIR.glob("K_*")):
         mod_name = mod_dir.name
+        mod_priority = 0
         for pattern in CONFIG_PATTERNS:
             cfg = mod_dir / pattern
             if not cfg.exists():
@@ -96,9 +95,9 @@ def scan_configs():
                 "file": fname,
                 "module": mod_name,
                 "path": f"{RAW_BASE}/{rel_path}",
-                "priority": priority,
+                "priority": mod_priority,
             })
-            priority += 1
+            mod_priority += 1
     return items
 
 
