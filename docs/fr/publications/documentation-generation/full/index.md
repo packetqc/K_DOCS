@@ -3,8 +3,8 @@ layout: publication
 title: "Methodologie de generation documentaire — Complet"
 description: "Reference complete de la meta-methodologie de generation documentaire Knowledge : structure du document source, standard mind map, integration de diagrammes, publications a trois niveaux, conventions de style, alignement des qualites fondamentales, heritage universel des fichiers essentiels, contrat front matter et liste de verification qualite."
 pub_id: "Publication #18 — Complet"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/documentation-generation/full/
 og_image: /assets/og/knowledge-system-fr-cayman.gif
 keywords: "methodologie, documentation, mind map, publication, trois niveaux, bilingue, heritage"
@@ -13,7 +13,7 @@ keywords: "methodologie, documentation, mind map, publication, trois niveaux, bi
 # Methodologie de generation documentaire — Documentation complete
 {: #pub-title}
 
-> **Resume** : [Publication #18]({{ '/fr/publications/documentation-generation/' | relative_url }}) | **Parent** : [#0 — Systeme de connaissances]({{ '/fr/publications/knowledge-system/' | relative_url }})
+> **Resume** : [Publication #18]({{ '/fr/publications/documentation-generation/' | relative_url }}) | **Parent** : [#0 — Systeme de connaissances]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Référence core** : [#14 — Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }})
 
 **Table des matieres**
 
@@ -41,7 +41,7 @@ Chaque publication du systeme Knowledge suit des patrons qui ont evolue organiqu
 
 Cette publication est **la methodologie des methodologies** — elle codifie les standards de generation documentaire dont chaque autre methodologie herite. Quand Claude genere une publication, cree un fichier de methodologie ou livre tout artefact documentaire, ce sont les conventions qu'il suit.
 
-L'idee cle est **l'heritage universel** : chaque operation specifique a une methodologie (creation de publication, promotion harvest, creation de projet, corrections structurelles) herite de l'obligation de mettre a jour les fichiers essentiels du systeme — `NEWS.md`, `PLAN.md`, `LINKS.md`, `CLAUDE.md`, `STORIES.md`, `publications/README.md`, index de publications et pages de profil. Une commande = travail + fichiers essentiels + livraison.
+L'idee cle est **l'heritage universel** : chaque operation specifique a une methodologie (creation de publication, synchronisation K_GITHUB, creation de projet, corrections structurelles) herite de l'obligation de mettre a jour les fichiers essentiels du systeme — `NEWS.md`, `PLAN.md`, `LINKS.md`, `mind_memory.md + JSONs de domaine`, `STORIES.md`, `publications/README.md`, index de publications et pages de profil. Une commande = travail + fichiers essentiels + livraison.
 
 ```mermaid
 mindmap
@@ -85,7 +85,7 @@ mindmap
 
 ## Le probleme
 
-Au fil de 17 publications et 49 versions de connaissances, le systeme a developpe des patrons documentaires coherents — mais ils n'ont jamais ete ecrits. Les nouvelles instances Claude lisaient `CLAUDE.md` et apprenaient les commandes et protocoles, mais les *conventions de generation documentaire* (comment ecrire les resumes, quand utiliser quel type de diagramme, quels fichiers mettre a jour apres chaque livraison) etaient absorbees implicitement par l'exemple.
+Au fil de 17 publications et 49 versions de connaissances, le systeme a developpe des patrons documentaires coherents — mais ils n'ont jamais ete ecrits. Les nouvelles instances Claude lisaient `mind_memory.md` et apprenaient les directives et protocoles, mais les *conventions de generation documentaire* (comment ecrire les resumes, quand utiliser quel type de diagramme, quels fichiers mettre a jour apres chaque livraison) etaient absorbees implicitement par l'exemple.
 
 Cela creait deux risques :
 1. **Incoherence apres compaction** — Apres compaction de la fenetre de contexte, les conventions implicites etaient perdues. Les mind maps disparaissaient des nouvelles publications. Les fichiers essentiels n'etaient pas mis a jour. La qualite chutait.
@@ -167,7 +167,7 @@ Chaque source de publication suit un ordre de sections standard :
 |------------|-------|---------|
 | **Gras** | Premiere mention d'un concept cle | Architecture **Distributed Minds** |
 | *Italiques* | Analogie, metaphore, noms de qualites | la qualite *persistant* |
-| `Backticks` | Code, fichiers, commandes, branches | `harvest --healthcheck` |
+| `Backticks` | Code, fichiers, commandes, branches | `K_GITHUB sync + /integrity-check` |
 | Tiret cadratin (—) | Detail parenthetique | le systeme — concu pour l'autonomie — s'adapte |
 | `#N` | Reference de publication | Publication #7 (Harvest Protocol) |
 
@@ -185,7 +185,7 @@ Chaque convention documentaire renforce les **13 qualites fondamentales** du sys
 | **Concis** | Resumes cures, pas de copies tronquees ; mind maps pour la portee |
 | **Interactif** | Mind maps reutilisables, commandes click-to-copy, icones de severite |
 | **Evolutif** | Chaque publication capture une decouverte reelle — le systeme grandit |
-| **Distribue** | Les satellites produisent des publications ; harvest les ramene au core |
+| **Distribue** | Les satellites produisent des publications ; K_GITHUB sync les ramene au core |
 | **Persistant** | Source versionnee ; pages web derivees ; connaissances survivent aux sessions |
 | **Recursif** | Cette publication documente la methodologie qui l'a produite |
 | **Securitaire** | Pas de credentials ; fork-safe ; URLs scopees au proprietaire |
@@ -204,13 +204,13 @@ Ce sont l'ADN du systeme de connaissances. Chaque methodologie les herite par he
 | `NEWS.md` | Tout livrable | Nouvelle entree de changelog |
 | `PLAN.md` | Nouvelle fonctionnalite/capacite | Section Nouveautes ou En cours |
 | `LINKS.md` | Nouvelle URL de page web | Ajouter a Essentiels ou Hubs ; mettre a jour les compteurs |
-| `CLAUDE.md` | Nouvelle publication/commande/evolution | Table Publications, Commandes, Evolution |
+| `mind_memory.md + JSONs de domaine` | Nouvelle publication/module/evolution | Noeuds mindmap, conventions.json, work.json |
 | `STORIES.md` | Nouvelle histoire de succes | Ajouter a l'index avec categorie et date |
 | `publications/README.md` | Nouvelle publication | Ajouter a l'index maitre des publications |
 | Index de publications (EN/FR) | Nouvelle publication | Ajouter l'entree aux deux |
 | Pages de profil (6) | Nouvelle publication | Ajouter aux 6 pages de profil — priorite basse, peut etre regroupe |
 
-**Le principe d'heritage** : chaque fichier de methodologie dans `methodology/` est un enfant de cette meta-methodologie. Quand une operation specifique a une methodologie s'execute (`pub new`, `harvest --promote`, `project create`, `normalize --fix`), elle herite de la liste de verification universelle.
+**Le principe d'heritage** : chaque fichier de methodologie dans `methodology/` est un enfant de cette meta-methodologie. Quand une operation specifique a une methodologie s'execute (`pub new`, mise a jour des JSONs de domaine, `project create`, `K_VALIDATION /normalize --fix`), elle herite de la liste de verification universelle.
 
 ### 8. Liste de verification qualite
 
@@ -225,7 +225,7 @@ Avant de livrer toute publication :
 - [ ] Miroirs bilingues : EN + FR pour toutes les pages web
 - [ ] Webcard : generee (ou placeholder) et `og_image` defini
 - [ ] Fichiers essentiels : NEWS.md, PLAN.md, LINKS.md, STORIES.md evalues pour mise a jour
-- [ ] CLAUDE.md : Table Publications mise a jour
+- [ ] mind_memory.md + JSONs de domaine : Noeuds mindmap et JSONs de module mis a jour
 - [ ] publications/README.md : Index maitre mis a jour
 - [ ] Index de publications : EN/FR tous deux mis a jour
 - [ ] References croisees : publications soeurs liees
@@ -267,6 +267,8 @@ Avant de livrer toute publication :
 | 13 | [Pagination web & export]({{ '/fr/publications/web-pagination-export/' | relative_url }}) | Pipeline d'export PDF/DOCX |
 | 16 | [Visualisation de pages web]({{ '/fr/publications/web-page-visualization/' | relative_url }}) | Pipeline de rendu local |
 | 17 | [Pipeline de production web]({{ '/fr/publications/web-production-pipeline/' | relative_url }}) | Chaine de traitement Jekyll |
+| 14 | [Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | Conception architecture multi-module |
+| 0v2 | [Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | Référence architecture multi-module K2.0 |
 
 **Source** : [Issue #355](https://github.com/packetqc/knowledge/issues/355) — Session de methodologie de generation documentaire.
 

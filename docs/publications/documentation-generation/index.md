@@ -3,8 +3,8 @@ layout: publication
 title: "Documentation Generation Methodology"
 description: "The methodology of methodologies: documentation standards, mind map conventions, three-tier publication structure, diagram integration, writing style, universal inheritance of essential files, and core qualities alignment. How every Knowledge publication is produced."
 pub_id: "Publication #18"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/documentation-generation/
 og_image: /assets/og/knowledge-system-en-cayman.gif
 keywords: "methodology, documentation, mind map, publication, three-tier, bilingual"
@@ -13,7 +13,7 @@ keywords: "methodology, documentation, mind map, publication, three-tier, biling
 # Documentation Generation Methodology
 {: #pub-title}
 
-> **Parent publication**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }}) | **Structure companion**: [#6 — Normalize]({{ '/publications/normalize-structure-concordance/' | relative_url }}) | **Pipeline companion**: [#17 — Web Production Pipeline]({{ '/publications/web-production-pipeline/' | relative_url }})
+> **Parent publication**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }}) | **Structure companion**: [#6 — Normalize]({{ '/publications/normalize-structure-concordance/' | relative_url }}) | **Pipeline companion**: [#17 — Web Production Pipeline]({{ '/publications/web-production-pipeline/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -31,7 +31,7 @@ Every publication in the Knowledge system follows patterns that evolved organica
 
 This publication is **the methodology of methodologies** — it codifies the documentation generation standards that every other methodology inherits. When Claude generates a publication, creates a methodology file, or delivers any documentation artifact, these are the conventions it follows.
 
-The key insight is **universal inheritance**: every methodology-specific operation (publication creation, harvest promotion, project scaffolding, structural fixes) inherits the obligation to update the system's essential files — `NEWS.md`, `PLAN.md`, `LINKS.md`, `CLAUDE.md`, `STORIES.md`, `publications/README.md`, publication indexes, and profile pages. One command = work + essential files + delivery.
+The key insight is **universal inheritance**: every methodology-specific operation (publication creation, K_GITHUB sync, project scaffolding, structural fixes) inherits the obligation to update the system's essential files — `NEWS.md`, `PLAN.md`, `LINKS.md`, `mind_memory.md + domain JSONs`, `STORIES.md`, `publications/README.md`, publication indexes, and profile pages. One command = work + essential files + delivery.
 
 The [complete documentation]({{ '/publications/documentation-generation/full/' | relative_url }}) covers all sections with detailed specifications.
 
@@ -75,7 +75,7 @@ mindmap
 
 ## The Problem
 
-Through 17 publications and 49 knowledge versions, the system developed consistent documentation patterns — but they were never written down. New Claude instances would read `CLAUDE.md` and learn the commands and protocols, but the *documentation generation conventions* were absorbed implicitly through example.
+Through 17 publications and 49 knowledge versions, the system developed consistent documentation patterns — but they were never written down. New Claude instances would read `mind_memory.md` and learn the directives and protocols, but the *documentation generation conventions* were absorbed implicitly through example.
 
 This created two risks:
 1. **Inconsistency after compaction** — After context window compaction, the implicit conventions were lost. Mind maps disappeared. Essential files weren't updated. Quality dropped.
@@ -92,7 +92,7 @@ A formal meta-methodology (`methodology/documentation-generation.md`) that codif
 | **Diagram Integration** | Type selection per position: mindmap → flowchart → sequence → gantt |
 | **Three-Tier Structure** | Source → Summary → Complete, with bilingual EN/FR mirrors |
 | **Writing Style** | Bold for concepts, backticks for code, em-dashes for asides, "why" before "what" |
-| **Universal Inheritance** | Every methodology updates NEWS.md, PLAN.md, LINKS.md, CLAUDE.md, indexes |
+| **Universal Inheritance** | Every methodology updates NEWS.md, PLAN.md, LINKS.md, mind_memory.md + domain JSONs, indexes |
 | **Quality Checklist** | 13-point validation before any delivery |
 
 ## Core Qualities Alignment
@@ -107,7 +107,7 @@ Every documentation convention reinforces the system's **13 core qualities**:
 | **Concis** | Curated summaries, not truncated copies; mind maps for scope |
 | **Interactif** | Reusable mind maps, click-to-copy commands, severity icons |
 | **Évolutif** | Each publication captures a real discovery |
-| **Distribué** | Satellites produce publications; harvest pulls them to core |
+| **Distribué** | Satellites produce publications; K_GITHUB sync pulls them to core |
 | **Persistant** | Versioned source; derived web pages; knowledge survives sessions |
 | **Récursif** | This publication documents the methodology that produced it |
 | **Sécuritaire** | No credentials; fork-safe; owner-scoped URLs |
@@ -144,6 +144,8 @@ The [complete documentation]({{ '/publications/documentation-generation/full/' |
 | 13 | [Web Pagination & Export]({{ '/publications/web-pagination-export/' | relative_url }}) | PDF/DOCX export pipeline |
 | 16 | [Web Page Visualization]({{ '/publications/web-page-visualization/' | relative_url }}) | Local rendering pipeline |
 | 17 | [Web Production Pipeline]({{ '/publications/web-production-pipeline/' | relative_url }}) | Jekyll processing chain |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Multi-module architecture design |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 
 ---
 

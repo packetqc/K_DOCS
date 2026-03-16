@@ -3,8 +3,8 @@ layout: publication
 title: "Documentation Generation Methodology — Full"
 description: "Complete reference for the Knowledge documentation generation meta-methodology: source document structure, mind map standard, diagram integration, three-tier publications, writing style conventions, core qualities alignment, universal inheritance of essential files, web page front matter contract, and quality checklist."
 pub_id: "Publication #18 — Full"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/documentation-generation/full/
 og_image: /assets/og/knowledge-system-en-cayman.gif
 keywords: "methodology, documentation, mind map, publication, three-tier, bilingual, inheritance"
@@ -13,7 +13,7 @@ keywords: "methodology, documentation, mind map, publication, three-tier, biling
 # Documentation Generation Methodology — Complete Documentation
 {: #pub-title}
 
-> **Summary**: [Publication #18]({{ '/publications/documentation-generation/' | relative_url }}) | **Parent**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }})
+> **Summary**: [Publication #18]({{ '/publications/documentation-generation/' | relative_url }}) | **Parent**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -41,7 +41,7 @@ Every publication in the Knowledge system follows patterns that evolved organica
 
 This publication is **the methodology of methodologies** — it codifies the documentation generation standards that every other methodology inherits. When Claude generates a publication, creates a methodology file, or delivers any documentation artifact, these are the conventions it follows.
 
-The key insight is **universal inheritance**: every methodology-specific operation (publication creation, harvest promotion, project scaffolding, structural fixes) inherits the obligation to update the system's essential files — `NEWS.md`, `PLAN.md`, `LINKS.md`, `CLAUDE.md`, `STORIES.md`, `publications/README.md`, publication indexes, and profile pages. One command = work + essential files + delivery.
+The key insight is **universal inheritance**: every methodology-specific operation (publication creation, K_GITHUB sync, project scaffolding, structural fixes) inherits the obligation to update the system's essential files — `NEWS.md`, `PLAN.md`, `LINKS.md`, `mind_memory.md + domain JSONs`, `STORIES.md`, `publications/README.md`, publication indexes, and profile pages. One command = work + essential files + delivery.
 
 ```mermaid
 mindmap
@@ -85,7 +85,7 @@ mindmap
 
 ## The Problem
 
-Through 17 publications and 49 knowledge versions, the system developed consistent documentation patterns — but they were never written down. New Claude instances would read `CLAUDE.md` and learn the commands and protocols, but the *documentation generation conventions* (how to write abstracts, when to use which diagram type, what files to update after each delivery) were absorbed implicitly through example.
+Through 17 publications and 49 knowledge versions, the system developed consistent documentation patterns — but they were never written down. New Claude instances would read `mind_memory.md` and learn the directives and protocols, but the *documentation generation conventions* (how to write abstracts, when to use which diagram type, what files to update after each delivery) were absorbed implicitly through example.
 
 This created two risks:
 1. **Inconsistency after compaction** — After context window compaction, the implicit conventions were lost. Mind maps disappeared from new publications. Essential files weren't updated. The quality dropped.
@@ -167,7 +167,7 @@ Every publication source follows a standard section order:
 |------------|------|---------|
 | **Bold** | First mention of key concept | **Distributed Minds** architecture |
 | *Italics* | Analogy, metaphor, quality names | the *persistent* quality |
-| `Backticks` | Code, files, commands, branches | `harvest --healthcheck` |
+| `Backticks` | Code, files, commands, branches | `K_GITHUB sync + /integrity-check` |
 | Em-dash (—) | Parenthetical detail | the system — designed for autonomy — adapts |
 | `#N` | Publication reference | Publication #7 (Harvest Protocol) |
 
@@ -185,7 +185,7 @@ Every documentation convention reinforces the system's **13 core qualities** —
 | **Concis** | Curated summaries, not truncated copies; mind maps for scope |
 | **Interactif** | Reusable mind maps, click-to-copy commands, severity icons |
 | **Évolutif** | Each publication captures a real discovery — the system grows |
-| **Distribué** | Satellites produce publications; harvest pulls them to core |
+| **Distribué** | Satellites produce publications; K_GITHUB sync pulls them to core |
 | **Persistant** | Versioned source; derived web pages; knowledge survives sessions |
 | **Récursif** | This publication documents the methodology that produced it |
 | **Sécuritaire** | No credentials; fork-safe; owner-scoped URLs |
@@ -204,13 +204,13 @@ These are the DNA of the knowledge system. Every methodology inherits them by in
 | `NEWS.md` | Any deliverable | New changelog entry |
 | `PLAN.md` | New feature/capability | What's New or Ongoing section |
 | `LINKS.md` | New web page URL | Add to Essentials or Hubs; update page counts |
-| `CLAUDE.md` | New publication/command/evolution | Publications table, Commands, Evolution |
+| `mind_memory.md + domain JSONs` | New publication/module/evolution | Mindmap nodes, conventions.json, work.json |
 | `STORIES.md` | New success story | Add to Stories Index with category and date |
 | `publications/README.md` | New publication | Add entry to master Publication Index |
 | Publication indexes (EN/FR) | New publication | Add entry to both |
 | Profile pages (6) | New publication | Add to all 6 profile pages — lower priority, can be batched |
 
-**The inheritance principle**: every methodology file in `methodology/` is a child of this meta-methodology. When a methodology-specific operation runs (`pub new`, `harvest --promote`, `project create`, `normalize --fix`), it inherits the universal checklist.
+**The inheritance principle**: every methodology file in `methodology/` is a child of this meta-methodology. When a methodology-specific operation runs (`pub new`, domain JSON update, `project create`, `K_VALIDATION /normalize --fix`), it inherits the universal checklist.
 
 ### 8. Quality Checklist
 
@@ -225,7 +225,7 @@ Before delivering any publication:
 - [ ] Bilingual mirrors: EN + FR for all web pages
 - [ ] Webcard: generated (or placeholder) and `og_image` set
 - [ ] Essential files: NEWS.md, PLAN.md, LINKS.md, STORIES.md evaluated for update
-- [ ] CLAUDE.md: Publications table updated
+- [ ] mind_memory.md + domain JSONs: Mindmap nodes and module JSONs updated
 - [ ] publications/README.md: Master index updated
 - [ ] Publication indexes: EN/FR both updated
 - [ ] Cross-references: sibling publications linked
@@ -267,6 +267,8 @@ Before delivering any publication:
 | 13 | [Web Pagination & Export]({{ '/publications/web-pagination-export/' | relative_url }}) | PDF/DOCX export pipeline |
 | 16 | [Web Page Visualization]({{ '/publications/web-page-visualization/' | relative_url }}) | Local rendering pipeline |
 | 17 | [Web Production Pipeline]({{ '/publications/web-production-pipeline/' | relative_url }}) | Jekyll processing chain |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Multi-module architecture design |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 
 **Source**: [Issue #355](https://github.com/packetqc/knowledge/issues/355) — Documentation generation methodology session.
 
