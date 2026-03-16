@@ -68,15 +68,12 @@ mindmap
       Backticks for code
       Em-dashes for asides
       Why before What
-    Universal Inheritance
-      NEWS.md
-      PLAN.md
-      LINKS.md
-      CLAUDE.md
-      STORIES.md
-      publications/README.md
-      Publication indexes
-      Profile pages
+    K_MIND Maintenance
+      mind_memory.md node updates
+      Domain JSONs conventions work
+      memory_append every turn
+      methodology per module
+      K_DOCS publications interfaces
     Quality Checklist
       Front matter contract
       Diagrams support narrative

@@ -60,15 +60,12 @@ mindmap
       Backticks pour code
       Tirets cadratins
       Pourquoi avant Quoi
-    Heritage universel
-      NEWS.md
-      PLAN.md
-      LINKS.md
-      CLAUDE.md
-      STORIES.md
-      publications/README.md
-      Index publications
-      Pages profil
+    Maintenance K_MIND
+      mind_memory.md noeuds
+      JSONs domaine conventions work
+      memory_append chaque tour
+      methodology par module
+      K_DOCS publications interfaces
     Liste de verification
       Contrat front matter
       Diagrammes utiles
