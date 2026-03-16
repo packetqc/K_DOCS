@@ -1,8 +1,8 @@
-# packetqc/K_DOCS — Documentation & Knowledge System
+# Knowledge — Documentation & Knowledge System
 
 **Single-file documentation engine** with live mindmap, 4 themes, PDF/DOCX export, and bilingual EN/FR support.
 
-K_DOCS is the documentation satellite of [packetqc/knowledge](https://github.com/packetqc/knowledge) — it publishes technical documentation independently using a zero-build static viewer.
+Built with Claude Code (Anthropic, Opus 4.6) as a multi-module knowledge system. Development happens in [packetqc/K_DOCS](https://github.com/packetqc/K_DOCS) — this production repo receives the same codebase.
 
 ---
 
@@ -12,9 +12,10 @@ K_DOCS is the documentation satellite of [packetqc/knowledge](https://github.com
 |-----------|-------|-------------|
 | **Publications** | 23+ | Technical documentation in `docs/publications/` — EN + FR |
 | **Success Stories** | 26 | Validated capabilities in `docs/publications/success-stories/` |
-| **Interfaces** | 5 | Interactive pages in `docs/interfaces/` — navigator, mindmap, review |
-| **Web Viewer** | 1 | `docs/index.html` — single-file documentation engine (~1500 lines) |
+| **Interfaces** | 5 | Interactive pages: navigator, session review, task workflow, project viewer, live mindmap |
+| **Web Viewer** | 1 | `docs/index.html` — single-file documentation engine (~1800 lines) |
 | **K_MIND** | 1 | Memory system in `Knowledge/K_MIND/` — mindmap, sessions, conventions |
+| **Modules** | 5 | K_MIND (core), K_DOCS, K_VALIDATION, K_PROJECTS, K_GITHUB |
 
 ## Key Features
 
@@ -30,26 +31,28 @@ K_DOCS is the documentation satellite of [packetqc/knowledge](https://github.com
 ## Structure
 
 ```
-K_DOCS/
+knowledge/
 ├── CLAUDE.md                    # K_MIND system instructions
 ├── README.md                    # This file
-├── LICENSE                      # MIT
-├── .claude/skills/              # Claude Code skills
 ├── Knowledge/
-│   ├── K_MIND/                  # Memory system (mindmap, sessions, scripts)
-│   └── K_DOCS/                  # Module scripts
-└── docs/                        # Documentation (GitHub Pages)
+│   ├── K_MIND/                  # Core: memory system (mindmap, sessions, scripts)
+│   ├── K_DOCS/                  # Module: documentation conventions, methodology
+│   ├── K_VALIDATION/            # Module: QA, task compilation, session validation
+│   ├── K_PROJECTS/              # Module: project management, compilation
+│   └── K_GITHUB/                # Module: GitHub integration, sync scripts
+└── docs/                        # Documentation (GitHub Pages root)
     ├── index.html               # Single-file viewer engine
+    ├── .nojekyll                 # Serve raw markdown (no Jekyll)
     ├── publications/            # EN publications (23+)
     ├── fr/publications/         # FR mirror
     ├── interfaces/              # Interactive pages (I1–I5)
+    ├── data/                    # JSON data (sessions, tasks, projects)
     └── assets/og/               # Animated GIF webcards
 ```
 
 ## Live
 
-- **GitHub Pages**: [packetqc.github.io/K_DOCS](https://packetqc.github.io/K_DOCS/)
-- **Production**: [packetqc.github.io/knowledge](https://packetqc.github.io/knowledge/)
+**Production**: [packetqc.github.io/knowledge](https://packetqc.github.io/knowledge/)
 
 ---
 
