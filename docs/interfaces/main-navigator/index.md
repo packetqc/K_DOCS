@@ -607,19 +607,31 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           });
         }
 
-        /* ── Publications: summary + full sub-links ── */
+        /* ── Publications: iface-row with S/F icons ── */
         else if (section === 'publications') {
-          var sumLabel = (LANG === 'fr' && data.summary_label_fr) ? data.summary_label_fr : (data.summary_label || 'Summary');
-          var fullLabel = (LANG === 'fr' && data.full_label_fr) ? data.full_label_fr : (data.full_label || 'Full');
           items.forEach(function(p) {
-            var pg = makeSubDet(p.number + ' ' + label(p));
-            pg.appendChild(makeLink(sumLabel, vru(BASE + LP + '/publications/' + p.slug + '/'), 'content-frame'));
-            pg.appendChild(makeLink(fullLabel, vru(BASE + LP + '/publications/' + p.slug + '/full/'), 'content-frame'));
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(p.number + ' ' + label(p), vru(BASE + LP + '/publications/' + p.slug + '/'), 'content-frame'));
+            if (p.slug) {
+              var sBtn = document.createElement('a'); sBtn.className = 'iface-pub-btn';
+              sBtn.textContent = 'S'; sBtn.title = LANG === 'fr' ? 'Résumé' : 'Summary';
+              sBtn.href = vru(BASE + LP + '/publications/' + p.slug + '/');
+              sBtn.setAttribute('data-target', 'content-frame'); row.appendChild(sBtn);
+            }
+            if (p.slug) {
+              var fBtn = document.createElement('a'); fBtn.className = 'iface-pub-btn';
+              fBtn.textContent = 'F'; fBtn.title = LANG === 'fr' ? 'Complet' : 'Full';
+              fBtn.href = vru(BASE + LP + '/publications/' + p.slug + '/full/');
+              fBtn.setAttribute('data-target', 'content-frame'); row.appendChild(fBtn);
+            }
             if (p.extra) { p.extra.forEach(function(e) {
               var eLabel = (LANG === 'fr' && e.title_fr) ? e.title_fr : e.title;
-              pg.appendChild(makeLink(eLabel, vru(BASE + LP + e.href), 'content-frame'));
+              var eBtn = document.createElement('a'); eBtn.className = 'iface-pub-btn';
+              eBtn.textContent = eLabel.charAt(0); eBtn.title = eLabel;
+              eBtn.href = vru(BASE + LP + e.href);
+              eBtn.setAttribute('data-target', 'content-frame'); row.appendChild(eBtn);
             }); }
-            body.appendChild(pg);
+            body.appendChild(row);
           });
         }
 
