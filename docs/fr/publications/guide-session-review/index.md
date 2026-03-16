@@ -1,66 +1,62 @@
 ---
 layout: publication
-title: "Revue de session — Guide utilisateur"
-description: "Comment utiliser l'interface Revue de session : sélectionner des sessions, explorer les métriques, parcourir la chronologie et examiner les livrables."
-pub_id: "Guide utilisateur — I1"
+title: "Revue de sessions — Guide utilisateur"
+description: "Comment utiliser l'interface Revue de sessions : naviguer les sessions, lire les metriques, explorer les graphiques et la chronologie, et exporter les rapports."
+pub_id: "Guide — Session Review"
 version: "v1"
 date: "2026-03-16"
-lang: fr
 permalink: /fr/publications/guide-session-review/
-keywords: "guide utilisateur, revue de session, interface, tutoriel"
+og_image: /assets/og/session-review-fr-cayman.gif
+keywords: "guide, session, revue, metriques, graphiques, chronologie, guide utilisateur"
 ---
 
-# Revue de session — Guide utilisateur
+# Session Review — User Guide
 {: #pub-title}
 
-> **Interface** : [Revue de session (I1)]({{ '/fr/interfaces/session-review/' | relative_url }})
+> **Full guide**: [Session Review — User Guide (Full)]({{ '/publications/guide-session-review/full/' | relative_url }})
 
-**Sommaire**
+**Contents**
 
 | | |
 |---|---|
-| [Démarrage](#démarrage) | Ouvrir l'interface et sélectionner une session |
-| [Sélecteur de session](#sélecteur-de-session) | Choisir et filtrer les sessions |
-| [Aperçu des sections](#aperçu-des-sections) | Ce que chaque section affiche |
-| [Astuces](#astuces) | Tirer le meilleur parti du visualiseur |
+| [What Is Session Review?](#what-is-session-review) | Purpose and overview |
+| [Getting Started](#getting-started) | How to open and navigate |
+| [Key Features](#key-features) | Metrics, charts, timeline, deliveries |
+| [Tips](#tips) | Get the most out of the interface |
 
-## Démarrage
+## What Is Session Review?
 
-L'interface Revue de session vous permet d'explorer les sessions de travail terminées — leurs métriques, chronologie, livrables et leçons apprises.
+Session Review (I1) is the interactive dashboard for exploring work sessions. Each session captures what was accomplished, how long it took, what was delivered, and what was learned. The interface turns raw session data into a structured, visual report you can browse section by section.
 
-**Pour l'ouvrir :**
-- Depuis le **Navigateur principal** : cliquez sur *I1 Revue de session* dans le panneau gauche
-- URL directe : `/fr/interfaces/session-review/`
+**[Open Session Review (I1) &rarr;]({{ '/interfaces/session-review/' | relative_url }})**
 
-## Sélecteur de session
+## Getting Started
 
-En haut de l'interface, deux menus déroulants contrôlent l'affichage :
+1. **Select a session** from the dropdown at the top — sessions are grouped by date and prefixed with the start time
+2. **Choose a view** using the second dropdown: All sections, Tasks Overview, Metrics Dashboard, or Timeline
+3. **Scroll** through the report — each section is displayed in sequence
 
-1. **Session** — choisissez une session spécifique ou *Toutes les sessions* pour une vue d'ensemble
-2. **Vue** — filtrez par section : Tout, Aperçu des tâches, Tableau de bord métriques, ou Chronologie
+The "All Sessions" view (no session selected) shows summary cards for every available session, giving you a quick overview of recent activity.
 
-Les sessions sont listées par date (plus récentes en premier). Seules les sessions v52+ sont disponibles.
+## Key Features
 
-## Aperçu des sections
+| Feature | What It Shows |
+|---------|---------------|
+| **Summary** | Session title, date, branch, type, and a brief description of what was accomplished |
+| **Metrics** | Pull requests, files modified, lines changed, commits, tasks, and lessons — broken down by category |
+| **Charts** | Pie charts for scope distribution, metrics breakdown, code lines, and time allocation |
+| **Time Compilation** | Active time, calendar time, and time blocks categorized as Machine / Human / Inactive |
+| **Deliveries** | List of pull requests with line counts, file counts, and direct GitHub links |
+| **Lessons Learned** | Methodology insights, patterns discovered, and pitfalls encountered |
 
-Chaque rapport de session contient jusqu'à 5 sections :
+## Tips
 
-| Section | Contenu |
-|---------|---------|
-| **Résumé** | Objectifs, contexte et résultat de la session |
-| **Métriques** | Compteurs de messages, utilisation des outils, indicateurs de productivité |
-| **Compilation temporelle** | Suivi de durée et allocation du temps |
-| **Livrables** | Fichiers créés ou modifiés, commits et artefacts |
-| **Leçons apprises** | Ce qui a fonctionné, ce qui n'a pas fonctionné, améliorations |
-
-## Astuces
-
-- **Comparer** : ouvrez deux sessions dans des onglets séparés pour comparer les métriques
-- **Imprimer/PDF** : utilisez la fonction d'impression du navigateur — styles optimisés pour l'impression
-- **Source de données** : les données proviennent de `docs/data/sessions.json`, rafraîchies en fin de session
+- **Emoji indicators** in the dropdown tell you what data is available: deliveries, notes, or linked GitHub issues
+- **Section filter** lets you focus on just the metrics or timeline without scrolling through the full report
+- Sessions are displayed in your **local timezone** — a session worked on in the evening will appear under today's date, not tomorrow's UTC date
+- Only sessions from **v52+** (2026-02-27 onwards) appear — earlier sessions lack the structured data this viewer requires
 
 ---
 
-**[Lancer Revue de session (I1) →]({{ '/fr/interfaces/session-review/' | relative_url }})**
-
-*Voir aussi : [Revue de session — Publication technique]({{ '/fr/publications/session-review/' | relative_url }})*
+*Authors: Martin Paquet & Claude (Anthropic, Opus 4.6)*
+*Knowledge: [packetqc/knowledge](https://github.com/packetqc/knowledge)*
