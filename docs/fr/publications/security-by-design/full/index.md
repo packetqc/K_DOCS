@@ -3,8 +3,8 @@ layout: publication
 title: "Sécurité par conception — Architecture de connaissances IA limitée au propriétaire (Complet)"
 description: "Documentation complète du modèle de sécurité pour les dépôts publics de connaissances IA : défense à sept couches, modèle de menaces, résultats d'audit, architecture proxy, opérations limitées au propriétaire, garanties fork/clone et méthodologie d'audit."
 pub_id: "Publication #9"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /fr/publications/security-by-design/full/
 og_image: /assets/og/security-by-design-fr-cayman.gif
 keywords: "sécurité, PQC, contrôle d'accès, fork sûr, confidentialité, portée propriétaire"
@@ -54,7 +54,7 @@ Les systèmes de développement assistés par IA qui persistent les connaissance
 | **Zéro identifiants stockés** | Aucune clé API, jeton, mot de passe, clé SSH ou certificat dans les fichiers ou l'historique git |
 | **Accès en écriture limité par proxy** | Les sessions ne peuvent pousser que vers leur branche assignée dans leur dépôt assigné |
 | **Opérations limitées à l'espace de noms** | Toutes les URLs référencent l'espace de noms GitHub du propriétaire |
-| **Isolation environnementale** | Notes de session, références satellites et `minds/` sont par propriétaire |
+| **Isolation environnementale** | Fichiers de session, références satellites et `far_memory archives/` sont par propriétaire |
 | **Livraison via PR** | Aucune écriture directe aux branches partagées |
 
 ---
@@ -84,8 +84,8 @@ Knowledge répond à chacune par **conception architecturale** — pas par netto
 | **Vol d'identifiants** | Scanner l'historique git pour les jetons | Aucun identifiant stocké — `.gitignore` bloque les patrons sensibles, audit confirme zéro correspondance |
 | **Détournement de session** | Extraire les URLs de session Claude des commits | Les URLs de session expirent ; seulement dans les métadonnées de commit, jamais dans le contenu |
 | **Prise de contrôle du dépôt** | Forkeur poussant vers les branches du propriétaire | Le proxy limite le push à la branche assignée — cross-repo retourne 403 |
-| **Infiltration satellite** | Harvest du forkeur accédant aux dépôts privés | Harvest utilise le HTTPS public uniquement — dépôts privés retournent 403/404 |
-| **Exfiltration de données** | Extraction de détails privés de `minds/` | `minds/` ne contient que des métadonnées — aucun code source, aucun identifiant |
+| **Infiltration satellite** | Harvest du forkeur accédant aux dépôts privés | La synchronisation K_GITHUB utilise le HTTPS public uniquement — dépôts privés retournent 403/404 |
+| **Exfiltration de données** | Extraction de détails privés de `far_memory archives/` | `far_memory archives/` ne contient que des métadonnées — aucun code source, aucun identifiant |
 
 ### Hors portée
 
@@ -106,8 +106,8 @@ Couche 2: Zéro-identifiant     — Aucun identifiant nécessaire (HTTPS public,
 Couche 3: Portée du proxy      — Push limité à la branche assignée dans le dépôt assigné
 Couche 4: Livraison via PR    — Aucune écriture directe aux branches partagées
 Couche 5: Espace de noms      — Les URLs référencent l'espace de noms du propriétaire
-Couche 6: Isolation            — Données de session, minds/, notes/ par propriétaire
-Couche 7: Audit continu       — Vérifications sécurité à chaque harvest et normalize
+Couche 6: Isolation            — Données de session, far_memory archives/, sessions/ par propriétaire
+Couche 7: Audit continu       — Vérifications sécurité à chaque synchronisation K_GITHUB et K_VALIDATION /normalize
 ```
 
 ### Couche 2 : Architecture zéro-identifiant
@@ -172,7 +172,8 @@ Scan complet à travers toutes les branches :
 | **Outillage** | Scripts de capture, générateur de webcards | Intentionnellement public |
 | **Profil** | Nom, email, LinkedIn, GitHub | Intentionnellement public |
 | **Historique git** | Commits avec URLs de session | URLs expirent ; aucun identifiant |
-| **`minds/`** | Noms de dépôts, versions, statut | Métadonnées uniquement |
+| **`far_memory archives/`** | Noms de dépôts, versions, statut | Métadonnées uniquement |
+| **`sessions/`** | Historique de session, résumés | Métadonnées uniquement |
 
 ### Ce qu'un forkeur ne peut pas faire
 
@@ -188,7 +189,7 @@ Scan complet à travers toutes les branches :
 
 | Étape | Action |
 |-------|--------|
-| **Remplacer `packetqc` par son nom d'utilisateur GitHub** | Dans CLAUDE.md — redirige harvest, wakeup et sync vers son espace de noms |
+| **Remplacer `packetqc` par son nom d'utilisateur GitHub** | Dans CLAUDE.md — redirige la synchronisation K_GITHUB et le démarrage de session vers son espace de noms |
 | **Créer ses propres dépôts satellites** | Le système knowledge du forkeur se bootstrap depuis ses propres projets |
 | **Mettre à jour les données de profil** | Remplacer les informations de l'auteur par les siennes |
 
@@ -220,10 +221,10 @@ API GitHub
 
 | Commande | Accès | Portée |
 |---------|-----------------|-------|
-| `wakeup` | `https://github.com/<propriétaire>/knowledge` | Lecture seule, HTTPS public |
-| `harvest <projet>` | `https://github.com/<propriétaire>/<projet>` | Lecture seule, HTTPS public |
-| `harvest --fix` | Branche de tâche locale | Écriture limitée à la branche assignée |
-| `save` | Branche de tâche → PR vers `main` | Écriture limitée à la branche assignée |
+| démarrage session | `https://github.com/<propriétaire>/knowledge` | Lecture seule, HTTPS public |
+| K_GITHUB `sync_github.py` | `https://github.com/<propriétaire>/<projet>` | Lecture seule, HTTPS public |
+| K_GITHUB sync (fix) | Branche de tâche locale | Écriture limitée à la branche assignée |
+| git commit + push | Branche de tâche → PR vers `main` | Écriture limitée à la branche assignée |
 | `normalize` | Fichiers locaux uniquement | Aucun accès réseau |
 | `webcard` | Fichiers locaux uniquement | Aucun accès réseau |
 
@@ -261,7 +262,7 @@ Knowledge définit 4 niveaux progressifs de configuration PAT (Personal Access T
 | Niveau | Configuration PAT | Portée GitHub | Ce qu'il active | Mode opérationnel |
 |--------|------------------|-------------|-----------------|-----------------|
 | **0** | **Sans PAT** | Proxy seul | Dépôts publics : clone (initial seul), push branche assignée, création PR manuelle | Semi-automatique — l'utilisateur crée les PRs manuellement |
-| **1** | **Fine-grained lecture seule** | `Contents: Read` sur dépôts spécifiques | Niveau 0 + clone/fetch dépôts satellites privés pour `harvest` et `wakeup` | Semi-automatique + visibilité privée |
+| **1** | **Fine-grained lecture seule** | `Contents: Read` sur dépôts spécifiques | Niveau 0 + clone/fetch dépôts satellites privés pour la synchronisation K_GITHUB et le démarrage de session | Semi-automatique + visibilité privée |
 | **2** | **Fine-grained lecture-écriture** | `Contents: Read-Write` + `Pull requests: Read-Write` + `Projects: Read-Write` | Niveau 1 + création/fusion PR et gestion de tableaux GitHub Project via API `api.github.com` | **Autonome complet** — recommandé |
 | **3** | **PAT classique `repo`** | Portée `repo` complète | Tout — mais accorde bien plus d'accès que nécessaire | Autonome complet — **non recommandé** |
 
@@ -270,7 +271,7 @@ Knowledge définit 4 niveaux progressifs de configuration PAT (Personal Access T
 | Scénario | Niveau recommandé | Pourquoi |
 |----------|------------------|---------|
 | Dépôts tous publics, usage occasionnel | **0** | Aucun jeton nécessaire |
-| Satellites privés, harvest en lecture seule | **1** | Minimum pour voir les dépôts privés |
+| Satellites privés, synchronisation K_GITHUB en lecture seule | **1** | Minimum pour voir les dépôts privés |
 | Opération autonome complète (usage quotidien) | **2** | Création/fusion PR via API, limité aux dépôts spécifiques |
 | Test rapide, session jetable | **3** | Pratique mais trop large — à éviter en usage régulier |
 
@@ -308,7 +309,7 @@ Toujours utiliser le niveau le plus bas qui répond aux besoins de la session :
 | Pratique | Recommandation |
 |----------|---------------|
 | **Limiter aux dépôts spécifiques** | Les jetons fine-grained (Niveaux 1-2) se limitent aux dépôts du système |
-| **Limiter aux permissions minimales** | Lecture seule (Niveau 1) pour la visibilité harvest, Lecture-écriture (Niveau 2) pour les opérations PR autonomes |
+| **Limiter aux permissions minimales** | Lecture seule (Niveau 1) pour la visibilité K_GITHUB sync, Lecture-écriture (Niveau 2) pour les opérations PR autonomes |
 | **Expiration courte** | 7-30 jours recommandés |
 | **Usage limité à la session** | Le jeton vit uniquement en mémoire contextuelle, jamais écrit dans un fichier |
 
@@ -390,6 +391,8 @@ Vérifier l'absence de résidu de jeton : aucun fichier ne contient `github_pat_
 | 7 | [Protocole Harvest]({{ '/fr/publications/harvest-protocol/' | relative_url }}) | Contrôles d'accès harvest |
 | 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Contraintes proxy du protocole save |
 | 9 | [Rapport de conformité]({{ '/fr/publications/security-by-design/compliance/' | relative_url }}) | Évaluation phase par phase avec suivi du cycle de vie |
+| 14 | [Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | Architecture en profondeur — conception multi-module |
+| 0v2 | [Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | Référence architecture multi-module K2.0 |
 
 ---
 

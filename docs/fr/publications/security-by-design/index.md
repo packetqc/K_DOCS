@@ -3,8 +3,8 @@ layout: publication
 title: "Sécurité par conception — Architecture de connaissances IA limitée au propriétaire"
 description: "Modèle de sécurité pour les dépôts publics de connaissances IA : zéro identifiants stockés, accès en écriture limité par proxy, opérations limitées à l'espace de noms du propriétaire, isolation environnementale et livraison via PR. Modèle de menaces et méthodologie d'audit."
 pub_id: "Publication #9"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /fr/publications/security-by-design/
 og_image: /assets/og/security-by-design-fr-cayman.gif
 keywords: "sécurité, PQC, contrôle d'accès, fork sûr, confidentialité, portée propriétaire"
@@ -13,7 +13,7 @@ keywords: "sécurité, PQC, contrôle d'accès, fork sûr, confidentialité, por
 # Sécurité par conception — Architecture de connaissances IA limitée au propriétaire
 {: #pub-title}
 
-> **Publication parente** : [#0 — Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }})
+> **Publication parente** : [#0 — Knowledge]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Référence core** : [#14 — Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }})
 
 **Table des matières**
 
@@ -40,7 +40,7 @@ Knowledge est conçu dès le départ pour être **sûr publiquement et limité a
 | **Zéro identifiants stockés** | Aucune clé API, jeton, mot de passe ou certificat dans les fichiers ou l'historique git |
 | **Accès en écriture limité par proxy** | Les sessions ne peuvent pousser que vers leur branche assignée dans leur dépôt assigné |
 | **Opérations limitées à l'espace de noms** | Toutes les URLs référencent l'espace de noms GitHub du propriétaire |
-| **Isolation environnementale** | Notes de session, références satellites et `minds/` sont par propriétaire |
+| **Isolation environnementale** | Fichiers de session, références satellites et `far_memory archives/` sont par propriétaire |
 | **Livraison via PR** | Aucune écriture directe aux branches partagées |
 
 ## La question de sécurité
@@ -56,8 +56,8 @@ Knowledge répond à chacune par **conception architecturale** — pas par netto
 | **Vol d'identifiants** | Aucun identifiant stocké — `.gitignore` bloque les patrons sensibles, audit confirme zéro correspondance |
 | **Détournement de session** | Les URLs de session expirent ; seulement dans les métadonnées de commit, jamais dans le contenu |
 | **Prise de contrôle du dépôt** | Le proxy limite le push à la branche assignée — cross-repo retourne 403 |
-| **Infiltration satellite** | Harvest utilise le HTTPS public uniquement — les dépôts privés retournent 403/404 |
-| **Exfiltration de données** | `minds/` ne contient que des métadonnées — aucun code source, aucun identifiant |
+| **Infiltration satellite** | La synchronisation K_GITHUB utilise le HTTPS public uniquement — les dépôts privés retournent 403/404 |
+| **Exfiltration de données** | `far_memory archives/` ne contient que des métadonnées — aucun code source, aucun identifiant |
 
 ## Couches de sécurité
 
@@ -70,8 +70,8 @@ Sept couches de protection indépendantes :
 | 3 | **Portée du proxy** | Push vers la branche `claude/<task-id>` assignée uniquement, dépôt courant uniquement |
 | 4 | **Livraison via PR** | Tout changement vers `main` requiert l'approbation du propriétaire |
 | 5 | **Espace de noms du propriétaire** | Les URLs utilisent `packetqc/<repo>` — le forkeur change l'espace de noms |
-| 6 | **Isolation environnementale** | `notes/`, `minds/`, tableau de bord sont par propriétaire |
-| 7 | **Audit continu** | `normalize` et `harvest` incluent des vérifications de sécurité |
+| 6 | **Isolation environnementale** | `sessions/`, `far_memory archives/`, tableau de bord sont par propriétaire |
+| 7 | **Audit continu** | K_VALIDATION et la synchronisation K_GITHUB incluent des vérifications de sécurité |
 
 ## Audit des identifiants
 
@@ -92,7 +92,7 @@ Scan complet à travers toutes les branches :
 
 **Ce qu'un forkeur ne peut pas faire** : pousser vers le dépôt original, accéder aux dépôts privés, compromettre des comptes, modifier les satellites.
 
-**Ce qu'un forkeur change** : remplacer `packetqc` par son nom d'utilisateur GitHub dans CLAUDE.md. Le reste s'adapte automatiquement.
+**Ce qu'un forkeur change** : remplacer `packetqc` par son nom d'utilisateur GitHub dans CLAUDE.md et mind_memory.md. Le reste s'adapte automatiquement.
 
 ## Niveaux d'accès PAT
 

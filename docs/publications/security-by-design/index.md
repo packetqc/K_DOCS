@@ -3,8 +3,8 @@ layout: publication
 title: "Security by Design — Owner-Scoped AI Knowledge Architecture"
 description: "Security model for public AI knowledge repositories: zero credentials stored, proxy-scoped push access, owner-namespaced operations, environmental isolation, and PR-gated delivery. Comprehensive threat model and audit methodology for Knowledge."
 pub_id: "Publication #9"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /publications/security-by-design/
 og_image: /assets/og/security-by-design-en-cayman.gif
 keywords: "security, PQC, access control, fork safety, privacy, owner-scoped"
@@ -13,7 +13,7 @@ keywords: "security, PQC, access control, fork safety, privacy, owner-scoped"
 # Security by Design — Owner-Scoped AI Knowledge Architecture
 {: #pub-title}
 
-> **Parent publication**: [#0 — Knowledge]({{ '/publications/knowledge-system/' | relative_url }})
+> **Parent publication**: [#0 — Knowledge]({{ '/publications/knowledge-system/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -40,7 +40,7 @@ Knowledge is designed from the ground up to be **public-safe and owner-scoped**.
 | **Zero credentials stored** | No API keys, tokens, passwords, or certificates anywhere in files or git history |
 | **Proxy-scoped push access** | Sessions can only push to their assigned branch in their assigned repo |
 | **Owner-namespaced operations** | All URLs reference the owner's GitHub namespace, not hardcoded tokens |
-| **Environmentally isolated** | Session notes, satellite references, and `minds/` data are per-owner |
+| **Environmentally isolated** | Session files, satellite references, and `far_memory archives/` data are per-owner |
 | **PR-gated delivery** | No direct writes to shared branches |
 
 ## The Security Question
@@ -56,8 +56,8 @@ Knowledge addresses each by **architectural design** — not by post-hoc scrubbi
 | **Credential theft** | No credentials ever stored — `.gitignore` blocks sensitive patterns, audit confirms zero matches |
 | **Session hijacking** | Session URLs expire; only in commit metadata, never in file content |
 | **Repo takeover** | Proxy scopes push to assigned branch only — cross-repo returns 403 |
-| **Satellite infiltration** | Harvest uses public HTTPS only — private repos return 403/404 |
-| **Data exfiltration** | `minds/` contains only metadata — no source code, no credentials |
+| **Satellite infiltration** | K_GITHUB sync uses public HTTPS only — private repos return 403/404 |
+| **Data exfiltration** | `far_memory archives/` contains only metadata — no source code, no credentials |
 
 ## Security Layers
 
@@ -70,8 +70,8 @@ Seven independent layers of protection:
 | 3 | **Proxy scoping** | Push to assigned `claude/<task-id>` branch only, current repo only |
 | 4 | **PR-gated delivery** | All changes to `main` require owner approval |
 | 5 | **Owner-namespacing** | URLs use `packetqc/<repo>` — forker changes namespace to use their own |
-| 6 | **Environmental isolation** | `notes/`, `minds/`, dashboard are per-owner |
-| 7 | **Continuous audit** | `normalize` and `harvest` include security-adjacent checks |
+| 6 | **Environmental isolation** | `sessions/`, `far_memory archives/`, dashboard are per-owner |
+| 7 | **Continuous audit** | K_VALIDATION and K_GITHUB sync include security-adjacent checks |
 
 ## Credential Audit
 
@@ -92,7 +92,7 @@ Comprehensive scan across all branches:
 
 **What a forker cannot do**: push to original repo, access private repos, compromise accounts, modify satellites.
 
-**What a forker changes**: replace `packetqc` with their GitHub username in CLAUDE.md. Everything else adapts automatically.
+**What a forker changes**: replace `packetqc` with their GitHub username in CLAUDE.md and mind_memory.md. Everything else adapts automatically.
 
 ## PAT Access Levels
 

@@ -3,8 +3,8 @@ layout: publication
 title: "Security by Design — Owner-Scoped AI Knowledge Architecture (Complete)"
 description: "Complete documentation of the security model for public AI knowledge repositories: seven-layer defense, comprehensive threat model, credential audit results, proxy architecture, owner-scoped operations, fork/clone safety guarantees, and audit methodology."
 pub_id: "Publication #9"
-version: "v2"
-date: "2026-02-21"
+version: "v3"
+date: "2026-03-16"
 permalink: /publications/security-by-design/full/
 og_image: /assets/og/security-by-design-en-cayman.gif
 keywords: "security, PQC, access control, fork safety, privacy, owner-scoped"
@@ -45,16 +45,16 @@ keywords: "security, PQC, access control, fork safety, privacy, owner-scoped"
 
 ## Abstract
 
-AI-assisted development systems that persist knowledge across sessions and projects face a fundamental security question: **what happens when the repository goes public?** Session notes, harvested satellite data, configuration files, and automation scripts — can any of this compromise the owner's accounts?
+AI-assisted development systems that persist knowledge across sessions and projects face a fundamental security question: **what happens when the repository goes public?** Session files, synced satellite data, configuration files, and automation scripts — can any of this compromise the owner's accounts?
 
-**Knowledge** (`packetqc/knowledge`) is designed from the ground up to be **public-safe and owner-scoped**. Every component — from session persistence to distributed harvest to automated deployment — operates within security boundaries that make the repository safe to fork, clone, and publish:
+**Knowledge** (`packetqc/knowledge`) is designed from the ground up to be **public-safe and owner-scoped**. Every component — from session persistence to distributed K_GITHUB sync to automated deployment — operates within security boundaries that make the repository safe to fork, clone, and publish:
 
 | Protection | Description |
 |------------|-------------|
 | **Zero credentials stored** | No API keys, tokens, passwords, SSH keys, or certificates anywhere in files or git history across all branches |
 | **Proxy-scoped push access** | Claude Code sessions can only push to their assigned task branch in their assigned repo. No cross-branch, no cross-repo writes |
-| **Owner-namespaced operations** | All harvest, wakeup, and sync URLs reference the owner's GitHub namespace. A forker gets methodology (intentionally public), not account access |
-| **Environmentally isolated** | Session notes, satellite references, and `minds/` data are per-owner. A fork starts clean |
+| **Owner-namespaced operations** | All K_GITHUB sync and session start URLs reference the owner's GitHub namespace. A forker gets methodology (intentionally public), not account access |
+| **Environmentally isolated** | Session files, satellite references, and `far_memory archives/` data are per-owner. A fork starts clean |
 | **PR-gated delivery** | No direct writes to shared branches. Every change goes through a pull request requiring owner approval |
 
 This publication documents the security model, the audit methodology, the threat analysis, and the fork/clone safety guarantees that make Knowledge safe as a public, forkable repository.
@@ -63,7 +63,7 @@ This publication documents the security model, the audit methodology, the threat
 
 ## The Security Question
 
-When an AI-assisted development system persists knowledge — session notes, project decisions, harvested satellite data, automation scripts — and that system lives in a git repository, making the repository public raises legitimate concerns:
+When an AI-assisted development system persists knowledge — session files, project decisions, synced satellite data, automation scripts — and that system lives in a git repository, making the repository public raises legitimate concerns:
 
 | Concern | Risk |
 |---------|------|
@@ -86,8 +86,8 @@ Knowledge addresses each of these by design — not by post-hoc scrubbing, but b
 | **Credential theft** | Scanning git history for leaked tokens | No credentials are ever stored — `.gitignore` blocks sensitive file patterns, audit confirms zero matches across all branches |
 | **Session hijacking** | Extracting Claude session URLs from commits | Session URLs expire after use; only appear in commit metadata (auto-appended by protocol), never in file content |
 | **Repo takeover** | Forker pushing to original owner's branches | Proxy architecture scopes push to assigned branch only — cross-repo push returns 403 |
-| **Satellite infiltration** | Forker's harvest accessing original owner's private repos | Harvest uses public HTTPS only — private repos return 403/404, marked `unreachable` |
-| **Data exfiltration** | Extracting private project details from `minds/` | `minds/` contains only metadata (repo names, version numbers, status) — no source code, no credentials |
+| **Satellite infiltration** | Forker's harvest accessing original owner's private repos | K_GITHUB sync uses public HTTPS only — private repos return 403/404, marked `unreachable` |
+| **Data exfiltration** | Extracting private project details from `far_memory archives/` | `far_memory archives/` contains only metadata (repo names, version numbers, status) — no source code, no credentials |
 | **Social engineering** | Using published contact info to compromise accounts | Only intentionally published info (email, LinkedIn, GitHub handle) — no private data |
 
 ### What We Don't Protect Against
@@ -111,8 +111,8 @@ Layer 2: Zero-credential     — No credentials needed by design (public HTTPS, 
 Layer 3: Proxy scoping       — Push access limited to assigned branch in assigned repo
 Layer 4: PR-gated delivery   — No direct writes to shared branches
 Layer 5: Owner-namespacing   — All URLs reference owner's namespace, not hardcoded tokens
-Layer 6: Environmental isolation — Session data, minds/, notes/ are per-owner
-Layer 7: Continuous audit    — Security checks on every harvest and normalize
+Layer 6: Environmental isolation — Session data, far_memory archives/, sessions/ are per-owner
+Layer 7: Continuous audit    — Security checks on every K_GITHUB sync and K_VALIDATION /normalize
 ```
 
 ### Layer 1: .gitignore
@@ -192,19 +192,19 @@ Per-owner data that starts blank in a fork:
 
 | Component | Content | In a fork |
 |-----------|---------|-----------|
-| `notes/` | Session memory | Empty — each user builds their own |
-| `minds/` | Harvested satellite data | References original owner's repos — meaningless for forker |
-| Dashboard | Network status table | Reflects original owner's network — static until forker runs own harvests |
+| `sessions/` | Session memory (near + far) | Empty — each user builds their own |
+| `far_memory archives/` | Synced satellite data | References original owner's repos — meaningless for forker |
+| Dashboard | Network status table | Reflects original owner's network — static until forker runs own K_GITHUB syncs |
 | Git history | Commit messages with session URLs | Session URLs expire; no credentials |
 
 ### Layer 7: Continuous Audit
 
-The `normalize` and `harvest` commands include security-adjacent checks:
+The K_VALIDATION `/normalize` and K_GITHUB `sync_github.py` include security-adjacent checks:
 
 | Check | What it verifies |
 |-------|------------------|
 | **`normalize`** | No hardcoded paths, validates asset references, checks link integrity |
-| **`harvest`** | Repo accessibility, reports unreachable satellites, validates version tags |
+| **K_GITHUB sync** | Repo accessibility, reports unreachable satellites, validates version tags |
 | **Manual audit** | Periodic full-history scan using regex patterns for credential patterns (see Audit Methodology) |
 
 ---
@@ -272,8 +272,8 @@ This section answers the central question: **what happens when someone forks or 
 | **Tooling** | Live capture scripts, webcard generator | Intentionally public — reusable tools |
 | **Profile data** | Author name, email, LinkedIn, GitHub | Intentionally public — published contact info |
 | **Git history** | Commits with session URLs in messages | Session URLs expire; no credentials |
-| **`minds/` data** | Satellite repo names, versions, status | Metadata only — no source code, no secrets |
-| **`notes/` files** | Session working memory | Historical context — no sensitive data |
+| **`far_memory archives/`** | Satellite repo names, versions, status | Metadata only — no source code, no secrets |
+| **`sessions/` files** | Session working memory | Historical context — no sensitive data |
 
 ### What a Forker Cannot Do
 
@@ -292,7 +292,7 @@ To use Knowledge for their own projects, a forker needs to:
 
 | Step | Action |
 |------|--------|
-| **Replace `packetqc` with their GitHub username** | In CLAUDE.md — this redirects all harvest, wakeup, and sync operations to their own namespace |
+| **Replace `packetqc` with their GitHub username** | In CLAUDE.md and mind_memory.md — this redirects all K_GITHUB sync and session start operations to their own namespace |
 | **Create their own satellite repos** | The forker's knowledge system bootstraps from their own projects |
 | **Update profile data** | Replace author information with their own |
 
@@ -330,8 +330,8 @@ GitHub API
 | Scenario | Behavior |
 |----------|----------|
 | Session in repo A pushing to repo B | Proxy blocks it with 403 |
-| `harvest --fix` | Prepares remediation locally but cannot push to satellite repos |
-| Satellite self-healing | Self-heals on next `wakeup` by reading updated core (pull-based) |
+| K_GITHUB sync | Prepares remediation locally but cannot push to satellite repos |
+| Satellite self-healing | Self-heals on next session start by loading updated K_MIND module (pull-based) |
 | Manual cross-repo push | User can push from their terminal for cross-repo operations |
 
 This proxy architecture is the foundational security guarantee. Even if credentials were accidentally committed (they aren't), the proxy prevents any Claude Code session from writing outside its authorized scope.
@@ -344,14 +344,14 @@ Every command in Knowledge operates within the owner's namespace:
 
 | Command | What it accesses | Scope |
 |---------|-----------------|-------|
-| `wakeup` | `https://github.com/<owner>/knowledge` | Read-only, public HTTPS |
-| `harvest <project>` | `https://github.com/<owner>/<project>` | Read-only, public HTTPS |
-| `harvest --fix` | Local task branch only | Write scoped to assigned branch |
-| `save` | Local task branch → PR to `main` | Write scoped to assigned branch |
+| `session start` | `https://github.com/<owner>/knowledge` | Read-only, public HTTPS |
+| K_GITHUB `sync_github.py` | `https://github.com/<owner>/<project>` | Read-only, public HTTPS |
+| K_GITHUB sync (fix) | Local task branch only | Write scoped to assigned branch |
+| `git commit + push` | Local task branch → PR to `main` | Write scoped to assigned branch |
 | `normalize` | Local files only | No network access |
 | `webcard` | Local files only | No network access |
 
-The `<owner>` is derived from CLAUDE.md — currently `packetqc`. A forker who changes this to their own username gets all operations pointing at their own repos.
+The `<owner>` is derived from CLAUDE.md and mind_memory.md — currently `packetqc`. A forker who changes this to their own username gets all operations pointing at their own repos.
 
 ---
 
@@ -432,7 +432,7 @@ Knowledge defines 4 progressive levels of GitHub Personal Access Token (PAT) con
 | Level | PAT Configuration | GitHub Scope | What it enables | Operational mode |
 |-------|------------------|-------------|-----------------|-----------------|
 | **0** | **No PAT** | Proxy only | Public repos: clone (initial only), push to assigned branch, manual PR creation | Semi-automatic — user creates PRs manually from GitHub web UI |
-| **1** | **Fine-grained Read-only** | `Contents: Read` on specific repos | Level 0 + clone/fetch private satellite repos for `harvest` and `wakeup` | Semi-automatic + private repo visibility |
+| **1** | **Fine-grained Read-only** | `Contents: Read` on specific repos | Level 0 + clone/fetch private satellite repos for K_GITHUB sync and session start | Semi-automatic + private repo visibility |
 | **2** | **Fine-grained Read-Write** | `Contents: Read-Write` + `Pull requests: Read-Write` + `Projects: Read-Write` on specific repos | Level 1 + API-mediated PR create, merge, branch operations, and GitHub Project board management via `curl` to `api.github.com` | **Full autonomous** — recommended |
 | **3** | **Classic PAT `repo`** | Full `repo` scope (all repos, all permissions) | Everything — but grants far more access than needed | Full autonomous — **not recommended** (violates least privilege) |
 
@@ -441,7 +441,7 @@ Knowledge defines 4 progressive levels of GitHub Personal Access Token (PAT) con
 | Scenario | Recommended level | Why |
 |----------|------------------|-----|
 | All repos public, occasional use | **0** | No token needed — proxy handles assigned branch |
-| Private satellites, read-only harvest | **1** | Minimum needed to see private repos |
+| Private satellites, read-only K_GITHUB sync | **1** | Minimum needed to see private repos |
 | Full autonomous operation (daily use) | **2** | PR create + merge via API, scoped to specific repos |
 | Quick testing, throwaway session | **3** | Convenient but overly broad — avoid for regular use |
 
@@ -481,7 +481,7 @@ Always use the lowest level that meets the session's needs:
 | Practice | Guidance |
 |----------|----------|
 | **Scope to specific repos** | Fine-grained tokens (Levels 1-2) can be restricted to only the repos Knowledge operates on |
-| **Scope to minimum permissions** | Read-only (Level 1) for harvest visibility, Read-write (Level 2) for autonomous PR operations |
+| **Scope to minimum permissions** | Read-only (Level 1) for K_GITHUB sync visibility, Read-write (Level 2) for autonomous PR operations |
 | **Short expiration** | 7-30 days recommended |
 | **Session-scoped usage** | Token lives only in context memory, never written to files, never committed, never echoed back |
 
@@ -563,6 +563,8 @@ Verify no token residue: no files contain `github_pat_`, no git history contains
 | 7 | [Harvest Protocol]({{ '/publications/harvest-protocol/' | relative_url }}) | Harvest access controls |
 | 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Save protocol proxy constraints |
 | 9 | [Compliance Report]({{ '/publications/security-by-design/compliance/' | relative_url }}) | Phase-by-phase compliance assessment with lifecycle tracking |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Architecture deep dive — multi-module design |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 
 ---
 
