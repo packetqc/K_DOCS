@@ -482,8 +482,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           });
         }
 
-        /* ── Methodologies: grouped by module, raw GitHub URLs ── */
-        else if (section === 'methodologies' || items[0] && items[0].module) {
+        /* ── Module-grouped sections (methodologies, configurations, etc.) ── */
+        else if (section === 'methodologies' || section === 'configurations' || (items[0] && items[0].module)) {
           var groups = {};
           items.forEach(function(item) {
             var mod = item.module || 'General';
@@ -492,6 +492,12 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           });
           Object.keys(groups).forEach(function(mod) {
             var pg = makeSubDet(mod);
+            /* "View All" composite link — loads all group items as one page */
+            var jsonItems = groups[mod].filter(function(i) { return i.path && i.path.match(/\.json([?#]|$)/i); });
+            if (jsonItems.length > 1) {
+              var docsParam = jsonItems.map(function(i) { return encodeURIComponent(i.path); }).join('|');
+              pg.appendChild(makeLink(LANG === 'fr' ? '▸ Tout voir' : '▸ View All', vru(BASE + '/index.html?docs=' + docsParam + '&embed'), 'content-frame'));
+            }
             groups[mod].forEach(function(item) {
               pg.appendChild(makeLink(label(item), vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed'), 'content-frame'));
             });
