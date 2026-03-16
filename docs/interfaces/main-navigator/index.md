@@ -533,6 +533,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         var items = (data.items || []).slice().sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
         var section = data.section;
 
+        /* ── Helper: viewer URL for a publication slug ── */
+        function pubUrl(slug, full) {
+          var lp = LP ? LP.substr(1) + '/' : '';
+          var path = lp + 'publications/' + slug + '/' + (full ? 'full/' : '') + 'index.md';
+          return vru(BASE + '/index.html?doc=' + encodeURIComponent(path) + '&embed');
+        }
+
         /* ── Interfaces: links with target routing + ℹ guide button ── */
         if (section === 'interfaces') {
           /* Resolve default center from first center-target interface */
@@ -546,18 +553,15 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           items.forEach(function(item) {
             var target = item.target === 'top' ? '_top' : (item.target === 'center' ? 'center-frame' : 'content-frame');
             var href = item.target === 'top' ? vru(BASE + LP + item.href, false) : vru(BASE + LP + item.href);
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(label(item), href, target));
             if (item.pub) {
-              var row = document.createElement('div'); row.className = 'iface-row';
-              row.appendChild(makeLink(label(item), href, target));
               var ib = document.createElement('a'); ib.className = 'iface-pub-btn';
               ib.textContent = 'ℹ'; ib.title = LANG === 'fr' ? 'Guide utilisateur' : 'User Guide';
-              ib.href = vru(BASE + LP + '/publications/' + item.pub + '/full/');
-              ib.target = 'content-frame';
-              row.appendChild(ib);
-              body.appendChild(row);
-            } else {
-              body.appendChild(makeLink(label(item), href, target));
+              ib.href = pubUrl(item.pub, true);
+              ib.setAttribute('data-target', 'content-frame'); row.appendChild(ib);
             }
+            body.appendChild(row);
           });
         }
 
@@ -569,17 +573,17 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           allItems.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
           allItems.forEach(function(item) {
             var row = document.createElement('div'); row.className = 'iface-row';
-            row.appendChild(makeLink(label(item), vru(BASE + LP + '/publications/' + item.slug + '/'), 'content-frame'));
+            row.appendChild(makeLink(label(item), pubUrl(item.slug, false), 'content-frame'));
             if (item.slug) {
               var sBtn = document.createElement('a'); sBtn.className = 'iface-pub-btn';
               sBtn.textContent = 'S'; sBtn.title = LANG === 'fr' ? 'Résumé' : 'Summary';
-              sBtn.href = vru(BASE + LP + '/publications/' + item.slug + '/');
+              sBtn.href = pubUrl(item.slug, false);
               sBtn.setAttribute('data-target', 'content-frame'); row.appendChild(sBtn);
             }
             if (item.has_full) {
               var fBtn = document.createElement('a'); fBtn.className = 'iface-pub-btn';
               fBtn.textContent = 'F'; fBtn.title = LANG === 'fr' ? 'Complet' : 'Full';
-              fBtn.href = vru(BASE + LP + '/publications/' + item.slug + '/full/');
+              fBtn.href = pubUrl(item.slug, true);
               fBtn.setAttribute('data-target', 'content-frame'); row.appendChild(fBtn);
             }
             body.appendChild(row);
@@ -595,14 +599,17 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           });
         }
 
-        /* ── Commands: flat rows ── */
+        /* ── Commands: collapsible groups with iface-row items ── */
         else if (section === 'commands') {
           items.forEach(function(cg) {
+            var gLabel = (LANG === 'fr' && cg.group_fr) ? cg.group_fr : cg.group;
+            var pg = makeSubDet(gLabel);
             cg.cmds.forEach(function(cmd) {
               var row = document.createElement('div'); row.className = 'iface-row';
               row.appendChild(makeLink(cmd, vru(BASE + LP + cg.pub), 'content-frame'));
-              body.appendChild(row);
+              pg.appendChild(row);
             });
+            body.appendChild(pg);
           });
         }
 
@@ -610,17 +617,17 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         else if (section === 'publications') {
           items.forEach(function(p) {
             var row = document.createElement('div'); row.className = 'iface-row';
-            row.appendChild(makeLink(p.number + ' ' + label(p), vru(BASE + LP + '/publications/' + p.slug + '/'), 'content-frame'));
+            row.appendChild(makeLink(p.number + ' ' + label(p), pubUrl(p.slug, false), 'content-frame'));
             if (p.slug) {
               var sBtn = document.createElement('a'); sBtn.className = 'iface-pub-btn';
               sBtn.textContent = 'S'; sBtn.title = LANG === 'fr' ? 'Résumé' : 'Summary';
-              sBtn.href = vru(BASE + LP + '/publications/' + p.slug + '/');
+              sBtn.href = pubUrl(p.slug, false);
               sBtn.setAttribute('data-target', 'content-frame'); row.appendChild(sBtn);
             }
             if (p.slug) {
               var fBtn = document.createElement('a'); fBtn.className = 'iface-pub-btn';
               fBtn.textContent = 'F'; fBtn.title = LANG === 'fr' ? 'Complet' : 'Full';
-              fBtn.href = vru(BASE + LP + '/publications/' + p.slug + '/full/');
+              fBtn.href = pubUrl(p.slug, true);
               fBtn.setAttribute('data-target', 'content-frame'); row.appendChild(fBtn);
             }
             if (p.extra) { p.extra.forEach(function(e) {
@@ -634,13 +641,23 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           });
         }
 
-        /* ── Module-grouped sections (methodologies, configurations): flat rows ── */
+        /* ── Module-grouped sections (methodologies, configurations): collapsible groups with iface-row items ── */
         else if (section === 'methodologies' || section === 'configurations' || (items[0] && items[0].module)) {
-          items.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+          var groups = {};
           items.forEach(function(item) {
-            var row = document.createElement('div'); row.className = 'iface-row';
-            row.appendChild(makeLink(label(item), vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed'), 'content-frame'));
-            body.appendChild(row);
+            var mod = item.module || 'General';
+            if (!groups[mod]) groups[mod] = [];
+            groups[mod].push(item);
+          });
+          Object.keys(groups).forEach(function(mod) {
+            var pg = makeSubDet(mod);
+            groups[mod].sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+            groups[mod].forEach(function(item) {
+              var row = document.createElement('div'); row.className = 'iface-row';
+              row.appendChild(makeLink(label(item), vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed'), 'content-frame'));
+              pg.appendChild(row);
+            });
+            body.appendChild(pg);
           });
         }
 
