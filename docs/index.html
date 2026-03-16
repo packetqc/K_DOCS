@@ -1730,11 +1730,14 @@
           // Embed mode: unmatched internal links → add &embed to prevent chrome nesting
           if (/^https?:\/\//.test(href) && href.indexOf(window.location.origin) !== 0) return; // external: let default handle
           e.preventDefault();
-          // If it's a viewer URL, ensure &embed is present
+          // Ensure &embed is present to prevent chrome nesting
           if (href.indexOf('index.html?doc=') !== -1 && href.indexOf('&embed') === -1) {
             window.location.href = href + '&embed';
-          } else {
-            window.location.href = href;
+          } else if (href.indexOf('&embed') === -1 && href.indexOf('?') !== -1) {
+            window.location.href = href + '&embed';
+          } else if (href.indexOf('&embed') === -1) {
+            // Raw path (will hit redirect stub) → go to top to avoid nesting
+            window.top.location.href = href;
           }
         }
       });
