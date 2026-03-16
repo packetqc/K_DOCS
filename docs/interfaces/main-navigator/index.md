@@ -322,9 +322,11 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   var ACTIVE_KEY  = 'navigator-active-href';
   var SUBDET_KEY  = 'navigator-subdetails';
 
-  /* Iframe references — src set ONCE after localStorage check (avoid double-load race) */
+  /* Set default iframe sources based on language */
   var centerIframe = document.getElementById('center-frame-el');
   var rightIframe  = document.getElementById('right-frame-el');
+  centerIframe.src = BASE + LP + '/interfaces/task-workflow/';
+  rightIframe.src  = BASE + LP + '/';
 
   var panel  = document.getElementById('left-panel');
   var grid   = document.getElementById('nav-grid');
@@ -573,10 +575,31 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     det.appendChild(body); panel.appendChild(det);
   });
 
-  /* ─── Set center/right iframe URLs for current language ─── */
-  /* Always use vru() to build proper viewer embed URLs with correct language */
-  if (centerIframe) { centerIframe.src = vru(BASE + LP + '/interfaces/task-workflow/'); }
-  if (rightIframe) { rightIframe.src = vru(BASE + LP + '/'); }
+  /* ─── Language-neutral URL helpers ─── */
+  function stripLang(url) {
+    if (!url) return url;
+    // Viewer embed URLs: strip &lang=fr parameter
+    if (url.indexOf('index.html?doc=') !== -1) {
+      return url.replace(/[&?]lang=fr/g, '').replace(/\?&/, '?').replace(/\?$/, '');
+    }
+    // Direct page URLs: strip /fr/ prefix
+    return url.replace(BASE + '/fr/', BASE + '/').replace(/\/fr\//, '/');
+  }
+  function applyLang(url) {
+    if (!url || LANG === 'en') return url;
+    // Viewer embed URLs: add &lang=fr parameter
+    if (url.indexOf('index.html?doc=') !== -1) {
+      return url + (url.indexOf('?') !== -1 ? '&' : '?') + 'lang=fr';
+    }
+    // Direct page URLs: add /fr/ prefix
+    return url.replace(BASE + '/', BASE + '/fr/');
+  }
+
+  /* ─── Restore last viewed pages ─── */
+  var savedCenter = localStorage.getItem(CENTER_KEY);
+  if (savedCenter && centerIframe) { centerIframe.src = applyLang(savedCenter); }
+  var savedRight = localStorage.getItem(RCONTENT_KEY);
+  if (savedRight && rightIframe) { rightIframe.src = applyLang(savedRight); }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
@@ -593,10 +616,10 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     a.classList.add('active');
     localStorage.setItem(ACTIVE_KEY, a.dataset.navId || a.href);
     /* Save center URL if targeting center (language-neutral) */
-    if (a.target === 'center-frame') { localStorage.setItem(CENTER_KEY, a.href); }
+    if (a.target === 'center-frame') { localStorage.setItem(CENTER_KEY, stripLang(a.href)); }
     /* Save right URL + extend panel if collapsed (language-neutral) */
     if (a.target === 'content-frame') {
-      localStorage.setItem(RCONTENT_KEY, a.href);
+      localStorage.setItem(RCONTENT_KEY, stripLang(a.href));
       if (rightW < 100) { rightW = Math.round(grid.offsetWidth * 0.5); applyGrid(true); }
     }
   });
@@ -621,7 +644,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     centerIframe.addEventListener('load', function() {
       try {
         var loc = centerIframe.contentWindow.location.href;
-        if (loc && loc !== 'about:blank') localStorage.setItem(CENTER_KEY, loc);
+        if (loc && loc !== 'about:blank') localStorage.setItem(CENTER_KEY, stripLang(loc));
       } catch(e) {}
       syncThemeToIframes();
     });
