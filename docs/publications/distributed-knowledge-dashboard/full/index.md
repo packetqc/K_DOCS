@@ -239,12 +239,12 @@ Publications detected in satellite repos:
 
 ```mermaid
 flowchart TB
-    subgraph MASTER["packetqc/knowledge (master mind)"]
-        M1["CLAUDE.md (v47) ← core methodology"]
-        M2["methodology/ ← how we work"]
-        M3["patterns/ ← proven patterns"]
-        M4["lessons/ ← hard-won pitfalls"]
-        M5["minds/ ← harvested satellite knowledge"]
+    subgraph MASTER["packetqc/knowledge — K2.0 Multi-Module"]
+        M1["K_MIND — mind_memory.md (directive grid)"]
+        M2["K_MIND — domain JSONs (conventions, work)"]
+        M3["K_MIND — sessions/ (near + far memory)"]
+        M4["K_DOCS — static viewer + publications"]
+        M5["K_GITHUB — sync_github.py"]
     end
 
     MASTER -- "push" --> PA["Project A\nv??"]
@@ -296,10 +296,10 @@ The dashboard is the **self-awareness layer** of the distributed mind network. I
 ```mermaid
 flowchart LR
     A["Session note\n(ephemeral)"] --> B["remember\nharvest: insight"]
-    B --> C["minds/project.md\n(harvested)"]
+    B --> C["far_memory archives\n(harvested)"]
     C --> D["Validated across\n2+ projects"]
-    D --> E["patterns/ or lessons/\n(proven)"]
-    E --> F["CLAUDE.md summary\n(core)"]
+    D --> E["conventions.json\nor work.json (proven)"]
+    E --> F["mind_memory.md\n(core directive grid)"]
 ```
 
 ### Version Drift and Remediation

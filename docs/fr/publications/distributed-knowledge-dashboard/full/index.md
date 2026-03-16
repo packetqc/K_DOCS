@@ -239,12 +239,12 @@ Publications détectées dans les dépôts satellites :
 
 ```mermaid
 flowchart TB
-    subgraph MASTER["packetqc/knowledge (cerveau maître)"]
-        M1["CLAUDE.md (v47) ← méthodologie core"]
-        M2["methodology/ ← comment on travaille"]
-        M3["patterns/ ← patterns prouvés"]
-        M4["lessons/ ← écueils durement acquis"]
-        M5["minds/ ← connaissances satellites récoltées"]
+    subgraph MASTER["packetqc/knowledge — K2.0 Multi-Module"]
+        M1["K_MIND — mind_memory.md (grille de directives)"]
+        M2["K_MIND — JSONs de domaine (conventions, work)"]
+        M3["K_MIND — sessions/ (near + far memory)"]
+        M4["K_DOCS — viewer statique + publications"]
+        M5["K_GITHUB — sync_github.py"]
     end
 
     MASTER -- "push" --> PA["Projet A\nv??"]
@@ -296,10 +296,10 @@ Le tableau de bord est la **couche de conscience de soi** du réseau de cerveaux
 ```mermaid
 flowchart LR
     A["Note de session\n(éphémère)"] --> B["remember\nharvest: découverte"]
-    B --> C["minds/projet.md\n(récolté)"]
+    B --> C["Archives far_memory\n(récolté)"]
     C --> D["Validé entre\n2+ projets"]
-    D --> E["patterns/ ou lessons/\n(prouvé)"]
-    E --> F["Résumé CLAUDE.md\n(core)"]
+    D --> E["conventions.json\nou work.json (prouvé)"]
+    E --> F["mind_memory.md\n(grille de directives core)"]
 ```
 
 ### Dérive de version et remédiation
