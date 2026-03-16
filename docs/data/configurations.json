@@ -1,0 +1,162 @@
+{
+  "generated_by": "Knowledge/K_DOCS/scripts/build_configurations.py",
+  "section": "configurations",
+  "title": "Configurations",
+  "title_fr": "Configurations",
+  "open": false,
+  "items": [
+    {
+      "title": "Conventions",
+      "title_fr": "Conventions",
+      "file": "conventions.json",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/conventions/conventions.json",
+      "priority": 1
+    },
+    {
+      "title": "Documentation",
+      "title_fr": "Documentation",
+      "file": "documentation.json",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/documentation/documentation.json",
+      "priority": 2
+    },
+    {
+      "title": "Work",
+      "title_fr": "Travail",
+      "file": "work.json",
+      "module": "K_DOCS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_DOCS/work/work.json",
+      "priority": 3
+    },
+    {
+      "title": "Conventions",
+      "title_fr": "Conventions",
+      "file": "conventions.json",
+      "module": "K_GITHUB",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/conventions/conventions.json",
+      "priority": 4
+    },
+    {
+      "title": "Documentation",
+      "title_fr": "Documentation",
+      "file": "documentation.json",
+      "module": "K_GITHUB",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/documentation/documentation.json",
+      "priority": 5
+    },
+    {
+      "title": "Work",
+      "title_fr": "Travail",
+      "file": "work.json",
+      "module": "K_GITHUB",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_GITHUB/work/work.json",
+      "priority": 6
+    },
+    {
+      "title": "Architecture",
+      "title_fr": "Architecture",
+      "file": "architecture.json",
+      "module": "K_MIND",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/architecture/architecture.json",
+      "priority": 7
+    },
+    {
+      "title": "Constraints",
+      "title_fr": "Contraintes",
+      "file": "constraints.json",
+      "module": "K_MIND",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/constraints/constraints.json",
+      "priority": 8
+    },
+    {
+      "title": "Conventions",
+      "title_fr": "Conventions",
+      "file": "conventions.json",
+      "module": "K_MIND",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/conventions/conventions.json",
+      "priority": 9
+    },
+    {
+      "title": "Depth Config",
+      "title_fr": "Config profondeur",
+      "file": "depth_config.json",
+      "module": "K_MIND",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/conventions/depth_config.json",
+      "priority": 10
+    },
+    {
+      "title": "Documentation",
+      "title_fr": "Documentation",
+      "file": "documentation.json",
+      "module": "K_MIND",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/documentation/documentation.json",
+      "priority": 11
+    },
+    {
+      "title": "Work",
+      "title_fr": "Travail",
+      "file": "work.json",
+      "module": "K_MIND",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/work/work.json",
+      "priority": 12
+    },
+    {
+      "title": "Conventions",
+      "title_fr": "Conventions",
+      "file": "conventions.json",
+      "module": "K_PROJECTS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/conventions/conventions.json",
+      "priority": 13
+    },
+    {
+      "title": "Documentation",
+      "title_fr": "Documentation",
+      "file": "documentation.json",
+      "module": "K_PROJECTS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/documentation/documentation.json",
+      "priority": 14
+    },
+    {
+      "title": "Work",
+      "title_fr": "Travail",
+      "file": "work.json",
+      "module": "K_PROJECTS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/work/work.json",
+      "priority": 15
+    },
+    {
+      "title": "Projects Data",
+      "title_fr": "Données projets",
+      "file": "projects.json",
+      "module": "K_PROJECTS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/data/projects.json",
+      "priority": 16
+    },
+    {
+      "title": "Conventions",
+      "title_fr": "Conventions",
+      "file": "conventions.json",
+      "module": "K_VALIDATION",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/conventions/conventions.json",
+      "priority": 17
+    },
+    {
+      "title": "Documentation",
+      "title_fr": "Documentation",
+      "file": "documentation.json",
+      "module": "K_VALIDATION",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/documentation/documentation.json",
+      "priority": 18
+    },
+    {
+      "title": "Work",
+      "title_fr": "Travail",
+      "file": "work.json",
+      "module": "K_VALIDATION",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/work/work.json",
+      "priority": 19
+    }
+  ],
+  "removed": []
+}

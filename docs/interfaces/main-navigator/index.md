@@ -371,7 +371,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     { id:'hubs',          json:'data/hubs.json' },
     { id:'profile',       json:'data/profile.json' },
     { id:'publications',  json:'data/publications.json' },
-    { id:'stories',       json:'data/stories.json' }
+    { id:'stories',        json:'data/stories.json' },
+    { id:'configurations', json:'data/configurations.json' }
   ];
 
   /* ─── Restore + build widgets ─── */
