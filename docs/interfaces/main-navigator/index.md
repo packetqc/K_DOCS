@@ -601,6 +601,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   var defaultCenter = vruFn(BASE + LP + '/interfaces/task-workflow/');
   if (centerIframe) { centerIframe.src = savedCenter ? applyLang(savedCenter) : defaultCenter; }
   var savedRight = localStorage.getItem(RCONTENT_KEY);
+  if (savedRight) { savedRight = stripLang(savedRight); localStorage.setItem(RCONTENT_KEY, savedRight); }
   var defaultRight = vruFn(BASE + LP + '/');
   if (rightIframe) { rightIframe.src = savedRight ? applyLang(savedRight) : defaultRight; }
 
