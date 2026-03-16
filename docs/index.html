@@ -1383,6 +1383,85 @@
         '</div>';
     }
 
+    // ===== JSON document rendering =====
+    function renderJsonDocument(json, path) {
+      var html = '<div class="json-document">';
+      // Title from filename
+      var fname = path.split('/').pop().split('?')[0];
+      html += '<h1>' + escapeHtml(fname) + '</h1>';
+
+      // Top-level string fields as key-value pairs
+      var topFields = [];
+      Object.keys(json).forEach(function(k) {
+        var v = json[k];
+        if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+          topFields.push({key: k, value: v});
+        }
+      });
+      if (topFields.length) {
+        html += '<table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>';
+        topFields.forEach(function(f) {
+          html += '<tr><td><strong>' + escapeHtml(f.key) + '</strong></td><td>' + escapeHtml(String(f.value)) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+      }
+
+      // Array fields as tables
+      Object.keys(json).forEach(function(k) {
+        var v = json[k];
+        if (!Array.isArray(v) || v.length === 0) return;
+        html += '<h2>' + escapeHtml(k) + ' <small>(' + v.length + ')</small></h2>';
+
+        // If array of objects — render as table
+        if (typeof v[0] === 'object' && v[0] !== null) {
+          var cols = [];
+          v.forEach(function(row) {
+            Object.keys(row).forEach(function(c) {
+              if (cols.indexOf(c) === -1) cols.push(c);
+            });
+          });
+          html += '<table><thead><tr>';
+          cols.forEach(function(c) { html += '<th>' + escapeHtml(c) + '</th>'; });
+          html += '</tr></thead><tbody>';
+          v.forEach(function(row) {
+            html += '<tr>';
+            cols.forEach(function(c) {
+              var cell = row[c];
+              if (cell === undefined || cell === null) { html += '<td></td>'; }
+              else if (Array.isArray(cell)) { html += '<td>' + escapeHtml(cell.join(', ')) + '</td>'; }
+              else if (typeof cell === 'object') { html += '<td><code>' + escapeHtml(JSON.stringify(cell)) + '</code></td>'; }
+              else { html += '<td>' + escapeHtml(String(cell)) + '</td>'; }
+            });
+            html += '</tr>';
+          });
+          html += '</tbody></table>';
+        }
+        // Array of primitives — simple list
+        else {
+          html += '<ul>';
+          v.forEach(function(item) { html += '<li>' + escapeHtml(String(item)) + '</li>'; });
+          html += '</ul>';
+        }
+      });
+
+      // Nested objects (non-array) as sub-sections
+      Object.keys(json).forEach(function(k) {
+        var v = json[k];
+        if (typeof v !== 'object' || v === null || Array.isArray(v)) return;
+        html += '<h2>' + escapeHtml(k) + '</h2>';
+        html += '<table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>';
+        Object.keys(v).forEach(function(sk) {
+          var sv = v[sk];
+          var display = (typeof sv === 'object') ? JSON.stringify(sv, null, 2) : String(sv);
+          html += '<tr><td><strong>' + escapeHtml(sk) + '</strong></td><td>' + escapeHtml(display) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+      });
+
+      html += '</div>';
+      return html;
+    }
+
     // ===== Markdown rendering =====
     function renderMarkdown(text, docPath) {
       var parsed = parseFrontMatter(text);
@@ -2046,6 +2125,17 @@
         })
         .then(function(text) {
           content.className = '';
+
+          // JSON files — render as formatted tables
+          if (path.match(/\.json([?#]|$)/i)) {
+            try {
+              var json = JSON.parse(text);
+              content.innerHTML = renderJsonDocument(json, path);
+              window.scrollTo(0, 0);
+              return;
+            } catch(e) { /* fall through to markdown */ }
+          }
+
           var parsed = parseFrontMatter(text);
 
           // Interface page type — inject raw HTML directly
