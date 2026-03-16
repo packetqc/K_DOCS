@@ -257,63 +257,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   var LP = LANG === 'fr' ? '/fr' : '';  // language path prefix
   // localStorage keys are language-neutral (shared across EN/FR)
 
-  var T = {
-    en: {
-      interfaces: 'Interfaces',
-      i1: 'I1 Session Review', i2: 'I2 Main Navigator', i3: 'I3 Tasks Workflow',
-      i4: 'I4 Project Viewer', i5: 'I5 Live Mindmap', i_doc: '#21 Documentation',
-      essentials: 'Essentials',
-      stories: 'STORIES', readme: 'README', plan: 'PLAN', links: 'LINKS', news: 'NEWS', changelog: 'CHANGELOG',
-      commands: 'Commands',
-      g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
-      g_publications: 'Publications', g_project: 'Project', g_live_session: 'Live Session', g_live_network: 'Live Network',
-      methodologies: 'Methodologies',
-      hubs: 'Hubs', landing: 'Landing', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projects',
-      profile: 'Profile', hub: 'Hub', resume: 'Resume', full: 'Full',
-      summary: 'Summary',
-      p0: 'Knowledge System', p1: 'Knowledge 2.0', p2: 'Live Session', p3: 'AI Persistence',
-      p4: 'Distributed Minds', p4a: 'Dashboard', p5: 'Webcards', p6: 'Normalize',
-      p7: 'Harvest', p8: 'Session Mgmt', p9: 'Security', p9a: '#9a Compliance',
-      p10: 'Live Network', p11: 'Success Stories', p12: 'Project Mgmt', p13: 'Pagination',
-      p14: 'Architecture', p15: 'Diagrams', p16: 'Visualization', p17: 'Pipeline',
-      p18: 'Doc Generation', p19: 'Interactive', p20: 'Session Metrics',
-      p21: 'Main Interface', p22: 'Session Review', p22b: 'Visual Documentation', p23: 'Web Viewer', p24: 'Live Mindmap',
-      stories_title: 'Success Stories',
-      s26: '#26 One Viewer to Rule Them All', s25: '#25 Live Mindmap Memory',
-      s24: '#24 The Toggle', s23: '#23 Knowledge v2.0 Platform',
-      s22: '#22 Visual Documentation Engine', s21: '#21 Task Workflow State Machine',
-      s19: '#19 Board-Driven Protocol', s17: '#17 Satellite Bootstrap',
-      s16: '#16 Cross-Session Recall'
-    },
-    fr: {
-      interfaces: 'Interfaces',
-      i1: 'I1 Revue de session', i2: 'I2 Navigateur principal', i3: 'I3 Flux de travail',
-      i4: 'I4 Visualiseur projets', i5: 'I5 Mindmap vivant', i_doc: '#21 Documentation',
-      essentials: 'Essentiels',
-      stories: 'HISTOIRES', readme: 'README', plan: 'PLAN', links: 'LIENS', news: 'NOUVELLES', changelog: 'CHANGELOG',
-      commands: 'Commandes',
-      g_session: 'Session', g_normalize: 'Normalize', g_harvest: 'Harvest',
-      g_publications: 'Publications', g_project: 'Projet', g_live_session: 'Session live', g_live_network: 'Réseau live',
-      methodologies: 'Méthodologies',
-      hubs: 'Hubs', landing: 'Accueil', publications: 'Publications', interfaces_hub: 'Interfaces', projects: 'Projets',
-      profile: 'Profil', hub: 'Hub', resume: 'Résumé', full: 'Complet',
-      summary: 'Résumé',
-      p0: 'Système de connaissances', p1: 'Knowledge 2.0', p2: 'Session live', p3: 'Persistance IA',
-      p4: 'Esprits distribués', p4a: 'Tableau de bord', p5: 'Webcards', p6: 'Normalize',
-      p7: 'Harvest', p8: 'Gestion de session', p9: 'Sécurité', p9a: '#9a Conformité',
-      p10: 'Réseau live', p11: 'Histoires de succès', p12: 'Gestion de projet', p13: 'Pagination',
-      p14: 'Architecture', p15: 'Diagrammes', p16: 'Visualisation', p17: 'Pipeline',
-      p18: 'Génération doc', p19: 'Interactif', p20: 'Métriques de session',
-      p21: 'Interface principale', p22: 'Revue de session', p22b: 'Documentation visuelle', p23: 'Visualiseur Web', p24: 'Mindmap vivant',
-      stories_title: 'Histoires de succès',
-      s26: '#26 Un seul visualiseur pour tous', s25: '#25 Mémoire mindmap vivante',
-      s24: '#24 Le Toggle', s23: '#23 Plateforme Knowledge v2.0',
-      s22: '#22 Moteur de documentation visuelle', s21: '#21 Machine à états',
-      s19: '#19 Protocole par tableau', s17: '#17 Bootstrap satellite',
-      s16: '#16 Rappel inter-session'
-    }
-  };
-  var t = T[LANG];
+  /* All translations are now in docs/data/<section>.json — no hardcoded T block needed */
 
   var BASE = '{{ "" | relative_url }}';
   var CENTER_KEY  = 'navigator-center-url';
@@ -419,84 +363,15 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
   /* ─── Widget definitions — bilingual, driven by LANG ─── */
   var widgets = [
-    { id:'interfaces', title: t.interfaces, open:true, links:[
-      {t: t.i1,  h:BASE+LP+'/interfaces/session-review/', center:true},
-      {t: t.i2,  h:BASE+LP+'/interfaces/main-navigator/', top:true},
-      {t: t.i3,  h:BASE+LP+'/interfaces/task-workflow/', center:true},
-      {t: t.i4,  h:BASE+LP+'/interfaces/project-viewer/', center:true},
-      {t: t.i5,  h:BASE+LP+'/interfaces/live-mindmap/', center:true},
-      {t: t.i_doc, h:BASE+LP+'/publications/main-interface/'}
-    ]},
-    { id:'essentials', title: t.essentials, open:false, links:[
-      {t: t.stories,   h:BASE+LP+'/publications/success-stories/'},
-      {t: t.readme,    h:BASE+LP+'/'},
-      {t: t.plan,      h:BASE+LP+'/plan/'},
-      {t: t.links,     h:BASE+LP+'/links/'},
-      {t: t.news,      h:BASE+LP+'/news/'},
-      {t: t.changelog, h:BASE+LP+'/changelog/'}
-    ]},
-    { id:'commands', title: t.commands, open:false, groups:[
-      { g: t.g_session,      pub:LP+'/publications/session-management/full/#pub-title', cmds:['wakeup','refresh','help / aide','status','save','remember','resume','recover','recall','checkpoint','elevate'] },
-      { g: t.g_normalize,    pub:LP+'/publications/normalize-structure-concordance/full/#pub-title', cmds:['normalize','normalize --fix','normalize --check'] },
-      { g: t.g_harvest,      pub:LP+'/publications/harvest-protocol/full/#pub-title', cmds:['harvest','harvest --list','harvest --procedure','harvest --healthcheck','harvest --review','harvest --stage','harvest --promote','harvest --auto','harvest --fix'] },
-      { g: t.g_publications, pub:LP+'/publications/webcards-social-sharing/full/#pub-title', cmds:['pub list','pub check','pub new','pub sync','doc review','docs check','webcard','weblinks','pub export'] },
-      { g: t.g_project,      pub:LP+'/publications/knowledge-system/full/#pub-title', cmds:['project list','project info','project create','project register','project review','#N: note','g:board:item'] },
-      { g: t.g_live_session, pub:LP+'/publications/live-session-analysis/full/#pub-title', cmds:["I'm live",'multi-live','deep','analyze','recipe'] },
-      { g: t.g_live_network, pub:LP+'/publications/live-knowledge-network/full/#pub-title', cmds:['beacon'] }
-    ]},
-    { id:'methodologies', title: t.methodologies, open:false, json:'data/methodologies.json' },
-    { id:'hubs', title: t.hubs, open:false, links:[
-      {t: t.landing,        h:BASE+LP+'/'},
-      {t: t.publications,   h:BASE+LP+'/publications/'},
-      {t: t.interfaces_hub, h:BASE+LP+'/interfaces/'},
-      {t: t.projects,       h:BASE+LP+'/projects/'}
-    ]},
-    { id:'profile', title: t.profile, open:false, links:[
-      {t: t.hub,    h:BASE+LP+'/profile/'},
-      {t: t.resume, h:BASE+LP+'/profile/resume/'},
-      {t: t.full,   h:BASE+LP+'/profile/full/'}
-    ]},
-    { id:'publications', title: t.publications, open:false, pubs:[
-      {n:'#24', t: t.p24,  s:'live-mindmap'},
-      {n:'#23', t: t.p23,  s:'web-documentation-viewer'},
-      {n:'#22', t: t.p22b, s:'visual-documentation'},
-      {n:'#22', t: t.p22,  s:'session-review'},
-      {n:'#21', t: t.p21,  s:'main-interface'},
-      {n:'#20', t: t.p20,  s:'session-metrics-time'},
-      {n:'#19', t: t.p19,  s:'interactive-work-sessions'},
-      {n:'#18', t: t.p18,  s:'documentation-generation'},
-      {n:'#17', t: t.p17,  s:'web-production-pipeline'},
-      {n:'#16', t: t.p16,  s:'web-page-visualization'},
-      {n:'#15', t: t.p15,  s:'architecture-diagrams'},
-      {n:'#14', t: t.p14,  s:'architecture-analysis'},
-      {n:'#13', t: t.p13,  s:'web-pagination-export'},
-      {n:'#12', t: t.p12,  s:'project-management'},
-      {n:'#11', t: t.p11,  s:'success-stories'},
-      {n:'#10', t: t.p10,  s:'live-knowledge-network'},
-      {n:'#9',  t: t.p9,   s:'security-by-design',
-        extra:[{t: t.p9a, p:LP+'/publications/security-by-design/compliance/'}]},
-      {n:'#8',  t: t.p8,   s:'session-management'},
-      {n:'#7',  t: t.p7,   s:'harvest-protocol'},
-      {n:'#6',  t: t.p6,   s:'normalize-structure-concordance'},
-      {n:'#5',  t: t.p5,   s:'webcards-social-sharing'},
-      {n:'#4a', t: t.p4a,  s:'distributed-knowledge-dashboard'},
-      {n:'#4',  t: t.p4,   s:'distributed-minds'},
-      {n:'#3',  t: t.p3,   s:'ai-session-persistence'},
-      {n:'#2',  t: t.p2,   s:'live-session-analysis'},
-      {n:'#1',  t: t.p1,   s:'knowledge-2.0'},
-      {n:'#0',  t: t.p0,   s:'knowledge-system'}
-    ]},
-    { id:'stories', title: t.stories_title, open:false, links:[
-      {t: t.s26, h:BASE+LP+'/publications/success-stories/story-26/'},
-      {t: t.s25, h:BASE+LP+'/publications/success-stories/story-25/'},
-      {t: t.s24, h:BASE+LP+'/publications/success-stories/story-24/'},
-      {t: t.s23, h:BASE+LP+'/publications/success-stories/story-23/'},
-      {t: t.s22, h:BASE+LP+'/publications/success-stories/story-22/'},
-      {t: t.s21, h:BASE+LP+'/publications/success-stories/story-21/'},
-      {t: t.s19, h:BASE+LP+'/publications/success-stories/story-19/'},
-      {t: t.s17, h:BASE+LP+'/publications/success-stories/story-17/'},
-      {t: t.s16, h:BASE+LP+'/publications/success-stories/story-16/'}
-    ]}
+    /* JSON-driven panel sections — see Knowledge/K_DOCS/conventions/web/json-driven-panels.md */
+    { id:'interfaces',    json:'data/interfaces.json' },
+    { id:'essentials',    json:'data/essentials.json' },
+    { id:'commands',      json:'data/commands.json' },
+    { id:'methodologies', json:'data/methodologies.json' },
+    { id:'hubs',          json:'data/hubs.json' },
+    { id:'profile',       json:'data/profile.json' },
+    { id:'publications',  json:'data/publications.json' },
+    { id:'stories',       json:'data/stories.json' }
   ];
 
   /* ─── Restore + build widgets ─── */
@@ -519,95 +394,119 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   var subDetIndex = 0;
   var navLinkId = 0;
 
+  /* JSON-driven panel sections — see Knowledge/K_DOCS/conventions/web/json-driven-panels.md
+     All widgets are fetched from docs/data/<section>.json at runtime. */
+  var vru = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
+
+  function label(item) { return (LANG === 'fr' && item.title_fr) ? item.title_fr : item.title; }
+
+  function makeSubDet(summaryText) {
+    var idx = subDetIndex++;
+    var pg = document.createElement('details'); pg.className = 'pub-group';
+    if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
+    pg.addEventListener('toggle', saveSubDetState);
+    var pgsm = document.createElement('summary'); pgsm.textContent = summaryText; pg.appendChild(pgsm);
+    return pg;
+  }
+
+  function makeLink(text, href, target) {
+    var a = document.createElement('a');
+    a.href = href; a.dataset.navId = 'nav-' + (navLinkId++);
+    a.target = target || 'content-frame'; a.textContent = text;
+    return a;
+  }
+
   widgets.forEach(function(w) {
     var det = document.createElement('details');
     det.className = 'nav-widget'; det.dataset.wid = w.id;
-    det.open = (savedState[w.id] !== undefined) ? savedState[w.id] : w.open;
+    det.open = (savedState[w.id] !== undefined) ? savedState[w.id] : false;
     det.addEventListener('toggle', saveWidgetState);
-    var sm = document.createElement('summary'); sm.textContent = w.title; det.appendChild(sm);
+    var sm = document.createElement('summary'); sm.textContent = w.id; det.appendChild(sm);
     var body = document.createElement('div'); body.className = 'widget-body';
-
-    // Rewrite link href if viewerRewriteUrl is available (running inside viewer srcdoc)
-    var vru = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
-
-    if (w.links) {
-      w.links.forEach(function(lk) {
-        var a = document.createElement('a'); a.href = lk.top ? vru(lk.h, false) : vru(lk.h);
-        a.dataset.navId = 'nav-' + (navLinkId++);
-        a.target = lk.top ? '_top' : (lk.center ? 'center-frame' : 'content-frame'); a.textContent = lk.t;
-        body.appendChild(a);
-      });
-    }
-    if (w.groups) {
-      w.groups.forEach(function(cg) {
-        var idx = subDetIndex++;
-        var pg = document.createElement('details'); pg.className = 'pub-group';
-        if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
-        pg.addEventListener('toggle', saveSubDetState);
-        var pgsm = document.createElement('summary'); pgsm.textContent = cg.g; pg.appendChild(pgsm);
-        cg.cmds.forEach(function(cmd) {
-          var a = document.createElement('a'); a.href = vru(BASE + cg.pub); a.target = 'content-frame';
-          a.dataset.navId = 'nav-' + (navLinkId++);
-          var sp = document.createElement('span'); sp.className = 'cmd-link'; sp.textContent = cmd;
-          a.appendChild(sp); pg.appendChild(a);
-        });
-        body.appendChild(pg);
-      });
-    }
-    if (w.pubs) {
-      w.pubs.forEach(function(p) {
-        var idx = subDetIndex++;
-        var pg = document.createElement('details'); pg.className = 'pub-group';
-        if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
-        pg.addEventListener('toggle', saveSubDetState);
-        var pgsm = document.createElement('summary'); pgsm.textContent = p.n + ' ' + p.t; pg.appendChild(pgsm);
-        var a1 = document.createElement('a'); a1.href = vru(BASE+LP+'/publications/'+p.s+'/');
-        a1.dataset.navId = 'nav-' + (navLinkId++);
-        a1.target = 'content-frame'; a1.textContent = t.summary; pg.appendChild(a1);
-        var a2 = document.createElement('a'); a2.href = vru(BASE+LP+'/publications/'+p.s+'/full/');
-        a2.dataset.navId = 'nav-' + (navLinkId++);
-        a2.target = 'content-frame'; a2.textContent = t.full; pg.appendChild(a2);
-        if (p.extra) { p.extra.forEach(function(e) {
-          var ax = document.createElement('a'); ax.href = vru(BASE+e.p);
-          ax.dataset.navId = 'nav-' + (navLinkId++);
-          ax.target = 'content-frame'; ax.textContent = e.t; pg.appendChild(ax);
-        }); }
-        body.appendChild(pg);
-      });
-    }
-    if (w.json) {
-      (function(jsonUrl, container) {
-        fetch(vru(BASE + '/' + jsonUrl))
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            var items = (data.items || []).slice().sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
-            // Group by module
-            var groups = {};
-            items.forEach(function(item) {
-              if (!groups[item.module]) groups[item.module] = [];
-              groups[item.module].push(item);
-            });
-            Object.keys(groups).forEach(function(mod) {
-              var idx = subDetIndex++;
-              var pg = document.createElement('details'); pg.className = 'pub-group';
-              if (savedSubDet[idx] !== undefined) pg.open = savedSubDet[idx];
-              pg.addEventListener('toggle', saveSubDetState);
-              var pgsm = document.createElement('summary'); pgsm.textContent = mod; pg.appendChild(pgsm);
-              groups[mod].forEach(function(item) {
-                var a = document.createElement('a');
-                a.href = vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed');
-                a.dataset.navId = 'nav-' + (navLinkId++);
-                a.target = 'content-frame';
-                a.textContent = (LANG === 'fr' && item.title_fr) ? item.title_fr : item.title;
-                pg.appendChild(a);
-              });
-              container.appendChild(pg);
-            });
-          })
-          .catch(function(e) { console.warn('Failed to load ' + jsonUrl, e); });
-      })(w.json, body);
-    }
     det.appendChild(body); panel.appendChild(det);
+
+    fetch(vru(BASE + '/' + w.json))
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        /* Section-level metadata */
+        sm.textContent = (LANG === 'fr' && data.title_fr) ? data.title_fr : data.title;
+        if (data.open && savedState[w.id] === undefined) det.open = true;
+
+        var items = (data.items || []).slice().sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+        var section = data.section;
+
+        /* ── Interfaces: links with target routing ── */
+        if (section === 'interfaces') {
+          items.forEach(function(item) {
+            var target = item.target === 'top' ? '_top' : (item.target === 'center' ? 'center-frame' : 'content-frame');
+            var href = item.target === 'top' ? vru(BASE + LP + item.href, false) : vru(BASE + LP + item.href);
+            body.appendChild(makeLink(label(item), href, target));
+          });
+        }
+
+        /* ── Simple link lists: essentials, hubs, profile, stories ── */
+        else if (section === 'essentials' || section === 'hubs' || section === 'profile' || section === 'stories') {
+          items.forEach(function(item) {
+            body.appendChild(makeLink(label(item), vru(BASE + LP + item.href), 'content-frame'));
+          });
+        }
+
+        /* ── Commands: grouped with pub link + cmd spans ── */
+        else if (section === 'commands') {
+          items.forEach(function(cg) {
+            var gLabel = (LANG === 'fr' && cg.group_fr) ? cg.group_fr : cg.group;
+            var pg = makeSubDet(gLabel);
+            cg.cmds.forEach(function(cmd) {
+              var a = makeLink('', vru(BASE + LP + cg.pub), 'content-frame');
+              var sp = document.createElement('span'); sp.className = 'cmd-link'; sp.textContent = cmd;
+              a.appendChild(sp); pg.appendChild(a);
+            });
+            body.appendChild(pg);
+          });
+        }
+
+        /* ── Publications: summary + full sub-links ── */
+        else if (section === 'publications') {
+          var sumLabel = (LANG === 'fr' && data.summary_label_fr) ? data.summary_label_fr : (data.summary_label || 'Summary');
+          var fullLabel = (LANG === 'fr' && data.full_label_fr) ? data.full_label_fr : (data.full_label || 'Full');
+          items.forEach(function(p) {
+            var pg = makeSubDet(p.number + ' ' + label(p));
+            pg.appendChild(makeLink(sumLabel, vru(BASE + LP + '/publications/' + p.slug + '/'), 'content-frame'));
+            pg.appendChild(makeLink(fullLabel, vru(BASE + LP + '/publications/' + p.slug + '/full/'), 'content-frame'));
+            if (p.extra) { p.extra.forEach(function(e) {
+              var eLabel = (LANG === 'fr' && e.title_fr) ? e.title_fr : e.title;
+              pg.appendChild(makeLink(eLabel, vru(BASE + LP + e.href), 'content-frame'));
+            }); }
+            body.appendChild(pg);
+          });
+        }
+
+        /* ── Methodologies: grouped by module, raw GitHub URLs ── */
+        else if (section === 'methodologies' || items[0] && items[0].module) {
+          var groups = {};
+          items.forEach(function(item) {
+            var mod = item.module || 'General';
+            if (!groups[mod]) groups[mod] = [];
+            groups[mod].push(item);
+          });
+          Object.keys(groups).forEach(function(mod) {
+            var pg = makeSubDet(mod);
+            groups[mod].forEach(function(item) {
+              pg.appendChild(makeLink(label(item), vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed'), 'content-frame'));
+            });
+            body.appendChild(pg);
+          });
+        }
+
+        /* ── Fallback: flat link list ── */
+        else {
+          items.forEach(function(item) {
+            var href = item.href ? vru(BASE + LP + item.href) : (item.path ? vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed') : '#');
+            body.appendChild(makeLink(label(item), href, 'content-frame'));
+          });
+        }
+      })
+      .catch(function(e) { console.warn('Failed to load ' + w.json, e); });
   });
 
   /* ─── Language-neutral URL helpers ─── */

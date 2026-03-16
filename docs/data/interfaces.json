@@ -1,0 +1,14 @@
+{
+  "section": "interfaces",
+  "title": "Interfaces",
+  "title_fr": "Interfaces",
+  "open": true,
+  "items": [
+    { "title": "I1 Session Review", "title_fr": "I1 Revue de session", "href": "/interfaces/session-review/", "target": "center", "priority": 1 },
+    { "title": "I2 Main Navigator", "title_fr": "I2 Navigateur principal", "href": "/interfaces/main-navigator/", "target": "top", "priority": 2 },
+    { "title": "I3 Tasks Workflow", "title_fr": "I3 Flux de travail", "href": "/interfaces/task-workflow/", "target": "center", "priority": 3 },
+    { "title": "I4 Project Viewer", "title_fr": "I4 Visualiseur projets", "href": "/interfaces/project-viewer/", "target": "center", "priority": 4 },
+    { "title": "I5 Live Mindmap", "title_fr": "I5 Mindmap vivant", "href": "/interfaces/live-mindmap/", "target": "center", "priority": 5 },
+    { "title": "#21 Documentation", "title_fr": "#21 Documentation", "href": "/publications/main-interface/", "target": "right", "priority": 6 }
+  ]
+}

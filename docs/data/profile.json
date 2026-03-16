@@ -1,0 +1,11 @@
+{
+  "section": "profile",
+  "title": "Profile",
+  "title_fr": "Profil",
+  "open": false,
+  "items": [
+    { "title": "Hub", "title_fr": "Hub", "href": "/profile/", "priority": 1 },
+    { "title": "Resume", "title_fr": "Résumé", "href": "/profile/resume/", "priority": 2 },
+    { "title": "Full", "title_fr": "Complet", "href": "/profile/full/", "priority": 3 }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "section": "commands",
+  "title": "Commands",
+  "title_fr": "Commandes",
+  "open": false,
+  "items": [
+    { "group": "Session", "group_fr": "Session", "pub": "/publications/session-management/full/#pub-title", "cmds": ["wakeup", "refresh", "help / aide", "status", "save", "remember", "resume", "recover", "recall", "checkpoint", "elevate"], "priority": 1 },
+    { "group": "Normalize", "group_fr": "Normalize", "pub": "/publications/normalize-structure-concordance/full/#pub-title", "cmds": ["normalize", "normalize --fix", "normalize --check"], "priority": 2 },
+    { "group": "Harvest", "group_fr": "Harvest", "pub": "/publications/harvest-protocol/full/#pub-title", "cmds": ["harvest", "harvest --list", "harvest --procedure", "harvest --healthcheck", "harvest --review", "harvest --stage", "harvest --promote", "harvest --auto", "harvest --fix"], "priority": 3 },
+    { "group": "Publications", "group_fr": "Publications", "pub": "/publications/webcards-social-sharing/full/#pub-title", "cmds": ["pub list", "pub check", "pub new", "pub sync", "doc review", "docs check", "webcard", "weblinks", "pub export"], "priority": 4 },
+    { "group": "Project", "group_fr": "Projet", "pub": "/publications/knowledge-system/full/#pub-title", "cmds": ["project list", "project info", "project create", "project register", "project review", "#N: note", "g:board:item"], "priority": 5 },
+    { "group": "Live Session", "group_fr": "Session live", "pub": "/publications/live-session-analysis/full/#pub-title", "cmds": ["I'm live", "multi-live", "deep", "analyze", "recipe"], "priority": 6 },
+    { "group": "Live Network", "group_fr": "Réseau live", "pub": "/publications/live-knowledge-network/full/#pub-title", "cmds": ["beacon"], "priority": 7 }
+  ]
+}

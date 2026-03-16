@@ -1,0 +1,14 @@
+{
+  "section": "essentials",
+  "title": "Essentials",
+  "title_fr": "Essentiels",
+  "open": false,
+  "items": [
+    { "title": "STORIES", "title_fr": "HISTOIRES", "href": "/publications/success-stories/", "priority": 1 },
+    { "title": "README", "title_fr": "README", "href": "/", "priority": 2 },
+    { "title": "PLAN", "title_fr": "PLAN", "href": "/plan/", "priority": 3 },
+    { "title": "LINKS", "title_fr": "LIENS", "href": "/links/", "priority": 4 },
+    { "title": "NEWS", "title_fr": "NOUVELLES", "href": "/news/", "priority": 5 },
+    { "title": "CHANGELOG", "title_fr": "CHANGELOG", "href": "/changelog/", "priority": 6 }
+  ]
+}

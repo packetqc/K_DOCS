@@ -1,0 +1,12 @@
+{
+  "section": "hubs",
+  "title": "Hubs",
+  "title_fr": "Hubs",
+  "open": false,
+  "items": [
+    { "title": "Landing", "title_fr": "Accueil", "href": "/", "priority": 1 },
+    { "title": "Publications", "title_fr": "Publications", "href": "/publications/", "priority": 2 },
+    { "title": "Interfaces", "title_fr": "Interfaces", "href": "/interfaces/", "priority": 3 },
+    { "title": "Projects", "title_fr": "Projets", "href": "/projects/", "priority": 4 }
+  ]
+}
