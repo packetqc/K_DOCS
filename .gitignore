@@ -6,3 +6,5 @@ package-lock.json
 .claude/preuve_execution.json
 .claude/checkpoint_execution.json
 .claude/projects.json
+Knowledge/legacy/
+Knowledge/legacy-archive.tar.gz
