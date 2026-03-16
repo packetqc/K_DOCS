@@ -64,7 +64,7 @@ Each section has a JSON file at `docs/data/<section>.json`:
 | Type | Rendering | Grouping | Composite View |
 |------|-----------|----------|----------------|
 | `interfaces` | Links with target routing + ℹ guide button | — | — |
-| `documentation` | Flat card links to publication summaries (like essentials) | Flattened from `groups[]` | — |
+| `documentation` | Flat rows with S/F icons (like interfaces row style) | Flattened from `groups[]` | — |
 | `essentials` | Simple links | — | — |
 | `commands` | Grouped commands with pub link + cmd spans | By `group` | — |
 | `methodologies` | Links via viewer `?doc=` | By `module` | — |
@@ -166,6 +166,21 @@ All left-panel items use a widget-card look — not flat text lists:
 - **Sub-groups**: Wrapped in bordered cards (`border: 1px solid var(--border)`), summary hover shifts 2px
 - **Interface rows**: `.iface-row` flex container wraps link + ℹ button, inherits card style with row-level hover
 - **Transitions**: `0.12s` transform, `0.15s` background/color/border — smooth but responsive
+
+### Row Icon System
+
+All sections use the same `.iface-row` flex container for items that have right-side action icons. The only variation is which icons appear:
+
+| Icon | Meaning | Data field | Target |
+|------|---------|------------|--------|
+| **ℹ** | User guide | `pub` | Opens `/publications/<pub>/full/` in content panel |
+| **S** | Summary | `slug` | Opens `/publications/<slug>/` in content panel |
+| **F** | Full doc | `has_full` | Opens `/publications/<slug>/full/` in content panel |
+
+- Icons are **conditional** — only rendered when the corresponding data field exists/is true
+- Row click (on label, not icon) opens the default target (summary for docs, center iframe for interfaces)
+- Icon styling: `.iface-pub-btn` — small muted text, hover accent color, same height as row
+- Sections without icons (essentials, hubs, profile, stories) use plain `makeLink()` rows
 
 ### ℹ Guide Button
 

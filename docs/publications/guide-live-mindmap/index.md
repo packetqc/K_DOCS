@@ -1,31 +1,33 @@
 ---
 layout: publication
 title: "Live Mindmap — User Guide"
-description: "How to use the Live Mindmap interface: interactive memory visualization, node exploration, zoom, and real-time updates."
-pub_id: "User Guide — I5"
+pub_id: "Guide — Live Mindmap"
 version: "v1"
 date: "2026-03-16"
 permalink: /publications/guide-live-mindmap/
-keywords: "user guide, live mindmap, interface, MindElixir, memory visualization"
+og_image: /assets/og/live-knowledge-network-en-cayman.gif
+keywords: "guide, mindmap, visualization, interactive, knowledge graph"
 ---
 
 # Live Mindmap — User Guide
 {: #pub-title}
 
-> **Interface**: [Live Mindmap (I5)]({{ '/interfaces/live-mindmap/' | relative_url }})
+> **Interface**: [Live Mindmap (I5)]({{ '/interfaces/live-mindmap/' | relative_url }}) | [Full version]({{ '/publications/guide-live-mindmap/full/' | relative_url }})
 
 **Contents**
 
 | | |
 |---|---|
-| [Getting Started](#getting-started) | Open the interface |
-| [Navigation](#navigation) | Pan, zoom, and explore nodes |
-| [Node Types](#node-types) | What the colors and shapes mean |
-| [Tips](#tips) | Get the most out of the mindmap |
+| [Getting Started](#getting-started) | Open the mindmap and orient yourself |
+| [Navigation](#navigation) | Pan, zoom, expand and collapse nodes |
+| [Toolbar Controls](#toolbar-controls) | View modes, theme, reload, fit |
+| [Node Interaction](#node-interaction) | Select, expand, Ctrl+click |
+| [Real-Time Updates](#real-time-updates) | Live data from GitHub |
+| [Tips](#tips) | Keyboard shortcuts and best practices |
 
 ## Getting Started
 
-The Live Mindmap renders the Knowledge memory system as an interactive visual tree powered by MindElixir v5. Every node represents a piece of knowledge — architecture, conventions, work state, session context.
+The Live Mindmap renders the K_MIND memory system as an interactive knowledge graph powered by **MindElixir v5**. Every node is a directive — architecture rules, conventions, work state, or session context — read live from the `mind_memory.md` mermaid source on GitHub.
 
 **To open it:**
 - From the **Main Navigator**: click *I5 Live Mindmap* in the left panel
@@ -33,32 +35,53 @@ The Live Mindmap renders the Knowledge memory system as an interactive visual tr
 
 ## Navigation
 
-- **Pan**: click and drag the background
-- **Zoom**: mouse wheel or pinch gestures
-- **Select**: click a node to highlight it and its connections
-- **Expand/Collapse**: click the toggle on a node to show/hide children
+| Action | How |
+|--------|-----|
+| **Pan** | Click + drag on the background |
+| **Zoom** | Mouse wheel scroll or pinch gesture |
+| **Select** | Click any node to highlight it |
+| **Expand one level** | Click the `+` toggle on a collapsed node |
+| **Collapse one level** | Click the `-` toggle on an expanded node |
+| **Expand all levels** | `Ctrl + Click` (or `Cmd + Click`) on the `+` toggle |
 
-## Node Types
+## Toolbar Controls
 
-The mindmap organizes knowledge into top-level groups:
+The control bar at the top provides:
 
-| Group | Purpose |
-|-------|---------|
-| **architecture** | System design rules — how things work |
-| **constraints** | Hard limits and boundaries |
-| **conventions** | Patterns and standards |
-| **work** | Accomplished and staged results |
-| **session** | Current conversation context |
-| **documentation** | Documentation structure references |
+| Button | Action |
+|--------|--------|
+| **Normal / Full** | View mode selector — *Normal* hides architecture/constraints branches; *Full* shows everything |
+| **Theme** | Switch between Auto, Cayman, Midnight, Daltonism Light, Daltonism Dark |
+| **Reload** | Re-fetch the mindmap source from GitHub (clears cache) |
+| **Center** | Re-center the map without changing zoom level |
+| **Fit** | Scale the entire map to fit the visible area |
+| **Fullscreen** | Toggle browser fullscreen on the mindmap container |
+| **?** | Open/close the built-in help panel on the right side |
+
+## Node Interaction
+
+- **Click a node** to select it — the node and its connections are highlighted
+- **Expand/Collapse** — each parent node has a `+`/`-` toggle to reveal or hide children
+- **Ctrl+Click on `+`** — recursively expands all descendant levels at once
+- Nodes are **read-only** — the mindmap cannot be edited from the interface
+
+## Real-Time Updates
+
+The mindmap data is fetched live from the GitHub repository (`Knowledge/K_MIND/mind/mind_memory.md`). The depth configuration (`depth_config.json`) controls which branches appear in Normal mode.
+
+- **Reload** re-fetches both files from GitHub
+- Theme changes propagate instantly via BroadcastChannel — no reload needed
+- The mindmap auto-fits on window resize and fullscreen toggle
 
 ## Tips
 
-- **Focus**: double-click a node to center and zoom into its subtree
-- **Full screen**: use the browser's full-screen mode (F11) for maximum space
-- **Data source**: the mindmap reads from `Knowledge/K_MIND/files/mind/architecture-mindmap.md`
+- Use **Fit** after expanding many branches to recenter the view
+- In **Normal** mode, architecture and constraints are hidden to reduce noise — switch to **Full** when you need the complete picture
+- The **help panel** (`?` button) remembers its open/closed state across page loads
+- All 5 themes (including two daltonism-accessible variants) apply to both the page and the MindElixir canvas
 
 ---
 
-**[Launch Live Mindmap (I5) →]({{ '/interfaces/live-mindmap/' | relative_url }})**
+**[Launch Live Mindmap (I5) ->]({{ '/interfaces/live-mindmap/' | relative_url }})**
 
 *See also: [Live Mindmap — Technical Publication]({{ '/publications/live-mindmap/' | relative_url }})*

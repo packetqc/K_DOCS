@@ -561,14 +561,28 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           });
         }
 
-        /* ── Documentation: flat links like essentials ── */
+        /* ── Documentation: iface-row with S/F icons ── */
         else if (section === 'documentation') {
           var allItems = [];
           (data.groups || []).forEach(function(g) { if (g.items) allItems = allItems.concat(g.items); });
           if (data.items) allItems = allItems.concat(data.items);
           allItems.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
           allItems.forEach(function(item) {
-            body.appendChild(makeLink(label(item), vru(BASE + LP + '/publications/' + item.slug + '/'), 'content-frame'));
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(label(item), vru(BASE + LP + '/publications/' + item.slug + '/'), 'content-frame'));
+            if (item.slug) {
+              var sBtn = document.createElement('a'); sBtn.className = 'iface-pub-btn';
+              sBtn.textContent = 'S'; sBtn.title = LANG === 'fr' ? 'Résumé' : 'Summary';
+              sBtn.href = vru(BASE + LP + '/publications/' + item.slug + '/');
+              sBtn.setAttribute('data-target', 'content-frame'); row.appendChild(sBtn);
+            }
+            if (item.has_full) {
+              var fBtn = document.createElement('a'); fBtn.className = 'iface-pub-btn';
+              fBtn.textContent = 'F'; fBtn.title = LANG === 'fr' ? 'Complet' : 'Full';
+              fBtn.href = vru(BASE + LP + '/publications/' + item.slug + '/full/');
+              fBtn.setAttribute('data-target', 'content-frame'); row.appendChild(fBtn);
+            }
+            body.appendChild(row);
           });
         }
 

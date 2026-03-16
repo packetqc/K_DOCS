@@ -1,65 +1,62 @@
 ---
 layout: publication
 title: "Session Review — User Guide"
-description: "How to use the Session Review interface: select sessions, explore metrics, browse timelines, and review deliveries."
-pub_id: "User Guide — I1"
+description: "How to use the Session Review interface: navigate sessions, read metrics, explore charts and timelines, and export reports."
+pub_id: "Guide — Session Review"
 version: "v1"
 date: "2026-03-16"
 permalink: /publications/guide-session-review/
-keywords: "user guide, session review, interface, how to, tutorial"
+og_image: /assets/og/session-review-en-cayman.gif
+keywords: "guide, session, review, metrics, charts, timeline, user guide"
 ---
 
 # Session Review — User Guide
 {: #pub-title}
 
-> **Interface**: [Session Review (I1)]({{ '/interfaces/session-review/' | relative_url }})
+> **Full guide**: [Session Review — User Guide (Full)]({{ '/publications/guide-session-review/full/' | relative_url }})
 
 **Contents**
 
 | | |
 |---|---|
-| [Getting Started](#getting-started) | Open the interface and select a session |
-| [Session Selector](#session-selector) | Choose and filter sessions |
-| [Sections Overview](#sections-overview) | What each section shows |
-| [Tips & Shortcuts](#tips--shortcuts) | Get the most out of the viewer |
+| [What Is Session Review?](#what-is-session-review) | Purpose and overview |
+| [Getting Started](#getting-started) | How to open and navigate |
+| [Key Features](#key-features) | Metrics, charts, timeline, deliveries |
+| [Tips](#tips) | Get the most out of the interface |
+
+## What Is Session Review?
+
+Session Review (I1) is the interactive dashboard for exploring work sessions. Each session captures what was accomplished, how long it took, what was delivered, and what was learned. The interface turns raw session data into a structured, visual report you can browse section by section.
+
+**[Open Session Review (I1) &rarr;]({{ '/interfaces/session-review/' | relative_url }})**
 
 ## Getting Started
 
-The Session Review interface lets you explore completed work sessions — their metrics, timeline, deliveries, and lessons learned.
+1. **Select a session** from the dropdown at the top — sessions are grouped by date and prefixed with the start time
+2. **Choose a view** using the second dropdown: All sections, Tasks Overview, Metrics Dashboard, or Timeline
+3. **Scroll** through the report — each section is displayed in sequence
 
-**To open it:**
-- From the **Main Navigator**: click *I1 Session Review* in the left panel
-- Direct URL: `/interfaces/session-review/`
+The "All Sessions" view (no session selected) shows summary cards for every available session, giving you a quick overview of recent activity.
 
-## Session Selector
+## Key Features
 
-At the top of the interface, two dropdowns control what you see:
+| Feature | What It Shows |
+|---------|---------------|
+| **Summary** | Session title, date, branch, type, and a brief description of what was accomplished |
+| **Metrics** | Pull requests, files modified, lines changed, commits, tasks, and lessons — broken down by category |
+| **Charts** | Pie charts for scope distribution, metrics breakdown, code lines, and time allocation |
+| **Time Compilation** | Active time, calendar time, and time blocks categorized as Machine / Human / Inactive |
+| **Deliveries** | List of pull requests with line counts, file counts, and direct GitHub links |
+| **Lessons Learned** | Methodology insights, patterns discovered, and pitfalls encountered |
 
-1. **Session** — pick a specific session or *All Sessions* for an overview
-2. **View** — filter by section: All, Tasks Overview, Metrics Dashboard, or Timeline
+## Tips
 
-Sessions are listed by date (newest first). Only sessions from v52+ are available — earlier sessions lack the structured protocol data.
-
-## Sections Overview
-
-Each session report contains up to 5 sections:
-
-| Section | What it shows |
-|---------|--------------|
-| **Summary** | Session goals, context, and outcome |
-| **Metrics** | Message counts, tool usage, and productivity indicators |
-| **Time Compilation** | Duration tracking and time allocation |
-| **Deliveries** | Files created or modified, commits, and artifacts |
-| **Lessons Learned** | What worked, what didn't, and process improvements |
-
-## Tips & Shortcuts
-
-- **Quick compare**: open two sessions in separate browser tabs to compare metrics side by side
-- **Print/PDF**: use the browser's print function — the interface has print-optimized styles
-- **Data source**: session data comes from `docs/data/sessions.json`, refreshed at the end of each work session
+- **Emoji indicators** in the dropdown tell you what data is available: deliveries, notes, or linked GitHub issues
+- **Section filter** lets you focus on just the metrics or timeline without scrolling through the full report
+- Sessions are displayed in your **local timezone** — a session worked on in the evening will appear under today's date, not tomorrow's UTC date
+- Only sessions from **v52+** (2026-02-27 onwards) appear — earlier sessions lack the structured data this viewer requires
 
 ---
 
-**[Launch Session Review (I1) →]({{ '/interfaces/session-review/' | relative_url }})**
-
-*See also: [Session Review — Technical Publication]({{ '/publications/session-review/' | relative_url }})*
+*Authors: Martin Paquet & Claude (Anthropic, Opus 4.6)*
+*Knowledge: [packetqc/knowledge](https://github.com/packetqc/knowledge)*
