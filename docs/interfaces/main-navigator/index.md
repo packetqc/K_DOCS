@@ -360,7 +360,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   /* Set default iframe sources based on language */
   var centerIframe = document.getElementById('center-frame-el');
   var rightIframe  = document.getElementById('right-frame-el');
-  centerIframe.src = BASE + LP + '/interfaces/task-workflow/';
+  /* Center default resolved dynamically from interfaces.json first-priority item */
+  var defaultCenterResolved = false;
   rightIframe.src  = BASE + LP + '/';
 
   var panel  = document.getElementById('left-panel');
@@ -534,6 +535,14 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
         /* ── Interfaces: links with target routing + ℹ guide button ── */
         if (section === 'interfaces') {
+          /* Resolve default center from first center-target interface */
+          if (!defaultCenterResolved && !localStorage.getItem(CENTER_KEY)) {
+            var firstCenter = items.find(function(i) { return i.target === 'center'; });
+            if (firstCenter && centerIframe) {
+              centerIframe.src = vru(BASE + LP + firstCenter.href);
+              defaultCenterResolved = true;
+            }
+          }
           items.forEach(function(item) {
             var target = item.target === 'top' ? '_top' : (item.target === 'center' ? 'center-frame' : 'content-frame');
             var href = item.target === 'top' ? vru(BASE + LP + item.href, false) : vru(BASE + LP + item.href);
@@ -542,7 +551,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
               row.appendChild(makeLink(label(item), href, target));
               var ib = document.createElement('a'); ib.className = 'iface-pub-btn';
               ib.textContent = 'ℹ'; ib.title = LANG === 'fr' ? 'Guide utilisateur' : 'User Guide';
-              ib.href = BASE + LP + '/publications/' + item.pub + '/full/';
+              ib.href = vru(BASE + LP + '/publications/' + item.pub + '/full/');
               ib.target = 'content-frame';
               row.appendChild(ib);
               body.appendChild(row);
@@ -776,8 +785,11 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   /* ─── Restore last viewed pages ─── */
   var vruFn = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
   var savedCenter = localStorage.getItem(CENTER_KEY);
-  var defaultCenter = vruFn(BASE + LP + '/interfaces/task-workflow/');
-  if (centerIframe) { centerIframe.src = savedCenter ? applyLang(savedCenter) : defaultCenter; }
+  /* If saved center exists, restore it; otherwise let buildWidgets resolve from interfaces.json first-priority */
+  if (savedCenter && centerIframe) {
+    centerIframe.src = applyLang(savedCenter);
+    defaultCenterResolved = true;
+  }
 
   /* Restore tabs or fall back to single URL */
   try {
