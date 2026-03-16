@@ -497,20 +497,20 @@ body > .container {
           allowUndo: false
         });
 
-        mind.init(data);
-        window.mindInstance = mind;
-
-        // Collapse nodes beyond depth 2 AFTER init (MindElixir ignores expanded in pre-init data)
-        (function collapseInitial(node, depth) {
+        // Collapse deep nodes before init — MindElixir respects expanded during render
+        (function collapseDeep(node, depth) {
           if (!node.children || !node.children.length) return;
-          node.children.forEach(function(child) {
+          for (var i = 0; i < node.children.length; i++) {
+            var child = node.children[i];
             if (child.children && child.children.length > 0) {
               if (depth >= 2) child.expanded = false;
-              collapseInitial(child, depth + 1);
             }
-          });
-        })(mind.nodeData, 0);
-        mind.refresh();
+            collapseDeep(child, depth + 1);
+          }
+        })(data.nodeData, 0);
+
+        mind.init(data);
+        window.mindInstance = mind;
         document.documentElement.setAttribute('data-theme', themeKey);
 
         // Fix Ctrl+click expand all: reset descendant state before MindElixir handles it
