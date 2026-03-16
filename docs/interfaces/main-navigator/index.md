@@ -597,18 +597,22 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           if (data.items) allItems = allItems.concat(data.items);
           allItems.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
           allItems.forEach(function(item) {
-            var row = document.createElement('div'); row.className = 'doc-row';
             var sumUrl = vru(BASE + LP + '/publications/' + item.slug + '/');
-            row.appendChild(makeLink(label(item), sumUrl, 'content-frame'));
-            var sb = document.createElement('a'); sb.className = 'doc-btn';
-            sb.textContent = '§'; sb.title = dSumTip;
-            sb.href = vru(BASE + LP + '/publications/' + item.slug + '/');
-            sb.target = 'content-frame'; row.appendChild(sb);
-            var fb = document.createElement('a'); fb.className = 'doc-btn';
-            fb.textContent = '⊞'; fb.title = dFullTip;
-            fb.href = vru(BASE + LP + '/publications/' + item.slug + '/full/');
-            fb.target = 'content-frame'; row.appendChild(fb);
-            body.appendChild(row);
+            if (!item.has_full) {
+              body.appendChild(makeLink(label(item), sumUrl, 'content-frame'));
+            } else {
+              var row = document.createElement('div'); row.className = 'doc-row';
+              row.appendChild(makeLink(label(item), sumUrl, 'content-frame'));
+              var sb = document.createElement('a'); sb.className = 'doc-btn';
+              sb.textContent = 'S'; sb.title = dSumTip;
+              sb.href = sumUrl;
+              sb.target = 'content-frame'; row.appendChild(sb);
+              var fb = document.createElement('a'); fb.className = 'doc-btn';
+              fb.textContent = 'F'; fb.title = dFullTip;
+              fb.href = vru(BASE + LP + '/publications/' + item.slug + '/full/');
+              fb.target = 'content-frame'; row.appendChild(fb);
+              body.appendChild(row);
+            }
           });
         }
 
