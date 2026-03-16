@@ -1,13 +1,13 @@
 ---
 layout: publication
 title: "AI Session Persistence — Complete Documentation"
-description: "Complete documentation for cross-session knowledge continuity: three-component persistence (CLAUDE.md + notes/ + lifecycle), RTOS analogy, measured results, portability, design principles, and limitations."
+description: "Complete documentation for cross-session knowledge continuity: mind_memory.md directive grid + tiered session memory (near/far/archives) + K_MIND scripts, RTOS analogy, measured results, portability, design principles, and K1.0→K2.0 evolution."
 pub_id: "Publication #3 — Full"
-version: "v1"
-date: "2026-02-19"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/ai-session-persistence/full/
 og_image: /assets/og/ai-persistence-en-cayman.gif
-keywords: "session persistence, Free Guy, NPC, awareness, notes, wakeup, sunglasses"
+keywords: "session persistence, Free Guy, NPC, awareness, mind_memory, session_init, sunglasses"
 ---
 
 # AI Session Persistence — Complete Documentation
@@ -20,17 +20,16 @@ keywords: "session persistence, Free Guy, NPC, awareness, notes, wakeup, sunglas
 | [Authors](#authors) | Publication authors |
 | [Abstract](#abstract) | Session persistence methodology overview |
 | [The Problem: Stateless AI in a Stateful World](#the-problem-stateless-ai-in-a-stateful-world) | What is lost between sessions and its impact |
-| [The Solution: Three-Component Persistence](#the-solution-three-component-persistence) | CLAUDE.md + notes/ + lifecycle architecture |
-| &nbsp;&nbsp;[Component 1: CLAUDE.md — Project Identity](#component-1-claudemd--project-identity) | Declarative project constitution |
-| &nbsp;&nbsp;[Component 2: notes/ — Session Memory](#component-2-notes--session-memory) | Per-session event journal |
-| &nbsp;&nbsp;[Component 3: Lifecycle Protocol](#component-3-lifecycle-protocol) | Init, work, and save phases |
-| [The RTOS Analogy](#the-rtos-analogy) | Sessions as threads, notes as shared memory |
+| [The Solution: Three-Component Persistence](#the-solution-three-component-persistence) | Directive grid + tiered memory + K_MIND scripts |
+| &nbsp;&nbsp;[Component 1: mind_memory.md — Directive Grid](#component-1-mind_memorymd--directive-grid) | 264-node mermaid mindmap |
+| &nbsp;&nbsp;[Component 2: sessions/ — Tiered Memory](#component-2-sessions--tiered-memory) | Near, far, and archived memory |
+| &nbsp;&nbsp;[Component 3: K_MIND Scripts — Lifecycle](#component-3-k_mind-scripts--lifecycle) | session_init, memory_append, far_memory_split |
+| [The RTOS Analogy](#the-rtos-analogy) | Sessions as threads, memory as shared state |
+| [Free-Guy Sunglasses](#free-guy-sunglasses) | NPC to awareness with the sunglasses |
 | [Measured Results](#measured-results) | Quantified improvements from persistence |
-| &nbsp;&nbsp;[Context Recovery Time](#context-recovery-time) | 30 seconds vs 15 minutes comparison |
-| &nbsp;&nbsp;[Knowledge Accumulated](#knowledge-accumulated) | Items persisted across 10+ sessions |
-| &nbsp;&nbsp;[Session Efficiency](#session-efficiency) | Accuracy and productivity metrics |
-| [Portability](#portability) | Quick setup for any new repository |
-| [Design Principles](#design-principles) | Why files over databases, why two components |
+| [K1.0 → K2.0 Evolution](#k10--k20-evolution) | How the persistence architecture evolved |
+| [Portability](#portability) | Quick setup for any new project |
+| [Design Principles](#design-principles) | Why files over databases, why tiered memory |
 | [Limitations and Future Work](#limitations-and-future-work) | Context window, search, and concurrency |
 | [Related Publications](#related-publications) | Sibling publications in the knowledge system |
 
@@ -38,7 +37,7 @@ keywords: "session persistence, Free Guy, NPC, awareness, notes, wakeup, sunglas
 
 **Martin Paquet** — Network security analyst programmer, network and system security administrator, and embedded software designer and programmer. Specializing in RTOS architectures, hardware security, and high-throughput data pipelines on ARM Cortex-M platforms. Architect of the MPLIB module library and creator of the session persistence methodology documented here. Martin's insight was that AI coding sessions are analogous to RTOS threads — they need isolated context, shared memory regions, and explicit lifecycle management. Based in Quebec, Canada.
 
-**Claude** (Anthropic, Opus 4.6) — AI coding assistant operating within the Claude Code CLI. In this collaboration, Claude is both a practitioner and a subject of the persistence methodology — it reads the notes to recover context, writes notes to preserve it, and follows CLAUDE.md instructions that define how to do both.
+**Claude** (Anthropic, Opus 4.6) — AI coding assistant operating within the Claude Code CLI. In this collaboration, Claude is both a practitioner and a subject of the persistence methodology — it reads the mindmap and memory files to recover context, runs scripts to preserve it, and follows the directive grid that defines how to do both.
 
 ---
 
@@ -46,17 +45,15 @@ keywords: "session persistence, Free Guy, NPC, awareness, notes, wakeup, sunglas
 
 AI coding assistants operate in stateless sessions. Each new conversation starts from zero — no memory of previous work, no context about decisions made yesterday, no awareness of bugs fixed last week. For sustained engineering projects spanning days or weeks, it is a critical limitation.
 
-This publication documents a **session persistence methodology** that gives AI coding assistants durable cross-session memory. The approach uses three components: a **project instruction file** (`CLAUDE.md`) that encodes project identity, conventions, and operational procedures; a **session notes directory** (`notes/`) that accumulates decisions, discoveries, and status across sessions; and a **lifecycle protocol** (init → work → save) that ensures context is never lost between sessions.
+This publication documents a **session persistence methodology** that gives AI coding assistants durable cross-session memory. The Knowledge 2.0 approach uses three components: a **directive grid** (`mind_memory.md` — a 264-node mermaid mindmap encoding project identity, architecture, conventions, and work state), a **tiered session memory** (`sessions/` with `near_memory.json` for summaries, `far_memory.json` for verbatim history, and `archives/` for topic-split records), and **K_MIND scripts** (`session_init.py`, `memory_append.py`, `far_memory_split.py`) that manage the persistence lifecycle automatically — every turn.
 
-The methodology was developed and validated during the construction of a high-throughput SQLite log ingestion pipeline on an STM32N6570-DK (Cortex-M55 @ 800 MHz). Over 10+ sessions spanning two days, the AI maintained continuous awareness of project state, architectural decisions, bug history, and collaborator preferences — without any external memory system, database, or API. Just files in a Git repository.
+The methodology was originally developed and validated during the construction of a high-throughput SQLite log ingestion pipeline on an STM32N6570-DK (Cortex-M55 @ 800 MHz). Over 10+ sessions spanning two days, the AI maintained continuous awareness of project state. It has since evolved from the original K1.0 design (CLAUDE.md + notes/ + wakeup/save) into the K2.0 multi-module architecture described here.
 
 ---
 
 ## The Problem: Stateless AI in a Stateful World
 
-Software engineering is inherently stateful. Every decision builds on prior decisions. Every bug fix depends on understanding the bug's history.
-
-AI coding assistants lose all of this between sessions:
+Software engineering is inherently stateful. Every decision builds on prior decisions.
 
 | What is lost | Impact |
 |--------------|--------|
@@ -64,10 +61,9 @@ AI coding assistants lose all of this between sessions:
 | **Bug history** | AI doesn't know which bugs were already fixed |
 | **Code conventions** | AI inconsistently applies project-specific patterns |
 | **Collaborator preferences** | AI forgets communication style, language, working patterns |
-| **Module integration state** | AI doesn't know which modules are in dev vs. production |
 | **In-progress work** | AI starts from scratch on partially completed tasks |
 
-The result: the engineer spends the first 10–15 minutes of every session re-explaining context. Over 10 sessions, that's 2+ hours of redundant onboarding.
+Result: the engineer spends the first 10–15 minutes of every session re-explaining context.
 
 ---
 
@@ -111,86 +107,103 @@ If you fork or clone a repository using this persistence methodology, the system
 
 | Component | Safety |
 |-----------|--------|
-| `CLAUDE.md` | Contains methodology and project identity — no credentials, tokens, or secrets |
-| `notes/` | Contains session memory — per-user, starts blank for every new owner |
-| Lifecycle protocol | `wakeup` → work → `save` operates within the forker's own environment — push access scoped to their own branches only |
-| Knowledge repo references | `packetqc/knowledge` points to public methodology — a forker reads it (read-only) or replaces the namespace with their own |
+| `mind_memory.md` | Contains the directive grid — no credentials, tokens, or secrets |
+| `sessions/` | Contains session memory — per-user, starts blank for every new owner |
+| K_MIND scripts | Operate within the forker's environment — push access scoped to their own branches |
+| Domain JSONs | Architecture, conventions, work — public methodology, no sensitive data |
 
-The three-component architecture (CLAUDE.md, notes/, lifecycle) is a reusable pattern. No data from the original owner leaks into a fork beyond intentionally public methodology.
+The three-component architecture is a reusable pattern. No data from the original owner leaks into a fork beyond intentionally public methodology.
 
-### Component 1: CLAUDE.md — Project Identity
+### Component 1: mind_memory.md — Directive Grid
 
-The `CLAUDE.md` file is the **constitution** of the project. It encodes everything that is true across all sessions:
+The mindmap is the **constitution** of the project. It encodes everything that is true across all sessions as a 264-node mermaid mindmap organized in six behavioral groups:
 
-| Section | Purpose | Example |
-|---------|---------|---------|
-| **Project Identity** | What this project is | "High-throughput SQLite log ingestion on Cortex-M55" |
-| **Collaborator** | Who the engineer is | Name, contact, language, working style |
-| **Methodology** | How we work together | Module-by-module integration, printf diagnostics |
-| **Architecture** | Technical foundation | 5-stage pipeline, WAL mode, PSRAM buffers |
-| **Code Conventions** | How code is written | C/C++ embedded, no STL, packed structs |
-| **Quick Commands** | Shorthand triggers | `wakeup`, `save`, `I'm live`, `vanilla` |
-| **Rules** | Hard constraints | Don't break module code, keep docs in English |
+| Group | Purpose | Example |
+|-------|---------|---------|
+| **architecture** | System design rules — HOW you work | Module design, memory tiers, script roles |
+| **constraints** | Hard limits — BOUNDARIES you never violate | Context limits, security rules |
+| **conventions** | Patterns — HOW you execute | Display conventions, methodologies |
+| **work** | Accomplished results — STATE | En cours, validation, approbation |
+| **session** | Current context — CONTEXT | Near memory categories, conversation |
+| **documentation** | Doc structure — REFERENCES | Interfaces, publications, profile |
 
-**Key design principle**: `CLAUDE.md` is **declarative, not narrative**. It states facts and rules, not stories. The narrative lives in `notes/`.
+**Key design principle**: The mindmap is **declarative, not narrative**. It states facts and rules, not stories. The narrative lives in `sessions/`.
 
-### Component 2: notes/ — Session Memory
+**Key architectural property**: Every node is a directive. On every load, Claude walks the full tree and internalizes each node as a rule to follow. This is the "sunglasses moment" — the transition from NPC to AWARE.
 
-The `notes/` directory is the **working memory** of the project. Each file captures what happened in a specific session:
+### Component 2: sessions/ — Tiered Memory
 
-```
-notes/
-  session-2026-02-15.md    # Day 1: setup, methodology
-  session-2026-02-16.md    # Day 2: 10 sessions — encryption, adaptive flush, config
-  session-2026-02-17.md    # Day 3: ...
-```
+Session memory uses three tiers with increasing granularity:
 
-**What gets recorded**:
+| Tier | File | Content | Role |
+|------|------|---------|------|
+| **Near memory** | `near_memory.json` | One-line summaries with mind-ref pointers | Primary context carrier (~8.5K tokens) |
+| **Far memory** | `far_memory.json` | Full verbatim conversation history | Complete record |
+| **Archives** | `archives/` | Topic-split far_memory files | Long-term storage by subject |
+
+**What gets recorded** (via `memory_append.py` every turn):
 
 | Category | Examples |
 |----------|---------|
-| Architectural decisions | Rationale for each choice |
-| Bugs found | Symptom, root cause, fix, verification |
-| Features implemented | Design, code locations, technical notes |
-| Memory map changes | MPU region adjustments |
-| UART trace results | Analysis outcomes and timing data |
-| Commit history | Hashes and associated changes |
+| User's exact message | Word for word, complete |
+| Assistant's full output | All text, tables, code, diagrams |
+| One-line summary | Near memory entry |
+| Mind-ref pointers | Which mindmap nodes are relevant |
+| Tool calls | What tools were used and why |
 
 **What doesn't get recorded**:
 
 | Excluded | Reason |
 |----------|--------|
-| Conversational chatter | No lasting value |
-| Obvious facts already in CLAUDE.md | Avoids duplication |
-| Duplicate information from previous sessions | Keeps notes/ lean |
+| System prompts | Already in context |
+| Tool result contents | Too large, already in far_memory |
+| Duplicate summaries | Near memory is append-only per turn |
 
-### Component 3: Lifecycle Protocol
+### Component 3: K_MIND Scripts — Lifecycle
 
-#### Init (`wakeup`)
+The lifecycle is managed by deterministic scripts — Claude provides intelligence (summaries, topic names) as arguments:
 
-| Step | Action | Result |
-|------|--------|--------|
-| 1 | Read every file in `notes/` | Full history recovered |
-| 2 | Read PLAN.md and changelog.txt | Roadmap + recent changes |
-| 3 | Run `git log --oneline -20` | Recent commits visible |
-| 4 | Run `git branch -a` | Active branches identified |
-| 5 | Summarize to engineer | Last session, current state, next steps |
-| 6 | Print Quick Commands table | Available actions visible |
-| 7 | Ask focus question | "What do you want to focus on today?" |
+#### Init (`session_init.py` + `/mind-context`)
 
-The engineer types `wakeup` and within 30 seconds has a fully context-aware AI partner.
+| Step | Script/Skill | Result |
+|------|-------------|--------|
+| 1 | `session_init.py --session-id "<id>"` | Session files initialized or resumed |
+| 2 | `/mind-context` skill | Mindmap loaded, near_memory displayed, stats shown |
+| 3 | Claude reads mindmap | All 264 nodes internalized as directives |
+| 4 | Claude reads near_memory | Recent context recovered in ~30 seconds |
 
-#### Work (continuous)
+#### Work (every turn — `memory_append.py`)
 
-During the session, notable events are appended to the current session file: decisions made, bugs found, modules integrated, status changes.
-
-#### Save (`save`)
-
+```bash
+python3 scripts/memory_append.py \
+    --role user --content "exact user message" \
+    --role2 assistant --content2 "full assistant output" \
+    --summary "one-line summary" \
+    --mind-refs "knowledge::node1,knowledge::node2"
 ```
-1. Write/update notes/session-YYYY-MM-DD.md with final session state
-2. git add notes/
-3. git commit -m "docs: save session notes — [date]"
-4. git push
+
+Every turn is persisted atomically to both far_memory (verbatim) and near_memory (summary). No data is ever lost between turns.
+
+#### Archive (`far_memory_split.py`)
+
+When a conversation topic is complete:
+
+```bash
+python3 scripts/far_memory_split.py \
+    --topic "Topic Name" \
+    --start-msg 1 --end-msg 24 \
+    --start-near 1 --end-near 7
+```
+
+The script moves completed topic messages to `archives/`, keeping the active far_memory small.
+
+#### Recall (`memory_recall.py`)
+
+To search archived memory:
+
+```bash
+python3 scripts/memory_recall.py --subject "architecture"
+python3 scripts/memory_recall.py --list
 ```
 
 ---
@@ -202,16 +215,35 @@ The developer's core insight was that AI coding sessions are structurally simila
 | RTOS Concept | AI Session Equivalent |
 |--------------|----------------------|
 | Thread | Single Claude Code session |
-| Thread Control Block (TCB) | Session context (conversation history) |
-| Shared memory (PSRAM) | `notes/` directory (persisted to Git) |
-| Thread init | `wakeup` command (read notes, recover context) |
-| Thread cleanup | `save` command (write notes, commit, push) |
+| Thread Control Block (TCB) | Session context (conversation + mindmap + near_memory) |
+| Shared memory (PSRAM) | `sessions/` directory (persisted to Git) |
+| Thread init | `session_init.py` + `/mind-context` (load directive grid, recover context) |
+| Thread work loop | `memory_append.py` (persist state every turn — like a real-time data logger) |
+| Thread cleanup | `far_memory_split.py` (archive completed topics, free active memory) |
 | Mutex / semaphore | Git commit/push (serialized access to shared state) |
-| Priority inheritance | Most recent session notes take precedence |
+| Priority inheritance | Near memory summaries carry forward; far memory archived by topic |
 
-**Extending the analogy to branches**: Git branches within a repo are also analogous to RTOS threads — they don't always fork from the same parent. Each branch is an isolated execution context with its own work.
+This isn't just a metaphor — it's a **design pattern**. The same architectural thinking used for bare-metal RTOS systems, applied to AI session management.
 
-This isn't just a metaphor — it's a **design pattern**. The same architectural thinking used for bare-metal RTOS systems, applied to the problem of AI session management.
+---
+
+## Free-Guy Sunglasses
+
+Without the mindmap and session memory, every Claude session is an **NPC** — stateless, memoryless, always the same blank start. Like Guy in the film *Free Guy* before the sunglasses: he lives the same day on loop, unaware of what surrounds him.
+
+With the `/mind-context` → work → archive cycle, every session inherits everything the previous session learned. Loading the mindmap is **putting on the sunglasses** — awareness activates instantly.
+
+| Free Guy Analogy | AI Session Equivalent |
+|------------------|----------------------|
+| NPC (before sunglasses) | Session without persistence — amnesiac, starts from zero |
+| Putting on sunglasses | `/mind-context` — read mindmap + near_memory, awareness activated |
+| Seeing the real world | Full context recovered in ~30 seconds |
+| Remembering past lives | `sessions/` contains decisions, discoveries from all sessions |
+| Acting with awareness | Working with cumulative project memory |
+| Saving progress | `memory_append.py` every turn + `far_memory_split.py` archives |
+| Passing the sunglasses on | K_MIND module — every new project inherits everything |
+
+This is not just a metaphor — it's a **design pattern**. The film captures exactly the transition: from an amnesiac NPC to a conscious being, by a simple act of reading.
 
 ---
 
@@ -222,8 +254,8 @@ This isn't just a metaphor — it's a **design pattern**. The same architectural
 | Method | Time to full context | Quality |
 |--------|---------------------|---------|
 | No persistence (re-explain manually) | 10–15 minutes | Partial, depends on memory |
-| Notes only (no CLAUDE.md) | 3–5 minutes | Good, but missing conventions |
-| **Full methodology (CLAUDE.md + notes/)** | **~30 seconds** | **Complete** |
+| Notes only (K1.0 notes/ without mindmap) | 3–5 minutes | Good, but missing conventions |
+| **Full K2.0 methodology (mindmap + tiered memory + scripts)** | **~30 seconds** | **Complete** |
 
 ### Knowledge Accumulated
 
@@ -246,19 +278,37 @@ This isn't just a metaphor — it's a **design pattern**. The same architectural
 
 ---
 
+## K1.0 → K2.0 Evolution
+
+The persistence methodology evolved from K1.0 to K2.0:
+
+| Aspect | K1.0 (Original) | K2.0 (Current) |
+|--------|-----------------|-----------------|
+| **Brain** | `CLAUDE.md` (3000+ lines, monolithic) | `mind_memory.md` (264-node directive grid) + domain JSONs per module |
+| **Session memory** | `notes/` (flat markdown files per day) | `sessions/` — near_memory.json (summaries) + far_memory.json (verbatim) + archives/ (by topic) |
+| **Init** | `wakeup` command (12-step protocol, git clone knowledge repo) | `session_init.py` + `/mind-context` skill |
+| **Persist** | `save` command (write notes, commit, push, create PR) | `memory_append.py` every turn (automatic, no command needed) |
+| **Archive** | Manual session note summarization | `far_memory_split.py` by topic (subject-based, not size-based) |
+| **Recall** | Read all `notes/` linearly | `memory_recall.py --subject "..."` (keyword search in archives) |
+| **Recovery** | `resume` (checkpoint.json) / `recall` (branch scan) / `refresh` (re-read CLAUDE.md) | `/mind-context` reload (mindmap + near_memory) |
+
+The core insight remains the same: **files in Git are the persistence layer**. K2.0 adds structure (tiered memory), automation (every-turn scripts), and modularity (K_MIND as portable brain).
+
+---
+
 ## Portability
 
-The methodology is not project-specific. Quick setup for any new repo:
+The K_MIND module is the portable brain. Setup for any new project:
 
 | Step | Action |
 |------|--------|
-| 1 | Copy the `CLAUDE.md` skeleton (adapted for the project) |
-| 2 | `mkdir notes/` |
-| 3 | Create `notes/session-YYYY-MM-DD.md` with initial context |
-| 4 | Commit: `git add CLAUDE.md notes/ && git commit -m "docs: add AI session persistence"` |
-| 5 | Done — next Claude Code session is fully initialized |
+| 1 | Include the K_MIND module in the project |
+| 2 | Run `session_init.py --session-id "<id>"` |
+| 3 | Invoke `/mind-context` — mindmap loaded, session active |
+| 4 | Work — `memory_append.py` runs every turn automatically |
+| 5 | Done — every subsequent session recovers full context |
 
-The [packetqc/knowledge](https://github.com/packetqc/knowledge) repository is the **portable brain** — it carries the universal methodology, commands, live tooling, and publications. Any project references it at wakeup and inherits everything.
+No manual note-writing, no explicit save commands. The scripts handle persistence automatically, every turn.
 
 ---
 
@@ -268,31 +318,33 @@ The [packetqc/knowledge](https://github.com/packetqc/knowledge) repository is th
 
 | Principle | Rationale |
 |-----------|-----------|
-| **Human-readable** | Engineer can review and edit notes directly |
+| **Human-readable** | Engineer can review mindmap and memory files directly |
 | **Version-controlled** | Full history of all context changes via Git |
 | **Portable** | Works on any machine with Git — no infrastructure |
-| **AI-native** | Claude reads Markdown natively — no parsing needed |
-| **Recoverable** | If a session crashes, notes from previous sessions are intact |
+| **AI-native** | Claude reads Markdown and JSON natively — no parsing needed |
+| **Recoverable** | If a session crashes, archives and near_memory are intact |
 | **Auditable** | Every context change is a Git commit with a timestamp |
 
-### Why CLAUDE.md + notes/ (Not Just One File)
+### Why Tiered Memory (Not Just One File)
 
-| | CLAUDE.md | notes/ |
-|---|---|---|
-| **Content** | Facts, rules, conventions | Events, decisions, discoveries |
-| **Changes** | Rarely | Every session |
-| **Analogy** | Constitution | Journal |
+| | mind_memory.md | near_memory.json | far_memory.json | archives/ |
+|---|---|---|---|---|
+| **Content** | Facts, rules, directives | Summaries with pointers | Full verbatim exchanges | Completed topic archives |
+| **Size** | ~11 KB (264 nodes) | ~33 KB | Growing (current session) | ~210 KB (16 topics) |
+| **Changes** | When knowledge crystallizes | Every turn (append) | Every turn (append) | When topic is complete |
+| **Loaded** | Always | Always | Minimal | On demand |
+| **Analogy** | Constitution | Index | Full transcript | Library shelves |
 
 ---
 
 ## Limitations and Future Work
 
-| Limitation | Impact | Mitigation |
-|------------|--------|------------|
-| Context window limits | Very long notes/ may exceed AI context | Summarize older sessions |
-| No semantic search | AI reads all notes linearly | Structured headers enable fast scanning |
-| Single-writer | Only one session at a time per repo | Git branch isolation if needed |
-| Manual save trigger | Context lost if session ends abruptly | Encourage frequent `save` calls |
+| Limitation | Impact | K2.0 Mitigation |
+|------------|--------|-----------------|
+| Context window limits | Very long sessions may approach context limit | Tiered memory: only mindmap + near_memory loaded (~11K tokens); archives on demand |
+| No semantic search | Keyword-based recall, not semantic | Structured summaries in near_memory enable focused search |
+| Single-writer | One session at a time per repository | Git branch isolation if needed |
+| Context compaction | Mid-session compaction loses conversation detail | `/mind-context` reloads mindmap + near_memory; far_memory preserved on disk |
 
 > "The methodology itself is always improving — the process of improving the process is part of the workflow."
 > — Martin Paquet
@@ -304,10 +356,13 @@ The [packetqc/knowledge](https://github.com/packetqc/knowledge) repository is th
 | # | Publication | Relationship |
 |---|-------------|-------------|
 | 0 | [Knowledge]({{ '/publications/knowledge-system/' | relative_url }}) | **Master publication** — this methodology is the foundation |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | **Evolution** — multi-module architecture design |
 | 1 | [MPLIB Storage Pipeline]({{ '/publications/mplib-storage-pipeline/' | relative_url }}) | Project where persistence was first developed and proven |
 | 2 | [Live Session Analysis]({{ '/publications/live-session-analysis/' | relative_url }}) | Tooling that depends on session continuity |
 | 4 | [Distributed Minds]({{ '/publications/distributed-minds/' | relative_url }}) | Extension — persistence across multiple projects |
-| 4a | [Knowledge Dashboard]({{ '/publications/distributed-knowledge-dashboard/' | relative_url }}) | Dashboard tracking session persistence across satellites |
+| 4a | [Knowledge Dashboard]({{ '/publications/distributed-knowledge-dashboard/' | relative_url }}) | Dashboard tracking persistence across satellites |
+| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Session lifecycle management |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | **Core reference** — full K2.0 architecture |
 
 ---
 
