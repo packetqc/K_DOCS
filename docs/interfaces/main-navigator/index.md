@@ -263,8 +263,36 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   cursor: pointer; opacity: 0.4;
   transition: opacity 0.15s, color 0.15s;
 }
-.iface-pub-btn:hover {
+.iface-pub-btn:hover, .doc-btn:hover {
   opacity: 1; color: var(--accent, #1d4ed8);
+}
+/* ═══ Documentation row — label + summary/full buttons ═══ */
+.doc-row {
+  display: flex; align-items: center;
+  background: var(--code-bg, #f6f8fa);
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+.doc-row:hover {
+  background: var(--col-alt, #e8eef4);
+  border-left-color: var(--accent, #1d4ed8);
+  transform: translateX(3px);
+  box-shadow: -2px 0 0 var(--accent, #1d4ed8);
+}
+.doc-row > span {
+  flex: 1; padding: 0.3rem 0.5rem;
+  font-size: 0.72rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  color: var(--fg, #1f2328);
+}
+.doc-btn {
+  flex-shrink: 0; padding: 0.2rem 0.4rem;
+  font-size: 0.62rem; font-weight: 600; text-decoration: none;
+  color: var(--muted, #656d76); border-radius: 3px;
+  cursor: pointer; opacity: 0.4;
+  text-transform: uppercase; letter-spacing: 0.03em;
+  transition: opacity 0.15s, color 0.15s;
 }
 
 /* ═══ Dark theme overrides for widgets ═══ */
@@ -561,28 +589,27 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           });
         }
 
-        /* ── Documentation: groups with summary+full sub-links ── */
+        /* ── Documentation: flat rows with summary + full buttons ── */
         else if (section === 'documentation') {
-          var dSumLabel = LANG === 'fr' ? 'Résumé' : 'Summary';
-          var dFullLabel = LANG === 'fr' ? 'Complet' : 'Full';
-          var dComingSoon = LANG === 'fr' ? '(à venir)' : '(coming soon)';
-          (data.groups || []).forEach(function(g) {
-            var gLabel = (LANG === 'fr' && g.group_fr) ? g.group_fr : g.group;
-            var pg = makeSubDet(gLabel);
-            if (g.items && g.items.length > 0) {
-              g.items.slice().sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); }).forEach(function(item) {
-                var ipg = makeSubDet(label(item));
-                ipg.appendChild(makeLink(dSumLabel, vru(BASE + LP + '/publications/' + item.slug + '/'), 'content-frame'));
-                ipg.appendChild(makeLink(dFullLabel, vru(BASE + LP + '/publications/' + item.slug + '/full/'), 'content-frame'));
-                pg.appendChild(ipg);
-              });
-            } else {
-              var ph = document.createElement('span');
-              ph.style.cssText = 'display:block;padding:0.2rem 0.55rem;font-size:0.72rem;color:var(--muted,#656d76);font-style:italic;';
-              ph.textContent = dComingSoon;
-              pg.appendChild(ph);
-            }
-            body.appendChild(pg);
+          var dSumTip = LANG === 'fr' ? 'Résumé' : 'Summary';
+          var dFullTip = LANG === 'fr' ? 'Complet' : 'Full';
+          var allItems = [];
+          (data.groups || []).forEach(function(g) { if (g.items) allItems = allItems.concat(g.items); });
+          if (data.items) allItems = allItems.concat(data.items);
+          allItems.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
+          allItems.forEach(function(item) {
+            var row = document.createElement('div'); row.className = 'doc-row';
+            var lbl = document.createElement('span'); lbl.textContent = label(item);
+            row.appendChild(lbl);
+            var sb = document.createElement('a'); sb.className = 'doc-btn';
+            sb.textContent = '§'; sb.title = dSumTip;
+            sb.href = vru(BASE + LP + '/publications/' + item.slug + '/');
+            sb.target = 'content-frame'; row.appendChild(sb);
+            var fb = document.createElement('a'); fb.className = 'doc-btn';
+            fb.textContent = '⊞'; fb.title = dFullTip;
+            fb.href = vru(BASE + LP + '/publications/' + item.slug + '/full/');
+            fb.target = 'content-frame'; row.appendChild(fb);
+            body.appendChild(row);
           });
         }
 
