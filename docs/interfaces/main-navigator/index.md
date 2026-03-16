@@ -867,7 +867,14 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   /* ─── postMessage from center-frame interfaces (ℹ button) ─── */
   window.addEventListener('message', function(e) {
     if (e.data && e.data.type === 'open-pub') {
-      addTab(e.data.url, e.data.title || 'Guide');
+      var url = e.data.url;
+      /* Convert direct /publications/slug/full/ URLs to viewer ?doc= URLs */
+      var pubMatch = url.match(/\/((?:fr\/)?publications\/[^?#]+)/);
+      if (pubMatch && url.indexOf('index.html?doc=') === -1) {
+        var docPath = pubMatch[1].replace(/\/$/, '/index.md');
+        url = vru(BASE + '/index.html?doc=' + encodeURIComponent(docPath) + '&embed');
+      }
+      addTab(url, e.data.title || 'Guide');
     }
   });
 
@@ -904,6 +911,18 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           localStorage.setItem(RCONTENT_KEY, stripLang(loc));
           var title = 'Document';
           try { title = rightIframe.contentDocument.title || title; } catch(e2) {}
+          /* Viewer sets title after async fetch — retry after short delay */
+          if (title === 'Document' || title === 'K_DOCS Viewer') {
+            setTimeout(function() {
+              try {
+                var t2 = rightIframe.contentDocument.title;
+                if (t2 && t2 !== 'K_DOCS Viewer') {
+                  var at = tabs.find(function(t) { return t.id === activeTabId; });
+                  if (at) { at.title = t2; renderTabs(); saveTabState(); }
+                }
+              } catch(e3) {}
+            }, 500);
+          }
           /* If navigating programmatically (tab click), just update title */
           if (tabNavigating) {
             tabNavigating = false;
