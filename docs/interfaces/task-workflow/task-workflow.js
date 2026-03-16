@@ -15,7 +15,7 @@
   var dataUrl = baseurl + '/data/tasks.json';
 
   // ── Bilingual labels ──
-  var lang = (window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
+  var lang = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
   var L = {
     en: {
       selectTask: '— Select a task —',

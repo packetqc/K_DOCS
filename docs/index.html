@@ -263,7 +263,7 @@
     .doc-header-details .chrome-detail-label { display: inline-block; min-width: 5.5rem; font-weight: 600; color: var(--fg); }
     #ifaceFrame {
       width: calc(100% - 1rem); border: none; background: var(--bg);
-      flex: 1; min-height: 0; margin: 0.25rem 0.5rem;
+      flex: 1; min-height: 0; margin: 0 0.5rem;
     }
     /* When in interface mode, content fills remaining viewport as flex column */
     body.interface-mode { overflow: hidden; }
@@ -1928,7 +1928,8 @@
         '</' + 'script>\n';
 
       // Build standalone HTML page for iframe
-      var fullPage = '<!DOCTYPE html>\n<html lang="en"' + themeAttr + '>\n<head>\n' +
+      var ifaceLang = currentLang || 'en';
+      var fullPage = '<!DOCTYPE html>\n<html lang="' + ifaceLang + '"' + themeAttr + '>\n<head>\n' +
         '<meta charset="utf-8">\n' +
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
         '<title>' + escapeHtml(meta.title || 'Interface') + '</title>\n' +

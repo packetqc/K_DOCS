@@ -16,7 +16,7 @@
 
   // ── Config ──
   var viewerEl = document.getElementById('session-viewer');
-  SV.lang = (window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
+  SV.lang = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
   SV.baseurl = viewerEl.getAttribute('data-baseurl') || '';
   SV.REPO = viewerEl.getAttribute('data-repo') || 'packetqc/knowledge';
   SV.dataUrl = SV.baseurl + '/data/sessions.json';

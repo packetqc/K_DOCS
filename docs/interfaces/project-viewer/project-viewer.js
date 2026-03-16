@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  var lang = (window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
+  var lang = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
 
   var L = {
     en: {

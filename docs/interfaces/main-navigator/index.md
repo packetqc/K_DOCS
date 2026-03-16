@@ -253,7 +253,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 <script>
 (function() {
   /* ─── Language auto-detection from URL path ─── */
-  var LANG = window.location.pathname.indexOf('/fr/') >= 0 ? 'fr' : 'en';
+  var LANG = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') >= 0) ? 'fr' : 'en';
   var LP = LANG === 'fr' ? '/fr' : '';  // language path prefix
   var LS = LANG === 'fr' ? '-fr' : '';  // localStorage suffix
 

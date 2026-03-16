@@ -5,7 +5,7 @@
 })();
 
 (function() {
-  var lang = (window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
+  var lang = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
   var baseurl = document.getElementById('session-viewer').getAttribute('data-baseurl') || '';
   var dataUrl = baseurl + '/data/sessions.json';
   var sessionsData = null;

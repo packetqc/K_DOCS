@@ -22,7 +22,7 @@
       if (orient === 'landscape') size += ' landscape';
 
       var origTitle = document.title;
-      var lang = (window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
+      var lang = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') !== -1) ? 'fr' : 'en';
       var sel = document.getElementById('tw-task-select');
       var taskName = sel && sel.value ? sel.options[sel.selectedIndex].textContent.trim() : '';
       var fileName = taskName

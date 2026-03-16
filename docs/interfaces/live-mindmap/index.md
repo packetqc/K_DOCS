@@ -534,7 +534,7 @@ body > .container {
   }
 
   // === Help panel — bilingual ===
-  var LANG = window.location.pathname.indexOf('/fr/') >= 0 ? 'fr' : 'en';
+  var LANG = (document.documentElement.lang === 'fr' || window.location.pathname.indexOf('/fr/') >= 0) ? 'fr' : 'en';
   var helpContent = {
     en: '<h3>Live Mindmap Help</h3>' +
       '<h4>Navigation</h4>' +
