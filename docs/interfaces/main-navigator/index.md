@@ -589,21 +589,20 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         /* ── Simple link lists: essentials, hubs, profile, stories ── */
         else if (section === 'essentials' || section === 'hubs' || section === 'profile' || section === 'stories') {
           items.forEach(function(item) {
-            body.appendChild(makeLink(label(item), vru(BASE + LP + item.href), 'content-frame'));
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(label(item), vru(BASE + LP + item.href), 'content-frame'));
+            body.appendChild(row);
           });
         }
 
-        /* ── Commands: grouped with pub link + cmd spans ── */
+        /* ── Commands: flat rows ── */
         else if (section === 'commands') {
           items.forEach(function(cg) {
-            var gLabel = (LANG === 'fr' && cg.group_fr) ? cg.group_fr : cg.group;
-            var pg = makeSubDet(gLabel);
             cg.cmds.forEach(function(cmd) {
-              var a = makeLink('', vru(BASE + LP + cg.pub), 'content-frame');
-              var sp = document.createElement('span'); sp.className = 'cmd-link'; sp.textContent = cmd;
-              a.appendChild(sp); pg.appendChild(a);
+              var row = document.createElement('div'); row.className = 'iface-row';
+              row.appendChild(makeLink(cmd, vru(BASE + LP + cg.pub), 'content-frame'));
+              body.appendChild(row);
             });
-            body.appendChild(pg);
           });
         }
 
@@ -635,34 +634,23 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           });
         }
 
-        /* ── Module-grouped sections (methodologies, configurations, etc.) ── */
+        /* ── Module-grouped sections (methodologies, configurations): flat rows ── */
         else if (section === 'methodologies' || section === 'configurations' || (items[0] && items[0].module)) {
-          var groups = {};
+          items.sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
           items.forEach(function(item) {
-            var mod = item.module || 'General';
-            if (!groups[mod]) groups[mod] = [];
-            groups[mod].push(item);
-          });
-          Object.keys(groups).forEach(function(mod) {
-            var pg = makeSubDet(mod);
-            /* "View All" composite link — loads all group items as one page */
-            var jsonItems = groups[mod].filter(function(i) { return i.path && i.path.match(/\.json([?#]|$)/i); });
-            if (jsonItems.length > 1) {
-              var docsParam = jsonItems.map(function(i) { return encodeURIComponent(i.path); }).join('|');
-              pg.appendChild(makeLink(LANG === 'fr' ? '▸ Tout voir' : '▸ View All', vru(BASE + '/index.html?docs=' + docsParam + '&embed'), 'content-frame'));
-            }
-            groups[mod].forEach(function(item) {
-              pg.appendChild(makeLink(label(item), vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed'), 'content-frame'));
-            });
-            body.appendChild(pg);
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(label(item), vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed'), 'content-frame'));
+            body.appendChild(row);
           });
         }
 
-        /* ── Fallback: flat link list ── */
+        /* ── Fallback: flat rows ── */
         else {
           items.forEach(function(item) {
             var href = item.href ? vru(BASE + LP + item.href) : (item.path ? vru(BASE + '/index.html?doc=' + encodeURIComponent(item.path) + '&embed') : '#');
-            body.appendChild(makeLink(label(item), href, 'content-frame'));
+            var row = document.createElement('div'); row.className = 'iface-row';
+            row.appendChild(makeLink(label(item), href, 'content-frame'));
+            body.appendChild(row);
           });
         }
       })
