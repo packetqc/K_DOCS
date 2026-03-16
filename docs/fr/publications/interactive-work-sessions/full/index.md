@@ -3,8 +3,8 @@ layout: publication
 title: "Sessions de travail interactives — Complet"
 description: "Méthodologie complète pour les sessions de travail interactives résilientes : cinq types de sessions avec fichiers de méthodologie dédiés, persistance à trois canaux, commits progressifs, ancrage par billet GitHub, intégration des corrections utilisateur, gestion du budget de contexte, matrice de récupération et anti-patterns."
 pub_id: "Publication #19 — Complet"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/interactive-work-sessions/full/
 og_image: /assets/og/knowledge-system-fr-cayman.gif
 keywords: "sessions interactives, résilience, commits progressifs, persistance trois canaux, méthodologie, récupération"
@@ -13,7 +13,7 @@ keywords: "sessions interactives, résilience, commits progressifs, persistance 
 # Sessions de travail interactives — Documentation complète
 {: #pub-title}
 
-> **Résumé** : [Publication #19]({{ '/fr/publications/interactive-work-sessions/' | relative_url }}) | **Parent** : [#0 — Système de connaissances]({{ '/fr/publications/knowledge-system/' | relative_url }})
+> **Résumé** : [Publication #19]({{ '/fr/publications/interactive-work-sessions/' | relative_url }}) | **Parent** : [#0 — Système de connaissances]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Référence core** : [#14 — Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }})
 
 **Sommaire**
 
@@ -118,7 +118,7 @@ mindmap
 
 ### La lacune
 
-`session-protocol.md` couvre le cycle de vie (wakeup → travail → save). `interactive-diagnostic.md` couvre les sessions de débogage. Mais les **patterns de résilience pendant le travail** — commits progressifs, ancrage par billet, gestion du budget de contexte, types de sessions multiples — étaient pratiqués implicitement sans documentation.
+`session-protocol.md` couvre le cycle de vie (démarrage de session → travail → commit+push). `interactive-diagnostic.md` couvre les sessions de débogage. Mais les **patterns de résilience pendant le travail** — commits progressifs, ancrage par billet, gestion du budget de contexte, types de sessions multiples — étaient pratiqués implicitement sans documentation.
 
 ---
 
@@ -169,9 +169,9 @@ flowchart LR
 
 | Canal | Récupéré via | Survit à | À risque quand |
 |-------|-------------|----------|----------------|
-| **Branche Git** | `recover`, `resume`, PR manuelle | Crash de session, débordement de contexte | Jamais commité |
+| **Branche Git** | `memory_recall.py`, `session_init.py --preserve-active`, PR manuelle | Crash de session, débordement de contexte | Jamais commité |
 | **Billet GitHub** | URL du billet, référence du board | Tout | Billet supprimé (rare) |
-| **Fichiers essentiels** | `wakeup` les lit | Fusion du PR sur la branche par défaut | Non commité ou PR non fusionné |
+| **Fichiers essentiels** | `/mind-context` les charge au démarrage de session | Fusion du PR sur la branche par défaut | Non commité ou PR non fusionné |
 
 **Résilience maximale** : Les trois canaux actifs. Même un crash catastrophique ne perd au plus que le todo en cours.
 
@@ -183,9 +183,9 @@ Todo 2 → travail → commit → push ✓  (sauvegarde 2)
 Todo 3 → travail → commit → [CRASH]
                                ↓
                         Nouvelle session :
-                        recall → récupère todos 1 + 2 + 3 (si pushé)
+                        memory_recall.py → récupère todos 1 + 2 + 3 (si pushé)
                         billet → montre ce que faisait todo 3
-                        resume → si checkpoint existe, reprend todo 3
+                        session_init.py --preserve-active → reprend todo 3
 ```
 
 | Quand commiter | Exemple | Pourquoi |
@@ -241,10 +241,10 @@ Les billets GitHub ne sont pas que des suivis de tâches — ils sont un **canal
 
 ### 7. À la réception de tâche — Popup comme point de décision
 
-Chaque message d'entrée de session est **présumé être une demande de travail par défaut**. L'utilisateur tape toujours quelque chose pour ouvrir une session — cette entrée est toujours une demande jusqu'à ce que l'utilisateur en décide explicitement autrement. Le popup de confirmation s'exécute **systématiquement après la complétion du wakeup**, à chaque session.
+Chaque message d'entrée de session est **présumé être une demande de travail par défaut**. L'utilisateur tape toujours quelque chose pour ouvrir une session — cette entrée est toujours une demande jusqu'à ce que l'utilisateur en décide explicitement autrement. Le popup de confirmation s'exécute **systématiquement après la complétion du démarrage de session**, à chaque session.
 
 ```
-wakeup terminé
+démarrage session terminé
     ↓
 Extraction du titre depuis le message d'entrée
     ↓
@@ -276,7 +276,7 @@ L'option skip **ne contourne que** la création du billet et les commentaires en
 
 **La compilation se fait toujours.** Les métriques (fichiers, lignes, commits), les blocs temporels (temps actif, temps calendrier) et l'auto-évaluation (conformité méthodologique) sont compilés à chaque `save` — que la session soit suivie ou non. La seule différence : les sessions suivies postent la compilation comme commentaire final sur le billet GitHub, créant un enregistrement persistant. Les sessions non suivies affichent la compilation mais ne la persistent pas à l'externe.
 
-**Quand faire skip** : Commandes d'infrastructure (`normalize --fix`, `harvest --healthcheck`), questions rapides (« quel est le statut ? »), maintenance système qui ne justifie pas un suivi. Le skip est le **choix explicite de l'utilisateur** — Claude ne décide jamais pour l'utilisateur qu'une session est « trop informelle » pour être suivie.
+**Quand faire skip** : Commandes d'infrastructure (K_VALIDATION `/normalize`, K_GITHUB sync + `/integrity-check`), questions rapides (« quel est le statut ? »), maintenance système qui ne justifie pas un suivi. Le skip est le **choix explicite de l'utilisateur** — Claude ne décide jamais pour l'utilisateur qu'une session est « trop informelle » pour être suivie.
 
 ---
 
@@ -298,11 +298,11 @@ L'option skip **ne contourne que** la création du billet et les commentaires en
 
 | Mode de défaillance | Chemin de récupération | Données perdues |
 |--------------------|----------------------|----------------|
-| Débordement de contexte | `refresh` dans la même session | Aucune (travail continue) |
-| Crash de session + checkpoint | `resume` dans nouvelle session | Aucune (checkpoint capture l'état) |
-| Crash de session + push | `recover` dans nouvelle session | Au plus le todo en cours |
+| Débordement de contexte | `/mind-context` reload dans la même session | Aucune (travail continue) |
+| Crash de session + checkpoint | `session_init.py --preserve-active` dans nouvelle session | Aucune (checkpoint capture l'état) |
+| Crash de session + push | `memory_recall.py` dans nouvelle session | Au plus le todo en cours |
 | Crash de session, pas de push | Le billet a le contexte + récupération manuelle | Travail non commité seulement |
-| API 400 (irrécupérable) | Nouvelle session + `recover` + billet | Non commité depuis le dernier push |
+| API 400 (irrécupérable) | Nouvelle session + `memory_recall.py` + billet | Non commité depuis le dernier push |
 
 ### Principes de design
 
@@ -321,7 +321,8 @@ L'option skip **ne contourne que** la création du billet et les commentaires en
 | # | Publication | Relation |
 |---|-------------|---------|
 | 3 | [Persistance de session IA]({{ '/fr/publications/ai-session-persistence/' | relative_url }}) | Méthodologie fondamentale de persistance |
-| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Commandes de cycle de vie (wakeup, save, resume, recall) |
+| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Scripts de cycle de vie (session_init.py, memory_append.py, memory_recall.py) |
+| 0v2 | [Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | Référence architecture multi-module K2.0 |
 | 11 | [Histoires de succès]({{ '/fr/publications/success-stories/' | relative_url }}) | Résultats de sessions validés |
 | 14 | [Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | Contexte d'architecture système |
 | 18 | [Génération de documentation]({{ '/fr/publications/documentation-generation/' | relative_url }}) | Principe d'héritage universel |

@@ -3,8 +3,8 @@ layout: publication
 title: "Interactive Work Sessions — Full"
 description: "Complete methodology for resilient interactive work sessions: five session types with dedicated methodology files, three-channel persistence, progressive commits, GitHub issue anchoring, user correction integration, context budget management, recovery matrix, and anti-patterns."
 pub_id: "Publication #19 — Full"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/interactive-work-sessions/full/
 og_image: /assets/og/knowledge-system-en-cayman.gif
 keywords: "interactive sessions, resilience, progressive commits, three-channel persistence, methodology, recovery"
@@ -13,7 +13,7 @@ keywords: "interactive sessions, resilience, progressive commits, three-channel 
 # Interactive Work Sessions — Complete Documentation
 {: #pub-title}
 
-> **Summary**: [Publication #19]({{ '/publications/interactive-work-sessions/' | relative_url }}) | **Parent**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }})
+> **Summary**: [Publication #19]({{ '/publications/interactive-work-sessions/' | relative_url }}) | **Parent**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -118,7 +118,7 @@ Through hundreds of sessions across 6 projects (P0–P5), recurring patterns eme
 
 ### The Gap
 
-`session-protocol.md` covers the lifecycle (wakeup → work → save). `interactive-diagnostic.md` covers debugging sessions. But the **during-work resilience patterns** — progressive commits, issue anchoring, context budget management, multiple session types — were practiced implicitly without documentation.
+`session-protocol.md` covers the lifecycle (session start → work → commit+push). `interactive-diagnostic.md` covers debugging sessions. But the **during-work resilience patterns** — progressive commits, issue anchoring, context budget management, multiple session types — were practiced implicitly without documentation.
 
 ---
 
@@ -169,9 +169,9 @@ flowchart LR
 
 | Channel | Recovered via | Survives | At risk when |
 |---------|--------------|----------|-------------|
-| **Git branch** | `recall`, `resume`, manual PR | Session crash, context overflow | Never committed |
+| **Git branch** | `memory_recall.py`, `session_init.py --preserve-active`, manual PR | Session crash, context overflow | Never committed |
 | **GitHub Issue** | Issue URL, board reference | Everything | Issue deleted (rare) |
-| **Essential files** | `wakeup` reads them | PR merge to default branch | Not committed or PR not merged |
+| **Essential files** | `/mind-context` loads them on session start | PR merge to default branch | Not committed or PR not merged |
 
 **Maximum resilience**: All three channels active. Even a catastrophic crash loses at most the current in-progress todo.
 
@@ -183,9 +183,9 @@ Todo 2 → work → commit → push ✓  (savepoint 2)
 Todo 3 → work → commit → [CRASH]
                            ↓
                     New session:
-                    recall → recovers todos 1 + 2 + 3 (if pushed)
+                    memory_recall.py → recovers todos 1 + 2 + 3 (if pushed)
                     issue  → shows what todo 3 was doing
-                    resume → if checkpoint exists, restarts todo 3
+                    session_init.py --preserve-active → restarts todo 3
 ```
 
 | When to commit | Example | Why |
@@ -241,10 +241,10 @@ GitHub Issues are not just task trackers — they're a **secondary persistence c
 
 ### 7. On Task Received — Popup as Decision Point
 
-Every session entry message is **presumed to be a work request by default**. The user always types something to open a session — that input is always a demand until the user explicitly decides otherwise. The confirmation popup runs **systematically after wakeup completes**, on every session.
+Every session entry message is **presumed to be a work request by default**. The user always types something to open a session — that input is always a demand until the user explicitly decides otherwise. The confirmation popup runs **systematically after session start completes**, on every session.
 
 ```
-wakeup completes
+session start completes
     ↓
 Title extraction from user's entry message
     ↓
@@ -276,7 +276,7 @@ The skip option **only** bypasses issue creation and real-time comments. All oth
 
 **The compilation always happens.** Metrics (files, lines, commits), time blocks (active time, calendar time), and self-assessment (methodology compliance) are compiled at every `save` — regardless of whether the session is tracked or not. The only difference: tracked sessions post the compilation as a final comment on the GitHub issue, creating a persistent record. Untracked sessions display the compilation but don't persist it externally.
 
-**When to skip**: Infrastructure commands (`normalize --fix`, `harvest --healthcheck`), quick questions ("what's the status?"), system maintenance that doesn't warrant a tracked record. The skip is the user's **explicit choice** — Claude never decides for the user that a session is "too informal" to track.
+**When to skip**: Infrastructure commands (K_VALIDATION `/normalize`, K_GITHUB sync + `/integrity-check`), quick questions ("what's the status?"), system maintenance that doesn't warrant a tracked record. The skip is the user's **explicit choice** — Claude never decides for the user that a session is "too informal" to track.
 
 ---
 
@@ -298,11 +298,11 @@ The skip option **only** bypasses issue creation and real-time comments. All oth
 
 | Failure mode | Recovery path | Data lost |
 |-------------|---------------|-----------|
-| Context overflow | `refresh` in same session | None (work continues) |
-| Session crash + checkpoint | `resume` in new session | None (checkpoint captures state) |
-| Session crash + push | `recall` in new session | At most current in-progress todo |
+| Context overflow | `/mind-context` reload in same session | None (work continues) |
+| Session crash + checkpoint | `session_init.py --preserve-active` in new session | None (checkpoint captures state) |
+| Session crash + push | `memory_recall.py` in new session | At most current in-progress todo |
 | Session crash, no push | Issue has context + manual recovery | Uncommitted work only |
-| API 400 (unrecoverable) | New session + `recall` + issue | Uncommitted since last push |
+| API 400 (unrecoverable) | New session + `memory_recall.py` + issue | Uncommitted since last push |
 
 ### Design Principles
 
@@ -321,7 +321,8 @@ The skip option **only** bypasses issue creation and real-time comments. All oth
 | # | Publication | Relationship |
 |---|-------------|-------------|
 | 3 | [AI Session Persistence]({{ '/publications/ai-session-persistence/' | relative_url }}) | Foundational persistence methodology |
-| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle commands (wakeup, save, resume, recall) |
+| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle scripts (session_init.py, memory_append.py, memory_recall.py) |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 | 11 | [Success Stories]({{ '/publications/success-stories/' | relative_url }}) | Validated session outcomes |
 | 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | System architecture context |
 | 18 | [Documentation Generation]({{ '/publications/documentation-generation/' | relative_url }}) | Universal inheritance principle |

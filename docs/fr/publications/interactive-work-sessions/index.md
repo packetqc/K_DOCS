@@ -3,8 +3,8 @@ layout: publication
 title: "Sessions de travail interactives — Collaboration IA résiliente multi-livraison"
 description: "Méthodologie pour les sessions de travail interactives résilientes : cinq types de sessions (diagnostic, documentation, conception, design, développement), persistance à trois canaux, commits progressifs, ancrage par billet GitHub, gestion du budget de contexte et intégration des corrections utilisateur."
 pub_id: "Publication #19"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/interactive-work-sessions/
 og_image: /assets/og/knowledge-system-fr-cayman.gif
 keywords: "sessions interactives, résilience, commits progressifs, persistance trois canaux, méthodologie"
@@ -13,7 +13,7 @@ keywords: "sessions interactives, résilience, commits progressifs, persistance 
 # Sessions de travail interactives
 {: #pub-title}
 
-> **Publication parente** : [#0 — Système de connaissances]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Compagnon session** : [#8 — Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | **Compagnon standards** : [#18 — Génération de documentation]({{ '/fr/publications/documentation-generation/' | relative_url }})
+> **Publication parente** : [#0 — Système de connaissances]({{ '/fr/publications/knowledge-system/' | relative_url }}) | **Compagnon session** : [#8 — Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | **Compagnon standards** : [#18 — Génération de documentation]({{ '/fr/publications/documentation-generation/' | relative_url }}) | **Référence core** : [#14 — Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }})
 
 **Sommaire**
 
@@ -89,9 +89,9 @@ Le travail survit à travers trois canaux indépendants :
 
 | Canal | Récupéré via | Survit à | À risque quand |
 |-------|-------------|----------|----------------|
-| **Branche Git** | `recover`, `resume`, PR manuelle | Crash de session, débordement de contexte | Jamais commité |
+| **Branche Git** | `memory_recall.py`, `session_init.py --preserve-active`, PR manuelle | Crash de session, débordement de contexte | Jamais commité |
 | **Billet GitHub** | URL du billet, référence du board | Tout | Billet supprimé (rare) |
-| **Fichiers essentiels** | `wakeup` les lit | Fusion du PR sur la branche par défaut | Non commité ou PR non fusionné |
+| **Fichiers essentiels** | `/mind-context` les charge au démarrage de session | Fusion du PR sur la branche par défaut | Non commité ou PR non fusionné |
 
 **Résilience maximale** : Les trois canaux actifs. Même un crash catastrophique ne perd au plus que le todo en cours.
 
@@ -103,9 +103,9 @@ Todo 2 → travail → commit → push ✓  (sauvegarde 2)
 Todo 3 → travail → commit → [CRASH]
                                ↓
                         Nouvelle session :
-                        recall → récupère todos 1 + 2 + 3 (si pushé)
+                        memory_recall.py → récupère todos 1 + 2 + 3 (si pushé)
                         billet → montre ce que faisait todo 3
-                        resume → si checkpoint existe, reprend todo 3
+                        session_init.py --preserve-active → reprend todo 3
 ```
 
 ## Impact
@@ -131,7 +131,9 @@ Pour la méthodologie complète incluant la matrice de récupération, les anti-
 | # | Publication | Relation |
 |---|-------------|---------|
 | 3 | [Persistance de session IA]({{ '/fr/publications/ai-session-persistence/' | relative_url }}) | Méthodologie fondamentale de persistance |
-| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Commandes de cycle de vie (wakeup, save, resume, recall) |
+| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Scripts de cycle de vie (session_init.py, memory_append.py, memory_recall.py) |
+| 14 | [Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | Conception architecture multi-module |
+| 0v2 | [Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | Référence architecture multi-module K2.0 |
 | 11 | [Histoires de succès]({{ '/fr/publications/success-stories/' | relative_url }}) | Résultats de sessions validés |
 | 18 | [Génération de documentation]({{ '/fr/publications/documentation-generation/' | relative_url }}) | Principe d'héritage universel |
 

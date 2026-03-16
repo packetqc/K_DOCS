@@ -3,8 +3,8 @@ layout: publication
 title: "Interactive Work Sessions — Resilient Multi-Delivery AI Collaboration"
 description: "Methodology for resilient interactive work sessions: five session types (diagnostic, documentation, conception, design, feature development), three-channel persistence, progressive commits, GitHub issue anchoring, context budget management, and user correction integration."
 pub_id: "Publication #19"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/interactive-work-sessions/
 og_image: /assets/og/knowledge-system-en-cayman.gif
 keywords: "interactive sessions, resilience, progressive commits, three-channel persistence, methodology"
@@ -13,7 +13,7 @@ keywords: "interactive sessions, resilience, progressive commits, three-channel 
 # Interactive Work Sessions
 {: #pub-title}
 
-> **Parent publication**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }}) | **Session companion**: [#8 — Session Management]({{ '/publications/session-management/' | relative_url }}) | **Standards companion**: [#18 — Documentation Generation]({{ '/publications/documentation-generation/' | relative_url }})
+> **Parent publication**: [#0 — Knowledge System]({{ '/publications/knowledge-system/' | relative_url }}) | **Session companion**: [#8 — Session Management]({{ '/publications/session-management/' | relative_url }}) | **Standards companion**: [#18 — Documentation Generation]({{ '/publications/documentation-generation/' | relative_url }}) | **Core reference**: [#14 — Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | [#0v2 — Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }})
 
 **Contents**
 
@@ -89,9 +89,9 @@ Work survives through three independent channels:
 
 | Channel | Recovered via | Survives | At risk when |
 |---------|--------------|----------|-------------|
-| **Git branch** | `recall`, `resume`, manual PR | Session crash, context overflow | Never committed |
+| **Git branch** | `memory_recall.py`, `session_init.py --preserve-active`, manual PR | Session crash, context overflow | Never committed |
 | **GitHub Issue** | Issue URL, board reference | Everything | Issue deleted (rare) |
-| **Essential files** | `wakeup` reads them | PR merge to default branch | Not committed or PR not merged |
+| **Essential files** | `/mind-context` loads them on session start | PR merge to default branch | Not committed or PR not merged |
 
 **Maximum resilience**: All three channels active. Even a catastrophic crash loses at most the current in-progress todo.
 
@@ -103,9 +103,9 @@ Todo 2 → work → commit → push ✓  (savepoint 2)
 Todo 3 → work → commit → [CRASH]
                            ↓
                     New session:
-                    recall → recovers todos 1 + 2 + 3 (if pushed)
+                    memory_recall.py → recovers todos 1 + 2 + 3 (if pushed)
                     issue  → shows what todo 3 was doing
-                    resume → if checkpoint exists, restarts todo 3
+                    session_init.py --preserve-active → restarts todo 3
 ```
 
 ## Impact
@@ -131,7 +131,9 @@ For the complete methodology including recovery matrix, anti-patterns, context b
 | # | Publication | Relationship |
 |---|-------------|-------------|
 | 3 | [AI Session Persistence]({{ '/publications/ai-session-persistence/' | relative_url }}) | Foundational persistence methodology |
-| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle commands (wakeup, save, resume, recall) |
+| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle scripts (session_init.py, memory_append.py, memory_recall.py) |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Multi-module architecture design |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 | 11 | [Success Stories]({{ '/publications/success-stories/' | relative_url }}) | Validated session outcomes |
 | 18 | [Documentation Generation]({{ '/publications/documentation-generation/' | relative_url }}) | Universal inheritance principle |
 
