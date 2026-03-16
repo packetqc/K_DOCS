@@ -3,8 +3,8 @@ layout: publication
 title: "Métriques de session et compilation temporelle — Mesurer la productivité assistée par IA"
 description: "Deux méthodologies de compilation — fiches de métriques et feuilles de temps — qui transforment l'activité de session dispersée en tables structurées et cumulables. Grille de catégories partagée (diagnostic, conception, documentation, gestion documentaire, collatéral) avec les todos comme éléments principaux et les tâches comme sous-éléments."
 pub_id: "Publication #20"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/session-metrics-time/
 og_image: /assets/og/knowledge-system-fr-cayman.gif
 keywords: "métriques de session, compilation temporelle, mesure de productivité, tables cumulables, grille de catégories"
@@ -97,7 +97,9 @@ Pour la méthodologie complète incluant les détails de métriques, les blocs t
 | # | Publication | Relation |
 |---|-------------|---------|
 | 19 | [Sessions de travail interactives]({{ '/fr/publications/interactive-work-sessions/' | relative_url }}) | Méthodologie de session qui génère les données compilées ici |
-| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Commandes de cycle de vie (wakeup, save) où la compilation s'intègre |
+| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Scripts de cycle de vie (session_init.py, memory_append.py) où la compilation s'intègre |
+| 14 | [Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | Conception architecture multi-module |
+| 0v2 | [Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | Référence architecture multi-module K2.0 |
 | 3 | [Persistance de session IA]({{ '/fr/publications/ai-session-persistence/' | relative_url }}) | Persistance fondamentale — la compilation est un artefact de persistance |
 | 11 | [Histoires de succès]({{ '/fr/publications/success-stories/' | relative_url }}) | Les métriques compilées alimentent les récits de validation |
 | 4a | [Tableau de bord Knowledge]({{ '/fr/publications/distributed-knowledge-dashboard/' | relative_url }}) | Métriques réseau — même philosophie de compilation au niveau système |

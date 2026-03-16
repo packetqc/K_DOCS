@@ -3,8 +3,8 @@ layout: publication
 title: "Métriques de session et compilation temporelle — Complet"
 description: "Méthodologie complète pour les métriques de session et la compilation temporelle : grille de catégories partagée, détail des métriques par todo et tâche, blocs temporels, checklists d'intégration méthodologique, protocole de cumul et exemple concret de la session du 2026-02-26."
 pub_id: "Publication #20 — Complet"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /fr/publications/session-metrics-time/full/
 og_image: /assets/og/knowledge-system-fr-cayman.gif
 keywords: "métriques de session, compilation temporelle, mesure de productivité, tables cumulables, grille de catégories, méthodologie"
@@ -312,7 +312,7 @@ Pendant les sessions de travail, Claude surveille les données dignes de compila
 - Quand un PR est fusionné → noter les métriques (fichiers, lignes, catégorie)
 - Quand un billet est fermé → noter le temps de résolution
 - Quand un todo se termine → noter la durée depuis le début
-- Quand une session se termine → suggérer la compilation avant `save`
+- Quand une session se termine → suggérer la compilation avant commit+push
 
 ---
 
@@ -335,7 +335,7 @@ Pendant les sessions de travail, Claude surveille les données dignes de compila
 3. **Cumulable** — les tables de sessions multiples s'empilent pour l'agrégation
 4. **Basé sur les preuves** — toutes les données dérivées de git, PRs, billets (pas des estimations)
 5. **Intégré à la routine** — les checklists s'intègrent dans le cycle de vie de session (protocole `save`)
-6. **Prêt pour le successeur** — les données compilées sont héritées par la prochaine session via `notes/`
+6. **Prêt pour le successeur** — les données compilées sont héritées par la prochaine session via `sessions/`
 
 ---
 
@@ -344,7 +344,9 @@ Pendant les sessions de travail, Claude surveille les données dignes de compila
 | # | Publication | Relation |
 |---|-------------|---------|
 | 19 | [Sessions de travail interactives]({{ '/fr/publications/interactive-work-sessions/' | relative_url }}) | Méthodologie de session qui génère les données compilées ici |
-| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Commandes de cycle de vie (wakeup, save) où la compilation s'intègre |
+| 8 | [Gestion de session]({{ '/fr/publications/session-management/' | relative_url }}) | Scripts de cycle de vie (session_init.py, memory_append.py) où la compilation s'intègre |
+| 14 | [Analyse d'architecture]({{ '/fr/publications/architecture-analysis/' | relative_url }}) | Conception architecture multi-module |
+| 0v2 | [Knowledge 2.0]({{ '/fr/publications/knowledge-2.0/' | relative_url }}) | Référence architecture multi-module K2.0 |
 | 3 | [Persistance de session IA]({{ '/fr/publications/ai-session-persistence/' | relative_url }}) | Persistance fondamentale — la compilation est un artefact de persistance |
 | 11 | [Histoires de succès]({{ '/fr/publications/success-stories/' | relative_url }}) | Les métriques compilées alimentent les récits de validation |
 | 4a | [Tableau de bord Knowledge]({{ '/fr/publications/distributed-knowledge-dashboard/' | relative_url }}) | Métriques réseau — même philosophie de compilation au niveau système |

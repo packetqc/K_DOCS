@@ -3,8 +3,8 @@ layout: publication
 title: "Session Metrics & Time Compilation — Full"
 description: "Complete methodology for session metrics and time compilation: shared category grid, metrics detail by todo and task, time blocks, methodology integration checklists, appendability protocol, and live example from session 2026-02-26."
 pub_id: "Publication #20 — Full"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/session-metrics-time/full/
 og_image: /assets/og/knowledge-system-en-cayman.gif
 keywords: "session metrics, time compilation, productivity measurement, appendable tables, category grid, methodology"
@@ -312,7 +312,7 @@ During work sessions, Claude monitors for compilation-worthy data:
 - When a PR is merged → note the metrics (files, lines, category)
 - When an issue is closed → note resolution time
 - When a todo completes → note duration since start
-- When a session ends → suggest compilation before `save`
+- When a session ends → suggest compilation before commit+push
 
 ---
 
@@ -335,7 +335,7 @@ During work sessions, Claude monitors for compilation-worthy data:
 3. **Appendable** — tables from multiple sessions stack for aggregation
 4. **Evidence-based** — all data derived from git, PRs, issues (not estimates)
 5. **Routine-integrated** — checklists embed in the session lifecycle (`save` protocol)
-6. **Successor-ready** — compiled data is inherited by the next session via `notes/`
+6. **Successor-ready** — compiled data is inherited by the next session via `sessions/`
 
 ---
 
@@ -344,7 +344,9 @@ During work sessions, Claude monitors for compilation-worthy data:
 | # | Publication | Relationship |
 |---|-------------|-------------|
 | 19 | [Interactive Work Sessions]({{ '/publications/interactive-work-sessions/' | relative_url }}) | Session methodology that generates the data compiled here |
-| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle commands (wakeup, save) where compilation integrates |
+| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle scripts (session_init.py, memory_append.py) where compilation integrates |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Multi-module architecture design |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 | 3 | [AI Session Persistence]({{ '/publications/ai-session-persistence/' | relative_url }}) | Foundational persistence — compilation is a persistence artifact |
 | 11 | [Success Stories]({{ '/publications/success-stories/' | relative_url }}) | Compiled metrics feed validation narratives |
 | 4a | [Knowledge Dashboard]({{ '/publications/distributed-knowledge-dashboard/' | relative_url }}) | Network metrics — same compilation philosophy at system level |

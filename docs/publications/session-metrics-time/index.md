@@ -3,8 +3,8 @@ layout: publication
 title: "Session Metrics & Time Compilation — Measuring AI-Assisted Productivity"
 description: "Two compilation methodologies — metrics sheets and timesheets — that transform scattered session activity into structured, appendable tables. Shared category grid (diagnostic, conception, documentation, document management, collateral) with todos as primary items and tasks as sub-items."
 pub_id: "Publication #20"
-version: "v1"
-date: "2026-02-26"
+version: "v2"
+date: "2026-03-16"
 permalink: /publications/session-metrics-time/
 og_image: /assets/og/knowledge-system-en-cayman.gif
 keywords: "session metrics, time compilation, productivity measurement, appendable tables, category grid"
@@ -97,7 +97,9 @@ For the complete methodology including detailed metrics breakdowns, time blocks,
 | # | Publication | Relationship |
 |---|-------------|-------------|
 | 19 | [Interactive Work Sessions]({{ '/publications/interactive-work-sessions/' | relative_url }}) | Session methodology that generates the data compiled here |
-| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle commands (wakeup, save) where compilation integrates |
+| 8 | [Session Management]({{ '/publications/session-management/' | relative_url }}) | Lifecycle scripts (session_init.py, memory_append.py) where compilation integrates |
+| 14 | [Architecture Analysis]({{ '/publications/architecture-analysis/' | relative_url }}) | Multi-module architecture design |
+| 0v2 | [Knowledge 2.0]({{ '/publications/knowledge-2.0/' | relative_url }}) | K2.0 multi-module architecture reference |
 | 3 | [AI Session Persistence]({{ '/publications/ai-session-persistence/' | relative_url }}) | Foundational persistence — compilation is a persistence artifact |
 | 11 | [Success Stories]({{ '/publications/success-stories/' | relative_url }}) | Compiled metrics feed validation narratives |
 | 4a | [Knowledge Dashboard]({{ '/publications/distributed-knowledge-dashboard/' | relative_url }}) | Network metrics — same compilation philosophy at system level |
