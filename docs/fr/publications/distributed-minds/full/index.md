@@ -96,12 +96,12 @@ Sans consolidation, chaque découverte reste enfermée dans le projet qui l'a pr
 
 ```mermaid
 flowchart TB
-    subgraph MASTER["packetqc/knowledge (cerveau maître)"]
-        M1["CLAUDE.md (v35) ← méthodologie core"]
-        M2["methodology/ ← comment on travaille"]
-        M3["patterns/ ← patterns prouvés (4)"]
-        M4["lessons/ ← écueils durement gagnés (12)"]
-        M5["minds/ ← connaissances satellites récoltées"]
+    subgraph MASTER["packetqc/knowledge — K2.0 Multi-Module"]
+        M1["K_MIND — mind_memory.md (grille de directives)"]
+        M2["K_MIND — JSONs de domaine (conventions, work)"]
+        M3["K_MIND — sessions/ (near + far memory)"]
+        M4["K_DOCS — viewer statique + publications"]
+        M5["K_GITHUB — sync_github.py"]
     end
 
     MASTER -- "push" --> PA["STM32 SQLite\nv0"]
@@ -137,10 +137,10 @@ La commande `harvest` parcourt toutes les branches d'un satellite, suit les curs
 ```mermaid
 flowchart LR
     A["Note de session\ndans satellite"] --> B["Flaggé avec\nremember harvest:"]
-    B --> C["minds/projet.md\n(récolté, évolutif)"]
+    B --> C["Archives far_memory\n(récolté, évolutif)"]
     C --> D["Validé entre\n2+ projets"]
-    D --> E["patterns/ ou lessons/\n(prouvé)"]
-    E --> F["Résumé CLAUDE.md\n(core)"]
+    D --> E["conventions.json\nou work.json (prouvé)"]
+    E --> F["mind_memory.md\n(grille de directives core)"]
 ```
 
 ---

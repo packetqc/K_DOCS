@@ -37,7 +37,11 @@ Les assistants de codage IA acquièrent une mémoire persistante via `CLAUDE.md`
 
 ```mermaid
 flowchart TB
-    MASTER["packetqc/knowledge\n(cerveau maître)"]
+    subgraph MASTER["packetqc/knowledge — K2.0 Multi-Module"]
+        KMIND["K_MIND — Core Memory\nmind_memory.md + sessions/"]
+        KDOCS["K_DOCS — Documentation\nstatic viewer + publications"]
+        KGITHUB["K_GITHUB — GitHub Sync\nsync_github.py"]
+    end
 
     MASTER -- "push" --> PA["STM32\nSQLite"]
     MASTER -- "push" --> PB["MPLIB"]

@@ -109,12 +109,12 @@ But each AI instance is born fresh. Without consolidation:
 
 ```mermaid
 flowchart TB
-    subgraph MASTER["packetqc/knowledge (master mind)"]
-        M1["CLAUDE.md (v35) ← core methodology"]
-        M2["methodology/ ← how we work"]
-        M3["patterns/ ← proven patterns (4)"]
-        M4["lessons/ ← hard-won pitfalls (12)"]
-        M5["minds/ ← harvested satellite knowledge"]
+    subgraph MASTER["packetqc/knowledge — K2.0 Multi-Module"]
+        M1["K_MIND — mind_memory.md (directive grid)"]
+        M2["K_MIND — domain JSONs (conventions, work)"]
+        M3["K_MIND — sessions/ (near + far memory)"]
+        M4["K_DOCS — static viewer + publications"]
+        M5["K_GITHUB — sync_github.py"]
     end
 
     MASTER -- "push" --> PA["STM32 SQLite\nv22 · active"]
@@ -173,10 +173,10 @@ The `harvest` command is the **inbound pull**:
 ```mermaid
 flowchart LR
     A["Session note\nin satellite"] --> B["Flagged with\nremember harvest:"]
-    B --> C["minds/project.md\n(harvested, evolving)"]
+    B --> C["far_memory archives\n(harvested, evolving)"]
     C --> D["Validated across\n2+ projects"]
-    D --> E["patterns/ or lessons/\n(proven)"]
-    E --> F["CLAUDE.md summary\n(core)"]
+    D --> E["conventions.json\nor work.json (proven)"]
+    E --> F["mind_memory.md\n(core directive grid)"]
 ```
 
 Each layer is a **filter**: session notes are raw, minds/ is curated per-project, proven/ is validated cross-project, core is the permanent record.

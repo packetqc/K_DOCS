@@ -37,7 +37,11 @@ AI coding assistants gain persistent memory through `CLAUDE.md` and `notes/` —
 
 ```mermaid
 flowchart TB
-    MASTER["packetqc/knowledge\n(master mind, v26)"]
+    subgraph MASTER["packetqc/knowledge — K2.0 Multi-Module"]
+        KMIND["K_MIND — Core Memory\nmind_memory.md + sessions/"]
+        KDOCS["K_DOCS — Documentation\nstatic viewer + publications"]
+        KGITHUB["K_GITHUB — GitHub Sync\nsync_github.py"]
+    end
 
     MASTER -- "push" --> PA["STM32 SQLite\nv22 · active"]
     MASTER -- "push" --> PB["MPLIB\nv0 · missing"]
