@@ -107,7 +107,7 @@ lang: fr
       <h2 id="tw-title"></h2>
       <div class="tw-meta">
         <span class="tw-badge tw-badge-stage" id="tw-current-stage"></span>
-        <span class="tw-badge tw-badge-issue" id="tw-issue-badge"></span>
+        <span class="tw-badge tw-badge-task" id="tw-task-badge"></span>
         <span class="tw-date" id="tw-date"></span>
         <span class="tw-branch" id="tw-branch"></span>
       </div>

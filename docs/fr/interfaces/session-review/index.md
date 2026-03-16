@@ -48,7 +48,7 @@ lang: fr
 <div id="sv-empty-state" class="sv-empty">
   <p>Sélectionnez une session ci-dessus pour afficher son rapport complet.</p>
   <p class="sv-muted"><span id="sv-session-count">0</span> sessions disponibles.</p>
-  <p class="sv-muted sv-version-note">Seules les sessions <strong>v51+</strong> (avec suivi d'issues) sont listées — la convention de protocole structuré appliquée depuis le 2026-02-27.</p>
+  <p class="sv-muted sv-version-note">Seules les sessions <strong>v51+</strong> (avec suivi de tâches) sont listées — la convention de protocole structuré appliquée depuis le 2026-02-27.</p>
 </div>
 
 <div id="sv-content" style="display:none;">
@@ -90,7 +90,7 @@ lang: fr
   <div class="table-wrap sv-metrics-table">
     <table class="sv-table">
       <thead>
-        <tr><th>#</th><th>Catégorie</th><th>PRs</th><th>+/-</th><th>Fichiers</th><th>Commits</th><th>Issues</th><th>Leçons</th></tr>
+        <tr><th>#</th><th>Catégorie</th><th>PRs</th><th>+/-</th><th>Fichiers</th><th>Commits</th><th>Tâches</th><th>Leçons</th></tr>
       </thead>
       <tbody id="sv-metrics-body"></tbody>
     </table>
@@ -135,15 +135,15 @@ lang: fr
   </div>
 </div>
 
-<!-- Section 6: Issues liées -->
-<div class="sv-section" id="sv-section-issues" style="display:none;">
-  <h3>Issues liées</h3>
+<!-- Section 6: Tâches liées -->
+<div class="sv-section" id="sv-section-related-tasks" style="display:none;">
+  <h3>Tâches liées</h3>
   <div class="sv-table-wrap">
-    <table class="sv-table sv-issues-table">
+    <table class="sv-table sv-tasks-table">
       <thead>
-        <tr><th>#</th><th>Issue</th><th>Type</th><th>Titre</th></tr>
+        <tr><th>#</th><th>Tâche</th><th>Type</th><th>Titre</th></tr>
       </thead>
-      <tbody id="sv-issues-body"></tbody>
+      <tbody id="sv-tasks-body"></tbody>
     </table>
   </div>
 </div>
