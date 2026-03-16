@@ -573,34 +573,10 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     det.appendChild(body); panel.appendChild(det);
   });
 
-  /* ─── Adapt saved URL to current language ─── */
-  function adaptLang(url) {
-    if (!url) return url;
-    // Viewer URLs (index.html?doc=...): toggle &lang=fr
-    if (url.indexOf('index.html?doc=') !== -1) {
-      var cleaned = url.replace(/[&?]lang=fr/g, '').replace(/\?&/, '?').replace(/\?$/, '');
-      return LANG === 'fr' ? (cleaned + (cleaned.indexOf('?') !== -1 ? '&' : '?') + 'lang=fr') : cleaned;
-    }
-    // Direct page URLs: toggle /fr/ prefix
-    var stripped = url.replace(/\/fr\//, '/');
-    return LANG === 'fr' ? stripped.replace(BASE + '/', BASE + '/fr/') : stripped;
-  }
-
-  /* ─── Restore last viewed pages (or set defaults) ─── */
-  var savedCenter = localStorage.getItem(CENTER_KEY);
-  var defaultCenter = vru(BASE + LP + '/interfaces/task-workflow/');
-  console.log('[NAV] LANG=' + LANG + ' LP=' + LP + ' BASE=' + BASE);
-  console.log('[NAV] savedCenter=' + savedCenter);
-  console.log('[NAV] defaultCenter=' + defaultCenter);
-  console.log('[NAV] adaptedCenter=' + (savedCenter ? adaptLang(savedCenter) : '(none)'));
-  var centerSrc = savedCenter ? adaptLang(savedCenter) : defaultCenter;
-  console.log('[NAV] centerIframe.src → ' + centerSrc);
-  if (centerIframe) { centerIframe.src = centerSrc; }
-  var savedRight = localStorage.getItem(RCONTENT_KEY);
-  var defaultRight = vru(BASE + LP + '/');
-  var rightSrc = savedRight ? adaptLang(savedRight) : defaultRight;
-  console.log('[NAV] savedRight=' + savedRight + ' → ' + rightSrc);
-  if (rightIframe) { rightIframe.src = rightSrc; }
+  /* ─── Set center/right iframe URLs for current language ─── */
+  /* Always use vru() to build proper viewer embed URLs with correct language */
+  if (centerIframe) { centerIframe.src = vru(BASE + LP + '/interfaces/task-workflow/'); }
+  if (rightIframe) { rightIframe.src = vru(BASE + LP + '/'); }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
