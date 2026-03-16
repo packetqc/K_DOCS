@@ -208,11 +208,9 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 /* ═══ Tab bar — horizontal strip above content-frame ═══ */
 .tab-bar {
   flex-shrink: 0;
-  display: flex; align-items: stretch;
-  overflow-x: auto; overflow-y: hidden;
+  display: flex; align-items: stretch; flex-wrap: wrap;
   background: var(--code-bg, #f6f8fa);
   border-bottom: 1px solid var(--border, #d0d7de);
-  scrollbar-width: thin;
 }
 .tab-bar:empty { display: none; }
 .tab-item {
