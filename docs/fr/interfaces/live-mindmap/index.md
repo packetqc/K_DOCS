@@ -497,33 +497,17 @@ body > .container {
           allowUndo: false
         });
 
-        // Collapse branches beyond configured depth (respects per-branch overrides)
-        var cfgDepth = (config && config.default_depth) ? config.default_depth : 3;
-        var cfgOverrides = (config && config.overrides) ? config.overrides : {};
-        function collapseDeep(node, depth, pathParts) {
+        // Collapse nodes beyond depth 2 initially (user can expand any branch)
+        // depth_config.json is for Claude Desktop mermaid rendering only — not used here
+        (function collapseInitial(node, depth) {
           if (!node.children || !node.children.length) return;
           node.children.forEach(function(child) {
-            var parts = pathParts.concat(child.topic);
-            // Find best matching override for this branch path
-            var maxD = cfgDepth, bestLen = 0;
-            for (var op in cfgOverrides) {
-              var opParts = op.split('/');
-              if (opParts.length <= parts.length) {
-                var match = true;
-                for (var k = 0; k < opParts.length; k++) {
-                  if (opParts[k] !== parts[k]) { match = false; break; }
-                }
-                if (match && op.length > bestLen) { bestLen = op.length; maxD = cfgOverrides[op]; }
-              }
-            }
-            var childDepth = depth + 1;
             if (child.children && child.children.length > 0) {
-              if (childDepth >= maxD) child.expanded = false;
-              collapseDeep(child, childDepth, parts);
+              if (depth >= 1) child.expanded = false;
+              collapseInitial(child, depth + 1);
             }
           });
-        }
-        collapseDeep(data.nodeData, 0, []);
+        })(data.nodeData, 0);
 
         mind.init(data);
         window.mindInstance = mind;
@@ -628,8 +612,8 @@ body > .container {
       '<p><kbd>+</kbd> / <kbd>-</kbd> — expand or collapse <b>one level</b> at a time<br>' +
       '<kbd>Ctrl + Click</kbd> on <kbd>+</kbd> — expand <b>all</b> levels at once</p>' +
       '<h4>Toolbar</h4>' +
-      '<p><b>Normal</b> — filtered view (depth-limited, architecture/constraints hidden)<br>' +
-      '<b>Full</b> — all nodes at max depth<br>' +
+      '<p><b>Normal</b> — all nodes, architecture/constraints hidden, collapsed at level 2<br>' +
+      '<b>Full</b> — all nodes including architecture/constraints, collapsed at level 2<br>' +
       '<b>Reload</b> — re-fetch from GitHub<br>' +
       '<b>Center</b> — center the map without scaling<br>' +
       '<b>Fit</b> — fit entire map in view<br>' +
@@ -646,8 +630,8 @@ body > .container {
       '<p><kbd>+</kbd> / <kbd>-</kbd> — deplier ou replier <b>un niveau</b> a la fois<br>' +
       '<kbd>Ctrl + Clic</kbd> sur <kbd>+</kbd> — deplier <b>tous</b> les niveaux d\'un coup</p>' +
       '<h4>Barre d\'outils</h4>' +
-      '<p><b>Normal</b> — vue filtree (profondeur limitee, architecture/contraintes masquees)<br>' +
-      '<b>Full</b> — tous les noeuds a profondeur maximale<br>' +
+      '<p><b>Normal</b> — tous les noeuds, architecture/contraintes masquees, replie au niveau 2<br>' +
+      '<b>Full</b> — tous les noeuds y compris architecture/contraintes, replie au niveau 2<br>' +
       '<b>Reload</b> — re-charger depuis GitHub<br>' +
       '<b>Center</b> — centrer sans redimensionner<br>' +
       '<b>Fit</b> — ajuster la carte a la vue<br>' +
