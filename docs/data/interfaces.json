@@ -6,11 +6,46 @@
   "description_fr": "Applications web interactives intégrées à la plateforme Knowledge — analyse de session en temps réel, machines à états de tâches, tableaux de bord projets et visualisation mindmap vivante.",
   "open": true,
   "items": [
-    { "title": "I1 Session Review", "title_fr": "I1 Revue de session", "description": "Interactive session analysis with timeline, metrics charts, and message-level detail.", "description_fr": "Analyse interactive de session avec chronologie, graphiques de métriques et détail par message.", "href": "/interfaces/session-review/", "target": "center", "priority": 1 },
-    { "title": "I2 Main Navigator", "title_fr": "I2 Navigateur principal", "description": "Central navigation hub with JSON-driven left panel and embedded document viewer.", "description_fr": "Hub de navigation central avec panneau gauche piloté par JSON et visualiseur de documents intégré.", "href": "/interfaces/main-navigator/", "target": "top", "priority": 2 },
-    { "title": "I3 Tasks Workflow", "title_fr": "I3 Flux de travail", "description": "Task state machine viewer showing workflow stages, transitions, and completion status.", "description_fr": "Visualiseur de machine à états des tâches montrant les étapes, transitions et statuts d'avancement.", "href": "/interfaces/task-workflow/", "target": "center", "priority": 3 },
-    { "title": "I4 Project Viewer", "title_fr": "I4 Visualiseur projets", "description": "Project portfolio dashboard with board integration, issue tracking, and progress metrics.", "description_fr": "Tableau de bord du portfolio de projets avec intégration board, suivi des issues et métriques d'avancement.", "href": "/interfaces/project-viewer/", "target": "center", "priority": 4 },
-    { "title": "I5 Live Mindmap", "title_fr": "I5 Mindmap vivant", "description": "Real-time interactive mindmap powered by MindElixir v5 — live memory visualization.", "description_fr": "Mindmap interactif en temps réel propulsé par MindElixir v5 — visualisation mémoire vivante.", "href": "/interfaces/live-mindmap/", "target": "center", "priority": 5 },
-    { "title": "#21 Documentation", "title_fr": "#21 Documentation", "description": "Publication #21 — Main Interface design, architecture, and usage documentation.", "description_fr": "Publication #21 — Documentation de conception, architecture et utilisation de l'interface principale.", "href": "/publications/main-interface/", "target": "right", "priority": 6 }
-  ]
+    { 	
+		"title": "Session Review", "title_fr": "Revue de session", 
+		"description": "Interactive session analysis with timeline, metrics charts, and message-level detail.", 
+		"description_fr": "Analyse interactive de session avec chronologie, graphiques de métriques et détail par message.", 
+		"href": "/interfaces/session-review/", "target": "center",
+		"pub": "guide-session-review",
+		"priority": 5
+	},
+    { 	
+		"title": "Main Navigator", "title_fr": "Navigateur principal", 
+		"description": "Central navigation hub with JSON-driven left panel and embedded document viewer.", 
+		"description_fr": "Hub de navigation central avec panneau gauche piloté par JSON et visualiseur de documents intégré.", 
+		"href": "/interfaces/main-navigator/", "target": "top",
+		"pub": "guide-main-navigator",
+		"priority": 2
+	},
+    { 	
+		"title": "Tasks Workflow", "title_fr": "Flux de travail", 
+		"description": "Task state machine viewer showing workflow stages, transitions, and completion status.", 
+		"description_fr": "Visualiseur de machine à états des tâches montrant les étapes, transitions et statuts d'avancement.", 
+		"href": "/interfaces/task-workflow/", "target": "center",
+		"pub": "guide-tasks-workflow",
+		"priority": 4
+	},
+    { 	
+		"title": "Project Viewer", "title_fr": "Visualiseur projets", 
+		"description": "Project portfolio dashboard with board integration, issue tracking, and progress metrics.", 
+		"description_fr": "Tableau de bord du portfolio de projets avec intégration board, suivi des issues et métriques d'avancement.", 
+		"href": "/interfaces/project-viewer/", "target": "center",
+		"pub": "guide-project-viewer",
+		"priority": 3
+	},
+    { 
+		"title": "Live Mindmap", "title_fr": "Mindmap vivant", 
+		"description": "Real-time interactive mindmap powered by MindElixir v5 — live memory visualization.", 
+		"description_fr": "Mindmap interactif en temps réel propulsé par MindElixir v5 — visualisation mémoire vivante.", 
+		"href": "/interfaces/live-mindmap/", "target": "center",
+		"pub": "guide-live-mindmap",
+		"priority": 1
+	},
+  ],
+  "removed": []
 }

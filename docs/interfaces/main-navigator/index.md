@@ -157,6 +157,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   padding: 0.18rem 0.55rem;
   color: var(--fg, #24292f);
   text-decoration: none; border-radius: 3px;
+  text-transform: uppercase;
 }
 .nav-widget .widget-body a:hover {
   background: var(--col-alt, #f0f0f0); color: var(--accent, #1d4ed8);
@@ -178,6 +179,58 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-widget .pub-group[open] > summary::before { content: '⌄'; }
 .nav-widget .pub-group a { padding-left: 1.3rem; font-size: 0.74rem; }
 .cmd-link { font-family: monospace; font-size: 0.72rem; color: var(--muted, #656d76); }
+
+/* ═══ Tab bar — horizontal strip above content-frame ═══ */
+.tab-bar {
+  flex-shrink: 0;
+  display: flex; align-items: stretch;
+  overflow-x: auto; overflow-y: hidden;
+  background: var(--code-bg, #f6f8fa);
+  border-bottom: 1px solid var(--border, #d0d7de);
+  scrollbar-width: thin;
+}
+.tab-bar:empty { display: none; }
+.tab-item {
+  display: flex; align-items: center; gap: 0.15rem;
+  padding: 0.2rem 0.25rem 0.2rem 0.5rem;
+  font-size: 0.72rem; white-space: nowrap;
+  border-right: 1px solid var(--border, #d0d7de);
+  cursor: pointer; user-select: none;
+  color: var(--muted, #656d76);
+  max-width: 180px;
+  transition: background 0.15s;
+}
+.tab-item:hover { background: var(--col-alt, #f0f0f0); color: var(--fg, #24292f); }
+.tab-item.tab-active {
+  background: var(--bg, #fff); color: var(--fg, #24292f);
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent, #1d4ed8);
+}
+.tab-label {
+  overflow: hidden; text-overflow: ellipsis;
+  max-width: 140px; display: inline-block;
+}
+.tab-close {
+  font-size: 0.6rem; padding: 0.1rem 0.25rem;
+  color: var(--muted, #656d76); border-radius: 3px;
+  line-height: 1; cursor: pointer;
+}
+.tab-close:hover { background: #e5534b; color: #fff; }
+
+/* ═══ Interface row — link + ℹ button ═══ */
+.iface-row { display: flex; align-items: center; }
+.iface-row > a:first-child { flex: 1; }
+.iface-pub-btn {
+  flex-shrink: 0; padding: 0.15rem 0.35rem;
+  font-size: 0.7rem; text-decoration: none;
+  color: var(--muted, #656d76); border-radius: 3px;
+  cursor: pointer; opacity: 0.5;
+  transition: opacity 0.15s;
+}
+.iface-pub-btn:hover {
+  opacity: 1; background: var(--col-alt, #f0f0f0);
+  color: var(--accent, #1d4ed8);
+}
 
 /* ═══ Dark theme overrides for widgets ═══ */
 [data-theme="midnight"],
@@ -245,7 +298,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     <iframe name="center-frame" id="center-frame-el"></iframe>
   </div>
   <div class="nav-divider-right" id="right-toggle"></div>
-  <div class="nav-viewer">
+  <div class="nav-viewer" id="right-viewer">
+    <div class="tab-bar" id="tab-bar"></div>
     <iframe name="content-frame" id="right-frame-el"></iframe>
   </div>
 </div>
@@ -368,14 +422,15 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   var SECTIONS_URL = 'https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/sections.json';
   var FALLBACK_WIDGETS = [
     { id:'interfaces',json:'data/interfaces.json',priority:1 },
-    { id:'essentials',json:'data/essentials.json',priority:2 },
-    { id:'commands',json:'data/commands.json',priority:3 },
-    { id:'methodologies',json:'data/methodologies.json',priority:4 },
-    { id:'hubs',json:'data/hubs.json',priority:5 },
-    { id:'profile',json:'data/profile.json',priority:6 },
-    { id:'publications',json:'data/publications.json',priority:7 },
-    { id:'stories',json:'data/stories.json',priority:8 },
-    { id:'configurations',json:'data/configurations.json',priority:9 }
+    { id:'documentation',json:'data/documentation.json',priority:2 },
+    { id:'essentials',json:'data/essentials.json',priority:3 },
+    { id:'commands',json:'data/commands.json',priority:4 },
+    { id:'methodologies',json:'data/methodologies.json',priority:5 },
+    { id:'hubs',json:'data/hubs.json',priority:6 },
+    { id:'profile',json:'data/profile.json',priority:7 },
+    { id:'publications',json:'data/publications.json',priority:8 },
+    { id:'stories',json:'data/stories.json',priority:9 },
+    { id:'configurations',json:'data/configurations.json',priority:10 }
   ];
 
   /* ─── Restore + build widgets ─── */
@@ -442,12 +497,48 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         var items = (data.items || []).slice().sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); });
         var section = data.section;
 
-        /* ── Interfaces: links with target routing ── */
+        /* ── Interfaces: links with target routing + ℹ guide button ── */
         if (section === 'interfaces') {
           items.forEach(function(item) {
             var target = item.target === 'top' ? '_top' : (item.target === 'center' ? 'center-frame' : 'content-frame');
             var href = item.target === 'top' ? vru(BASE + LP + item.href, false) : vru(BASE + LP + item.href);
-            body.appendChild(makeLink(label(item), href, target));
+            if (item.pub) {
+              var row = document.createElement('div'); row.className = 'iface-row';
+              row.appendChild(makeLink(label(item), href, target));
+              var ib = document.createElement('a'); ib.className = 'iface-pub-btn';
+              ib.textContent = 'ℹ'; ib.title = LANG === 'fr' ? 'Guide utilisateur' : 'User Guide';
+              ib.href = BASE + LP + '/publications/' + item.pub + '/full/';
+              ib.target = 'content-frame';
+              row.appendChild(ib);
+              body.appendChild(row);
+            } else {
+              body.appendChild(makeLink(label(item), href, target));
+            }
+          });
+        }
+
+        /* ── Documentation: groups with summary+full sub-links ── */
+        else if (section === 'documentation') {
+          var dSumLabel = LANG === 'fr' ? 'Résumé' : 'Summary';
+          var dFullLabel = LANG === 'fr' ? 'Complet' : 'Full';
+          var dComingSoon = LANG === 'fr' ? '(à venir)' : '(coming soon)';
+          (data.groups || []).forEach(function(g) {
+            var gLabel = (LANG === 'fr' && g.group_fr) ? g.group_fr : g.group;
+            var pg = makeSubDet(gLabel);
+            if (g.items && g.items.length > 0) {
+              g.items.slice().sort(function(a, b) { return (a.priority || 99) - (b.priority || 99); }).forEach(function(item) {
+                var ipg = makeSubDet(label(item));
+                ipg.appendChild(makeLink(dSumLabel, vru(BASE + LP + '/publications/' + item.slug + '/'), 'content-frame'));
+                ipg.appendChild(makeLink(dFullLabel, vru(BASE + LP + '/publications/' + item.slug + '/full/'), 'content-frame'));
+                pg.appendChild(ipg);
+              });
+            } else {
+              var ph = document.createElement('span');
+              ph.style.cssText = 'display:block;padding:0.2rem 0.55rem;font-size:0.72rem;color:var(--muted,#656d76);font-style:italic;';
+              ph.textContent = dComingSoon;
+              pg.appendChild(ph);
+            }
+            body.appendChild(pg);
           });
         }
 
@@ -549,15 +640,136 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     return url.replace(BASE + '/', BASE + '/fr/');
   }
 
+  /* ─── Tab bar manager ─── */
+  var TAB_KEY = 'navigator-tabs';
+  var TAB_MAX = 12;
+  var tabBar = document.getElementById('tab-bar');
+  var tabs = [];
+  var activeTabId = null;
+  var tabCounter = 0;
+  var tabNavigating = false; /* flag to suppress iframe-load tab creation during programmatic nav */
+
+  function normUrl(u) {
+    try { var p = new URL(u, location.origin); return p.origin + p.pathname.replace(/\/+$/, ''); }
+    catch(e) { return u.split('#')[0].replace(/\/+$/, ''); }
+  }
+
+  function renderTabs() {
+    if (!tabBar) return;
+    tabBar.innerHTML = '';
+    tabs.forEach(function(t) {
+      var el = document.createElement('span');
+      el.className = 'tab-item' + (t.id === activeTabId ? ' tab-active' : '');
+      el.dataset.tabId = t.id;
+      var lbl = document.createElement('span');
+      lbl.className = 'tab-label'; lbl.textContent = t.title || 'Document';
+      lbl.title = t.title || '';
+      el.appendChild(lbl);
+      var cls = document.createElement('span');
+      cls.className = 'tab-close'; cls.textContent = '×'; cls.dataset.tabId = t.id;
+      el.appendChild(cls);
+      tabBar.appendChild(el);
+    });
+  }
+
+  function saveTabState() {
+    try {
+      localStorage.setItem(TAB_KEY, JSON.stringify({ tabs: tabs, activeTabId: activeTabId, counter: tabCounter }));
+    } catch(e) {}
+  }
+
+  function activateTab(id) {
+    var t = tabs.find(function(x) { return x.id === id; });
+    if (!t) return;
+    activeTabId = id;
+    tabNavigating = true;
+    if (rightIframe) rightIframe.src = applyLang(t.url);
+    localStorage.setItem(RCONTENT_KEY, stripLang(t.url));
+    /* Auto-extend right panel if collapsed */
+    if (rightW < 100) { rightW = Math.round(grid.offsetWidth * 0.5); applyGrid(true); }
+    renderTabs();
+    saveTabState();
+  }
+
+  function addTab(url, title) {
+    var norm = normUrl(url);
+    var existing = tabs.find(function(t) { return normUrl(t.url) === norm; });
+    if (existing) {
+      if (title && title !== 'Document') existing.title = title;
+      activateTab(existing.id);
+      return;
+    }
+    /* Soft cap — close oldest non-active */
+    if (tabs.length >= TAB_MAX) {
+      var oldest = tabs.find(function(t) { return t.id !== activeTabId; });
+      if (oldest) tabs = tabs.filter(function(t) { return t.id !== oldest.id; });
+    }
+    var id = 'tab-' + (++tabCounter);
+    tabs.push({ id: id, title: title || 'Document', url: stripLang(url) });
+    activateTab(id);
+  }
+
+  function closeTab(id) {
+    var idx = tabs.findIndex(function(t) { return t.id === id; });
+    if (idx < 0) return;
+    tabs.splice(idx, 1);
+    if (activeTabId === id) {
+      if (tabs.length > 0) {
+        var next = tabs[Math.min(idx, tabs.length - 1)];
+        activateTab(next.id);
+      } else {
+        activeTabId = null;
+        renderTabs();
+        saveTabState();
+      }
+    } else {
+      renderTabs();
+      saveTabState();
+    }
+  }
+
+  /* Tab bar click delegation */
+  if (tabBar) {
+    tabBar.addEventListener('click', function(e) {
+      var cls = e.target.closest('.tab-close');
+      if (cls) { closeTab(cls.dataset.tabId); return; }
+      var item = e.target.closest('.tab-item');
+      if (item) activateTab(item.dataset.tabId);
+    });
+  }
+
   /* ─── Restore last viewed pages ─── */
   var vruFn = (typeof viewerRewriteUrl === 'function') ? viewerRewriteUrl : function(u) { return u; };
   var savedCenter = localStorage.getItem(CENTER_KEY);
   var defaultCenter = vruFn(BASE + LP + '/interfaces/task-workflow/');
   if (centerIframe) { centerIframe.src = savedCenter ? applyLang(savedCenter) : defaultCenter; }
-  var savedRight = localStorage.getItem(RCONTENT_KEY);
-  if (savedRight) { savedRight = stripLang(savedRight); localStorage.setItem(RCONTENT_KEY, savedRight); }
-  var defaultRight = vruFn(BASE + LP + '/');
-  if (rightIframe) { rightIframe.src = savedRight ? applyLang(savedRight) : defaultRight; }
+
+  /* Restore tabs or fall back to single URL */
+  try {
+    var tabData = JSON.parse(localStorage.getItem(TAB_KEY) || 'null');
+    if (tabData && tabData.tabs && tabData.tabs.length > 0) {
+      tabs = tabData.tabs;
+      tabCounter = tabData.counter || tabs.length;
+      activeTabId = tabData.activeTabId;
+      var activeTab = tabs.find(function(t) { return t.id === activeTabId; });
+      if (activeTab && rightIframe) {
+        tabNavigating = true;
+        rightIframe.src = applyLang(activeTab.url);
+        localStorage.setItem(RCONTENT_KEY, stripLang(activeTab.url));
+      }
+      renderTabs();
+    } else {
+      /* No tabs saved — load default and create first tab on iframe load */
+      var savedRight = localStorage.getItem(RCONTENT_KEY);
+      if (savedRight) { savedRight = stripLang(savedRight); localStorage.setItem(RCONTENT_KEY, savedRight); }
+      var defaultRight = vruFn(BASE + LP + '/');
+      if (rightIframe) { rightIframe.src = savedRight ? applyLang(savedRight) : defaultRight; }
+    }
+  } catch(e) {
+    var savedRight2 = localStorage.getItem(RCONTENT_KEY);
+    var defaultRight2 = vruFn(BASE + LP + '/');
+    if (rightIframe) { rightIframe.src = savedRight2 ? applyLang(savedRight2) : defaultRight2; }
+  }
 
   /* ─── Restore active link highlight ─── */
   var savedActive = localStorage.getItem(ACTIVE_KEY);
@@ -566,7 +778,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     if (found) found.classList.add('active');
   }
 
-  /* ─── Active link highlight + save URLs ─── */
+  /* ─── Active link highlight + save URLs + tab creation ─── */
   panel.addEventListener('click', function(e) {
     var a = e.target.closest('a[target="content-frame"]') || e.target.closest('a[target="center-frame"]');
     if (!a) return;
@@ -575,10 +787,18 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     localStorage.setItem(ACTIVE_KEY, a.dataset.navId || a.href);
     /* Save center URL if targeting center (language-neutral) */
     if (a.target === 'center-frame') { localStorage.setItem(CENTER_KEY, stripLang(a.href)); }
-    /* Save right URL + extend panel if collapsed (language-neutral) */
+    /* Content-frame: create tab + extend panel */
     if (a.target === 'content-frame') {
-      localStorage.setItem(RCONTENT_KEY, stripLang(a.href));
-      if (rightW < 100) { rightW = Math.round(grid.offsetWidth * 0.5); applyGrid(true); }
+      e.preventDefault();
+      var tabTitle = a.textContent.trim() || 'Document';
+      addTab(a.href, tabTitle);
+    }
+  });
+
+  /* ─── postMessage from center-frame interfaces (ℹ button) ─── */
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'open-pub') {
+      addTab(e.data.url, e.data.title || 'Guide');
     }
   });
 
@@ -611,7 +831,22 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
     rightIframe.addEventListener('load', function() {
       try {
         var loc = rightIframe.contentWindow.location.href;
-        if (loc && loc !== 'about:blank') localStorage.setItem(RCONTENT_KEY, stripLang(loc));
+        if (loc && loc !== 'about:blank') {
+          localStorage.setItem(RCONTENT_KEY, stripLang(loc));
+          var title = 'Document';
+          try { title = rightIframe.contentDocument.title || title; } catch(e2) {}
+          /* If navigating programmatically (tab click), just update title */
+          if (tabNavigating) {
+            tabNavigating = false;
+            if (activeTabId) {
+              var at = tabs.find(function(t) { return t.id === activeTabId; });
+              if (at && title !== 'Document') { at.title = title; at.url = stripLang(loc); renderTabs(); saveTabState(); }
+            }
+          } else {
+            /* In-iframe navigation — create or update tab */
+            addTab(loc, title);
+          }
+        }
       } catch(e) {}
       syncThemeToIframes();
     });

@@ -176,7 +176,26 @@ body > .container {
   <button id="btn-fullscreen" onclick="toggleFullscreen()">Fullscreen</button>
   <span class="mindmap-status" id="mindmap-status">Loading...</span>
   <button class="help-btn" id="help-toggle" onclick="toggleHelp()" title="Help">?</button>
+  <a class="help-btn iface-info-btn" data-pub="guide-live-mindmap" title="User Guide" style="text-decoration:none;">ℹ</a>
 </div>
+<script>
+(function(){
+  var btn = document.querySelector('.iface-info-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var slug = this.dataset.pub;
+    var lp = (document.documentElement.lang === 'fr' || location.pathname.indexOf('/fr/') >= 0) ? '/fr' : '';
+    var base = (typeof viewerRewriteUrl === 'function') ? '' : '{{ "" | relative_url }}';
+    var pubUrl = base + lp + '/publications/' + slug + '/full/';
+    if (window.parent !== window && window.name === 'center-frame') {
+      window.parent.postMessage({ type: 'open-pub', url: pubUrl, title: 'Live Mindmap Guide' }, '*');
+    } else {
+      window.open(pubUrl, '_blank');
+    }
+  });
+})();
+</script>
 
 <div class="mindmap-area">
   <div id="mindmap-container">

@@ -34,7 +34,27 @@ dev_banner: "Interface in development — features and layout may change between
       <option value="timeline">Timeline</option>
     </select>
   </div>
+  <a class="iface-info-btn" data-pub="guide-session-review" title="User Guide">ℹ</a>
 </div>
+<style>.iface-info-btn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--accent,#1d4ed8);color:#fff;font-size:0.85rem;font-weight:700;text-decoration:none;cursor:pointer;flex-shrink:0;margin-left:auto;}.iface-info-btn:hover{opacity:0.85;}</style>
+<script>
+(function(){
+  var btn = document.querySelector('.iface-info-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var slug = this.dataset.pub;
+    var lp = (document.documentElement.lang === 'fr' || location.pathname.indexOf('/fr/') >= 0) ? '/fr' : '';
+    var base = (typeof viewerRewriteUrl === 'function') ? '' : '{{ "" | relative_url }}';
+    var pubUrl = base + lp + '/publications/' + slug + '/full/';
+    if (window.parent !== window && window.name === 'center-frame') {
+      window.parent.postMessage({ type: 'open-pub', url: pubUrl, title: 'Session Review Guide' }, '*');
+    } else {
+      window.open(pubUrl, '_blank');
+    }
+  });
+})();
+</script>
 
 <div id="sv-data-mode" class="sv-data-mode">
   <span class="sv-data-mode-icon">📊</span>

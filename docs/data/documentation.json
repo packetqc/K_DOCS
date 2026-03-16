@@ -1,0 +1,29 @@
+{
+  "section": "documentation",
+  "title": "Documentation",
+  "title_fr": "Documentation",
+  "description": "Official documentation — user guides, admin guides, and quick starts for the Knowledge platform.",
+  "description_fr": "Documentation officielle — guides utilisateur, guides admin et démarrages rapides pour la plateforme Knowledge.",
+  "open": false,
+  "groups": [
+    {
+      "group": "Guides", "group_fr": "Guides",
+      "items": [
+        { "title": "Session Review", "title_fr": "Revue de session", "slug": "guide-session-review", "priority": 1 },
+        { "title": "Main Navigator", "title_fr": "Navigateur principal", "slug": "guide-main-navigator", "priority": 2 },
+        { "title": "Tasks Workflow", "title_fr": "Flux de travail", "slug": "guide-tasks-workflow", "priority": 3 },
+        { "title": "Project Viewer", "title_fr": "Visualiseur projets", "slug": "guide-project-viewer", "priority": 4 },
+        { "title": "Live Mindmap", "title_fr": "Mindmap vivant", "slug": "guide-live-mindmap", "priority": 5 },
+        { "title": "Main Interface", "title_fr": "Interface principale", "slug": "main-interface", "priority": 6 }
+      ]
+    },
+    {
+      "group": "Admin Guides", "group_fr": "Guides admin",
+      "items": []
+    },
+    {
+      "group": "Quick Starts", "group_fr": "Démarrages rapides",
+      "items": []
+    }
+  ]
+}
