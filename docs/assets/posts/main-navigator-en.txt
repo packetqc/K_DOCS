@@ -1,0 +1,10 @@
+Knowledge in three panels — browse everything from a single hub.
+
+🧭 Three-panel browser with collapsible directory and embedded viewer
+📱 Mobile-optimized responsive layout with fullscreen mode
+🗂️ Multi-tab navigation with persistent state across sessions
+⚡ 9 JSON-driven widget sections — interfaces, publications, profile & more
+
+https://packetqc.github.io/knowledge/interfaces/main-navigator/
+
+#KnowledgeSystem #AIEngineering #WebInterface #OpenSource #Documentation

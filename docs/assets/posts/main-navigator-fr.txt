@@ -1,0 +1,10 @@
+Tout le Knowledge en trois panneaux — parcourez tout depuis un seul hub.
+
+🧭 Navigateur trois panneaux avec répertoire repliable et visualiseur intégré
+📱 Mise en page adaptative optimisée mobile avec mode plein écran
+🗂️ Navigation multi-onglets avec état persistant entre sessions
+⚡ 9 sections pilotées par JSON — interfaces, publications, profil et plus
+
+https://packetqc.github.io/knowledge/fr/interfaces/main-navigator/
+
+#KnowledgeSystem #IAIngénierie #InterfaceWeb #OpenSource #Documentation
