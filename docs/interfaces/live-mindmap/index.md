@@ -170,38 +170,6 @@ body > .container {
 :-webkit-full-screen .fs-exit-fab {
   display: flex;
 }
-/* Fullscreen prompt overlay */
-.fs-prompt-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.45);
-  cursor: pointer;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-}
-.fs-prompt-overlay .fs-prompt-card {
-  background: var(--accent, #0055b3);
-  color: white;
-  padding: 1.2rem 2rem;
-  border-radius: 1rem;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  font-size: 1.1rem;
-  font-weight: 600;
-  pointer-events: none;
-  max-width: 80%;
-}
-.fs-prompt-card small {
-  display: block;
-  margin-top: 0.4rem;
-  font-weight: 400;
-  font-size: 0.8rem;
-  opacity: 0.8;
-}
 .help-panel h3 {
   margin: 0 0 0.6rem; font-size: 0.95rem; color: var(--accent, #0055b3);
 }
@@ -589,21 +557,6 @@ body > .container {
         fab.onclick = function() { toggleFullscreen(); };
         container.appendChild(fab);
 
-        // Show fullscreen prompt overlay on first load (once per session)
-        if (!document.fullscreenElement && !sessionStorage.getItem('mindmap-fs-prompted')) {
-          sessionStorage.setItem('mindmap-fs-prompted', '1');
-          var overlay = document.createElement('div');
-          overlay.className = 'fs-prompt-overlay';
-          overlay.innerHTML = '<div class="fs-prompt-card">' + il.fsPrompt +
-            '<small>' + il.fsPromptHint + '</small></div>';
-          overlay.onclick = function() {
-            overlay.remove();
-            container.requestFullscreen();
-          };
-          container.style.position = 'relative';
-          container.appendChild(overlay);
-        }
-
         // Collapse children of top-level groups using MindElixir API (both views)
         (function collapseDeep(node, depth) {
           if (!node.children || !node.children.length) return;
@@ -686,14 +639,12 @@ body > .container {
       dalLight: 'Daltonism Light', dalDark: 'Daltonism Dark', reload: 'Reload',
       center: 'Center', fit: 'Fit', fullscreen: 'Fullscreen', loading: 'Loading...',
       loadingMsg: 'Loading mindmap...', fetching: 'Fetching from GitHub...', error: 'Error',
-      helpTitle: 'Help', nodes: 'nodes',
-      fsPrompt: 'Tap to enter fullscreen', fsPromptHint: 'You can exit anytime with the \u2715 button' },
+      helpTitle: 'Help', nodes: 'nodes' },
     fr: { title: 'K_MIND \u2014 Graphe de connaissances vivant', full: 'Complet', themeAuto: 'Th\u00e8me : Auto',
       dalLight: 'Daltonisme clair', dalDark: 'Daltonisme sombre', reload: 'Recharger',
       center: 'Centrer', fit: 'Ajuster', fullscreen: 'Plein \u00e9cran', loading: 'Chargement...',
       loadingMsg: 'Chargement du mindmap...', fetching: 'R\u00e9cup\u00e9ration depuis GitHub...', error: 'Erreur',
-      helpTitle: 'Aide', nodes: 'n\u0153uds',
-      fsPrompt: 'Appuyez pour le plein \u00e9cran', fsPromptHint: 'Vous pouvez quitter \u00e0 tout moment avec le bouton \u2715' }
+      helpTitle: 'Aide', nodes: 'n\u0153uds' }
   };
   var il = I[LANG];
   // Translate static HTML controls

@@ -83,6 +83,29 @@
     .ci-fullscreen-exit:hover { opacity: 1; }
     body.fullscreen-mode .ci-fullscreen-exit { display: block; }
 
+    /* Fullscreen prompt overlay */
+    .fs-prompt-overlay {
+      position: fixed; inset: 0; z-index: 10000;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.5); cursor: pointer;
+      backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    }
+    .fs-prompt-overlay .fs-prompt-card {
+      background: var(--accent, #0055b3); color: white;
+      padding: 1.2rem 2rem; border-radius: 1rem; text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      font-size: 1.1rem; font-weight: 600; pointer-events: none; max-width: 80%;
+    }
+    .fs-prompt-card small {
+      display: block; margin-top: 0.4rem;
+      font-weight: 400; font-size: 0.8rem; opacity: 0.8;
+    }
+    .fs-prompt-card .fs-dismiss {
+      display: block; margin-top: 0.6rem;
+      font-weight: 400; font-size: 0.75rem; opacity: 0.6;
+      text-decoration: underline; pointer-events: auto;
+    }
+
     /* ===== Mobile mode — touch-friendly defaults ===== */
     body.mobile-mode { -webkit-tap-highlight-color: rgba(0,0,0,0.1); }
     body.mobile-mode .toolbar-radio { font-size: 0.9rem; padding: 0.2rem 0; }
@@ -952,6 +975,32 @@
         document.body.classList.remove('fullscreen-mode');
       }
     });
+
+    // ===== Auto-fullscreen prompt on page load (once per session) =====
+    (function() {
+      if (document.fullscreenElement || sessionStorage.getItem('viewer-fs-prompted')) return;
+      sessionStorage.setItem('viewer-fs-prompted', '1');
+      var overlay = document.createElement('div');
+      overlay.className = 'fs-prompt-overlay';
+      var isLandscape = window.innerWidth > window.innerHeight;
+      var msg = isLandscape
+        ? 'Tap to enter fullscreen mode'
+        : 'Tap to enter fullscreen mode';
+      overlay.innerHTML = '<div class="fs-prompt-card">' + msg +
+        '<small>More space for reading — exit anytime with the button</small>' +
+        '<span class="fs-dismiss">or tap here to skip</span></div>';
+      overlay.addEventListener('click', function(e) {
+        // Dismiss area = the card's "skip" text
+        var skip = overlay.querySelector('.fs-dismiss');
+        if (skip && skip.contains(e.target)) {
+          overlay.remove();
+          return;
+        }
+        overlay.remove();
+        enterFullscreen();
+      });
+      document.body.appendChild(overlay);
+    })();
 
     // ===== PDF export with cover page + page size + running headers =====
     var PAGE_SIZES = { letter: '8.5in 11in', legal: '8.5in 14in' };
