@@ -50,6 +50,16 @@
       "upstream": "packetqc/knowledge",
       "path": "Knowledge/K_GITHUB",
       "has": ["conventions", "documentation", "methodology", "scripts", "work"]
+    },
+    {
+      "id": "K_TOOLS",
+      "name": "Knowledge Tools",
+      "description": "Command framework and utilities module — command registry, help system, routing, operational scripts",
+      "status": "active",
+      "imported": false,
+      "upstream": null,
+      "path": "Knowledge/K_TOOLS",
+      "has": ["conventions", "documentation", "methodology", "scripts", "work"]
     }
   ]
 }

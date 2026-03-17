@@ -9,6 +9,13 @@
       "path": "Knowledge/K_TOOLS/methodology/commands.md",
       "origin": "packetqc/knowledge:knowledge/methodology/commands.md",
       "description": "Master command reference — all user-facing slash commands organized by domain group with usage patterns and implementation notes."
+    },
+    {
+      "id": "ref-user-guide",
+      "name": "Commands User Guide",
+      "source": "local",
+      "path": "Knowledge/K_TOOLS/methodology/user-guide.md",
+      "description": "User-facing guide for all Knowledge platform commands — usage patterns, command groups, contextual help. Evolves as legacy commands are imported."
     }
   ],
   "external_files": []

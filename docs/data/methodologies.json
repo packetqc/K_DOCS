@@ -167,6 +167,27 @@
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/task-workflow.md",
       "priority": 16
     }
+    ,
+    {
+      "title": "Commands Reference",
+      "title_fr": "Référence des commandes",
+      "description": "Master command reference — all user-facing commands organized by domain group with usage patterns, registry structure, and implementation notes.",
+      "description_fr": "Référence maître des commandes — toutes les commandes organisées par groupe de domaine avec patrons d'utilisation, structure du registre et notes d'implémentation.",
+      "file": "commands.md",
+      "module": "K_TOOLS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_TOOLS/methodology/commands.md",
+      "priority": 17
+    },
+    {
+      "title": "Commands User Guide",
+      "title_fr": "Guide utilisateur commandes",
+      "description": "User-facing guide for all Knowledge platform commands — usage patterns, command groups, contextual help.",
+      "description_fr": "Guide utilisateur pour toutes les commandes de la plateforme Knowledge — patrons d'utilisation, groupes de commandes, aide contextuelle.",
+      "file": "user-guide.md",
+      "module": "K_TOOLS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_TOOLS/methodology/user-guide.md",
+      "priority": 18
+    }
   ],
   "removed": []
 }
