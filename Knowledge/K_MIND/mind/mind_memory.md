@@ -28,6 +28,8 @@ mindmap
           import legacy commands into Knowledge 2.0
           command to module mapping for all K_ modules
           GitHub repo created and subtree pushed
+          session management imported except wakeup
+          6 scripts in session subdir recall recover save normalize checkpoint notes
       validation
         modules imports
           K_PROJECTS imported with skills scripts methodology

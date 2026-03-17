@@ -83,30 +83,94 @@ project create mon nouveau projet
 
 ## Session Management
 
-| Command | What It Does |
-|---------|-------------|
-| `wakeup` | **Auto-runs on session start** — never type as entry prompt. Mid-session: deep re-sync after PRs merged |
-| `refresh` | Lightweight mid-session context restore — re-read CLAUDE.md, git status, reprint help |
-| `help` / `aide` / `?` | **Multipart help** — print knowledge commands + project-specific commands (concatenated) |
-| `status` | Read `notes/` and summarize current state |
-| `save` | Pre-save summary → save context, commit, push, create PR to default branch |
-| `remember ...` | Append text to current session notes |
-| `elevate` | Elevate session to full autonomous — detects `GH_TOKEN` env var or `/tmp/.gh_token` temp file |
-| `resume` | Resume interrupted session from checkpoint (crash recovery) |
-| `recover` | Search `claude/*` branches for stranded work, cherry-pick/apply to current branch |
-| `recall` | Deep memory search across all knowledge channels — near memory first, deeper with confirmation |
-| `checkpoint` | Show current checkpoint state (or "no active checkpoint" if none) |
-| `<cmd> ?` | Contextual help for any command — usage, examples, publication link |
+Session management commands bridge K_TOOLS (command framework) and K_MIND (memory system). Commands that delegate to K_MIND scripts are marked with *(K_MIND)*. Commands with standalone scripts in `K_TOOLS/scripts/session/` are marked with *(script)*.
+
+| Command | What It Does | Backend |
+|---------|-------------|---------|
+| `refresh` | Lightweight context restore — re-run `/mind-context`, re-read CLAUDE.md, git status | *(K_MIND)* `session_init.py --preserve-active` + `/mind-context` |
+| `help` / `aide` / `?` | **Multipart help** — print knowledge commands + project commands | *(script)* `help_command.py` |
+| `status` | Summarize current state — K_MIND stats + git status + work items | *(K_MIND)* `memory_stats.py` + near_memory |
+| `save` | Pre-save summary → commit, push, create PR to default branch | *(script)* `session/save_session.py` |
+| `remember ...` | Append text to K_MIND memory | *(K_MIND)* `memory_append.py` |
+| `elevate` | Elevate session to full autonomous — detect `GH_TOKEN` env var | *(inline)* checks env |
+| `resume` | Resume interrupted session from checkpoint | *(K_MIND)* `session_init.py --preserve-active` + *(script)* `session/checkpoint.py` |
+| `recover` | Search `claude/*` branches for stranded work, cherry-pick/apply | *(script)* `session/recover.py` |
+| `recall` | Deep memory search — K_MIND memory → git → GitHub → deep files | *(script)* `session/recall.py` |
+| `checkpoint` | Show current checkpoint state | *(script)* `session/checkpoint.py` |
+| `<cmd> ?` | Contextual help for any command | *(script)* `help_contextual.py` |
+
+### `recall` — Deep Memory Search
+
+Four-layer progressive search, each layer searched only if previous layers didn't find enough:
+
+| Layer | Sources | Speed |
+|-------|---------|-------|
+| **K_MIND** | near_memory, far_memory, archives | ~5s |
+| **Git** | commit messages across all branches | ~10s |
+| **GitHub** | issue titles, PR descriptions (requires GH_TOKEN) | ~15s |
+| **Deep** | domain JSONs, methodology, publications | ~30s |
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/recall.py --query "architecture" --layers near git
+```
+
+### `recover` — Branch Recovery
+
+Scans all `claude/*` and `backup-*` branches for unmerged commits. Shows file diffs, PR status. Offers cherry-pick or diff-apply recovery.
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/recover.py
+python3 Knowledge/K_TOOLS/scripts/session/recover.py --cherry-pick abc1234
+```
+
+### `save` — Session Save Protocol
+
+1. Compile pre-save summary from K_MIND near/far memory + git stats
+2. Commit all pending changes
+3. Push to branch
+4. Create PR to default branch
+5. Optionally merge (if elevated)
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/save_session.py --summary   # preview
+python3 Knowledge/K_TOOLS/scripts/session/save_session.py --save      # full protocol
+python3 Knowledge/K_TOOLS/scripts/session/save_session.py --save --merge  # save + merge
+```
+
+### `checkpoint` — Crash Recovery State
+
+Persists execution phase to `.claude/checkpoint.json` so Claude knows exactly where work was interrupted on resume.
+
+Phases: `idle` → `pre_execution` → `executing` → `completed` / `failed` → `saving`
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/checkpoint.py --status
+python3 Knowledge/K_TOOLS/scripts/session/checkpoint.py --write executing -d "importing scripts"
+python3 Knowledge/K_TOOLS/scripts/session/checkpoint.py --clear
+```
 
 ---
 
 ## Normalize
 
+Structure concordance audit — validates mindmap vs domain JSONs, module registration, documentation references.
+
 | Command | What It Does |
 |---------|-------------|
-| `normalize` | Audit and fix knowledge structure concordance |
-| `normalize --fix` | Apply concordance fixes automatically |
+| `normalize` | Audit knowledge structure concordance (default: report mode) |
+| `normalize --fix` | Report issues, Claude applies appropriate fixes |
 | `normalize --check` | Report only, no changes |
+
+Checks performed:
+1. Mindmap work items vs work.json entries (all modules)
+2. Module registration in modules.json vs actual K_* directories
+3. Documentation references vs actual files
+4. Mindmap node integrity (expected groups present)
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/normalize.py --check
+python3 Knowledge/K_TOOLS/scripts/session/normalize.py --json
+```
 
 ---
 
@@ -285,7 +349,7 @@ Every command is backed by a skill and registered in the command registry. When 
 
 | Group | Skill Files | Methodology |
 |-------|------------|-------------|
-| **Session** | wakeup.md, resume.md, recall.md | session-protocol.md, checkpoint-resume.md |
+| **Session** | recall.py, recover.py, save_session.py, checkpoint.py, normalize.py, session_notes.py | K_MIND scripts (memory_append, session_init, memory_stats) |
 | **Harvest** | harvest.md, healthcheck.md | production-development-minds.md |
 | **Publications** | pub.md, pub-export.md, webcard.md, profile-update.md | documentation-generation.md, web-pagination-export.md |
 | **Project** | project-create.md, project-manage.md | project-management.md, project-create.md |

@@ -14,7 +14,12 @@
     {
       "id": "command_module_mapping",
       "name": "Command-to-Module Mapping",
-      "description": "Four command groups are owned by K_TOOLS: Content Management (pub, doc, webcard, weblinks, profile), Project Management (project, #N:, g:board), Live Session Analysis (I'm live, multi-live, recipe), and Visuals (visual, deep, analyze). Session Management, Harvest, and Live Network are deferred — not yet assigned to a module."
+      "description": "Five command groups are owned by K_TOOLS: Content Management (pub, doc, webcard, weblinks, profile), Project Management (project, #N:, g:board), Live Session Analysis (I'm live, multi-live, recipe), Visuals (visual, deep, analyze), and Session Management (refresh, status, save, remember, elevate, resume, recover, recall, checkpoint, normalize). Session Management scripts live in K_TOOLS/scripts/session/ and integrate with K_MIND memory system. Harvest and Live Network are deferred — not yet assigned to a module."
+    },
+    {
+      "id": "session_management_k_mind_bridge",
+      "name": "Session Management — K_MIND Bridge",
+      "description": "Session management commands bridge K_TOOLS (command framework) and K_MIND (memory system). Commands like refresh, status, remember, and resume delegate to K_MIND scripts (session_init.py, memory_append.py, memory_stats.py). Commands like recall, recover, save, normalize, and checkpoint have standalone K_TOOLS scripts in scripts/session/ that read K_MIND memory. The wakeup command is NOT imported — K_MIND lifecycle events (session_init + /mind-context) handle session bootstrap."
     },
     {
       "id": "help_wiring",
