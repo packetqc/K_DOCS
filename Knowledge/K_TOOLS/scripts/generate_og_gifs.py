@@ -21,10 +21,11 @@ import sys
 # Paths
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-# scripts/ -> K_TOOLS/ — default output stays inside the module
+# scripts/ -> K_TOOLS/ -> Knowledge/ -> ROOT
 MODULE_DIR = os.path.dirname(SCRIPT_DIR)
-OUT_DIR = os.path.join(MODULE_DIR, 'generated', 'og')
-REF_DIR = os.path.join(MODULE_DIR, 'references', 'Martin')
+PROJECT_ROOT = os.path.dirname(os.path.dirname(MODULE_DIR))
+OUT_DIR = os.path.join(PROJECT_ROOT, 'docs', 'assets', 'og')
+REF_DIR = os.path.join(PROJECT_ROOT, 'references', 'Martin')
 os.makedirs(OUT_DIR, exist_ok=True)
 
 PHOTO_PATH = os.path.join(REF_DIR, 'me3.JPG')
@@ -2926,20 +2927,7 @@ if __name__ == '__main__':
                         help='Theme to generate (default: all)')
     parser.add_argument('--list', action='store_true',
                         help='List available cards and exit')
-    parser.add_argument('--output-dir', default=None,
-                        help='Output directory (default: K_TOOLS/generated/og/)')
-    parser.add_argument('--ref-dir', default=None,
-                        help='References directory for photos (default: K_TOOLS/references/Martin/)')
     opts = parser.parse_args()
-
-    if opts.output_dir:
-        OUT_DIR = opts.output_dir
-        os.makedirs(OUT_DIR, exist_ok=True)
-    if opts.ref_dir:
-        REF_DIR = opts.ref_dir
-        PHOTO_PATH = os.path.join(REF_DIR, 'me3.JPG')
-        VICKY_PATH = os.path.join(REF_DIR, 'vicky.png')
-        VICKY_SUNGLASSES_PATH = os.path.join(REF_DIR, 'vicky-sunglasses.png')
 
     if opts.list:
         print("Available cards:")

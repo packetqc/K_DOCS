@@ -3,14 +3,13 @@
 Each image: 1200x630 PNG, dark theme, content-specific visuals."""
 
 from PIL import Image, ImageDraw, ImageFont
-import argparse
 import os
 
-# Paths — scripts/ -> K_TOOLS/
+# Paths — scripts/ -> K_TOOLS/ -> Knowledge/ -> ROOT
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 MODULE_DIR = os.path.dirname(SCRIPT_DIR)
-# Default output stays inside the module
-OUT_DIR = os.path.join(MODULE_DIR, 'generated', 'og')
+PROJECT_ROOT = os.path.dirname(os.path.dirname(MODULE_DIR))
+OUT_DIR = os.path.join(PROJECT_ROOT, 'docs', 'assets', 'og')
 os.makedirs(OUT_DIR, exist_ok=True)
 
 # Fonts
@@ -582,14 +581,7 @@ def gen_publications_index(lang='en'):
 # Generate all
 # ============================================================
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Generate OG social preview images")
-    parser.add_argument('--output-dir', default=None,
-                        help='Output directory (default: K_TOOLS/generated/og/)')
-    args = parser.parse_args()
-    if args.output_dir:
-        OUT_DIR = args.output_dir
-        os.makedirs(OUT_DIR, exist_ok=True)
-    print(f"Generating OG social images in {OUT_DIR} ...")
+    print("Generating OG social images...")
     for lang in ['en', 'fr']:
         gen_profile_hub(lang)
         gen_resume(lang)

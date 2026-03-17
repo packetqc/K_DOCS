@@ -282,10 +282,7 @@ def compile_projects(root, output_path):
 
 def main():
     root = find_project_root()
-    # Default output stays inside the module (K_TOOLS/generated/data/)
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    module_dir = os.path.dirname(script_dir)
-    output = os.path.join(module_dir, "generated", "data", "projects.json")
+    output = os.path.join(root, "docs", "data", "projects.json")
     if "--output" in sys.argv:
         idx = sys.argv.index("--output")
         if idx + 1 < len(sys.argv):

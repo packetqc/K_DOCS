@@ -22,9 +22,10 @@ import subprocess
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-# scripts/ -> K_TOOLS/ — default storage stays inside the module
+# scripts/ -> K_TOOLS/ -> Knowledge/ -> ROOT
 MODULE_DIR = os.path.dirname(SCRIPT_DIR)
-PROJECTS_PATH = os.path.join(MODULE_DIR, "data", "projects.json")
+PROJECT_ROOT = os.path.dirname(os.path.dirname(MODULE_DIR))
+PROJECTS_PATH = os.path.join(PROJECT_ROOT, "docs", "data", "projects.json")
 
 
 def charger_projets():
@@ -136,21 +137,12 @@ def creer_github_project(titre, repo):
 
 
 def main():
-    global PROJECTS_PATH
-    # Support --projects-file override before positional title
-    args = sys.argv[1:]
-    if '--projects-file' in args:
-        idx = args.index('--projects-file')
-        if idx + 1 < len(args):
-            PROJECTS_PATH = args[idx + 1]
-            args = args[:idx] + args[idx + 2:]
-
-    if len(args) < 1 or not args[0].strip():
+    if len(sys.argv) < 2 or not sys.argv[1].strip():
         print("Erreur : titre du projet manquant.")
-        print("Usage : python3 scripts/project_create.py [--projects-file PATH] \"Mon titre\"")
+        print("Usage : python3 scripts/project_create.py \"Mon titre de projet\"")
         sys.exit(1)
 
-    titre = args[0].strip()
+    titre = sys.argv[1].strip()
 
     data = charger_projets()
 

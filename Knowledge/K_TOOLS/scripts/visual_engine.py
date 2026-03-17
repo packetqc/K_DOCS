@@ -726,7 +726,7 @@ class EvidenceSession:
             session_name = f"{date_str}-{stem}"
 
         self.name = session_name
-        self.base_dir = Path("/tmp/visual_evidence") / session_name
+        self.base_dir = Path("evidence") / session_name
         self.discoveries_dir = self.base_dir / "discoveries"
         self.clips_dir = self.base_dir / "clips"
         self.metadata_path = self.base_dir / "metadata.json"
