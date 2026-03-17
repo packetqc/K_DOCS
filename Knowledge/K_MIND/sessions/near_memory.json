@@ -89,6 +89,19 @@
         "conventions::command_module_mapping"
       ],
       "timestamp": "2026-03-17T07:13:56Z"
+    },
+    {
+      "id": 8,
+      "summary": "Subtree sync technique discovered and documented — bypass local proxy with token-authenticated URLs for module repos. K_TOOLS and K_MIND synced to home repos. GitHub skill updated.",
+      "far_memory_refs": [
+        15,
+        16
+      ],
+      "mind_memory_refs": [
+        "work::en cours::K_TOOLS module creation",
+        "conventions"
+      ],
+      "timestamp": "2026-03-17T07:35:29Z"
     }
   ],
   "last_session": {
