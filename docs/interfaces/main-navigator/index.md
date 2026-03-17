@@ -386,8 +386,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   if (!panel || !grid) return;
 
   /* ─── Panel sizes — draggable + click-to-step ─── */
-  var DIVIDER_W = (window.innerWidth <= 768) ? 12 : 18;
-  var LEFT_STEPS = [0, 220, 320];
+  var DIVIDER_W = (window.innerWidth <= 768) ? 30 : 45;
+  var LEFT_STEPS = [0, 220];
   var savedLeft = parseInt(localStorage.getItem(LPANEL_KEY) || '220');
   var savedRight = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
   var leftW = savedLeft;
