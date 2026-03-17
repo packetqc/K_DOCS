@@ -107,7 +107,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   cursor: col-resize; user-select: none;
   transition: background 0.15s ease;
   position: relative;
-  min-width: 18px;
+  min-width: 45px;
   z-index: 10;
 }
 .nav-divider-left { grid-column: 2; }
@@ -309,7 +309,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 /* ═══ Mobile — shrink dividers for touch screens ═══ */
 @media (max-width: 768px) {
-  .nav-divider-left, .nav-divider-right { min-width: 12px; }
+  .nav-divider-left, .nav-divider-right { min-width: 30px; }
   .nav-divider-left::before, .nav-divider-right::before { font-size: 0.55rem; }
   .nav-grid { grid-template-columns: 0px 8px 1fr 8px 0px; }
 }
