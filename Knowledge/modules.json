@@ -56,8 +56,8 @@
       "name": "Knowledge Tools",
       "description": "Command framework and utilities module — command registry, help system, routing, operational scripts",
       "status": "active",
-      "imported": false,
-      "upstream": null,
+      "imported": true,
+      "upstream": "packetqc/K_TOOLS",
       "path": "Knowledge/K_TOOLS",
       "has": ["conventions", "documentation", "methodology", "scripts", "work"]
     }
