@@ -1,0 +1,22 @@
+{
+  "name": "K_DOCS Viewer",
+  "short_name": "K_DOCS",
+  "description": "Knowledge documentation platform — interactive interfaces, publications, and live mindmap visualization.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#faf6f1",
+  "theme_color": "#1a1a2e",
+  "icons": [
+    {
+      "src": "assets/og/knowledge-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/og/knowledge-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

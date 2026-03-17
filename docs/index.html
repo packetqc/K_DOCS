@@ -2,8 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#faf6f1" media="(prefers-color-scheme: light)">
+  <link rel="manifest" href="manifest.json">
   <title>K_DOCS Viewer</title>
 
   <style>
@@ -45,6 +51,37 @@
     }
     .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1rem 3.5rem; }
     body.landscape .container { max-width: 100%; }
+
+    /* ===== Safe area — notch & home indicator ===== */
+    body {
+      padding-top: env(safe-area-inset-top, 0);
+      padding-left: env(safe-area-inset-left, 0);
+      padding-right: env(safe-area-inset-right, 0);
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+    .toolbar-bottom {
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+
+    /* ===== Fullscreen mode ===== */
+    body.fullscreen-mode { overflow: hidden; }
+    body.fullscreen-mode .toolbar-top { display: none; }
+    body.fullscreen-mode .toolbar-bottom { display: none; }
+    body.fullscreen-mode .container {
+      max-width: 100%; height: 100vh; height: 100dvh;
+      padding: 0; margin: 0; overflow: auto;
+    }
+    body.fullscreen-mode .chrome-bar { display: none; }
+    /* Floating exit button when in fullscreen */
+    .ci-fullscreen-exit {
+      display: none; position: fixed; bottom: env(safe-area-inset-bottom, 0.5rem);
+      right: 0.5rem; z-index: 9999; padding: 0.4rem 0.8rem;
+      background: var(--accent, #0055b3); color: #fff; border: none; border-radius: 1.5rem;
+      font-size: 0.75rem; font-weight: 600; cursor: pointer; opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .ci-fullscreen-exit:hover { opacity: 1; }
+    body.fullscreen-mode .ci-fullscreen-exit { display: block; }
 
     /* ===== Mobile mode — touch-friendly defaults ===== */
     body.mobile-mode { -webkit-tap-highlight-color: rgba(0,0,0,0.1); }
@@ -526,12 +563,15 @@
       </div>
     </div>
     <div class="toolbar-right">
+      <button class="toolbar-btn" id="fullscreenBtn" title="Fullscreen">&#x26F6; Full</button>
       <div class="lang-switch">
         <button class="lang-btn lang-active" id="langEn" title="English">EN</button>
         <button class="lang-btn" id="langFr" title="Français">FR</button>
       </div>
     </div>
   </div>
+
+  <button class="ci-fullscreen-exit" id="fullscreenExit">Exit Fullscreen</button>
 
   <!-- Content container -->
   <div class="container">
@@ -829,6 +869,82 @@
         };
       }
     }
+
+    // ===== Auto Orientation Detection (mobile) =====
+    // When device mode is mobile (or auto-detected as mobile), sync physical orientation to radio toggle
+    function syncOrientationFromDevice() {
+      var saved = localStorage.getItem('kdocs-device') || 'auto';
+      var effective = (saved === 'auto') ? detectDevice() : saved;
+      if (effective !== 'mobile') return;
+
+      var isLandscape = window.matchMedia('(orientation: landscape)').matches;
+      document.body.classList.toggle('landscape', isLandscape);
+      localStorage.setItem('kdocs-landscape', isLandscape ? '1' : '0');
+      var radio = document.querySelector('input[name="orient"][value="' + (isLandscape ? 'landscape' : 'portrait') + '"]');
+      if (radio) radio.checked = true;
+      if (typeof orientChannel !== 'undefined' && orientChannel) {
+        orientChannel.postMessage({ landscape: isLandscape });
+      }
+    }
+
+    // Listen for orientation changes
+    if (window.matchMedia) {
+      var orientMq = window.matchMedia('(orientation: landscape)');
+      if (orientMq.addEventListener) {
+        orientMq.addEventListener('change', syncOrientationFromDevice);
+      } else if (orientMq.addListener) {
+        orientMq.addListener(syncOrientationFromDevice); // Safari < 14
+      }
+    }
+    // Also detect via screen.orientation API
+    if (screen.orientation && screen.orientation.addEventListener) {
+      screen.orientation.addEventListener('change', syncOrientationFromDevice);
+    }
+
+    // ===== Fullscreen Mode =====
+    var fullscreenBtn = document.getElementById('fullscreenBtn');
+    var fullscreenExit = document.getElementById('fullscreenExit');
+
+    function enterFullscreen() {
+      document.body.classList.add('fullscreen-mode');
+      // Use Fullscreen API if available (hides browser chrome completely)
+      var el = document.documentElement;
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    }
+
+    function exitFullscreen() {
+      document.body.classList.remove('fullscreen-mode');
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    }
+
+    if (fullscreenBtn) {
+      fullscreenBtn.addEventListener('click', function() {
+        if (document.body.classList.contains('fullscreen-mode')) {
+          exitFullscreen();
+        } else {
+          enterFullscreen();
+        }
+      });
+    }
+    if (fullscreenExit) {
+      fullscreenExit.addEventListener('click', exitFullscreen);
+    }
+
+    // Sync when browser exits fullscreen via Esc or gesture
+    document.addEventListener('fullscreenchange', function() {
+      if (!document.fullscreenElement) {
+        document.body.classList.remove('fullscreen-mode');
+      }
+    });
+    document.addEventListener('webkitfullscreenchange', function() {
+      if (!document.webkitFullscreenElement) {
+        document.body.classList.remove('fullscreen-mode');
+      }
+    });
 
     // ===== PDF export with cover page + page size + running headers =====
     var PAGE_SIZES = { letter: '8.5in 11in', legal: '8.5in 14in' };
