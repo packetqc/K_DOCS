@@ -1,5 +1,5 @@
 {
-  "session_id": "c7c9261c-b132-4148-aed1-32e8f90ee50c",
+  "session_id": "3b4e51a4-cf8e-4117-86a4-2ba0078ffed3",
   "summaries": [
     {
       "id": 1,
@@ -102,6 +102,19 @@
         "conventions"
       ],
       "timestamp": "2026-03-17T07:35:29Z"
+    },
+    {
+      "id": 9,
+      "summary": "Session management imported to K_TOOLS: 6 scripts (recall, recover, save, notes, normalize, checkpoint) + conventions + user guide + docs updated",
+      "far_memory_refs": [
+        17,
+        18
+      ],
+      "mind_memory_refs": [
+        "work::en cours::K_TOOLS module creation",
+        "conventions::command_module_mapping"
+      ],
+      "timestamp": "2026-03-17T07:57:47Z"
     }
   ],
   "last_session": {
