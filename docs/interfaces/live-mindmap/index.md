@@ -149,7 +149,7 @@ body > .container {
   padding: 1rem;
   overflow-y: auto;
 }
-/* Floating exit-fullscreen button (mobile-friendly) */
+/* Floating exit-fullscreen button — same convention as viewer FAB */
 .fs-exit-fab {
   display: none;
   position: fixed;
@@ -166,10 +166,7 @@ body > .container {
   align-items: center; justify-content: center;
 }
 .fs-exit-fab:hover { opacity: 0.85; }
-:fullscreen .fs-exit-fab,
-:-webkit-full-screen .fs-exit-fab {
-  display: flex;
-}
+.fs-exit-fab.visible { display: flex; }
 .help-panel h3 {
   margin: 0 0 0.6rem; font-size: 0.95rem; color: var(--accent, #0055b3);
 }
@@ -229,10 +226,10 @@ body > .container {
 <div class="mindmap-area">
   <div id="mindmap-container">
     <div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>
-    <button class="fs-exit-fab" id="fs-exit-fab" onclick="toggleFullscreen()" title="Exit fullscreen">✕</button>
   </div>
   <div class="help-panel" id="help-panel"></div>
 </div>
+<button class="fs-exit-fab" id="fs-exit-fab" onclick="toggleFullscreen()" title="Exit fullscreen">✕</button>
 
 <script src="https://cdn.jsdelivr.net/npm/mind-elixir@5.9.3/dist/MindElixir.iife.js"></script>
 <script>
@@ -589,13 +586,14 @@ body > .container {
   };
 
   window.toggleFullscreen = function() {
-    var container = document.getElementById('mindmap-container');
     if (document.fullscreenElement) document.exitFullscreen();
-    else container.requestFullscreen();
+    else document.documentElement.requestFullscreen();
   };
 
-  // Fit mindmap on fullscreen change and window resize
+  // Fit mindmap on fullscreen change, show/hide exit FAB
   document.addEventListener('fullscreenchange', function() {
+    var fab = document.getElementById('fs-exit-fab');
+    if (fab) fab.classList.toggle('visible', !!document.fullscreenElement);
     if (window.mindInstance) setTimeout(function() { window.mindInstance.scaleFit(); }, 200);
   });
   window.addEventListener('resize', function() {
