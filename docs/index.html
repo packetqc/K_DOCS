@@ -46,6 +46,26 @@
     .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1rem 3.5rem; }
     body.landscape .container { max-width: 100%; }
 
+    /* ===== Mobile mode — touch-friendly defaults ===== */
+    body.mobile-mode { -webkit-tap-highlight-color: rgba(0,0,0,0.1); }
+    body.mobile-mode .toolbar-radio { font-size: 0.9rem; padding: 0.2rem 0; }
+    body.mobile-mode .toolbar-radio input[type="radio"] { width: 1.1rem; height: 1.1rem; }
+    body.mobile-mode .toolbar-btn { font-size: 0.9rem; padding: 0.4rem 0.8rem; min-height: 2.2rem; }
+    body.mobile-mode .toolbar select { font-size: 0.9rem; min-height: 2rem; padding: 0.3rem 0.4rem; }
+    body.mobile-mode .toolbar label { font-size: 0.9rem; }
+    body.mobile-mode a { padding: 0.1rem 0; }
+    body.mobile-mode table td, body.mobile-mode table th { padding: 0.5rem 0.6rem; }
+    body.mobile-mode .chrome-bar summary { font-size: 0.9rem; padding: 0.5rem 0.75rem; }
+    body.mobile-mode code { font-size: 0.82rem; }
+    body.mobile-mode h1 { font-size: 1.6rem; }
+    body.mobile-mode h2 { font-size: 1.3rem; }
+    body.mobile-mode h3 { font-size: 1.1rem; }
+    @media (max-width: 768px) {
+      body.mobile-mode .toolbar { flex-wrap: wrap; gap: 0.3rem; }
+      body.mobile-mode .toolbar-left, body.mobile-mode .toolbar-right { gap: 0.4rem; }
+      body.mobile-mode .container { padding: 0 0.5rem 3rem; }
+    }
+
     /* ===== Discrete thin scrollbars ===== */
     *, *::before, *::after { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -532,6 +552,11 @@
     <div class="toolbar-left">
       <label class="toolbar-radio"><input type="radio" name="orient" value="portrait" checked> Portrait</label>
       <label class="toolbar-radio"><input type="radio" name="orient" value="landscape"> Landscape</label>
+      <span style="border-left:1px solid var(--border);height:1rem;margin:0 0.25rem;"></span>
+      <label class="toolbar-radio"><input type="radio" name="deviceMode" value="auto" checked> Auto</label>
+      <label class="toolbar-radio"><input type="radio" name="deviceMode" value="desktop"> PC</label>
+      <label class="toolbar-radio"><input type="radio" name="deviceMode" value="mobile"> Mobile</label>
+      <span style="border-left:1px solid var(--border);height:1rem;margin:0 0.25rem;"></span>
       <label class="toolbar-radio"><input type="radio" name="pageSize" value="letter" checked> Letter <span class="pub-size-dim">8.5x11</span></label>
       <label class="toolbar-radio"><input type="radio" name="pageSize" value="legal"> Legal <span class="pub-size-dim">8.5x14</span></label>
     </div>
@@ -737,6 +762,70 @@
       if (orientChannel) {
         orientChannel.onmessage = function(e) {
           document.body.classList.toggle('landscape', e.data.landscape);
+        };
+      }
+    }
+
+    // ===== Device Mode (Auto / PC / Mobile) =====
+    var deviceChannel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('kdocs-device') : null;
+
+    // Auto-detect: touch + narrow screen = mobile
+    function detectDevice() {
+      var hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+      var isNarrow = window.innerWidth <= 768;
+      return (hasTouch && isNarrow) ? 'mobile' : 'desktop';
+    }
+
+    function applyDeviceMode(mode) {
+      var effective = (mode === 'auto') ? detectDevice() : mode;
+      document.body.classList.toggle('mobile-mode', effective === 'mobile');
+      document.body.classList.toggle('desktop-mode', effective === 'desktop');
+      // Sync to srcdoc iframes
+      (function syncDevice(doc) {
+        doc.querySelectorAll('iframe').forEach(function(f) {
+          try {
+            var d = f.contentDocument;
+            if (d && d.body) {
+              d.body.classList.toggle('mobile-mode', effective === 'mobile');
+              d.body.classList.toggle('desktop-mode', effective === 'desktop');
+              syncDevice(d);
+            }
+          } catch(e) {}
+        });
+      })(document);
+    }
+
+    // Radio toggle handler
+    document.querySelectorAll('input[name="deviceMode"]').forEach(function(r) {
+      r.addEventListener('change', function() {
+        var mode = this.value;
+        localStorage.setItem('kdocs-device', mode);
+        applyDeviceMode(mode);
+        if (deviceChannel) deviceChannel.postMessage({ device: mode });
+      });
+    });
+
+    // Restore saved preference
+    (function() {
+      var saved = localStorage.getItem('kdocs-device') || 'auto';
+      var radio = document.querySelector('input[name="deviceMode"][value="' + saved + '"]');
+      if (radio) radio.checked = true;
+      applyDeviceMode(saved);
+    })();
+
+    // Re-detect on resize when mode is auto
+    window.addEventListener('resize', function() {
+      var saved = localStorage.getItem('kdocs-device') || 'auto';
+      if (saved === 'auto') applyDeviceMode('auto');
+    });
+
+    // Embed pages: sync device mode from parent
+    if (IS_EMBED) {
+      var savedDevice = localStorage.getItem('kdocs-device') || 'auto';
+      applyDeviceMode(savedDevice);
+      if (deviceChannel) {
+        deviceChannel.onmessage = function(e) {
+          applyDeviceMode(e.data.device);
         };
       }
     }
