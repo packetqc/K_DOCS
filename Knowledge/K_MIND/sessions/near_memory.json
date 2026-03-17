@@ -128,6 +128,19 @@
         "conventions::methodologies"
       ],
       "timestamp": "2026-03-17T08:15:18Z"
+    },
+    {
+      "id": 11,
+      "summary": "Per-command deep-link anchors — JS generates slugs, user guide has matching anchor IDs on all command table rows for direct scroll",
+      "far_memory_refs": [
+        21,
+        22
+      ],
+      "mind_memory_refs": [
+        "work::K_TOOLS module creation",
+        "documentation::interfaces::main navigator"
+      ],
+      "timestamp": "2026-03-17T08:29:39Z"
     }
   ],
   "last_session": {

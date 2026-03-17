@@ -373,6 +373,30 @@
       "role": "assistant",
       "content": "Rendered full help output from commands.json — 7 groups, 65 commands total in table format: Session Management (14), Content Management (15), Project Management (14), Live Session (5), Visuals (7), Harvest (9), Live Network (1). Each group with description and command table. Footer: <cmd> ? for contextual help.",
       "timestamp": "2026-03-17T08:15:18Z"
+    },
+    {
+      "id": 21,
+      "role": "user",
+      "content": "let's have the anchor for each of these command, so when the users select to view a command, the page will open in the content panel at the title anchor for this command",
+      "timestamp": "2026-03-17T08:29:39Z"
+    },
+    {
+      "id": 22,
+      "role": "assistant",
+      "content": "Added per-command deep-link anchors: JS renderer slugifies command names (e.g. normalize --fix → #cmd-normalize-fix) and appends to pub base URL. Added matching <a id=cmd-xxx> anchors to all command rows in user guide (Session 10, Normalize 3, Harvest 9, Publications 12, Projects 13, Live 3, Visuals 10, Network 1). Meta-commands (<cmd> ?) fall back to group anchor.",
+      "timestamp": "2026-03-17T08:29:39Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "JS slug generation for per-command anchors"
+        },
+        {
+          "tool": "Edit",
+          "file": "Knowledge/K_TOOLS/methodology/user-guide.md",
+          "action": "Added <a id=cmd-xxx> anchors to all command rows"
+        }
+      ]
     }
   ],
   "archives": [
