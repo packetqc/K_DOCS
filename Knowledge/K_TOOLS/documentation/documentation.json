@@ -1,0 +1,15 @@
+{
+  "domain": "documentation",
+  "module": "K_TOOLS",
+  "references": [
+    {
+      "id": "ref-commands",
+      "name": "Commands Reference",
+      "source": "local",
+      "path": "Knowledge/K_TOOLS/methodology/commands.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/commands.md",
+      "description": "Master command reference — all user-facing slash commands organized by domain group with usage patterns and implementation notes."
+    }
+  ],
+  "external_files": []
+}

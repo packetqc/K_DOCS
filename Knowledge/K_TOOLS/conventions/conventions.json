@@ -1,0 +1,20 @@
+{
+  "module": "K_TOOLS",
+  "conventions": [
+    {
+      "id": "multipart_help",
+      "name": "Multipart Help Architecture",
+      "description": "The help command outputs a concatenated command table from two sources: Part 1 (knowledge commands from K_TOOLS methodology/commands.md — always present) and Part 2 (project-specific commands from active project CLAUDE.md — varies per project). Commands are never duplicated — they are concatenated."
+    },
+    {
+      "id": "longest_match_first",
+      "name": "Longest-Match-First Command Routing",
+      "description": "When matching user input to commands, the registry is sorted by key length descending. This ensures 'harvest --healthcheck' matches before 'harvest', and 'normalize --fix' matches before 'normalize'."
+    },
+    {
+      "id": "command_module_mapping",
+      "name": "Command-to-Module Mapping",
+      "description": "Every command belongs to exactly one K_* module. The command framework in K_TOOLS defines the registry and routing, but execution delegates to the owning module (K_DOCS for documentation commands, K_PROJECTS for project commands, K_VALIDATION for quality commands, etc.)."
+    }
+  ]
+}
