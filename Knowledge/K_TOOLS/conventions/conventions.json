@@ -15,6 +15,11 @@
       "id": "command_module_mapping",
       "name": "Command-to-Module Mapping",
       "description": "Every command belongs to exactly one K_* module. The command framework in K_TOOLS defines the registry and routing, but execution delegates to the owning module (K_DOCS for documentation commands, K_PROJECTS for project commands, K_VALIDATION for quality commands, etc.)."
+    },
+    {
+      "id": "help_wiring",
+      "name": "Help Display Wiring",
+      "description": "Help commands are wired to K_TOOLS scripts. 'help' / 'aide' / '?' triggers: python3 Knowledge/K_TOOLS/scripts/help_command.py (outputs Part 1 command tables). '<cmd> ?' triggers: python3 Knowledge/K_TOOLS/scripts/help_contextual.py \"<cmd>\" (outputs contextual help for the specific command). Output goes to stdout — Claude reads and displays it directly."
     }
   ]
 }

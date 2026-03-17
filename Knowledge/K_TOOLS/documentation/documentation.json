@@ -18,5 +18,17 @@
       "description": "User-facing guide for all Knowledge platform commands — usage patterns, command groups, contextual help. Evolves as legacy commands are imported."
     }
   ],
+  "scripts": [
+    {
+      "id": "help_command",
+      "path": "Knowledge/K_TOOLS/scripts/help_command.py",
+      "description": "Multipart help — outputs Part 1 command tables from commands.md"
+    },
+    {
+      "id": "help_contextual",
+      "path": "Knowledge/K_TOOLS/scripts/help_contextual.py",
+      "description": "Contextual help — extracts help for a specific command with section context and publication links"
+    }
+  ],
   "external_files": []
 }

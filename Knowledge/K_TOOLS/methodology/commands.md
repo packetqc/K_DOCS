@@ -10,15 +10,15 @@ The `help` command outputs a **concatenated** command table from two sources:
 
 ```
 ┌───────────────────────────────────┐
-│  Part 1: Knowledge Commands       │  ← from packetqc/knowledge (this repo)
+│  Part 1: Knowledge Commands       │  ← from K_TOOLS/methodology/commands.md
 │  (session + live analysis)        │     Always present in every project
 ├───────────────────────────────────┤
-│  Part 2: Project Commands         │  ← from <project>/CLAUDE.md
+│  Part 2: Project Commands         │  ← from active project CLAUDE.md
 │  (project-specific)               │     Varies per project
 └───────────────────────────────────┘
 ```
 
-**Rule**: Any repo that reads `packetqc/knowledge` inherits Part 1 automatically. Part 2 is defined by each project independently. Commands are never duplicated — they are concatenated.
+**Rule**: Any project with K_TOOLS installed inherits Part 1 automatically. Part 2 is defined by each project independently. Commands are never duplicated — they are concatenated.
 
 ---
 
@@ -350,10 +350,10 @@ These commands originated in Live Session and are now part of the Visuals catego
 
 ### Full specification
 
-- `methodology/visual-documentation.md` — Architecture, modes, output pipeline
-- `scripts/visual_engine.py` — Core processing engine (970 lines)
-- `scripts/visual_cli.py` — CLI entry point (argparse dispatcher)
-- Publication #22 — Visual Documentation
+- `K_DOCS/methodology/visual-documentation.md` — Architecture, modes, output pipeline
+- Legacy `scripts/visual_engine.py` — Core processing engine
+- Legacy `scripts/visual_cli.py` — CLI entry point
+- Publication: Visual Documentation
 
 ---
 
@@ -380,28 +380,21 @@ Creates `MPLIB_GPS.h` and `MPLIB_GPS.cpp` from the template with:
 
 ## Knowledge Asset Sync
 
-On `wakeup`, Claude syncs portable assets from `knowledge` to the active project:
+On `wakeup`, Claude syncs portable assets from Knowledge modules to the active project. Each asset belongs to the K_* module that owns it:
 
-| Asset | Knowledge path | Project path | Sync condition |
-|-------|---------------|--------------|----------------|
-| Capture engine | `live/stream_capture.py` | `<project>/live/stream_capture.py` | If `live/` folder missing |
-| Knowledge beacon | `live/knowledge_beacon.py` | `<project>/live/knowledge_beacon.py` | If `live/` folder missing |
-| Knowledge scanner | `live/knowledge_scanner.py` | `<project>/live/knowledge_scanner.py` | If `live/` folder missing |
-| Folder scaffold | `live/dynamic/.gitkeep`, `live/static/.gitkeep` | `<project>/live/dynamic/`, `<project>/live/static/` | If `live/` folder missing |
-| Live README | `live/README.md` | `<project>/live/README.md` | If `live/` folder missing |
-| PQC envelope | `scripts/pqc_envelope.py` | `<project>/scripts/pqc_envelope.py` | If missing individually |
-| GitHub helper | `scripts/gh_helper.py` | `<project>/scripts/gh_helper.py` | If missing individually |
-| Roadmap sync | `scripts/sync_roadmap.py` | `<project>/scripts/sync_roadmap.py` | If missing individually |
-| Visual engine | `scripts/visual_engine.py` | `<project>/scripts/visual_engine.py` | If missing individually |
-| Visual CLI | `scripts/visual_cli.py` | `<project>/scripts/visual_cli.py` | If missing individually |
+| Asset | Source Module | Source Path | Sync condition |
+|-------|:------------:|-------------|----------------|
+| GitHub helper | K_MIND | `K_MIND/scripts/gh_helper.py` | If missing |
+| Help command | K_TOOLS | `K_TOOLS/scripts/help_command.py` | If missing |
+| Help contextual | K_TOOLS | `K_TOOLS/scripts/help_contextual.py` | If missing |
 
-**Rule**: Only sync if the project doesn't already have the asset. Never overwrite existing project files (they may be customized). Only tooling is synced — clips (`.mp4`) are never part of knowledge.
+**Rule**: Only sync if the project doesn't already have the asset. Never overwrite existing project files (they may be customized). Only tooling is synced.
 
 ---
 
 ## Command Registry & Skill Backing (v100)
 
-Every command listed in Part 1 is backed by a **Claude Code skill** (`.claude/skills/<name>.md`) and registered in the `COMMAND_REGISTRY` dictionary in `scripts/session_agent/task_workflow.py`.
+Every command listed in Part 1 is backed by a **Claude Code skill** (`.claude/skills/<name>.md`) and mapped to the owning K_* module via the command-to-module mapping convention.
 
 ### COMMAND_REGISTRY Structure
 
@@ -452,7 +445,7 @@ When a command is detected during the task workflow, it executes as a **tracked 
 
 When setting up a new project:
 1. Always implement all Part 1 commands (`wakeup`, `help`, `status`, `save`, `<remember>`, all live commands)
-2. `help` always outputs multipart: knowledge commands first, then project commands
-3. `wakeup` syncs `live/` tooling from knowledge if missing
+2. `help` always outputs multipart: K_TOOLS commands first, then project commands
+3. `wakeup` syncs tooling from Knowledge modules if missing
 4. Add Part 2 project-specific commands in the project's own CLAUDE.md
-5. Knowledge is the single source of truth for Part 1 — project CLAUDE.md never redefines them
+5. K_TOOLS is the single source of truth for Part 1 — project CLAUDE.md never redefines them
