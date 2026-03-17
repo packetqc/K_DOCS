@@ -2,16 +2,144 @@
   "section": "commands",
   "title": "Commands",
   "title_fr": "Commandes",
-  "description": "Available slash commands organized by domain — session management, normalization, harvesting, publications, projects, live analysis, and network operations.",
-  "description_fr": "Commandes slash disponibles organisées par domaine — gestion de session, normalisation, récolte, publications, projets, analyse live et opérations réseau.",
+  "description": "Available commands organized by domain — session management, content, projects, live analysis, visuals, and distributed knowledge.",
+  "description_fr": "Commandes disponibles organisées par domaine — gestion de session, contenu, projets, analyse live, visuels et connaissances distribuées.",
   "open": false,
   "items": [
-    { "group": "Session", "group_fr": "Session", "description": "Session lifecycle commands — initialization, save, recall, checkpoint, and elevation.", "description_fr": "Commandes du cycle de vie de session — initialisation, sauvegarde, rappel, checkpoint et élévation.", "pub": "/publications/session-management/full/#pub-title", "cmds": ["wakeup", "refresh", "help / aide", "status", "save", "remember", "resume", "recover", "recall", "checkpoint", "elevate"], "priority": 1 },
-    { "group": "Normalize", "group_fr": "Normalize", "description": "Structure concordance — audit and fix EN/FR mirrors, front matter, and essential files.", "description_fr": "Concordance structurelle — audit et correction des miroirs EN/FR, front matter et fichiers essentiels.", "pub": "/publications/normalize-structure-concordance/full/#pub-title", "cmds": ["normalize", "normalize --fix", "normalize --check"], "priority": 2 },
-    { "group": "Harvest", "group_fr": "Harvest", "description": "Distributed knowledge harvesting — pull satellite insights, promote to core, healthcheck network.", "description_fr": "Récolte de connaissances distribuées — extraction satellite, promotion au noyau, vérification réseau.", "pub": "/publications/harvest-protocol/full/#pub-title", "cmds": ["harvest", "harvest --list", "harvest --procedure", "harvest --healthcheck", "harvest --review", "harvest --stage", "harvest --promote", "harvest --auto", "harvest --fix"], "priority": 3 },
-    { "group": "Publications", "group_fr": "Publications", "description": "Content management — create, check, sync publications, generate webcards, export to PDF/DOCX.", "description_fr": "Gestion de contenu — créer, vérifier, synchroniser les publications, générer webcards, exporter en PDF/DOCX.", "pub": "/publications/webcards-social-sharing/full/#pub-title", "cmds": ["pub list", "pub check", "pub new", "pub sync", "doc review", "docs check", "webcard", "weblinks", "pub export"], "priority": 4 },
-    { "group": "Project", "group_fr": "Projet", "description": "Project lifecycle — create, register, review projects with GitHub board integration.", "description_fr": "Cycle de vie projet — créer, enregistrer, revoir les projets avec intégration board GitHub.", "pub": "/publications/knowledge-system/full/#pub-title", "cmds": ["project list", "project info", "project create", "project register", "project review", "#N: note", "g:board:item"], "priority": 5 },
-    { "group": "Live Session", "group_fr": "Session live", "description": "Real-time video analysis — clip monitoring, frame extraction, multi-stream, capture recipes.", "description_fr": "Analyse vidéo en temps réel — surveillance de clips, extraction d'images, multi-flux, recettes de capture.", "pub": "/publications/live-session-analysis/full/#pub-title", "cmds": ["I'm live", "multi-live", "deep", "analyze", "recipe"], "priority": 6 },
-    { "group": "Live Network", "group_fr": "Réseau live", "description": "Distributed knowledge network operations — beacon discovery and satellite synchronization.", "description_fr": "Opérations réseau de connaissances distribuées — découverte beacon et synchronisation satellite.", "pub": "/publications/live-knowledge-network/full/#pub-title", "cmds": ["beacon"], "priority": 7 }
+    {
+      "group": "Session Management",
+      "group_fr": "Gestion de session",
+      "description": "Session lifecycle — context, memory, save, recall, recovery, checkpoint, and concordance audit.",
+      "description_fr": "Cycle de vie de session — contexte, mémoire, sauvegarde, rappel, récupération, checkpoint et audit de concordance.",
+      "pub": "/publications/guide-commands/full/#session-management",
+      "cmds": [
+        "refresh",
+        "help / aide / ?",
+        "status",
+        "save",
+        "remember",
+        "elevate",
+        "resume",
+        "recover",
+        "recall",
+        "checkpoint",
+        "normalize",
+        "normalize --fix",
+        "normalize --check",
+        "<cmd> ?"
+      ],
+      "priority": 1
+    },
+    {
+      "group": "Content Management",
+      "group_fr": "Gestion de contenu",
+      "description": "Publications — create, validate, sync, review, export to PDF/DOCX, generate webcards.",
+      "description_fr": "Publications — créer, valider, synchroniser, réviser, exporter en PDF/DOCX, générer webcards.",
+      "pub": "/publications/guide-commands/full/#publications",
+      "cmds": [
+        "pub list",
+        "pub check",
+        "pub check --all",
+        "pub new",
+        "pub sync",
+        "doc review",
+        "doc review --all",
+        "docs check",
+        "docs check --all",
+        "webcard",
+        "weblinks",
+        "weblinks --admin",
+        "pub export --pdf",
+        "pub export --docx",
+        "profile update"
+      ],
+      "priority": 2
+    },
+    {
+      "group": "Project Management",
+      "group_fr": "Gestion de projet",
+      "description": "Project lifecycle — create, register, review projects with GitHub board integration and scoped notes.",
+      "description_fr": "Cycle de vie projet — créer, enregistrer, revoir les projets avec intégration GitHub et notes contextuelles.",
+      "pub": "/publications/guide-commands/full/#project-management",
+      "cmds": [
+        "project list",
+        "project info",
+        "project create",
+        "project register",
+        "project review",
+        "project review --all",
+        "#N: note",
+        "#N:methodology",
+        "#N:principle",
+        "#N:info",
+        "#N:done",
+        "g:board:item",
+        "g:board:item:done",
+        "g:board:item:progress"
+      ],
+      "priority": 3
+    },
+    {
+      "group": "Live Session",
+      "group_fr": "Session live",
+      "description": "Real-time video analysis — clip monitoring, frame extraction, multi-stream, deep analysis.",
+      "description_fr": "Analyse vidéo en temps réel — surveillance de clips, extraction d'images, multi-flux, analyse approfondie.",
+      "pub": "/publications/guide-commands/full/#live-session",
+      "cmds": [
+        "I'm live",
+        "multi-live",
+        "deep",
+        "analyze",
+        "recipe"
+      ],
+      "priority": 4
+    },
+    {
+      "group": "Visuals",
+      "group_fr": "Visuels",
+      "description": "Automated documentation from video recordings — frame extraction, detection, evidence reports.",
+      "description_fr": "Documentation automatisée depuis des enregistrements vidéo — extraction d'images, détection, rapports de preuve.",
+      "pub": "/publications/guide-commands/full/#visuals",
+      "cmds": [
+        "visual",
+        "visual --detect",
+        "visual --timestamps",
+        "visual --report",
+        "visual --sheet",
+        "visual --dedup",
+        "visual --info"
+      ],
+      "priority": 5
+    },
+    {
+      "group": "Harvest",
+      "group_fr": "Récolte",
+      "description": "Distributed knowledge — pull satellite insights, promote to core, healthcheck network.",
+      "description_fr": "Connaissances distribuées — extraction satellite, promotion au noyau, vérification réseau.",
+      "pub": "/publications/guide-commands/full/#harvest",
+      "cmds": [
+        "harvest",
+        "harvest --list",
+        "harvest --procedure",
+        "harvest --healthcheck",
+        "harvest --review",
+        "harvest --stage",
+        "harvest --promote",
+        "harvest --auto",
+        "harvest --fix"
+      ],
+      "priority": 6
+    },
+    {
+      "group": "Live Network",
+      "group_fr": "Réseau live",
+      "description": "Distributed knowledge network — beacon discovery and satellite synchronization.",
+      "description_fr": "Réseau de connaissances distribuées — découverte beacon et synchronisation satellite.",
+      "pub": "/publications/guide-commands/full/#live-network",
+      "cmds": [
+        "beacon"
+      ],
+      "priority": 7
+    }
   ]
 }
