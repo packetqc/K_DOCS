@@ -41,8 +41,16 @@ html[data-theme="daltonism-dark"] {
   --border: #cc8833; --code-bg: #28283e;
 }
 html, body {
-  height: 100%; margin: 0; overflow: hidden;
+  height: 100%; height: 100dvh; margin: 0; overflow: hidden;
   background: var(--bg); color: var(--fg);
+}
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
 }
 /* Prevent MindElixir text editing on nodes */
 me-tpc { user-select: none !important; -webkit-user-select: none !important; }
@@ -141,6 +149,27 @@ body > .container {
   padding: 1rem;
   overflow-y: auto;
 }
+/* Floating exit-fullscreen button (mobile-friendly) */
+.fs-exit-fab {
+  display: none;
+  position: fixed;
+  bottom: 1.5rem; right: 1.5rem;
+  z-index: 99999;
+  width: 2.8rem; height: 2.8rem;
+  border-radius: 50%;
+  background: var(--accent, #0055b3);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.3);
+  font-size: 1.4rem; font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  align-items: center; justify-content: center;
+}
+.fs-exit-fab:hover { opacity: 0.85; }
+:fullscreen .fs-exit-fab,
+:-webkit-full-screen .fs-exit-fab {
+  display: flex;
+}
 .help-panel h3 {
   margin: 0 0 0.6rem; font-size: 0.95rem; color: var(--accent, #0055b3);
 }
@@ -200,6 +229,7 @@ body > .container {
 <div class="mindmap-area">
   <div id="mindmap-container">
     <div class="loading" style="padding:2rem;text-align:center;">Loading mindmap...</div>
+    <button class="fs-exit-fab" id="fs-exit-fab" onclick="toggleFullscreen()" title="Exit fullscreen">✕</button>
   </div>
   <div class="help-panel" id="help-panel"></div>
 </div>

@@ -21,7 +21,7 @@ dev_banner: "Interface in development — features and layout may change between
 /* ═══ Hide gradient header + footer only — keep layout chrome ═══ */
 .page-header, .site-footer, .pub-crossrefs { display: none !important; }
 html { margin: 0; padding: 0; height: 100%; }
-body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+body { margin: 0; padding: 0; overflow: hidden; height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
 
 /* ═══ Safe area — extend into notch/status bar area on mobile ═══ */
 @supports (padding-top: env(safe-area-inset-top)) {
