@@ -7,7 +7,7 @@
       "description": "Core memory system — mindmap, session management, near/far memory, domain JSONs, scripts",
       "status": "active",
       "imported": true,
-      "upstream": null,
+      "upstream": "packetqc/K_MIND",
       "path": "Knowledge/K_MIND",
       "has": ["mind", "sessions", "architecture", "constraints", "conventions", "work", "documentation", "scripts"]
     },
