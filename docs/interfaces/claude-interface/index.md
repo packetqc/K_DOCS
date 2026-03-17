@@ -149,7 +149,30 @@ dev_banner: "Interface in development — requires API key configuration. Featur
   border: none; border-radius: 0.4rem; font-weight: 600; cursor: pointer;
 }
 .ci-key-btn:hover { opacity: 0.9; }
+.ci-key-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .ci-key-note { font-size: 0.72rem; color: var(--muted, #5c5c78); }
+.ci-provider-group {
+  display: flex; gap: 0.5rem; width: 100%; max-width: 380px; justify-content: center;
+}
+.ci-provider-btn {
+  flex: 1; padding: 0.5rem 0.4rem; border: 2px solid var(--border, #d48a3c);
+  border-radius: 0.4rem; background: var(--ci-input-bg, #ffffff); color: var(--fg, #1a1a2e);
+  font-size: 0.75rem; font-weight: 600; cursor: pointer; text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ci-provider-btn:hover { border-color: var(--accent, #0055b3); }
+.ci-provider-btn.active {
+  border-color: var(--accent, #0055b3); background: var(--col-alt, rgba(0,85,179,0.05));
+}
+.ci-get-key {
+  font-size: 0.78rem; color: var(--accent, #0055b3); text-decoration: none;
+}
+.ci-get-key:hover { text-decoration: underline; }
+.ci-validate-msg {
+  font-size: 0.75rem; min-height: 1.1em;
+}
+.ci-validate-msg.ok { color: var(--ci-success, #16a34a); }
+.ci-validate-msg.err { color: #dc2626; }
 
 /* ═══ Responsive ═══ */
 @media (max-width: 700px) {
@@ -172,10 +195,23 @@ dev_banner: "Interface in development — requires API key configuration. Featur
     <div class="ci-setup" id="ci-setup">
       <h2>Claude Interface</h2>
       <p>AI-powered development environment with integrated knowledge tools, live mindmap, and command navigation.</p>
-      <p>Enter your Anthropic API key to begin. The key is stored only in your browser's localStorage — never sent anywhere except the Anthropic API.</p>
+
+      <div class="ci-provider-group">
+        <button class="ci-provider-btn active" data-provider="anthropic">Anthropic API</button>
+        <button class="ci-provider-btn" data-provider="bedrock">AWS Bedrock</button>
+        <button class="ci-provider-btn" data-provider="vertex">Google Vertex</button>
+      </div>
+
       <input type="password" class="ci-key-input" id="ci-key-input" placeholder="sk-ant-api03-...">
+      <div id="ci-provider-fields" style="display:none; width:100%; max-width:380px;">
+        <input type="text" class="ci-key-input" id="ci-region-input" placeholder="Region (e.g. us-east-1)" style="margin-bottom:0.4rem;">
+      </div>
+
       <button class="ci-key-btn" id="ci-key-btn">Connect</button>
-      <span class="ci-key-note">Key is stored in localStorage. Clear anytime via browser settings or the disconnect button.</span>
+      <span class="ci-validate-msg" id="ci-validate-msg"></span>
+
+      <a class="ci-get-key" id="ci-get-key" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Get an API key from Anthropic Console</a>
+      <span class="ci-key-note">Key is stored in localStorage only — never sent anywhere except the selected provider API. Clear anytime via the disconnect button.</span>
     </div>
 
     <!-- Chat (hidden until connected) -->
@@ -264,7 +300,16 @@ dev_banner: "Interface in development — requires API key configuration. Featur
       apiError: 'API error: ',
       networkError: 'Network error — check your connection and API key.',
       disconnect: 'Disconnect',
-      clearKey: 'Clear API key and disconnect?'
+      clearKey: 'Clear API key and disconnect?',
+      validating: 'Validating key...',
+      validOk: 'Key validated successfully.',
+      validFail: 'Invalid key — ',
+      getKey: 'Get an API key from Anthropic Console',
+      getKeyBedrock: 'Configure AWS Bedrock credentials',
+      getKeyVertex: 'Configure Google Vertex AI credentials',
+      placeholderAnthropic: 'sk-ant-api03-...',
+      placeholderBedrock: 'AWS access key or session token',
+      placeholderVertex: 'Google API key or service account token'
     },
     fr: {
       title: 'Interface Claude',
@@ -280,7 +325,16 @@ dev_banner: "Interface in development — requires API key configuration. Featur
       apiError: 'Erreur API : ',
       networkError: 'Erreur reseau — verifiez votre connexion et cle API.',
       disconnect: 'Deconnecter',
-      clearKey: 'Effacer la cle API et deconnecter ?'
+      clearKey: 'Effacer la cle API et deconnecter ?',
+      validating: 'Validation de la cle...',
+      validOk: 'Cle validee avec succes.',
+      validFail: 'Cle invalide — ',
+      getKey: 'Obtenir une cle API depuis Anthropic Console',
+      getKeyBedrock: 'Configurer les identifiants AWS Bedrock',
+      getKeyVertex: 'Configurer les identifiants Google Vertex AI',
+      placeholderAnthropic: 'sk-ant-api03-...',
+      placeholderBedrock: 'Cle d\'acces AWS ou jeton de session',
+      placeholderVertex: 'Cle API Google ou jeton de compte de service'
     }
   };
   var t = L[lang] || L.en;
@@ -294,6 +348,10 @@ dev_banner: "Interface in development — requires API key configuration. Featur
   var status   = document.getElementById('ci-status');
   var keyInput = document.getElementById('ci-key-input');
   var keyBtn   = document.getElementById('ci-key-btn');
+  var validateMsg = document.getElementById('ci-validate-msg');
+  var getKeyLink  = document.getElementById('ci-get-key');
+  var regionInput = document.getElementById('ci-region-input');
+  var providerFields = document.getElementById('ci-provider-fields');
   var mindmapFrame = document.getElementById('ci-mindmap-frame');
 
   /* ── Apply L10n ── */
@@ -305,11 +363,89 @@ dev_banner: "Interface in development — requires API key configuration. Featur
   if (sbToolsTitle) sbToolsTitle.textContent = t.tools;
   if (sbNavTitle)   sbNavTitle.textContent = t.nav;
   if (sbMmTitle)    sbMmTitle.textContent = t.mindmap;
+  if (getKeyLink)   getKeyLink.textContent = t.getKey;
 
   /* ── State ── */
   var API_KEY_STORE = 'ci-anthropic-key';
+  var PROVIDER_STORE = 'ci-provider';
+  var REGION_STORE = 'ci-region';
   var messages = []; /* conversation history for API */
   var streaming = false;
+  var activeProvider = localStorage.getItem(PROVIDER_STORE) || 'anthropic';
+
+  /* ── Provider config ── */
+  var PROVIDERS = {
+    anthropic: {
+      url: 'https://api.anthropic.com/v1/messages',
+      model: 'claude-sonnet-4-6',
+      headers: function(key) {
+        return {
+          'Content-Type': 'application/json',
+          'x-api-key': key,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        };
+      },
+      getKeyUrl: 'https://console.anthropic.com/settings/keys',
+      placeholder: t.placeholderAnthropic,
+      getKeyLabel: t.getKey,
+      needsRegion: false
+    },
+    bedrock: {
+      url: function(region) {
+        return 'https://bedrock-runtime.' + (region || 'us-east-1') + '.amazonaws.com/model/anthropic.claude-sonnet-4-6-v1/invoke';
+      },
+      model: 'anthropic.claude-sonnet-4-6-v1',
+      headers: function(key) {
+        return {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + key
+        };
+      },
+      getKeyUrl: 'https://console.aws.amazon.com/bedrock/',
+      placeholder: t.placeholderBedrock,
+      getKeyLabel: t.getKeyBedrock,
+      needsRegion: true
+    },
+    vertex: {
+      url: function(region) {
+        return 'https://' + (region || 'us-central1') + '-aiplatform.googleapis.com/v1/projects/-/locations/' + (region || 'us-central1') + '/publishers/anthropic/models/claude-sonnet-4-6:rawPredict';
+      },
+      model: 'claude-sonnet-4-6',
+      headers: function(key) {
+        return {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + key
+        };
+      },
+      getKeyUrl: 'https://console.cloud.google.com/vertex-ai',
+      placeholder: t.placeholderVertex,
+      getKeyLabel: t.getKeyVertex,
+      needsRegion: true
+    }
+  };
+
+  /* ── Provider switching ── */
+  function setProvider(name) {
+    activeProvider = name;
+    localStorage.setItem(PROVIDER_STORE, name);
+    var cfg = PROVIDERS[name];
+    document.querySelectorAll('.ci-provider-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.provider === name);
+    });
+    keyInput.placeholder = cfg.placeholder;
+    if (getKeyLink) {
+      getKeyLink.textContent = cfg.getKeyLabel;
+      getKeyLink.href = cfg.getKeyUrl;
+    }
+    providerFields.style.display = cfg.needsRegion ? 'block' : 'none';
+    validateMsg.textContent = '';
+    validateMsg.className = 'ci-validate-msg';
+  }
+
+  document.querySelectorAll('.ci-provider-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { setProvider(this.dataset.provider); });
+  });
 
   /* ── Mindmap sidebar ── */
   function loadMindmap() {
@@ -322,7 +458,13 @@ dev_banner: "Interface in development — requires API key configuration. Featur
   /* ── API key management ── */
   function getKey() { return localStorage.getItem(API_KEY_STORE) || ''; }
   function setKey(k) { localStorage.setItem(API_KEY_STORE, k); }
-  function clearKey() { localStorage.removeItem(API_KEY_STORE); }
+  function getRegion() { return localStorage.getItem(REGION_STORE) || ''; }
+  function setRegion(r) { localStorage.setItem(REGION_STORE, r); }
+  function clearKey() {
+    localStorage.removeItem(API_KEY_STORE);
+    localStorage.removeItem(PROVIDER_STORE);
+    localStorage.removeItem(REGION_STORE);
+  }
 
   function showChat() {
     setup.style.display = 'none';
@@ -367,7 +509,69 @@ dev_banner: "Interface in development — requires API key configuration. Featur
     chat.scrollTop = chat.scrollHeight;
   }
 
-  /* ── Claude API call (streaming) ── */
+  /* ── Build API request for active provider ── */
+  function buildRequest(msgs, maxTokens) {
+    var cfg = PROVIDERS[activeProvider];
+    var key = getKey();
+    var region = getRegion();
+    var url = typeof cfg.url === 'function' ? cfg.url(region) : cfg.url;
+    var headers = cfg.headers(key);
+    var body = {
+      model: typeof cfg.model === 'string' ? cfg.model : cfg.model,
+      max_tokens: maxTokens || 4096,
+      system: 'You are Claude, an AI assistant integrated into the Knowledge platform. You help with documentation, project management, code review, and knowledge work. Be concise and helpful. When the user sends a command name (like "status", "recall", "pub list"), explain what the command does and how to use it in the Claude Code CLI.',
+      messages: msgs
+    };
+    /* Anthropic uses anthropic_version in body for Bedrock/Vertex */
+    if (activeProvider !== 'anthropic') {
+      body.anthropic_version = '2023-06-01';
+    }
+    return { url: url, headers: headers, body: body };
+  }
+
+  /* ── Validate API key with a minimal call ── */
+  function validateKey(key, callback) {
+    validateMsg.textContent = t.validating;
+    validateMsg.className = 'ci-validate-msg';
+    keyBtn.disabled = true;
+
+    var region = regionInput ? regionInput.value.trim() : '';
+    if (region) setRegion(region);
+
+    /* Temporarily store key for buildRequest */
+    setKey(key);
+    var req = buildRequest([{ role: 'user', content: 'Hi' }], 16);
+
+    fetch(req.url, {
+      method: 'POST',
+      headers: req.headers,
+      body: JSON.stringify(req.body)
+    })
+    .then(function(res) {
+      if (!res.ok) {
+        return res.json().then(function(err) {
+          throw new Error(err.error && err.error.message || 'HTTP ' + res.status);
+        });
+      }
+      return res.json();
+    })
+    .then(function() {
+      validateMsg.textContent = t.validOk;
+      validateMsg.className = 'ci-validate-msg ok';
+      callback(true);
+    })
+    .catch(function(err) {
+      validateMsg.textContent = t.validFail + (err.message || 'unknown error');
+      validateMsg.className = 'ci-validate-msg err';
+      localStorage.removeItem(API_KEY_STORE);
+      callback(false);
+    })
+    .finally(function() {
+      keyBtn.disabled = false;
+    });
+  }
+
+  /* ── Claude API call ── */
   function callClaude(userMsg) {
     if (streaming) return;
     streaming = true;
@@ -379,21 +583,12 @@ dev_banner: "Interface in development — requires API key configuration. Featur
 
     var assistantDiv = addMsg('assistant', '...');
     var fullText = '';
+    var req = buildRequest(messages);
 
-    fetch('https://api.anthropic.com/v1/messages', {
+    fetch(req.url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': getKey(),
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 4096,
-        system: 'You are Claude, an AI assistant integrated into the Knowledge platform. You help with documentation, project management, code review, and knowledge work. Be concise and helpful. When the user sends a command name (like "status", "recall", "pub list"), explain what the command does and how to use it in the Claude Code CLI.',
-        messages: messages
-      })
+      headers: req.headers,
+      body: JSON.stringify(req.body)
     })
     .then(function(res) {
       if (!res.ok) {
@@ -427,11 +622,13 @@ dev_banner: "Interface in development — requires API key configuration. Featur
   /* ── Event handlers ── */
   keyBtn.addEventListener('click', function() {
     var k = keyInput.value.trim();
-    if (k && k.indexOf('sk-') === 0) {
-      setKey(k);
-      keyInput.value = '';
-      showChat();
-    }
+    if (!k) return;
+    validateKey(k, function(valid) {
+      if (valid) {
+        keyInput.value = '';
+        showChat();
+      }
+    });
   });
   keyInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') keyBtn.click();
@@ -495,6 +692,8 @@ dev_banner: "Interface in development — requires API key configuration. Featur
   });
 
   /* ── Init ── */
+  setProvider(activeProvider);
+  if (regionInput && getRegion()) regionInput.value = getRegion();
   if (getKey()) {
     showChat();
   } else {
