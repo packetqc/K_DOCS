@@ -8,9 +8,10 @@
   "items": [
     {
 		"title": "Claude Interface", "title_fr": "Interface Claude",
-		"description": "Claude Code web session — AI-powered development environment embedded in the knowledge platform.",
-		"description_fr": "Session web Claude Code — environnement de développement IA intégré à la plateforme Knowledge.",
-		"href": "https://claude.ai/code", "target": "center",
+		"description": "AI-powered development environment with integrated knowledge tools, live mindmap, and command navigation.",
+		"description_fr": "Environnement de développement IA avec outils de connaissance intégrés, mindmap vivant et navigation par commandes.",
+		"href": "/interfaces/claude-interface/", "target": "center",
+		"pub": "guide-claude-interface",
 		"priority": 0
 	},
     {

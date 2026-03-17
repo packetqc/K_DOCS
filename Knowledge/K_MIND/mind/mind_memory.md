@@ -74,6 +74,7 @@ mindmap
         static js viewer
         nojekyll github pages
       interfaces
+        claude interface
         main navigator
         project viewer
         session review
@@ -272,6 +273,9 @@ mindmap
             cinematic 3 movie animation sequence
             capture_mindmap.js plus stitch_webcard.py
             social redirect HTML pages with og tags
+          interface creation methodology documented
+            checklist identity directory registration mindmap guide
+            exercise reference Claude Interface I6
           interface CSS theme convention documented
             wrapper vars never redefined in interfaces
             dark theme block interface specific only

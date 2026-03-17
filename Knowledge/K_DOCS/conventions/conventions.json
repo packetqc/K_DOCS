@@ -126,6 +126,11 @@
       "id": "ext-009",
       "path": "conventions/web/interface-css-theme.md",
       "description": "Interface CSS theme convention — wrapper variables, dark theme selectors, fallback values, no variable redefinition"
+    },
+    {
+      "id": "ext-010",
+      "path": "methodology/interface-creation.md",
+      "description": "Interface creation methodology — step-by-step checklist: identity, directory, redirect stub, front matter, registration, mindmap, guide publication. Exercise: Claude Interface I6"
     }
   ]
 }
