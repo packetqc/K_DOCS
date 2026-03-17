@@ -64,22 +64,20 @@
   gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: 1.5rem;
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1rem;
   background: var(--code-bg, #f6f8fa);
   border: 1px solid var(--border, #d0d7de);
   border-radius: 6px;
-  min-height: 52px;
 }
 .pv-select-group { display: flex; align-items: center; gap: 0.5rem; }
 .pv-select-group label { font-size: 0.85rem; font-weight: 600; color: var(--muted, #57606a); white-space: nowrap; }
 .pv-select-group select {
-  padding: 0.6rem 0.75rem;
+  padding: 0.35rem 0.5rem;
   border: 1px solid var(--border, #d0d7de);
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   background: var(--pv-select-bg, #fff);
   color: var(--fg, #1f2328);
-  min-height: 44px;
 }
 
 /* ── Empty state ── */

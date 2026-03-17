@@ -144,8 +144,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   background: var(--bg, #fff);
 }
 .nav-widget summary {
-  cursor: pointer; padding: 0.5rem 0.65rem;
-  font-size: 0.8rem; font-weight: 700;
+  cursor: pointer; padding: 0.35rem 0.5rem;
+  font-size: 0.76rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.04em;
   color: var(--fg, #24292f);
   background: var(--code-bg, #f6f8fa);
@@ -153,7 +153,6 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   list-style: none;
   display: flex; align-items: center; gap: 0.35rem;
   user-select: none;
-  min-height: 40px;
 }
 .nav-widget summary::-webkit-details-marker { display: none; }
 .nav-widget summary::before {
@@ -162,16 +161,15 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 }
 .nav-widget[open] > summary::before { transform: rotate(90deg); }
 .nav-widget[open] > summary { border-bottom-color: var(--accent, #1d4ed8); }
-.nav-widget .widget-body { padding: 0.3rem 0.4rem; display: flex; flex-direction: column; gap: 0.2rem; }
+.nav-widget .widget-body { padding: 0.25rem 0.3rem; display: flex; flex-direction: column; gap: 0.15rem; }
 .nav-widget .widget-body a {
-  display: block; font-size: 0.78rem; font-weight: 500;
-  padding: 0.45rem 0.6rem;
+  display: block; font-size: 0.72rem; font-weight: 500;
+  padding: 0.3rem 0.5rem;
   color: var(--fg, #24292f);
   text-decoration: none; border-radius: 4px;
   text-transform: uppercase; letter-spacing: 0.02em;
   background: var(--code-bg, #f6f8fa);
   border-left: 2px solid transparent;
-  min-height: 36px; line-height: 1.4;
   transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.12s, box-shadow 0.15s;
 }
 .nav-widget .widget-body a:hover {
@@ -221,19 +219,18 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .tab-bar {
   flex-shrink: 0;
   display: flex; align-items: stretch; flex-wrap: wrap;
-  max-height: 3.6rem; overflow-y: auto;
+  max-height: 3.2rem; overflow-y: auto;
   background: var(--code-bg, #f6f8fa);
   border-bottom: 1px solid var(--border, #d0d7de);
   scrollbar-width: thin;
 }
 .tab-bar:empty { display: none; }
 .tab-item {
-  display: flex; align-items: center; gap: 0.2rem;
-  padding: 0.35rem 0.4rem 0.35rem 0.65rem;
-  font-size: 0.78rem; white-space: nowrap;
+  display: flex; align-items: center; gap: 0.15rem;
+  padding: 0.2rem 0.25rem 0.2rem 0.5rem;
+  font-size: 0.72rem; white-space: nowrap;
   border-right: 1px solid var(--border, #d0d7de);
   cursor: pointer; user-select: none;
-  min-height: 36px;
   color: var(--muted, #656d76);
   max-width: 180px;
   transition: background 0.15s;

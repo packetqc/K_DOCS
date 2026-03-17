@@ -62,15 +62,14 @@ dev_banner: "Interface in development — requires API key configuration. Featur
 
 /* ═══ Toolbar ═══ */
 .ci-toolbar {
-  display: flex; align-items: center; gap: 0.75rem;
-  padding: 0.65rem 1rem; background: var(--code-bg, #eee8df);
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.4rem 0.75rem; background: var(--code-bg, #eee8df);
   border-bottom: 1px solid var(--border, #d48a3c); flex-shrink: 0;
-  min-height: 44px;
 }
-.ci-toolbar-title { font-weight: 600; font-size: 0.9rem; color: var(--fg, #1a1a2e); }
+.ci-toolbar-title { font-weight: 600; font-size: 0.85rem; color: var(--fg, #1a1a2e); }
 .ci-toolbar-spacer { flex: 1; }
 .ci-status {
-  font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 9px;
+  font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 9px;
   background: var(--ci-tool-bg, #f0ece4); color: var(--muted, #5c5c78);
 }
 .ci-status.connected { color: var(--ci-success, #16a34a); font-weight: 600; }
@@ -102,34 +101,34 @@ dev_banner: "Interface in development — requires API key configuration. Featur
 
 /* ═══ Input area ═══ */
 .ci-input-area {
-  display: flex; gap: 0.5rem; padding: 0.75rem 1rem;
+  display: flex; gap: 0.5rem; padding: 0.6rem 0.75rem;
   background: var(--code-bg, #eee8df); border-top: 1px solid var(--border, #d48a3c);
-  flex-shrink: 0; min-height: 52px;
+  flex-shrink: 0;
 }
 .ci-input {
-  flex: 1; padding: 0.6rem 0.85rem; border: 1px solid var(--ci-input-border, #c8c4d0);
+  flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--ci-input-border, #c8c4d0);
   border-radius: 0.4rem; background: var(--ci-input-bg, #ffffff); color: var(--fg, #1a1a2e);
-  font-size: 0.9rem; font-family: inherit; resize: none; min-height: 2.5rem; max-height: 8rem;
+  font-size: 0.85rem; font-family: inherit; resize: none; min-height: 2.2rem; max-height: 8rem;
 }
 .ci-input:focus { outline: none; border-color: var(--accent, #0055b3); box-shadow: 0 0 0 2px rgba(0,85,179,0.15); }
 .ci-send-btn {
-  padding: 0.6rem 1.25rem; background: var(--accent, #0055b3); color: #fff;
-  border: none; border-radius: 0.4rem; font-size: 0.9rem; font-weight: 600;
-  cursor: pointer; white-space: nowrap; align-self: flex-end; min-height: 44px;
+  padding: 0.5rem 1rem; background: var(--accent, #0055b3); color: #fff;
+  border: none; border-radius: 0.4rem; font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; white-space: nowrap; align-self: flex-end;
 }
 .ci-send-btn:hover { opacity: 0.9; }
 .ci-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ═══ Sidebar ═══ */
-.ci-sb-section { padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border, #d48a3c); }
+.ci-sb-section { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border, #d48a3c); }
 .ci-sb-title {
-  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-  color: var(--muted, #5c5c78); letter-spacing: 0.04em; margin-bottom: 0.5rem;
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  color: var(--muted, #5c5c78); letter-spacing: 0.04em; margin-bottom: 0.4rem;
 }
 .ci-sb-item {
-  display: block; padding: 0.5rem 0.6rem; font-size: 0.82rem; border-radius: 4px;
+  display: block; padding: 0.3rem 0.5rem; font-size: 0.78rem; border-radius: 4px;
   color: var(--fg, #1a1a2e); text-decoration: none; cursor: pointer;
-  transition: background 0.15s; min-height: 36px; line-height: 1.4;
+  transition: background 0.15s;
 }
 .ci-sb-item:hover { background: var(--col-alt, rgba(0,85,179,0.05)); }
 .ci-sb-item code { font-size: 0.72rem; background: var(--code-bg, #eee8df); padding: 0.05rem 0.25rem; border-radius: 3px; }
@@ -284,7 +283,7 @@ dev_banner: "Interface in development — requires API key configuration. Featur
 </div>
 
 <!-- ═══ ℹ button handler ═══ -->
-<style>.iface-info-btn{display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:50%;background:var(--accent,#1d4ed8);color:#fff;font-size:0.95rem;font-weight:700;text-decoration:none;cursor:pointer;flex-shrink:0;margin-left:0.25rem;}.iface-info-btn:hover{opacity:0.85;}</style>
+<style>.iface-info-btn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--accent,#1d4ed8);color:#fff;font-size:0.85rem;font-weight:700;text-decoration:none;cursor:pointer;flex-shrink:0;margin-left:0.25rem;}.iface-info-btn:hover{opacity:0.85;}</style>
 <script>
 (function(){
   var btn = document.querySelector('.iface-info-btn');
