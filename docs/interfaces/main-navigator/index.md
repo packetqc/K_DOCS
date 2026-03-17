@@ -77,7 +77,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-grid {
   flex: 1; min-height: 0; display: grid; overflow: hidden;
   position: relative;
-  grid-template-columns: 220px 18px 1fr 18px 0px;
+  grid-template-columns: 220px 45px 1fr 45px 0px;
   grid-template-rows: 1fr;
   margin: 0.3rem 0.4rem 0.25rem;
   border: 1px solid var(--border, #d0d7de);
@@ -311,7 +311,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 @media (max-width: 768px) {
   .nav-divider-left, .nav-divider-right { min-width: 30px; }
   .nav-divider-left::before, .nav-divider-right::before { font-size: 0.55rem; }
-  .nav-grid { grid-template-columns: 0px 8px 1fr 8px 0px; }
+  .nav-grid { grid-template-columns: 0px 30px 1fr 30px 0px; }
 }
 
 /* ═══ Print / PDF export — center panel content after cover page ═══ */
