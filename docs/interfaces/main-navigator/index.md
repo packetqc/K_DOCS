@@ -77,7 +77,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-grid {
   flex: 1; min-height: 0; display: grid; overflow: hidden;
   position: relative;
-  grid-template-columns: 220px 45px 1fr 45px 0px;
+  grid-template-columns: 220px 22px 1fr 22px 0px;
   grid-template-rows: 1fr;
   margin: 0.3rem 0.4rem 0.25rem;
   border: 1px solid var(--border, #d0d7de);
@@ -110,7 +110,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   cursor: col-resize; user-select: none;
   transition: background 0.2s ease;
   position: relative;
-  min-width: 45px;
+  min-width: 22px;
   z-index: 10;
 }
 .nav-divider-left { grid-column: 2; }
@@ -315,9 +315,9 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 /* ═══ Mobile — shrink dividers for touch screens ═══ */
 @media (max-width: 768px) {
-  .nav-divider-left, .nav-divider-right { min-width: 30px; }
+  .nav-divider-left, .nav-divider-right { min-width: 15px; }
   .nav-divider-left::before, .nav-divider-right::before { font-size: 0.55rem; }
-  .nav-grid { grid-template-columns: 0px 30px 1fr 30px 0px; }
+  .nav-grid { grid-template-columns: 0px 15px 1fr 15px 0px; }
 }
 
 /* ═══ Print / PDF export — center panel content after cover page ═══ */
@@ -392,7 +392,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   if (!panel || !grid) return;
 
   /* ─── Panel sizes — draggable + click-to-step ─── */
-  var DIVIDER_W = (window.innerWidth <= 768) ? 30 : 45;
+  var DIVIDER_W = (window.innerWidth <= 768) ? 15 : 22;
   var LEFT_STEPS = [0, 220];
   var savedLeft = parseInt(localStorage.getItem(LPANEL_KEY) || '220');
   var savedRight = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
