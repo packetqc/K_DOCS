@@ -1,0 +1,150 @@
+{
+  "version": 3,
+  "session_id": "claude/fix-session-lifecycle-x9M5U",
+  "repo": "packetqc/knowledge",
+  "issue_number": 607,
+  "issue_title": "SESSION: Enforce Session Lifecycle as Mandatory \u2014 File Generation + Cache Sync (2026-03-03)",
+  "branch": "claude/fix-session-lifecycle-x9M5U",
+  "mode": "normal",
+  "created": "2026-03-03T15:01:20.506425+00:00",
+  "updated": "2026-03-06T18:57:53.189404+00:00",
+  "agent_initialized": true,
+  "request_description": "Enforce session lifecycle as mandatory \u2014 restructure session-protocol.md and CLAUDE.md so v52/v53/pre-save are enforced from session open to close. Fix missing session notes and runtime cache generation.",
+  "clip_mode": "discard",
+  "session_data": {
+    "session_phase": "saving",
+    "files_modified": [
+      "methodology/session-protocol.md",
+      "CLAUDE.md"
+    ],
+    "work_summary": "Restructured session-protocol.md with 6 mandatory enforcement gates (G1-G6), added v53 autonomous execution section (2.5), mandatory cache lifecycle points during focused work, and dual file output verification in save protocol. Updated CLAUDE.md Session Lifecycle and save protocol to reference session-protocol.md as mandatory operational spec with gate references throughout.",
+    "todo_snapshot": [
+      {
+        "content": "Restructure session-protocol.md",
+        "status": "completed"
+      },
+      {
+        "content": "Add cache lifecycle points",
+        "status": "completed"
+      },
+      {
+        "content": "Add session notes verification",
+        "status": "completed"
+      },
+      {
+        "content": "Update CLAUDE.md lifecycle references",
+        "status": "completed"
+      },
+      {
+        "content": "Update CLAUDE.md save protocol",
+        "status": "completed"
+      },
+      {
+        "content": "Commit, push, PR, merge",
+        "status": "in_progress"
+      }
+    ],
+    "integrity": {
+      "version": 1,
+      "initialized_at": "2026-03-06T18:57:53.080047+00:00",
+      "grid": {
+        "S.0": {
+          "status": "pending"
+        },
+        "S.1": {
+          "status": "pending"
+        },
+        "S.2": {
+          "status": "pending"
+        },
+        "S.3": {
+          "status": "pending"
+        },
+        "S.4": {
+          "status": "pending"
+        },
+        "S.5": {
+          "status": "pending"
+        },
+        "S.6": {
+          "status": "pending"
+        },
+        "T.1": {
+          "status": "pending"
+        },
+        "T.2": {
+          "status": "pending"
+        },
+        "T.3": {
+          "status": "pending"
+        },
+        "T.4": {
+          "status": "pending"
+        },
+        "W.1": {
+          "status": "pending"
+        },
+        "W.2": {
+          "status": "pending"
+        },
+        "W.3": {
+          "status": "pending"
+        },
+        "W.4": {
+          "status": "pending"
+        },
+        "W.5": {
+          "status": "pending"
+        },
+        "W.6": {
+          "status": "pending"
+        },
+        "W.7": {
+          "status": "pending"
+        },
+        "C.1": {
+          "status": "pending"
+        },
+        "C.2": {
+          "status": "pending"
+        },
+        "C.3": {
+          "status": "pending"
+        },
+        "C.4": {
+          "status": "pending"
+        },
+        "C.5": {
+          "status": "pending"
+        },
+        "C.6": {
+          "status": "pending"
+        },
+        "C.7": {
+          "status": "pending"
+        },
+        "C.8": {
+          "status": "pending"
+        },
+        "C.9": {
+          "status": "pending"
+        },
+        "C.10": {
+          "status": "pending"
+        },
+        "C.11": {
+          "status": "pending"
+        },
+        "C.12": {
+          "status": "pending"
+        }
+      },
+      "current_todo_cycle": 0,
+      "work_cycle_history": [],
+      "skips": [],
+      "reruns": [],
+      "last_check_at": null,
+      "last_check_result": null
+    }
+  }
+}

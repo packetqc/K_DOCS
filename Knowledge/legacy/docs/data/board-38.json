@@ -1,0 +1,144 @@
+{
+  "meta": {
+    "project": "Documentation System (P8)",
+    "board_number": 38,
+    "board_url": "https://github.com/users/packetqc/projects/38",
+    "synced_at": "2026-03-01T13:07:38Z",
+    "total_items": 6
+  },
+  "items": [
+    {
+      "id": "PVTI_lAHOBMtRJM4BQAcjzgmLhBE",
+      "title": "7 visual fixes",
+      "full_title": "DOCX export: 7 visual fixes",
+      "tag": "DOCX export",
+      "status": "Done",
+      "status_emoji": "✅",
+      "status_priority": 3,
+      "tier": "ongoing",
+      "section": "done",
+      "type": "issue",
+      "issue_number": 301,
+      "issue_url": "https://github.com/packetqc/knowledge/issues/301",
+      "labels": [],
+      "actions": [
+        "view",
+        "close"
+      ],
+      "board_url": "https://github.com/users/packetqc/projects/38",
+      "body": "## DOCX Export — Visual Fixes\n\n| # | Fix | Status |\n|---|-----|--------|\n| 1 | Story table: no header row in right-panel key-value table | ✅ Fixed |\n| 2 | Story table: separator line on both key AND value columns | ❌ Not fixed |\n| 3 | DOCX inner table cells: no blue (#93c5fd) border from global CSS | ❌ Not fixed |\n| 4 | Emoji icon alignment in DOCX | ✅ Fixed |\n| 5 | Generate proper `.docx` OOXML format (not legacy `.doc`) | ✅ Fixed — PR #304 |\n| 6 | Ghost MSO header/footer content appearing as b"
+    },
+    {
+      "id": "PVTI_lAHOBMtRJM4BQAcjzgmLuB0",
+      "title": "Export Documentation + Layout Convention QA — 2026-02-24/25 (P6/P8)",
+      "full_title": "TASK: Export Documentation + Layout Convention QA — 2026-02-24/25 (P6/P8)",
+      "tag": "TASK",
+      "status": "Done",
+      "status_emoji": "✅",
+      "status_priority": 3,
+      "tier": "ongoing",
+      "section": "done",
+      "type": "issue",
+      "issue_number": 305,
+      "issue_url": "https://github.com/packetqc/knowledge/issues/305",
+      "labels": [
+        {
+          "name": "task",
+          "color": "6b7280"
+        }
+      ],
+      "actions": [
+        "view",
+        "close"
+      ],
+      "board_url": "https://github.com/users/packetqc/projects/38",
+      "body": "## Export Documentation + Layout Convention QA — 2026-02-24/25\n\n### Summary\nCombined 2-day sprint across knowledge-live (dev) and knowledge (prod) repos covering:\n- **3 convention layouts formalized**: publication.html, default.html, three-zone @page model\n- **PDF export pipeline**: single header liner, language bar, footer links, filename sanitization\n- **DOCX export pipeline**: OOXML ZIP from scratch via altChunk, running header/footer, 8 major fixes\n- **Dev→Prod promotion**: knowledge-live la"
+    },
+    {
+      "id": "PVTI_lAHOBMtRJM4BQAcjzgmLucI",
+      "title": "3 convention layouts — publication.html / default.html / three-zone @page",
+      "full_title": "DOC: 3 convention layouts — publication.html / default.html / three-zone @page",
+      "tag": "DOC",
+      "status": "Done",
+      "status_emoji": "✅",
+      "status_priority": 3,
+      "tier": "ongoing",
+      "section": "done",
+      "type": "draft",
+      "issue_number": null,
+      "issue_url": null,
+      "labels": [],
+      "actions": [
+        "view"
+      ],
+      "board_url": "https://github.com/users/packetqc/projects/38",
+      "body": "Formalize the 3 layout conventions with scope boundaries. Tracked as P8 documentation governance activity."
+    },
+    {
+      "id": "PVTI_lAHOBMtRJM4BQAcjzgmLucU",
+      "title": "Dev→Prod layout promotion tracking — knowledge-live to knowledge core",
+      "full_title": "TASK: Dev→Prod layout promotion tracking — knowledge-live to knowledge core",
+      "tag": "TASK",
+      "status": "Done",
+      "status_emoji": "✅",
+      "status_priority": 3,
+      "tier": "ongoing",
+      "section": "done",
+      "type": "draft",
+      "issue_number": null,
+      "issue_url": null,
+      "labels": [],
+      "actions": [
+        "view"
+      ],
+      "board_url": "https://github.com/users/packetqc/projects/38",
+      "body": "Track the complete dev→prod promotion cycle: 19 PRs on knowledge-live (dev) + 18 PRs on knowledge (prod). Harvest issues: #267, #268, #271."
+    },
+    {
+      "id": "PVTI_lAHOBMtRJM4BQAcjzgmLucY",
+      "title": "Export Documentation QA complete — 37 PRs, DOCX+PDF production-ready",
+      "full_title": "TASK: Export Documentation QA complete — 37 PRs, DOCX+PDF production-ready",
+      "tag": "TASK",
+      "status": "Done",
+      "status_emoji": "✅",
+      "status_priority": 3,
+      "tier": "ongoing",
+      "section": "done",
+      "type": "draft",
+      "issue_number": null,
+      "issue_url": null,
+      "labels": [],
+      "actions": [
+        "view"
+      ],
+      "board_url": "https://github.com/users/packetqc/projects/38",
+      "body": "Track the complete export QA cycle: 37 PRs across 2 repos (19 knowledge-live + 18 knowledge). DOCX: OOXML ZIP via altChunk. PDF: single header liner. Both production-ready."
+    },
+    {
+      "id": "PVTI_lAHOBMtRJM4BQAcjzgmPS5s",
+      "title": "diagnostic sur les diagrammes des pages web",
+      "full_title": "diagnostic sur les diagrammes des pages web",
+      "tag": "",
+      "status": "Done",
+      "status_emoji": "✅",
+      "status_priority": 3,
+      "tier": "ongoing",
+      "section": "done",
+      "type": "issue",
+      "issue_number": 334,
+      "issue_url": "https://github.com/packetqc/knowledge/issues/334",
+      "labels": [
+        {
+          "name": "task",
+          "color": "6b7280"
+        }
+      ],
+      "actions": [
+        "view",
+        "reopen"
+      ],
+      "board_url": "https://github.com/users/packetqc/projects/38",
+      "body": "## Contexte\n\nEffectuer un diagnostic complet des diagrammes (Mermaid et autres) présents sur les pages web du système de connaissances.\n\n### Pages concernées\n\n- FR: https://packetqc.github.io/knowledge/fr/publications/architecture-diagrams/full/\n- EN: https://packetqc.github.io/knowledge/publications/architecture-diagrams/full/\n\n## Objectif\n\nVérifier le rendu, la cohérence et la conformité des diagrammes sur les pages GitHub Pages publiées.\n\n## Projet\n\nP8 — Documentation System (#38)"
+    }
+  ]
+}

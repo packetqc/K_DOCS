@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+{% if page.permalink contains '/fr/' %}<html lang="fr">{% else %}<html lang="en">{% endif %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>{{ page.title | default: site.title }}</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ page.title | default: site.title }}" />
+  <meta property="og:description" content="{{ page.description | default: site.description }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ page.url | absolute_url }}" />
+  <meta property="og:site_name" content="{{ site.title | default: 'Knowledge' }}" />
+  {% if page.og_image %}<meta property="og:image" content="{{ page.og_image | absolute_url }}" />{% endif %}
+  {% if page.og_image %}<link rel="preload" as="image" href="{{ page.og_image | relative_url }}" fetchpriority="high" />{% endif %}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ page.title | default: site.title }}" />
+  <meta name="twitter:description" content="{{ page.description | default: site.description }}" />
+  {% if page.og_image %}<meta name="twitter:image" content="{{ page.og_image | absolute_url }}" />{% endif %}
+
+  <!-- Canonical URL — LinkedIn and social crawlers use this as the definitive page URL -->
+  <link rel="canonical" href="{{ page.url | absolute_url }}" />
+
+  <meta name="description" content="{{ page.description | default: site.description }}" />
+
+  <style>
+    /* Accessible theme (light — default) */
+    :root {
+      --bg: #faf6f1;
+      --fg: #1a1a2e;
+      --accent: #0055b3;
+      --muted: #5c5c78;
+      --border: #d48a3c;
+      --code-bg: #eee8df;
+      --col-alt: rgba(0, 85, 179, 0.05);
+      --max-width: 860px;
+      --wc-grad-start: #faf6f1;
+      --wc-grad-end: #eee8df;
+    }
+    /* Accessible dark theme (auto-detect when no explicit theme) */
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]),
+      html[data-theme="auto"] {
+        --bg: #1a1a2e;
+        --fg: #e8e4f0;
+        --accent: #5599dd;
+        --muted: #9494aa;
+        --border: #cc8833;
+        --code-bg: #28283e;
+        --col-alt: rgba(85, 153, 221, 0.07);
+        --wc-grad-start: #1a1a2e;
+        --wc-grad-end: #2a1e3e;
+      }
+    }
+    /* Explicit theme overrides — higher specificity than :root */
+    html[data-theme="cayman"] {
+      --bg: #eff6ff; --fg: #0f172a; --accent: #1d4ed8; --muted: #475569;
+      --border: #93c5fd; --code-bg: #dbeafe; --col-alt: rgba(29, 78, 216, 0.05);
+      --wc-grad-start: #eff6ff; --wc-grad-end: #dbeafe;
+    }
+    html[data-theme="midnight"] {
+      --bg: #0f172a; --fg: #e2e8f0; --accent: #60a5fa; --muted: #94a3b8;
+      --border: #334155; --code-bg: #1e293b; --col-alt: rgba(96, 165, 250, 0.07);
+      --wc-grad-start: #0f172a; --wc-grad-end: #1e1b4b;
+    }
+    html[data-theme="daltonism-light"] {
+      --bg: #faf6f1; --fg: #1a1a2e; --accent: #0055b3; --muted: #5c5c78;
+      --border: #d48a3c; --code-bg: #eee8df; --col-alt: rgba(0, 85, 179, 0.05);
+      --wc-grad-start: #faf6f1; --wc-grad-end: #eee8df;
+    }
+    html[data-theme="daltonism-dark"] {
+      --bg: #1a1a2e; --fg: #e8e4f0; --accent: #5599dd; --muted: #9494aa;
+      --border: #cc8833; --code-bg: #28283e; --col-alt: rgba(85, 153, 221, 0.07);
+      --wc-grad-start: #1a1a2e; --wc-grad-end: #2a1e3e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: var(--max-width); margin: 0 auto; }
+    body.landscape .container { max-width: 100%; }
+    h1 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--accent); }
+    h2 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem; }
+    p { margin-bottom: 1rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.82rem; line-height: 1.4; }
+    th, td { padding: 0.35rem 0.5rem; border: none; border-bottom: 1px solid var(--border); text-align: left; }
+    th { background: var(--code-bg); font-weight: 600; white-space: nowrap; border-bottom: 2px solid var(--accent); }
+    td code { font-size: 0.78rem; padding: 0.1em 0.3em; }
+    .table-wrap { overflow-x: auto; margin: 1rem 0; }
+    .table-wrap table { margin: 0; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    .pub-card { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1rem 0; transition: border-color 0.2s; }
+    .pub-card:hover { border-color: var(--accent); }
+    .pub-card h3 { margin: 0 0 0.5rem 0; }
+    .pub-card p { color: var(--muted); margin: 0; }
+    .pub-card .version { font-size: 0.85rem; color: var(--muted); }
+    .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; }
+    /* Language bar — sits above pub-topbar, spans container width */
+    .pub-lang-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      padding-bottom: 0.55rem;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .pub-lang-bar a { color: var(--accent); }
+    /* Back-link topbar — shared with publication layout */
+    .back-link { display: inline-block; font-size: 0.9rem; }
+    .pub-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    /* Version banner — shared with publication layout */
+    .pub-version-banner {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    .pub-version-line { display: flex; align-items: baseline; gap: 0.4rem; flex-wrap: wrap; }
+    .pub-version-label { color: var(--muted); font-weight: 600; min-width: 5.5rem; }
+    .pub-version-ver { font-family: monospace; font-weight: 600; }
+    .pub-version-gen { margin-top: 0.15rem; }
+    .pub-version-gen-date { font-family: monospace; color: var(--muted); }
+    .pub-version-authors { margin-top: 0.15rem; }
+    .pub-version-authors .pub-author-list { display: flex; flex-direction: column; gap: 0.1rem; }
+    .pub-author { color: var(--fg); font-size: 0.88rem; overflow-wrap: anywhere; }
+    /* Cross-references — shared with publication layout */
+    .pub-crossrefs { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .pub-crossrefs h3 { font-size: 1rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .pub-crossrefs-list { display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem; }
+    .pub-crossrefs-list a { color: var(--accent); text-decoration: none; font-size: 0.88rem; padding: 0.2rem 0.5rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; white-space: nowrap; }
+    .pub-crossrefs-list a:hover { text-decoration: underline; border-color: var(--accent); }
+    @media (max-width: 600px) {
+      .pub-crossrefs-list { gap: 0.3rem 0.5rem; }
+      .pub-crossrefs-list a { font-size: 0.82rem; padding: 0.15rem 0.4rem; }
+      .pub-version-authors { flex-direction: column; align-items: flex-start; gap: 0.1rem; }
+      .pub-version-authors .pub-version-label { min-width: auto; }
+    }
+    /* Toolbar — theme selector (left) + export buttons (right) */
+    .pub-export-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .pub-toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .pub-export-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .pub-theme-select {
+      background: var(--code-bg);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .pub-theme-select:hover { border-color: var(--accent); }
+    .pub-theme-select option { background: var(--bg); color: var(--fg); }
+    .pub-export-btn {
+      background: var(--code-bg);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      font-family: inherit;
+    }
+    .pub-export-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    .pub-export-btn:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+    .page-status-tag {
+      font-size: 0.75rem;
+      font-family: monospace;
+      color: var(--muted);
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      white-space: nowrap;
+    }
+    .page-status-tag .status-dot { margin-right: 0.25rem; }
+    .page-url-link { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; font-size: 0.68rem; color: var(--muted); text-decoration: none; margin: 0 0.75rem; opacity: 0.6; background: var(--code-bg, #f6f8fa); padding: 0.15rem 0.5rem; border-radius: 3px; border: 1px solid transparent; }
+    .page-url-link:hover { opacity: 0.9; border-color: var(--border, #d0d7de); color: var(--accent); }
+    /* Iframe embed mode — hide pre-title chrome when inside Main Navigator */
+    body.in-iframe { padding: 0.5rem 1rem; }
+    body.in-iframe .webcard-header,
+    body.in-iframe .pub-lang-bar,
+    body.in-iframe .pub-topbar,
+    body.in-iframe .pub-version-banner,
+    body.in-iframe .pub-export-toolbar { display: none !important; }
+    @media print {
+      .pub-export-toolbar, .webcard-header, .back-link, .pub-topbar { display: none; }
+    }
+    .webcard-header {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--wc-grad-start) 0%, var(--wc-grad-end) 100%);
+      border-bottom: 2px solid var(--border);
+    }
+    .webcard-header img {
+      display: block;
+      margin: 0 auto;
+      max-width: var(--max-width);
+      width: 100%;
+      border-radius: 0;
+    }
+    /* Copy-to-clipboard toast + button */
+    .copy-toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      background: #16a34a; color: #fff; padding: 0.6rem 1.4rem;
+      border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999;
+      max-width: 90vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .copy-toast.show { opacity: 1; }
+    .copy-link-btn {
+      cursor: pointer; opacity: 0.35; margin-left: 0.3em;
+      font-size: 0.75em; text-decoration: none; display: inline;
+      vertical-align: middle;
+    }
+    .copy-link-btn:hover { opacity: 1; }
+    .copy-link-btn.copied { opacity: 1; }
+    /* Multi-column TOC — shared with publication layout */
+    .toc {
+      columns: 2;
+      column-gap: 2rem;
+      margin: 1rem 0 1.5rem;
+      padding: 1rem 1.2rem;
+      background: var(--code-bg);
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+    }
+    .toc-title {
+      column-span: all;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+    .toc ul {
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+    }
+    .toc li {
+      break-inside: avoid;
+      margin-bottom: 0.15rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .toc li a { color: var(--fg); }
+    .toc li a:hover { color: var(--accent); }
+    .toc ul ul {
+      padding-left: 1rem;
+      border-left: 1px solid var(--border);
+      margin: 0.1rem 0 0.2rem;
+    }
+    .toc ul ul li a { color: var(--muted); font-size: 0.78rem; }
+    .toc ul ul li a:hover { color: var(--accent); }
+
+    /* --- Board Widget --- */
+    .board-widget {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin: 1.5rem 0;
+      background: var(--code-bg);
+    }
+    .board-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .board-header h3 { margin: 0; font-size: 1rem; }
+    .board-meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .board-meta a { color: var(--muted); text-decoration: underline; }
+    .board-meta a:hover { color: var(--accent); }
+    .board-filter select {
+      font-size: 0.78rem;
+      padding: 0.15rem 0.4rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg);
+      color: var(--fg);
+      cursor: pointer;
+    }
+    .board-table-wrap { overflow-x: auto; }
+    .board-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+    .board-table th, .board-table td {
+      padding: 0.35rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: middle;
+    }
+    .board-table th {
+      font-weight: 600;
+      white-space: nowrap;
+      border-bottom-width: 2px;
+    }
+    .board-th-sort {
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      padding-right: 1.2rem;
+    }
+    .board-th-sort:hover { color: var(--accent); }
+    .board-sort-arrow {
+      position: absolute;
+      right: 0.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.65rem;
+      color: var(--accent);
+      opacity: 0.8;
+    }
+    .board-status { white-space: nowrap; }
+    .board-type-link { color: var(--accent); text-decoration: none; font-weight: 500; }
+    .board-type-link:hover { text-decoration: underline; }
+    .board-type-draft { color: var(--muted); font-style: italic; }
+    .board-actions { white-space: nowrap; display: flex; gap: 0.4rem; align-items: center; }
+    .board-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 3px;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.15s;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      padding: 0;
+    }
+    .board-action:hover { opacity: 1; }
+    .board-action svg { width: 14px; height: 14px; }
+    .board-action-close svg { fill: #ef4444; }
+    .board-action-reopen svg { fill: var(--accent); }
+    .board-empty {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .board-header-section {
+      justify-content: flex-end;
+      border-bottom: none;
+      padding-bottom: 0.25rem;
+    }
+    .board-label {
+      display: inline-block;
+      font-size: 0.68rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 9px;
+      color: #fff;
+      vertical-align: middle;
+      margin-left: 0.3rem;
+      white-space: nowrap;
+    }
+    @keyframes board-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .board-refreshing { display: inline-block; animation: board-spin 1s linear infinite; }
+    @media (max-width: 600px) {
+      .board-widget { padding: 0.75rem; }
+      .board-header { flex-direction: column; align-items: flex-start; }
+      .board-table { font-size: 0.78rem; }
+    }
+    /* Story paragraph tables — consistent first column */
+    /* Story row layout — div-based left/right that looks like table rows */
+    .story-row { display: flex; gap: 0; align-items: stretch; border-bottom: 1px solid var(--border); border-top: 1px solid var(--border); font-size: 0.82rem; line-height: 1.4; }
+    .story-row + .story-row { border-top: none; }
+    .story-row:last-child { border-top: none; border-bottom: none; }
+    /* Story section separator — distinct from table row borders */
+    .story-section + hr, .story-section + * > hr:first-child { border: none; border-top: 3px solid var(--border); margin: 2.5rem 0; opacity: 0.5; }
+    .story-section { margin-bottom: 0.5rem; }
+    .story-row-left { width: 180px; min-width: 180px; padding: 0.35rem 0.5rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+    .story-row-right { flex: 1; min-width: 0; padding: 0.35rem 0.5rem; }
+    .story-row-right table { margin: 0; font-size: 0.82rem; }
+    .story-row-right table thead { display: none; }
+    .story-row-right table td { border-bottom: none; padding: 0.2rem 0.4rem; }
+    .story-row-right table td:first-child { white-space: nowrap; font-weight: 600; width: 140px; color: var(--muted); }
+    /* Story section — consistent first-column width across all tables */
+    .story-section table td:first-child, .story-section table th:first-child { width: 180px; min-width: 180px; }
+    @media (max-width: 600px) { .story-row { flex-direction: column; } .story-row-left { width: auto; min-width: auto; } }
+    /* Inline CSS pie chart */
+    .pie-inline { display: inline-block; width: 48px; height: 48px; border-radius: 50%; vertical-align: middle; }
+    .pie-1-99 { background: conic-gradient(#0f766e 0% 1%, #99f6e4 1% 100%); }
+    .pie-25-75 { background: conic-gradient(#0f766e 0% 25%, #99f6e4 25% 100%); }
+    .pie-85-15 { background: conic-gradient(#0f766e 0% 85%, #99f6e4 85% 100%); }
+    .pie-90-10 { background: conic-gradient(#0f766e 0% 90%, #99f6e4 90% 100%); }
+    .pie-95-5 { background: conic-gradient(#0f766e 0% 95%, #99f6e4 95% 100%); }
+
+    /* Mermaid source preservation — hide collapsible source blocks on web pages.
+       Source is preserved in git markdown for documentation generation chain,
+       but excluded from web rendering to avoid mermaid.js conflicts (v49). */
+    .mermaid-source { display: none !important; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>(function(){var t=localStorage.getItem('knowledge-theme');if(t&&t!=='auto')document.documentElement.setAttribute('data-theme',t);})()</script>
+</head>
+<body>
+  <script>(function(){if(window.self!==window.top){document.body.classList.add('in-iframe');}})();</script>
+  {% if page.og_image %}
+  <div class="webcard-header">
+    <picture>
+      <source srcset="{{ page.og_image | replace: '-cayman.gif', '-midnight.gif' | relative_url }}" media="(prefers-color-scheme: dark)">
+      <img src="{{ page.og_image | relative_url }}" alt="{{ page.title | default: site.title }}" loading="eager" fetchpriority="high" decoding="sync" />
+    </picture>
+  </div>
+  {% endif %}
+  <div class="container">
+    {% if page.permalink and page.permalink != '/' and page.permalink != '/fr/' %}
+    {% if page.permalink contains '/fr/' %}
+    <div class="pub-lang-bar">
+      <span><strong>Langues / Languages</strong> : Français (cette page)</span>
+      <a href="{{ page.permalink | remove: '/fr' | relative_url }}">English</a>
+    </div>
+    {% else %}
+    <div class="pub-lang-bar">
+      <span><strong>Languages / Langues</strong>: English (this page)</span>
+      <a href="{{ '/fr' | append: page.permalink | relative_url }}">Français</a>
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="pub-topbar">
+      {% if page.permalink contains '/full/' %}
+        {% assign summary_path = page.permalink | remove: 'full/' %}
+        {% if page.permalink contains '/fr/' %}
+        <a class="back-link" href="{{ summary_path | relative_url }}">&larr; Retour au résumé</a>
+        {% else %}
+        <a class="back-link" href="{{ summary_path | relative_url }}">&larr; Back to summary</a>
+        {% endif %}
+      {% else %}
+        {% if page.page_type == 'interface' %}
+          {% if page.permalink contains '/fr/' %}
+          <a class="back-link" href="{{ '/fr/interfaces/' | relative_url }}">&larr; Toutes les interfaces</a>
+          {% else %}
+          <a class="back-link" href="{{ '/interfaces/' | relative_url }}">&larr; All Interfaces</a>
+          {% endif %}
+        {% else %}
+          {% if page.permalink contains '/fr/' %}
+          <a class="back-link" href="{{ '/fr/publications/' | relative_url }}">&larr; Toutes les publications</a>
+          {% else %}
+          <a class="back-link" href="{{ '/publications/' | relative_url }}">&larr; All Publications</a>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      <a class="page-url-link" id="page-url-link" href="#" target="_blank" rel="noopener"></a>
+      <span class="page-status-tag"><span class="status-dot">&#x1F7E2;</span><span data-kv-live="tag">{{ site.knowledge_version | default: "v54" }}{% if site.knowledge_version_suffix %} ({{ site.knowledge_version_suffix }}){% endif %}</span></span>
+    </div>
+    <script>(function(){var el=document.getElementById('page-url-link');if(el){el.href=window.location.href;var isFr=window.location.pathname.indexOf('/fr/')>=0;el.textContent='\u{1F517} '+(isFr?'Page actuelle':'Actual page');}})();</script>
+    <div class="pub-version-banner">
+      <div class="pub-version-line">
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-version-label">Knowledge :</span>
+        <span class="pub-version-ver" style="color:var(--muted)"><span data-kv-live="banner">{{ site.knowledge_version | default: "v54" }}{% if site.knowledge_version_suffix %} ({{ site.knowledge_version_suffix }}){% endif %}</span></span>
+        {% else %}
+        <span class="pub-version-label">Knowledge:</span>
+        <span class="pub-version-ver" style="color:var(--muted)"><span data-kv-live="banner">{{ site.knowledge_version | default: "v54" }}{% if site.knowledge_version_suffix %} ({{ site.knowledge_version_suffix }}){% endif %}</span></span>
+        {% endif %}
+      </div>
+      <div class="pub-version-line pub-version-gen">
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-version-label">G&eacute;n&eacute;r&eacute; :</span>
+        {% else %}
+        <span class="pub-version-label">Generated:</span>
+        {% endif %}
+        <span class="pub-version-gen-date" id="pubGenDate"></span>
+      </div>
+      <div class="pub-version-line pub-version-authors">
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-version-label">Auteurs :</span>
+        {% else %}
+        <span class="pub-version-label">Authors:</span>
+        {% endif %}
+        <div class="pub-author-list">
+          <span class="pub-version-date">Martin Paquet</span>
+          <span class="pub-author">Claude (Anthropic, Opus 4.6)</span>
+        </div>
+      </div>
+    </div>
+    <div class="pub-export-toolbar">
+      <div class="pub-toolbar-group">
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-export-label">Th&egrave;me</span>
+        {% else %}
+        <span class="pub-export-label">Theme:</span>
+        {% endif %}
+        <select class="pub-theme-select" id="themeSelect" title="{% if page.permalink contains '/fr/' %}Choisir le th&egrave;me{% else %}Choose theme{% endif %}">
+          <option value="auto">Auto</option>
+          <option value="cayman">Cayman</option>
+          <option value="midnight">Midnight</option>
+          <option value="daltonism-light">Accessible &#9788;</option>
+          <option value="daltonism-dark">Accessible &#9790;</option>
+        </select>
+      </div>
+      <div class="pub-toolbar-group">
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-export-label">Exporter :</span>
+        {% else %}
+        <span class="pub-export-label">Export:</span>
+        {% endif %}
+        <button class="pub-export-btn" id="exportPdf" title="{% if page.permalink contains '/fr/' %}Exporter en PDF{% else %}Export as PDF{% endif %}">PDF</button>
+        <button class="pub-export-btn" id="exportDocx" title="{% if page.permalink contains '/fr/' %}Exporter en DOCX{% else %}Export as DOCX{% endif %}">DOCX</button>
+      </div>
+    </div>
+    {{ content }}
+    {% if page.keywords %}
+    <div class="pub-crossrefs" id="pubCrossrefs"></div>
+    {% endif %}
+  </div>
+  <div class="copy-toast" id="copyToast">Copied!</div>
+  <script>
+    // Theme selector — 4-theme system with localStorage persistence
+    (function() {
+      var select = document.getElementById('themeSelect');
+      if (!select) return;
+      var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+      var saved = localStorage.getItem('knowledge-theme') || 'auto';
+      select.value = saved;
+      var labels = { 'auto': 'Auto', 'cayman': 'Cayman', 'midnight': 'Midnight', 'daltonism-light': 'Accessible \u263C', 'daltonism-dark': 'Accessible \u263E' };
+      var actualTag = isFr ? 'actuel' : 'actual';
+
+      function updateLabels(active) {
+        for (var i = 0; i < select.options.length; i++) {
+          var v = select.options[i].value;
+          if (v === active) {
+            if (v === 'auto') {
+              var resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'Accessible \u263E' : 'Accessible \u263C';
+              select.options[i].textContent = labels[v] + ' \u2192 ' + resolved + ' (' + actualTag + ')';
+            } else {
+              select.options[i].textContent = labels[v] + ' (' + actualTag + ')';
+            }
+          } else {
+            select.options[i].textContent = labels[v];
+          }
+        }
+      }
+
+      function updateWebcard(theme) {
+        var img = document.querySelector('.webcard-header img');
+        var source = document.querySelector('.webcard-header picture source');
+        if (!img) return;
+        var baseSrc = (img.dataset.baseSrc || img.getAttribute('src')).split('?')[0];
+        img.dataset.baseSrc = baseSrc;
+        var isDarkTheme = (theme === 'midnight' || theme === 'daltonism-dark');
+        if (theme === 'auto') {
+          if (source) {
+            source.setAttribute('media', '(prefers-color-scheme: dark)');
+            var dsrc = source.getAttribute('srcset').split('?')[0];
+            source.setAttribute('srcset', dsrc + '?_t=' + Date.now());
+          }
+          var lightSrc = baseSrc.replace('-midnight.gif', '-cayman.gif');
+          img.src = lightSrc + '?_t=' + Date.now();
+        } else {
+          if (source) source.setAttribute('media', 'not all');
+          var targetSrc = isDarkTheme
+            ? baseSrc.replace('-cayman.gif', '-midnight.gif')
+            : baseSrc.replace('-midnight.gif', '-cayman.gif');
+          img.src = targetSrc + '?_t=' + Date.now();
+        }
+        img.onerror = function() {
+          if (!img.dataset.retried) { img.dataset.retried = '1'; img.src = img.src.split('?')[0] + '?_t=' + Date.now(); }
+        };
+      }
+
+      // Update all content <picture> elements (diagrams) to match selected theme.
+      // Diagram images use -cayman/-midnight suffixes, same as webcards.
+      function updateDiagramPictures(theme) {
+        var pictures = document.querySelectorAll('picture');
+        var isDarkTheme = (theme === 'midnight' || theme === 'daltonism-dark');
+        pictures.forEach(function(pic) {
+          if (pic.closest('.webcard-header')) return;
+          var source = pic.querySelector('source[media]');
+          var img = pic.querySelector('img');
+          if (!img) return;
+          var baseSrc = (img.dataset.baseSrc || img.getAttribute('src')).split('?')[0];
+          img.dataset.baseSrc = baseSrc;
+          if (baseSrc.indexOf('-cayman.') < 0 && baseSrc.indexOf('-midnight.') < 0) return;
+          if (theme === 'auto') {
+            if (source) {
+              source.setAttribute('media', '(prefers-color-scheme: dark)');
+              var dsrc = source.getAttribute('srcset').split('?')[0];
+              source.setAttribute('srcset', dsrc + '?_t=' + Date.now());
+            }
+            var lightSrc = baseSrc.replace(/-midnight\./, '-cayman.');
+            img.src = lightSrc + '?_t=' + Date.now();
+          } else {
+            if (source) source.setAttribute('media', 'not all');
+            var targetSrc = isDarkTheme
+              ? baseSrc.replace(/-cayman\./, '-midnight.')
+              : baseSrc.replace(/-midnight\./, '-cayman.');
+            img.src = targetSrc + '?_t=' + Date.now();
+          }
+        });
+      }
+
+      updateLabels(saved);
+      updateWebcard(saved);
+      updateDiagramPictures(saved);
+
+      select.addEventListener('change', function() {
+        var theme = this.value;
+        localStorage.setItem('knowledge-theme', theme);
+        if (theme === 'auto') {
+          document.documentElement.removeAttribute('data-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+        updateLabels(theme);
+        updateWebcard(theme);
+        updateDiagramPictures(theme);
+      });
+
+      // Update Auto label and diagrams when system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if ((localStorage.getItem('knowledge-theme') || 'auto') === 'auto') {
+          updateLabels('auto');
+          updateDiagramPictures('auto');
+        }
+      });
+    })();
+
+    // Mermaid diagram rendering — themed to match active theme, with retry
+    (function() {
+      var themes = {
+        light: {
+          background: '#eff6ff', primaryColor: '#dbeafe', primaryTextColor: '#0f172a',
+          primaryBorderColor: '#1d4ed8', secondaryColor: '#eff6ff', secondaryTextColor: '#475569',
+          secondaryBorderColor: '#93c5fd', tertiaryColor: '#e0f2fe', tertiaryTextColor: '#0f172a',
+          tertiaryBorderColor: '#0284c7', lineColor: '#1d4ed8', textColor: '#0f172a',
+          mainBkg: '#dbeafe', nodeBorder: '#1d4ed8', clusterBkg: '#eff6ff',
+          clusterBorder: '#93c5fd', titleColor: '#1d4ed8', edgeLabelBackground: '#eff6ff', nodeTextColor: '#0f172a'
+        },
+        dark: {
+          background: '#0f172a', primaryColor: '#1e293b', primaryTextColor: '#e2e8f0',
+          primaryBorderColor: '#60a5fa', secondaryColor: '#334155', secondaryTextColor: '#94a3b8',
+          secondaryBorderColor: '#475569', tertiaryColor: '#1e1b4b', tertiaryTextColor: '#e2e8f0',
+          tertiaryBorderColor: '#a78bfa', lineColor: '#60a5fa', textColor: '#e2e8f0',
+          mainBkg: '#1e293b', nodeBorder: '#60a5fa', clusterBkg: '#0f172a',
+          clusterBorder: '#334155', titleColor: '#e2e8f0', edgeLabelBackground: '#1e293b', nodeTextColor: '#e2e8f0'
+        },
+        'daltonism-light': {
+          background: '#faf6f1', primaryColor: '#eee8df', primaryTextColor: '#1a1a2e',
+          primaryBorderColor: '#0055b3', secondaryColor: '#faf6f1', secondaryTextColor: '#5c5c78',
+          secondaryBorderColor: '#d48a3c', tertiaryColor: '#f0ece6', tertiaryTextColor: '#1a1a2e',
+          tertiaryBorderColor: '#b37200', lineColor: '#0055b3', textColor: '#1a1a2e',
+          mainBkg: '#eee8df', nodeBorder: '#0055b3', clusterBkg: '#faf6f1',
+          clusterBorder: '#d48a3c', titleColor: '#0055b3', edgeLabelBackground: '#faf6f1', nodeTextColor: '#1a1a2e'
+        },
+        'daltonism-dark': {
+          background: '#1a1a2e', primaryColor: '#28283e', primaryTextColor: '#e8e4f0',
+          primaryBorderColor: '#5599dd', secondaryColor: '#2a2a3e', secondaryTextColor: '#9494aa',
+          secondaryBorderColor: '#cc8833', tertiaryColor: '#2a1e3e', tertiaryTextColor: '#e8e4f0',
+          tertiaryBorderColor: '#e6a030', lineColor: '#5599dd', textColor: '#e8e4f0',
+          mainBkg: '#28283e', nodeBorder: '#5599dd', clusterBkg: '#1a1a2e',
+          clusterBorder: '#cc8833', titleColor: '#5599dd', edgeLabelBackground: '#28283e', nodeTextColor: '#e8e4f0'
+        }
+      };
+
+      function getThemeKey() {
+        var saved = localStorage.getItem('knowledge-theme') || 'auto';
+        if (saved === 'daltonism-light' || saved === 'daltonism-dark') return saved;
+        if (saved === 'midnight') return 'dark';
+        if (saved === 'cayman') return 'light';
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      function renderMermaid() {
+        if (typeof mermaid === 'undefined') return false;
+        var key = getThemeKey();
+        mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: themes[key] });
+        var blocks = document.querySelectorAll('pre code.language-mermaid, .language-mermaid.highlighter-rouge pre code, .language-mermaid pre code');
+        if (blocks.length === 0) return true;
+        blocks.forEach(function(el) {
+          // Skip Mermaid source blocks preserved for documentation chain (v49)
+          if (el.closest('.mermaid-source')) return;
+          // For Rouge output: replace the entire Rouge wrapper div
+          var rouge = el.closest('.language-mermaid.highlighter-rouge');
+          // For standard output: replace the <pre> parent (NOT el.closest('.language-mermaid')
+          // which would match the <code> element itself and leave the <pre> in place)
+          var wrapper = rouge || el.closest('pre');
+          if (!wrapper) return;
+          var div = document.createElement('div');
+          div.className = 'mermaid';
+          div.textContent = el.textContent;
+          wrapper.parentNode.replaceChild(div, wrapper);
+        });
+        var p = mermaid.run();
+        if (p && typeof p.catch === 'function') p.catch(function(e) { console.warn('Mermaid render error:', e); });
+        return true;
+      }
+
+      if (!renderMermaid()) {
+        var retries = [100, 500, 1500, 3000];
+        retries.forEach(function(delay) {
+          setTimeout(function() { renderMermaid(); }, delay);
+        });
+      }
+    })();
+
+    // Generation timestamp — shows when the page was viewed (top + footer)
+    (function() {
+      var now = new Date();
+      var y = now.getFullYear();
+      var m = String(now.getMonth() + 1).padStart(2, '0');
+      var d = String(now.getDate()).padStart(2, '0');
+      var h = String(now.getHours()).padStart(2, '0');
+      var min = String(now.getMinutes()).padStart(2, '0');
+      var ts = y + '-' + m + '-' + d + ' ' + h + ':' + min;
+      var el = document.getElementById('pubGenDate');
+      if (el) el.textContent = ts;
+    })();
+
+    // PDF/DOCX Export — client-side document conversion
+    (function() {
+      var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+
+      function getCleanContent() {
+        var container = document.querySelector('.container');
+        var clone = container.cloneNode(true);
+        var els = clone.querySelectorAll('.pub-export-toolbar, .back-link, .pub-topbar');
+        els.forEach(function(el) { el.remove(); });
+        clone.querySelectorAll('pre code.language-mermaid, .language-mermaid.highlighter-rouge pre code').forEach(function(el) {
+          var rouge = el.closest('.language-mermaid.highlighter-rouge');
+          (rouge || el.parentElement).remove();
+        });
+        return clone;
+      }
+
+      function getFilename() {
+        return document.title.replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-').substring(0, 80);
+      }
+
+      // PDF export — lazy-loads html2pdf.js from CDN
+      document.getElementById('exportPdf').addEventListener('click', function() {
+        var btn = this;
+        btn.disabled = true;
+        var origText = btn.textContent;
+        btn.textContent = '...';
+
+        function generatePdf() {
+          var content = getCleanContent();
+          var opt = {
+            margin: [15, 15, 15, 15],
+            filename: getFilename() + '.pdf',
+            image: { type: 'jpeg', quality: 0.95 },
+            html2canvas: { scale: 2, useCORS: true, logging: false },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+          };
+          html2pdf().set(opt).from(content).save().then(function() {
+            btn.disabled = false;
+            btn.textContent = origText;
+          }).catch(function() {
+            btn.disabled = false;
+            btn.textContent = origText;
+          });
+        }
+
+        if (typeof html2pdf === 'undefined') {
+          var script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js';
+          script.onload = generatePdf;
+          script.onerror = function() {
+            btn.disabled = false;
+            btn.textContent = origText;
+          };
+          document.head.appendChild(script);
+        } else {
+          generatePdf();
+        }
+      });
+
+      // DOCX export — HTML-to-Word blob (opens in Word, LibreOffice, Google Docs)
+      document.getElementById('exportDocx').addEventListener('click', function() {
+        var content = getCleanContent();
+        var css = 'body{font-family:Calibri,sans-serif;font-size:11pt;line-height:1.5;color:#333;max-width:700pt;margin:0 auto;}' +
+          'h1{font-size:20pt;color:#1d4ed8;margin-bottom:6pt;}' +
+          'h2{font-size:15pt;color:#1d4ed8;border-bottom:1pt solid #93c5fd;padding-bottom:3pt;margin-top:18pt;}' +
+          'h3{font-size:12pt;margin-top:12pt;}' +
+          'table{border-collapse:collapse;width:100%;}' +
+          'th,td{border:1px solid #ccc;padding:3pt 6pt;font-size:9pt;}' +
+          'th{background:#f0f4ff;font-weight:bold;}' +
+          'code{background:#f4f4f4;padding:1pt 3pt;font-family:Consolas,monospace;font-size:9pt;}' +
+          'pre{background:#f4f4f4;padding:6pt;font-family:Consolas,monospace;font-size:9pt;white-space:pre-wrap;}' +
+          'blockquote{border-left:3pt solid #1d4ed8;padding:4pt 8pt;color:#666;font-style:italic;}';
+        var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+          'xmlns:w="urn:schemas-microsoft-com:office:word" ' +
+          'xmlns="http://www.w3.org/TR/REC-html40">' +
+          '<head><meta charset="utf-8"><style>' + css + '</style></head>' +
+          '<body>' + content.innerHTML + '</body></html>';
+        var blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = getFilename() + '.doc';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    })();
+
+    // Multi-column TOC — auto-detect "Contents" / "Table des matières" / "Contenu"
+    (function() {
+      var strongs = document.querySelectorAll('strong');
+      for (var i = 0; i < strongs.length; i++) {
+        var t = strongs[i].textContent.trim();
+        if (t === 'Contents' || t === 'Table des matières' || t === 'Contenu') {
+          var p = strongs[i].parentElement;
+          if (p && p.tagName === 'P') {
+            var ul = p.nextElementSibling;
+            if (ul && ul.tagName === 'UL') {
+              var nav = document.createElement('nav');
+              nav.className = 'toc';
+              var title = document.createElement('div');
+              title.className = 'toc-title';
+              title.textContent = t;
+              nav.appendChild(title);
+              p.parentNode.insertBefore(nav, p);
+              nav.appendChild(ul);
+              p.remove();
+              break;
+            }
+          }
+        }
+      }
+    })();
+
+    // Keywords — cross-references at page bottom (shared with publication layout)
+    (function() {
+      var crossEl = document.getElementById('pubCrossrefs');
+      if (!crossEl) return;
+      var raw = '{{ page.keywords | default: "" }}';
+      if (!raw) return;
+      var txt = document.createElement('textarea');
+      txt.innerHTML = raw;
+      var decoded = txt.value;
+      var keywords = decoded.split(',').map(function(k) { return k.trim(); });
+      var base = '{{ "" | relative_url }}';
+      if (base === '/') base = '';
+      var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+      var p = isFr ? '/fr/publications/' : '/publications/';
+      var map = {
+        'knowledge system': p+'knowledge-system/', 'système de connaissances': p+'knowledge-system/',
+        'bootstrap': p+'knowledge-system/#how-to-use-this-file',
+        'methodology': p+'knowledge-system/', 'méthodologie': p+'knowledge-system/',
+        'portable': p+'knowledge-system/',
+        'embedded': p+'mplib-storage-pipeline/', 'embarqué': p+'mplib-storage-pipeline/',
+        'SQLite': p+'mplib-storage-pipeline/',
+        'RTOS': p+'mplib-storage-pipeline/',
+        'ThreadX': p+'mplib-storage-pipeline/',
+        'pipeline': p+'mplib-storage-pipeline/',
+        'dual-buffer': p+'mplib-storage-pipeline/', 'double tampon': p+'mplib-storage-pipeline/',
+        'PSRAM': p+'mplib-storage-pipeline/',
+        'live session': p+'live-session-analysis/', 'session en direct': p+'live-session-analysis/',
+        'video analysis': p+'live-session-analysis/', 'analyse vidéo': p+'live-session-analysis/',
+        'UART': p+'live-session-analysis/',
+        'frame extraction': p+'live-session-analysis/', "extraction d'images": p+'live-session-analysis/',
+        'OBS': p+'live-session-analysis/',
+        'real-time': p+'live-session-analysis/', 'temps réel': p+'live-session-analysis/',
+        'session persistence': p+'ai-session-persistence/', 'persistance de session': p+'ai-session-persistence/',
+        'Free Guy': p+'ai-session-persistence/',
+        'NPC': p+'ai-session-persistence/',
+        'awareness': p+'ai-session-persistence/', 'conscience': p+'ai-session-persistence/',
+        'sunglasses': p+'ai-session-persistence/', 'lunettes': p+'ai-session-persistence/',
+        'distributed minds': p+'distributed-minds/', 'connaissances distribuées': p+'distributed-minds/',
+        'satellites': p+'distributed-minds/',
+        'bidirectional': p+'distributed-minds/', 'bidirectionnel': p+'distributed-minds/',
+        'knowledge flow': p+'distributed-minds/', 'flux de connaissances': p+'distributed-minds/',
+        'dashboard': p+'distributed-knowledge-dashboard/', 'tableau de bord': p+'distributed-knowledge-dashboard/',
+        'drift': p+'distributed-knowledge-dashboard/', 'dérive': p+'distributed-knowledge-dashboard/',
+        'severity': p+'distributed-knowledge-dashboard/', 'sévérité': p+'distributed-knowledge-dashboard/',
+        'network status': p+'distributed-knowledge-dashboard/', 'état du réseau': p+'distributed-knowledge-dashboard/',
+        'webcards': p+'webcards-social-sharing/',
+        'OG image': p+'webcards-social-sharing/', 'image OG': p+'webcards-social-sharing/',
+        'animated GIF': p+'webcards-social-sharing/', 'GIF animé': p+'webcards-social-sharing/',
+        'social sharing': p+'webcards-social-sharing/', 'partage social': p+'webcards-social-sharing/',
+        'dynamic': p+'webcards-social-sharing/full/#dynamic-webcards--living-knowledge-artifacts',
+        'dynamique': p+'webcards-social-sharing/full/#webcards-dynamiques--artefacts-de-connaissances-vivants',
+        'knowledge artifacts': p+'webcards-social-sharing/full/#dynamic-webcards--living-knowledge-artifacts',
+        'artefacts de connaissances': p+'webcards-social-sharing/full/#webcards-dynamiques--artefacts-de-connaissances-vivants',
+        'normalize': p+'normalize-structure-concordance/', 'normaliser': p+'normalize-structure-concordance/',
+        'concordance': p+'normalize-structure-concordance/',
+        'structure': p+'normalize-structure-concordance/',
+        'validation': p+'normalize-structure-concordance/',
+        'bilingual': p+'normalize-structure-concordance/', 'bilingue': p+'normalize-structure-concordance/',
+        'audit': p+'normalize-structure-concordance/',
+        'harvest': p+'harvest-protocol/', 'récolte': p+'harvest-protocol/',
+        'promotion': p+'harvest-protocol/',
+        'healthcheck': p+'harvest-protocol/', 'bilan de santé': p+'harvest-protocol/',
+        'insights': p+'harvest-protocol/', 'perspectives': p+'harvest-protocol/',
+        'version drift': p+'harvest-protocol/', 'dérive de version': p+'harvest-protocol/',
+        'session': p+'session-management/',
+        'wakeup': p+'session-management/',
+        'refresh': p+'session-management/',
+        'save': p+'session-management/', 'sauvegarde': p+'session-management/',
+        'lifecycle': p+'session-management/', 'cycle de vie': p+'session-management/',
+        'commands': p+'session-management/', 'commandes': p+'session-management/',
+        'persistence': p+'session-management/', 'persistance': p+'session-management/',
+        'notes': p+'session-management/',
+        'security': p+'security-by-design/', 'sécurité': p+'security-by-design/',
+        'PQC': p+'security-by-design/',
+        'access control': p+'security-by-design/', "contrôle d'accès": p+'security-by-design/',
+        'fork safety': p+'security-by-design/', 'fork sûr': p+'security-by-design/',
+        'privacy': p+'security-by-design/', 'confidentialité': p+'security-by-design/',
+        'owner-scoped': p+'security-by-design/', 'portée propriétaire': p+'security-by-design/',
+        'beacon': p+'live-knowledge-network/', 'balise': p+'live-knowledge-network/',
+        'discovery': p+'live-knowledge-network/', 'découverte': p+'live-knowledge-network/',
+        'subnet': p+'live-knowledge-network/', 'sous-réseau': p+'live-knowledge-network/',
+        'inter-instance': p+'live-knowledge-network/',
+        'ML-KEM': p+'live-knowledge-network/',
+        'success stories': p+'success-stories/', 'histoires de succès': p+'success-stories/',
+        'project management': p+'project-management/', 'gestion de projet': p+'project-management/',
+        'news': isFr ? '/fr/news/' : '/news/', 'nouveautés': '/fr/news/',
+        'plan': isFr ? '/fr/plan/' : '/plan/', 'roadmap': '/plan/', 'feuille de route': '/fr/plan/',
+        'links': isFr ? '/fr/links/' : '/links/', 'liens': '/fr/links/',
+        'reference': isFr ? '/fr/links/' : '/links/', 'référence': '/fr/links/',
+        'publications': isFr ? '/fr/publications/' : '/publications/',
+        'projects': isFr ? '/fr/projects/' : '/projects/', 'projets': '/fr/projects/'
+      };
+      var currentPath = window.location.pathname;
+      var links = [];
+      keywords.forEach(function(kw) {
+        var url = map[kw] || map[kw.toLowerCase()];
+        if (url) {
+          var fullUrl = base + url;
+          if (currentPath !== fullUrl && currentPath !== fullUrl.replace(/\/$/, '')) {
+            links.push('<a href="' + fullUrl + '">' + kw + '</a>');
+          }
+        }
+      });
+      if (links.length > 0) {
+        var heading = isFr ? 'Références croisées' : 'Cross-references';
+        crossEl.innerHTML = '<h3>' + heading + '</h3><div class="pub-crossrefs-list">' + links.join('') + '</div>';
+      }
+    })();
+
+    // Copy + LinkedIn Inspector icons for links pages — inventory tables only
+    // Convention: only tables under inventory sections (Hubs, Reference, Profile, Publications)
+    // get inspector/copy icons. Other tables (Counts, etc.) do not.
+    (function() {
+      var path = window.location.pathname;
+      if (path.indexOf('/links') === -1) return;
+      var isFr = path.indexOf('/fr/') !== -1;
+
+      // Inventory section IDs (defined by kramdown auto-IDs from h2 headings)
+      var inventorySections = ['hubs', 'reference-pages', 'pages-de-référence', 'profile', 'profil', 'publications'];
+
+      // Find the parent section h2 ID for a table
+      function isInventoryTable(table) {
+        var el = table.previousElementSibling;
+        while (el) {
+          if (el.tagName === 'H2' && el.id) {
+            return inventorySections.indexOf(el.id) !== -1;
+          }
+          // Stop at preceding hr (section separator)
+          if (el.tagName === 'HR') {
+            el = el.previousElementSibling;
+            continue;
+          }
+          el = el.previousElementSibling;
+        }
+        return false;
+      }
+
+      document.querySelectorAll('table').forEach(function(table) {
+        if (!isInventoryTable(table)) return;
+        table.querySelectorAll('a[href]').forEach(function(a) {
+        var href = a.getAttribute('href');
+        if (!href || href.charAt(0) === '#' || href.indexOf('linkedin.com') !== -1 || href.indexOf('github.com') !== -1) return;
+        var fullUrl = a.href;
+
+        // LinkedIn Inspector icon — branded "in" box, opens in new tab
+        var liUrl = 'https://www.linkedin.com/post-inspector/inspect/' + fullUrl.replace(/\//g, '%2F');
+        var liBtn = document.createElement('a');
+        liBtn.href = liUrl;
+        liBtn.target = '_blank';
+        liBtn.rel = 'noopener';
+        liBtn.className = 'copy-link-btn';
+        liBtn.innerHTML = '<span style="display:inline-block;background:#0a66c2;color:#fff;font-size:7px;font-weight:700;line-height:11px;width:11px;height:11px;text-align:center;border-radius:2px;font-family:Arial,sans-serif">in</span>';
+        liBtn.title = 'LinkedIn Post Inspector';
+        liBtn.style.textDecoration = 'none';
+
+        // Copy icon (📋)
+        var copyBtn = document.createElement('span');
+        copyBtn.className = 'copy-link-btn';
+        copyBtn.textContent = '\uD83D\uDCCB';
+        copyBtn.title = isFr ? 'Copier le lien' : 'Copy link';
+        copyBtn.style.marginRight = '0.4em';
+        copyBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          navigator.clipboard.writeText(fullUrl).then(function() {
+            copyBtn.classList.add('copied');
+            copyBtn.textContent = '\u2705';
+            var toast = document.getElementById('copyToast');
+            toast.textContent = (isFr ? 'Copi\u00e9 : ' : 'Copied: ') + fullUrl;
+            toast.classList.add('show');
+            setTimeout(function() {
+              copyBtn.classList.remove('copied');
+              copyBtn.textContent = '\uD83D\uDCCB';
+              toast.classList.remove('show');
+            }, 1500);
+          });
+        });
+
+        // Insert both icons BEFORE the link: [in] 📋 [link]
+        a.parentNode.insertBefore(liBtn, a);
+        a.parentNode.insertBefore(copyBtn, a);
+        });
+      });
+    })();
+
+    // Table column convention for links pages
+    // All tables: full page width, fixed layout, equal remaining columns
+    // Convention: tables with small first column (#/index) — col1+col2 = "effective first column"
+    // The effective first column is the REFERENCE width for all tables
+    // Remaining columns after the reference are equal-width
+    // Tables with same column count have identical column proportions
+    (function() {
+      var path = window.location.pathname;
+      if (path.indexOf('/links') === -1) return;
+
+      var tables = document.querySelectorAll('table');
+
+      // Step 1: temporarily compact # columns for measurement
+      tables.forEach(function(table) {
+        var th = table.querySelector('th');
+        if (th && th.textContent.trim().length <= 2) {
+          table.querySelectorAll('tr th:first-child, tr td:first-child').forEach(function(cell) {
+            cell.style.width = '1%';
+            cell.style.whiteSpace = 'nowrap';
+          });
+        }
+      });
+      void document.body.offsetHeight; // force reflow
+
+      // Step 2: measure reference from small-first table (# + Title rendered width)
+      var refWidth = 0, compactWidth = 0;
+      tables.forEach(function(table) {
+        var ths = table.querySelectorAll('th');
+        if (ths.length < 2 || ths[0].textContent.trim().length > 2) return;
+        var cw = ths[0].getBoundingClientRect().width;
+        var w = cw + ths[1].getBoundingClientRect().width;
+        if (w > refWidth) { refWidth = w; compactWidth = cw; }
+      });
+      if (!refWidth) return;
+
+      var containerW = tables[0].getBoundingClientRect().width || 860;
+      var refPct = (refWidth / containerW) * 100;
+      var compactPct = (compactWidth / containerW) * 100;
+
+      // Step 3: apply fixed layout + colgroup — equal remaining columns
+      tables.forEach(function(table) {
+        // Clean up temporary inline styles
+        table.querySelectorAll('tr th:first-child, tr td:first-child').forEach(function(cell) {
+          cell.style.width = '';
+        });
+
+        var ths = table.querySelectorAll('th');
+        if (!ths.length) return;
+        var cols = ths.length;
+        var isSmall = ths[0].textContent.trim().length <= 2;
+
+        table.style.tableLayout = 'fixed';
+        var old = table.querySelector('colgroup');
+        if (old) old.remove();
+
+        var cg = document.createElement('colgroup');
+        if (isSmall && cols >= 2) {
+          // # column compact, Title fills to reference, rest equal
+          var rest = cols - 2;
+          var rp = rest > 0 ? (100 - refPct) / rest : 0;
+          addCol(cg, compactPct);
+          addCol(cg, refPct - compactPct);
+          for (var i = 0; i < rest; i++) addCol(cg, rp);
+        } else {
+          // First column = reference, rest equal
+          var rest = cols - 1;
+          var rp = rest > 0 ? (100 - refPct) / rest : 0;
+          addCol(cg, refPct);
+          for (var i = 0; i < rest; i++) addCol(cg, rp);
+        }
+        table.insertBefore(cg, table.firstChild);
+      });
+
+      function addCol(cg, pct) {
+        var c = document.createElement('col');
+        c.style.width = pct + '%';
+        cg.appendChild(c);
+      }
+    })();
+  </script>
+
+  {% if page.board %}
+  <!-- Board Widget — multi-instance, per-section filtering -->
+  <script>
+  (function() {
+    // Collect all widget containers: #board-widget (main) + .board-widget (section)
+    var mainEl = document.getElementById('board-widget');
+    var sectionEls = document.querySelectorAll('.board-section-widget');
+    var allWidgets = [];
+    if (mainEl) allWidgets.push({ el: mainEl, section: null, isMain: true });
+    for (var w = 0; w < sectionEls.length; w++) {
+      allWidgets.push({ el: sectionEls[w], section: sectionEls[w].getAttribute('data-board-section'), isMain: false });
+    }
+    if (!allWidgets.length) return;
+
+    var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+    var baseUrl = '{{ site.baseurl }}';
+    var boardNum = '{{ page.board_number | default: "4" }}';
+    var dataUrl = baseUrl + '/data/board-' + boardNum + '.json';
+    var allItems = [];
+    var meta = {};
+
+    // Labels
+    var L = isFr ? {
+      title:'Tableau de bord du projet', status:'Statut', type:'Type',
+      itemTitle:'Titre', actions:'Actions', filter:'Filtre',
+      all:'Tous', active:'Actifs', inProgress:'En cours',
+      todo:'À faire', done:'Terminé', lastSync:'Dernière sync',
+      noItems:'Aucun élément', min:'min', hour:'h', board:'Tableau',
+      view:'Voir sur GitHub', edit:'Modifier', close:'Fermer', reopen:'Rouvrir',
+      section_ongoing:'En cours', section_fixes:'Corrections',
+      section_planned:'Planifié', section_forecast:'Prévisions', section_recalls:'Rappels',
+      section_done:'Terminé'
+    } : {
+      title:'Project Board', status:'Status', type:'Type',
+      itemTitle:'Title', actions:'Actions', filter:'Filter',
+      all:'All', active:'Active', inProgress:'In Progress',
+      todo:'Todo', done:'Done', lastSync:'Last synced',
+      noItems:'No items', min:'min', hour:'h', board:'Board',
+      view:'View on GitHub', edit:'Edit', close:'Close', reopen:'Reopen',
+      section_ongoing:'Ongoing', section_fixes:'Fixes',
+      section_planned:'Planned', section_forecast:'Forecast', section_recalls:'Recalls',
+      section_done:'Done'
+    };
+
+    // SVG icons (inline, transparent bg, 14x14)
+    var ICONS = {
+      view: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+      edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+      close: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><line x1="6" y1="6" x2="18" y2="18" stroke="#ef4444"/><line x1="18" y1="6" x2="6" y2="18" stroke="#ef4444"/></svg>',
+      reopen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>'
+    };
+
+    function fetchData() {
+      // Spin all refresh icons
+      for (var r = 0; r < allWidgets.length; r++) {
+        var ri = allWidgets[r].el.querySelector('.board-refresh-icon');
+        if (ri) ri.classList.add('board-refreshing');
+      }
+
+      fetch(dataUrl + '?_t=' + Date.now())
+        .then(function(resp) { return resp.json(); })
+        .then(function(data) {
+          meta = data.meta || {};
+          allItems = data.items || [];
+          renderAll();
+        })
+        .catch(function() {
+          for (var e = 0; e < allWidgets.length; e++) {
+            if (!allItems.length) {
+              allWidgets[e].el.innerHTML = '<div class="board-empty">' +
+                (isFr ? 'Impossible de charger les données.' : 'Unable to load board data.') + '</div>';
+            }
+          }
+        })
+        .finally(function() {
+          for (var f = 0; f < allWidgets.length; f++) {
+            var fi = allWidgets[f].el.querySelector('.board-refresh-icon');
+            if (fi) fi.classList.remove('board-refreshing');
+          }
+        });
+    }
+
+    function renderAll() {
+      for (var i = 0; i < allWidgets.length; i++) {
+        renderWidget(allWidgets[i]);
+      }
+    }
+
+    function renderWidget(w) {
+      var container = w.el;
+      var section = w.section;
+      var isMain = w.isMain;
+      var uid = 'bw-' + (section || 'main');
+      var pk = 'board-' + window.location.pathname + '-' + uid;
+
+      // Per-widget state
+      var sortCol = localStorage.getItem(pk + '-sc') || 'status_priority';
+      var sortDir = localStorage.getItem(pk + '-sd') || 'asc';
+      // Default filter per section type
+      // All sections default to 'active' (In Progress + Todo), except 'done' which shows Done
+      var defaultFilter = (section === 'done') ? 'done' : 'active';
+      var filter = localStorage.getItem(pk + '-f') || defaultFilter;
+
+      // Pre-filter by section
+      var base = section ? allItems.filter(function(it) { return it.section === section; }) : allItems;
+
+      // Apply status filter
+      var filtered = statusFilter(base, filter);
+      var sorted = sortArr(filtered, sortCol, sortDir);
+
+      var h = '';
+      var filterHtml = '<div class="board-filter"><select class="board-filter-sel" data-uid="' + uid + '">' +
+        opt('active', L.active) + opt('all', L.all) +
+        opt('inProgress', L.inProgress) + opt('todo', L.todo) + opt('done', L.done) +
+      '</select></div>';
+
+      if (isMain) {
+        // Full header with title, filter, and sync info
+        h += '<div class="board-header">' +
+          '<h3>' + L.title + '</h3>' +
+          '<div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">' +
+            filterHtml + syncMeta() +
+          '</div>' +
+        '</div>';
+      } else {
+        // Section header with filter and sync info
+        h += '<div class="board-header board-header-section">' +
+          '<div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">' +
+            filterHtml + syncMeta() +
+          '</div>' +
+        '</div>';
+      }
+
+      if (!sorted.length) {
+        h += '<div class="board-empty">' + L.noItems + '</div>';
+      } else {
+        h += '<div class="board-table-wrap"><table class="board-table"><thead><tr>' +
+          thCell(sortCol, sortDir, 'status_priority', L.status) +
+          thCell(sortCol, sortDir, 'type', L.type) +
+          thCell(sortCol, sortDir, 'title', L.itemTitle) +
+          '<th>' + L.actions + '</th>' +
+          '</tr></thead><tbody>';
+        for (var i = 0; i < sorted.length; i++) {
+          h += buildRow(sorted[i]);
+        }
+        h += '</tbody></table></div>';
+      }
+
+      container.innerHTML = h;
+
+      // Bind filter dropdown
+      var filterSel = container.querySelector('.board-filter-sel');
+      if (filterSel) {
+        filterSel.value = filter;
+        filterSel.addEventListener('change', function() {
+          localStorage.setItem(pk + '-f', this.value);
+          renderWidget(w);
+        });
+      }
+
+      // Bind sort headers
+      var ths = container.querySelectorAll('.board-th-sort');
+      for (var j = 0; j < ths.length; j++) {
+        (function(el) {
+          el.addEventListener('click', function() {
+            var col = el.getAttribute('data-col');
+            var newDir = 'asc';
+            if (localStorage.getItem(pk + '-sc') === col) {
+              newDir = localStorage.getItem(pk + '-sd') === 'asc' ? 'desc' : 'asc';
+            }
+            localStorage.setItem(pk + '-sc', col);
+            localStorage.setItem(pk + '-sd', newDir);
+            renderWidget(w);
+          });
+        })(ths[j]);
+      }
+    }
+
+    function syncMeta() {
+      return '<div class="board-meta">' +
+        '<span class="board-refresh-icon">🔄</span> ' +
+        L.lastSync + ': ' + formatAge(meta.synced_at) +
+        ' · <a href="' + esc(meta.board_url || '') + '" target="_blank">' +
+        L.board + ' #' + (meta.board_number || boardNum) + '</a>' +
+      '</div>';
+    }
+
+    function opt(val, label) {
+      return '<option value="' + val + '">' + label + '</option>';
+    }
+
+    function thCell(curCol, curDir, col, label) {
+      var arrow = curCol === col ? (curDir === 'asc' ? ' ▲' : ' ▼') : '';
+      var arrowHtml = arrow ? '<span class="board-sort-arrow">' + arrow + '</span>' : '';
+      return '<th class="board-th-sort" data-col="' + col + '">' + label + arrowHtml + '</th>';
+    }
+
+    function buildRow(item) {
+      var typeCell;
+      if (item.type === 'issue' && item.issue_url) {
+        typeCell = '<a class="board-type-link" href="' + esc(item.issue_url) + '" target="_blank">#' + item.issue_number + '</a>';
+      } else {
+        typeCell = '<span class="board-type-draft">Draft</span>';
+      }
+
+      var actionsHtml = '<div class="board-actions">';
+      var viewUrl = item.issue_url || item.board_url || '#';
+      actionsHtml += '<a class="board-action" href="' + esc(viewUrl) + '" target="_blank" title="' + L.view + '">' + ICONS.view + '</a>';
+      actionsHtml += '<a class="board-action" href="' + esc(viewUrl) + '" target="_blank" title="' + L.edit + '">' + ICONS.edit + '</a>';
+
+      if (item.actions && item.actions.indexOf('close') >= 0 && item.issue_url) {
+        actionsHtml += '<a class="board-action board-action-close" href="' + esc(item.issue_url) + '" target="_blank" title="' + L.close + '">' + ICONS.close + '</a>';
+      }
+      if (item.actions && item.actions.indexOf('reopen') >= 0 && item.issue_url) {
+        actionsHtml += '<a class="board-action board-action-reopen" href="' + esc(item.issue_url) + '" target="_blank" title="' + L.reopen + '">' + ICONS.reopen + '</a>';
+      }
+      actionsHtml += '</div>';
+
+      // Show labels if present
+      var labelsHtml = '';
+      if (item.labels && item.labels.length) {
+        for (var li = 0; li < item.labels.length; li++) {
+          var lbl = item.labels[li];
+          labelsHtml += ' <span class="board-label" style="background:#' + esc(lbl.color || '666') + '">' + esc(lbl.name) + '</span>';
+        }
+      }
+
+      return '<tr>' +
+        '<td class="board-status">' + item.status_emoji + ' ' + esc(item.status) + '</td>' +
+        '<td>' + typeCell + '</td>' +
+        '<td>' + esc(item.title) + labelsHtml + '</td>' +
+        '<td>' + actionsHtml + '</td>' +
+        '</tr>';
+    }
+
+    function sortArr(arr, col, dir) {
+      var a = arr.slice();
+      a.sort(function(x, y) {
+        var xv = x[col], yv = y[col];
+        if (typeof xv === 'string') xv = xv.toLowerCase();
+        if (typeof yv === 'string') yv = yv.toLowerCase();
+        if (xv < yv) return dir === 'asc' ? -1 : 1;
+        if (xv > yv) return dir === 'asc' ? 1 : -1;
+        var xt = (x.title || '').toLowerCase(), yt = (y.title || '').toLowerCase();
+        return xt < yt ? -1 : xt > yt ? 1 : 0;
+      });
+      return a;
+    }
+
+    function statusFilter(arr, f) {
+      if (f === 'all') return arr;
+      if (f === 'active') return arr.filter(function(i) { return i.status === 'In Progress' || i.status === 'Todo'; });
+      if (f === 'inProgress') return arr.filter(function(i) { return i.status === 'In Progress'; });
+      if (f === 'todo') return arr.filter(function(i) { return i.status === 'Todo'; });
+      if (f === 'done') return arr.filter(function(i) { return i.status === 'Done'; });
+      return arr;
+    }
+
+    function formatAge(iso) {
+      if (!iso) return '—';
+      var diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+      if (diff < 1) return isFr ? 'à l\'instant' : 'just now';
+      if (diff < 60) return diff + ' ' + L.min + (isFr ? '' : ' ago');
+      var h = Math.floor(diff / 60);
+      return h + ' ' + L.hour + (isFr ? '' : ' ago');
+    }
+
+    function esc(s) {
+      if (!s) return '';
+      var d = document.createElement('div');
+      d.appendChild(document.createTextNode(s));
+      return d.innerHTML;
+    }
+
+    // Init — single fetch, render all widgets
+    fetchData();
+  })();
+  </script>
+  {% endif %}
+
+  {% if page.project_boards %}
+  <!-- Project Board Widgets — multi-board, compact per-project -->
+  <script>
+  (function() {
+    var widgets = document.querySelectorAll('.project-board-widget');
+    if (!widgets.length) return;
+
+    var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+    var baseUrl = '{{ site.baseurl }}';
+
+    var L = isFr ? {
+      lastSync:'Sync', noItems:'Aucun élément actif', status:'Statut', type:'Type',
+      itemTitle:'Titre', active:'actifs', done:'terminés', min:'min', hour:'h', day:'j',
+      view:'Voir sur GitHub', notSynced:'Données non synchronisées.'
+    } : {
+      lastSync:'Synced', noItems:'No active items', status:'Status', type:'Type',
+      itemTitle:'Title', active:'active', done:'done', min:'min', hour:'h', day:'d',
+      view:'View on GitHub', notSynced:'Board data not yet synced.'
+    };
+
+    // Group widgets by board number
+    var groups = {};
+    for (var i = 0; i < widgets.length; i++) {
+      var bn = widgets[i].getAttribute('data-board-number');
+      if (!groups[bn]) groups[bn] = [];
+      groups[bn].push(widgets[i]);
+    }
+
+    // Fetch and render each board independently
+    Object.keys(groups).forEach(function(bn) {
+      var url = baseUrl + '/data/board-' + bn + '.json';
+      var boardUrl = 'https://github.com/users/packetqc/projects/' + bn;
+
+      fetch(url + '?_t=' + Date.now())
+        .then(function(resp) {
+          if (!resp.ok) throw new Error('Not found');
+          return resp.json();
+        })
+        .then(function(data) {
+          var items = data.items || [];
+          var boardMeta = data.meta || {};
+          groups[bn].forEach(function(el) {
+            renderProjectBoard(el, items, boardMeta, bn, boardUrl);
+          });
+        })
+        .catch(function() {
+          groups[bn].forEach(function(el) {
+            el.innerHTML = '<div class="board-widget"><div class="board-empty">' +
+              L.notSynced + ' <a href="' + boardUrl + '" target="_blank">' + L.view + ' →</a></div></div>';
+          });
+        });
+    });
+
+    function renderProjectBoard(el, items, meta, bn, boardUrl) {
+      var active = items.filter(function(i) { return i.status === 'In Progress' || i.status === 'Todo'; });
+      var doneCount = items.filter(function(i) { return i.status === 'Done'; }).length;
+
+      var h = '<div class="board-widget">';
+
+      // Compact header: sync time + counts
+      h += '<div class="board-header"><div class="board-meta">' +
+        '<span class="board-refresh-icon">🔄</span> ' +
+        L.lastSync + ': ' + formatAge(meta.synced_at) +
+        ' · ' + active.length + ' ' + L.active +
+        ' · ' + doneCount + ' ' + L.done +
+        ' · <a href="' + esc(boardUrl) + '" target="_blank">' + L.view + ' →</a>' +
+        '</div></div>';
+
+      if (!active.length) {
+        h += '<div class="board-empty">' + L.noItems + '</div>';
+      } else {
+        // Sort: In Progress first, then Todo, alphabetical within
+        active.sort(function(a, b) {
+          if ((a.status_priority || 0) !== (b.status_priority || 0)) return (a.status_priority || 0) - (b.status_priority || 0);
+          return (a.title || '').localeCompare(b.title || '');
+        });
+
+        h += '<div class="board-table-wrap"><table class="board-table"><thead><tr>' +
+          '<th>' + L.status + '</th>' +
+          '<th>' + L.type + '</th>' +
+          '<th>' + L.itemTitle + '</th>' +
+          '</tr></thead><tbody>';
+
+        for (var i = 0; i < active.length; i++) {
+          var item = active[i];
+          var typeCell = (item.type === 'issue' && item.issue_url)
+            ? '<a class="board-type-link" href="' + esc(item.issue_url) + '" target="_blank">#' + item.issue_number + '</a>'
+            : '<span class="board-type-draft">Draft</span>';
+          var labelsHtml = '';
+          if (item.labels && item.labels.length) {
+            for (var li = 0; li < item.labels.length; li++) {
+              var lbl = item.labels[li];
+              labelsHtml += ' <span class="board-label" style="background:#' + esc(lbl.color || '666') + '">' + esc(lbl.name) + '</span>';
+            }
+          }
+          h += '<tr>' +
+            '<td class="board-status">' + item.status_emoji + ' ' + esc(item.status) + '</td>' +
+            '<td>' + typeCell + '</td>' +
+            '<td>' + esc(item.title) + labelsHtml + '</td>' +
+            '</tr>';
+        }
+        h += '</tbody></table></div>';
+      }
+
+      h += '</div>';
+      el.innerHTML = h;
+    }
+
+    function formatAge(iso) {
+      if (!iso) return '—';
+      var diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+      if (diff < 1) return isFr ? 'à l\'instant' : 'just now';
+      if (diff < 60) return diff + ' ' + L.min + (isFr ? '' : ' ago');
+      var hrs = Math.floor(diff / 60);
+      if (hrs < 24) return hrs + ' ' + L.hour + (isFr ? '' : ' ago');
+      var d = Math.floor(hrs / 24);
+      return d + L.day + (isFr ? '' : ' ago');
+    }
+
+    function esc(s) {
+      if (!s) return '';
+      var d = document.createElement('div');
+      d.appendChild(document.createTextNode(s));
+      return d.innerHTML;
+    }
+  })();
+  </script>
+  {% endif %}
+
+  <script>
+  /* External links open in new window — solves iframe X-Frame-Options blocks */
+  (function(){
+    var host = window.location.hostname;
+    document.querySelectorAll('a[href]').forEach(function(a){
+      var h = a.hostname;
+      if (h && h !== host && !a.getAttribute('target')) {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener');
+      }
+    });
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
+      if (!a.getAttribute('target')) {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener');
+      }
+    });
+  })();
+  </script>
+
+  <!-- version.json live fetch — runtime version display with build-time fallback -->
+  <script>
+  (function() {
+    var JSON_URL = '{{ "/data/version.json" | relative_url }}';
+    var RAW_URL = 'https://raw.githubusercontent.com/{{ site.github_repo | default: "packetqc/knowledge" }}/main/docs/data/version.json';
+    var RAW_FALLBACK = 'https://raw.githubusercontent.com/{{ site.github_repo | default: "packetqc/knowledge" }}/main/docs/data/version.json';
+    function formatVersionDisplay(v) {
+      var display = v.version;
+      if (v.datetime) display += ' (' + v.datetime + ')';
+      return display;
+    }
+    function applyVersion(v) {
+      var display = formatVersionDisplay(v);
+      var els = document.querySelectorAll('[data-kv-live]');
+      for (var i = 0; i < els.length; i++) {
+        els[i].textContent = display;
+      }
+    }
+    function tryFetch(url, fallback1, fallback2) {
+      fetch(url, { cache: 'no-store' }).then(function(r) {
+        if (!r.ok && fallback1) return fetch(fallback1, { cache: 'no-store' });
+        if (!r.ok) throw new Error(r.status);
+        return r;
+      }).then(function(r) {
+        if (!r.ok && fallback2) return fetch(fallback2, { cache: 'no-store' });
+        if (!r.ok) throw new Error(r.status);
+        return r;
+      }).then(function(r) { return r.json(); }).then(function(v) {
+        if (v && v.version) applyVersion(v);
+      }).catch(function() { /* build-time values remain — silent fallback */ });
+    }
+    tryFetch(JSON_URL, RAW_URL, RAW_FALLBACK);
+  })();
+  </script>
+
+  <script>
+  // PostMessage listener — parent (Main Navigator) can control orientation
+  (function() {
+    if (window.self === window.top) return;
+    window.addEventListener('message', function(e) {
+      if (!e.data || e.data.type !== 'set-orientation') return;
+      var orient = e.data.orient;
+      if (orient === 'landscape') { document.body.classList.add('landscape'); }
+      else { document.body.classList.remove('landscape'); }
+      // Persist — so "Open in new tab" gets same orientation
+      var perPageKey = 'knowledge-orient:' + location.pathname.replace(/\/+$/, '');
+      localStorage.setItem('knowledge-orient', orient);
+      localStorage.setItem(perPageKey, orient);
+    });
+  })();
+  </script>
+
+</body>
+</html>

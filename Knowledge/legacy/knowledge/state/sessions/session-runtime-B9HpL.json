@@ -1,0 +1,15 @@
+{
+  "version": 3,
+  "session_id": "claude/add-session-notes-issue-B9HpL",
+  "repo": "packetqc/knowledge",
+  "issue_number": 614,
+  "issue_title": "Custom avatars for issue comments",
+  "branch": "claude/add-session-notes-issue-B9HpL",
+  "mode": "normal",
+  "created": "2026-03-03T15:36:25.021122+00:00",
+  "updated": "2026-03-03T15:52:14.923092+00:00",
+  "agent_initialized": true,
+  "request_description": "Replace emoji avatars with vicky.png (Martin) and vicky-sunglasses.png (Claude) in issue comment templates.",
+  "clip_mode": "discard",
+  "session_data": {}
+}
