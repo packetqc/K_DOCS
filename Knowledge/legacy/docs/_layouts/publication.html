@@ -821,6 +821,45 @@
       .story-row-left { width: auto; min-width: auto; }
     }
 
+    /* Fullscreen toggle button — matches export toolbar style */
+    .pub-fullscreen-btn {
+      background: var(--code-bg);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      font-family: inherit;
+    }
+    .pub-fullscreen-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    /* Floating exit-fullscreen FAB (visible only in fullscreen) */
+    .pub-fs-exit-fab {
+      display: none;
+      position: fixed;
+      bottom: 1.5rem; right: 1.5rem;
+      z-index: 99999;
+      width: 2.8rem; height: 2.8rem;
+      border-radius: 50%;
+      background: var(--accent, #0055b3);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+      font-size: 1.4rem; font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      align-items: center; justify-content: center;
+    }
+    .pub-fs-exit-fab:hover { opacity: 0.85; }
+    :fullscreen .pub-fs-exit-fab,
+    :-webkit-full-screen .pub-fs-exit-fab { display: flex; }
+    @media print { .pub-fullscreen-btn, .pub-fs-exit-fab { display: none !important; } }
+
     /* Mermaid source preservation — hide collapsible source blocks on web pages.
        Source is preserved in git markdown for documentation generation chain,
        but excluded from web rendering to avoid mermaid.js conflicts (v49). */
@@ -974,12 +1013,15 @@
         {% if page.permalink contains '/fr/' %}
         <button class="pub-export-btn" id="exportPdf" title="Exporter en PDF">&#x1F5A8; PDF</button>
         <button class="pub-export-btn" id="exportDocx" title="Exporter en DOCX">&#x1F4C4; DOCX</button>
+        <button class="pub-fullscreen-btn" id="pubFullscreenBtn" onclick="pubToggleFullscreen()" title="Plein écran">&#x26F6; Plein écran</button>
         {% else %}
         <button class="pub-export-btn" id="exportPdf" title="Export as PDF">&#x1F5A8; PDF</button>
         <button class="pub-export-btn" id="exportDocx" title="Export as DOCX">&#x1F4C4; DOCX</button>
+        <button class="pub-fullscreen-btn" id="pubFullscreenBtn" onclick="pubToggleFullscreen()" title="Fullscreen">&#x26F6; Fullscreen</button>
         {% endif %}
       </div>
     </div>
+    <button class="pub-fs-exit-fab" id="pubFsExitFab" onclick="pubToggleFullscreen()" title="Exit fullscreen">&#x2715;</button>
     <style id="printSizeStyle"></style>
 
     <!-- Print-only cover page — hidden in web, page 1 in PDF -->
@@ -1007,6 +1049,23 @@
   </div>
   <div class="copy-toast" id="copyToast">Copied to clipboard!</div>
 
+  <script>
+    // ===== Fullscreen toggle (all pages) =====
+    function pubToggleFullscreen() {
+      if (document.fullscreenElement) { document.exitFullscreen(); }
+      else { document.documentElement.requestFullscreen(); }
+    }
+    document.addEventListener('fullscreenchange', function() {
+      var btn = document.getElementById('pubFullscreenBtn');
+      if (!btn) return;
+      var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+      if (document.fullscreenElement) {
+        btn.innerHTML = '&#x26F6; ' + (isFr ? 'Quitter' : 'Exit');
+      } else {
+        btn.innerHTML = '&#x26F6; ' + (isFr ? 'Plein \u00e9cran' : 'Fullscreen');
+      }
+    });
+  </script>
   <script>
     // ===== Iframe embed mode — insert open-in-new-tab bar =====
     (function() {
