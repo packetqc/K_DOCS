@@ -39,6 +39,14 @@ dev_banner: "Interface in development — requires API key configuration. Featur
   --ci-sidebar-bg: #1a1a2e;
 }
 
+/* ═══ Safe area — extend into notch/status bar area on mobile ═══ */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .ci-root {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
 /* ═══ Layout ═══ */
 .ci-root {
   display: flex; height: calc(100vh - 2rem); gap: 0;
@@ -174,6 +182,19 @@ dev_banner: "Interface in development — requires API key configuration. Featur
 .ci-validate-msg.ok { color: var(--ci-success, #16a34a); }
 .ci-validate-msg.err { color: #dc2626; }
 
+/* ═══ Development banner ═══ */
+.ci-dev-banner {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1rem; flex-shrink: 0;
+  background: #fffbeb; border-bottom: 1px solid #fde68a;
+  color: #92400e; font-size: 0.8rem; line-height: 1.4;
+}
+[data-theme="midnight"] .ci-dev-banner,
+[data-theme="dark"] .ci-dev-banner {
+  background: #451a03; border-color: #92400e; color: #fde68a;
+}
+.ci-dev-banner-icon { font-size: 1rem; flex-shrink: 0; }
+
 /* ═══ Responsive ═══ */
 @media (max-width: 700px) {
   .ci-sidebar { display: none; }
@@ -189,6 +210,11 @@ dev_banner: "Interface in development — requires API key configuration. Featur
       <span class="ci-toolbar-spacer"></span>
       <span class="ci-status" id="ci-status">disconnected</span>
       <a class="iface-info-btn" data-pub="guide-claude-interface" title="User Guide">&#8505;</a>
+    </div>
+
+    <div class="ci-dev-banner">
+      <span class="ci-dev-banner-icon">&#9888;</span>
+      <span><strong>Development Build</strong> — Claude Interface is under active development. Features and layout may change between sessions.</span>
     </div>
 
     <!-- Setup screen (shown when no API key) -->

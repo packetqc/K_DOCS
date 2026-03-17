@@ -23,6 +23,16 @@ dev_banner: "Interface in development — features and layout may change between
 html { margin: 0; padding: 0; height: 100%; }
 body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
 
+/* ═══ Safe area — extend into notch/status bar area on mobile ═══ */
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
 /* ═══ Discrete thin scrollbars ═══ */
 *, *::before, *::after {
   scrollbar-width: thin;
@@ -67,7 +77,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-grid {
   flex: 1; min-height: 0; display: grid; overflow: hidden;
   position: relative;
-  grid-template-columns: 220px 14px 1fr 14px 0px;
+  grid-template-columns: 220px 45px 1fr 45px 0px;
   grid-template-rows: 1fr;
   margin: 0.3rem 0.4rem 0.25rem;
   border: 1px solid var(--border, #d0d7de);
@@ -97,7 +107,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   cursor: col-resize; user-select: none;
   transition: background 0.15s ease;
   position: relative;
-  min-width: 14px;
+  min-width: 45px;
   z-index: 10;
 }
 .nav-divider-left { grid-column: 2; }
@@ -299,9 +309,9 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 /* ═══ Mobile — shrink dividers for touch screens ═══ */
 @media (max-width: 768px) {
-  .nav-divider-left, .nav-divider-right { min-width: 8px; }
+  .nav-divider-left, .nav-divider-right { min-width: 30px; }
   .nav-divider-left::before, .nav-divider-right::before { font-size: 0.55rem; }
-  .nav-grid { grid-template-columns: 0px 8px 1fr 8px 0px; }
+  .nav-grid { grid-template-columns: 0px 30px 1fr 30px 0px; }
 }
 
 /* ═══ Print / PDF export — center panel content after cover page ═══ */
@@ -376,7 +386,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   if (!panel || !grid) return;
 
   /* ─── Panel sizes — draggable + click-to-step ─── */
-  var DIVIDER_W = (window.innerWidth <= 768) ? 8 : 14;
+  var DIVIDER_W = (window.innerWidth <= 768) ? 30 : 45;
   var LEFT_STEPS = [0, 220, 320];
   var savedLeft = parseInt(localStorage.getItem(LPANEL_KEY) || '220');
   var savedRight = parseInt(localStorage.getItem(RPANEL_KEY) || '0');
