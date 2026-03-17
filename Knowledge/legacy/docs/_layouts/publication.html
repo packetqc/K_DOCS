@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+{% if page.permalink contains '/fr/' %}<html lang="fr">{% else %}<html lang="en">{% endif %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>{{ page.title }}</title>
+
+  <!-- Open Graph — LinkedIn, Facebook, Twitter -->
+  <meta property="og:title" content="{{ page.title }}" />
+  <meta property="og:description" content="{{ page.description }}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{ page.url | absolute_url }}" />
+  <meta property="og:site_name" content="{{ site.title | default: 'Knowledge' }}" />
+  <meta property="article:author" content="Martin Paquet" />
+  <meta property="article:published_time" content="{{ page.date | default: '2026-02-16' }}" />
+  {% if page.og_image %}<meta property="og:image" content="{{ page.og_image | absolute_url }}" />{% endif %}
+  {% unless page.page_type == 'interface' %}{% if page.og_image %}<link rel="preload" as="image" href="{{ page.og_image | relative_url }}" fetchpriority="high" />{% endif %}{% endunless %}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ page.title }}" />
+  <meta name="twitter:description" content="{{ page.description }}" />
+  {% if page.og_image %}<meta name="twitter:image" content="{{ page.og_image | absolute_url }}" />{% endif %}
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ page.url | absolute_url }}" />
+
+  <!-- Standard meta -->
+  <meta name="description" content="{{ page.description }}" />
+  <meta name="author" content="Martin Paquet & Claude (Anthropic, Opus 4.6)" />
+  {% if page.keywords %}<meta name="keywords" content="{{ page.keywords }}" />{% endif %}
+
+  <style>
+    /* ===== 4-theme system ===== */
+    /* Accessible theme — default (light) */
+    :root {
+      --bg: #faf6f1;
+      --fg: #1a1a2e;
+      --accent: #0055b3;
+      --muted: #5c5c78;
+      --border: #d48a3c;
+      --code-bg: #eee8df;
+      --col-alt: rgba(0, 85, 179, 0.05);
+      --max-width: 860px;
+      --wc-grad-start: #faf6f1;
+      --wc-grad-end: #eee8df;
+    }
+    /* Accessible dark — auto system dark when no explicit theme */
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]),
+      html[data-theme="auto"] {
+        --bg: #1a1a2e;
+        --fg: #e8e4f0;
+        --accent: #5599dd;
+        --muted: #9494aa;
+        --border: #cc8833;
+        --code-bg: #28283e;
+        --col-alt: rgba(85, 153, 221, 0.07);
+        --wc-grad-start: #1a1a2e;
+        --wc-grad-end: #2a1e3e;
+      }
+    }
+    /* Explicit theme overrides */
+    html[data-theme="cayman"] {
+      --bg: #eff6ff; --fg: #0f172a; --accent: #1d4ed8; --muted: #475569;
+      --border: #93c5fd; --code-bg: #dbeafe; --col-alt: rgba(29, 78, 216, 0.05);
+      --wc-grad-start: #eff6ff; --wc-grad-end: #dbeafe;
+    }
+    html[data-theme="midnight"] {
+      --bg: #0f172a; --fg: #e2e8f0; --accent: #60a5fa; --muted: #94a3b8;
+      --border: #334155; --code-bg: #1e293b; --col-alt: rgba(96, 165, 250, 0.07);
+      --wc-grad-start: #0f172a; --wc-grad-end: #1e1b4b;
+    }
+    html[data-theme="daltonism-light"] {
+      --bg: #faf6f1; --fg: #1a1a2e; --accent: #0055b3; --muted: #5c5c78;
+      --border: #d48a3c; --code-bg: #eee8df; --col-alt: rgba(0, 85, 179, 0.05);
+      --wc-grad-start: #faf6f1; --wc-grad-end: #eee8df;
+    }
+    html[data-theme="daltonism-dark"] {
+      --bg: #1a1a2e; --fg: #e8e4f0; --accent: #5599dd; --muted: #9494aa;
+      --border: #cc8833; --code-bg: #28283e; --col-alt: rgba(85, 153, 221, 0.07);
+      --wc-grad-start: #1a1a2e; --wc-grad-end: #2a1e3e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: var(--max-width); margin: 0 auto; transition: max-width 0.3s ease; }
+    body.landscape .container { max-width: 100%; }
+    body.landscape .webcard-header img { max-width: 100%; }
+    h1 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--accent); }
+    h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.3rem; border-bottom: 2px solid var(--border); }
+    h3 { font-size: 1.2rem; margin-top: 1.8rem; margin-bottom: 0.8rem; }
+    p { margin-bottom: 1rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { background: var(--code-bg); padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+    pre { background: var(--code-bg); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+    pre code { background: none; padding: 0; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.82rem; line-height: 1.4; }
+    th, td { padding: 0.35rem 0.5rem; border: none; border-bottom: 1px solid var(--border); text-align: left; }
+    th { background: var(--code-bg); font-weight: 600; white-space: nowrap; border-bottom: 2px solid var(--accent); }
+    td code { font-size: 0.78rem; padding: 0.1em 0.3em; }
+    .table-wrap { overflow-x: auto; margin: 1rem 0; }
+    .table-wrap table { margin: 0; }
+    blockquote { border-left: 4px solid var(--accent); padding: 0.5rem 1rem; margin: 1rem 0; color: var(--muted); font-style: italic; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    img { max-width: 100%; border-radius: 8px; }
+
+    /* ─── Iframe embed mode — hide pre-title chrome ─── */
+    body.in-iframe { padding: 0.5rem 1rem; }
+    body.in-iframe .webcard-header,
+    body.in-iframe .pub-lang-bar,
+    body.in-iframe .pub-topbar,
+    body.in-iframe .pub-version-banner,
+    body.in-iframe .pub-export-toolbar { display: none !important; }
+    .iframe-open-bar {
+      display: flex; align-items: center;
+      font-size: 0.78rem; padding: 0.3rem 0.5rem;
+      margin-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+      color: var(--muted); overflow: hidden;
+    }
+    .iframe-open-bar a { color: var(--accent); text-decoration: none; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+    .iframe-open-bar a:hover { text-decoration: underline; }
+    .iframe-open-bar .iframe-pub-id { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 1; }
+    .iframe-open-bar .iframe-pub-id a { font-family: monospace; font-size: 0.72rem; color: var(--accent); text-decoration: none; font-weight: 400; }
+    .iframe-open-bar .iframe-pub-id a:hover { text-decoration: underline; }
+
+    /* Webcard — full-bleed header with theme-aware gradient */
+    .webcard-header {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--wc-grad-start) 0%, var(--wc-grad-end) 100%);
+      border-bottom: 2px solid var(--border);
+    }
+    .webcard-header img {
+      display: block;
+      margin: 0 auto;
+      max-width: var(--max-width);
+      width: 100%;
+      border-radius: 0;
+    }
+
+    /* Topbar — back link (left) + page-status-tag (right) */
+    .pub-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .back-link { display: inline-block; font-size: 0.9rem; }
+    .page-status-tag {
+      font-size: 0.75rem;
+      font-family: monospace;
+      color: var(--muted);
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      white-space: nowrap;
+    }
+    .page-status-tag .status-dot { margin-right: 0.25rem; }
+    .page-url-link { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; font-size: 0.68rem; color: var(--muted); text-decoration: none; margin: 0 0.75rem; opacity: 0.6; background: var(--code-bg, #f6f8fa); padding: 0.15rem 0.5rem; border-radius: 3px; border: 1px solid transparent; }
+    .page-url-link:hover { opacity: 0.9; border-color: var(--border, #d0d7de); color: var(--accent); }
+
+    /* Language bar — sits above pub-topbar, spans container width */
+    .pub-lang-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      padding-bottom: 0.55rem;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .pub-lang-bar a { color: var(--accent); }
+
+    /* Development warning banner */
+    .dev-banner {
+      background: #fef9c3;
+      border: 1px solid #f59e0b;
+      border-radius: 10px;
+      padding: 0.65rem 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: #92400e;
+    }
+    .dev-banner .dev-banner-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .dev-banner strong { color: #78350f; }
+    [data-theme="midnight"] .dev-banner,
+    [data-theme="dark"] .dev-banner {
+      background: #422006;
+      border-color: #b45309;
+      color: #fcd34d;
+    }
+    [data-theme="midnight"] .dev-banner strong,
+    [data-theme="dark"] .dev-banner strong { color: #fde68a; }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="cayman"]):not([data-theme="light"]) .dev-banner {
+        background: #422006;
+        border-color: #b45309;
+        color: #fcd34d;
+      }
+      html:not([data-theme="cayman"]):not([data-theme="light"]) .dev-banner strong { color: #fde68a; }
+    }
+
+    /* Version banner */
+    .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+    .pub-version-banner {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    .pub-version-line { display: flex; align-items: baseline; gap: 0.4rem; flex-wrap: wrap; }
+    .pub-version-label { color: var(--muted); font-weight: 600; min-width: 5.5rem; }
+    .pub-version-id { font-weight: 700; color: var(--accent); }
+    .pub-version-ver { font-family: monospace; font-weight: 600; }
+    .pub-version-date { color: var(--fg); }
+    .pub-version-sep { color: var(--muted); }
+    .pub-version-gen { margin-top: 0.15rem; }
+    .pub-version-gen-date { font-family: monospace; color: var(--muted); }
+    .pub-version-keywords { margin-top: 0.15rem; }
+    .pub-version-kw {
+      color: var(--muted); font-size: 0.82rem; font-style: italic;
+      min-width: 0; flex: 1 1 0; line-height: 1.8;
+      overflow-wrap: anywhere; word-break: break-word;
+    }
+    .pub-version-kw .kw-sep { color: var(--border); margin: 0 0.15rem; }
+    .pub-version-authors { margin-top: 0.15rem; }
+    .pub-version-authors .pub-author-list { display: flex; flex-direction: column; gap: 0.1rem; }
+    .pub-author { color: var(--fg); font-size: 0.88rem; overflow-wrap: anywhere; }
+
+    /* Cross-references section */
+    .pub-crossrefs { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .pub-crossrefs h3 { font-size: 1rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .pub-crossrefs-list { display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem; }
+    .pub-crossrefs-list a {
+      color: var(--accent); text-decoration: none; font-size: 0.88rem;
+      padding: 0.2rem 0.5rem; background: var(--code-bg);
+      border: 1px solid var(--border); border-radius: 4px; white-space: nowrap;
+    }
+    .pub-crossrefs-list a:hover { text-decoration: underline; border-color: var(--accent); }
+
+    /* Harvest action commands — click-to-copy */
+    code.harvest-cmd {
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s, color 0.2s;
+      border: 1px solid transparent;
+      padding: 0.15em 0.5em;
+    }
+    code.harvest-cmd:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+      border-radius: 4px;
+    }
+    code.harvest-cmd.copied {
+      background: #16a34a;
+      color: #fff;
+      border-color: #16a34a;
+    }
+    .copy-toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #16a34a;
+      color: #fff;
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .copy-toast.show { opacity: 1; }
+
+    /* Multi-column TOC */
+    .toc {
+      columns: 2;
+      column-gap: 2rem;
+      margin: 1rem 0 1.5rem;
+      padding: 1rem 1.2rem;
+      background: var(--code-bg);
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+    }
+    /* Table-based TOC (Contents as markdown table) — disable columns */
+    .toc:has(table) { columns: 1; }
+    .toc-title {
+      column-span: all;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+    .toc ul { margin: 0; padding-left: 0; list-style: none; }
+    .toc li { break-inside: avoid; margin-bottom: 0.15rem; font-size: 0.82rem; line-height: 1.5; }
+    .toc li a { color: var(--fg); }
+    .toc li a:hover { color: var(--accent); }
+    .toc ul ul {
+      padding-left: 1rem;
+      border-left: 1px solid var(--border);
+      margin: 0.1rem 0 0.2rem;
+    }
+    .toc ul ul li a { color: var(--muted); font-size: 0.78rem; }
+    .toc ul ul li a:hover { color: var(--accent); }
+
+    /* Three-column content layout */
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .three-col > .col {
+      min-width: 0;
+    }
+    .three-col .col h3 {
+      margin-top: 0;
+      font-size: 1.05rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 2px solid var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .three-col .col h4 {
+      font-size: 0.92rem;
+      margin-top: 1rem;
+      margin-bottom: 0.4rem;
+      color: var(--accent);
+    }
+    .three-col .col p {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      margin-bottom: 0.6rem;
+    }
+    .three-col .col ul, .three-col .col ol {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      padding-left: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+    .three-col .col li { margin-bottom: 0.25rem; }
+    .three-col .col code { font-size: 0.8rem; }
+    .three-col .col table { font-size: 0.78rem; }
+    .three-col .col table th, .three-col .col table td { padding: 0.25rem 0.4rem; }
+    @media (max-width: 900px) {
+      .three-col { grid-template-columns: 1fr; gap: 1rem; }
+    }
+    @media print {
+      .three-col { grid-template-columns: 1fr 1fr 1fr; gap: 0.8cm; }
+      .three-col .col { break-inside: avoid; }
+    }
+
+    /* Three-column app layout — nav | content viewer | nav */
+    .three-col-app {
+      display: grid;
+      grid-template-columns: 220px 1fr 220px;
+      gap: 0;
+      height: calc(100vh - 12rem);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .col-nav {
+      background: var(--code-bg);
+      overflow-y: auto;
+      padding: 0.75rem;
+    }
+    .col-nav-left { border-right: 1px solid var(--border); }
+    .col-nav-right { border-left: 1px solid var(--border); }
+    .col-nav h4 {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin: 0.8rem 0 0.3rem;
+      padding-bottom: 0.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .col-nav h4:first-child { margin-top: 0; }
+    .col-nav a {
+      display: block;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: var(--fg);
+      text-decoration: none;
+      line-height: 1.4;
+    }
+    .col-nav a:hover { background: var(--col-alt); color: var(--accent); }
+    .col-nav a.active { background: var(--accent); color: var(--bg); }
+    .col-nav .nav-cmd {
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .col-content { display: flex; flex-direction: column; }
+    .col-content iframe { flex: 1; width: 100%; border: none; background: var(--bg); }
+    @media (max-width: 900px) {
+      .three-col-app { grid-template-columns: 1fr; height: auto; }
+      .col-nav-left { border-right: none; border-bottom: 1px solid var(--border); max-height: 300px; }
+      .col-nav-right { border-left: none; border-top: 1px solid var(--border); max-height: 300px; }
+      .col-content iframe { min-height: 60vh; }
+    }
+    @media print {
+      .three-col-app .col-nav { display: none !important; }
+      .three-col-app .col-content { grid-column: 1 / -1; }
+      .three-col-app { height: auto; border: none; }
+    }
+
+    /* Export toolbar — theme selector (left) + page size + export buttons (right) */
+    .pub-export-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .pub-toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .pub-export-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .pub-theme-select {
+      background: var(--code-bg);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .pub-theme-select:hover { border-color: var(--accent); }
+    .pub-theme-select option { background: var(--bg); color: var(--fg); }
+    /* Orientation radio group — Portrait / Landscape */
+    .pub-orient-group { display: flex; gap: 0.5rem; align-items: center; }
+    .pub-orient-sep { width: 1px; height: 1rem; background: var(--border); margin: 0 0.3rem; }
+    /* Page size radio group */
+    .pub-export-size-group { display: flex; gap: 0.5rem; align-items: center; }
+    .pub-export-radio {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .pub-export-radio input[type="radio"] { accent-color: var(--accent); cursor: pointer; }
+    .pub-size-dim { font-size: 0.72em; opacity: 0.65; }
+    /* Export buttons */
+    .pub-export-btn {
+      background: var(--code-bg);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      font-family: inherit;
+    }
+    .pub-export-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    .pub-export-btn:disabled { opacity: 0.5; cursor: wait; }
+
+    /* Cover page — web: hidden; shown only when printing */
+    #pub-cover-page { display: none; }
+
+    /* ===== Board Widget ===== */
+    .board-widget {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin: 1.5rem 0;
+      background: var(--code-bg);
+    }
+    .board-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .board-header h3 { margin: 0; font-size: 1rem; }
+    .board-meta { font-size: 0.75rem; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+    .board-meta a { color: var(--muted); text-decoration: underline; }
+    .board-meta a:hover { color: var(--accent); }
+    .board-filter select {
+      font-size: 0.78rem; padding: 0.15rem 0.4rem;
+      border: 1px solid var(--border); border-radius: 4px;
+      background: var(--bg); color: var(--fg); cursor: pointer;
+    }
+    .board-table-wrap { overflow-x: auto; }
+    .board-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; line-height: 1.4; }
+    .board-table th, .board-table td { padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+    .board-table th { font-weight: 600; white-space: nowrap; border-bottom-width: 2px; }
+    .board-th-sort { cursor: pointer; user-select: none; position: relative; padding-right: 1.2rem; }
+    .board-th-sort:hover { color: var(--accent); }
+    .board-sort-arrow { position: absolute; right: 0.1rem; top: 50%; transform: translateY(-50%); font-size: 0.65rem; color: var(--accent); opacity: 0.8; }
+    .board-status { white-space: nowrap; }
+    .board-type-link { color: var(--accent); text-decoration: none; font-weight: 500; }
+    .board-type-link:hover { text-decoration: underline; }
+    .board-type-draft { color: var(--muted); font-style: italic; }
+    .board-actions { white-space: nowrap; display: flex; gap: 0.4rem; align-items: center; }
+    .board-action {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 3px; text-decoration: none;
+      opacity: 0.7; transition: opacity 0.15s; cursor: pointer;
+      border: none; background: transparent; padding: 0;
+    }
+    .board-action:hover { opacity: 1; }
+    .board-action svg { width: 14px; height: 14px; }
+    .board-action-close svg { fill: #ef4444; }
+    .board-action-reopen svg { fill: var(--accent); }
+    .board-empty { text-align: center; padding: 1.5rem; color: var(--muted); font-style: italic; }
+    .board-header-section { justify-content: flex-end; border-bottom: none; padding-bottom: 0.25rem; }
+    .board-label {
+      display: inline-block; font-size: 0.68rem; padding: 0.1rem 0.4rem;
+      border-radius: 9px; color: #fff; vertical-align: middle; margin-left: 0.3rem; white-space: nowrap;
+    }
+    @keyframes board-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .board-refreshing { display: inline-block; animation: board-spin 1s linear infinite; }
+
+    /* Story rows */
+    .story-row { display: flex; gap: 0; align-items: stretch; border-bottom: 1px solid var(--border); border-top: 1px solid var(--border); font-size: 0.82rem; line-height: 1.4; }
+    .story-row + .story-row { border-top: none; }
+    .story-row:last-child { border-top: none; border-bottom: none; }
+    .story-section + hr, .story-section + * > hr:first-child { border: none; border-top: 3px solid var(--border); margin: 2.5rem 0; opacity: 0.5; }
+    .story-section { margin-bottom: 0.5rem; }
+    .story-readmore { text-align: right; font-size: 0.75rem; padding: 0.2rem 0.5rem 0.4rem; }
+    .story-readmore a { color: var(--accent); text-decoration: none; }
+    .story-readmore a:hover { text-decoration: underline; }
+    .story-row-left { width: 180px; min-width: 180px; padding: 0.35rem 0.5rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+    .story-row-right { flex: 1; min-width: 0; padding: 0.35rem 0.5rem; }
+    .story-row-right table { margin: 0; font-size: 0.82rem; }
+    .story-row-right table thead { display: none; }
+    .story-row-right table td { border-bottom: 1px solid var(--border); padding: 0.2rem 0.4rem; }
+    .story-row-right table tr:first-child td { border-top: none; }
+    .story-row-right table tr:last-child td { border-bottom: none; }
+    .story-row-right table td:first-child { white-space: nowrap; font-weight: 600; width: 140px; color: var(--muted); }
+    .story-section table td:first-child, .story-section table th:first-child { width: 180px; min-width: 180px; }
+
+    /* Inline CSS pie chart */
+    .pie-inline { display: inline-block; width: 48px; height: 48px; border-radius: 50%; vertical-align: middle; }
+    .pie-1-99 { background: conic-gradient(#0f766e 0% 1%, #99f6e4 1% 100%); }
+    .pie-25-75 { background: conic-gradient(#0f766e 0% 25%, #99f6e4 25% 100%); }
+    .pie-85-15 { background: conic-gradient(#0f766e 0% 85%, #99f6e4 85% 100%); }
+    .pie-90-10 { background: conic-gradient(#0f766e 0% 90%, #99f6e4 90% 100%); }
+    .pie-95-5 { background: conic-gradient(#0f766e 0% 95%, #99f6e4 95% 100%); }
+
+    /* ===== Print / PDF export ===== */
+    @media print {
+      /* Page layout with running headers and footers */
+      @page {
+        margin: 1.8cm 1.5cm 1.8cm 1.5cm;
+        padding: 0.4cm 0;
+
+        /* Single full-width header box — one box = one liner, no alignment issues */
+        @top-left {
+          content: "{{ page.title }}";
+          width: 100%;
+          font-size: 7.5pt;
+          color: #555;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          vertical-align: bottom;
+          padding-bottom: 0.3cm;
+          border-bottom: 2pt solid #1d4ed8;
+        }
+        @top-center { content: ""; width: 0; }
+        @top-right  { content: ""; width: 0; }
+        /* Footer — three columns, liner via border-top */
+        @bottom-left {
+          content: "";   /* overridden at print time by printAs() — Generated: TS · VER */
+          font-size: 7.5pt;
+          color: #555;
+          font-family: monospace;
+          border-top: 2pt solid #1d4ed8;
+          padding-top: 0.3cm;
+          vertical-align: top;
+          white-space: nowrap;
+        }
+        @bottom-center {
+          content: "";   /* overridden at print time by printAs() — PAGE / TOTAL */
+          font-size: 7.5pt;
+          color: #555;
+          font-family: monospace;
+          border-top: 2pt solid #1d4ed8;
+          padding-top: 0.3cm;
+          vertical-align: top;
+          text-align: center;
+        }
+        @bottom-right {
+          content: "";   /* overridden at print time by printAs() — "Knowledge" */
+          font-size: 7.5pt;
+          color: #555;
+          font-family: monospace;
+          border-top: 2pt solid #1d4ed8;
+          padding-top: 0.3cm;
+          vertical-align: top;
+          text-align: right;
+          white-space: nowrap;
+        }
+      }
+
+      /* First page — no running header/footer (cover page) */
+      @page :first {
+        @top-left    { content: ""; border: none; }
+        @top-center  { content: ""; border: none; }
+        @top-right   { content: ""; border: none; }
+        @bottom-left { content: ""; border: none; }
+        @bottom-center { content: ""; border: none; }
+        @bottom-right  { content: ""; border: none; }
+      }
+
+      /* Hide web-only elements */
+      .webcard-header,
+      .back-link,
+      .pub-topbar,
+      .pub-lang-bar,
+      .dev-banner,
+      .copy-toast,
+      .pub-crossrefs,
+      .pub-export-toolbar,
+      .board-widget { display: none !important; }
+
+      /* TOC — reformatted as simple list */
+      .toc {
+        display: block !important;
+        columns: 1;
+        background: none;
+        border: none;
+        border-left: none;
+        border-radius: 0;
+        padding: 0 0 0.5cm 0;
+        margin: 0 0 0.8cm 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .toc-title { font-size: 11pt; font-weight: 700; color: #111; margin-bottom: 0.25cm; }
+      .toc ul { list-style: none; padding-left: 0; margin: 0; }
+      .toc ul ul { padding-left: 1.2rem; border-left: none; margin: 0; }
+      .toc li { font-size: 9.5pt; line-height: 1.8; margin: 0; }
+      .toc li a { color: #222; text-decoration: none; }
+      .toc ul ul li a { color: #555; font-size: 9pt; }
+
+      /* Videos and iframes */
+      video, iframe { display: none !important; }
+
+      /* Images */
+      img {
+        max-width: 100%;
+        max-height: 15cm;
+        object-fit: contain;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      /* Body */
+      body {
+        background: #fff;
+        color: #000;
+        padding: 0;
+        font-size: 10pt;
+        line-height: 1.6;
+      }
+      .container { max-width: 100%; }
+
+      /* Links — keep clickable in PDF, visually distinct */
+      a { color: #1d4ed8; text-decoration: underline; }
+      /* TOC anchor links — styled so they're identifiable as clickable in PDF */
+      .toc li a, .toc ul ul li a { color: #1d4ed8; text-decoration: underline; }
+      /* TOC as table (when Contents is followed by a markdown table, not UL) */
+      .toc table { width: 100%; font-size: 9.5pt; border-collapse: collapse; }
+      .toc table thead { display: none; }  /* hide empty header row */
+      .toc table td { border: none; border-bottom: 1px solid #ddd; padding: 0.25rem 0.4rem; line-height: 1.8; }
+      .toc table td:first-child a { color: #1d4ed8; text-decoration: underline; }
+      .toc table td:last-child { color: #555; }
+
+      /* Cover page */
+      #pub-cover-page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-height: 20cm;
+        page-break-after: always;
+      }
+      .cover-body { max-width: 18cm; }
+      .cover-title { font-size: 28pt; font-weight: 700; color: #111; line-height: 1.2; margin-bottom: 0.7cm; }
+      .cover-desc { font-size: 12pt; color: #333; line-height: 1.55; margin-bottom: 1cm; font-style: italic; }
+      .cover-rule { border: none; border-top: 1.5pt solid #444; margin: 0 auto 0.8cm; width: 6cm; }
+      .cover-meta { font-size: 10pt; color: #444; line-height: 2; }
+      .cover-gen-line { font-size: 8.5pt; color: #666; font-family: monospace; margin-top: 0.2cm; }
+
+      /* h1 shown in cover div only */
+      h1 { display: none; }
+
+      /* Version banner shown in cover div only */
+      .pub-version-banner { display: none !important; }
+
+      /* Force background graphics (conic-gradient pies, code bg, etc.) */
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+      /* Story rows — preserve flex layout in print */
+      .story-row {
+        display: flex !important;
+        flex-direction: row !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border-bottom: 1px solid #ddd !important;
+        border-top: 1px solid #ddd !important;
+      }
+      .story-row + .story-row { border-top: none !important; }
+      .story-row-left {
+        width: 110pt !important;
+        min-width: 110pt !important;
+        padding: 0.15cm 0.3cm;
+        font-size: 9pt;
+        font-weight: 600;
+        color: #555;
+      }
+      .story-row-right { flex: 1; padding: 0.15cm 0.3cm; }
+      .story-row-right table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9pt;
+        margin: 0;
+      }
+      .story-row-right table thead { display: none; }
+      .story-row-right table td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        padding: 0.1rem 0.3rem;
+        vertical-align: top;
+      }
+      .story-row-right table tr:first-child td { border-top: none !important; }
+      .story-row-right table tr:last-child td { border-bottom: none !important; }
+      .story-row-right table td:first-child {
+        width: 110pt;
+        font-weight: 600;
+        white-space: nowrap;
+        color: #555;
+      }
+      .story-section { margin-bottom: 0.3cm; }
+
+      /* Headings */
+      h2 {
+        font-size: 13pt; page-break-before: auto; page-break-after: avoid;
+        margin-top: 0; color: #111; border-bottom: 1px solid #ccc;
+        string-set: section-title content(text);
+      }
+      h3 { font-size: 11pt; page-break-after: avoid; color: #111; string-set: section-title content(text); }
+      p, li { orphans: 3; widows: 3; }
+      pre, table, blockquote { page-break-inside: avoid; }
+
+      /* Tables — Cayman light theme */
+      table { font-size: 9pt; border-collapse: collapse; width: 100%; line-height: 1.4; }
+      th, td { border: none; border-bottom: 1px solid #93c5fd; padding: 0.35rem 0.5rem; text-align: left; }
+      th { background: #dbeafe; font-weight: 600; white-space: nowrap; border-bottom: 2px solid #1d4ed8; color: #0f172a; }
+
+      /* Language bar — hidden from content, shown in print header instead */
+      h1 + p:has(strong) { display: none !important; }
+
+      /* Code */
+      code { background: #f5f5f5; color: #111; border: 1px solid #ddd; font-size: 8.5pt; }
+      pre { background: #f5f5f5; border: 1px solid #ddd; }
+    }
+
+    @media (max-width: 600px) {
+      .pub-export-toolbar { flex-direction: column; align-items: flex-start; }
+      .pub-version-kw { font-size: 0.75rem; }
+      .pub-crossrefs-list { gap: 0.3rem 0.5rem; }
+      .pub-crossrefs-list a { font-size: 0.82rem; padding: 0.15rem 0.4rem; }
+      .pub-version-authors { flex-direction: column; align-items: flex-start; gap: 0.1rem; }
+      .board-widget { padding: 0.75rem; }
+      .board-header { flex-direction: column; align-items: flex-start; }
+      .board-table { font-size: 0.78rem; }
+      .story-row { flex-direction: column; }
+      .story-row-left { width: auto; min-width: auto; }
+    }
+
+    /* Mermaid source preservation — hide collapsible source blocks on web pages.
+       Source is preserved in git markdown for documentation generation chain,
+       but excluded from web rendering to avoid mermaid.js conflicts (v49). */
+    .mermaid-source { display: none !important; }
+    @media print { .mermaid-source { display: none !important; } }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <!-- Theme init — before body renders to prevent flash -->
+  <script>(function(){var t=localStorage.getItem('knowledge-theme');if(t&&t!=='auto')document.documentElement.setAttribute('data-theme',t);})()</script>
+</head>
+<body>
+  <script>(function(){if(window.self!==window.top){document.body.classList.add('in-iframe');}})();</script>
+  {% unless page.page_type == 'interface' %}
+  {% if page.og_image %}
+  <div class="webcard-header">
+    <picture>
+      <source srcset="{{ page.og_image | replace: '-cayman.gif', '-midnight.gif' | relative_url }}" media="(prefers-color-scheme: dark)">
+      <img src="{{ page.og_image | relative_url }}" alt="{{ page.title }}" loading="eager" fetchpriority="high" decoding="sync" />
+    </picture>
+  </div>
+  {% endif %}
+  {% endunless %}
+  <div class="container">
+    {% if page.dev_banner %}
+    <div class="dev-banner">
+      <span class="dev-banner-icon">🚧</span>
+      <span><strong>{{ page.dev_banner }}</strong></span>
+    </div>
+    {% endif %}
+    {% if page.permalink contains '/fr/' %}
+    <div class="pub-lang-bar">
+      <span><strong>Langues / Languages</strong> : Français (cette page)</span>
+      <a href="{{ page.permalink | remove: '/fr' | relative_url }}">English</a>
+    </div>
+    {% else %}
+    <div class="pub-lang-bar">
+      <span><strong>Languages / Langues</strong>: English (this page)</span>
+      <a href="{{ '/fr' | append: page.permalink | relative_url }}">Français</a>
+    </div>
+    {% endif %}
+    <div class="pub-topbar">
+      {% if page.permalink contains '/full/' %}
+        {% assign summary_path = page.permalink | remove: 'full/' %}
+        {% if page.permalink contains '/fr/' %}
+        <a class="back-link" href="{{ summary_path | relative_url }}">&larr; Retour au résumé</a>
+        {% else %}
+        <a class="back-link" href="{{ summary_path | relative_url }}">&larr; Back to summary</a>
+        {% endif %}
+      {% else %}
+        {% if page.page_type == 'interface' %}
+          {% if page.permalink contains '/fr/' %}
+          <a class="back-link" href="{{ '/fr/interfaces/' | relative_url }}">&larr; Toutes les interfaces</a>
+          {% else %}
+          <a class="back-link" href="{{ '/interfaces/' | relative_url }}">&larr; All Interfaces</a>
+          {% endif %}
+        {% else %}
+          {% if page.permalink contains '/fr/' %}
+          <a class="back-link" href="{{ '/fr/publications/' | relative_url }}">&larr; Toutes les publications</a>
+          {% else %}
+          <a class="back-link" href="{{ '/publications/' | relative_url }}">&larr; All Publications</a>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      <a class="page-url-link" id="page-url-link" href="#" target="_blank" rel="noopener"></a>
+      <span class="page-status-tag"><span class="status-dot">&#x1F7E2;</span><span data-kv-live="tag">{{ site.knowledge_version | default: "v54" }}{% if site.knowledge_version_suffix %} ({{ site.knowledge_version_suffix }}){% endif %}</span> &middot; {{ page.version | default: "v1" }}</span>
+    </div>
+    <script>(function(){var el=document.getElementById('page-url-link');if(el&&!document.body.classList.contains('in-iframe')){el.href=window.location.href;var isFr=window.location.pathname.indexOf('/fr/')>=0;el.textContent='\u{1F517} '+(isFr?'Page actuelle':'Actual page');}else if(el){el.style.display='none';}})();</script>
+
+    <div class="pub-version-banner">
+      <div class="pub-version-line">
+        <span class="pub-version-label">Publication:</span>
+        <span class="pub-version-id">{{ page.pub_id }}</span>
+        <span class="pub-version-sep">&middot;</span>
+        <span class="pub-version-ver">{{ page.version | default: "v1" }}</span>
+        <span class="pub-version-sep">&middot;</span>
+        <span class="pub-version-date">{{ page.date | default: "2026-02" }}</span>
+        <span class="pub-version-sep">&middot;</span>
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-version-ver" style="color:var(--muted)">Connaissances <span data-kv-live="banner">{{ site.knowledge_version | default: "v54" }}{% if site.knowledge_version_suffix %} ({{ site.knowledge_version_suffix }}){% endif %}</span></span>
+        {% else %}
+        <span class="pub-version-ver" style="color:var(--muted)">Knowledge <span data-kv-live="banner">{{ site.knowledge_version | default: "v54" }}{% if site.knowledge_version_suffix %} ({{ site.knowledge_version_suffix }}){% endif %}</span></span>
+        {% endif %}
+      </div>
+      <div class="pub-version-line pub-version-gen">
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-version-label">G&eacute;n&eacute;r&eacute; :</span>
+        {% else %}
+        <span class="pub-version-label">Generated:</span>
+        {% endif %}
+        <span class="pub-version-gen-date" id="pubGenDate"></span>
+      </div>
+      {% if page.keywords %}
+      <div class="pub-version-line pub-version-keywords">
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-version-label">Mots-cl&eacute;s :</span>
+        {% else %}
+        <span class="pub-version-label">Keywords:</span>
+        {% endif %}
+        <span class="pub-version-kw" id="pubKeywords" data-raw="{{ page.keywords }}">{{ page.keywords }}</span>
+      </div>
+      {% endif %}
+      <div class="pub-version-line pub-version-authors">
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-version-label">Auteurs :</span>
+        {% else %}
+        <span class="pub-version-label">Authors:</span>
+        {% endif %}
+        <div class="pub-author-list">
+          <span class="pub-version-date">Martin Paquet</span>
+          <span class="pub-author">Claude (Anthropic, Opus 4.6)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-export-toolbar">
+      <!-- Theme selector (left group) -->
+      <div class="pub-toolbar-group">
+        {% if page.permalink contains '/fr/' %}
+        <span class="pub-export-label">Th&egrave;me</span>
+        {% else %}
+        <span class="pub-export-label">Theme:</span>
+        {% endif %}
+        <select class="pub-theme-select" id="themeSelect">
+          <option value="auto">Auto</option>
+          <option value="cayman">Cayman</option>
+          <option value="midnight">Midnight</option>
+          <option value="daltonism-light">Accessible &#9788;</option>
+          <option value="daltonism-dark">Accessible &#9790;</option>
+        </select>
+      </div>
+      <!-- Orientation + Page size + export buttons (right group) -->
+      <div class="pub-toolbar-group">
+        <span class="pub-orient-group">
+          <label class="pub-export-radio" title="Portrait — standard width">
+            <input type="radio" name="pubOrient" value="portrait" checked> Portrait
+          </label>
+          <label class="pub-export-radio" title="Landscape — full browser width">
+            <input type="radio" name="pubOrient" value="landscape"> Landscape
+          </label>
+        </span>
+        <span class="pub-orient-sep"></span>
+        <span class="pub-export-size-group">
+          <label class="pub-export-radio" title="US Letter — 8.5 × 11 in">
+            <input type="radio" name="pubPageSize" value="letter" checked> Letter <span class="pub-size-dim">8.5×11</span>
+          </label>
+          <label class="pub-export-radio" title="US Legal — 8.5 × 14 in">
+            <input type="radio" name="pubPageSize" value="legal"> Legal <span class="pub-size-dim">8.5×14</span>
+          </label>
+        </span>
+        {% if page.permalink contains '/fr/' %}
+        <button class="pub-export-btn" id="exportPdf" title="Exporter en PDF">&#x1F5A8; PDF</button>
+        <button class="pub-export-btn" id="exportDocx" title="Exporter en DOCX">&#x1F4C4; DOCX</button>
+        {% else %}
+        <button class="pub-export-btn" id="exportPdf" title="Export as PDF">&#x1F5A8; PDF</button>
+        <button class="pub-export-btn" id="exportDocx" title="Export as DOCX">&#x1F4C4; DOCX</button>
+        {% endif %}
+      </div>
+    </div>
+    <style id="printSizeStyle"></style>
+
+    <!-- Print-only cover page — hidden in web, page 1 in PDF -->
+    {% unless page.page_type == 'interface' %}
+    <div id="pub-cover-page" aria-hidden="true">
+      <div class="cover-body">
+        <div class="cover-title">{{ page.title }}</div>
+        {% if page.description %}
+        <div class="cover-desc">{{ page.description }}</div>
+        {% endif %}
+        <div class="cover-rule"></div>
+        <div class="cover-meta">
+          <div>{{ page.pub_id }}{% if page.version %} &middot; {{ page.version }}{% endif %}{% if page.date %} &middot; {{ page.date }}{% endif %}</div>
+          <div class="cover-gen-line">Generated: <span id="coverGenDate"></span></div>
+        </div>
+      </div>
+    </div>
+    {% endunless %}
+
+    {{ content }}
+
+    {% if page.keywords %}
+    <div class="pub-crossrefs" id="pubCrossrefs"></div>
+    {% endif %}
+  </div>
+  <div class="copy-toast" id="copyToast">Copied to clipboard!</div>
+
+  <script>
+    // ===== Iframe embed mode — insert open-in-new-tab bar =====
+    (function() {
+      if (!document.body.classList.contains('in-iframe')) return;
+      var c = document.querySelector('.container');
+      if (!c) return;
+      var bar = document.createElement('div');
+      bar.className = 'iframe-open-bar';
+      var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+      var pubId = document.querySelector('.pub-version-id');
+      var idText = pubId ? pubId.textContent.trim() : '';
+      var label = isFr ? 'Ouvrir \u2197' : 'Open \u2197';
+      var url = window.location.href;
+      bar.innerHTML = '<span class="iframe-pub-id"><a href="' + url + '" target="_blank" rel="noopener">' + idText + '</a></span>'
+        + '<a href="' + url + '" target="_blank" rel="noopener">' + label + '</a>';
+      c.insertBefore(bar, c.firstChild);
+    })();
+
+    // ===== Theme selector — 4-theme system with localStorage =====
+    (function() {
+      var select = document.getElementById('themeSelect');
+      if (!select) return;
+      var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+      var saved = localStorage.getItem('knowledge-theme') || 'auto';
+      select.value = saved;
+      var labels = {
+        'auto': 'Auto', 'cayman': 'Cayman', 'midnight': 'Midnight',
+        'daltonism-light': 'Accessible \u263C', 'daltonism-dark': 'Accessible \u263E'
+      };
+      var actualTag = isFr ? 'actuel' : 'actual';
+
+      function updateLabels(active) {
+        for (var i = 0; i < select.options.length; i++) {
+          var v = select.options[i].value;
+          if (v === active) {
+            if (v === 'auto') {
+              var resolved = window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'Accessible \u263E' : 'Accessible \u263C';
+              select.options[i].textContent = labels[v] + ' \u2192 ' + resolved + ' (' + actualTag + ')';
+            } else {
+              select.options[i].textContent = labels[v] + ' (' + actualTag + ')';
+            }
+          } else {
+            select.options[i].textContent = labels[v];
+          }
+        }
+      }
+
+      function updateWebcard(theme) {
+        var img = document.querySelector('.webcard-header img');
+        var source = document.querySelector('.webcard-header picture source');
+        if (!img) return;
+        var baseSrc = (img.dataset.baseSrc || img.getAttribute('src')).split('?')[0];
+        img.dataset.baseSrc = baseSrc;
+        var isDarkTheme = (theme === 'midnight' || theme === 'daltonism-dark');
+        if (theme === 'auto') {
+          if (source) {
+            source.setAttribute('media', '(prefers-color-scheme: dark)');
+            var dsrc = source.getAttribute('srcset').split('?')[0];
+            source.setAttribute('srcset', dsrc + '?_t=' + Date.now());
+          }
+          var lightSrc = baseSrc.replace('-midnight.gif', '-cayman.gif');
+          img.src = lightSrc + '?_t=' + Date.now();
+        } else {
+          if (source) source.setAttribute('media', 'not all');
+          var targetSrc = isDarkTheme
+            ? baseSrc.replace('-cayman.gif', '-midnight.gif')
+            : baseSrc.replace('-midnight.gif', '-cayman.gif');
+          img.src = targetSrc + '?_t=' + Date.now();
+        }
+        img.onerror = function() {
+          if (!img.dataset.retried) {
+            img.dataset.retried = '1';
+            img.src = img.src.split('?')[0] + '?_t=' + Date.now();
+          }
+        };
+      }
+
+      // Update all content <picture> elements (diagrams) to match selected theme.
+      // Diagram images use -cayman/-midnight suffixes, same as webcards.
+      function updateDiagramPictures(theme) {
+        var pictures = document.querySelectorAll('picture');
+        var isDarkTheme = (theme === 'midnight' || theme === 'daltonism-dark');
+        pictures.forEach(function(pic) {
+          // Skip the webcard header — handled separately by updateWebcard()
+          if (pic.closest('.webcard-header')) return;
+          var source = pic.querySelector('source[media]');
+          var img = pic.querySelector('img');
+          if (!img) return;
+          var baseSrc = (img.dataset.baseSrc || img.getAttribute('src')).split('?')[0];
+          img.dataset.baseSrc = baseSrc;
+          // Only process images that follow the -cayman/-midnight naming convention
+          if (baseSrc.indexOf('-cayman.') < 0 && baseSrc.indexOf('-midnight.') < 0) return;
+          if (theme === 'auto') {
+            // Restore OS-based media query
+            if (source) {
+              source.setAttribute('media', '(prefers-color-scheme: dark)');
+              var dsrc = source.getAttribute('srcset').split('?')[0];
+              source.setAttribute('srcset', dsrc + '?_t=' + Date.now());
+            }
+            var lightSrc = baseSrc.replace(/-midnight\./, '-cayman.');
+            img.src = lightSrc + '?_t=' + Date.now();
+          } else {
+            // Override media query and set explicit theme variant
+            if (source) source.setAttribute('media', 'not all');
+            var targetSrc = isDarkTheme
+              ? baseSrc.replace(/-cayman\./, '-midnight.')
+              : baseSrc.replace(/-midnight\./, '-cayman.');
+            img.src = targetSrc + '?_t=' + Date.now();
+          }
+        });
+      }
+
+      updateLabels(saved);
+      updateWebcard(saved);
+      updateDiagramPictures(saved);
+
+      select.addEventListener('change', function() {
+        var theme = this.value;
+        localStorage.setItem('knowledge-theme', theme);
+        if (theme === 'auto') {
+          document.documentElement.removeAttribute('data-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+        updateLabels(theme);
+        updateWebcard(theme);
+        updateDiagramPictures(theme);
+      });
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if ((localStorage.getItem('knowledge-theme') || 'auto') === 'auto') {
+          updateLabels('auto');
+          updateDiagramPictures('auto');
+        }
+      });
+    })();
+
+    // ===== Orientation selector — Portrait / Landscape with localStorage =====
+    // Publications default portrait, interfaces default landscape
+    // Inside Main Navigator iframe: per-page preference (each page remembers its own)
+    // Standalone: type-based preference (one key per type)
+    (function() {
+      var isInterface = {{ page.page_type | default: "" | jsonify }} === 'interface';
+      var inIframe = window.self !== window.top;
+      var defaultOrient = isInterface ? 'landscape' : 'portrait';
+      var storageKey = inIframe
+        ? 'knowledge-orient:' + location.pathname.replace(/\/+$/, '')
+        : (isInterface ? 'knowledge-orient-interface' : 'knowledge-orient');
+      var saved = localStorage.getItem(storageKey) || defaultOrient;
+      // Apply saved orientation on load
+      if (saved === 'landscape') {
+        document.body.classList.add('landscape');
+      }
+      // Set the correct radio button
+      var radios = document.querySelectorAll('input[name="pubOrient"]');
+      radios.forEach(function(r) {
+        if (r.value === saved) r.checked = true;
+        r.addEventListener('change', function() {
+          var orient = this.value;
+          localStorage.setItem(storageKey, orient);
+          if (orient === 'landscape') {
+            document.body.classList.add('landscape');
+          } else {
+            document.body.classList.remove('landscape');
+          }
+        });
+      });
+    })();
+
+    // ===== PostMessage listener — parent (Main Navigator) can control orientation =====
+    (function() {
+      if (window.self === window.top) return; // standalone — no listener needed
+      window.addEventListener('message', function(e) {
+        if (!e.data || e.data.type !== 'set-orientation') return;
+        var orient = e.data.orient;
+        if (orient === 'landscape') {
+          document.body.classList.add('landscape');
+        } else {
+          document.body.classList.remove('landscape');
+        }
+        // Sync radio buttons if visible
+        var radios = document.querySelectorAll('input[name="pubOrient"]');
+        radios.forEach(function(r) { r.checked = (r.value === orient); });
+        // Persist to page's own localStorage — so "Open in new tab" gets same orientation
+        var isInterface = {{ page.page_type | default: "" | jsonify }} === 'interface';
+        var standaloneKey = isInterface ? 'knowledge-orient-interface' : 'knowledge-orient';
+        var perPageKey = 'knowledge-orient:' + location.pathname.replace(/\/+$/, '');
+        localStorage.setItem(standaloneKey, orient);
+        localStorage.setItem(perPageKey, orient);
+      });
+    })();
+
+    // ===== Remove markdown-sourced metadata lines (replaced by template UI) =====
+    // Removes: language bar, standalone version paragraphs — scan all <p> elements
+    (function() {
+      var pubVer = '{{ page.version | default: "" }}';
+      var ps = Array.from(document.querySelectorAll('.pub-content p, main p, article p, .content p, #content p, body p'));
+      // Fallback: all p if scoped selector finds nothing
+      if (!ps.length) ps = Array.from(document.querySelectorAll('p'));
+      ps.forEach(function(p) {
+        var t = p.textContent.trim();
+        if (
+          t.indexOf('Languages / Langues') === 0 ||
+          t.indexOf('Langues / Languages') === 0 ||
+          (pubVer && t === 'Publication ' + pubVer) ||
+          (pubVer && /^Publication v\d/.test(t) && t.indexOf(pubVer) !== -1)
+        ) {
+          p.remove();
+        }
+      });
+    })();
+
+    // ===== Multi-column TOC =====
+    (function() {
+      var strongs = document.querySelectorAll('strong');
+      for (var i = 0; i < strongs.length; i++) {
+        var t = strongs[i].textContent.trim();
+        if (t === 'Contents' || t === 'Table des mati\u00e8res') {
+          var p = strongs[i].parentElement;
+          if (p && p.tagName === 'P') {
+            var next = p.nextElementSibling;
+            if (next && (next.tagName === 'UL' || next.tagName === 'TABLE')) {
+              var nav = document.createElement('nav');
+              nav.className = 'toc';
+              var title = document.createElement('div');
+              title.className = 'toc-title';
+              title.textContent = t;
+              nav.appendChild(title);
+              p.parentNode.insertBefore(nav, p);
+              nav.appendChild(next);
+              p.remove();
+              break;
+            }
+          }
+        }
+      }
+    })();
+
+    // ===== Mermaid — 4-theme-aware with retry (CDN may be slow) =====
+    (function() {
+      var themes = {
+        light: {
+          background: '#eff6ff', primaryColor: '#dbeafe', primaryTextColor: '#0f172a',
+          primaryBorderColor: '#1d4ed8', secondaryColor: '#eff6ff', secondaryTextColor: '#475569',
+          secondaryBorderColor: '#93c5fd', tertiaryColor: '#e0f2fe', tertiaryTextColor: '#0f172a',
+          tertiaryBorderColor: '#0284c7', lineColor: '#1d4ed8', textColor: '#0f172a',
+          mainBkg: '#dbeafe', nodeBorder: '#1d4ed8', clusterBkg: '#eff6ff',
+          clusterBorder: '#93c5fd', titleColor: '#1d4ed8', edgeLabelBackground: '#eff6ff', nodeTextColor: '#0f172a'
+        },
+        dark: {
+          background: '#0f172a', primaryColor: '#1e293b', primaryTextColor: '#e2e8f0',
+          primaryBorderColor: '#60a5fa', secondaryColor: '#334155', secondaryTextColor: '#94a3b8',
+          secondaryBorderColor: '#475569', tertiaryColor: '#1e1b4b', tertiaryTextColor: '#e2e8f0',
+          tertiaryBorderColor: '#a78bfa', lineColor: '#60a5fa', textColor: '#e2e8f0',
+          mainBkg: '#1e293b', nodeBorder: '#60a5fa', clusterBkg: '#0f172a',
+          clusterBorder: '#334155', titleColor: '#e2e8f0', edgeLabelBackground: '#1e293b', nodeTextColor: '#e2e8f0'
+        },
+        'daltonism-light': {
+          background: '#faf6f1', primaryColor: '#eee8df', primaryTextColor: '#1a1a2e',
+          primaryBorderColor: '#0055b3', secondaryColor: '#faf6f1', secondaryTextColor: '#5c5c78',
+          secondaryBorderColor: '#d48a3c', tertiaryColor: '#f0ece6', tertiaryTextColor: '#1a1a2e',
+          tertiaryBorderColor: '#b37200', lineColor: '#0055b3', textColor: '#1a1a2e',
+          mainBkg: '#eee8df', nodeBorder: '#0055b3', clusterBkg: '#faf6f1',
+          clusterBorder: '#d48a3c', titleColor: '#0055b3', edgeLabelBackground: '#faf6f1', nodeTextColor: '#1a1a2e'
+        },
+        'daltonism-dark': {
+          background: '#1a1a2e', primaryColor: '#28283e', primaryTextColor: '#e8e4f0',
+          primaryBorderColor: '#5599dd', secondaryColor: '#2a2a3e', secondaryTextColor: '#9494aa',
+          secondaryBorderColor: '#cc8833', tertiaryColor: '#2a1e3e', tertiaryTextColor: '#e8e4f0',
+          tertiaryBorderColor: '#e6a030', lineColor: '#5599dd', textColor: '#e8e4f0',
+          mainBkg: '#28283e', nodeBorder: '#5599dd', clusterBkg: '#1a1a2e',
+          clusterBorder: '#cc8833', titleColor: '#5599dd', edgeLabelBackground: '#28283e', nodeTextColor: '#e8e4f0'
+        }
+      };
+
+      function getThemeKey() {
+        var saved = localStorage.getItem('knowledge-theme') || 'auto';
+        if (saved === 'daltonism-light' || saved === 'daltonism-dark') return saved;
+        if (saved === 'midnight') return 'dark';
+        if (saved === 'cayman') return 'light';
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      function renderMermaid() {
+        if (typeof mermaid === 'undefined') return false;
+        var key = getThemeKey();
+        mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: themes[key] });
+        // Match both standard markdown output (pre > code.language-mermaid)
+        // and kramdown/Rouge output (div.language-mermaid > div.highlight > pre > code)
+        var blocks = document.querySelectorAll('pre code.language-mermaid, .language-mermaid.highlighter-rouge pre code, .language-mermaid pre code');
+        if (blocks.length === 0) return true;
+        blocks.forEach(function(el) {
+          // Skip Mermaid source blocks preserved for documentation chain (v49)
+          if (el.closest('.mermaid-source')) return;
+          // For Rouge output: replace the entire Rouge wrapper div
+          var rouge = el.closest('.language-mermaid.highlighter-rouge');
+          // For standard output: replace the <pre> parent (NOT el.closest('.language-mermaid')
+          // which would match the <code> element itself and leave the <pre> in place)
+          var wrapper = rouge || el.closest('pre');
+          if (!wrapper) return;
+          var div = document.createElement('div');
+          div.className = 'mermaid';
+          div.textContent = el.textContent;
+          wrapper.parentNode.replaceChild(div, wrapper);
+        });
+        var p = mermaid.run();
+        if (p && typeof p.catch === 'function') p.catch(function(e) { console.warn('Mermaid render error:', e); });
+        return true;
+      }
+
+      // Try immediately (script loaded synchronously in head)
+      if (!renderMermaid()) {
+        // CDN slow — retry after DOM ready, then with increasing delays
+        var retries = [100, 500, 1500, 3000];
+        retries.forEach(function(delay) {
+          setTimeout(function() { renderMermaid(); }, delay);
+        });
+      }
+    })();
+
+    // ===== Generation timestamp — web banner + print cover =====
+    (function() {
+      var now = new Date();
+      var y = now.getFullYear();
+      var m = String(now.getMonth() + 1).padStart(2, '0');
+      var d = String(now.getDate()).padStart(2, '0');
+      var h = String(now.getHours()).padStart(2, '0');
+      var min = String(now.getMinutes()).padStart(2, '0');
+      var ts = y + '-' + m + '-' + d + ' ' + h + ':' + min;
+      var el = document.getElementById('pubGenDate');
+      if (el) el.textContent = ts;
+      var coverEl = document.getElementById('coverGenDate');
+      if (coverEl) coverEl.textContent = ts;
+    })();
+
+    // ===== Keywords — banner text + cross-references at page bottom =====
+    (function() {
+      var el = document.getElementById('pubKeywords');
+      if (!el) return;
+      var raw = el.getAttribute('data-raw');
+      if (!raw) return;
+      var txt = document.createElement('textarea');
+      txt.innerHTML = raw;
+      var decoded = txt.value;
+      var keywords = decoded.split(',').map(function(k) { return k.trim(); });
+      // Banner: plain text with middot separators
+      el.innerHTML = keywords.join('<span class="kw-sep"> &middot; </span>');
+      // Cross-reference section at page bottom
+      var crossEl = document.getElementById('pubCrossrefs');
+      if (!crossEl) return;
+      // Skip auto cross-refs if the page content already has its own cross-refs section
+      var contentCrossrefs = document.querySelectorAll('.pub-crossrefs');
+      var hasManualCrossrefs = false;
+      contentCrossrefs.forEach(function(el) { if (el.id !== 'pubCrossrefs') hasManualCrossrefs = true; });
+      if (hasManualCrossrefs) { crossEl.style.display = 'none'; return; }
+      var base = '{{ "" | relative_url }}';
+      if (base === '/') base = '';
+      var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+      var p = isFr ? '/fr/publications/' : '/publications/';
+      var map = {
+        'knowledge system': p+'knowledge-system/', 'système de connaissances': p+'knowledge-system/',
+        'bootstrap': p+'knowledge-system/#how-to-use-this-file',
+        'methodology': p+'knowledge-system/', 'méthodologie': p+'knowledge-system/',
+        'portable': p+'knowledge-system/',
+        'embedded': p+'mplib-storage-pipeline/', 'embarqué': p+'mplib-storage-pipeline/',
+        'SQLite': p+'mplib-storage-pipeline/', 'RTOS': p+'mplib-storage-pipeline/',
+        'ThreadX': p+'mplib-storage-pipeline/', 'pipeline': p+'mplib-storage-pipeline/',
+        'dual-buffer': p+'mplib-storage-pipeline/', 'double tampon': p+'mplib-storage-pipeline/',
+        'PSRAM': p+'mplib-storage-pipeline/',
+        'live session': p+'live-session-analysis/', 'session en direct': p+'live-session-analysis/',
+        'video analysis': p+'live-session-analysis/', 'analyse vidéo': p+'live-session-analysis/',
+        'UART': p+'live-session-analysis/', 'frame extraction': p+'live-session-analysis/',
+        "extraction d'images": p+'live-session-analysis/', 'OBS': p+'live-session-analysis/',
+        'real-time': p+'live-session-analysis/', 'temps réel': p+'live-session-analysis/',
+        'session persistence': p+'ai-session-persistence/', 'persistance de session': p+'ai-session-persistence/',
+        'Free Guy': p+'ai-session-persistence/', 'NPC': p+'ai-session-persistence/',
+        'awareness': p+'ai-session-persistence/', 'conscience': p+'ai-session-persistence/',
+        'sunglasses': p+'ai-session-persistence/', 'lunettes': p+'ai-session-persistence/',
+        'distributed minds': p+'distributed-minds/', 'connaissances distribuées': p+'distributed-minds/',
+        'satellites': p+'distributed-minds/', 'bidirectional': p+'distributed-minds/',
+        'bidirectionnel': p+'distributed-minds/', 'knowledge flow': p+'distributed-minds/',
+        'flux de connaissances': p+'distributed-minds/',
+        'dashboard': p+'distributed-knowledge-dashboard/', 'tableau de bord': p+'distributed-knowledge-dashboard/',
+        'drift': p+'distributed-knowledge-dashboard/', 'dérive': p+'distributed-knowledge-dashboard/',
+        'severity': p+'distributed-knowledge-dashboard/', 'sévérité': p+'distributed-knowledge-dashboard/',
+        'network status': p+'distributed-knowledge-dashboard/', 'état du réseau': p+'distributed-knowledge-dashboard/',
+        'webcards': p+'webcards-social-sharing/', 'OG image': p+'webcards-social-sharing/',
+        'image OG': p+'webcards-social-sharing/', 'animated GIF': p+'webcards-social-sharing/',
+        'GIF animé': p+'webcards-social-sharing/', 'social sharing': p+'webcards-social-sharing/',
+        'partage social': p+'webcards-social-sharing/',
+        'dynamic': p+'webcards-social-sharing/full/#dynamic-webcards--living-knowledge-artifacts',
+        'dynamique': p+'webcards-social-sharing/full/#webcards-dynamiques--artefacts-de-connaissances-vivants',
+        'normalize': p+'normalize-structure-concordance/', 'normaliser': p+'normalize-structure-concordance/',
+        'concordance': p+'normalize-structure-concordance/', 'structure': p+'normalize-structure-concordance/',
+        'validation': p+'normalize-structure-concordance/', 'bilingual': p+'normalize-structure-concordance/',
+        'bilingue': p+'normalize-structure-concordance/', 'audit': p+'normalize-structure-concordance/',
+        'harvest': p+'harvest-protocol/', 'récolte': p+'harvest-protocol/',
+        'promotion': p+'harvest-protocol/', 'healthcheck': p+'harvest-protocol/',
+        'bilan de santé': p+'harvest-protocol/', 'insights': p+'harvest-protocol/',
+        'perspectives': p+'harvest-protocol/', 'version drift': p+'harvest-protocol/',
+        'dérive de version': p+'harvest-protocol/',
+        'session': p+'session-management/', 'wakeup': p+'session-management/',
+        'refresh': p+'session-management/', 'save': p+'session-management/',
+        'sauvegarde': p+'session-management/', 'lifecycle': p+'session-management/',
+        'cycle de vie': p+'session-management/', 'commands': p+'session-management/',
+        'commandes': p+'session-management/', 'persistence': p+'session-management/',
+        'persistance': p+'session-management/', 'notes': p+'session-management/',
+        'security': p+'security-by-design/', 'sécurité': p+'security-by-design/',
+        'PQC': p+'security-by-design/', 'access control': p+'security-by-design/',
+        "contrôle d'accès": p+'security-by-design/', 'fork safety': p+'security-by-design/',
+        'fork sûr': p+'security-by-design/', 'privacy': p+'security-by-design/',
+        'confidentialité': p+'security-by-design/', 'owner-scoped': p+'security-by-design/',
+        'portée propriétaire': p+'security-by-design/',
+        'beacon': p+'live-knowledge-network/', 'balise': p+'live-knowledge-network/',
+        'discovery': p+'live-knowledge-network/', 'découverte': p+'live-knowledge-network/',
+        'subnet': p+'live-knowledge-network/', 'sous-réseau': p+'live-knowledge-network/',
+        'inter-instance': p+'live-knowledge-network/', 'ML-KEM': p+'live-knowledge-network/',
+        'success stories': p+'success-stories/', 'histoires de succès': p+'success-stories/',
+        'project management': p+'project-management/', 'gestion de projet': p+'project-management/',
+        'news': isFr ? '/fr/news/' : '/news/', 'nouveautés': '/fr/news/',
+        'plan': isFr ? '/fr/plan/' : '/plan/', 'roadmap': '/plan/', 'feuille de route': '/fr/plan/',
+        'links': isFr ? '/fr/links/' : '/links/', 'liens': '/fr/links/',
+        'reference': isFr ? '/fr/links/' : '/links/', 'référence': '/fr/links/',
+        'publications': isFr ? '/fr/publications/' : '/publications/',
+        'projects': isFr ? '/fr/projects/' : '/projects/', 'projets': '/fr/projects/'
+      };
+      var currentPath = window.location.pathname;
+      var links = [];
+      keywords.forEach(function(kw) {
+        var url = map[kw] || map[kw.toLowerCase()];
+        if (url) {
+          var fullUrl = base + url;
+          if (currentPath !== fullUrl && currentPath !== fullUrl.replace(/\/$/, '')) {
+            links.push('<a href="' + fullUrl + '">' + kw + '</a>');
+          }
+        }
+      });
+      if (links.length > 0) {
+        var heading = isFr ? 'Références croisées' : 'Cross-references';
+        crossEl.innerHTML = '<h3>' + heading + '</h3><div class="pub-crossrefs-list">' + links.join('') + '</div>';
+      }
+    })();
+
+    // ===== Harvest commands — click-to-copy =====
+    document.querySelectorAll('code').forEach(function(el) {
+      var text = el.textContent.trim();
+      if (text.indexOf('harvest --') === 0) {
+        el.classList.add('harvest-cmd');
+        el.title = 'Click to copy: ' + text;
+        el.addEventListener('click', function() {
+          navigator.clipboard.writeText(text).then(function() {
+            el.classList.add('copied');
+            var toast = document.getElementById('copyToast');
+            toast.textContent = 'Copied: ' + text;
+            toast.classList.add('show');
+            setTimeout(function() {
+              el.classList.remove('copied');
+              toast.classList.remove('show');
+            }, 1500);
+          });
+        });
+      }
+    });
+
+    // ===== PDF export — window.print with Letter/Legal + Portrait/Landscape + cover page + running headers =====
+    var PAGE_SIZES = {
+      letter: '8.5in 11in',
+      legal:  '8.5in 14in'
+    };
+    function printAs(format) {
+      var size = PAGE_SIZES[format] || PAGE_SIZES.letter;
+      // Detect current orientation from radio buttons
+      var orientRadio = document.querySelector('input[name="pubOrient"]:checked');
+      var orient = orientRadio ? orientRadio.value : 'portrait';
+      if (orient === 'landscape') size += ' landscape';
+      var now = new Date();
+      var ts = now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0') + ' ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0');
+      var ver = '{{ page.version | default: "v1" }}';
+      document.getElementById('printSizeStyle').textContent =
+        '@page { size: ' + size + '; }\n' +
+        '@page {\n' +
+        '  @bottom-left   { content: "Generated: ' + ts + '  \u00B7  ' + ver + '"; }\n' +
+        '  @bottom-center { content: counter(page) " / " counter(pages); }\n' +
+        '  @bottom-right  { content: "Knowledge"; }\n' +
+        '}\n' +
+        '@page :first {\n' +
+        '  @top-left    { content: ""; border: none; }\n' +
+        '  @top-center  { content: ""; border: none; }\n' +
+        '  @top-right   { content: ""; border: none; }\n' +
+        '  @bottom-left   { content: ""; border: none; }\n' +
+        '  @bottom-center { content: ""; border: none; }\n' +
+        '  @bottom-right  { content: ""; border: none; }\n' +
+        '}';
+      // Smart TOC page break — own page only if TOC > half the page height
+      (function() {
+        var isInterface = {{ page.page_type | default: "" | jsonify }} === 'interface';
+        var toc = document.querySelector('.toc');
+        var h2First = document.querySelector('h2:first-of-type');
+        if (isInterface || !toc || !h2First) return;
+        var halfPagePx = (format === 'legal') ? 585 : 441;
+        var tocH = toc.getBoundingClientRect().height;
+        var needsOwnPage = tocH > halfPagePx;
+        h2First.style.pageBreakBefore = needsOwnPage ? 'always' : 'auto';
+        h2First.style.breakBefore     = needsOwnPage ? 'page'   : 'auto';
+        window.addEventListener('afterprint', function() {
+          h2First.style.pageBreakBefore = '';
+          h2First.style.breakBefore     = '';
+        }, { once: true });
+      })();
+      // Hide language bar (Languages / Langues) during print — restored on afterprint
+      var langBarEl = null;
+      document.querySelectorAll('p > strong:first-child').forEach(function(s) {
+        if (!langBarEl && (s.textContent.trim() === 'Languages / Langues' || s.textContent.trim() === 'Langues / Languages')) {
+          langBarEl = s.parentElement;
+          langBarEl.style.display = 'none';
+        }
+      });
+      window.addEventListener('afterprint', function() { if (langBarEl) langBarEl.style.display = ''; }, { once: true });
+      // Set PDF filename via document.title — strip chars invalid in filenames (#, em-dashes, etc.)
+      var origTitle = document.title;
+      var pubId  = '{{ page.pub_id | default: "" }}';
+      var pubVer = '{{ page.version | default: "v1" }}';
+      var safeId    = pubId .replace(/[\u2014\u2013<>:"/\\|?*#]/g, '').trim();
+      var safeTitle = origTitle.replace(/[\u2014\u2013]/g, ' - ').replace(/[<>:"/\\|?*#]/g, '').trim();
+      var pdfTitle  = (safeId ? safeId + ' - ' : '') + safeTitle + (pubVer ? ' - ' + pubVer : '');
+      document.title = pdfTitle.trim() || 'knowledge-publication';
+      // afterprint listener must be registered BEFORE window.print() — on blocking browsers it fires before print() returns
+      window.addEventListener('afterprint', function() { document.title = origTitle; }, { once: true });
+      // setTimeout(0) flushes the title update before the print dialog captures it
+      setTimeout(function() { window.print(); }, 0);
+    }
+
+    document.getElementById('exportPdf').addEventListener('click', function() {
+      var size = document.querySelector('input[name="pubPageSize"]:checked').value;
+      printAs(size);
+    });
+
+    // ===== DOCX export — HTML-to-Word blob (Word, LibreOffice, Google Docs) =====
+    // Convention: Universal/Web layout is the reference. Both PDF and DOCX are
+    // derived sibling export formats from the same source (web pages).
+    // Uses MSO elements for the universal 3-zone page layout:
+    //   Zone 1 — Running header (mso-element:header) — per page, not on cover
+    //   Zone 2 — Content area (div.Section1)
+    //   Zone 3 — Running footer (mso-element:footer) — per page, not on cover
+    document.getElementById('exportDocx').addEventListener('click', function() {
+      var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+
+      // ── 0. Wait for Mermaid diagrams to render before exporting ──
+      // Mermaid renders asynchronously. If diagrams haven't rendered yet,
+      // the SVG won't be captured and the diagram will be missing in the DOCX.
+      var pendingMermaid = false;
+      document.querySelectorAll('.mermaid').forEach(function(el) {
+        if (!el.querySelector('svg')) pendingMermaid = true;
+      });
+      if (pendingMermaid) {
+        var waitToast = document.getElementById('copyToast');
+        waitToast.textContent = isFr ? 'Attente des diagrammes...' : 'Waiting for diagrams...';
+        waitToast.classList.add('show');
+        setTimeout(function() {
+          waitToast.classList.remove('show');
+          document.getElementById('exportDocx').click();
+        }, 2500);
+        return;
+      }
+
+      var container = document.querySelector('.container');
+      var clone = container.cloneNode(true);
+
+      // ── 0a. Strip ALL web-only elements (matches PDF @media print hide list) ──
+      clone.querySelectorAll('.pub-export-toolbar, .back-link, .pub-topbar, .pub-crossrefs, .pub-lang-bar, .dev-banner, .webcard-header, .board-widget, .board-section-widget, .copy-toast, .page-status-tag, .pub-version-banner').forEach(function(el) { el.remove(); });
+
+      // ── Build metadata ──
+      var pubId  = '{{ page.pub_id | default: "" }}';
+      var pubVer = '{{ page.version | default: "v1" }}';
+      var pubTitle = {{ page.title | default: "" | jsonify }};
+      var now = new Date();
+      var ts = now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0') + ' ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0');
+
+      // ── 1. Cover page — use the copy already in the cloned container ──
+      // #pub-cover-page is a child of .container (hidden on screen via CSS).
+      // cloneNode(true) already brings it in — do NOT re-clone from live DOM
+      // (that caused a duplicate: two cover pages in sequence).
+      var clonedCover = clone.querySelector('#pub-cover-page') ||
+                        clone.querySelector('[id$="-cover-page"]');
+      if (clonedCover) {
+        clonedCover.style.display = 'block';
+        var coverGen = clonedCover.querySelector('#coverGenDate');
+        if (coverGen) coverGen.textContent = ts;
+
+        // ── Word-compatible cover layout ──
+        // Word's HTML renderer ignores padding-top on divs (only margin-top works)
+        // and ignores border-top on empty divs (need a bordered <p> instead).
+
+        // 1. Vertical centering via margin-top (Word respects this; padding-top is ignored)
+        var coverBody = clonedCover.querySelector('.cover-body');
+        if (coverBody) { coverBody.style.marginTop = '8cm'; coverBody.style.textAlign = 'center'; }
+
+        // 2. Replace .cover-rule div (border-top ignored by Word) with a bordered <p>
+        var coverRule = clonedCover.querySelector('.cover-rule');
+        if (coverRule) {
+          var ruleP = document.createElement('p');
+          ruleP.setAttribute('style', 'border-bottom:1.5pt solid #444;width:6cm;margin:0 auto 0.8cm;font-size:1pt;line-height:0;');
+          ruleP.innerHTML = '&nbsp;';
+          coverRule.parentNode.replaceChild(ruleP, coverRule);
+        }
+
+        // 3. Explicit text-align:center on each child block (Word doesn't cascade from parent div)
+        ['cover-title','cover-desc','cover-meta','cover-gen-line'].forEach(function(cls) {
+          var el = clonedCover.querySelector('.' + cls);
+          if (el) el.style.textAlign = 'center';
+        });
+
+        // 4. Explicit page-break paragraph after cover — Word only processes
+        //    page-break-before reliably on <p> elements, not on divs.
+        var coverBreak = document.createElement('p');
+        coverBreak.setAttribute('style', 'page-break-before:always;mso-break-type:page-break;margin:0;font-size:1pt;line-height:0;');
+        coverBreak.innerHTML = '&nbsp;';
+        clonedCover.parentNode.insertBefore(coverBreak, clonedCover.nextSibling);
+      }
+      // Hide the bare h1 (cover page title div replaces it)
+      var origH1 = clone.querySelector('h1');
+      if (origH1) origH1.style.display = 'none';
+
+      // ── Bug D: Inner table first-cell + TOC links ──
+      // Runs BEFORE Bug C (flex→table) so inline styles are preserved when Bug C copies innerHTML.
+      // Word ignores CSS :first-child pseudo-selectors; JS querySelectorAll resolves them correctly.
+      // Also removes inner table <thead> (Word ignores display:none — empty header row appears otherwise).
+      clone.querySelectorAll('.story-row-right table thead').forEach(function(thead) {
+        thead.remove();
+      });
+      clone.querySelectorAll('.story-row-right table td:first-child').forEach(function(td) {
+        td.style.whiteSpace = 'nowrap';
+        td.style.fontWeight = '600';
+        td.style.width = '140px';
+        td.style.color = '#555';
+        td.style.border = 'none';
+      });
+      clone.querySelectorAll('.toc table td:first-child a').forEach(function(a) {
+        a.style.color = '#1d4ed8';
+        a.style.textDecoration = 'underline';
+      });
+
+      // ── Bug C: .story-row flex→table (Word ignores display:flex; virtual rows → real tables) ──
+      // Converts each .story-row div into a 2-cell <table> with inline border logic.
+      // isFirst/isLast handle border rules that CSS .story-row+.story-row and :last-child cannot.
+      clone.querySelectorAll('.story-section').forEach(function(section) {
+        var rows = Array.from(section.querySelectorAll('.story-row'));
+        rows.forEach(function(row, i) {
+          var left  = row.querySelector('.story-row-left');
+          var right = row.querySelector('.story-row-right');
+          if (!left || !right) return;
+          var isFirst = (i === 0);
+          var isLast  = (i === rows.length - 1);
+          var bTop    = isLast ? 'none' : (isFirst ? '1px solid #ddd' : 'none');
+          var bBottom = isLast ? 'none' : '1px solid #ddd';
+          var tbl = document.createElement('table');
+          tbl.setAttribute('style',
+            'width:100%;border-collapse:collapse;font-size:9pt;line-height:1.4;' +
+            'border-top:' + bTop + ';border-bottom:' + bBottom + ';page-break-inside:avoid;');
+          var tr = document.createElement('tr');
+          var tdL = document.createElement('td');
+          tdL.setAttribute('style',
+            'width:110pt;min-width:110pt;vertical-align:top;' +
+            'padding:0.15cm 0.3cm;font-weight:600;color:#555;border:none;');
+          tdL.innerHTML = left.innerHTML;
+          var tdR = document.createElement('td');
+          tdR.setAttribute('style', 'vertical-align:top;padding:0.15cm 0.3cm;border:none;');
+          tdR.innerHTML = right.innerHTML;
+          tr.appendChild(tdL); tr.appendChild(tdR);
+          tbl.appendChild(tr);
+          row.parentNode.replaceChild(tbl, row);
+        });
+      });
+
+      // ── Bug B: Emoji → canvas PNG (Word uses monochrome emoji; canvas uses color system font) ──
+      function emojiToPng(ch) {
+        var canvas = document.createElement('canvas');
+        canvas.width = 32; canvas.height = 32;
+        var ctx = canvas.getContext('2d');
+        ctx.font = '26px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ch, 16, 16);
+        return canvas.toDataURL('image/png');
+      }
+      var walker = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT, null, false);
+      var textNodes = [];
+      while (walker.nextNode()) { textNodes.push(walker.currentNode); }
+      textNodes.forEach(function(tn) {
+        if (!/\p{Emoji_Presentation}/u.test(tn.textContent)) return;
+        var parts = tn.textContent.split(/(\p{Emoji_Presentation}\uFE0F?)/gu);
+        if (parts.length <= 1) return;
+        var frag = document.createDocumentFragment();
+        parts.forEach(function(p) {
+          if (!p) return;
+          if (/\p{Emoji_Presentation}/u.test(p)) {
+            var img = document.createElement('img');
+            img.src = emojiToPng(p);
+            img.width = 14; img.height = 14;
+            img.setAttribute('style', 'width:14px;height:14px;vertical-align:-2px;display:inline;margin:0 1pt;');
+            frag.appendChild(img);
+          } else {
+            frag.appendChild(document.createTextNode(p));
+          }
+        });
+        tn.parentNode.replaceChild(frag, tn);
+      });
+
+      // ── 5. Pie charts — convert SVG to PNG via canvas (async) ──
+      // Word cannot render SVG data URIs (data:image/svg+xml) — only PNG/JPEG are reliably supported.
+      // Use same canvas→PNG pattern as Mermaid: SVG→Image→canvas→PNG data URI.
+      var promises = [];
+      clone.querySelectorAll('[class*="pie-"]').forEach(function(el) {
+        var m = el.className.match(/pie-(\d+)-(\d+)/);
+        if (!m) return;
+        var pct = parseInt(m[1], 10);
+        var angle = pct * 3.6;
+        var rad = angle * Math.PI / 180;
+        var x = 50 + 45 * Math.sin(rad);
+        var y = 50 - 45 * Math.cos(rad);
+        var largeArc = pct > 50 ? 1 : 0;
+        var svgXml = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 100 100">' +
+          '<circle cx="50" cy="50" r="45" fill="#99f6e4"/>' +
+          '<path d="M50,5 A45,45 0 ' + largeArc + ',1 ' + x.toFixed(1) + ',' + y.toFixed(1) + ' L50,50 Z" fill="#0f766e"/>' +
+          '</svg>';
+        var svgUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgXml);
+        var p = new Promise(function(resolve) {
+          var loader = new Image();
+          loader.onload = function() {
+            var canvas = document.createElement('canvas');
+            canvas.width = 48; canvas.height = 48;
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 48, 48);
+            ctx.drawImage(loader, 0, 0, 48, 48);
+            var img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            img.width = 48; img.height = 48;
+            img.style.cssText = 'vertical-align:middle;display:inline-block;';
+            el.parentNode.replaceChild(img, el);
+            resolve();
+          };
+          loader.onerror = resolve;
+          loader.src = svgUrl;
+        });
+        promises.push(p);
+      });
+
+      // ── 6. Mermaid — convert rendered SVGs to PNG via canvas ──
+      // Word cannot render SVG data URIs — only PNG/JPEG are reliably supported.
+      // Measure live SVG dimensions NOW (clone elements aren't in DOM so
+      // getBoundingClientRect() returns zeros on the clone).
+      var liveMermaidSvgs = Array.from(document.querySelectorAll('.mermaid svg'));
+      var mermaidDims = liveMermaidSvgs.map(function(svgEl) {
+        var rect = svgEl.getBoundingClientRect();
+        var w = rect.width || 0, h = rect.height || 0;
+        var vb = svgEl.getAttribute('viewBox');
+        if (vb) {
+          var p = vb.trim().split(/[\s,]+/);
+          if (p.length >= 4) { w = w || parseFloat(p[2]); h = h || parseFloat(p[3]); }
+        }
+        return { w: Math.round(w) || 700, h: Math.round(h) || 300 };
+      });
+
+      clone.querySelectorAll('pre code.language-mermaid, .language-mermaid.highlighter-rouge pre code').forEach(function(el) {
+        var rouge = el.closest('.language-mermaid.highlighter-rouge');
+        (rouge || el.closest('pre')).remove();
+      });
+      var cloneMermaidEls = Array.from(clone.querySelectorAll('.mermaid'));
+
+      var pngPromises = cloneMermaidEls.map(function(el, idx) {
+        return new Promise(function(resolve) {
+          var svgEl = el.querySelector('svg');
+          if (!svgEl) { el.remove(); resolve(); return; }
+          var dim = mermaidDims[idx] || { w: 700, h: 300 };
+          var svgStr = new XMLSerializer().serializeToString(svgEl);
+          var svgUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr);
+          var loader = new Image();
+          loader.onload = function() {
+            var canvas = document.createElement('canvas');
+            canvas.width = dim.w; canvas.height = dim.h;
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, dim.w, dim.h);
+            ctx.drawImage(loader, 0, 0, dim.w, dim.h);
+            var img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            img.style.maxWidth = '100%';
+            img.style.pageBreakInside = 'avoid';
+            img.style.display = 'block';
+            img.style.margin = '0.4cm 0';
+            el.parentNode.replaceChild(img, el);
+            resolve();
+          };
+          loader.onerror = function() { el.remove(); resolve(); };
+          loader.src = svgUrl;
+        });
+      });
+
+      Promise.all(promises.concat(pngPromises)).then(function() {
+      // ── CSS — OOXML-compatible styling (html-docx-js) ──
+      var css =
+        '@page{size:letter;margin:1.8cm 1.5cm 1.8cm 1.5cm;}' +
+        'body{font-family:Calibri,sans-serif;font-size:10pt;line-height:1.6;color:#000;max-width:100%;margin:0 auto;}' +
+        'a{color:#1d4ed8;text-decoration:underline;}' +
+        'img{max-width:100%;max-height:15cm;page-break-inside:avoid;}' +
+        'video,iframe{display:none !important;}' +
+        'h1{font-size:20pt;color:#1d4ed8;margin-bottom:6pt;}' +
+        'h2{font-size:13pt;color:#111;border-bottom:1px solid #ccc;padding-bottom:3pt;margin-top:18pt;}' +
+        'h3{font-size:11pt;color:#111;margin-top:12pt;}' +
+        'table{border-collapse:collapse;width:100%;font-size:9pt;line-height:1.4;}' +
+        'th,td{border:none;border-bottom:1px solid #93c5fd;padding:0.35rem 0.5rem;text-align:left;}' +
+        'th{background:#dbeafe;font-weight:600;white-space:nowrap;border-bottom:2px solid #1d4ed8;color:#0f172a;}' +
+        'code{background:#f5f5f5;color:#111;border:1px solid #ddd;padding:1pt 3pt;font-family:Consolas,monospace;font-size:8.5pt;}' +
+        'pre{background:#f5f5f5;border:1px solid #ddd;padding:6pt;font-family:Consolas,monospace;font-size:8.5pt;white-space:pre-wrap;}' +
+        'blockquote{border-left:3pt solid #1d4ed8;padding:4pt 8pt;color:#666;font-style:italic;}' +
+        'h1,h2,h3{page-break-after:avoid;}' +
+        'table,pre,blockquote{page-break-inside:avoid;}' +
+        '#pub-cover-page{display:block;text-align:center;min-height:680pt;}' +
+        '.cover-body{max-width:18cm;margin:8cm auto 0;}' +
+        '.cover-title{font-size:28pt;font-weight:700;color:#111;line-height:1.2;margin-bottom:0.7cm;}' +
+        '.cover-desc{font-size:12pt;color:#333;line-height:1.55;margin-bottom:1cm;font-style:italic;}' +
+        '.cover-rule{border:none;border-top:1.5pt solid #444;margin:0 auto 0.8cm;width:6cm;}' +
+        '.cover-meta{font-size:10pt;color:#444;line-height:2;}' +
+        '.cover-gen-line{font-size:8.5pt;color:#666;font-family:Consolas,monospace;margin-top:0.2cm;}' +
+        '.toc{background:none;border:none;border-radius:0;padding:0 0 0.5cm 0;margin:0 0 0.8cm 0;page-break-inside:avoid;}' +
+        '.toc-title{font-size:11pt;font-weight:700;color:#111;margin-bottom:0.25cm;}' +
+        '.toc ul{list-style:none;padding-left:0;margin:0;}' +
+        '.toc li{font-size:9.5pt;line-height:1.8;}' +
+        '.toc li a{color:#1d4ed8;text-decoration:underline;}' +
+        '.story-row{display:flex;gap:0;align-items:stretch;border-bottom:1px solid #ddd;border-top:1px solid #ddd;font-size:9pt;line-height:1.4;page-break-inside:avoid;}' +
+        '.story-row + .story-row{border-top:none;}' +
+        '.story-row-left{width:110pt;min-width:110pt;padding:0.15cm 0.3cm;font-weight:600;color:#555;}' +
+        '.story-row-right{flex:1;padding:0.15cm 0.3cm;}' +
+        '.story-row-right table{width:100%;border-collapse:collapse;font-size:9pt;margin:0;}' +
+        '.story-row-right table thead{display:none;}' +
+        '.story-row-right table td{border:none;padding:0.1rem 0.3rem;vertical-align:top;}' +
+        '.story-section{margin-bottom:0.3cm;}';
+
+      // ── Page breaks — h2 #2+ each start on a new page ──
+      var h2list = clone.querySelectorAll('h2');
+      h2list.forEach(function(el, i) {
+        if (i > 0) { el.style.pageBreakBefore = 'always'; }
+      });
+
+      // ── Build proper OOXML .docx ZIP from scratch (altChunk for HTML content) ──
+      var cleanHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' + css + '</style></head><body>' + clone.innerHTML + '</body></html>';
+      // Filename: PUB_ID - Title - VER.docx
+      var safeId    = pubId.replace(/[\u2014\u2013<>:"/\\|?*#]/g, '').trim();
+      var safeTitle = pubTitle.replace(/[\u2014\u2013]/g, ' - ').replace(/[<>:"/\\|?*#]/g, '').trim();
+      var docTitle  = (safeId ? safeId + ' - ' : '') + safeTitle + (pubVer ? ' - ' + pubVer : '');
+      var docFilename = (docTitle.trim() || 'knowledge-publication') + '.docx';
+
+      function dlBlob(b) {
+        var u = URL.createObjectURL(b);
+        var a = document.createElement('a');
+        a.href = u; a.download = docFilename;
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a); URL.revokeObjectURL(u);
+      }
+      function showToast() {
+        var t = document.getElementById('copyToast');
+        t.textContent = isFr ? 'DOCX export\u00e9 !' : 'DOCX exported!';
+        t.classList.add('show');
+        setTimeout(function() { t.classList.remove('show'); }, 2000);
+      }
+      function escXml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      if (typeof JSZip === 'undefined') {
+        alert(isFr ? 'Biblioth\u00e8que ZIP non charg\u00e9e. V\u00e9rifiez votre connexion internet.' : 'ZIP library not loaded. Check your internet connection.');
+        return;
+      }
+
+      // OOXML namespace constants
+      var wNs   = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+      var wNsW  = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
+      var rBase = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+      var pkgNs = 'http://schemas.openxmlformats.org/package/2006/relationships';
+      var ctNs  = 'http://schemas.openxmlformats.org/package/2006/content-types';
+      var rPr   = '<w:rPr><w:color w:val="555555"/><w:sz w:val="15"/><w:szCs w:val="15"/></w:rPr>';
+
+      // Default header: pub title left, pub ID right, blue bottom border
+      var hdrXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<w:hdr ' + wNs + '>' +
+        '<w:tbl>' +
+        '<w:tblPr><w:tblW w:w="0" w:type="auto"/>' +
+        '<w:tblBorders><w:bottom w:val="single" w:sz="12" w:space="0" w:color="1d4ed8"/></w:tblBorders></w:tblPr>' +
+        '<w:tblGrid><w:gridCol w:w="4500"/><w:gridCol w:w="4500"/></w:tblGrid>' +
+        '<w:tr>' +
+        '<w:tc><w:tcPr><w:tcW w:w="4500" w:type="dxa"/></w:tcPr>' +
+        '<w:p><w:r>' + rPr + '<w:t>' + escXml(pubTitle) + '</w:t></w:r></w:p></w:tc>' +
+        '<w:tc><w:tcPr><w:tcW w:w="4500" w:type="dxa"/></w:tcPr>' +
+        '<w:p><w:pPr><w:jc w:val="right"/></w:pPr>' +
+        '<w:r>' + rPr + '<w:t>' + escXml(pubId) + '</w:t></w:r></w:p></w:tc>' +
+        '</w:tr></w:tbl>' +
+        '<w:p/></w:hdr>';
+
+      // Default footer: timestamp+ver left, page/numpages center, "Knowledge" right, blue top border
+      var genLabel = isFr ? 'G\u00e9n\u00e9r\u00e9\u00a0: ' : 'Generated: ';
+      var ftrLabel = escXml(genLabel + ts + ' \u00b7 ' + pubVer);
+      var ftrXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<w:ftr ' + wNs + '>' +
+        '<w:tbl>' +
+        '<w:tblPr><w:tblW w:w="0" w:type="auto"/>' +
+        '<w:tblBorders><w:top w:val="single" w:sz="12" w:space="0" w:color="1d4ed8"/></w:tblBorders></w:tblPr>' +
+        '<w:tblGrid><w:gridCol w:w="3500"/><w:gridCol w:w="2000"/><w:gridCol w:w="3500"/></w:tblGrid>' +
+        '<w:tr>' +
+        '<w:tc><w:tcPr><w:tcW w:w="3500" w:type="dxa"/></w:tcPr>' +
+        '<w:p><w:r>' + rPr + '<w:t>' + ftrLabel + '</w:t></w:r></w:p></w:tc>' +
+        '<w:tc><w:tcPr><w:tcW w:w="2000" w:type="dxa"/></w:tcPr>' +
+        '<w:p><w:pPr><w:jc w:val="center"/></w:pPr>' +
+        '<w:fldSimple w:instr=" PAGE "><w:r>' + rPr + '<w:t>1</w:t></w:r></w:fldSimple>' +
+        '<w:r>' + rPr + '<w:t xml:space="preserve"> / </w:t></w:r>' +
+        '<w:fldSimple w:instr=" NUMPAGES "><w:r>' + rPr + '<w:t>1</w:t></w:r></w:fldSimple>' +
+        '</w:p></w:tc>' +
+        '<w:tc><w:tcPr><w:tcW w:w="3500" w:type="dxa"/></w:tcPr>' +
+        '<w:p><w:pPr><w:jc w:val="right"/></w:pPr>' +
+        '<w:r>' + rPr + '<w:t>Knowledge</w:t></w:r></w:p></w:tc>' +
+        '</w:tr></w:tbl>' +
+        '<w:p/></w:ftr>';
+
+      // Empty first-page header/footer (cover page has no header/footer)
+      var emptyHdr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:hdr ' + wNsW + '><w:p/></w:hdr>';
+      var emptyFtr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:ftr ' + wNsW + '><w:p/></w:ftr>';
+
+      // word/document.xml — minimal document with altChunk + sectPr referencing headers/footers
+      // r:id (lowercase) per OOXML spec CT_HdrFtrRef definition
+      var docXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<w:document ' + wNs + '><w:body>' +
+        '<w:altChunk r:id="htmlChunk"/>' +
+        '<w:sectPr>' +
+        '<w:titlePg/>' +
+        '<w:headerReference w:type="default" r:id="rHdr1"/>' +
+        '<w:footerReference w:type="default" r:id="rFtr1"/>' +
+        '<w:headerReference w:type="first" r:id="rHdr2"/>' +
+        '<w:footerReference w:type="first" r:id="rFtr2"/>' +
+        '<w:pgSz w:w="12240" w:h="15840"/>' +
+        '<w:pgMar w:top="1020" w:right="850" w:bottom="1020" w:left="850" w:header="720" w:footer="720" w:gutter="0"/>' +
+        '</w:sectPr></w:body></w:document>';
+
+      // word/_rels/document.xml.rels — altChunk + header/footer relationships
+      var relsXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<Relationships xmlns="' + pkgNs + '">' +
+        '<Relationship Id="htmlChunk" Type="' + rBase + '/aFChunk" Target="afchunk.htm"/>' +
+        '<Relationship Id="rHdr1" Type="' + rBase + '/header" Target="header1.xml"/>' +
+        '<Relationship Id="rFtr1" Type="' + rBase + '/footer" Target="footer1.xml"/>' +
+        '<Relationship Id="rHdr2" Type="' + rBase + '/header" Target="header2.xml"/>' +
+        '<Relationship Id="rFtr2" Type="' + rBase + '/footer" Target="footer2.xml"/>' +
+        '</Relationships>';
+
+      // _rels/.rels — package-level relationship to document
+      var pkgRelsXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<Relationships xmlns="' + pkgNs + '">' +
+        '<Relationship Id="rId1" Type="' + rBase + '/officeDocument" Target="word/document.xml"/>' +
+        '</Relationships>';
+
+      // [Content_Types].xml — register all ZIP parts
+      var ctXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<Types xmlns="' + ctNs + '">' +
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' +
+        '<Default Extension="xml" ContentType="application/xml"/>' +
+        '<Default Extension="htm" ContentType="text/html"/>' +
+        '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>' +
+        '<Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>' +
+        '<Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>' +
+        '<Override PartName="/word/header2.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>' +
+        '<Override PartName="/word/footer2.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>' +
+        '</Types>';
+
+      // Build the ZIP and trigger download
+      var zip = new JSZip();
+      zip.file('[Content_Types].xml', ctXml);
+      zip.file('_rels/.rels', pkgRelsXml);
+      zip.file('word/document.xml', docXml);
+      zip.file('word/_rels/document.xml.rels', relsXml);
+      zip.file('word/afchunk.htm', cleanHtml);
+      zip.file('word/header1.xml', hdrXml);
+      zip.file('word/footer1.xml', ftrXml);
+      zip.file('word/header2.xml', emptyHdr);
+      zip.file('word/footer2.xml', emptyFtr);
+      zip.generateAsync({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }).then(function(docxBlob) {
+        dlBlob(docxBlob); showToast();
+      }).catch(function(err) {
+        console.error('DOCX generation failed:', err);
+        alert(isFr ? 'Erreur lors de la g\u00e9n\u00e9ration DOCX.' : 'DOCX generation failed. See browser console.');
+      });
+      }); // Promise.all
+    });
+  </script>
+
+  {% if page.board %}
+  <!-- Board Widget — multi-instance, per-section filtering -->
+  <script>
+  (function() {
+    var mainEl = document.getElementById('board-widget');
+    var sectionEls = document.querySelectorAll('.board-section-widget');
+    var allWidgets = [];
+    if (mainEl) allWidgets.push({ el: mainEl, section: null, isMain: true });
+    for (var w = 0; w < sectionEls.length; w++) {
+      allWidgets.push({ el: sectionEls[w], section: sectionEls[w].getAttribute('data-board-section'), isMain: false });
+    }
+    if (!allWidgets.length) return;
+
+    var isFr = window.location.pathname.indexOf('/fr/') >= 0;
+    var baseUrl = '{{ site.baseurl }}';
+    var boardNum = '{{ page.board_number | default: "4" }}';
+    var dataUrl = baseUrl + '/data/board-' + boardNum + '.json';
+    var allItems = [];
+    var meta = {};
+
+    var L = isFr ? {
+      title:'Tableau de bord du projet', status:'Statut', type:'Type',
+      itemTitle:'Titre', actions:'Actions', filter:'Filtre',
+      all:'Tous', active:'Actifs', inProgress:'En cours',
+      todo:'À faire', done:'Terminé', lastSync:'Dernière sync',
+      noItems:'Aucun élément', min:'min', hour:'h', board:'Tableau',
+      view:'Voir sur GitHub', edit:'Modifier', close:'Fermer', reopen:'Rouvrir'
+    } : {
+      title:'Project Board', status:'Status', type:'Type',
+      itemTitle:'Title', actions:'Actions', filter:'Filter',
+      all:'All', active:'Active', inProgress:'In Progress',
+      todo:'Todo', done:'Done', lastSync:'Last synced',
+      noItems:'No items', min:'min', hour:'h', board:'Board',
+      view:'View on GitHub', edit:'Edit', close:'Close', reopen:'Reopen'
+    };
+
+    var ICONS = {
+      view: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+      edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+      close: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><line x1="6" y1="6" x2="18" y2="18" stroke="#ef4444"/><line x1="18" y1="6" x2="6" y2="18" stroke="#ef4444"/></svg>',
+      reopen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>'
+    };
+
+    function fetchData() {
+      for (var r = 0; r < allWidgets.length; r++) {
+        var ri = allWidgets[r].el.querySelector('.board-refresh-icon');
+        if (ri) ri.classList.add('board-refreshing');
+      }
+      fetch(dataUrl + '?_t=' + Date.now())
+        .then(function(resp) { return resp.json(); })
+        .then(function(data) { meta = data.meta || {}; allItems = data.items || []; renderAll(); })
+        .catch(function() {
+          for (var e = 0; e < allWidgets.length; e++) {
+            if (!allItems.length) allWidgets[e].el.innerHTML = '<div class="board-empty">' +
+              (isFr ? 'Impossible de charger les données.' : 'Unable to load board data.') + '</div>';
+          }
+        })
+        .finally(function() {
+          for (var f = 0; f < allWidgets.length; f++) {
+            var fi = allWidgets[f].el.querySelector('.board-refresh-icon');
+            if (fi) fi.classList.remove('board-refreshing');
+          }
+        });
+    }
+
+    function renderAll() { for (var i = 0; i < allWidgets.length; i++) renderWidget(allWidgets[i]); }
+
+    function renderWidget(w) {
+      var container = w.el, section = w.section, isMain = w.isMain;
+      var uid = 'bw-' + (section || 'main');
+      var pk = 'board-' + window.location.pathname + '-' + uid;
+      var sortCol = localStorage.getItem(pk + '-sc') || 'status_priority';
+      var sortDir = localStorage.getItem(pk + '-sd') || 'asc';
+      var defaultFilter = (section === 'done') ? 'done' : 'active';
+      var filter = localStorage.getItem(pk + '-f') || defaultFilter;
+      var base = section ? allItems.filter(function(it) { return it.section === section; }) : allItems;
+      var filtered = statusFilter(base, filter);
+      var sorted = sortArr(filtered, sortCol, sortDir);
+      var filterHtml = '<div class="board-filter"><select class="board-filter-sel" data-uid="' + uid + '">' +
+        opt('active',L.active)+opt('all',L.all)+opt('inProgress',L.inProgress)+opt('todo',L.todo)+opt('done',L.done) +
+        '</select></div>';
+      var h = '';
+      if (isMain) {
+        h += '<div class="board-header"><h3>' + L.title + '</h3>' +
+          '<div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">' +
+          filterHtml + syncMeta() + '</div></div>';
+      } else {
+        h += '<div class="board-header board-header-section">' +
+          '<div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">' +
+          filterHtml + syncMeta() + '</div></div>';
+      }
+      if (!sorted.length) { h += '<div class="board-empty">'+L.noItems+'</div>'; }
+      else {
+        h += '<div class="board-table-wrap"><table class="board-table"><thead><tr>'+
+          thCell(sortCol,sortDir,'status_priority',L.status)+
+          thCell(sortCol,sortDir,'type',L.type)+
+          thCell(sortCol,sortDir,'title',L.itemTitle)+
+          '<th>'+L.actions+'</th></tr></thead><tbody>';
+        for (var i=0;i<sorted.length;i++) h += buildRow(sorted[i]);
+        h += '</tbody></table></div>';
+      }
+      container.innerHTML = h;
+      var filterSel = container.querySelector('.board-filter-sel');
+      if (filterSel) {
+        filterSel.value = filter;
+        filterSel.addEventListener('change', function() {
+          localStorage.setItem(pk + '-f', this.value); renderWidget(w);
+        });
+      }
+      var ths = container.querySelectorAll('.board-th-sort');
+      for (var j=0;j<ths.length;j++) (function(el){
+        el.addEventListener('click',function(){
+          var col=el.getAttribute('data-col'), newDir='asc';
+          if(localStorage.getItem(pk+'-sc')===col) newDir=localStorage.getItem(pk+'-sd')==='asc'?'desc':'asc';
+          localStorage.setItem(pk+'-sc',col); localStorage.setItem(pk+'-sd',newDir); renderWidget(w);
+        });
+      })(ths[j]);
+    }
+
+    function syncMeta() {
+      return '<div class="board-meta"><span class="board-refresh-icon">🔄</span> '+L.lastSync+': '+formatAge(meta.synced_at)+
+        ' · <a href="'+esc(meta.board_url||'')+'" target="_blank">'+L.board+' #'+(meta.board_number||boardNum)+'</a></div>';
+    }
+    function opt(v,l){ return '<option value="'+v+'">'+l+'</option>'; }
+    function thCell(curCol,curDir,col,label){
+      var a=curCol===col?(curDir==='asc'?' ▲':' ▼'):'';
+      return '<th class="board-th-sort" data-col="'+col+'">'+label+(a?'<span class="board-sort-arrow">'+a+'</span>':'')+'</th>';
+    }
+    function buildRow(item) {
+      var tc = item.type==='issue'&&item.issue_url
+        ? '<a class="board-type-link" href="'+esc(item.issue_url)+'" target="_blank">#'+item.issue_number+'</a>'
+        : '<span class="board-type-draft">Draft</span>';
+      var viewUrl = item.issue_url||item.board_url||'#';
+      var ac = '<div class="board-actions"><a class="board-action" href="'+esc(viewUrl)+'" target="_blank" title="'+L.view+'">'+ICONS.view+'</a>';
+      ac += '<a class="board-action" href="'+esc(viewUrl)+'" target="_blank" title="'+L.edit+'">'+ICONS.edit+'</a>';
+      if (item.actions&&item.actions.indexOf('close')>=0&&item.issue_url)
+        ac+='<a class="board-action board-action-close" href="'+esc(item.issue_url)+'" target="_blank" title="'+L.close+'">'+ICONS.close+'</a>';
+      if (item.actions&&item.actions.indexOf('reopen')>=0&&item.issue_url)
+        ac+='<a class="board-action board-action-reopen" href="'+esc(item.issue_url)+'" target="_blank" title="'+L.reopen+'">'+ICONS.reopen+'</a>';
+      ac += '</div>';
+      var labelsHtml = '';
+      if (item.labels && item.labels.length) {
+        for (var li=0;li<item.labels.length;li++) {
+          var lbl=item.labels[li];
+          labelsHtml+=' <span class="board-label" style="background:#'+esc(lbl.color||'666')+'">'+esc(lbl.name)+'</span>';
+        }
+      }
+      return '<tr><td class="board-status">'+item.status_emoji+' '+esc(item.status)+'</td><td>'+tc+'</td><td>'+esc(item.title)+labelsHtml+'</td><td>'+ac+'</td></tr>';
+    }
+    function sortArr(arr,col,dir) {
+      var a=arr.slice(); a.sort(function(x,y){
+        var xv=x[col],yv=y[col];
+        if(typeof xv==='string')xv=xv.toLowerCase();
+        if(typeof yv==='string')yv=yv.toLowerCase();
+        if(xv<yv)return dir==='asc'?-1:1;
+        if(xv>yv)return dir==='asc'?1:-1;
+        var xt=(x.title||'').toLowerCase(),yt=(y.title||'').toLowerCase();
+        return xt<yt?-1:xt>yt?1:0;
+      }); return a;
+    }
+    function statusFilter(arr,f) {
+      if(f==='all')return arr;
+      if(f==='active')return arr.filter(function(i){return i.status==='In Progress'||i.status==='Todo';});
+      if(f==='inProgress')return arr.filter(function(i){return i.status==='In Progress';});
+      if(f==='todo')return arr.filter(function(i){return i.status==='Todo';});
+      if(f==='done')return arr.filter(function(i){return i.status==='Done';});
+      return arr;
+    }
+    function formatAge(iso){
+      if(!iso)return '—';
+      var d=Math.floor((Date.now()-new Date(iso).getTime())/60000);
+      if(d<1)return isFr?'à l\'instant':'just now';
+      if(d<60)return d+' '+L.min+(isFr?'':' ago');
+      var h=Math.floor(d/60); return h+' '+L.hour+(isFr?'':' ago');
+    }
+    function esc(s){ if(!s)return ''; var d=document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML; }
+
+    fetchData();
+  })();
+  </script>
+  {% endif %}
+
+  <script>
+  /* External links open in new window — solves iframe X-Frame-Options blocks */
+  (function(){
+    var host = window.location.hostname;
+    document.querySelectorAll('a[href]').forEach(function(a){
+      var h = a.hostname;
+      if (h && h !== host && !a.getAttribute('target')) {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener');
+      }
+    });
+    /* Also handle mailto: links */
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
+      if (!a.getAttribute('target')) {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener');
+      }
+    });
+  })();
+  </script>
+
+  <!-- ===== Live version from version.json — runtime fetch, build-time fallback ===== -->
+  <script>
+  (function() {
+    var JSON_URL = '{{ "/data/version.json" | relative_url }}';
+    var RAW_URL = 'https://raw.githubusercontent.com/{{ site.github_repo | default: "packetqc/knowledge" }}/main/docs/data/version.json';
+    var RAW_FALLBACK = 'https://raw.githubusercontent.com/{{ site.github_repo | default: "packetqc/knowledge" }}/main/docs/data/version.json';
+    function formatVersionDisplay(v) {
+      var display = v.version;
+      if (v.datetime) display += ' (' + v.datetime + ')';
+      return display;
+    }
+    function applyVersion(v) {
+      var display = formatVersionDisplay(v);
+      var els = document.querySelectorAll('[data-kv-live]');
+      for (var i = 0; i < els.length; i++) {
+        els[i].textContent = display;
+      }
+    }
+    function tryFetch(url, fallback1, fallback2) {
+      fetch(url, { cache: 'no-store' }).then(function(r) {
+        if (!r.ok && fallback1) return fetch(fallback1, { cache: 'no-store' });
+        if (!r.ok) throw new Error(r.status);
+        return r;
+      }).then(function(r) {
+        if (!r.ok && fallback2) return fetch(fallback2, { cache: 'no-store' });
+        if (!r.ok) throw new Error(r.status);
+        return r;
+      }).then(function(r) { return r.json(); }).then(function(v) {
+        if (v && v.version) applyVersion(v);
+      }).catch(function() { /* build-time values remain — silent fallback */ });
+    }
+    tryFetch(JSON_URL, RAW_URL, RAW_FALLBACK);
+  })();
+  </script>
+
+</body>
+</html>

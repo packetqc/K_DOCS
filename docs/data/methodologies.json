@@ -98,6 +98,16 @@
       "priority": 9
     },
     {
+      "title": "Module Creation",
+      "title_fr": "Création de module",
+      "description": "Full lifecycle for creating a new K_* module — GitHub repo, local structure, system registration, documentation integration, and subtree synchronization.",
+      "description_fr": "Cycle de vie complet pour créer un nouveau module K_* — repo GitHub, structure locale, enregistrement système, intégration documentaire et synchronisation subtree.",
+      "file": "module-creation.md",
+      "module": "K_MIND",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/methodology/module-creation.md",
+      "priority": 10
+    },
+    {
       "title": "Import System",
       "title_fr": "Système d'import",
       "description": "K_MIND module import system — dependency resolution, load order, and activation management.",
@@ -105,7 +115,7 @@
       "file": "methodology-import-system.md",
       "module": "K_MIND",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_MIND/methodology/methodology-import-system.md",
-      "priority": 10
+      "priority": 11
     },
     {
       "title": "Project Create",
@@ -115,7 +125,7 @@
       "file": "project-create.md",
       "module": "K_PROJECTS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-create.md",
-      "priority": 11
+      "priority": 12
     },
     {
       "title": "Project Management",
@@ -125,7 +135,7 @@
       "file": "project-management.md",
       "module": "K_PROJECTS",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_PROJECTS/methodology/project-management.md",
-      "priority": 12
+      "priority": 13
     },
     {
       "title": "Checkpoint/Resume",
@@ -135,7 +145,7 @@
       "file": "checkpoint-resume.md",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/checkpoint-resume.md",
-      "priority": 13
+      "priority": 14
     },
     {
       "title": "Metrics Compilation",
@@ -145,7 +155,7 @@
       "file": "metrics-compilation.md",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/metrics-compilation.md",
-      "priority": 14
+      "priority": 15
     },
     {
       "title": "Session Protocol",
@@ -155,7 +165,7 @@
       "file": "session-protocol.md",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/session-protocol.md",
-      "priority": 15
+      "priority": 16
     },
     {
       "title": "Task Workflow",
@@ -165,7 +175,27 @@
       "file": "task-workflow.md",
       "module": "K_VALIDATION",
       "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_VALIDATION/methodology/task-workflow.md",
-      "priority": 16
+      "priority": 17
+    },
+    {
+      "title": "Commands Reference",
+      "title_fr": "Référence des commandes",
+      "description": "Master command reference — all user-facing commands organized by domain group with usage patterns, registry structure, and implementation notes.",
+      "description_fr": "Référence maître des commandes — toutes les commandes organisées par groupe de domaine avec patrons d'utilisation, structure du registre et notes d'implémentation.",
+      "file": "commands.md",
+      "module": "K_TOOLS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_TOOLS/methodology/commands.md",
+      "priority": 18
+    },
+    {
+      "title": "Commands User Guide",
+      "title_fr": "Guide utilisateur commandes",
+      "description": "User-facing guide for all Knowledge platform commands — usage patterns, command groups, contextual help.",
+      "description_fr": "Guide utilisateur pour toutes les commandes de la plateforme Knowledge — patrons d'utilisation, groupes de commandes, aide contextuelle.",
+      "file": "user-guide.md",
+      "module": "K_TOOLS",
+      "path": "https://raw.githubusercontent.com/packetqc/knowledge/main/Knowledge/K_TOOLS/methodology/user-guide.md",
+      "priority": 19
     }
   ],
   "removed": []

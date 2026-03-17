@@ -1,0 +1,96 @@
+{
+  "version": 3,
+  "session_id": "claude/automated-documentation-recordings-95GAZ",
+  "repo": "packetqc/knowledge",
+  "issue_number": 556,
+  "issue_title": "",
+  "branch": "claude/automated-documentation-recordings-95GAZ",
+  "mode": "burst",
+  "created": "2026-03-01T19:07:04.316402+00:00",
+  "updated": "2026-03-01T22:27:19.543459+00:00",
+  "agent_initialized": true,
+  "request_description": "Develop new Visual call feature for automated documentation from recordings. Creates new Visuals command category (does NOT regroup Live Session calls \u2014 those stay). The visual call processes video recordings for automated documentation or for live-session or any session to extract content frame picture or buffer autonomously or with list of evidence data provided. Accepts dates/times to search for evidence detection in the list of evidence provided or just date or time. Accepts string of words in the same list of evidence provided. Runs in detection mode for knowledge project content. Accepts video file paths from GitHub repos. Uses ONLY standard/recognized Python libraries (no external tools/services).",
+  "clip_mode": "discard",
+  "session_data": {
+    "request_addon": [
+      {
+        "index": 1,
+        "timestamp": "2026-03-01T19:07:30.745610+00:00",
+        "verbatim": "on the side request, can you create web pub of the recommendation letters you have built, latest ? and put these new links in my profile hub, summary and full pages.",
+        "stage": "unknown",
+        "stage_index": -1,
+        "addon_type": "addon",
+        "request_type": "feature"
+      },
+      {
+        "index": 2,
+        "timestamp": "2026-03-01T19:13:52.439005+00:00",
+        "verbatim": "* All Live Session recording calls (I'm live, pause, resume capture, multi-live, deep, analyze, recipe) stays in actual group Live-session.",
+        "stage": "unknown",
+        "stage_index": -1,
+        "addon_type": "addon",
+        "request_type": "investigation"
+      },
+      {
+        "index": 3,
+        "timestamp": "2026-03-01T19:40:26.459210+00:00",
+        "verbatim": "yes, and place it also in web page universal program to add this sub version between parenthesis after the vN version number tag. web pages should see it by reading it from the main default branch repo VERSION.md file (that may not exists should be promoted as essential file to maintain by the meta metho instructions).",
+        "stage": "unknown",
+        "stage_index": -1,
+        "addon_type": "addon",
+        "request_type": "feature"
+      }
+    ],
+    "request_addon_synthesis": [
+      {
+        "index": 1,
+        "timestamp": "2026-03-01T19:07:30.745610+00:00",
+        "synthesis": "Side request: create web publications for recommendation letters and add links to profile hub/summary/full pages. Separate task \u2014 address after main feature.",
+        "stage": "unknown",
+        "stage_index": -1,
+        "addon_type": "addon",
+        "request_type": "feature"
+      },
+      {
+        "index": 2,
+        "timestamp": "2026-03-01T19:13:52.439005+00:00",
+        "synthesis": "Correction: Live Session calls stay in their current group. The new Visuals category should NOT regroup Live Session calls. Visuals = new visual command + visualization tools (render, screenshot) only.",
+        "stage": "unknown",
+        "stage_index": -1,
+        "addon_type": "addon",
+        "request_type": "investigation"
+      },
+      {
+        "index": 3,
+        "timestamp": "2026-03-01T19:40:26.459210+00:00",
+        "synthesis": "Implement sub-version system: create VERSION.md at repo root (essential file), display sub-version as (N) after vN on web pages via JS runtime fetch from GitHub raw URL. Promote VERSION.md in CLAUDE.md essential files and normalize checks.",
+        "stage": "unknown",
+        "stage_index": -1,
+        "addon_type": "addon",
+        "request_type": "feature"
+      }
+    ],
+    "comment_ids": {
+      "addon_1": 3980800616,
+      "addon_2": 3980813949,
+      "addon_3": 3980884380
+    },
+    "todo_snapshot": [
+      {
+        "content": "Marty todo validation to keep",
+        "status": "pending"
+      }
+    ],
+    "session_phase": "executing",
+    "pr_numbers": [
+      {
+        "number": 557,
+        "title": "VERSION.md sub-version system + session cache + visual engine WIP",
+        "status": "merged"
+      }
+    ],
+    "work_summary": "Fixed stale session cache (#521\u2192#556), implemented VERSION.md sub-version system with JS runtime fetch in both layouts, promoted VERSION.md as essential file in CLAUDE.md, removed * suffix from version display.",
+    "elevation_status": true,
+    "default_branch": "main"
+  }
+}

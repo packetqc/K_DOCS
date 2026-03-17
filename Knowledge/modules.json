@@ -7,7 +7,7 @@
       "description": "Core memory system — mindmap, session management, near/far memory, domain JSONs, scripts",
       "status": "active",
       "imported": true,
-      "upstream": null,
+      "upstream": "packetqc/K_MIND",
       "path": "Knowledge/K_MIND",
       "has": ["mind", "sessions", "architecture", "constraints", "conventions", "work", "documentation", "scripts"]
     },
@@ -49,6 +49,16 @@
       "imported": true,
       "upstream": "packetqc/knowledge",
       "path": "Knowledge/K_GITHUB",
+      "has": ["conventions", "documentation", "methodology", "scripts", "work"]
+    },
+    {
+      "id": "K_TOOLS",
+      "name": "Knowledge Tools",
+      "description": "Command framework and utilities module — command registry, help system, routing, operational scripts",
+      "status": "active",
+      "imported": true,
+      "upstream": "packetqc/K_TOOLS",
+      "path": "Knowledge/K_TOOLS",
       "has": ["conventions", "documentation", "methodology", "scripts", "work"]
     }
   ]

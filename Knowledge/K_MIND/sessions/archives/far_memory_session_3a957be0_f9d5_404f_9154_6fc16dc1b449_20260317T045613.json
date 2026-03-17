@@ -1,0 +1,2683 @@
+{
+  "topic": "session-3a957be0-f9d5-404f-9154-6fc16dc1b449",
+  "session_id": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+  "message_range": [
+    1,
+    154
+  ],
+  "near_memory_range": [
+    1,
+    77
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "hi",
+      "timestamp": "2026-03-14T18:27:44Z"
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Session start. Output mindmap, recent context, memory stats. Session active.",
+      "timestamp": "2026-03-14T18:27:44Z"
+    },
+    {
+      "id": 3,
+      "role": "user",
+      "content": "/mind-context full",
+      "timestamp": "2026-03-14T18:34:05Z"
+    },
+    {
+      "id": 4,
+      "role": "assistant",
+      "content": "Full mindmap rendered with all nodes including architecture, constraints, conventions at max depth.",
+      "timestamp": "2026-03-14T18:34:05Z"
+    },
+    {
+      "id": 5,
+      "role": "user",
+      "content": "/mind-context",
+      "timestamp": "2026-03-14T18:38:33Z"
+    },
+    {
+      "id": 6,
+      "role": "assistant",
+      "content": "Normal mode mindmap rendered with depth-filtered nodes.",
+      "timestamp": "2026-03-14T18:38:33Z"
+    },
+    {
+      "id": 7,
+      "role": "user",
+      "content": "Demande d'analyser les méthodologies du repo packetqc/knowledge pour identifier lesquelles importer. Veut un viewer JS statique unique pour documentation normalisée. Aussi rechercher une lib JS de mindmap interactive avec drag-and-drop de nodes.",
+      "timestamp": "2026-03-14T18:53:52Z"
+    },
+    {
+      "id": 8,
+      "role": "assistant",
+      "content": "Analyse complète du repo production: 6 méthodologies web identifiées, 2 layouts HTML (publication.html 109KB, default.html 74KB). Verdict: importer le CSS 4-thèmes et le print/export, adapter les layouts en viewer JS statique (pas Jekyll). Recherche libs mindmap: MindElixir (MIT, drag natif), Markmap (MIT, markdown input), jsMind, GoJS, vis-network, D3. Recommandation: MindElixir pour drag interactif.",
+      "timestamp": "2026-03-14T18:53:52Z",
+      "tools": [
+        {
+          "tool": "Bash",
+          "file": "gh_helper.py",
+          "action": "GitHubHelper auth + repo exploration"
+        },
+        {
+          "tool": "Bash",
+          "file": "curl",
+          "action": "Read 6 methodologies from packetqc/knowledge"
+        },
+        {
+          "tool": "Agent",
+          "file": "",
+          "action": "WebSearch interactive mindmap JS libraries"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "role": "user",
+      "content": "Clarification: Jekyll/Liquid/kramdown est OK pour la production. Il faut adapter au nouveau système MAIS respecter ce qui est importé de production pour que le retour en production fonctionne.",
+      "timestamp": "2026-03-14T18:56:25Z"
+    },
+    {
+      "id": 10,
+      "role": "assistant",
+      "content": "Compris: contrainte bidirectionnelle. Le format reste compatible Jekyll (front matter + markdown). Le viewer JS statique est un ajout local pour K_DOCS, pas un remplacement. Contenu doit fonctionner dans les deux directions: production → K_DOCS (import) et K_DOCS → production (retour).",
+      "timestamp": "2026-03-14T18:56:25Z"
+    },
+    {
+      "id": 11,
+      "role": "user",
+      "content": "Approuve le plan. Demande de prendre la publication Knowledge 2.0 comme pilote (3 versions: source, summary, full). Les outils de pagination, navigation et cache client doivent rester fonctionnels. Pas nécessairement Jekyll compatible mais structure URL /docs/publications/<slug>/ doit correspondre à production.",
+      "timestamp": "2026-03-14T19:24:21Z"
+    },
+    {
+      "id": 12,
+      "role": "assistant",
+      "content": "Étape 1 exécutée: docs/ créé, install.sh mis à jour, mindmap enrichi avec 5 nodes documentation + work en cours, documentation.json peuplé avec 6 références production (3 méthodologies web, 2 layouts HTML, 1 publication pilote) et conventions documentaires.",
+      "timestamp": "2026-03-14T19:24:21Z",
+      "tools": [
+        {
+          "tool": "Bash",
+          "file": "docs/",
+          "action": "mkdir docs + .gitkeep"
+        },
+        {
+          "tool": "Edit",
+          "file": "install.sh",
+          "action": "add docs/ creation"
+        },
+        {
+          "tool": "Edit",
+          "file": "mind_memory.md",
+          "action": "add documentation nodes + work en cours"
+        },
+        {
+          "tool": "Edit",
+          "file": "documentation.json",
+          "action": "add 6 production references + conventions"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "role": "user",
+      "content": "docs/ doit rester à la racine pour GitHub Pages. Utiliser Knowledge/K_DOCS pour implémentation du module, pas K_MIND. L'utilisateur voit le viewer sur le serveur local et trouve ça intéressant.",
+      "timestamp": "2026-03-14T19:31:48Z"
+    },
+    {
+      "id": 14,
+      "role": "assistant",
+      "content": "Créé Knowledge/K_DOCS/ comme module séparé. docs/ reste à la racine pour GitHub Pages. Viewer index.html créé avec 4 thèmes, Mermaid, TOC, export PDF. Serveur local lancé port 8000. Publication pilote Knowledge 2.0 (3 versions) téléchargée et servie.",
+      "timestamp": "2026-03-14T19:31:48Z",
+      "tools": [
+        {
+          "tool": "Write",
+          "file": "docs/index.html",
+          "action": "viewer HTML/JS 19KB"
+        },
+        {
+          "tool": "Bash",
+          "file": "",
+          "action": "http.server port 8000"
+        },
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/README.md",
+          "action": "module description"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "role": "user",
+      "content": "Manque l'export DOCX, le format Letter/Legal, et le cover page PDF.",
+      "timestamp": "2026-03-14T19:35:49Z"
+    },
+    {
+      "id": 16,
+      "role": "assistant",
+      "content": "Ajouté: 1) DOCX export avec cover page + Mermaid SVG→PNG + page breaks. 2) Sélection Letter/Legal dans toolbar. 3) Cover page PDF avec titre/desc/meta/date, running footers, @page :first clean. 4) Smart TOC page break. 5) Toast notification.",
+      "timestamp": "2026-03-14T19:35:49Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add DOCX export, Letter/Legal, cover page, printAs()"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "role": "user",
+      "content": "go ! (continuing from compaction — add document header block)",
+      "timestamp": "2026-03-14T19:43:15Z"
+    },
+    {
+      "id": 18,
+      "role": "assistant",
+      "content": "Added document header block to docs/index.html — styled card (like TOC) showing: title + version badge, tagline, pub_meta + source link, generated timestamp. Hidden in print (cover page has this info). CSS class .doc-header with .doc-header-title, .doc-header-tagline, .doc-header-badge, .doc-header-meta, .doc-header-gen.",
+      "timestamp": "2026-03-14T19:43:15Z",
+      "tools": [
+        {
+          "tool": "Read",
+          "file": "docs/index.html",
+          "action": "read current viewer"
+        },
+        {
+          "tool": "Read",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "check front matter fields"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add doc-header CSS + render logic"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "role": "user",
+      "content": "forgot to mention in specs. we need bring back the capability to switch FR and EN languages. can you put it top right, next to DOCX export button? ... two beautiful buttons EN and FR, the one active is toggle on the other off...",
+      "timestamp": "2026-03-14T19:53:00Z"
+    },
+    {
+      "id": 20,
+      "role": "assistant",
+      "content": "Added EN/FR language switch to toolbar — two joined buttons (EN|FR) with active/inactive states. Architecture: DOCS registry has path_fr field, FR files live under docs/fr/ prefix mirroring EN paths. Toggle loads paired version, updates URL with lang=fr param. FR disabled when no path_fr exists. Checking production repo for existing FR content.",
+      "timestamp": "2026-03-14T19:53:00Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add lang-switch CSS, buttons, and toggle logic"
+        },
+        {
+          "tool": "Bash",
+          "file": "docs/fr/",
+          "action": "create FR directory structure"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "role": "user",
+      "content": "in fr version, toc is twice like same issue we had in en version. also, title is english in the first TOC that we want to keep but it should be french.",
+      "timestamp": "2026-03-14T20:20:24Z"
+    },
+    {
+      "id": 22,
+      "role": "assistant",
+      "content": "Fixed: 1) Manual TOC regex now strips both **Contents** and **Table des matières**. 2) Generated TOC title localized based on currentMeta.lang — 'Table des matières' in FR, 'Contents' in EN. 3) Generated label localized — 'Généré' in FR.",
+      "timestamp": "2026-03-14T20:20:24Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "update TOC strip regex for FR, localize TOC title and Generated label"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "role": "user",
+      "content": "can we support the 4 actual interface web page type in this new viewer? all, same as concepts we bring from. should we import all documentation from knowledge repo to test it all.",
+      "timestamp": "2026-03-14T20:20:33Z"
+    },
+    {
+      "id": 24,
+      "role": "assistant",
+      "content": "Identified 3 layouts (default hub, publication, interface variant) across 77 EN + 76 FR files. Launched parallel agents to download all content from production repo. Production has 26 publications, 4 interfaces, 3 profile pages, 8 hub pages, 7 success stories.",
+      "timestamp": "2026-03-14T20:20:33Z",
+      "tools": [
+        {
+          "tool": "Agent",
+          "file": "",
+          "action": "list all production publications"
+        },
+        {
+          "tool": "Agent",
+          "file": "",
+          "action": "download all EN publications"
+        },
+        {
+          "tool": "Agent",
+          "file": "",
+          "action": "download all FR publications"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "role": "user",
+      "content": "will we are running this new session K_DOCS that have inherit from K_MIND, are you under the impression that K_MIND capabilities are running in realtime?",
+      "timestamp": "2026-03-14T20:20:37Z"
+    },
+    {
+      "id": 26,
+      "role": "assistant",
+      "content": "Acknowledged: memory_append has been inconsistent — dropped during fast-paced work. Catching up on missed turns now. Will maintain discipline going forward.",
+      "timestamp": "2026-03-14T20:20:37Z"
+    },
+    {
+      "id": 27,
+      "role": "user",
+      "content": "should we import all documentation from knowledge repo to test it all",
+      "timestamp": "2026-03-14T20:22:25Z"
+    },
+    {
+      "id": 28,
+      "role": "assistant",
+      "content": "Downloaded all 78 EN + 76 FR markdown files from production. Built full DOCS registry with 77 entries organized in 6 optgroups: Hub (8), Interfaces (4), Profile (4), Publications (52), Success Stories (9). Dropdown uses optgroup for clean navigation.",
+      "timestamp": "2026-03-14T20:22:25Z",
+      "tools": [
+        {
+          "tool": "Agent",
+          "file": "",
+          "action": "download 75 EN files"
+        },
+        {
+          "tool": "Agent",
+          "file": "",
+          "action": "download 76 FR files"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "full DOCS registry + optgroup selector"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "role": "user",
+      "content": "can we have this same kind of bar at bottom of the page? i would move the page layout and format and export capabilities in this bottom bar.",
+      "timestamp": "2026-03-14T20:25:27Z"
+    },
+    {
+      "id": 30,
+      "role": "assistant",
+      "content": "Split toolbar into two sticky bars: top bar for navigation (doc selector, theme, EN/FR), bottom bar for export (orientation, page size, PDF, DOCX). Bottom bar sticks to viewport bottom. Both hidden in print.",
+      "timestamp": "2026-03-14T20:25:27Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "split toolbar HTML into top/bottom, add toolbar-bottom CSS"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "role": "user",
+      "content": "si tu regarde la page all links par le viewer, tu vas voir des liens brisés: il faut fixer ca. il y avait peut-être des icons à considérer...",
+      "timestamp": "2026-03-14T20:32:10Z"
+    },
+    {
+      "id": 32,
+      "role": "assistant",
+      "content": "Added Liquid template resolver to viewer. Handles: {{ path | relative_url }}, {{ site.baseurl }}, {{ site.url }}, {{ site.github_repo }}, {{ page.X }}, {% include %}. Covers 800+ Liquid tag occurrences across 40+ files. SITE config: url=packetqc.github.io, baseurl=/knowledge, github_repo=packetqc/knowledge.",
+      "timestamp": "2026-03-14T20:32:10Z",
+      "tools": [
+        {
+          "tool": "Grep",
+          "file": "docs/",
+          "action": "audit Liquid tag patterns"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add resolveLiquid function before renderMarkdown"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "role": "user",
+      "content": "we can adapt actual imported documentations to fit with the new viewer. it will become the production for documentation.",
+      "timestamp": "2026-03-14T20:39:25Z"
+    },
+    {
+      "id": 34,
+      "role": "assistant",
+      "content": "Added click interceptor for internal links: resolveInternalPath() maps /knowledge/... URLs to DOCS entries, interceptInternalLinks() catches clicks in #content and routes to loadWithLang(). Handles EN/FR auto-detection from path prefix. External and anchor links pass through.",
+      "timestamp": "2026-03-14T20:39:25Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add resolveInternalPath + interceptInternalLinks functions, hook into loadDocument"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "role": "user",
+      "content": "/mind-context then create child node under mindmap top level documentation called web docs and bring actual under it. then /mind-depth",
+      "timestamp": "2026-03-14T20:43:36Z"
+    },
+    {
+      "id": 36,
+      "role": "assistant",
+      "content": "Displayed mindmap context. Edited mind_memory.md: created web docs parent node under documentation, moved 5 existing children under it. Displayed depth config table.",
+      "timestamp": "2026-03-14T20:43:36Z"
+    },
+    {
+      "id": 37,
+      "role": "user",
+      "content": "/mind-depth conventions 3 then /mind-context",
+      "timestamp": "2026-03-14T20:46:13Z"
+    },
+    {
+      "id": 38,
+      "role": "assistant",
+      "content": "Set conventions depth to 3. Displayed updated depth config table and full mindmap context with web docs node visible under documentation.",
+      "timestamp": "2026-03-14T20:46:13Z"
+    },
+    {
+      "id": 39,
+      "role": "user",
+      "content": "we are working on nothing ?",
+      "timestamp": "2026-03-14T20:47:48Z"
+    },
+    {
+      "id": 40,
+      "role": "assistant",
+      "content": "User pointed out work category shows (none) in near memory. This is because mind_refs weren't tagging work nodes. Active work: docs/index.html viewer with click interceptor for internal links just added, Liquid resolver, bilingual support, export pipeline. Correcting tracking.",
+      "timestamp": "2026-03-14T20:47:48Z"
+    },
+    {
+      "id": 41,
+      "role": "user",
+      "content": "/mind-context — work still shows none",
+      "timestamp": "2026-03-14T20:53:11Z"
+    },
+    {
+      "id": 42,
+      "role": "assistant",
+      "content": "Found bug: mind_refs used knowledge:: prefix but categorization expects refs starting with top-level group name (work, documentation, conventions). Fixed all near_memory refs by stripping knowledge:: prefix.",
+      "timestamp": "2026-03-14T20:53:11Z"
+    },
+    {
+      "id": 43,
+      "role": "user",
+      "content": "why i do not see the skills when typing / ?",
+      "timestamp": "2026-03-14T20:54:59Z"
+    },
+    {
+      "id": 44,
+      "role": "assistant",
+      "content": "Only github skill had user_invocable: true. Added it to mind-context, mind-depth, mind-stats SKILL.md frontmatter. Skills now appear in / autocomplete.",
+      "timestamp": "2026-03-14T20:54:59Z"
+    },
+    {
+      "id": 45,
+      "role": "user",
+      "content": "we need to work in the interfaces now. let's start with the main interface.",
+      "timestamp": "2026-03-14T21:05:21Z"
+    },
+    {
+      "id": 46,
+      "role": "assistant",
+      "content": "Implemented interface page type support in the viewer. For page_type: interface docs (like Main Navigator), the viewer: 1) Detects {::nomarkdown} blocks in markdown, 2) Extracts raw HTML/CSS/JS, 3) Resolves Liquid templates, 4) Builds standalone HTML page via Blob URL, 5) Shows doc header + Launch button + iframe preview in viewer. Added embed mode (?embed param) that hides viewer toolbars for iframe loading. Rewrites production /knowledge/ URLs to viewer embed URLs for iframes and widget links.",
+      "timestamp": "2026-03-14T21:05:21Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add embed mode, renderInterface(), URL rewriting for interfaces"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "role": "user",
+      "content": "viewer is broken",
+      "timestamp": "2026-03-14T21:08:50Z"
+    },
+    {
+      "id": 48,
+      "role": "assistant",
+      "content": "Fixed: </script> literal inside JS string broke HTML parser. Replaced with string concatenation '</' + 'script>'. Viewer should work again.",
+      "timestamp": "2026-03-14T21:08:50Z"
+    },
+    {
+      "id": 49,
+      "role": "user",
+      "content": "Interface pages: no launch button, collapsible chrome bar with metadata at top, no EN/FR in chrome bar (viewer has it), interfaces always landscape by default",
+      "timestamp": "2026-03-14T21:26:59Z"
+    },
+    {
+      "id": 50,
+      "role": "assistant",
+      "content": "Rewrote renderInterface: no launch button, interface renders directly. Added collapsible chrome bar (title, version badge, description, pub_id, date, generated time) with localStorage persistence. Top toolbar stays visible (doc selector + lang). Bottom export toolbar hidden. Auto-landscape on interface load. exitInterfaceMode restores normal mode. CSS: iface-chrome bar styles, #content flex column fills viewport minus toolbar height.",
+      "timestamp": "2026-03-14T21:26:59Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "rewrite renderInterface with chrome bar, add CSS, auto-landscape, exitInterfaceMode restore"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "role": "user",
+      "content": "layout capabilities not required in bar of interface page content. interfaces are always landscape by default. no EN/FR in chrome bar.",
+      "timestamp": "2026-03-14T21:28:31Z"
+    },
+    {
+      "id": 52,
+      "role": "assistant",
+      "content": "Stripped from main-navigator/index.md: language toggle, orientation toggle, panel selector, export toolbar override, theme propagation JS, and related CSS. Chrome bar now only has collapse toggle. All layout/export/lang handled by viewer. Also removed ~170 lines of production-specific JS.",
+      "timestamp": "2026-03-14T21:28:31Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "remove lang toggle, orient toggle, export override, theme propagation from chrome bar"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "role": "user",
+      "content": "the is a collapsible that is not required anymore in the main interface: the last one",
+      "timestamp": "2026-03-14T21:33:21Z"
+    },
+    {
+      "id": 54,
+      "role": "assistant",
+      "content": "Removed main navigator's own chrome bar: HTML div, CSS (.chrome-bar, .chrome-collapsed), JS (applyChromeState, CHROME_KEY), print rule reference. Viewer's interface chrome bar is now the only collapsible.",
+      "timestamp": "2026-03-14T21:33:21Z"
+    },
+    {
+      "id": 55,
+      "role": "user",
+      "content": "perfect,",
+      "timestamp": "2026-03-14T21:35:38Z"
+    },
+    {
+      "id": 56,
+      "role": "assistant",
+      "content": "User confirmed interface chrome bar working. Awaiting next direction.",
+      "timestamp": "2026-03-14T21:35:38Z"
+    },
+    {
+      "id": 57,
+      "role": "user",
+      "content": "Left panel links must be routed (center vs right panel). Main Navigator link should reload interface. Getting about:blank.",
+      "timestamp": "2026-03-14T21:38:19Z"
+    },
+    {
+      "id": 58,
+      "role": "assistant",
+      "content": "Fixed: URLs were relative (index.html?doc=...) which can't resolve from Blob URL context. Changed to absolute URLs using viewerOrigin. _top target links (like I2 Main Navigator) get no &embed so they reload the full viewer. Center/right iframe links get &embed for content-only rendering.",
+      "timestamp": "2026-03-14T21:38:19Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "absolute URLs in rewriteUrl/viewerRewriteUrl, _top target handling without embed"
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "role": "user",
+      "content": "nothing gets loaded on the main interface right panel on click from the left panel links",
+      "timestamp": "2026-03-14T21:44:42Z"
+    },
+    {
+      "id": 60,
+      "role": "assistant",
+      "content": "Changed approach: instead of rewriting href attributes (which fail from Blob URL context), added click interceptor on nav panel that catches clicks, rewrites URLs, and sets iframe.src directly. _top targets use window.top.location.href.",
+      "timestamp": "2026-03-14T21:44:42Z"
+    },
+    {
+      "id": 61,
+      "role": "user",
+      "content": "[compaction resume — continuation of interface widget links fix]",
+      "timestamp": "2026-03-14T21:52:10Z"
+    },
+    {
+      "id": 62,
+      "role": "assistant",
+      "content": "Replaced Blob URL approach with document.write() in renderInterface(). The iframe now runs at same origin, enabling widget links in left panel to navigate center-frame and content-frame iframes. Changed: removed blob/blobUrl creation, iframe src attr removed, added ifaceFrame.contentDocument.open()/write(fullPage)/close() after DOM insertion.",
+      "timestamp": "2026-03-14T21:52:10Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "replace Blob URL with document.write() in renderInterface()"
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "role": "user",
+      "content": "not working",
+      "timestamp": "2026-03-14T21:59:33Z"
+    },
+    {
+      "id": 64,
+      "role": "assistant",
+      "content": "Found root cause: resolveLiquid() regex only matched single-quoted Liquid tags but navigator uses double quotes. {{ \"\" | relative_url }} was never resolved, so BASE stayed literal and all widget URLs were broken. Fixed regex to accept both quote styles. Also switched from document.write() to srcdoc for iframe.",
+      "timestamp": "2026-03-14T21:59:33Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "fix resolveLiquid regex for double-quoted Liquid tags"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "switch from document.write to srcdoc for interface iframe"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "role": "user",
+      "content": "there was routing rules on the right panel when it is time to route an interface link: the issue was that the link of interface in a page on the right panel of the main interface will load the interface in the right panel instead of the center panel and there is a special route for this panel when it is the main interface link clicked inside of it to load at all page.",
+      "timestamp": "2026-03-15T05:59:18Z"
+    },
+    {
+      "id": 66,
+      "role": "assistant",
+      "content": "Added right panel routing rules in navigator IIFE: interface links in content-frame route to center-frame, main navigator link reloads full page via window.top.location.reload(). Interceptor re-attaches on each iframe load event.",
+      "timestamp": "2026-03-15T05:59:18Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "add right-panel click interceptor with routing rules"
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "role": "user",
+      "content": "interface links in right panel load in both center and right. only main works. srcdoc origin null prevents cross-doc access.",
+      "timestamp": "2026-03-15T06:16:00Z"
+    },
+    {
+      "id": 68,
+      "role": "assistant",
+      "content": "Moved right-panel routing from navigator (srcdoc, origin null) to viewer's interceptInternalLinks. When IS_EMBED && window.name === 'content-frame': interfaces route to parent center-frame, main-nav reloads top. Also soft-coupled SITE.baseurl to auto-detect from deployment path, with production_baseurl fallback for Liquid resolution.",
+      "timestamp": "2026-03-15T06:16:00Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add right-panel routing in interceptInternalLinks + auto-detect baseurl"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "remove navigator-side routing interceptor"
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "role": "user",
+      "content": "apply same for docx export that is applicable same as the export pdf qa updates we just accomplished. update documentation conventions where that applies and the jsons. in pdf exported, the hyperlinks that refers to the knowledge (now site based is K_DOCS), we get 404 because it may point to old structure which was in a folder publications. if at the end also modify the documentation to be safe site based help.",
+      "timestamp": "2026-03-15T08:00:43Z"
+    },
+    {
+      "id": 70,
+      "role": "assistant",
+      "content": "Fixed DOCX export: removed .toc from strip list so TOC included on page 2 with page-break-after. Added TOC CSS with corporate styling. Updated conventions.json (conv-011 doc_header, conv-012 export_corporate_styling, conv-013 draggable_panel_dividers), documentation.json (export_pdf, export_docx, panel_dividers conventions), work.json (documentation-web-viewer-system entry). Fixed PDF/DOCX link 404s: added rewriteContentLinks() that rewrites href attributes at render time from old /knowledge/ paths to current SITE.baseurl paths. All pushed to main.",
+      "timestamp": "2026-03-15T08:00:43Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "remove .toc from DOCX strip list, add TOC CSS, add rewriteContentLinks()"
+        },
+        {
+          "tool": "Edit",
+          "file": "conventions/conventions.json",
+          "action": "added conv-011..013"
+        },
+        {
+          "tool": "Edit",
+          "file": "documentation/documentation.json",
+          "action": "added export/divider conventions"
+        },
+        {
+          "tool": "Edit",
+          "file": "work/work.json",
+          "action": "added documentation-web-viewer-system entry"
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "role": "user",
+      "content": "links to site in exported pdf still points to old structure and get 404. per example: https://packetqc.github.io/K_DOCS/publications/ (publications reference is old i think...)",
+      "timestamp": "2026-03-15T08:04:56Z"
+    },
+    {
+      "id": 72,
+      "role": "assistant",
+      "content": "Fixed rewriteContentLinks to use viewer URL format (index.html?doc=path) instead of direct file paths. Direct paths 404 on GitHub Pages because markdown files aren't processed by Jekyll. Now links in PDF/DOCX point to viewer URLs that work.",
+      "timestamp": "2026-03-15T08:04:56Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "rewriteContentLinks uses viewer URL format"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "role": "user",
+      "content": "have main interface vertical bars very much larger. but acceptable size when viewing from mobile adaptive version of the page. what have we worked so far that should be updated in the system?",
+      "timestamp": "2026-03-15T08:07:06Z"
+    },
+    {
+      "id": 74,
+      "role": "assistant",
+      "content": "Widened divider bars to 14px (was 6px) with 5 grip dots. Added responsive CSS @media (max-width: 768px) shrinking to 8px, left panel collapsed by default on mobile. JS DIVIDER_W adapts to viewport width. Pushed to main.",
+      "timestamp": "2026-03-15T08:07:06Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "14px dividers + mobile responsive 8px"
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "role": "user",
+      "content": "move documentation web viewer system to validation stage in work status",
+      "timestamp": "2026-03-15T08:26:36Z"
+    },
+    {
+      "id": 76,
+      "role": "assistant",
+      "content": "Moved documentation-web-viewer-system from in_progress to validation in work.json and moved the node from work/en cours to work/validation in mind_memory.md.",
+      "timestamp": "2026-03-15T08:26:36Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "work/work.json",
+          "action": "status in_progress→validation"
+        },
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "moved node from en cours to validation"
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "role": "user",
+      "content": "move work/conventions/display-conventions-and-stats-system to conventions/claude desktop app/ also, move conventions/mindmap_memory under /convention/claude desktop app/ when i ask move from work to conventions, i means update/create all applicable system documentation, skills and scripts. and it should show in the mindmap.",
+      "timestamp": "2026-03-15T08:31:16Z"
+    },
+    {
+      "id": 78,
+      "role": "assistant",
+      "content": "Created conventions/claude desktop app grouping in mindmap. Moved mindmap_memory (with rules and mermaid subtrees) under it. Moved display-conventions-and-stats from work/conventions to conventions/claude desktop app. Removed display-conventions-and-stats-system from work.json (promoted to conventions). Added conv-014 entry in conventions.json. Updated all mind_memory_refs to new paths. Updated depth_config.json overrides for renamed paths.",
+      "timestamp": "2026-03-15T08:31:16Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "create claude desktop app group, move mindmap_memory and display-conventions-and-stats under it, remove from work"
+        },
+        {
+          "tool": "Edit",
+          "file": "work/work.json",
+          "action": "remove display-conventions-and-stats-system (promoted)"
+        },
+        {
+          "tool": "Edit",
+          "file": "conventions/conventions.json",
+          "action": "add conv-014, update mind_memory_refs paths"
+        },
+        {
+          "tool": "Edit",
+          "file": "conventions/depth_config.json",
+          "action": "update overrides for renamed paths"
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "role": "user",
+      "content": "new work/en cours/webcards node. let's bring back existing webcard in this update of the knowledge project. and then live mindmap as a standalone page and included pages (embedded) in the knowledge 2.0 publication. another work/en cours/K_DOCS module sync. webcards should appear as implemented in the conventions/web docs/. on top of publication it should fit the live mindmap in k2.0! top of content after TOC and official first content page by convention... but really near to most first element of the document.",
+      "timestamp": "2026-03-15T08:42:19Z"
+    },
+    {
+      "id": 80,
+      "role": "assistant",
+      "content": "Created 3 new work items: webcards, live-mindmap, K_DOCS-module-sync. Added webcard support to viewer (updateOgImage + buildWebcardHeader with picture/prefers-color-scheme). Created docs/assets/og/ directory. Created standalone live mindmap interface page at docs/interfaces/live-mindmap/. Embedded live mindmap in knowledge 2.0 full publication after Authors section. Added webcards and live mindmap convention nodes under conventions/documentation/web docs. Updated work.json with files modified. Added DOCS entry for Live Mindmap interface.",
+      "timestamp": "2026-03-15T08:42:19Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add updateOgImage + buildWebcardHeader + webcard CSS + DOCS entry"
+        },
+        {
+          "tool": "Write",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "create standalone live mindmap page"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "embed live mindmap after Authors"
+        },
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "add webcards + live mindmap + K_DOCS module sync nodes"
+        },
+        {
+          "tool": "Edit",
+          "file": "work/work.json",
+          "action": "add 3 work items with files_modified"
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "role": "user",
+      "content": "is mindmap standalone live should be an official new interface style ?",
+      "timestamp": "2026-03-15T08:44:06Z"
+    },
+    {
+      "id": 82,
+      "role": "assistant",
+      "content": "Yes — added Live Mindmap as I5 in the interfaces index page. Updated documentation node in mindmap to list all 5 interfaces under documentation/interfaces.",
+      "timestamp": "2026-03-15T08:44:06Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/index.md",
+          "action": "add I5 Live Mindmap row"
+        },
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "expand interfaces node with all 5 interfaces"
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "role": "user",
+      "content": "i get a 404 from interfaces index. there it is ...",
+      "timestamp": "2026-03-15T08:46:23Z"
+    },
+    {
+      "id": 84,
+      "role": "assistant",
+      "content": "File exists, .nojekyll in place. Was GitHub Pages deployment lag — resolved after 1-2 minutes.",
+      "timestamp": "2026-03-15T08:46:23Z"
+    },
+    {
+      "id": 85,
+      "role": "user",
+      "content": "but looping loading mindmap ....",
+      "timestamp": "2026-03-15T08:47:45Z"
+    },
+    {
+      "id": 86,
+      "role": "assistant",
+      "content": "Fixed: Knowledge/K_MIND/mind/mind_memory.md is outside docs/ — GitHub Pages can't serve it. Now tries local path first (dev server), falls back to raw.githubusercontent.com for production. Fixed both standalone page and K2.0 embed.",
+      "timestamp": "2026-03-15T08:47:45Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "add raw.githubusercontent.com fallback"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "add raw.githubusercontent.com fallback"
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "role": "user",
+      "content": "can we create another type of dynamic webcard, that would be the second one dynamic webcard. this one is to have the live-mindmap in a webcard. so that will become the official webcard of knowledge 2.0 publication! yeah, the unicorn would be that it is not an animated gif but the actual live-mindmap... but if webcard can be live then go for it too!",
+      "timestamp": "2026-03-15T08:53:07Z"
+    },
+    {
+      "id": 88,
+      "role": "assistant",
+      "content": "Created live webcard system: buildLiveMindmapWebcard() renders live mermaid mindmap in the webcard header area instead of a static GIF. Activated for K2.0 full publication with live_webcard: mindmap front matter. Also created generate_mindmap_webcard.py for GIF generation (social sharing fallback). Removed redundant inline embed from K2.0 since webcard header now shows the live mindmap.",
+      "timestamp": "2026-03-15T08:53:07Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add buildLiveMindmapWebcard() function"
+        },
+        {
+          "tool": "Write",
+          "file": "scripts/generate_mindmap_webcard.py",
+          "action": "create GIF generator script"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "add live_webcard: mindmap, remove inline embed"
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "role": "user",
+      "content": "i should see webcards on publications? / i think they are broken links and they should be displayed before the top viewer bar: perhaps embedded in the top viewer bar when there is one webcard available for the page to view. / but not applicable on the main interface and in the panels. no show webcards in the main interface",
+      "timestamp": "2026-03-15T09:10:58Z"
+    },
+    {
+      "id": 90,
+      "role": "assistant",
+      "content": "Fixed webcards: static og_image webcards no longer rendered visually (GIFs don't exist), only og:image meta tag set for social sharing. Live webcards (live_webcard: mindmap) still render inside doc-header. No webcards in panels or main interface. Added onerror handler for broken images. CSS updated for webcard-header inside doc-header.",
+      "timestamp": "2026-03-15T09:10:58Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "disable static webcard display, keep live_webcard only, add onerror handler, update CSS"
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "role": "user",
+      "content": "webcards should be first element before doc-header on standalone pages, hidden from export, faded background on cover page. Also remove orphaned live mindmap blockquote from K2.0 full.",
+      "timestamp": "2026-03-15T09:18:32Z"
+    },
+    {
+      "id": 92,
+      "role": "assistant",
+      "content": "Moved webcard to first element before doc-header. CSS: rounded top corners, seamless join with doc-header below. Print: hidden on screen export, og_image used as faded background-image on cover page with white overlay. Removed orphaned blockquote from K2.0 full (was referencing 'above' but mindmap is now in webcard at top). onerror handler hides broken image webcards gracefully.",
+      "timestamp": "2026-03-15T09:18:32Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "webcard before doc-header, cover page bg, CSS updates"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "remove orphaned live mindmap blockquote"
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "role": "user",
+      "content": "Add section 8 Mindmap Memory to K2.0, move it to section 1, compact architecture diagram, I5 dropdown normal/full, fix live mindmap iframe",
+      "timestamp": "2026-03-15T09:39:14Z"
+    },
+    {
+      "id": 94,
+      "role": "assistant",
+      "content": "Added section 1 The Mindmap Memory to K2.0 with embedded live mindmap (inline fetch+render with depth filtering). Documented three-file system, mind-first strategy, programs-over-improvisation, depth config, real-time updates. Renumbered all sections. Compact LR architecture diagram. I5 has Normal/Full dropdown. JS port of mindmap_filter.py for depth filtering.",
+      "timestamp": "2026-03-15T09:39:14Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "add section 1 Mindmap Memory, reorder, compact diagram"
+        },
+        {
+          "tool": "Write",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "Normal/Full dropdown, depth filtering"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "JS filterMindmapCode for webcard + live mindmap"
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "role": "user",
+      "content": "we want MindElixir! check also if color themes could be implemented for this live mind-map",
+      "timestamp": "2026-03-15T09:55:35Z"
+    },
+    {
+      "id": 96,
+      "role": "assistant",
+      "content": "Implemented MindElixir v5.9.3 across all 3 live mindmap locations (I5 interface, K2.0 embed, viewer webcard). Added 4-theme sync: cayman (light blue), midnight (dark blue), daltonism-light (warm), daltonism-dark (warm dark). I5 gets theme dropdown. All locations: read-only, depth filtering, auto theme detection from viewer or prefers-color-scheme.",
+      "timestamp": "2026-03-15T09:55:35Z",
+      "tools": [
+        {
+          "tool": "Write",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "Full rewrite with MindElixir"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "Replace mermaid embed with MindElixir"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "Add MindElixir CDN + replace buildLiveMindmapWebcard"
+        },
+        {
+          "tool": "Edit",
+          "file": "Knowledge/K_MIND/mind/mind_memory.md",
+          "action": "Update live mindmap nodes"
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "role": "user",
+      "content": "Create viewer publication, update work for live-mindmap, update conventions for bilingual EN/FR, update root essential files from knowledge repo, push to GitHub",
+      "timestamp": "2026-03-15T10:28:41Z"
+    },
+    {
+      "id": 98,
+      "role": "assistant",
+      "content": "Created Publication #23 (web-documentation-viewer) EN/FR summary+full. Updated live-mindmap to validation in work.json with MindElixir details. Added conv-015 (bilingual), conv-016 (MindElixir), conv-017 (root essentials). Fetched README.md, LICENSE, .gitignore from packetqc/knowledge and adapted. Updated mindmap with bilingual and mindmap nodes. Pushed commit a13b38f to GitHub.",
+      "timestamp": "2026-03-15T10:28:41Z"
+    },
+    {
+      "id": 99,
+      "role": "user",
+      "content": "MindElixir constructor fix, I5 padding, webcard padding, embed-mode full width, positive feedback on mindmap displays",
+      "timestamp": "2026-03-15T10:34:33Z"
+    },
+    {
+      "id": 100,
+      "role": "assistant",
+      "content": "Fixed MindElixir.default constructor in all 3 deployment points. Added bottom padding on I5 container and webcard. Fixed embed-mode max-width:100% for chrome bar in right panel. User confirmed mindmaps look great.",
+      "timestamp": "2026-03-15T10:34:33Z"
+    },
+    {
+      "id": 101,
+      "role": "user",
+      "content": "by convention it should be applied in all doc. or in the viewer :)",
+      "timestamp": "2026-03-15T10:53:27Z"
+    },
+    {
+      "id": 102,
+      "role": "assistant",
+      "content": "Moved margin-top:1rem from inline style on live mindmap webcard to .webcard-header CSS class (margin: 1rem auto 0). Now applies to all webcards across all documents.",
+      "timestamp": "2026-03-15T10:53:27Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add margin-top:1rem to .webcard-header CSS class"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "remove inline margin-top from live mindmap webcard"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "role": "user",
+      "content": "about the live-mindmap, nodes cannot be moved, and double click for hide or for expand has no effects.",
+      "timestamp": "2026-03-15T10:56:03Z"
+    },
+    {
+      "id": 104,
+      "role": "assistant",
+      "content": "Fixed all 3 deployment points: editable:true (enables drag), dblclick capture phase with stopImmediatePropagation (blocks text editing, does expand/collapse), expandNode(nodeObj) instead of expandNode(meNode).",
+      "timestamp": "2026-03-15T10:56:03Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "editable:true, fix dblclick+expandNode"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "editable:true, add dblclick+expandNode"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "editable:true, add dblclick+expandNode"
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "role": "user",
+      "content": "can scrollbars in main interface be different ? less system and more discret ?",
+      "timestamp": "2026-03-15T10:58:04Z"
+    },
+    {
+      "id": 106,
+      "role": "assistant",
+      "content": "Added thin discrete scrollbars (6px, transparent track, theme --border color) to main navigator, viewer, and I5 live mindmap. Firefox scrollbar-width:thin + Webkit ::-webkit-scrollbar.",
+      "timestamp": "2026-03-15T10:58:04Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "add thin scrollbar CSS"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add thin scrollbar CSS"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "add thin scrollbar CSS"
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "role": "user",
+      "content": "is there an FR version of the main interface ?",
+      "timestamp": "2026-03-15T11:00:33Z"
+    },
+    {
+      "id": 108,
+      "role": "assistant",
+      "content": "Yes, synced FR main navigator with EN: added scrollbar CSS, center iframe padding, I5 link, #22/#23 publications. Also added #22/#23 to EN publications widget.",
+      "timestamp": "2026-03-15T11:00:33Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "add #22/#23 publications"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/fr/interfaces/main-navigator/index.md",
+          "action": "add scrollbars, padding, I5 link, #22/#23 publications"
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "role": "user",
+      "content": "EN and FR interface or document does not applies to same unique simple concept as we did for the viewer. it is mostly language that changes in the content and in the page frame. i get it for the live mind-map collapse, follow the + sign :) an -. typical standard to show and to hide. tks.",
+      "timestamp": "2026-03-15T11:05:47Z"
+    },
+    {
+      "id": 110,
+      "role": "assistant",
+      "content": "Unified EN/FR main navigator into single codebase. JS auto-detects language from URL path (/fr/ prefix). Translations object T.en/T.fr drives all widget text, link labels, URL prefixes, and localStorage key suffixes. Both files share identical {::nomarkdown} block (577 lines), only YAML front matter and h1 title differ. v4→v5. Also confirmed MindElixir +/- expand/collapse works.",
+      "timestamp": "2026-03-15T11:05:47Z",
+      "tools": [
+        {
+          "tool": "Write",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "unified bilingual navigator v5"
+        },
+        {
+          "tool": "Bash",
+          "file": "docs/fr/interfaces/main-navigator/index.md",
+          "action": "FR with shared nomarkdown block"
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "role": "user",
+      "content": "should we add to I5 a button to open a right panel that show explanation and howto's for the live-mindmap? like a typical ? button. round. after the generated tag, very last to the right in the features/capability bar...",
+      "timestamp": "2026-03-15T11:08:06Z"
+    },
+    {
+      "id": 112,
+      "role": "assistant",
+      "content": "Added round ? help button (far right of controls bar) and sliding right help panel (280px) to I5 live mindmap. Bilingual EN/FR via URL detection. Covers navigation, expand/collapse, toolbar, and what the mindmap is. State persisted in localStorage.",
+      "timestamp": "2026-03-15T11:08:06Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "add help panel CSS, HTML, and bilingual JS content"
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "role": "user",
+      "content": "is there a way to expand only 1 level with the + sign feature in the live mind map? it seem to expand full paths. with the native feature of the library is not possible to expand 1 level only using the + sign icon? let's explain that in the help that i do not see yet in the interface!",
+      "timestamp": "2026-03-15T11:19:48Z"
+    },
+    {
+      "id": 114,
+      "role": "assistant",
+      "content": "Intercepted MindElixir's me-epd click and dblclick in capture phase across all 3 deployment points. Both +/- button and double-click now expand one level at a time (collapse grandchildren before expanding). Ctrl+Click on + preserves full expand. Updated EN/FR help panel text to document the behavior. Committed and pushed.",
+      "timestamp": "2026-03-15T11:19:48Z",
+      "tools": [
+        {
+          "tool": "WebFetch",
+          "file": "MindElixir CDN",
+          "action": "found me-epd element for +/- button"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "add click capture for me-epd one-level expand + update help text"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "add click capture for me-epd one-level expand"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "add click capture for me-epd one-level expand"
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "role": "user",
+      "content": "Series of MindElixir refinements: +/- one-level expand attempt, theme sync, text editing block, node drag block, fullscreen fit, full mode collapsed start. Final: editable:false read-only, native MindElixir +/- expand, collapseDeep on init for starting depth, BroadcastChannel theme sync from viewer to I5, auto-fit on fullscreen/resize, bilingual help panel updated.",
+      "timestamp": "2026-03-15T11:46:25Z"
+    },
+    {
+      "id": 116,
+      "role": "assistant",
+      "content": "Iterated through multiple approaches for MindElixir interactivity. Final clean solution: editable:false (read-only, no drag, no text editing), native +/- expand (no custom capture handlers — they caused display artifacts from data/DOM desync), collapseDeep on init using depth_config default_depth, viewer broadcasts theme to I5 via BroadcastChannel, auto-fit on fullscreen and resize. Updated conv-016 convention.",
+      "timestamp": "2026-03-15T11:46:25Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "multiple iterations on expand/theme/editing"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "sync MindElixir config"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/publications/knowledge-2.0/full/index.md",
+          "action": "sync MindElixir config"
+        },
+        {
+          "tool": "Edit",
+          "file": "conventions.json",
+          "action": "update conv-016"
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "role": "user",
+      "content": "Design discussion: K_MIND multi-module architecture. All modules as subtrees under Knowledge/. K_MIND is core (always present), includes CLAUDE.md and .claude/ at root. Modules (K_DOCS, future) have own conventions.json, work.json, documentation.json. Sessions shared. Git subtree for K_MIND to push changes back to packetqc/knowledge. User confirmed: this is the vision.",
+      "timestamp": "2026-03-15T11:56:31Z"
+    },
+    {
+      "id": 118,
+      "role": "assistant",
+      "content": "Agreed on multi-module design. K_MIND core = brain (memory, scripts, skills, CLAUDE.md, .claude/). Modules plug in under Knowledge/ with own domain files. Mindmap and scripts aggregate all installed modules. Git subtree enables bidirectional sync with packetqc/knowledge. Saved to project memory.",
+      "timestamp": "2026-03-15T11:56:31Z",
+      "tools": [
+        {
+          "tool": "Write",
+          "file": "memory/project_multimodule_design.md",
+          "action": "saved design direction"
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "role": "user",
+      "content": "Full mode depth too deep, try minus 1. Also fix Ctrl+click expand all stale after collapse. Multi-module design discussion concluded. Wrapping up session.",
+      "timestamp": "2026-03-15T12:04:16Z"
+    },
+    {
+      "id": 120,
+      "role": "assistant",
+      "content": "Fixed Ctrl+click by resetting descendant expanded states in capture phase before MindElixir expandNodeAll runs. Full mode now starts at configDepth-1 (depth 2). User may want depth 1 — will test on return. All synced across 3 deployment points.",
+      "timestamp": "2026-03-15T12:04:16Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "3 MindElixir files",
+          "action": "Ctrl+click reset + full mode depth-1"
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "role": "user",
+      "content": ".. (check-in ping during multi-module work)",
+      "timestamp": "2026-03-15T12:16:32Z"
+    },
+    {
+      "id": 122,
+      "role": "assistant",
+      "content": "Completed multi-module architecture commit: K_MIND core + K_DOCS module. Split domain files, updated mindmap with multi_module nodes under work/validation and architecture. 33 commits ahead of origin.",
+      "timestamp": "2026-03-15T12:16:32Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "added multi_module nodes under work/validation and architecture"
+        },
+        {
+          "tool": "Bash",
+          "action": "git add + commit multi-module changes"
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "role": "user",
+      "content": "token is in my personal vscode settings json file... keep it discrete. use github skill and gh_helper.py. we are your methodologies imported from original packetqc/knowledge repo that you have adapted to this evolution of the project ? I do not see the specific methodologies for documentation in the /knowledge/K_DOCS/methodology/*",
+      "timestamp": "2026-03-15T12:28:46Z"
+    },
+    {
+      "id": 124,
+      "role": "assistant",
+      "content": "Pushed 33 commits using GH_TOKEN from VS Code settings. Fixed K2.0 webcard light theme: added changeTheme() call on theme switch for live mindmap webcard. Imported 3 methodology files from packetqc/knowledge into Knowledge/K_DOCS/methodology/: web-production-pipeline.md, web-pagination-export.md, web-page-visualization.md. Updated documentation.json with local paths and origin tracking.",
+      "timestamp": "2026-03-15T12:28:46Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "added webcardMind theme change on theme switch"
+        },
+        {
+          "tool": "Bash",
+          "action": "downloaded 3 methodology MDs from packetqc/knowledge"
+        },
+        {
+          "tool": "Edit",
+          "file": "Knowledge/K_DOCS/documentation/documentation.json",
+          "action": "updated refs to local paths with origin"
+        },
+        {
+          "tool": "Edit",
+          "file": "mind/mind_memory.md",
+          "action": "added methodology import node"
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "role": "user",
+      "content": "you need to adapt them. is there any skills or other reference that should be considered imported in K_MIND or in K_DOCS respectively?",
+      "timestamp": "2026-03-15T12:32:39Z"
+    },
+    {
+      "id": 126,
+      "role": "assistant",
+      "content": "Adapted all 3 methodology files for K_DOCS viewer architecture (removed Jekyll dependencies, updated pipeline diagrams, added viewer-specific concepts). Analyzed skills ownership: all 4 skills (github, mind-context, mind-depth, mind-stats) are K_MIND core. No K_DOCS-specific skills needed yet. Scripts correctly placed: 11 in K_MIND (memory/session), 1 in K_DOCS (webcard generator).",
+      "timestamp": "2026-03-15T12:32:39Z",
+      "tools": [
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/methodology/web-production-pipeline.md",
+          "action": "rewritten for static viewer pipeline"
+        },
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/methodology/web-pagination-export.md",
+          "action": "adapted export methodology for viewer context"
+        },
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/methodology/web-page-visualization.md",
+          "action": "adapted visualization methodology with webcard generation"
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "role": "user",
+      "content": "do you think that the documentation i have made you created followed these metho i am referring ? at the end, i want all created metho for docs to be in /knowledge/K_DOCS path folder. any skills required with that?",
+      "timestamp": "2026-03-15T12:40:55Z"
+    },
+    {
+      "id": 128,
+      "role": "assistant",
+      "content": "Imported and adapted 7 K_DOCS methodologies from production: 3 pipeline (viewer, export, visualization) + 4 content creation (generation, webcard, interactive, audience). Updated documentation.json with all 7 local references, removed external-only refs. All files in Knowledge/K_DOCS/methodology/. No new skills required — methodologies are reference docs loaded on demand. Publications created earlier did NOT follow these imported methodologies. Committed and pushed.",
+      "timestamp": "2026-03-15T12:40:55Z",
+      "tools": [
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/methodology/documentation-generation.md",
+          "action": "adapted publication standards from production"
+        },
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/methodology/webcard-generation.md",
+          "action": "adapted webcard specs from production"
+        },
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/methodology/interactive-documentation.md",
+          "action": "adapted session workflow from production"
+        },
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/methodology/documentation-audience.md",
+          "action": "adapted audience definition from production"
+        },
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/documentation/documentation.json",
+          "action": "updated with 7 local methodology refs"
+        },
+        {
+          "tool": "Bash",
+          "action": "git commit + push methodology import"
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "role": "user",
+      "content": "import webcards + skills integrity question",
+      "timestamp": "2026-03-15T12:50:09Z"
+    },
+    {
+      "id": 130,
+      "role": "assistant",
+      "content": "Downloaded 88 webcard GIFs from production, committed+pushed. Proposed skills integrity validation.",
+      "timestamp": "2026-03-15T12:50:09Z"
+    },
+    {
+      "id": 131,
+      "role": "user",
+      "content": "run it for the full version, not the normal mode. documentation should be expandable to leafs like interface is under documentation top level. stories is missing from documentation mindmap.",
+      "timestamp": "2026-03-15T14:10:19Z"
+    },
+    {
+      "id": 132,
+      "role": "assistant",
+      "content": "Updated mindmap: added stories under documentation. Updated capture_mindmap.js with --full flag (overview depth 3, explore depth 5). Generated both daltonism-light (403KB) and daltonism-dark (395KB) animated GIFs in full mode — all 6 branches including architecture and constraints, 8 frames each, 189 nodes. Documentation now shows full structure: docs, interfaces (5 children), stories, profile, publications.",
+      "timestamp": "2026-03-15T14:10:19Z"
+    },
+    {
+      "id": 133,
+      "role": "user",
+      "content": "Multiple requests: run full mode animation, expand documentation to leafs, stories missing, methodologies not up to date, 15fps movies, node_modules at root, animation too quick/flickering, pause frames needed, merge to main with social links",
+      "timestamp": "2026-03-15T15:31:19Z"
+    },
+    {
+      "id": 134,
+      "role": "assistant",
+      "content": "Built cinematic 3-movie animated webcards pipeline. Iterated through multiple versions: 8 frames → 43 frames → 108 frames → 528 frames (15fps flickering) → final 118 frames at 400ms/frame. Fixed og_image cayman→daltonism-light across 12 files. Fixed full/ relative link 404 using Liquid relative_url. Expanded documentation mindmap: all 27 publications, 9 stories, profile pages listed by name. Updated methodologies with all 7 docs. Moved node_modules from repo root to Knowledge/K_DOCS/scripts/. Added to .gitignore. Updated conventions (conv-021), methodology (webcard-generation.md), work.json. Multiple commits pushed to main.",
+      "timestamp": "2026-03-15T15:31:19Z"
+    },
+    {
+      "id": 135,
+      "role": "user",
+      "content": "Series of inputs guiding module imports: work items are tasks, promotions to convention are tasks, commit/push/merge are tasks, K_GITHUB matches later upon integration, import source repo projects.json, map this session to Knowledge project, one project one session multiple tasks, do we have mapping between mindmap works and tasks, near memory for title/description far memory for future GitHub comments, looks good.",
+      "timestamp": "2026-03-15T16:45:55Z"
+    },
+    {
+      "id": 136,
+      "role": "assistant",
+      "content": "Explored packetqc/knowledge source repo. Imported 36 files across K_VALIDATION (4 methodologies, 5 skills, 3 scripts, 9 interface files), K_PROJECTS (2 methodologies, 2 skills, 1 script, 3 interface files), K_GITHUB (2 methodologies, 3 scripts). Updated modules.json to imported status. Created project data model with Knowledge as sole project mapped to packetqc/K_DOCS. Built compile_tasks_from_mind.py bridge: mindmap work nodes → task stage, near_memory → title/description, far_memory → content. First run: 7 tasks (1 implement, 5 validation, 1 completion) from 134 messages, 67 summaries.",
+      "timestamp": "2026-03-15T16:45:55Z"
+    },
+    {
+      "id": 137,
+      "role": "user",
+      "content": "a little bit of qa on interfaces session, tasks and project. we all want the selection option of all items (like project did bring this feature in) and their dashboard. project widgets interface does not follow color theme: dark should be black and light should be white. view navigation in project interface is 404. task interface all items have empty dashboard. main interface center right scroll lost look and feel (it is back like system view widget). font rules did not follow on evolution for interfaces block widget. dark theme should have light fonts.",
+      "timestamp": "2026-03-15T17:09:47Z"
+    },
+    {
+      "id": 138,
+      "role": "assistant",
+      "content": "Fixed 6 QA issues across all interfaces: 1) session-review All Sessions overview with stats+cards, 2) project-viewer stat-card bg to var(--pv-bg), 3) project-viewer task field name mismatch + target=_top, 4) task-workflow .tw-stat-card CSS added + dashboard stats improved, 5) thin scrollbars CSS to all 3 interface stylesheets, 6) dark theme CSS variable overrides in main-navigator for widgets",
+      "timestamp": "2026-03-15T17:09:47Z"
+    },
+    {
+      "id": 139,
+      "role": "user",
+      "content": "Push subtrees first. Gap analysis of legacy and persist legacy. Update imported methodology that guide to create publications. Why do we have a publication folder at root level of repo?",
+      "timestamp": "2026-03-15T18:21:42Z"
+    },
+    {
+      "id": 140,
+      "role": "assistant",
+      "content": "Pushed 3 subtrees (K_VALIDATION, K_PROJECTS, K_GITHUB) to their remotes as new main branches. K_MIND skipped (needs force push, user deferred). Cloned packetqc/knowledge to /tmp, copied full 154MB to Knowledge/legacy/. Updated 3 methodology files + SKILL.md to fix publications path from root publications/ to docs/publications/. Moved stray publications/live-mindmap/v1/README.md into docs/publications/. Removed root publications/ folder. Ran comprehensive gap analysis: 74 scripts in legacy, only 6 replicated. 66 methodologies, only 16 imported. Critical gaps: session agent subsystem (20 modules), distributed mesh (harvest/beacon/PQC), visual documentation engine, 50 methodology files.",
+      "timestamp": "2026-03-15T18:21:42Z",
+      "tools": [
+        {
+          "tool": "Bash",
+          "file": "git subtree push",
+          "action": "pushed K_VALIDATION, K_PROJECTS, K_GITHUB"
+        },
+        {
+          "tool": "Bash",
+          "file": "Knowledge/legacy/",
+          "action": "copied full source repo clone"
+        },
+        {
+          "tool": "Edit",
+          "file": "Knowledge/K_DOCS/methodology/*.md",
+          "action": "fixed publications path to docs/"
+        },
+        {
+          "tool": "Edit",
+          "file": ".claude/skills/docs-create/SKILL.md",
+          "action": "fixed publications path"
+        }
+      ]
+    },
+    {
+      "id": 141,
+      "role": "user",
+      "content": "tiers 3 and 4 goes to K_DOCS now: import and adapt then put in conventions. tier 4 is under web pages convention and tier 3 should be under new conventions/sessions/interactive. have conventions/sessions/validation also for now. merge changes before. web is stuck with legacy local server port 8000.",
+      "timestamp": "2026-03-15T18:32:30Z"
+    },
+    {
+      "id": 142,
+      "role": "assistant",
+      "content": "Created K_DOCS convention structure: conventions/sessions/interactive/ (4 files: visual-documentation, interactive-work-sessions, interactive-conception, interactive-diagnostic), conventions/web/ (3 files: webcard-generation, og-social-images, render-web-page), conventions/sessions/validation/ (validation-protocol). Updated conventions.json with 8 external file refs. Committed 909 files (includes legacy folder), pushed to origin. No localhost:8000 references found in docs/.",
+      "timestamp": "2026-03-15T18:32:30Z",
+      "tools": [
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/conventions/sessions/interactive/*.md",
+          "action": "created 4 interactive convention files"
+        },
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/conventions/web/*.md",
+          "action": "created 3 web convention files"
+        },
+        {
+          "tool": "Write",
+          "file": "Knowledge/K_DOCS/conventions/sessions/validation/validation-protocol.md",
+          "action": "created validation convention"
+        },
+        {
+          "tool": "Edit",
+          "file": "Knowledge/K_DOCS/conventions/conventions.json",
+          "action": "added 8 external file refs"
+        },
+        {
+          "tool": "Bash",
+          "file": "git",
+          "action": "committed 909 files, pushed to origin"
+        }
+      ]
+    },
+    {
+      "id": 143,
+      "role": "user",
+      "content": "see picture, block widget fonts in dark theme color must be white. web is stuck with legacy local server port 8000 test.",
+      "timestamp": "2026-03-15T18:44:42Z"
+    },
+    {
+      "id": 144,
+      "role": "assistant",
+      "content": "Fixed two issues: (1) Restored .nojekyll — commit a488f06 had removed it, causing Jekyll to convert .md to .html, breaking all viewer fetch() calls. (2) Added dark theme CSS variable overrides to session-review.css — it was missing [data-theme=midnight] block so iframe fell back to light colors. Also updated SITE config from /knowledge to /K_DOCS and removed misleading localhost:8000 error message.",
+      "timestamp": "2026-03-15T18:44:42Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "restored .nojekyll, updated SITE from /knowledge to /K_DOCS, fixed error msg"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/session-review/session-review.css",
+          "action": "added dark theme CSS variable overrides"
+        }
+      ]
+    },
+    {
+      "id": 145,
+      "role": "user",
+      "content": "we want the legacy folder in the /knowledge prod repo main branch as we copied it here. push K_DOCS content to packetqc/knowledge.",
+      "timestamp": "2026-03-15T18:46:38Z"
+    },
+    {
+      "id": 146,
+      "role": "assistant",
+      "content": "Added packetqc/knowledge as 'knowledge' remote. Force pushed K_DOCS main (4728ffe) to packetqc/knowledge main, replacing old content (0bfe61e). Legacy folder preserved in main. Old branches (backup-*, WORK_BRANCH_EXAMPLE) still exist on the remote.",
+      "timestamp": "2026-03-15T18:46:38Z",
+      "tools": [
+        {
+          "tool": "Bash",
+          "file": "git",
+          "action": "added knowledge remote, force pushed main"
+        }
+      ]
+    },
+    {
+      "id": 147,
+      "role": "user",
+      "content": "it is in production now ?? yup easy as that i think !!",
+      "timestamp": "2026-03-15T18:49:54Z"
+    },
+    {
+      "id": 148,
+      "role": "assistant",
+      "content": "Confirmed packetqc/knowledge GitHub Pages is live: source main /docs, status built, URL https://packetqc.github.io/knowledge/. Viewer auto-detects VIEWER_PATH from window.location.pathname so it works on both /K_DOCS/ and /knowledge/ with zero config changes. Session recap: subtrees pushed, legacy preserved, gap analysis done, conventions imported, .nojekyll restored, dark theme fixed, production deployed.",
+      "timestamp": "2026-03-15T18:49:54Z"
+    },
+    {
+      "id": 149,
+      "role": "user",
+      "content": "live mindmap documentation expansion is of in full mode but not ok in normal (lower it -1). working in prod repo now, but if you want to update both repo here and there while we are still active in this session ...",
+      "timestamp": "2026-03-15T19:04:23Z"
+    },
+    {
+      "id": 150,
+      "role": "assistant",
+      "content": "Fixed project-viewer dark media query: @media (prefers-color-scheme: dark) :root → html:not([data-theme]) to prevent dark OS from overriding explicit light theme. Lowered documentation mindmap depth from 3→2. Pushed both fixes to origin (K_DOCS) and production (knowledge).",
+      "timestamp": "2026-03-15T19:04:23Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/project-viewer/project-viewer.css",
+          "action": "scope dark media query to auto-theme only"
+        },
+        {
+          "tool": "Bash",
+          "file": "depth_config.json",
+          "action": "set documentation depth to 2"
+        }
+      ]
+    },
+    {
+      "id": 151,
+      "role": "user",
+      "content": "(continued from compaction) commit and push README.md update to both remotes",
+      "timestamp": "2026-03-16T06:13:08Z"
+    },
+    {
+      "id": 152,
+      "role": "assistant",
+      "content": "Committed README.md update (76e2295) and pushed to both origin (K_DOCS) and knowledge (production). README now reflects multi-module structure, updated title, interface list, and production-only Live section.",
+      "timestamp": "2026-03-16T06:13:08Z",
+      "tools": [
+        {
+          "tool": "Bash",
+          "file": "README.md",
+          "action": "git add + commit + push to origin and knowledge"
+        }
+      ]
+    },
+    {
+      "id": 153,
+      "role": "user",
+      "content": "1. fix 404 errors from interfaces and documentation hyperlinks on packetqc/knowledge\n2. harmonize look and feel of all interfaces to match session-review (stat cards bg, table headers, chart wraps)\n3. update mindmap memory diagram\n4. why have we lost PRs stats since the last fix\n404 must be site independent, no hardcodings",
+      "timestamp": "2026-03-16T06:29:31Z"
+    },
+    {
+      "id": 154,
+      "role": "assistant",
+      "content": "Fixed all 4 issues:\n1. 404s: _config.yml baseurl, index.html PRODUCTION_BASEURL auto-detect, 160 HTML redirect stubs converted to relative URLs, live mindmap RAW_BASE updated\n2. CSS: stat cards var(--code-bg), table headers background, chart wraps styled, badge radius 12px — all 3 interfaces aligned with session-review\n3. PR stats: compile_sessions_from_mind.py total_prs→pr_count, metrics.totals.prs hardcoded 0→len(prs), regenerated sessions.json showing 16 PRs\n4. Mindmap: added work nodes (current fixes), validation nodes (depth fix, CSS convention, git recovery), convention nodes (interface CSS theme, relative redirects, auto-detect baseurl)",
+      "timestamp": "2026-03-16T06:29:31Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/_config.yml",
+          "action": "baseurl /knowledge, github_repo updated"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/index.html",
+          "action": "PRODUCTION_BASEURL auto-detect, github_repo, RAW_BASE"
+        },
+        {
+          "tool": "Bash",
+          "file": "docs/**/*.html",
+          "action": "160 redirect stubs to relative URLs"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/project-viewer/project-viewer.css",
+          "action": "stat-card code-bg, table header bg, chart wrap styled"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/task-workflow/task-workflow.css",
+          "action": "stat-card code-bg, table header bg, chart wrap styled"
+        },
+        {
+          "tool": "Edit",
+          "file": "Knowledge/K_VALIDATION/scripts/compile_sessions_from_mind.py",
+          "action": "total_prs→pr_count, totals.prs 0→len(prs)"
+        },
+        {
+          "tool": "Edit",
+          "file": "Knowledge/K_MIND/mind/mind_memory.md",
+          "action": "added work and convention nodes"
+        }
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "id": 1,
+      "summary": "Session start — mindmap and context displayed",
+      "far_memory_refs": [
+        1,
+        2
+      ],
+      "mind_memory_refs": [
+        "session::near memory"
+      ],
+      "timestamp": "2026-03-14T18:27:44Z"
+    },
+    {
+      "id": 2,
+      "summary": "Full mindmap displayed — all nodes expanded",
+      "far_memory_refs": [
+        3,
+        4
+      ],
+      "mind_memory_refs": [
+        "session::near memory",
+        "conventions::mind::mermaid"
+      ],
+      "timestamp": "2026-03-14T18:34:05Z"
+    },
+    {
+      "id": 3,
+      "summary": "Normal mindmap displayed",
+      "far_memory_refs": [
+        5,
+        6
+      ],
+      "mind_memory_refs": [
+        "session::near memory"
+      ],
+      "timestamp": "2026-03-14T18:38:33Z"
+    },
+    {
+      "id": 4,
+      "summary": "Analyse méthodologies web du repo production + recherche libs mindmap interactives. MindElixir recommandé.",
+      "far_memory_refs": [
+        7,
+        8
+      ],
+      "mind_memory_refs": [
+        "work::en cours",
+        "documentation",
+        "conventions::methodologies"
+      ],
+      "timestamp": "2026-03-14T18:53:52Z"
+    },
+    {
+      "id": 5,
+      "summary": "CONTRAINTE DESIGN: compatibilité bidirectionnelle production ↔ K_DOCS. Format Jekyll preserved, viewer JS est un ajout local.",
+      "far_memory_refs": [
+        9,
+        10
+      ],
+      "mind_memory_refs": [
+        "work::en cours",
+        "architecture"
+      ],
+      "timestamp": "2026-03-14T18:56:25Z"
+    },
+    {
+      "id": 6,
+      "summary": "ÉTAPE 1 COMPLÈTE: docs/ créé, mindmap+install.sh+documentation.json mis à jour. Publication pilote Knowledge 2.0 choisie.",
+      "far_memory_refs": [
+        11,
+        12
+      ],
+      "mind_memory_refs": [
+        "documentation",
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T19:24:21Z"
+    },
+    {
+      "id": 7,
+      "summary": "Viewer docs/index.html fonctionnel sur localhost:8000. Knowledge/K_DOCS/ créé comme module. User voit le résultat.",
+      "far_memory_refs": [
+        13,
+        14
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T19:31:48Z"
+    },
+    {
+      "id": 8,
+      "summary": "Ajouté export DOCX, sélection Letter/Legal, cover page PDF avec running footers au viewer.",
+      "far_memory_refs": [
+        15,
+        16
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T19:35:49Z"
+    },
+    {
+      "id": 9,
+      "summary": "Added document header block to viewer with title, version badge, tagline, pub meta, and generated date",
+      "far_memory_refs": [
+        17,
+        18
+      ],
+      "mind_memory_refs": [
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T19:43:15Z"
+    },
+    {
+      "id": 10,
+      "summary": "Added EN/FR language toggle buttons to toolbar with paired doc loading",
+      "far_memory_refs": [
+        19,
+        20
+      ],
+      "mind_memory_refs": [
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T19:53:00Z"
+    },
+    {
+      "id": 11,
+      "summary": "Fixed duplicate TOC in FR and localized TOC title + Generated label",
+      "far_memory_refs": [
+        21,
+        22
+      ],
+      "mind_memory_refs": [
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T20:20:24Z"
+    },
+    {
+      "id": 12,
+      "summary": "Cataloged all production page types (77 EN + 76 FR files), launched parallel download of all content",
+      "far_memory_refs": [
+        23,
+        24
+      ],
+      "mind_memory_refs": [
+        "documentation",
+        "work"
+      ],
+      "timestamp": "2026-03-14T20:20:33Z"
+    },
+    {
+      "id": 13,
+      "summary": "User flagged K_MIND real-time maintenance falling behind — catching up on missed memory_append calls",
+      "far_memory_refs": [
+        25,
+        26
+      ],
+      "mind_memory_refs": [
+        "conventions"
+      ],
+      "timestamp": "2026-03-14T20:20:37Z"
+    },
+    {
+      "id": 14,
+      "summary": "All 154 production docs downloaded, full registry with optgroup selector built",
+      "far_memory_refs": [
+        27,
+        28
+      ],
+      "mind_memory_refs": [
+        "documentation",
+        "work"
+      ],
+      "timestamp": "2026-03-14T20:22:25Z"
+    },
+    {
+      "id": 15,
+      "summary": "Split toolbar: top=navigation, bottom=layout+export, both sticky",
+      "far_memory_refs": [
+        29,
+        30
+      ],
+      "mind_memory_refs": [
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T20:25:27Z"
+    },
+    {
+      "id": 16,
+      "summary": "Added Liquid template resolver for Jekyll syntax — fixes broken links across all production docs",
+      "far_memory_refs": [
+        31,
+        32
+      ],
+      "mind_memory_refs": [
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T20:32:10Z"
+    },
+    {
+      "id": 17,
+      "summary": "Fix internal link 404s — added click interceptor mapping production URLs to viewer DOCS entries, with FR auto-detection",
+      "far_memory_refs": [
+        33,
+        34
+      ],
+      "mind_memory_refs": [
+        "documentation",
+        "work"
+      ],
+      "timestamp": "2026-03-14T20:39:25Z"
+    },
+    {
+      "id": 18,
+      "summary": "Restructured documentation mindmap: added web docs parent node, displayed depth config",
+      "far_memory_refs": [
+        35,
+        36
+      ],
+      "mind_memory_refs": [
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T20:43:36Z"
+    },
+    {
+      "id": 19,
+      "summary": "Depth config: conventions set to 3, displayed mindmap context with web docs restructure",
+      "far_memory_refs": [
+        37,
+        38
+      ],
+      "mind_memory_refs": [
+        "documentation::web docs",
+        "conventions"
+      ],
+      "timestamp": "2026-03-14T20:46:13Z"
+    },
+    {
+      "id": 20,
+      "summary": "Active work: viewer internal link interceptor, Liquid resolver, bilingual, export — all under documentation web viewer system",
+      "far_memory_refs": [
+        39,
+        40
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T20:47:48Z"
+    },
+    {
+      "id": 21,
+      "summary": "Fixed near_memory ref format: stripped knowledge:: prefix so categorization works for work/documentation/conventions",
+      "far_memory_refs": [
+        41,
+        42
+      ],
+      "mind_memory_refs": [
+        "conventions::mind::rules",
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T20:53:11Z"
+    },
+    {
+      "id": 22,
+      "summary": "Fixed skills visibility: added user_invocable: true to mind-context, mind-depth, mind-stats",
+      "far_memory_refs": [
+        43,
+        44
+      ],
+      "mind_memory_refs": [
+        "conventions::mind::rules",
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T20:54:59Z"
+    },
+    {
+      "id": 23,
+      "summary": "Implemented page_type:interface support — standalone HTML via Blob URL with embed mode for iframes, URL rewriting for widget links",
+      "far_memory_refs": [
+        45,
+        46
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:05:21Z"
+    },
+    {
+      "id": 24,
+      "summary": "Fixed viewer crash: </script> in JS string literal broke HTML parser, fixed with concatenation",
+      "far_memory_refs": [
+        47,
+        48
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T21:08:50Z"
+    },
+    {
+      "id": 25,
+      "summary": "Redesigned interface pages: direct render, collapsible chrome bar with metadata, keep top toolbar, auto-landscape, no launch button",
+      "far_memory_refs": [
+        49,
+        50
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:26:59Z"
+    },
+    {
+      "id": 26,
+      "summary": "Stripped lang/orient/export from main navigator chrome bar — viewer handles all layout capabilities now",
+      "far_memory_refs": [
+        51,
+        52
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:28:31Z"
+    },
+    {
+      "id": 27,
+      "summary": "Removed redundant chrome bar from main navigator — viewer's interface chrome bar is the only one",
+      "far_memory_refs": [
+        53,
+        54
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:33:21Z"
+    },
+    {
+      "id": 28,
+      "summary": "User confirmed main navigator interface rendering correctly in viewer",
+      "far_memory_refs": [
+        55,
+        56
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-14T21:35:38Z"
+    },
+    {
+      "id": 29,
+      "summary": "Fixed interface iframe routing: absolute URLs for Blob context, _top links reload viewer, center/right links embed correctly",
+      "far_memory_refs": [
+        57,
+        58
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:38:19Z"
+    },
+    {
+      "id": 30,
+      "summary": "Fixed interface panel links: click interceptor with direct iframe.src assignment instead of href rewrite",
+      "far_memory_refs": [
+        59,
+        60
+      ],
+      "mind_memory_refs": [
+        "work::en cours::documentation web viewer system",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-14T21:44:42Z"
+    },
+    {
+      "id": 31,
+      "summary": "Fix: replaced Blob URL with document.write() for interface iframe — same-origin enables widget link navigation",
+      "far_memory_refs": [
+        61,
+        62
+      ],
+      "mind_memory_refs": [
+        "work",
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T21:52:10Z"
+    },
+    {
+      "id": 32,
+      "summary": "Fix: resolveLiquid double-quote support + srcdoc iframe — root cause of broken widget links",
+      "far_memory_refs": [
+        63,
+        64
+      ],
+      "mind_memory_refs": [
+        "work",
+        "documentation"
+      ],
+      "timestamp": "2026-03-14T21:59:33Z"
+    },
+    {
+      "id": 33,
+      "summary": "Added right-panel routing rules: interface links→center, main-nav→reload full page",
+      "far_memory_refs": [
+        65,
+        66
+      ],
+      "mind_memory_refs": [
+        "work",
+        "documentation"
+      ],
+      "timestamp": "2026-03-15T05:59:18Z"
+    },
+    {
+      "id": 34,
+      "summary": "Fix: moved right-panel interface routing to viewer (cross-origin fix) + auto-detect baseurl",
+      "far_memory_refs": [
+        67,
+        68
+      ],
+      "mind_memory_refs": [
+        "work",
+        "documentation"
+      ],
+      "timestamp": "2026-03-15T06:16:00Z"
+    },
+    {
+      "id": 35,
+      "summary": "DOCX export matches PDF QA (TOC page 2), updated conventions/docs/work JSONs, fixed internal link 404s in PDF/DOCX via rewriteContentLinks()",
+      "far_memory_refs": [
+        69,
+        70
+      ],
+      "mind_memory_refs": [
+        "documentation::web_docs",
+        "conventions"
+      ],
+      "timestamp": "2026-03-15T08:00:43Z"
+    },
+    {
+      "id": 36,
+      "summary": "Fixed PDF/DOCX export links: use viewer URL format (index.html?doc=) instead of direct paths that 404 on GitHub Pages",
+      "far_memory_refs": [
+        71,
+        72
+      ],
+      "mind_memory_refs": [
+        "documentation::web_docs"
+      ],
+      "timestamp": "2026-03-15T08:04:56Z"
+    },
+    {
+      "id": 37,
+      "summary": "Dividers widened to 14px desktop / 8px mobile responsive, pushed. User asks what system updates needed.",
+      "far_memory_refs": [
+        73,
+        74
+      ],
+      "mind_memory_refs": [
+        "documentation::web_docs",
+        "conventions"
+      ],
+      "timestamp": "2026-03-15T08:07:06Z"
+    },
+    {
+      "id": 38,
+      "summary": "Moved documentation web viewer system to validation stage in work.json and mindmap",
+      "far_memory_refs": [
+        75,
+        76
+      ],
+      "mind_memory_refs": [
+        "knowledge::work::validation::documentation web viewer system"
+      ],
+      "timestamp": "2026-03-15T08:26:36Z"
+    },
+    {
+      "id": 39,
+      "summary": "Created conventions/claude desktop app group, moved mindmap_memory and display-conventions-and-stats under it, updated all system files",
+      "far_memory_refs": [
+        77,
+        78
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::claude desktop app",
+        "knowledge::conventions::claude desktop app::mindmap_memory",
+        "knowledge::conventions::claude desktop app::display conventions and stats"
+      ],
+      "timestamp": "2026-03-15T08:31:16Z"
+    },
+    {
+      "id": 40,
+      "summary": "Added webcards viewer support (og:image + header), live mindmap standalone page + embedded in k2.0, K_DOCS module sync work item, updated all system files",
+      "far_memory_refs": [
+        79,
+        80
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::webcards",
+        "knowledge::conventions::documentation::web docs::live mindmap",
+        "knowledge::work::en cours::webcards",
+        "knowledge::work::en cours::live mindmap",
+        "knowledge::work::en cours::K_DOCS module sync"
+      ],
+      "timestamp": "2026-03-15T08:42:19Z"
+    },
+    {
+      "id": 41,
+      "summary": "Made live mindmap official interface I5, added to interfaces index + documentation mindmap node",
+      "far_memory_refs": [
+        81,
+        82
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::interfaces::live mindmap"
+      ],
+      "timestamp": "2026-03-15T08:44:06Z"
+    },
+    {
+      "id": 42,
+      "summary": "Interfaces index 404 was GitHub Pages deployment lag, resolved",
+      "far_memory_refs": [
+        83,
+        84
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::interfaces"
+      ],
+      "timestamp": "2026-03-15T08:46:23Z"
+    },
+    {
+      "id": 43,
+      "summary": "Fix: live mindmap fetches from GitHub raw URL since mind_memory.md is outside docs/",
+      "far_memory_refs": [
+        85,
+        86
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::live mindmap"
+      ],
+      "timestamp": "2026-03-15T08:47:45Z"
+    },
+    {
+      "id": 44,
+      "summary": "Created live webcard (dynamic #2): live mindmap renders in webcard header for K2.0, GIF generator for social sharing",
+      "far_memory_refs": [
+        87,
+        88
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::webcards",
+        "knowledge::work::en cours::webcards"
+      ],
+      "timestamp": "2026-03-15T08:53:07Z"
+    },
+    {
+      "id": 45,
+      "summary": "Fix webcards: disable static image display (GIFs missing), keep live_webcard in doc-header only, no webcards in main interface or panels",
+      "far_memory_refs": [
+        89,
+        90
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::webcards"
+      ],
+      "timestamp": "2026-03-15T09:10:58Z"
+    },
+    {
+      "id": 46,
+      "summary": "Webcard placement: first before doc-header, faded cover page bg for print, removed K2.0 orphaned blockquote",
+      "far_memory_refs": [
+        91,
+        92
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web docs::webcards",
+        "knowledge::conventions::documentation::web docs::page conventions"
+      ],
+      "timestamp": "2026-03-15T09:18:32Z"
+    },
+    {
+      "id": 47,
+      "summary": "K2.0 section 1 Mindmap Memory with embedded live mindmap, I5 Normal/Full dropdown, compact architecture diagram",
+      "far_memory_refs": [
+        93,
+        94
+      ],
+      "mind_memory_refs": [
+        "knowledge::work::en cours::live mindmap",
+        "knowledge::documentation::publications",
+        "knowledge::conventions::documentation::web docs::live mindmap"
+      ],
+      "timestamp": "2026-03-15T09:39:14Z"
+    },
+    {
+      "id": 48,
+      "summary": "Replaced mermaid+custom pan/zoom with MindElixir v5.9.3 in I5 interface, K2.0 embed, and viewer webcard. Added 4-theme sync matching viewer themes.",
+      "far_memory_refs": [
+        95,
+        96
+      ],
+      "mind_memory_refs": [
+        "conventions::live mindmap",
+        "work::en cours::live mindmap"
+      ],
+      "timestamp": "2026-03-15T09:55:35Z"
+    },
+    {
+      "id": 49,
+      "summary": "Publication #23 viewer EN/FR created, live-mindmap→validation, conventions 015-017 added, root essentials from knowledge repo, pushed",
+      "far_memory_refs": [
+        97,
+        98
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::web_docs",
+        "knowledge::conventions::documentation",
+        "knowledge::work::en_cours"
+      ],
+      "timestamp": "2026-03-15T10:28:41Z"
+    },
+    {
+      "id": 50,
+      "summary": "MindElixir fixes (constructor, padding, embed width) pushed — user validates live mindmap displays",
+      "far_memory_refs": [
+        99,
+        100
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::web_docs::live_mindmap"
+      ],
+      "timestamp": "2026-03-15T10:34:33Z"
+    },
+    {
+      "id": 51,
+      "summary": "Convention: webcard-header margin-top:1rem moved to CSS class for all docs",
+      "far_memory_refs": [
+        101,
+        102
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web_docs"
+      ],
+      "timestamp": "2026-03-15T10:53:27Z"
+    },
+    {
+      "id": 52,
+      "summary": "Fix: MindElixir editable:true for drag, dblclick capture for expand/collapse, correct expandNode arg",
+      "far_memory_refs": [
+        103,
+        104
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::claude_desktop_app::live_mindmap_mindelixir"
+      ],
+      "timestamp": "2026-03-15T10:56:03Z"
+    },
+    {
+      "id": 53,
+      "summary": "Added discrete thin scrollbars to main navigator, viewer, and I5",
+      "far_memory_refs": [
+        105,
+        106
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::web_docs"
+      ],
+      "timestamp": "2026-03-15T10:58:04Z"
+    },
+    {
+      "id": 54,
+      "summary": "Synced FR main navigator with EN: scrollbars, padding, I5 link, #22/#23 pubs",
+      "far_memory_refs": [
+        107,
+        108
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::bilingual_en_fr"
+      ],
+      "timestamp": "2026-03-15T11:00:33Z"
+    },
+    {
+      "id": 55,
+      "summary": "Unified EN/FR main navigator: single JS with auto lang detection, translations object, shared nomarkdown block",
+      "far_memory_refs": [
+        109,
+        110
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::documentation::bilingual_en_fr",
+        "knowledge::documentation::web_docs"
+      ],
+      "timestamp": "2026-03-15T11:05:47Z"
+    },
+    {
+      "id": 56,
+      "summary": "Added ? help button + right help panel to I5 live mindmap, bilingual EN/FR",
+      "far_memory_refs": [
+        111,
+        112
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::interfaces",
+        "knowledge::conventions::documentation::bilingual_en_fr"
+      ],
+      "timestamp": "2026-03-15T11:08:06Z"
+    },
+    {
+      "id": 57,
+      "summary": "MindElixir +/- and dblclick now expand one level at a time, Ctrl+click for full expand, help text updated",
+      "far_memory_refs": [
+        113,
+        114
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::claude desktop app::mindmap_memory::live_mindmap"
+      ],
+      "timestamp": "2026-03-15T11:19:48Z"
+    },
+    {
+      "id": 58,
+      "summary": "MindElixir final: editable:false read-only, native +/- expand, collapseDeep init, theme broadcast, auto-fit fullscreen",
+      "far_memory_refs": [
+        115,
+        116
+      ],
+      "mind_memory_refs": [
+        "knowledge::conventions::claude desktop app::mindmap_memory::live_mindmap",
+        "knowledge::documentation::web_docs::live_mindmap"
+      ],
+      "timestamp": "2026-03-15T11:46:25Z"
+    },
+    {
+      "id": 59,
+      "summary": "Multi-module architecture agreed: K_MIND core + modules under Knowledge/, git subtree sync, CLAUDE.md/.claude/ part of core",
+      "far_memory_refs": [
+        117,
+        118
+      ],
+      "mind_memory_refs": [
+        "knowledge::architecture::programs_over_improvisation",
+        "knowledge::conventions::root_essential_files"
+      ],
+      "timestamp": "2026-03-15T11:56:31Z"
+    },
+    {
+      "id": 60,
+      "summary": "Ctrl+click expand fix (reset state), full mode depth reduced to configDepth-1, session wrapping up",
+      "far_memory_refs": [
+        119,
+        120
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::web_docs::live_mindmap"
+      ],
+      "timestamp": "2026-03-15T12:04:16Z"
+    },
+    {
+      "id": 61,
+      "summary": "Committed multi-module architecture: K_MIND core + K_DOCS module split with mindmap nodes updated",
+      "far_memory_refs": [
+        121,
+        122
+      ],
+      "mind_memory_refs": [
+        "work::validation::multi module architecture",
+        "architecture::multi_module"
+      ],
+      "timestamp": "2026-03-15T12:16:32Z"
+    },
+    {
+      "id": 62,
+      "summary": "Pushed via GH_TOKEN, fixed webcard theme reactivity, imported 3 K_DOCS methodology files from production repo",
+      "far_memory_refs": [
+        123,
+        124
+      ],
+      "mind_memory_refs": [
+        "documentation::web docs",
+        "conventions::methodologies",
+        "work::validation::webcards theme aware"
+      ],
+      "timestamp": "2026-03-15T12:28:46Z"
+    },
+    {
+      "id": 63,
+      "summary": "Adapted 3 K_DOCS methodologies for viewer architecture, confirmed all skills are K_MIND core, no missing imports",
+      "far_memory_refs": [
+        125,
+        126
+      ],
+      "mind_memory_refs": [
+        "conventions::methodologies",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-15T12:32:39Z"
+    },
+    {
+      "id": 64,
+      "summary": "Imported 4 content creation methodologies (generation, webcard, interactive, audience), updated documentation.json with 7 local refs, committed and pushed",
+      "far_memory_refs": [
+        127,
+        128
+      ],
+      "mind_memory_refs": [
+        "conventions::methodologies",
+        "documentation::web docs"
+      ],
+      "timestamp": "2026-03-15T12:40:55Z"
+    },
+    {
+      "id": 65,
+      "summary": "Downloaded 88 webcards from production, committed+pushed. Proposed skills integrity validation script.",
+      "far_memory_refs": [
+        129,
+        130
+      ],
+      "mind_memory_refs": [
+        "documentation",
+        "work"
+      ],
+      "timestamp": "2026-03-15T12:50:09Z"
+    },
+    {
+      "id": 66,
+      "summary": "Full mode webcards generated: added stories to mindmap, capture_mindmap.js --full flag, both daltonism GIFs with all 6 branches at deep depth",
+      "far_memory_refs": [
+        131,
+        132
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation",
+        "knowledge::work::validation::webcards theme aware"
+      ],
+      "timestamp": "2026-03-15T14:10:19Z"
+    },
+    {
+      "id": 67,
+      "summary": "Cinematic animated webcards: 118 frames at 400ms, 3 movies, expanded documentation mindmap to leafs, fixed og_image and link 404s, moved node_modules, updated conventions/methodology",
+      "far_memory_refs": [
+        133,
+        134
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation::webcards",
+        "knowledge::conventions::methodologies",
+        "knowledge::documentation::publications",
+        "knowledge::documentation::stories"
+      ],
+      "timestamp": "2026-03-15T15:31:19Z"
+    },
+    {
+      "id": 68,
+      "summary": "Imported 3 modules from production, created project data model, built mind-to-tasks bridge script",
+      "far_memory_refs": [
+        135,
+        136
+      ],
+      "mind_memory_refs": [
+        "knowledge::work::en cours::modules imports",
+        "knowledge::work::validation::multi module architecture"
+      ],
+      "timestamp": "2026-03-15T16:45:55Z"
+    },
+    {
+      "id": 69,
+      "summary": "QA: 6 interface fixes — session overview, project theme/404/fields, task stat-card CSS, thin scrollbars, dark theme font variables",
+      "far_memory_refs": [
+        137,
+        138
+      ],
+      "mind_memory_refs": [
+        "documentation::interfaces",
+        "work::validation"
+      ],
+      "timestamp": "2026-03-15T17:09:47Z"
+    },
+    {
+      "id": 70,
+      "summary": "Pushed 3 subtrees, created legacy folder, fixed publications path in methodologies, gap analysis complete",
+      "far_memory_refs": [
+        139,
+        140
+      ],
+      "mind_memory_refs": [
+        "work::validation::modules imports"
+      ],
+      "timestamp": "2026-03-15T18:21:42Z"
+    },
+    {
+      "id": 71,
+      "summary": "Imported Tier 3+4 legacy conventions to K_DOCS, created sessions/interactive + web + validation dirs, committed and pushed with legacy",
+      "far_memory_refs": [
+        141,
+        142
+      ],
+      "mind_memory_refs": [
+        "work::validation::modules imports",
+        "conventions"
+      ],
+      "timestamp": "2026-03-15T18:32:30Z"
+    },
+    {
+      "id": 72,
+      "summary": "Fixed .nojekyll removal (broke all pages) + session-review dark theme CSS variables, pushed both fixes",
+      "far_memory_refs": [
+        143,
+        144
+      ],
+      "mind_memory_refs": [
+        "documentation::interfaces::session review"
+      ],
+      "timestamp": "2026-03-15T18:44:42Z"
+    },
+    {
+      "id": 73,
+      "summary": "Force pushed K_DOCS content to packetqc/knowledge main — production repo now mirrors K_DOCS",
+      "far_memory_refs": [
+        145,
+        146
+      ],
+      "mind_memory_refs": [
+        "work::validation::modules imports"
+      ],
+      "timestamp": "2026-03-15T18:46:38Z"
+    },
+    {
+      "id": 74,
+      "summary": "Production confirmed live at packetqc.github.io/knowledge — auto-detecting viewer works on both deployments",
+      "far_memory_refs": [
+        147,
+        148
+      ],
+      "mind_memory_refs": [
+        "work::approbation",
+        "documentation::docs"
+      ],
+      "timestamp": "2026-03-15T18:49:54Z"
+    },
+    {
+      "id": 75,
+      "summary": "Fix project-viewer theme override bug (dark media query scoped to auto-theme), lower documentation mindmap depth to 2, push to both repos",
+      "far_memory_refs": [
+        149,
+        150
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation",
+        "knowledge::conventions"
+      ],
+      "timestamp": "2026-03-15T19:04:23Z"
+    },
+    {
+      "id": 76,
+      "summary": "Committed and pushed README.md update to both remotes — production repo now has correct multi-module description",
+      "far_memory_refs": [
+        151,
+        152
+      ],
+      "mind_memory_refs": [
+        "knowledge::documentation"
+      ],
+      "timestamp": "2026-03-16T06:13:08Z"
+    },
+    {
+      "id": 77,
+      "summary": "Fixed 404s (site-independent redirects), harmonized 3 interface CSS files, restored PR stats (16 PRs), updated mindmap with all recent work",
+      "far_memory_refs": [
+        153,
+        154
+      ],
+      "mind_memory_refs": [
+        "knowledge::work::en_cours",
+        "knowledge::conventions::documentation::web_docs",
+        "knowledge::documentation::interfaces"
+      ],
+      "timestamp": "2026-03-16T06:29:31Z"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "version": 3,
+  "session_id": "Convert dropdown time prefix from UTC to user local time",
+  "repo": 609,
+  "issue_number": "Fix session dropdown time to local timezone",
+  "issue_title": "claude/review-issue-609-MIeq1",
+  "branch": "Convert dropdown time prefix from UTC to user local time",
+  "mode": "normal",
+  "created": "2026-03-04T18:02:42.383200+00:00",
+  "updated": "2026-03-04T18:02:42.383225+00:00",
+  "agent_initialized": true,
+  "request_description": "",
+  "clip_mode": "discard",
+  "session_data": {}
+}

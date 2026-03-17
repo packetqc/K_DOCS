@@ -23,6 +23,11 @@ mindmap
           resolveRelativeToDoc resolves against current doc path
           fixes 404 on complete documentation links
           fixes viewer-in-viewer nesting in 3rd panel
+        K_TOOLS module creation
+          command framework and help system module
+          import legacy commands into Knowledge 2.0
+          command to module mapping for all K_ modules
+          GitHub repo created and subtree pushed
       validation
         modules imports
           K_PROJECTS imported with skills scripts methodology
@@ -55,6 +60,7 @@ mindmap
           K_PROJECTS project management module
           K_VALIDATION quality assurance module
           K_GITHUB github integration module
+          K_TOOLS command framework and utilities module
           each module has conventions work documentation
           sessions shared in K_MIND
           memory_stats scans all K_ modules

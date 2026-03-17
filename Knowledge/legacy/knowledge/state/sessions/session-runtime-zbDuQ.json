@@ -1,0 +1,15 @@
+{
+  "version": 3,
+  "session_id": "claude/create-test-routine-zbDuQ",
+  "repo": "packetqc/knowledge",
+  "issue_number": 582,
+  "issue_title": "SESSION: Test routine request (2026-03-02)",
+  "branch": "claude/create-test-routine-zbDuQ",
+  "mode": "normal",
+  "created": "2026-03-02T10:44:43.048510+00:00",
+  "updated": "2026-03-02T10:44:43.048533+00:00",
+  "agent_initialized": true,
+  "request_description": "test routine \u2014 this is a test routine request",
+  "clip_mode": "discard",
+  "session_data": {}
+}

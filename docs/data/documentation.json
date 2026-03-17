@@ -13,7 +13,8 @@
         { "title": "Main Navigator", "title_fr": "Navigateur principal", "slug": "guide-main-navigator", "has_full": true, "priority": 2 },
         { "title": "Tasks Workflow", "title_fr": "Flux de travail", "slug": "guide-tasks-workflow", "has_full": true, "priority": 3 },
         { "title": "Project Viewer", "title_fr": "Visualiseur projets", "slug": "guide-project-viewer", "has_full": true, "priority": 4 },
-        { "title": "Live Mindmap", "title_fr": "Mindmap vivant", "slug": "guide-live-mindmap", "has_full": true, "priority": 5 }
+        { "title": "Live Mindmap", "title_fr": "Mindmap vivant", "slug": "guide-live-mindmap", "has_full": true, "priority": 5 },
+        { "title": "Commands", "title_fr": "Commandes", "slug": "guide-commands", "has_full": true, "priority": 6 }
       ]
     },
     {

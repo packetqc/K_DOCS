@@ -1,0 +1,85 @@
+{
+  "session_id": "us-20260309-280085",
+  "issue_number": 910,
+  "issue_title": "project test moi ca claude",
+  "branch": "claude/create-project-test-G93uA",
+  "repo": "packetqc/knowledge",
+  "created": "2026-03-09T21:30:00Z",
+  "updated": "2026-03-09T21:14:30Z",
+  "session_data": {
+    "user_session_id": "us-20260309-280085",
+    "session_phase": "completed",
+    "request_description": "Création du projet project test moi ca claude",
+    "todo_snapshot": [],
+    "files_modified": [],
+    "work_summary": "project test moi ca claude",
+    "pr_numbers": [
+      52
+    ],
+    "knowledge_grid": {
+      "resultats": {
+        "Validation de la demande": {
+          "A1": "Vrai",
+          "A2": "Vrai",
+          "A3": "Vrai",
+          "A4": "Vrai"
+        },
+        "Qualité du travail": {
+          "B1": "--",
+          "B2": "--",
+          "B3": "--",
+          "B4": "--"
+        },
+        "Intégrité de session": {
+          "C1": "--",
+          "C2": "--",
+          "C3": "--",
+          "C4": "--"
+        },
+        "Documentation": {
+          "D1": "--",
+          "D2": "--",
+          "D3": "--"
+        },
+        "Approbation": {
+          "E1": "--",
+          "E2": "--",
+          "E3": "--",
+          "E4": "--"
+        }
+      },
+      "en_cours": false,
+      "valeurs_detectees": {
+        "A1": {
+          "valeur": "project test moi ca claude",
+          "original": null
+        },
+        "A2": {
+          "valeur": "Création du projet project test moi ca claude",
+          "original": null
+        },
+        "A3": {
+          "valeur": "project test moi ca claude",
+          "original": null
+        }
+      }
+    },
+    "task_workflow": {
+      "issue_number": 910,
+      "title": "project test moi ca claude",
+      "description": "Création du projet project test moi ca claude",
+      "current_stage": "implement",
+      "current_stage_index": 3,
+      "current_step": "close_issue",
+      "project": "project test moi ca claude",
+      "started_at": "2026-03-09T21:30:00Z",
+      "updated_at": "2026-03-09T21:14:30Z",
+      "modifications_occurred": true,
+      "validation_skipped_entirely": false,
+      "validation_results": {},
+      "unit_tests": [],
+      "stage_history": [],
+      "step_history": []
+    }
+  }
+}
