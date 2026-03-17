@@ -809,11 +809,18 @@
     // ===== Device Mode (Auto / PC / Mobile) =====
     var deviceChannel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('kdocs-device') : null;
 
-    // Auto-detect: touch + narrow screen = mobile
+    // Auto-detect: touch device = mobile (phones + tablets have touch)
+    // Uses touch capability as primary signal, with screen size as secondary
     function detectDevice() {
       var hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-      var isNarrow = window.innerWidth <= 768;
-      return (hasTouch && isNarrow) ? 'mobile' : 'desktop';
+      if (!hasTouch) return 'desktop';
+      // Touch device — check if it's a phone/tablet vs touch-enabled laptop
+      // Phones/tablets: shorter dimension (min of w/h) is typically <= 1024
+      var shortSide = Math.min(window.innerWidth, window.innerHeight);
+      var isSmallScreen = shortSide <= 1024;
+      // Also check coarse pointer (phones/tablets) vs fine pointer (trackpad/mouse)
+      var isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+      return (isSmallScreen || isCoarsePointer) ? 'mobile' : 'desktop';
     }
 
     function applyDeviceMode(mode) {

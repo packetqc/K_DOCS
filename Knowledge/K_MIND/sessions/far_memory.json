@@ -446,6 +446,50 @@
           "action": "added provider selector + key validation"
         }
       ]
+    },
+    {
+      "id": 25,
+      "role": "user",
+      "content": "Mobile viewport: extend into status bar safe area. Toolbar bars too slim across all interfaces — increase for both PC and mobile. Add development warning banner to Claude Interface.",
+      "timestamp": "2026-03-17T10:10:41Z"
+    },
+    {
+      "id": 26,
+      "role": "assistant",
+      "content": "Applied 3 changes across all 6 interfaces: (1) Dev banner on Claude Interface — amber warning bar below toolbar, theme-aware. (2) Toolbar touch target increases — min-height 44-52px on toolbars, 44px on selects/buttons, 36-40px on links/tabs across I1-I6. (3) Safe-area CSS on I2 Main Navigator and I6 Claude Interface — env(safe-area-inset-*) for mobile notch/status bar. Committed and pushed.",
+      "timestamp": "2026-03-17T10:10:41Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/claude-interface/index.md",
+          "action": "add dev banner + increase toolbar/input/sidebar sizes + safe-area CSS"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/main-navigator/index.md",
+          "action": "increase widget/tab/divider sizes + safe-area CSS"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/task-workflow/task-workflow.css",
+          "action": "increase toolbar + select sizes"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/session-review/session-review.css",
+          "action": "increase toolbar + select sizes"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/project-viewer/project-viewer.css",
+          "action": "increase toolbar + select sizes"
+        },
+        {
+          "tool": "Edit",
+          "file": "docs/interfaces/live-mindmap/index.md",
+          "action": "increase control button + help button sizes"
+        }
+      ]
     }
   ],
   "archives": [

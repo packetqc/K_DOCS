@@ -154,6 +154,18 @@
         "conventions::methodologies"
       ],
       "timestamp": "2026-03-17T09:21:14Z"
+    },
+    {
+      "id": 13,
+      "summary": "Interface CSS: dev banner on I6, increased toolbar/bar heights for touch targets across all 6 interfaces, safe-area CSS for mobile notch support",
+      "far_memory_refs": [
+        25,
+        26
+      ],
+      "mind_memory_refs": [
+        "work::en cours::interface CSS harmonization all 3 aligned"
+      ],
+      "timestamp": "2026-03-17T10:10:41Z"
     }
   ],
   "last_session": {
