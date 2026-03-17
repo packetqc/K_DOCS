@@ -73,10 +73,11 @@ body > .container {
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 0.35rem 0.8rem;
-  font-size: 0.82rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.88rem;
   cursor: pointer;
   font-weight: 500;
+  min-height: 40px;
 }
 .mindmap-controls select { appearance: auto; }
 .mindmap-controls button:hover,
@@ -109,12 +110,12 @@ body > .container {
 }
 /* Help button — round ? */
 .help-btn {
-  width: 1.6rem; height: 1.6rem;
+  width: 2.2rem; height: 2.2rem;
   border-radius: 50%;
   background: var(--accent, #0055b3);
   color: white;
   border: none;
-  font-size: 0.9rem; font-weight: 700;
+  font-size: 1rem; font-weight: 700;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   padding: 0;

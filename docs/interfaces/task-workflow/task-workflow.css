@@ -51,10 +51,11 @@
   align-items: end;
   flex-wrap: wrap;
   margin-bottom: 16px;
-  padding: 12px 16px;
+  padding: 16px 20px;
   background: var(--code-bg, #f6f8fa);
   border: 1px solid var(--border, #e1e4e8);
   border-radius: var(--tw-radius);
+  min-height: 52px;
 }
 
 .tw-select-group {
@@ -72,13 +73,14 @@
 }
 
 .tw-select-group select {
-  padding: 6px 10px;
+  padding: 10px 14px;
   border: 1px solid var(--border, #e1e4e8);
   border-radius: var(--tw-radius);
   background: var(--bg, #fff);
   color: var(--fg, #24292e);
-  font-size: 13px;
+  font-size: 14px;
   min-width: 160px;
+  min-height: 44px;
 }
 
 .tw-select-group:first-child {

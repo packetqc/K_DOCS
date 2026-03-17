@@ -23,6 +23,16 @@ dev_banner: "Interface in development — features and layout may change between
 html { margin: 0; padding: 0; height: 100%; }
 body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
 
+/* ═══ Safe area — extend into notch/status bar area on mobile ═══ */
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
 /* ═══ Discrete thin scrollbars ═══ */
 *, *::before, *::after {
   scrollbar-width: thin;
@@ -67,7 +77,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-grid {
   flex: 1; min-height: 0; display: grid; overflow: hidden;
   position: relative;
-  grid-template-columns: 220px 14px 1fr 14px 0px;
+  grid-template-columns: 220px 18px 1fr 18px 0px;
   grid-template-rows: 1fr;
   margin: 0.3rem 0.4rem 0.25rem;
   border: 1px solid var(--border, #d0d7de);
@@ -97,7 +107,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   cursor: col-resize; user-select: none;
   transition: background 0.15s ease;
   position: relative;
-  min-width: 14px;
+  min-width: 18px;
   z-index: 10;
 }
 .nav-divider-left { grid-column: 2; }
@@ -134,8 +144,8 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   background: var(--bg, #fff);
 }
 .nav-widget summary {
-  cursor: pointer; padding: 0.35rem 0.5rem;
-  font-size: 0.76rem; font-weight: 700;
+  cursor: pointer; padding: 0.5rem 0.65rem;
+  font-size: 0.8rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.04em;
   color: var(--fg, #24292f);
   background: var(--code-bg, #f6f8fa);
@@ -143,6 +153,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   list-style: none;
   display: flex; align-items: center; gap: 0.35rem;
   user-select: none;
+  min-height: 40px;
 }
 .nav-widget summary::-webkit-details-marker { display: none; }
 .nav-widget summary::before {
@@ -151,15 +162,16 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 }
 .nav-widget[open] > summary::before { transform: rotate(90deg); }
 .nav-widget[open] > summary { border-bottom-color: var(--accent, #1d4ed8); }
-.nav-widget .widget-body { padding: 0.25rem 0.3rem; display: flex; flex-direction: column; gap: 0.15rem; }
+.nav-widget .widget-body { padding: 0.3rem 0.4rem; display: flex; flex-direction: column; gap: 0.2rem; }
 .nav-widget .widget-body a {
-  display: block; font-size: 0.72rem; font-weight: 500;
-  padding: 0.3rem 0.5rem;
+  display: block; font-size: 0.78rem; font-weight: 500;
+  padding: 0.45rem 0.6rem;
   color: var(--fg, #24292f);
   text-decoration: none; border-radius: 4px;
   text-transform: uppercase; letter-spacing: 0.02em;
   background: var(--code-bg, #f6f8fa);
   border-left: 2px solid transparent;
+  min-height: 36px; line-height: 1.4;
   transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.12s, box-shadow 0.15s;
 }
 .nav-widget .widget-body a:hover {
@@ -209,18 +221,19 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .tab-bar {
   flex-shrink: 0;
   display: flex; align-items: stretch; flex-wrap: wrap;
-  max-height: 3.2rem; overflow-y: auto;
+  max-height: 3.6rem; overflow-y: auto;
   background: var(--code-bg, #f6f8fa);
   border-bottom: 1px solid var(--border, #d0d7de);
   scrollbar-width: thin;
 }
 .tab-bar:empty { display: none; }
 .tab-item {
-  display: flex; align-items: center; gap: 0.15rem;
-  padding: 0.2rem 0.25rem 0.2rem 0.5rem;
-  font-size: 0.72rem; white-space: nowrap;
+  display: flex; align-items: center; gap: 0.2rem;
+  padding: 0.35rem 0.4rem 0.35rem 0.65rem;
+  font-size: 0.78rem; white-space: nowrap;
   border-right: 1px solid var(--border, #d0d7de);
   cursor: pointer; user-select: none;
+  min-height: 36px;
   color: var(--muted, #656d76);
   max-width: 180px;
   transition: background 0.15s;
@@ -299,7 +312,7 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 
 /* ═══ Mobile — shrink dividers for touch screens ═══ */
 @media (max-width: 768px) {
-  .nav-divider-left, .nav-divider-right { min-width: 8px; }
+  .nav-divider-left, .nav-divider-right { min-width: 12px; }
   .nav-divider-left::before, .nav-divider-right::before { font-size: 0.55rem; }
   .nav-grid { grid-template-columns: 0px 8px 1fr 8px 0px; }
 }
