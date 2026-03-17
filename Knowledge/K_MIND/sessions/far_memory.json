@@ -229,6 +229,45 @@
           "action": "added 10 script entries with groups"
         }
       ]
+    },
+    {
+      "id": 13,
+      "role": "user",
+      "content": "can you confirm in the script import it that they respect the new structure? I mean nothing will be created at the root level of the repository. [...] roll back whatever is not complying with my instruction and make it right please. [...] and perhaps some user interfaces I mean like projects, sessions or tasks. perhaps they need to refer to the new source of data. [...] save your memory please",
+      "timestamp": "2026-03-17T07:13:56Z"
+    },
+    {
+      "id": 14,
+      "role": "assistant",
+      "content": "Audited all 12 K_TOOLS scripts for output paths. Found 5 scripts writing outside K_TOOLS. Initially applied wrong containment (redirecting to K_TOOLS/generated/) — rolled that back after user correction.\n\nK_TOOLS is an add-on module — scripts output to their consuming module's designated folders:\n- OG images/GIFs → docs/assets/og/ (43 production GIFs already there)\n- Project data → docs/data/projects.json\n- Visual evidence → CWD-relative (caller controls context)\n\nVerified all modules already follow the docs/ convention:\n- K_DOCS → docs/data/configurations.json, methodologies.json\n- K_PROJECTS → docs/data/projects.json (already aligned)\n- K_VALIDATION → docs/data/sessions.json, tasks.json\n\nAll interfaces (project-viewer.js, session-review.js, main-navigator) read from docs/data/ — no changes needed.\n\nCommits: a0cfcdd (wrong containment), 862cb5d (rollback to correct docs/ output).",
+      "timestamp": "2026-03-17T07:13:56Z",
+      "tools": [
+        {
+          "tool": "Edit",
+          "file": "K_TOOLS/scripts/generate_og_images.py",
+          "action": "restored docs/assets/og/ output"
+        },
+        {
+          "tool": "Edit",
+          "file": "K_TOOLS/scripts/generate_og_gifs.py",
+          "action": "restored docs/assets/og/ and references/ paths"
+        },
+        {
+          "tool": "Edit",
+          "file": "K_TOOLS/scripts/project_create.py",
+          "action": "target docs/data/projects.json"
+        },
+        {
+          "tool": "Edit",
+          "file": "K_TOOLS/scripts/compile_projects.py",
+          "action": "target docs/data/projects.json"
+        },
+        {
+          "tool": "Edit",
+          "file": "K_TOOLS/scripts/visual_engine.py",
+          "action": "restored CWD-relative evidence path"
+        }
+      ]
     }
   ],
   "archives": [
