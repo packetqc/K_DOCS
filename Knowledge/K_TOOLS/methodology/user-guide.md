@@ -83,30 +83,94 @@ project create mon nouveau projet
 
 ## Session Management
 
-| Command | What It Does |
-|---------|-------------|
-| `wakeup` | **Auto-runs on session start** — never type as entry prompt. Mid-session: deep re-sync after PRs merged |
-| `refresh` | Lightweight mid-session context restore — re-read CLAUDE.md, git status, reprint help |
-| `help` / `aide` / `?` | **Multipart help** — print knowledge commands + project-specific commands (concatenated) |
-| `status` | Read `notes/` and summarize current state |
-| `save` | Pre-save summary → save context, commit, push, create PR to default branch |
-| `remember ...` | Append text to current session notes |
-| `elevate` | Elevate session to full autonomous — detects `GH_TOKEN` env var or `/tmp/.gh_token` temp file |
-| `resume` | Resume interrupted session from checkpoint (crash recovery) |
-| `recover` | Search `claude/*` branches for stranded work, cherry-pick/apply to current branch |
-| `recall` | Deep memory search across all knowledge channels — near memory first, deeper with confirmation |
-| `checkpoint` | Show current checkpoint state (or "no active checkpoint" if none) |
-| `<cmd> ?` | Contextual help for any command — usage, examples, publication link |
+Session management commands bridge K_TOOLS (command framework) and K_MIND (memory system). Commands that delegate to K_MIND scripts are marked with *(K_MIND)*. Commands with standalone scripts in `K_TOOLS/scripts/session/` are marked with *(script)*.
+
+| Command | What It Does | Backend |
+|---------|-------------|---------|
+| <a id="cmd-refresh"></a>`refresh` | Lightweight context restore — re-run `/mind-context`, re-read CLAUDE.md, git status | *(K_MIND)* `session_init.py --preserve-active` + `/mind-context` |
+| <a id="cmd-help-aide"></a>`help` / `aide` / `?` | **Multipart help** — print knowledge commands + project commands | *(script)* `help_command.py` |
+| <a id="cmd-status"></a>`status` | Summarize current state — K_MIND stats + git status + work items | *(K_MIND)* `memory_stats.py` + near_memory |
+| <a id="cmd-save"></a>`save` | Pre-save summary → commit, push, create PR to default branch | *(script)* `session/save_session.py` |
+| <a id="cmd-remember"></a>`remember ...` | Append text to K_MIND memory | *(K_MIND)* `memory_append.py` |
+| <a id="cmd-elevate"></a>`elevate` | Elevate session to full autonomous — detect `GH_TOKEN` env var | *(inline)* checks env |
+| <a id="cmd-resume"></a>`resume` | Resume interrupted session from checkpoint | *(K_MIND)* `session_init.py --preserve-active` + *(script)* `session/checkpoint.py` |
+| <a id="cmd-recover"></a>`recover` | Search `claude/*` branches for stranded work, cherry-pick/apply | *(script)* `session/recover.py` |
+| <a id="cmd-recall"></a>`recall` | Deep memory search — K_MIND memory → git → GitHub → deep files | *(script)* `session/recall.py` |
+| <a id="cmd-checkpoint"></a>`checkpoint` | Show current checkpoint state | *(script)* `session/checkpoint.py` |
+| `<cmd> ?` | Contextual help for any command | *(script)* `help_contextual.py` |
+
+### `recall` — Deep Memory Search
+
+Four-layer progressive search, each layer searched only if previous layers didn't find enough:
+
+| Layer | Sources | Speed |
+|-------|---------|-------|
+| **K_MIND** | near_memory, far_memory, archives | ~5s |
+| **Git** | commit messages across all branches | ~10s |
+| **GitHub** | issue titles, PR descriptions (requires GH_TOKEN) | ~15s |
+| **Deep** | domain JSONs, methodology, publications | ~30s |
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/recall.py --query "architecture" --layers near git
+```
+
+### `recover` — Branch Recovery
+
+Scans all `claude/*` and `backup-*` branches for unmerged commits. Shows file diffs, PR status. Offers cherry-pick or diff-apply recovery.
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/recover.py
+python3 Knowledge/K_TOOLS/scripts/session/recover.py --cherry-pick abc1234
+```
+
+### `save` — Session Save Protocol
+
+1. Compile pre-save summary from K_MIND near/far memory + git stats
+2. Commit all pending changes
+3. Push to branch
+4. Create PR to default branch
+5. Optionally merge (if elevated)
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/save_session.py --summary   # preview
+python3 Knowledge/K_TOOLS/scripts/session/save_session.py --save      # full protocol
+python3 Knowledge/K_TOOLS/scripts/session/save_session.py --save --merge  # save + merge
+```
+
+### `checkpoint` — Crash Recovery State
+
+Persists execution phase to `.claude/checkpoint.json` so Claude knows exactly where work was interrupted on resume.
+
+Phases: `idle` → `pre_execution` → `executing` → `completed` / `failed` → `saving`
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/checkpoint.py --status
+python3 Knowledge/K_TOOLS/scripts/session/checkpoint.py --write executing -d "importing scripts"
+python3 Knowledge/K_TOOLS/scripts/session/checkpoint.py --clear
+```
 
 ---
 
 ## Normalize
 
+Structure concordance audit — validates mindmap vs domain JSONs, module registration, documentation references.
+
 | Command | What It Does |
 |---------|-------------|
-| `normalize` | Audit and fix knowledge structure concordance |
-| `normalize --fix` | Apply concordance fixes automatically |
-| `normalize --check` | Report only, no changes |
+| <a id="cmd-normalize"></a>`normalize` | Audit knowledge structure concordance (default: report mode) |
+| <a id="cmd-normalize-fix"></a>`normalize --fix` | Report issues, Claude applies appropriate fixes |
+| <a id="cmd-normalize-check"></a>`normalize --check` | Report only, no changes |
+
+Checks performed:
+1. Mindmap work items vs work.json entries (all modules)
+2. Module registration in modules.json vs actual K_* directories
+3. Documentation references vs actual files
+4. Mindmap node integrity (expected groups present)
+
+```bash
+python3 Knowledge/K_TOOLS/scripts/session/normalize.py --check
+python3 Knowledge/K_TOOLS/scripts/session/normalize.py --json
+```
 
 ---
 
@@ -116,15 +180,15 @@ Distributed knowledge management — pull, review, stage, and promote insights f
 
 | Command | What It Does |
 |---------|-------------|
-| `harvest <project>` | Pull distributed knowledge from a satellite project into `minds/` |
-| `harvest --list` | List all harvested projects with version + drift status |
-| `harvest --procedure` | Guided promotion walkthrough — steps, state, next actions |
-| `harvest --healthcheck` | Full network sweep — all satellites, update dashboard, process auto-promotes |
-| `harvest --review <N>` | Mark insight #N as reviewed (human validated) |
-| `harvest --stage <N> <type>` | Stage for integration (type: lesson, pattern, methodology, evolution, docs, project) |
-| `harvest --promote <N>` | Promote to core knowledge now (writes to patterns/ or lessons/) |
-| `harvest --auto <N>` | Enable auto-promote on next healthcheck run |
-| `harvest --fix <project>` | Update satellite's CLAUDE.md to latest knowledge version |
+| <a id="cmd-harvest"></a>`harvest <project>` | Pull distributed knowledge from a satellite project into `minds/` |
+| <a id="cmd-harvest-list"></a>`harvest --list` | List all harvested projects with version + drift status |
+| <a id="cmd-harvest-procedure"></a>`harvest --procedure` | Guided promotion walkthrough — steps, state, next actions |
+| <a id="cmd-harvest-healthcheck"></a>`harvest --healthcheck` | Full network sweep — all satellites, update dashboard, process auto-promotes |
+| <a id="cmd-harvest-review"></a>`harvest --review <N>` | Mark insight #N as reviewed (human validated) |
+| <a id="cmd-harvest-stage"></a>`harvest --stage <N> <type>` | Stage for integration (type: lesson, pattern, methodology, evolution, docs, project) |
+| <a id="cmd-harvest-promote"></a>`harvest --promote <N>` | Promote to core knowledge now (writes to patterns/ or lessons/) |
+| <a id="cmd-harvest-auto"></a>`harvest --auto <N>` | Enable auto-promote on next healthcheck run |
+| <a id="cmd-harvest-fix"></a>`harvest --fix <project>` | Update satellite's CLAUDE.md to latest knowledge version |
 | `harvest <cmd> ?` | Contextual help for any harvest subcommand |
 
 ---
@@ -135,22 +199,22 @@ Content management — create, validate, sync, review, export, and generate webc
 
 | Command | What It Does |
 |---------|-------------|
-| `pub list` | List all publications with source/docs/webcard status |
-| `pub check <#>` | Validate one publication (source, docs EN/FR, webcard, links, front matter) |
-| `pub check --all` | Validate all publications |
-| `pub new <slug>` | Scaffold new publication (source + docs EN/FR + front matter + webcard placeholder) |
-| `pub sync <#>` | Sync source publication changes to docs web pages |
-| `doc review --list` | Quick freshness inventory — version + severity per publication |
-| `doc review <#>` | Review publication against current knowledge state |
+| <a id="cmd-pub-list"></a>`pub list` | List all publications with source/docs/webcard status |
+| <a id="cmd-pub-check"></a>`pub check <#>` | Validate one publication (source, docs EN/FR, webcard, links, front matter) |
+| <a id="cmd-pub-check-all"></a>`pub check --all` | Validate all publications |
+| <a id="cmd-pub-new"></a>`pub new <slug>` | Scaffold new publication (source + docs EN/FR + front matter + webcard placeholder) |
+| <a id="cmd-pub-sync"></a>`pub sync <#>` | Sync source publication changes to docs web pages |
+| <a id="cmd-doc-review"></a>`doc review --list` | Quick freshness inventory — version + severity per publication |
+| <a id="cmd-doc-review-all"></a>`doc review <#>` | Review publication against current knowledge state |
 | `doc review --all` | Review all publications for freshness |
-| `docs check <path>` | Validate one doc page (front matter, links, language mirror, OG image) |
-| `docs check --all` | Validate all doc pages |
-| `webcard <target>` | Generate animated OG GIFs — by card, group, or publication number |
-| `weblinks` | Print all GitHub Pages URLs in block code |
-| `weblinks --admin` | Same with conformity status indicators per link |
-| `pub export <#> --pdf` | Export publication to PDF |
-| `pub export <#> --docx` | Export publication to DOCX |
-| `profile update` | Refresh all 8 profile files with current stats |
+| <a id="cmd-docs-check"></a>`docs check <path>` | Validate one doc page (front matter, links, language mirror, OG image) |
+| <a id="cmd-docs-check-all"></a>`docs check --all` | Validate all doc pages |
+| <a id="cmd-webcard"></a>`webcard <target>` | Generate animated OG GIFs — by card, group, or publication number |
+| <a id="cmd-weblinks"></a>`weblinks` | Print all GitHub Pages URLs in block code |
+| <a id="cmd-weblinks-admin"></a>`weblinks --admin` | Same with conformity status indicators per link |
+| <a id="cmd-pub-export-pdf"></a>`pub export <#> --pdf` | Export publication to PDF |
+| <a id="cmd-pub-export-docx"></a>`pub export <#> --docx` | Export publication to DOCX |
+| <a id="cmd-profile-update"></a>`profile update` | Refresh all 8 profile files with current stats |
 | `<cmd> ?` | Contextual help for any pub/doc/webcard/weblinks/profile command |
 
 ---
@@ -159,20 +223,20 @@ Content management — create, validate, sync, review, export, and generate webc
 
 | Command | What It Does |
 |---------|-------------|
-| `project list` | List all projects with P# index, type, status, satellite count |
-| `project info <P#>` | Show project details — identity, publications, satellites, evolution, stories |
-| `project create <name>` | Full creation: register P# + GitHub Project board + web presence |
-| `project register <name>` | Register a new project with P# ID — creates `projects/<slug>.md` |
-| `project review <P#>` | Review project state — documentation, publications, required assets, freshness |
-| `project review --all` | Review all projects |
-| `#N: <content>` | Scoped note — `#` call alias routes to project N |
-| `#N:methodology:<topic>` | Methodology insight — flagged for doc harvesting |
-| `#N:principle:<topic>` | Design principle — flagged for doc harvesting |
-| `#N:info` | Show accumulated knowledge for #N |
-| `#N:done` | End documentation focus, compile summary |
-| `g:<board>:<item>` | Reference a GitHub board item by position |
-| `g:<board>:<item>:done` | Mark board item as Done (compilation trigger) |
-| `g:<board>:<item>:progress` | Move board item to In Progress |
+| <a id="cmd-project-list"></a>`project list` | List all projects with P# index, type, status, satellite count |
+| <a id="cmd-project-info"></a>`project info <P#>` | Show project details — identity, publications, satellites, evolution, stories |
+| <a id="cmd-project-create"></a>`project create <name>` | Full creation: register P# + GitHub Project board + web presence |
+| <a id="cmd-project-register"></a>`project register <name>` | Register a new project with P# ID — creates `projects/<slug>.md` |
+| <a id="cmd-project-review"></a>`project review <P#>` | Review project state — documentation, publications, required assets, freshness |
+| <a id="cmd-project-review-all"></a>`project review --all` | Review all projects |
+| <a id="cmd-n-note"></a>`#N: <content>` | Scoped note — `#` call alias routes to project N |
+| <a id="cmd-n-methodology"></a>`#N:methodology:<topic>` | Methodology insight — flagged for doc harvesting |
+| <a id="cmd-n-principle"></a>`#N:principle:<topic>` | Design principle — flagged for doc harvesting |
+| <a id="cmd-n-info"></a>`#N:info` | Show accumulated knowledge for #N |
+| <a id="cmd-n-done"></a>`#N:done` | End documentation focus, compile summary |
+| <a id="cmd-g-board-item"></a>`g:<board>:<item>` | Reference a GitHub board item by position |
+| <a id="cmd-g-board-item-done"></a>`g:<board>:<item>:done` | Mark board item as Done (compilation trigger) |
+| <a id="cmd-g-board-item-progress"></a>`g:<board>:<item>:progress` | Move board item to In Progress |
 | `g:<board>:<item>:info` | Detailed board item view |
 | `<cmd> ?` | Contextual help for any project command |
 
@@ -184,9 +248,9 @@ Real-time stream monitoring and analysis.
 
 | Command | What It Does |
 |---------|-------------|
-| `I'm live` | Pull latest clips, extract last frame from newest clip, report UI state |
-| `multi-live` | Monitor multiple streams simultaneously, report comparative state |
-| `recipe` | Print the live capture quick recipe (OBS + stream_capture.py params) |
+| <a id="cmd-i-m-live"></a>`I'm live` | Pull latest clips, extract last frame from newest clip, report UI state |
+| <a id="cmd-multi-live"></a>`multi-live` | Monitor multiple streams simultaneously, report comparative state |
+| <a id="cmd-recipe"></a>`recipe` | Print the live capture quick recipe (OBS + stream_capture.py params) |
 | `<cmd> ?` | Contextual help for any live session command |
 
 ### `I'm live` Flow
@@ -221,19 +285,19 @@ Automated documentation from video recordings using OpenCV + Pillow + NumPy.
 
 | Command | What It Does |
 |---------|-------------|
-| `visual <path>` | Extract evidence frames from video (default: detection mode) |
-| `visual <path> --timestamps 10 30 60` | Extract frames at specific seconds |
+| <a id="cmd-visual"></a>`visual <path>` | Extract evidence frames from video (default: detection mode) |
+| <a id="cmd-visual-timestamps"></a>`visual <path> --timestamps 10 30 60` | Extract frames at specific seconds |
 | `visual <path> --times HH:MM:SS ...` | Extract frames at clock times |
 | `visual <path> --dates "YYYY-MM-DD HH:MM:SS" ...` | Extract frames at date-times |
-| `visual <path> --detect` | Scan video for significant frames automatically |
+| <a id="cmd-visual-detect"></a>`visual <path> --detect` | Scan video for significant frames automatically |
 | `visual <path> --detect --subjects kw1 kw2` | Content-aware detection with keyword hints |
 | `visual --repo owner/repo --file path/video.mp4` | Fetch and process video from GitHub |
-| `visual <path> --report` | Generate markdown evidence report |
-| `visual <path> --sheet` | Generate contact sheet (thumbnail grid) |
-| `visual <path> --dedup` | Deduplicate near-identical frames |
-| `visual <path> --info` | Show video metadata only (no extraction) |
-| `deep <description>` | Frame-by-frame deep analysis of a spotted anomaly |
-| `analyze <path>` | Static video file analysis with state progression timeline |
+| <a id="cmd-visual-report"></a>`visual <path> --report` | Generate markdown evidence report |
+| <a id="cmd-visual-sheet"></a>`visual <path> --sheet` | Generate contact sheet (thumbnail grid) |
+| <a id="cmd-visual-dedup"></a>`visual <path> --dedup` | Deduplicate near-identical frames |
+| <a id="cmd-visual-info"></a>`visual <path> --info` | Show video metadata only (no extraction) |
+| <a id="cmd-deep"></a>`deep <description>` | Frame-by-frame deep analysis of a spotted anomaly |
+| <a id="cmd-analyze"></a>`analyze <path>` | Static video file analysis with state progression timeline |
 | `<cmd> ?` | Contextual help for any visual command |
 
 ### Detection Heuristics
@@ -256,7 +320,7 @@ visual recording.mp4 --detect --dedup --report --sheet --title "Sprint Demo Evid
 
 | Command | What It Does |
 |---------|-------------|
-| `beacon` | Knowledge beacon status and peer discovery |
+| <a id="cmd-beacon"></a>`beacon` | Knowledge beacon status and peer discovery |
 | `<cmd> ?` | Contextual help for any live network command |
 
 ---
@@ -285,7 +349,7 @@ Every command is backed by a skill and registered in the command registry. When 
 
 | Group | Skill Files | Methodology |
 |-------|------------|-------------|
-| **Session** | wakeup.md, resume.md, recall.md | session-protocol.md, checkpoint-resume.md |
+| **Session** | recall.py, recover.py, save_session.py, checkpoint.py, normalize.py, session_notes.py | K_MIND scripts (memory_append, session_init, memory_stats) |
 | **Harvest** | harvest.md, healthcheck.md | production-development-minds.md |
 | **Publications** | pub.md, pub-export.md, webcard.md, profile-update.md | documentation-generation.md, web-pagination-export.md |
 | **Project** | project-create.md, project-manage.md | project-management.md, project-create.md |

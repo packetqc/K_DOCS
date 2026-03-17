@@ -548,16 +548,17 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
         /* ── Interfaces: links with target routing + ℹ guide button ── */
         if (section === 'interfaces') {
           /* Resolve default center from first center-target interface */
+          function isExternal(u) { return /^https?:\/\//.test(u); }
           if (!defaultCenterResolved && !localStorage.getItem(CENTER_KEY)) {
             var firstCenter = items.find(function(i) { return i.target === 'center'; });
             if (firstCenter && centerIframe) {
-              centerIframe.src = vru(BASE + LP + firstCenter.href);
+              centerIframe.src = isExternal(firstCenter.href) ? firstCenter.href : vru(BASE + LP + firstCenter.href);
               defaultCenterResolved = true;
             }
           }
           items.forEach(function(item) {
             var target = item.target === 'top' ? '_top' : (item.target === 'center' ? 'center-frame' : 'content-frame');
-            var href = item.target === 'top' ? vru(BASE + LP + item.href, false) : vru(BASE + LP + item.href);
+            var href = isExternal(item.href) ? item.href : (item.target === 'top' ? vru(BASE + LP + item.href, false) : vru(BASE + LP + item.href));
             var row = document.createElement('div'); row.className = 'iface-row';
             row.appendChild(makeLink(label(item), href, target));
             if (item.pub) {
@@ -609,9 +610,12 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
           items.forEach(function(cg) {
             var gLabel = (LANG === 'fr' && cg.group_fr) ? cg.group_fr : cg.group;
             var pg = makeSubDet(gLabel);
+            var pubBase = cg.pub.split('#')[0];
             cg.cmds.forEach(function(cmd) {
               var row = document.createElement('div'); row.className = 'iface-row';
-              row.appendChild(makeLink(cmd, vru(BASE + LP + cg.pub), 'content-frame'));
+              var slug = cmd.toLowerCase().replace(/<[^>]+>/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+              var href = slug ? (pubBase + '#cmd-' + slug) : cg.pub;
+              row.appendChild(makeLink(cmd, vru(BASE + LP + href), 'content-frame'));
               pg.appendChild(row);
             });
             body.appendChild(pg);

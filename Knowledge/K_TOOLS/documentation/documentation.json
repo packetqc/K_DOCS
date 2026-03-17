@@ -88,6 +88,42 @@
       "path": "Knowledge/K_TOOLS/scripts/live/clip_discard.py",
       "group": "live",
       "description": "Clip cleanup — discard old dynamic clips after session ends"
+    },
+    {
+      "id": "recall",
+      "path": "Knowledge/K_TOOLS/scripts/session/recall.py",
+      "group": "session",
+      "description": "Deep memory search — 4-layer progressive recall (K_MIND memory, git, GitHub, deep files)"
+    },
+    {
+      "id": "recover",
+      "path": "Knowledge/K_TOOLS/scripts/session/recover.py",
+      "group": "session",
+      "description": "Branch recovery — scan claude/* and backup-* branches for stranded work, cherry-pick or diff-apply"
+    },
+    {
+      "id": "save_session",
+      "path": "Knowledge/K_TOOLS/scripts/session/save_session.py",
+      "group": "session",
+      "description": "Save protocol — pre-save summary from K_MIND + commit + push + PR creation"
+    },
+    {
+      "id": "session_notes",
+      "path": "Knowledge/K_TOOLS/scripts/session/session_notes.py",
+      "group": "session",
+      "description": "Session notes generation — markdown notes from K_MIND near/far memory for Session Viewer"
+    },
+    {
+      "id": "normalize",
+      "path": "Knowledge/K_TOOLS/scripts/session/normalize.py",
+      "group": "session",
+      "description": "Knowledge concordance audit — validate mindmap vs domain JSONs, module registration, doc refs"
+    },
+    {
+      "id": "checkpoint",
+      "path": "Knowledge/K_TOOLS/scripts/session/checkpoint.py",
+      "group": "session",
+      "description": "Checkpoint state — persist execution phase for crash/compaction recovery"
     }
   ],
   "external_files": []

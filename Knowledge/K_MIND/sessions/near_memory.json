@@ -1,5 +1,5 @@
 {
-  "session_id": "c7c9261c-b132-4148-aed1-32e8f90ee50c",
+  "session_id": "26acfbfb-f474-45d3-940a-36a6f78ac455",
   "summaries": [
     {
       "id": 1,
@@ -102,6 +102,45 @@
         "conventions"
       ],
       "timestamp": "2026-03-17T07:35:29Z"
+    },
+    {
+      "id": 9,
+      "summary": "Session management imported to K_TOOLS: 6 scripts (recall, recover, save, notes, normalize, checkpoint) + conventions + user guide + docs updated",
+      "far_memory_refs": [
+        17,
+        18
+      ],
+      "mind_memory_refs": [
+        "work::en cours::K_TOOLS module creation",
+        "conventions::command_module_mapping"
+      ],
+      "timestamp": "2026-03-17T07:57:47Z"
+    },
+    {
+      "id": 10,
+      "summary": "Help command emulation — rendered all 7 command groups (65 commands) from commands.json as formatted help output with descriptions and tables",
+      "far_memory_refs": [
+        19,
+        20
+      ],
+      "mind_memory_refs": [
+        "work::K_TOOLS module creation",
+        "conventions::methodologies"
+      ],
+      "timestamp": "2026-03-17T08:15:18Z"
+    },
+    {
+      "id": 11,
+      "summary": "Per-command deep-link anchors — JS generates slugs, user guide has matching anchor IDs on all command table rows for direct scroll",
+      "far_memory_refs": [
+        21,
+        22
+      ],
+      "mind_memory_refs": [
+        "work::K_TOOLS module creation",
+        "documentation::interfaces::main navigator"
+      ],
+      "timestamp": "2026-03-17T08:29:39Z"
     }
   ],
   "last_session": {

@@ -28,6 +28,8 @@ mindmap
           import legacy commands into Knowledge 2.0
           command to module mapping for all K_ modules
           GitHub repo created and subtree pushed
+          session management imported except wakeup
+          6 scripts in session subdir recall recover save normalize checkpoint notes
       validation
         modules imports
           K_PROJECTS imported with skills scripts methodology
@@ -72,6 +74,7 @@ mindmap
         static js viewer
         nojekyll github pages
       interfaces
+        claude interface
         main navigator
         project viewer
         session review
@@ -270,6 +273,9 @@ mindmap
             cinematic 3 movie animation sequence
             capture_mindmap.js plus stitch_webcard.py
             social redirect HTML pages with og tags
+          interface creation methodology documented
+            checklist identity directory registration mindmap guide
+            exercise reference Claude Interface I6
           interface CSS theme convention documented
             wrapper vars never redefined in interfaces
             dark theme block interface specific only

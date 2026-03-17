@@ -46,8 +46,8 @@ Every command works with three entry patterns:
 
 | Group | Commands | Module |
 |-------|----------|--------|
-| **Session** | wakeup, refresh, help, status, save, remember, resume, recover, recall, checkpoint, elevate | K_MIND |
-| **Normalize** | normalize, normalize --fix, normalize --check | K_VALIDATION |
+| **Session** | refresh, help, status, save, remember, resume, recover, recall, checkpoint, elevate | K_TOOLS + K_MIND |
+| **Normalize** | normalize, normalize --fix, normalize --check | K_TOOLS |
 | **Harvest** | harvest, harvest --list, --procedure, --healthcheck, --review, --stage, --promote, --auto, --fix | K_MIND |
 | **Publications** | pub list/check/new/sync, doc review, docs check, webcard, weblinks, pub export | K_DOCS |
 | **Project** | project list/info/create/register/review, #N: notes, g:board:item | K_PROJECTS |

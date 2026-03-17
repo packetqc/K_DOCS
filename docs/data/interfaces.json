@@ -6,7 +6,15 @@
   "description_fr": "Applications web interactives intégrées à la plateforme Knowledge — analyse de session en temps réel, machines à états de tâches, tableaux de bord projets et visualisation mindmap vivante.",
   "open": true,
   "items": [
-    { 	
+    {
+		"title": "Claude Interface", "title_fr": "Interface Claude",
+		"description": "AI-powered development environment with integrated knowledge tools, live mindmap, and command navigation.",
+		"description_fr": "Environnement de développement IA avec outils de connaissance intégrés, mindmap vivant et navigation par commandes.",
+		"href": "/interfaces/claude-interface/", "target": "center",
+		"pub": "guide-claude-interface",
+		"priority": 0
+	},
+    {
 		"title": "Session Review", "title_fr": "Revue de session", 
 		"description": "Interactive session analysis with timeline, metrics charts, and message-level detail.", 
 		"description_fr": "Analyse interactive de session avec chronologie, graphiques de métriques et détail par message.", 
