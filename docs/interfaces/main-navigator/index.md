@@ -98,14 +98,17 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
   min-width: 0;
 }
 
-/* Divider shared styles — thin draggable bar with grip dots */
+/* Divider shared styles — draggable bar with accent gradient + grip dots */
 .nav-divider-left, .nav-divider-right {
-  background: var(--code-bg, #f6f8fa);
-  border-left: 1px solid var(--border, #d0d7de);
-  border-right: 1px solid var(--border, #d0d7de);
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--accent, #1d4ed8) 12%, var(--code-bg, #f6f8fa)),
+    color-mix(in srgb, var(--accent, #1d4ed8) 25%, var(--code-bg, #f6f8fa)) 50%,
+    color-mix(in srgb, var(--accent, #1d4ed8) 12%, var(--code-bg, #f6f8fa)));
+  border-left: 1px solid color-mix(in srgb, var(--accent, #1d4ed8) 30%, var(--border, #d0d7de));
+  border-right: 1px solid color-mix(in srgb, var(--accent, #1d4ed8) 30%, var(--border, #d0d7de));
   display: flex; align-items: center; justify-content: center;
   cursor: col-resize; user-select: none;
-  transition: background 0.15s ease;
+  transition: background 0.2s ease;
   position: relative;
   min-width: 45px;
   z-index: 10;
@@ -113,10 +116,13 @@ body { margin: 0; padding: 0; overflow: hidden; height: 100vh; display: flex; fl
 .nav-divider-left { grid-column: 2; }
 .nav-divider-left::before, .nav-divider-right::before {
   content: '·\A·\A·\A·\A·'; white-space: pre; position: absolute; top: 50%; transform: translateY(-50%);
-  font-size: 0.75rem; line-height: 0.5; color: var(--muted, #656d76);
+  font-size: 0.75rem; line-height: 0.5; color: color-mix(in srgb, var(--accent, #1d4ed8) 60%, var(--muted, #656d76));
 }
 .nav-divider-left:hover, .nav-divider-right:hover {
-  background: var(--col-alt, #e0e8f0);
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--accent, #1d4ed8) 22%, var(--code-bg, #f6f8fa)),
+    color-mix(in srgb, var(--accent, #1d4ed8) 40%, var(--code-bg, #f6f8fa)) 50%,
+    color-mix(in srgb, var(--accent, #1d4ed8) 22%, var(--code-bg, #f6f8fa)));
 }
 
 /* Center panel — content viewer (deepest layer) */
