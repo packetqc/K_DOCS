@@ -586,8 +586,9 @@ body > .container {
   };
 
   window.toggleFullscreen = function() {
+    var container = document.getElementById('mindmap-container');
     if (document.fullscreenElement) document.exitFullscreen();
-    else document.documentElement.requestFullscreen();
+    else container.requestFullscreen();
   };
 
   // Fit mindmap on fullscreen change, show/hide exit FAB
