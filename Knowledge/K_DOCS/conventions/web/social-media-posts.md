@@ -44,35 +44,45 @@ Examples:
 
 ---
 
-## Format Template
+## Output Format — MANDATORY
 
-### English
+**Each post MUST be output inside a fenced code block** so the user can use the native copy button to paste directly into social media. One code block per language.
+
+Format:
+
+````
+**English:**
+
+```
+<full post text here, ready to paste>
+```
+
+**French:**
+
+```
+<full post text here, ready to paste>
+```
+````
+
+---
+
+## Post Template
+
+Each post inside the code block follows this structure:
 
 ```
 <Hook sentence>
 
-<bullet> Feature 1
-<bullet> Feature 2
-<bullet> Feature 3
+<emoji> Feature 1
+<emoji> Feature 2
+<emoji> Feature 3
 
-<link>
-
-#hashtag1 #hashtag2 #hashtag3
-```
-
-### French
-
-```
-<Phrase d'accroche>
-
-<bullet> Fonctionnalite 1
-<bullet> Fonctionnalite 2
-<bullet> Fonctionnalite 3
-
-<lien>
+<webcard URL>
 
 #hashtag1 #hashtag2 #hashtag3
 ```
+
+Emoji bullets: use contextual emojis (e.g. panel layout, mobile, fullscreen, AI, mindmap).
 
 ---
 
@@ -81,7 +91,8 @@ Examples:
 - Professional but accessible
 - Focus on what the user can DO, not implementation details
 - Highlight interactive/visual aspects (animated preview, live rendering, themes)
-- Keep under 280 chars for Twitter/X compatibility (body text excluding link)
+- Always mention recent/new features (mobile view, fullscreen, new capabilities)
+- Keep under 280 chars for Twitter/X compatibility (body text excluding link and hashtags)
 
 ---
 
@@ -90,7 +101,7 @@ Examples:
 1. [ ] Read og:title and og:description from webcard HTML
 2. [ ] Read front matter keywords from .md page
 3. [ ] Include recent/notable features as add-ons
-4. [ ] Generate EN post
-5. [ ] Generate FR post
+4. [ ] Generate EN post inside a code block
+5. [ ] Generate FR post inside a code block
 6. [ ] Include shareable webcard URLs (not viewer ?doc= URLs)
 7. [ ] Verify links point to existing webcard HTML pages with og:image
