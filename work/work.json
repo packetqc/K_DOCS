@@ -1,0 +1,58 @@
+{
+  "domain": "work",
+  "module": "K_DOCS",
+  "references": [
+    {
+      "name": "documentation-web-viewer-system",
+      "description": "Static JS documentation viewer (docs/index.html) with: markdown parsing, Mermaid rendering, 4-theme system, bilingual FR/EN, portrait/landscape toggle, doc-header convention (nav-back, actual page link, version tag, collapsible metadata), unified chrome bar for embeds, TOC generation (two-column 8+), corporate PDF export (cover centered, TOC page 2, running header/footer, blue liners), corporate DOCX export (same styling via MSO elements), internal link interceptor with viewer URL rewriting, Liquid tag resolver, soft-coupled baseurl auto-detection. Main navigator interface with draggable panel dividers (drag + click-to-step), publication card links via viewerRewriteUrl.",
+      "status": "validation",
+      "session": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "files_modified": [
+        "docs/index.html",
+        "docs/interfaces/main-navigator/index.md"
+      ]
+    },
+    {
+      "name": "webcards",
+      "description": "Webcard system: og:image meta tag injection, webcard header with <picture> + prefers-color-scheme, 4 theme-aware variants (daltonism-light/dark, cayman, midnight). Animated webcards via MindElixir headless Chrome capture pipeline (capture_mindmap.js + stitch_webcard.py). Cinematic 3-movie sequence (Emergence/Collapse/Exploration), 43 frames, ~1MB. Full mode includes architecture+constraints branches at depth 5.",
+      "status": "validation",
+      "session": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "files_modified": [
+        "docs/index.html",
+        "docs/assets/og/.gitkeep"
+      ]
+    },
+    {
+      "name": "live-mindmap",
+      "description": "Live mindmap with MindElixir v5.9.3: standalone interface I5 at /interfaces/live-mindmap/, embedded in Knowledge 2.0 publication, and viewer webcard. Replaced custom mermaid pan/zoom/click with MindElixir library. 4 themes synced with viewer (cayman, midnight, daltonism-light, daltonism-dark). Depth filtering via depth_config.json. Mermaid-to-MindElixir converter. Three deployment points from same data source.",
+      "status": "validation",
+      "session": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "files_modified": [
+        "docs/interfaces/live-mindmap/index.md",
+        "docs/publications/knowledge-2.0/full/index.md",
+        "docs/index.html"
+      ]
+    },
+    {
+      "name": "mermaid-diagrams-k2-update",
+      "description": "Update all 100 mermaid diagrams across 47 publication pages to reflect Knowledge 2.0 architecture. Legacy diagrams reference old monolithic structure (CLAUDE.md 3000+ lines, patterns/, lessons/, minds/, notes/, Jekyll build). Must update to multi-module reality (K_MIND, K_DOCS, K_GITHUB, K_PROJECTS, K_VALIDATION), static JS viewer, skills system, 3-file memory architecture, 8-stage task workflow. Start with architecture-diagrams test pages (EN/FR), then review each publication's content against approved conventions and audience fit.",
+      "status": "in_progress",
+      "session": "3b8c9ba9-10d3-4dc2-b0f9-d1e4853d3cf6",
+      "scope": {
+        "total_mermaid_blocks": 100,
+        "total_files": 47,
+        "priority_1": "architecture-diagrams (EN/FR summary + full) — 36 blocks, 4 files",
+        "priority_2": "all other publications with mermaid — review content + audience fit"
+      },
+      "files_modified": []
+    },
+    {
+      "name": "K_DOCS-module-sync",
+      "description": "Ensure K_DOCS implementation stays in Knowledge/K_DOCS. When K_MIND fixes are made during integration in K_DOCS repo, push changes back to packetqc/K_MIND via k_mind remote. Module sync script to diff and push integration fixes upstream.",
+      "status": "in_progress",
+      "session": "3a957be0-f9d5-404f-9154-6fc16dc1b449",
+      "files_modified": []
+    }
+  ],
+  "external_files": []
+}

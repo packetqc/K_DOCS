@@ -1,0 +1,77 @@
+{
+  "domain": "documentation",
+  "module": "K_DOCS",
+  "references": [
+    {
+      "id": "ref-web-production-pipeline",
+      "name": "Web Production Pipeline",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/web-production-pipeline.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/web-production-pipeline.md",
+      "description": "Static viewer pipeline: Markdown → fetch → client-side rendering. 4-theme system, Liquid resolver, .nojekyll deployment."
+    },
+    {
+      "id": "ref-web-pagination-export",
+      "name": "Web Pagination & Export",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/web-pagination-export.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/web-pagination-export.md",
+      "description": "CSS Paged Media print stack. @page zones, running headers/footers, PDF export via window.print(). DOCX via MSO elements. Zero-dependency."
+    },
+    {
+      "id": "ref-web-page-visualization",
+      "name": "Web Page Visualization",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/web-page-visualization.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/web-page-visualization.md",
+      "description": "Local rendering pipeline: Playwright + Chromium + npm mermaid. Screenshots, Mermaid-to-image, webcard generation. Self-contained."
+    },
+    {
+      "id": "ref-documentation-generation",
+      "name": "Documentation Generation",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/documentation-generation.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/methodology-documentation-generation.md",
+      "description": "Publication lifecycle, source structure, diagram integration, writing style, three-tier structure, quality checklist, front matter contract."
+    },
+    {
+      "id": "ref-webcard-generation",
+      "name": "Webcard Generation",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/webcard-generation.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/methodology-webcard.md",
+      "description": "Animated OG social preview GIFs. 1200x630, 4 themes, cinematic 3-movie MindElixir capture pipeline (capture_mindmap.js + stitch_webcard.py), naming conventions, live webcard alternative."
+    },
+    {
+      "id": "ref-interactive-documentation",
+      "name": "Interactive Documentation",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/interactive-documentation.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/interactive-documentation.md",
+      "description": "Session workflow for creating publications interactively. Phase pattern: gather → structure → expand → web pages → deliver."
+    },
+    {
+      "id": "ref-documentation-audience",
+      "name": "Documentation Audience",
+      "source": "local",
+      "path": "Knowledge/K_DOCS/methodology/documentation-audience.md",
+      "origin": "packetqc/knowledge:knowledge/methodology/methodology-documentation-audience.md",
+      "description": "19-segment audience definition across 5 tiers. Content voice guidelines. Rewrite principle for outward-facing content."
+    }
+  ],
+  "external_files": [],
+  "conventions": {
+    "docs_directory": "Required at project root when documentation module is active",
+    "url_structure": "/docs/publications/<slug>/ must match production for compatibility",
+    "front_matter": "YAML front matter is the metadata contract (title, description, permalink, og_image)",
+    "three_tier_publication": "Source (markdown pur), Summary (web condensé), Full (web complet)",
+    "doc_header": "Nav-back + actual page link + version tag, collapsible metadata (Publication/Generated/Authors). Shared buildDocHeaderParts() for both standalone and embed chrome bar.",
+    "export_pdf": "Corporate styling: white bg, blue accent (#1d4ed8), cover page centered, TOC page 2, running header/footer with blue liners, CSS @page three-zone layout.",
+    "export_docx": "Same corporate styling as PDF: cover page centered, TOC page 2, MSO running header/footer with blue liners, Calibri 10pt, page-break-before on h2 #2+.",
+    "panel_dividers": "Draggable + click-to-step vertical dividers in main navigator. 14px desktop, 8px mobile responsive. Grip dots, no arrows. Pixel-based grid-template-columns.",
+    "site_safe_urls": "No hardcoded domain URLs in markdown source. Web links use {{ site.baseurl }}/ Liquid tags resolved at render time. Export links use viewer URL format (index.html?doc=).",
+    "bilingual_en_fr": "All documentation always in both EN and FR. EN at docs/publications/<slug>/, FR at docs/fr/publications/<slug>/. Front matter cross-links via permalink_fr (EN) and permalink_en (FR). Never create one without the other.",
+    "social_redirect_pages": "Every publication/story/profile page gets a lightweight index.html alongside index.md. Contains og:title, og:description, og:image meta tags for social media crawlers + instant meta-refresh redirect to viewer URL (index.html?doc=path). Generated from front matter. Must be regenerated when new pages are created or og_image changes.",
+    "srcdoc_lang_hardcode": "FR interface files (docs/fr/interfaces/*/index.md) must hardcode var LANG='fr' instead of detecting from window.location.pathname. srcdoc iframes have 'about:srcdoc' as pathname — /fr/ detection never works."
+  }
+}
